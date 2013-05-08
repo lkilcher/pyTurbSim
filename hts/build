@@ -1,0 +1,4 @@
+#!/bin/bash
+
+f2py --overwrite-signature -m TSlib -h TSlib.pyf TSlib.f90
+f2py -c -O9 -L/usr/local/lib -llapack -lblas TSlib.pyf TSlib.f90

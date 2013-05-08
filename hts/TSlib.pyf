@@ -1,0 +1,43 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module TSlib ! in 
+    interface  ! in :TSlib
+        subroutine veers84(sij,phr,np,nf,spec) ! in :TSlib:TSlib.f90
+            real dimension(np*(np+1)/2,nf),intent(in),depend(np,nf) :: sij
+            complex dimension(np,nf),intent(in),depend(np,nf) :: phr
+            integer, optional,intent(in),depend() :: np=shape(phr,0)
+            integer, optional,intent(in),depend() :: nf=shape(phr,1)
+            complex dimension(np,nf + 1),intent(out),depend(np,nf) :: spec
+        end subroutine veers84
+        subroutine ieccoh(sij,sii,f,y,z,uhub,a,lc,nf,ny,nz) ! in :TSlib:TSlib.f90
+            real dimension(ny*nz*(ny*nz+1)/2,nf),intent(out),depend(ny,nz,nf) :: sij
+            real dimension(ny*nz,nf),intent(in),depend(ny,nz) :: sii
+            real dimension(nf),intent(in),depend(nf) :: f
+            real dimension(ny),intent(in) :: y
+            real dimension(nz),intent(in) :: z
+            real intent(in) :: uhub
+            real intent(in) :: a
+            real intent(in) :: lc
+            integer, optional,intent(in),check(shape(sii,1)==nf),depend(sii) :: nf=shape(sii,1)
+            integer, optional,intent(in),check(len(y)>=ny),depend(y) :: ny=len(y)
+            integer, optional,intent(in),check(len(z)>=nz),depend(z) :: nz=len(z)
+        end subroutine ieccoh
+        subroutine nonieccoh(sij,sii,f,y,z,u,coefs,coefexp,nf,ny,nz) ! in :TSlib:TSlib.f90
+            real dimension(ny*nz*(ny*nz+1)/2,nf),intent(out),depend(ny,nz,nf) :: sij
+            real dimension(ny*nz,nf),intent(in),depend(ny,nz) :: sii
+            real dimension(nf),intent(in),depend(nf) :: f
+            real dimension(ny),intent(in) :: y
+            real dimension(nz),intent(in) :: z
+            real dimension(ny*nz),intent(in),depend(ny,nz) :: u
+            real dimension(2),intent(in) :: coefs
+            real intent(in) :: coefexp
+            integer, optional,intent(in),check(shape(sii,1)==nf),depend(sii) :: nf=shape(sii,1)
+            integer, optional,intent(in),check(len(y)>=ny),depend(y) :: ny=len(y)
+            integer, optional,intent(in),check(len(z)>=nz),depend(z) :: nz=len(z)
+        end subroutine nonieccoh
+    end interface 
+end python module TSlib
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/
