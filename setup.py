@@ -1,3 +1,4 @@
+# The setup script for creating a stand-alone HydroTurbSim windows (.exe) file.
 from distutils.core import setup
 import py2exe, sys
 
@@ -7,4 +8,3 @@ setup(console=['HydroTurbSim.py'],
       options={'py2exe':{'bundle_files':1,'compressed':'True'}},
       zipfile = None,
       )
-
