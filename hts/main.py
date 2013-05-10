@@ -12,11 +12,6 @@ import turbModels as tm
 # means I know I am doing something wrong.
 
 # TODO:
-#  - Debug changes to code in which defaults were moved from defaults.py to the models.
-#       .Search for calls to 'InvalidConfig' and 'ConfigWarning'.
-#       .Flesh-out which defaults (config-variables) go with which models.
-#          ..Does this mean creating new base-class objects to be sub-classed?
-#  - Debug spectral models.
 #  - Reynolds stress!
 #  - Write summary files (tsio.py).
 #    (so they are fully self-contained).
@@ -49,7 +44,6 @@ def buildModel(tsconfig):
     """
     tsconfig.__original__=deepcopy(tsconfig)
 
-    #print 'Building model.'
     # Initialize the random number generator before doing anything else.
     if not tsconfig.has_key('RandSeed') or tsconfig['RandSeed'] is None:
         tsconfig['RandSeed']=np.random.randint(1e6,1e18)
@@ -67,21 +61,22 @@ def calcTimeSeries(turbModel):
     """
     Compute the u,v,w, timeseries based on the provided turbulence model.
 
-    This function (and its subroutines) does the bulk of the work of TurbSim.
+    This function (and its subroutines) do the bulk of the 'work' of TurbSim.
     """
     ts=np.empty((3,turbModel.n_p,turbModel.n_t),dtype=ts_float,order='F')
     if tslib is not None:
-        #print 'Using fortran method.'
+        # This uses the fortran library to compute the Cholesky factorization.
+        # This is much faster than the 'pure-python' method below.
         for idx,Sij in enumerate(turbModel):
             sp=tslib.veers84(Sij,turbModel.rand[idx],turbModel.n_p,turbModel.n_f,)
             ts[idx]=np.fft.irfft(sp)
     else:
-        #print 'Using python method.'
+        # This is the pure-python method of computing the cholesky factorization.
+        # Though it is slower, it is useful when there are issues compiling the Fortran libraries.
         for idx,Sij in enumerate(turbModel.iter_full):
             ts[idx]=np.fft.irfft(Veers84(Sij,turbModel.rand[idx]))
     # Select only the time period requested, and reshape the array to 4-D (uvw,z,y,time)
     ts=turbModel.grid.reshape(ts[...,turbModel.i0_out:turbModel.i0_out+turbModel.n_t_out])/(turbModel.dt/turbModel.n_f)**0.5
-    #print "Done with 'math'."
     return ts
 
 def Veers84(Sij,X):

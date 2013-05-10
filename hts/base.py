@@ -2,6 +2,12 @@ import numpy as np # Because we'd be lost without it.
 try:
     import tslib
 except ImportError:
+    print """
+    ***Warning***: 'tslib' did not load correctly.  HydroTurbSim
+    will produce accurate results, but less efficiently. To improve
+    performance recompile the library as decribed in the 'Building
+    tslib' section of the README file.
+    """
     tslib=None
 
 #tslib=None
@@ -32,14 +38,23 @@ class tsdata(object):
     
     @property
     def shape(self,):
+        """
+        The shape of the turbulence time-series (output) array.
+        """
         return self.uturb.shape
 
     @property
     def ihub(self,):
+        """
+        The index of the hub.
+        """
         return self.grid.ihub
 
     @property
     def time(self,):
+        """
+        The time vector, in seconds, starting at zero.
+        """
         if not hasattr(self,'_time'):
             self._time=np.arange(0,self.uturb.shape[-1]*self.dt,self.dt)
         return self._time
@@ -50,16 +65,28 @@ class tsdata(object):
 
     @property
     def utotal(self,):
+        """
+        The total (mean + turbulent), 3-d velocity array
+        """
         return self.uturb+self.uprof[:,:,:,None]
 
     @property
     def u(self,):
+        """
+        The total (mean + turbulent), u-component of velocity.
+        """
         return self.uturb[0]+self.uprof[0,:,:,None]
     @property
     def v(self,):
+        """
+        The total (mean + turbulent), v-component of velocity.
+        """
         return self.uturb[1]+self.uprof[1,:,:,None]
     @property
     def w(self,):
+        """
+        The total (mean + turbulent), w-component of velocity.
+        """
         return self.uturb[2]+self.uprof[2,:,:,None]
 
     @property
@@ -90,6 +117,9 @@ class tsdata(object):
 
     @property
     def stats(self,):
+        """
+        Compute and return relevant statistics for this turbsim time-series.
+        """
         stats={}
         slc=[slice(None)]+list(self.ihub)
         stats['Ti']=np.std(self.uturb[slc],axis=-1)/self.uprof[slc][0]

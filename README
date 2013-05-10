@@ -2,6 +2,78 @@ This is the HydroTurbSim source code.
 
 This software is copyrighted by the National Renewable Energy Laboratory. It is released publically under the Gnu GPLv3.
 
-HydroTurbSim is based on 'TurbSim' (for wind) developed at the National Renewable Energy Laboratory's National Wind Technology Center.  Some of the spectral models of TurbSim have been duplicated in this tool.  HydroTurbSim was written in Python to provide a more easily customizable, object-oriented interface to the functionality that the TurbSim provides.  HydroTurbSim would not be possible without the work of Niel Kelley, Paul Veers and especially the extensive assistance and support from Bonnie Jonkman.
+HydroTurbSim (herafter HTS) is a tool for producing spatial time-series (a sequence of 2-D planes) that are statistically similar to real oceanic and riverine Turbulence.  In particular, HTS is designed to produce time-series with energy spectra, spatial coherence, mean profile, tke profile, and Reynolds-stress profiles that are similar to real marine/river turbulence.
 
-HydroTurbSim (herafter HTS) is a tool for producing spatial time-series (a sequence of 2-D planes) that are statistically similar to real Turbulence.  In particular, HTS is designed to produce time-series with energy spectra, spatial coherence, mean profile, tke profile, and Reynolds-stress profiles that are statistically similar to real turbulence.
+################################
+### HydroTurbSim and TurbSim ###
+
+HTS has been developed to simulate turbulence in the marine and river environment (i.e. in water).  It is based on 'TurbSim' (for atmospheric turbulence) developed at the National Renewable Energy Laboratory's National Wind Technology Center.  HTS was written in Python to provide a more easily customizable, object-oriented interface to the functionality that the TurbSim provides.  
+
+It does supports some, but not all spectral models of the original (atmospheric) TurbSim program.  Furthermore, HTS does not support the 'coherent structures' functionality that Neil Kelley developed.  For producing simulations of atmospheric turbulence, I highly recommend using the original TurbSim program, developed by Bonnie Jonkman and Neil Kelley (based on the original SNLWIND tool developed by Paul Veers).  That having been said, I believe the 'SMOOTH' and 'IEC' spectral models are accurately represented by this tool.  All other spectral models have not been verified or are not included in this tool.  HTS would not be possible without the work of Niel Kelley, Paul Veers and especially Bonnie Jonkman.  Thank you to all of these people for their excellent work and support in creating this tool.
+
+################################
+#### Installation and usage ####
+
+On any system with an python installation HTS can be executed as, e.g.:
+python HydroTurbSim.py TurbSim.inp
+
+On must Unix-like systems the HydroTurbSim.py file can be executed directly, e.g.:
+./HydroTurbSim.py TurbSim.inp
+
+In windows, if py2exe is installed, an executable (HydroTurbSim.exe) can be constructed using the command:
+   python setup.py
+
+## Using HTS interactively or from within other python scripts/modules ##
+
+Alternatively, one can use HTS in an interactive shell or in other software packages.  To do this:
+1) make sure the directory containing the 'hts' directory is on your python path (i.e. the directory containing this README).
+2) import the 'hts' package (the 'hts' directory)
+3) Once the package is loaded there are multiple ways to run TurbSim.
+  a) by passing the 'run' function an input file, e.g.:
+        hts.run('TurbSim.inp')           - This will write the output data to the appropriate binary files (e.g. TurbSim.bts)
+  b) by passing the 'run_out' function an input file, e.g.:
+        tms=hts.run_out('TurbSim.inp')   - This DOES NOT write files, instead the TurbSim-data object is returned to 'tms'.
+  c) by passing a 'tscfg' dictionary to the 'run_main' function:
+        tms=hts.run_main(*tscfg*)        - The *tscfg* object must contain all of the input parameters that are necessary for the spectral model.
+
+################################
+######## File Structure ########
+
+The HTS file structure is as follows:
+1) execution programs and general information files (e.g. this README) are contained in the base directory.
+2) the core of the program is contained entirely within the 'hts' directory (package).
+3) the 'hts/profModels' and 'hts/turbModels' directories (sub-packages) contain the model-base modules (mBase.py) and all of the specific models.  New models can be added here relatively easily (see 'adding models' section).
+4) the 'hts/tslib' directory contains the fortran library for more efficient execution (it may need to be compiled, see section on 'building tslib').
+
+################################
+##### HydroTurbSim objects #####
+
+Several object types are defined in HTS.  The most important ones are:
+tscfg (base.py)                    - A 'configuration' dictionary that stores information from input (.inp) files and handles *some* defaults from those input files.
+tsdata (base.py)                   - A data object that holds turbsim output and spectral model information.
+modelBase (base.py)                - A base class for the profModel and turbModel objects (below).
+profModel (profModels/mBase.py)    - The base 'profile model' object.  This is a base-class for all of the profile models defined in HTS.  Each run of 
+          		             HTS uses one profile model that provides the mean velocity profile.
+turbModel (turbModels/mBase.py)    - The base 'turbulence model' object.  This is a base-class for all of the turbulence models.  Each run of HTS
+          		           	 uses uses one turbulence model that provides the spectrum, tke profile, reynolds stress profile, etc.
+
+
+################################
+######## Building tslib ########
+
+'tslib' is a fortran library implementation of the computationally expensive pieces of HTS.  'f2py' has been used to link tslib to the python code.  HTS produces identical results with or without tslib, but it works much faster (and uses nearly half as much memory) with it.  A MS windows pre-compiled version of tslib (tslib.pyd) is provided with this distribution.  On unix systems (and to rebuild the library for windows***) perform the following steps:
+1) cd to <turbsim root>/hts/tslib/
+2) type './build' and hit <enter>
+If there are no errors, the tslib module will now be in the 'hts/' directory and HTS will run much more efficiently.
+
+***: Compilating tslib in windows
+The build.bat script depends on the 'minGW' program-suite (and Python, of course).  In order to compile tslib you will need to:
+1) Install minGW
+2) Make sure that the following entries are in your system path ('path' Environmental Variable):
+  a) <mingw-install-path>\bin\
+  b) <python-install-path\Scripts\
+  c) <python-install-path\bin\
+3) Add '.py' to your 'PATHEXT' environment variable.
+
+On windows 7, to access these parameters, go-to 'My Computer(Right-Click)->Properties->'Advanced System Settings'->'Environment Variables'.  Under system variables find 'Path' and 'PATHEXT', and modify the entries as indicated above.
+

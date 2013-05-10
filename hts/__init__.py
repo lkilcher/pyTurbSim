@@ -1,3 +1,4 @@
+### This file defines the 'run' functions of the hts package.
 from main import *
 from tsio import writeOut,readConfig
 
@@ -23,5 +24,6 @@ def run(fname):
 
     return tsdata
         
+# If this module is executed explicitly, run TurbSim...
 if __name__=='__main__':
     run('TurbSim.inp')
