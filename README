@@ -1,0 +1,7 @@
+This is the HydroTurbSim source code.
+
+This software is copyrighted by the National Renewable Energy Laboratory. It is released publically under the Gnu GPLv3.
+
+HydroTurbSim is based on 'TurbSim' (for wind) developed at the National Renewable Energy Laboratory's National Wind Technology Center.  Some of the spectral models of TurbSim have been duplicated in this tool.  HydroTurbSim was written in Python to provide a more easily customizable, object-oriented interface to the functionality that the TurbSim provides.  HydroTurbSim would not be possible without the work of Niel Kelley, Paul Veers and especially the extensive assistance and support from Bonnie Jonkman.
+
+HydroTurbSim (herafter HTS) is a tool for producing spatial time-series (a sequence of 2-D planes) that are statistically similar to real Turbulence.  In particular, HTS is designed to produce time-series with energy spectra, spatial coherence, mean profile, tke profile, and Reynolds-stress profiles that are statistically similar to real turbulence.

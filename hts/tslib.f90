@@ -1,6 +1,8 @@
 !use, intrinsic :: iso_c_binding
 
 subroutine veers84(Sij, phr, np, nf,spec)
+!DEC$ ATTRIBUTES DLLEXPORT, DECORATE, ALIAS : "VEERS84" :: VEERS84
+!DEC$ ATTRIBUTES REFERENCE :: SIJ,PHR,NP,NF,SPEC
   ! This function performs the math in Veers1984 equations 7 and 8.
   ! The full reference is:
   !     Veers, Paul (1984) 'Modeling Stochastic Wind Loads on Vertical Axis Wind Turbines',
@@ -32,7 +34,8 @@ subroutine veers84(Sij, phr, np, nf,spec)
   ! matrix Sij to Veers' H matrix.
   !$omp parallel
   DO ff=1,nf
-     CALL spptrf('L',np,Sij(:,ff),stat) ! Cholesky Factorization
+     CALL SPPTRF('L',np,Sij(:,ff),stat) ! Cholesky Factorization
+     !$print *, stat
   ENDDO
   !$omp parallel
 
@@ -46,12 +49,14 @@ subroutine veers84(Sij, phr, np, nf,spec)
      ENDDO
   ENDDO
   ! Note that we can sum the spectra (rather than the timeseries' as in Veers84) because 
-  ! the Fourier Transform is a linear operation.  This dramatically reduces the number of 
-  ! inverse FFTs that need to be performed.
+  ! the Fourier Transform is a linear operation.  This reduces the number of inverse FFTs computed by n_p-1.
   RETURN
 end subroutine veers84
 
+
 subroutine ieccoh(Sij,Sii,f,y,z,uhub,a,Lc,nf,ny,nz)
+!DEC$ ATTRIBUTES DLLEXPORT, DECORATE, ALIAS : "IECCOH" :: IECCOH
+!DEC$ ATTRIBUTES REFERENCE :: SIJ,SII,F,Y,Z,UHUB,A,LC,NF,NY,NZ
   implicit none
   real,intent(out)      :: Sij(ny*nz*(ny*nz+1)/2,nf)
   real,intent(in)       :: Sii(ny*nz,nf),f(nf),y(ny),z(nz),uhub,a,Lc
@@ -82,6 +87,8 @@ subroutine ieccoh(Sij,Sii,f,y,z,uhub,a,Lc,nf,ny,nz)
 end subroutine ieccoh
 
 subroutine nonIECcoh(Sij,Sii,f,y,z,u,coefs,coefExp,nf,ny,nz)
+!DEC$ ATTRIBUTES DLLEXPORT, DECORATE, ALIAS : "NONIECCOH" :: NONIECCOH
+!DEC$ ATTRIBUTES REFERENCE :: SIJ,SII,F,Y,Z,U,COEFS,COEFEXP,NF,NY,NZ
   implicit none
   real,intent(out)    :: Sij(ny*nz*(ny*nz+1)/2,nf)
   real,intent(in)     :: Sii(ny*nz,nf),f(nf)

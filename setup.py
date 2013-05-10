@@ -3,7 +3,7 @@ import py2exe, sys
 
 sys.argv.append('py2exe')
 
-setup(console=['TurbSim2.py'],
+setup(console=['HydroTurbSim.py'],
       options={'py2exe':{'bundle_files':1,'compressed':'True'}},
       zipfile = None,
       )

@@ -49,6 +49,7 @@ def buildModel(tsconfig):
     """
     tsconfig.__original__=deepcopy(tsconfig)
 
+    #print 'Building model.'
     # Initialize the random number generator before doing anything else.
     if not tsconfig.has_key('RandSeed') or tsconfig['RandSeed'] is None:
         tsconfig['RandSeed']=np.random.randint(1e6,1e18)
@@ -70,14 +71,17 @@ def calcTimeSeries(turbModel):
     """
     ts=np.empty((3,turbModel.n_p,turbModel.n_t),dtype=ts_float,order='F')
     if tslib is not None:
+        #print 'Using fortran method.'
         for idx,Sij in enumerate(turbModel):
             sp=tslib.veers84(Sij,turbModel.rand[idx],turbModel.n_p,turbModel.n_f,)
             ts[idx]=np.fft.irfft(sp)
     else:
+        #print 'Using python method.'
         for idx,Sij in enumerate(turbModel.iter_full):
             ts[idx]=np.fft.irfft(Veers84(Sij,turbModel.rand[idx]))
     # Select only the time period requested, and reshape the array to 4-D (uvw,z,y,time)
     ts=turbModel.grid.reshape(ts[...,turbModel.i0_out:turbModel.i0_out+turbModel.n_t_out])/(turbModel.dt/turbModel.n_f)**0.5
+    #print "Done with 'math'."
     return ts
 
 def Veers84(Sij,X):

@@ -25,7 +25,7 @@ class turbModelBase(modelBase):
         self.n_f=self.n_t/2
         self.n_p=self.grid.n_p
         self.n_pcomb=self.n_p*(self.n_p+1)/2
-        self.f=np.arange(self.n_f,dtype=ts_float)*self.df  # !!!CHECKTHIS
+        self.f=np.arange(self.n_f,dtype=ts_float)*self.df+self.df  # !!!CHECKTHIS
         self._crossSpec_pack_name=None
         self._crossSpec_full_name=None
         self._autoSpec=np.empty((self.n_comp,self.n_p,self.n_f),dtype=ts_float,order='F')
@@ -38,7 +38,7 @@ class turbModelBase(modelBase):
         if hasattr(self,'initCohere'):
             self.initCohere()
         self.calcAutoSpec()
-
+        
     def setCrossSpec_full(self,comp):
         """
         This function sets the variable self._crossSpec_full for the component *comp* (i.e. u,v,w).
@@ -48,18 +48,13 @@ class turbModelBase(modelBase):
         if self._crossSpec_full_name==comp:
             return
         if not hasattr(self,'_crossSpec_full'):
-            self._crossSpec_full=np.empty((self.n_p,self.n_p,self.n_f),dtype=ts_float,order='F')
+            self._crossSpec_full=np.empty((self.n_p,self.n_p,self.n_f),dtype=ts_float)
         self.setCrossSpec_pack(comp)
-        indx=0
         # Deal the data from the packed-form matrix to make the full matrix:
-        for jj in range(self.n_p):
-            for ii in range(jj,self.n_p):
-                if ii==jj:
-                    self._crossSpec_full[ii,jj]=self._crossSpec_pack[indx]
-                else:
-                    self._crossSpec_full[ii,jj]=self._crossSpec_pack[indx]
-                    self._crossSpec_full[jj,ii]=self._crossSpec_pack[indx]
-                indx+=1
+        for (ii,jj),indx in self._iter_flat_inds:
+            self._crossSpec_full[ii,jj]=self._crossSpec_pack[indx]
+            if ii!=jj:
+                self._crossSpec_full[jj,ii]=self._crossSpec_pack[indx]
         self._crossSpec_full_name=comp
         
     def setCrossSpec_pack(self,comp):
@@ -73,15 +68,21 @@ class turbModelBase(modelBase):
         """
         if self._crossSpec_pack_name==comp:
             return
-        indx=0
-        for jj in range(self.n_p): # The _crossSpec_pack needs to be in column order for lapack's SPPTRF.
-            for ii in range(jj,self.n_p):
-                if ii==jj:
-                    self._crossSpec_pack[indx]=self._autoSpec[comp][ii]
-                else:
-                    self._crossSpec_pack[indx]=self.calcCoh(comp,self.grid.ind2sub(ii),self.grid.ind2sub(jj))*np.sqrt(self._autoSpec[comp][ii]*self._autoSpec[comp][jj])
-                indx+=1
+        for (ii,jj),indx in self._iter_flat_inds:
+            if ii==jj:
+                self._crossSpec_pack[indx]=self._autoSpec[comp][ii]
+            else:
+                self._crossSpec_pack[indx]=self.calcCoh(comp,self.grid.ind2sub(ii),self.grid.ind2sub(jj))*np.sqrt(self._autoSpec[comp][ii]*self._autoSpec[comp][jj])
         self._crossSpec_pack_name=comp
+
+    @property
+    def _iter_flat_inds(self,):
+        indx=0
+         # The _crossSpec_pack needs to be in column order for lapack's SPPTRF.
+        for jj in range(self.n_p):
+            for ii in range(jj,self.n_p):
+                yield (ii,jj),indx
+                indx+=1
 
     @property
     def uhub(self,):

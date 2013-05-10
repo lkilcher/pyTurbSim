@@ -1,4 +1,8 @@
 #!/bin/bash
 
-f2py --overwrite-signature -m TSlib -h TSlib.pyf TSlib.f90
-f2py -c -O9 -L/usr/local/lib -llapack -lblas TSlib.pyf TSlib.f90
+#lapack=True
+#lapack=False
+
+f2py --overwrite-signature -m tslib -h tslib.pyf tslib.f90
+#f2py -c -L/usr/local/lib -llapack tslib.pyf tslib.f90
+f2py -c tslib.pyf tslib.f90 ./lapack/*.f

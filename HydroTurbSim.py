@@ -1,11 +1,11 @@
 #!/usr/bin/python
 import sys
-import ts2
+import hts
 
 if len(sys.argv)>1:
-    ts2.run(sys.argv[1])
+    hts.run(sys.argv[1])
 else:
     try:
-        ts2.run('TurbSim.inp')
+        hts.run('TurbSim.inp')
     except:
         pass

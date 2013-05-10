@@ -1,9 +1,10 @@
 import numpy as np # Because we'd be lost without it.
 try:
-    import TSlib as tslib
+    import tslib
 except ImportError:
     tslib=None
 
+#tslib=None
 prog={'name':'HydroTurbSim',
       'ver':'0.1',
       }
