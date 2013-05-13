@@ -316,7 +316,7 @@ readers={'wnd':readBladed,
          'bl':readBladed,
          'bts':readAero,}
 
-def readModel(fname):
+def readModel(fname,inp_fname=None):
     """
     Reads a TurbSim data and input (config) file and returns a tsdata object.
     If *fname* ends in .inp, it reads this input file, and searches for a binary file
@@ -339,7 +339,10 @@ def readModel(fname):
                 utmp=rdr(fnm)
                 break
     else:
-        config=readConfig(convname(fname,'inp'))
+        if inp_fname is None:
+            config=readConfig(convname(fname,'inp'))
+        else:
+            config=readConfig(inp_fname)
         sfx=fname.split('.')[-1]
         if readers.has_key(sfx):
             rdr=readers[sfx]

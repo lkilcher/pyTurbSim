@@ -6,6 +6,6 @@ if len(sys.argv)>1:
     hts.run(sys.argv[1])
 else:
     try:
-        hts.run('TurbSim.inp')
+        hts.run('HydroTurbSim.inp')
     except:
         pass
