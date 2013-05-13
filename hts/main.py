@@ -47,9 +47,9 @@ def buildModel(tsconfig):
     
     grid=tsGrid(tsconfig['NumGrid_Y'],tsconfig['NumGrid_Z'],tsconfig['GridWidth'],tsconfig['GridHeight'],tsconfig['HubHt'])
 
-    profModel=pm.getModel(tsconfig,grid)
+    profModel=pm.getModel(tsconfig,grid) # This function is defined in profModel/__init__.py
     
-    turbModel=tm.getModel(tsconfig,profModel)
+    turbModel=tm.getModel(tsconfig,profModel) # This function is defined in turbModel/__init__.py
 
     return turbModel
 
@@ -57,7 +57,27 @@ def calcTimeSeries(turbModel):
     """
     Compute the u,v,w, timeseries based on the provided turbulence model.
 
-    This function (and its subroutines) do the bulk of the 'work' of TurbSim.
+    This function performs the work of taking a specified spectrum and coherence function and
+    transforming it into a spatial timeseries.  It performs the steps outlined in Veers84's
+    equations 7 and 8.
+
+    References
+    =================
+
+    The full reference of 'Veers84' is:
+       Veers, Paul (1984) 'Modeling Stochastic Wind Loads on Vertical Axis Wind Turbines',
+       Sandia Report 1909, 17 pages.
+
+    Notes
+    =================
+
+    1) Veers84's equation 7 is actually a 'Cholesky Factorization'.  Therefore, rather than
+    writing this functionality explicitly we call 'cholesky' routines to do this work.
+
+    2) This function uses one of two methods for computing the Cholesky factorization.  If
+    the Fortran library tslib is available it is used (it is much more efficient), otherwise
+    the numpy implementation of Cholesky is used.
+    
     """
     ts=np.empty((3,turbModel.n_p,turbModel.n_t),dtype=ts_float,order='F')
     if tslib is not None:
@@ -80,7 +100,8 @@ def Veers84(Sij,X):
     Paul Veers' method for computing timeseries from input spectra and cross-spectra.  Returns the timeseries at each point.
 
     Full Reference:
-      
+       Veers, Paul (1984) 'Modeling Stochastic Wind Loads on Vertical Axis Wind Turbines',
+       Sandia Report 1909, 17 pages.
 
     Inputs: 
       Sij  - Input cross-spectra matrix for all points (Np,Np,Nf).

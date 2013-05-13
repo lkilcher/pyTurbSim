@@ -84,3 +84,9 @@ On windows 7, to access these parameters, go-to 'My Computer(Right-Click)->Prope
 HTS does not yet support outputting a dateset with a specified Reynolds Stress (profile).  Adding this is at the top of the todo list (near top of hts/main.py).
 
 HTS does not yet output .sum files. This is 2nd on the todo list.
+
+
+################################
+######### Other Notes ##########
+
+The documentation for HTS is currently incomplete.  For further usage and operation information please see the TurbSim (original/atmosphere) documentation on the wind.nrel.gov/designcodes/ page.  Thanks for your patience.
