@@ -17,10 +17,6 @@ import turbModels as tm
 #    (so they are fully self-contained).
 #  - Write FF files (tsio.py).
 #  - Write HubHeight files (tsio.py).
-#  - Tower capabilities:
-#      a) Add tower points to grid.
-#      b) incorporate into turbModel.
-#      c) Write tower points to files (tsio.py).
 #  - GUI!
 #  - Parallelize?
 #  - Add KHtest functionality? (rgrep for '#KHTEST')
