@@ -77,3 +77,10 @@ The build.bat script depends on the 'minGW' program-suite (and Python, of course
 
 On windows 7, to access these parameters, go-to 'My Computer(Right-Click)->Properties->'Advanced System Settings'->'Environment Variables'.  Under system variables find 'Path' and 'PATHEXT', and modify the entries as indicated above.
 
+
+################################
+######### Known Issues #########
+
+HTS does not yet support outputting a dateset with a specified Reynolds Stress (profile).  Adding this is at the top of the todo list (near top of hts/main.py).
+
+HTS does not yet output .sum files. This is 2nd on the todo list.
