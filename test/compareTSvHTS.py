@@ -2,9 +2,9 @@ import sys
 import os
 if '../' not in sys.path:
     sys.path.append('../')
-import hts
-import hts_plot
-import hts.tsio
+import pyts
+import pyts_plot
+import pyts.tsio
 from subprocess import call
 
 # This is the file type that the .inp files (in inp_files directory) are configured to output.
@@ -12,9 +12,9 @@ from subprocess import call
 ts_file_type='.wnd'
 
 # Run TurbSim and HydroTurbSim?
-flag_run=False or True
+flag_run=False# or True
 # Plot the results and compare?
-flag_plot=False# or True
+flag_plot=False or True
 
 ########################################################################################
 ## These are the name of the input files (in ./inp_files/) that are run and compared. ##
@@ -34,7 +34,7 @@ try:
 except:
     pass
 try:
-    os.mkdir('./hts/')
+    os.mkdir('./pyts/')
 except:
     pass
 
@@ -60,8 +60,8 @@ if flag_run:
     # Now run TurbSim and HydroTurbSim on the input files specified above.
     for fnm in fnames:
         # Run HydroTurbSim:
-        tsdat=hts.run_out('./inp_files/'+fnm+'.inp')
-        hts.writeOut('./hts/'+fnm+'.inp',tsdat) # Write out the data.
+        tsdat=pyts.run_out('./inp_files/'+fnm+'.inp')
+        pyts.writeOut('./pyts/'+fnm+'.inp',tsdat) # Write out the data.
         # Run TurbSim:
         call(['./'+ts_exec_file,'./inp_files/'+fnm+'.inp'])
         dst='./ts/'+fnm+ts_file_type
@@ -79,15 +79,15 @@ if flag_plot:
     c=0
     for nm in fnames:
         c+=1
-        tsdat=hts.tsio.readModel('./ts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
-        tsdat.tm=hts.buildModel(tsdat.config)
-        htsdat=hts.tsio.readModel('./hts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
-        htsdat.tm=hts.buildModel(htsdat.config)
+        tsdat=pyts.tsio.readModel('./ts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
+        tsdat.tm=pyts.buildModel(tsdat.config)
+        tsdat=pyts.tsio.readModel('./pyts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
+        tsdat.tm=pyts.buildModel(tsdat.config)
 
-        fg=hts_plot.summfig(3000+c,nfft=1024,title=nm.upper()+' spectral model')
-        fg.setinds(htsdat,igrid=None,)
-        #fg.setinds(htsdat,igrid=(0,1),)
+        fg=pyts_plot.summfig(3000+c,nfft=1024,title=nm.upper()+' spectral model')
+        fg.setinds(tsdat,igrid=None,)
+        #fg.setinds(tsdat,igrid=(0,1),)
         fg.plot(tsdat,color='r',label='TSv1')
-        fg.plot(htsdat,color='b',theory_line=True,label='TSv2')
+        fg.plot(tsdat,color='b',theory_line=True,label='TSv2')
         fg.finish()
 

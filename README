@@ -1,20 +1,20 @@
-This is the HydroTurbSim repository.
+This is the pyTurbSim repository.  pyTurbSim is designed to be a development and testing platform for new spectral models and can also be used reliably to simulate water turbulence (HydroTurbSim).
 
 This software is copyrighted by the National Renewable Energy Laboratory. It is released publically under the Gnu GPLv3.
 
-HydroTurbSim (herafter HTS) is a tool for producing spatial time-series (a sequence of 2-D planes) that are statistically similar to real oceanic and riverine Turbulence.  In particular, HTS is designed to produce time-series with energy spectra, spatial coherence, mean profile, tke profile, and Reynolds-stress profiles that are similar to real marine/river turbulence.
+pyTurbSim (herafter pyTS) is a tool for producing spatial time-series (a sequence of 2-D planes) that are statistically similar to real oceanic and riverine Turbulence.  In particular, pyTS is designed to produce time-series with energy spectra, spatial coherence, mean profile, tke profile, and Reynolds-stress profiles that are similar to real marine/river turbulence.
 
 ################################
 ### HydroTurbSim and TurbSim ###
 
-HTS has been developed to simulate turbulence in the marine and river environment (i.e. in water).  It is based on 'TurbSim' (for atmospheric turbulence) developed at the National Renewable Energy Lab's National Wind Technology Center.  HTS was written in Python to provide a more easily customizable, object-oriented interface to the functionality that TurbSim provides.  
+pyTS has been developed to simulate turbulence in the marine and river environment (i.e. in water).  It is based on 'TurbSim' (for atmospheric turbulence) developed at the National Renewable Energy Lab's National Wind Technology Center.  pyTS was written in Python to provide a more easily customizable, object-oriented interface to the functionality that TurbSim provides.  
 
-It does supports some, but not all spectral models of the original (atmospheric) TurbSim program.  Furthermore, HTS does not support the 'coherent structures' functionality that Neil Kelley developed.  For producing simulations of atmospheric turbulence, I highly recommend using the original TurbSim program, developed by Bonnie Jonkman and Neil Kelley (based on the original SNLWIND tool developed by Paul Veers).  That having been said, I believe the 'SMOOTH' and 'IEC' spectral models are accurately represented by this tool.  All other spectral models have not been verified or are not included in this tool.  HTS would not be possible without the work of Niel Kelley, Paul Veers and especially Bonnie Jonkman.  Thank you to all of these people for their excellent work and support in creating this tool.
+It does supports some, but not all spectral models of the original (atmospheric) TurbSim program.  Furthermore, pyTS does not support the 'coherent structures' functionality that Neil Kelley developed.  For producing simulations of atmospheric turbulence, I highly recommend using the original TurbSim program, developed by Bonnie Jonkman and Neil Kelley (based on the original SNLWIND tool developed by Paul Veers).  That having been said, I believe the 'SMOOTH' and 'IEC' spectral models are accurately represented by this tool.  All other spectral models have not been verified or are not included in this tool.  pyTS would not be possible without the work of Niel Kelley, Paul Veers and especially Bonnie Jonkman.  Thank you to all of these people for their excellent work and support in creating this tool.
 
 ################################
 #### Installation and usage ####
 
-On any system with an python installation HTS can be executed as, e.g.:
+On any system with an python installation pyTS can be executed as, e.g.:
 python HydroTurbSim.py TurbSim.inp
 
 On must Unix-like systems the HydroTurbSim.py file can be executed directly, e.g.:
@@ -23,9 +23,9 @@ On must Unix-like systems the HydroTurbSim.py file can be executed directly, e.g
 In windows, if py2exe is installed, an executable (HydroTurbSim.exe) can be constructed using the command:
    python setup.py
 
-## Using HTS interactively or from within other python scripts/modules ##
+## Using pyTS interactively or from within other python scripts/modules ##
 
-Alternatively, one can use HTS in an interactive shell or in other software packages.  To do this:
+Alternatively, one can use pyTS in an interactive shell or in other software packages.  To do this:
 1) make sure the directory containing the 'hts' directory is on your python path (i.e. the directory containing this README).
 2) import the 'hts' package (the 'hts' directory)
 3) Once the package is loaded there are multiple ways to run TurbSim.
@@ -39,7 +39,7 @@ Alternatively, one can use HTS in an interactive shell or in other software pack
 ################################
 ######## File Structure ########
 
-The HTS file structure is as follows:
+The pyTS file structure is as follows:
 1) execution programs and general information files (e.g. this README) are contained in the base directory.
 2) the core of the program is contained entirely within the 'hts' directory (package).
 3) the 'hts/profModels' and 'hts/turbModels' directories (sub-packages) contain the model-base modules (mBase.py) and all of the specific models.  New models can be added here relatively easily (see 'adding models' section).
@@ -48,23 +48,23 @@ The HTS file structure is as follows:
 ################################
 ##### HydroTurbSim objects #####
 
-Several object types are defined in HTS.  The most important ones are:
+Several object types are defined in pyTS.  The most important ones are:
 tscfg (base.py)                    - A 'configuration' dictionary that stores information from input (.inp) files and handles *some* defaults from those input files.
 tsdata (base.py)                   - A data object that holds turbsim output and spectral model information.
 modelBase (base.py)                - A base class for the profModel and turbModel objects (below).
-profModel (profModels/mBase.py)    - The base 'profile model' object.  This is a base-class for all of the profile models defined in HTS.  Each run of 
-          		             HTS uses one profile model that provides the mean velocity profile.
-turbModel (turbModels/mBase.py)    - The base 'turbulence model' object.  This is a base-class for all of the turbulence models.  Each run of HTS
+profModel (profModels/mBase.py)    - The base 'profile model' object.  This is a base-class for all of the profile models defined in pyTS.  Each run of 
+          		             pyTS uses one profile model that provides the mean velocity profile.
+turbModel (turbModels/mBase.py)    - The base 'turbulence model' object.  This is a base-class for all of the turbulence models.  Each run of pyTS
           		           	 uses uses one turbulence model that provides the spectrum, tke profile, reynolds stress profile, etc.
 
 
 ################################
 ######## Building tslib ########
 
-'tslib' is a fortran library implementation of the computationally expensive pieces of HTS.  'f2py' has been used to link tslib to the python code.  HTS produces identical results with or without tslib, but it works much faster (and uses nearly half as much memory) with it.  A MS windows pre-compiled version of tslib (tslib.pyd) is provided with this distribution.  On unix systems (and to rebuild the library for windows***) perform the following steps:
+'tslib' is a fortran library implementation of the computationally expensive pieces of pyTS.  'f2py' has been used to link tslib to the python code.  pyTS produces identical results with or without tslib, but it works much faster (and uses nearly half as much memory) with it.  A MS windows pre-compiled version of tslib (tslib.pyd) is provided with this distribution.  On unix systems (and to rebuild the library for windows***) perform the following steps:
 1) cd to <turbsim root>/hts/tslib/
 2) type './build' and hit <enter>
-If there are no errors, the tslib module will now be in the 'hts/' directory and HTS will run much more efficiently.
+If there are no errors, the tslib module will now be in the 'hts/' directory and pyTS will run much more efficiently.
 
 ***: Compiling tslib in windows
 The build.bat script depends on the 'minGW' program-suite (and Python, of course).  In order to compile tslib you will need to:
@@ -81,12 +81,12 @@ On windows 7, to access these parameters, go-to 'My Computer(Right-Click)->Prope
 ################################
 ######### Known Issues #########
 
-HTS does not yet support outputting a dateset with a specified Reynolds Stress (profile).  Adding this is at the top of the todo list (near top of hts/main.py).
+pyTS does not yet support outputting a dateset with a specified Reynolds Stress (profile).  Adding this is at the top of the todo list (near top of hts/main.py).
 
-HTS does not yet output .sum files. This is 2nd on the todo list.
+pyTS does not yet output .sum files. This is 2nd on the todo list.
 
 
 ################################
 ######### Other Notes ##########
 
-The documentation for HTS is currently incomplete.  For further usage and operation information please see the TurbSim (original/atmosphere) documentation on the wind.nrel.gov/designcodes/ page.  Thanks for your patience.
+The documentation for pyTS is currently incomplete.  For further usage and operation information please see the TurbSim (original/atmosphere) documentation on the wind.nrel.gov/designcodes/ page.  Thanks for your patience.
