@@ -83,7 +83,9 @@ On windows 7, to access these parameters, go-to 'My Computer(Right-Click)->Prope
 
 pyTS does not yet support outputting a dateset with a specified Reynolds Stress (profile).  Adding this is at the top of the todo list (near top of hts/main.py).
 
-pyTS does not yet output .sum files. This is 2nd on the todo list.
+Documentation for adding spectral models and directly accessing the 'core' code of pyTS is currently lacking.  This is next on the todo list.
+
+pyTS does not yet output .sum files. This is 3rd on the todo list.
 
 
 ################################
