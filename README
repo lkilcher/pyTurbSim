@@ -1,4 +1,4 @@
-This is the pyTurbSim repository.  pyTurbSim is designed to be a development and testing platform for new spectral models and can also be used reliably to simulate water turbulence (HydroTurbSim).
+This is the pyTurbSim repository.  pyTurbSim is designed to be a development and testing platform for NREL's TurbSim tool and to simulate water turbulence for tidal device simulations (HydroTurbSim).  New spectral models can be implemented here easily and direct access to the 'core' code is more straightforward.
 
 This software is copyrighted by the National Renewable Energy Laboratory. It is released publically under the Gnu GPLv3.
 
