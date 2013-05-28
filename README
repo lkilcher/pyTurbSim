@@ -86,7 +86,7 @@ Adding custom models is outlined briefly in the pyTurbSim wiki (github.com/lkilc
 ################################
 ######### Known Issues #########
 
-pyTS does not yet output .sum files. This is 3rd on the todo list.
+pyTS does not yet output .sum files.
 
 ################################
 ######### Other Notes ##########
