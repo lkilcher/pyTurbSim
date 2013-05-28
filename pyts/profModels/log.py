@@ -17,3 +17,8 @@ class H2O(profModelBase,):
     def initModel(self,):
         self._u[0]=(self.UStar/kappa*np.log(self.grid.z/self.RefHt)+self.URef)[:,None]
 
+class user(profModelBase):
+    """
+    The 'user' logarithmic mean velocity profile.
+    """
+    

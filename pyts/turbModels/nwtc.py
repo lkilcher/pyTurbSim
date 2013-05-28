@@ -61,20 +61,21 @@ class NWTCgenModel(turbModelCohNonIEC):
             self._work=0.95*coef[0,0]*num0/(1+2*coef[0,1]*fZI_u)**pow5_3*np.sqrt((fz_u**2+(0.3*z_ZI)**2)/(fz_u**2+0.0225)) + coef[1,0]*2*num1/(1+coef[1,1]*5.3*fz_u**pow5_3)
         return self._work
 
-    def calcAutoSpec(self,):
-        for ii in range(self.n_p):
-            iz,iy=self.grid.ind2sub(ii)
-            z=self.grid.z[iz]
-            u=self.profModel.u[iz,iy]
-            for comp in self.comp:
-                if self.stable:
-                    self._autoSpec[comp][ii]=self._stableModel(z,u,comp,self.coefs[comp])
-                else:
-                    self._autoSpec[comp][ii]=self._unstableModel(z,u,comp,self.coefs[comp])
+    def initModel(self,):
+        self.initCoefs()
+        for iz in range(self.n_z):
+            for iy in range(self.n_y):
+                z=self.grid.z[iz]
+                u=self.profModel.u[iz,iy]
+                for comp in self.comp:
+                    if self.stable:
+                        self._autoSpec[comp,iz,iy]=self._stableModel(z,u,comp,self.coefs[comp])
+                    else:
+                        self._autoSpec[comp,iz,iy]=self._unstableModel(z,u,comp,self.coefs[comp])
 
 class smooth(NWTCgenModel):
 
-    def initModel(self,):
+    def initCoefs(self,):
         # The coefficients are all 1 for the simple 'smooth' model.
         if self.stable:
             self.coefs=np.ones((3,2),dtype=ts_float)
@@ -137,7 +138,13 @@ class nwtcup(NWTCgenModel):
                                'Pr_ih':(1.2,0.9,1.0),
                                }
 
-    def calcCoefs(self,):
+    def initCoefs(self,):
+        if self.stable:
+            self._loc_zL=fix2range(self.zL,0.005,3.5)
+            self.ustar_tmp=0.
+        else:
+            self._loc_zL=np.abs(fix2range(self.zL,-0.5,-0.025))
+            self.ustar_tmp=fix2range(self.config['UStar'],0.2,1.4)
         out=np.empty((3,2,2),dtype=ts_float)
         if self.stable:
             dat=self._coefs['stable']
@@ -150,13 +157,5 @@ class nwtcup(NWTCgenModel):
                 out[:,i0,i1]=fix2range(arr[:,0]*(self._loc_zL**arr[:,1])*self.ustar_tmp**arr[:,2]*np.exp(arr[:,3]*self._loc_zL+arr[:,4]*self.ustar_tmp),dat['min'][nm],dat['max'][nm])
         out[:,:,1]**=-1 # Invert the second (fr) coefficient.
         out[:,:,0]*=out[:,:,1] # All of the first coefficients are the product of the first and the second (inverse included).
-        return out
-        
-    def initModel(self,):
-        if self.stable:
-            self._loc_zL=fix2range(self.zL,0.005,3.5)
-            self.ustar_tmp=0.
-        else:
-            self._loc_zL=np.abs(fix2range(self.zL,-0.5,-0.025))
-            self.ustar_tmp=fix2range(self.config['UStar'],0.2,1.4)
-        self.coefs=self.calcCoefs()
+        self.coefs=out
+

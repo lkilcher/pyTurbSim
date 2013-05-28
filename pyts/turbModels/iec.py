@@ -17,13 +17,6 @@ class iecbase(turbModelCohIEC):
             return 0.7*min(30,self.HubHt)
         return 0.7*min(60,self.HubHt)
 
-    def calcAutoSpec(self,):
-        """
-        Override the default autoSpec routine because the spectrum does not vary in space.
-        """
-        for comp in self.comp:
-            self._autoSpec[comp][:,:]=self._data[comp][None,:]
-
     def set_IEC_standard(self,):
         iecstd=self.config['IECstandard'].lower()
         if iecstd.__class__ is str:
@@ -114,10 +107,9 @@ class ieckai(iecbase):
         sig2=4*self.IEC_Sigma**2
         fctr=np.array([1,0.64,0.25])
         L_u=self.Lambda/self.profModel.uhub*np.array([8.10,2.70,0.66])
-        self._data=np.empty((3,self.n_f))
         for comp in self.comp:
-            self._data[comp]=sig2*fctr[comp]*L_u[comp]/(1+6*self.f*L_u[comp])**self.pow5_3
-        
+            self._autoSpec[comp]=(sig2*fctr[comp]*L_u[comp]/(1+6*self.f*L_u[comp])**self.pow5_3)[None,None,:]
+
 class iecvkm(iecbase):
 
     def initModel(self,):
@@ -126,8 +118,7 @@ class iecvkm(iecbase):
         sig2=4*self.IEC_Sigma**2
         L_u=3.5*self.Lambda/self.profModel.uhub
         dnm=1+71*(self.f*L_u)**2
-        self._data={}
-        self._data[0]=sig2*L_u/(dnm)**0.8333333
-        self._data[1]=sig2/2*L_u/(dnm)**1.8333333*(1+189*(self.f*L_u)**2)
-        self._data[2]=self._data[1].copy()
+        self._autoSpec[0]=(sig2*L_u/(dnm)**0.8333333)[None,None,:]
+        self._autoSpec[1]=(sig2/2*L_u/(dnm)**1.8333333*(1+189*(self.f*L_u)**2))[None,None,:]
+        self._autoSpec[2]=self._autoSpec[1]
         

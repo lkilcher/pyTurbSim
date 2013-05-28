@@ -1,11 +1,11 @@
 #!/usr/bin/python
 import sys
-import hts
+import pyts
 
 if len(sys.argv)>1:
-    hts.run(sys.argv[1])
+    pyts.run(sys.argv[1])
 else:
     try:
-        hts.run('HydroTurbSim.inp')
+        pyts.run('HydroTurbSim.inp')
     except:
         pass
