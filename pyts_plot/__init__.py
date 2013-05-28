@@ -182,7 +182,7 @@ class summfig(object):
         Finalize the figure.
         """
         self.ax_cohr[0].set_ylim([0,1])
-        self.ax_rstr[0].set_xlim([-1,1])
+        #self.ax_rstr[0].set_xlim([-1,1])
         xlm=self.ax_prof[0].get_xlim()
         if xlm[0]>=0:
             dxlm=np.diff(xlm)

@@ -403,16 +403,28 @@ class tsGrid(object):
         """
         return subs[0]*self.n_y+subs[1]
 
+    def flatten(self,arr):
+        """
+        Reshape an array so that the z-y grid points are one-dimension of the array (for Cholesky factorization).
+        """
+        if arr.shape[0]==3 and arr.shape[1]==self.n_z and arr.shape[2]==self.n_y:
+            shp=[3,self.n_p]+list(arr.shape[3:])
+        elif arr.shape[0]==self.n_z and arr.shape[1]==self.n_y:
+            shp=[self.n_p]+list(arr.shape[2:])
+        else:
+            raise ValueError('The array shape does not match this grid.')
+        return arr.reshape(shp,order='C')
+
     def reshape(self,arr):
         """
-        Reshape an array to be in the appropriate shape for the calculations.  !!!FIXTHIS: need a better description.
+        Reshape the array *arr* so that its z-y grid points are two-dimensions of the array (after Cholesky factorization).
         """
-        if arr.ndim==3 and arr.shape[0]==3 and arr.shape[1]==self.n_p:
-            shp=(3,self.n_z,self.n_y,arr.shape[2])
-        elif arr.ndim==2 and arr.shape[0]==self.n_p:
-            shp=(self.n_z,self.n_y,arr.shape[1])
+        if arr.shape[0]==3 and arr.shape[1]==self.n_p:
+            shp=[3,self.n_z,self.n_y]+list(arr.shape[2:])
+        elif arr.shape[0]==self.n_p:
+            shp=[self.n_z,self.n_y]+list(arr.shape[1:])
         else:
-            raise ValueError('The array shape does not match an expected one for this grid.')
+            raise ValueError('The array shape does not match this grid.')
         return arr.reshape(shp,order='C')
 
 def fix2range(vals,minval,maxval):

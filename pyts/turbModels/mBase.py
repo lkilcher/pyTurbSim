@@ -23,21 +23,33 @@ class turbModelBase(modelBase):
         self.n_t_out=np.int(np.ceil(outtime/self.dt))
         self.i0_out=np.random.randint(self.n_t-self.n_t_out+1)
         self.n_f=self.n_t/2
+        self.n_z=self.grid.n_z
+        self.n_y=self.grid.n_y
         self.n_p=self.grid.n_p
+        self.z=self.grid.z
+        self.y=self.grid.y
         self.n_pcomb=self.n_p*(self.n_p+1)/2
         self.f=np.arange(self.n_f,dtype=ts_float)*self.df+self.df  # !!!CHECKTHIS
         self._crossSpec_pack_name=None
         self._crossSpec_full_name=None
-        self._autoSpec=np.empty((self.n_comp,self.n_p,self.n_f),dtype=ts_float,order='F')
+        self._autoSpec=np.empty((self.n_comp,self.n_z,self.n_y,self.n_f),dtype=ts_float)
         self._crossSpec_pack=np.empty((self.n_p*(self.n_p+1)/2,self.n_f),dtype=ts_float,order='F') # This is a working array, used 1-component at a time.
+        self._rstrCoh=np.empty([self.n_comp-1]+list(self.grid.shape)+[self.n_f],dtype=ts_float) # This is the cross-coherence between velocity components (defines the Reynold's stress), it can be between 1 and -1.
         self._work=np.empty(self.n_f,dtype=ts_float)
-        self.rand=np.array(np.exp(1j*2*np.pi*np.random.rand(self.n_comp,self.n_p,self.n_f)),dtype=np.complex64,order='F') # The '3' is for each component.  These can be modified to produce correlations between components!
+        self.rand=np.array(np.exp(1j*2*np.pi*np.random.rand(self.n_comp,self.n_p,self.n_f)),dtype=np.complex64,order='F') # These can be modified to produce correlations between components!
         # These are used for both stable and unstable spectra:
         self.ustar2=self.config['UStar']**2
         self.initModel()
+        self._autoSpec_flat=self.grid.flatten(self._autoSpec) # 'flatten' the _autoSpec matrix for use in the cross-spectral calculations
+        # Note: defining the _autoSpec matrix as order='F' will not make _autoSpec_flat order='F' b/c of this flatten/reshape operation
+        #       (which must be done in C-order).
+        #       The order='F' operation is done when calling tslib (below).  This way, _autoSpec_flat and _autoSpec are the same data in memory
+        #       (only duplicated in process of being passed to tslib).
         if hasattr(self,'initCohere'):
             self.initCohere()
-        self.calcAutoSpec()
+        self._std_u=np.sqrt(np.trapz(self._autoSpec,x=self.f,axis=-1))
+        self.initStress()
+        self.calcStress()
         
     def setCrossSpec_full(self,comp):
         """
@@ -53,9 +65,51 @@ class turbModelBase(modelBase):
         # Deal the data from the packed-form matrix to make the full matrix:
         for (ii,jj),indx in self._iter_flat_inds:
             self._crossSpec_full[ii,jj]=self._crossSpec_pack[indx]
-            if ii!=jj:
+            if ii!=jj: # The matrix is symmetric, so we are just mirroring the data. 
                 self._crossSpec_full[jj,ii]=self._crossSpec_pack[indx]
         self._crossSpec_full_name=comp
+
+    def initStress(self,):
+        """
+        Initialize the stress matrix.  This defines the cross-coherence between components of velocity.
+        """
+        # In the future I may want to make these functions of the 
+        if self.config['PC_UW'] is None:
+            self._rstrCoh[1]=-0.3 # Setting the correlation for the u'w' component.
+        else:
+            val=self.config['PC_UW']/(self._std_u[0]*self._std_u[2]) # Definition of correlation.
+            if (val>1.).any():
+                print "Warning: Scaled Reynolds stress u'w' exceeds 1 (highest value is %0.2f)...\n Reducing it to 1." % (np.max(val),)
+                val[val>1]=1.
+            self._rstrCoh[1]=val[:,:,None]
+        if self.config['PC_UV'] is None:
+            self._rstrCoh[0]=1e-7 # This is the u'v' component.  This sets it to zero.
+        else:
+            val=self.config['PC_UV']/(self._std_u[0]*self._std_u[1])
+            if (val>1.).any():
+                print "Warning: Scaled Reynolds stress u'v' exceeds 1 (highest value is %0.2f)...\n Reducing it to 1." % (np.max(val),)
+                val[val>1]=1.
+            self._rstrCoh[0]=val[:,:,None]
+
+    def calcStress(self,):
+        """
+        Here we control the Reynold's stress by setting the 'random' phases between components to be the same for a fraction of the frequencies.
+
+        """
+        # In the future it may be worthwhile to base the cross-coherence function _rstrCoh, on observed cross-component coherences (and phases).
+        # Perhaps this is a gaussion distribution (with some width) of phase shifts vs. frequency.
+        rstrmat=self.grid.flatten(self._rstrCoh[0])
+        rnd=np.random.rand(self.n_p,self.n_f)*0.93 #!!!FIXTHIS: The 0.93 is a fudge factor to account for the likelihood that the other phases will be opposed to the ones specified (I think).  Need to do figure out how to specify this better.
+        inds=rnd<rstrmat
+        self.rand[1][inds]=self.rand[0][inds]
+        inds=rnd<-rstrmat
+        self.rand[1][inds]=-self.rand[0][inds]
+        rstrmat=self.grid.flatten(self._rstrCoh[1])
+        rnd=np.random.rand(self.n_p,self.n_f)*0.93 #!!!FIXTHIS: The 0.93 is a fudge factor to account for the likelihood that the other phases will be opposed to the ones specified (I think).  Need to do figure out how to specify this better.
+        inds=rnd<rstrmat
+        self.rand[2][inds]=self.rand[0][inds]
+        inds=rnd<-rstrmat
+        self.rand[2][inds]=-self.rand[0][inds]
         
     def setCrossSpec_pack(self,comp):
         """
@@ -70,9 +124,9 @@ class turbModelBase(modelBase):
             return
         for (ii,jj),indx in self._iter_flat_inds:
             if ii==jj:
-                self._crossSpec_pack[indx]=self._autoSpec[comp][ii]
+                self._crossSpec_pack[indx]=self._autoSpec_flat[comp,ii]
             else:
-                self._crossSpec_pack[indx]=self.calcCoh(comp,self.grid.ind2sub(ii),self.grid.ind2sub(jj))*np.sqrt(self._autoSpec[comp][ii]*self._autoSpec[comp][jj])
+                self._crossSpec_pack[indx]=self.calcCoh(comp,self.grid.ind2sub(ii),self.grid.ind2sub(jj))*np.sqrt(self._autoSpec_flat[comp,ii]*self._autoSpec_flat[comp,jj])
         self._crossSpec_pack_name=comp
 
     @property
@@ -110,7 +164,7 @@ class turbModelBase(modelBase):
             yield self._crossSpec_pack
     @property
     def Suu(self,):
-        return np.reshape(self._autoSpec,[3]+list(self.grid.shape)+[-1])
+        return self._autoSpec
 
 class turbModelCohNonIEC(turbModelBase):
     """
@@ -140,7 +194,7 @@ class turbModelCohNonIEC(turbModelBase):
         if self._crossSpec_pack_name==comp:
             return
         if tslib is not None:
-            self._crossSpec_pack=tslib.nonieccoh(self._autoSpec[comp],self.f,self.grid.y,self.grid.z,self.profModel.u.flatten(),self._coh_coefs[comp],self._CohExp,len(self.f),len(self.grid.y),len(self.grid.z))
+            self._crossSpec_pack=tslib.nonieccoh(np.array(self._autoSpec_flat[comp],order='F'),self.f,self.grid.y,self.grid.z,self.profModel.u.flatten(),self._coh_coefs[comp],self._CohExp,len(self.f),len(self.grid.y),len(self.grid.z))
         else:
             turbModelBase.setCrossSpec_pack(self,comp)
         
@@ -192,9 +246,9 @@ class turbModelCohIEC(turbModelBase):
             return
         if comp!=0:
             self._crossSpec_pack[:]=0 # Set all elements to zero.
-            self._crossSpec_pack[np.cumsum(np.arange(self.n_p,0,-1)+1)-self.n_p-1]=self._autoSpec[comp] # Set the diagonal elements to be the spectra:
+            self._crossSpec_pack[np.cumsum(np.arange(self.n_p,0,-1)+1)-self.n_p-1]=self._autoSpec_flat[comp] # Set the diagonal elements to be the spectra:
         elif tslib is not None:
-            self._crossSpec_pack=tslib.ieccoh(self._autoSpec[comp],self.f,self.grid.y,self.grid.z,self.profModel.uhub,self.a,self.L,len(self.f),len(self.grid.y),len(self.grid.z))
+            self._crossSpec_pack=tslib.ieccoh(np.array(self._autoSpec_flat[comp],order='F'),self.f,self.grid.y,self.grid.z,self.profModel.uhub,self.a,self.L,len(self.f),len(self.grid.y),len(self.grid.z))
         else:
             turbModelBase.setCrossSpec_pack(self,comp)
 

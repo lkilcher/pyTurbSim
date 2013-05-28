@@ -17,7 +17,12 @@ class profModelBase(modelBase):
         self._u=np.zeros([3]+list(self.grid.shape),dtype=np.float32,order='F')
         if hasattr(self,'initModel'):
             self.initModel()
-        self._dudz=np.concatenate(((self._u[:,1]-self._u[:,0])[:,None,:]/self.grid.dz,(self._u[:,2:]-self._u[:,:-2])/(2*self.grid.dz),(self._u[:,-1]-self._u[:,-2])[:,None,:]/self.grid.dz),axis=1)
+
+    @property
+    def _dudz(self,):
+        if not hasattr(self,'_val_dudz'):
+            self._val_dudz=np.concatenate(((self._u[:,1]-self._u[:,0])[:,None,:]/self.grid.dz,(self._u[:,2:]-self._u[:,:-2])/(2*self.grid.dz),(self._u[:,-1]-self._u[:,-2])[:,None,:]/self.grid.dz),axis=1)
+        return self._val_dudz
 
     @property
     def uhub(self,):

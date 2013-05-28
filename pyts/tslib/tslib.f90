@@ -70,14 +70,16 @@ subroutine ieccoh(Sij,Sii,f,y,z,uhub,a,Lc,nf,ny,nz)
   ENDDO
 
   ind=0
+  f=SQRT((f/uhub)**2+(0.12/Lc)**2)
+  Sii=SQRT(Sii) ! n_p sqrt's.
   DO jj=1,ny*nz
      DO ii=jj,ny*nz
         ind=ind+1
         if (ii==jj) THEN
-           Sij(ind,:)=Sii(ii,:)
+           Sij(ind,:)=Sii(ii,:) ! Re-square the spectrum. n_p sq's.
         ELSE
            r=SQRT( (y( iy(ii) )-y( iy(jj) ))**2+( z(iz(ii)) - z( iz(jj) ))**2 )
-           Sij(ind,:)=EXP(-1*a*SQRT((f*r/uhub)**2+(0.12*r/Lc)**2))*SQRT(Sii(ii,:)*Sii(jj,:))
+           Sij(ind,:)=EXP(-1*a*r*f)*Sii(ii,:)*Sii(jj,:)
         ENDIF
      ENDDO
   ENDDO
@@ -97,7 +99,7 @@ subroutine nonIECcoh(Sij,Sii,f,y,z,u,coefs,coefExp,nf,ny,nz)
   integer, intent(in) :: nf, ny, nz
   integer             :: ii, jj, ind, np
   integer             :: iy(ny*nz), iz(ny*nz)
-  real                :: r, um, zm
+  real                :: r2, um, zm
   np=ny*nz
 
   DO ii=1,np
@@ -106,16 +108,20 @@ subroutine nonIECcoh(Sij,Sii,f,y,z,u,coefs,coefExp,nf,ny,nz)
   ENDDO
 
   ind=0
+  coefs(2)=coefs(2)**2
+  coefs(1)=-1*coefs(1)
+  f=f**2
+  Sii=SQRT(Sii)
   DO jj=1,np ! The packmat (Sij) needs to be in column order for lapack's SPPTRF.
      DO ii=jj,np
         ind=ind+1
         if ( ii == jj ) THEN
-           Sij(ind,:)=Sii(ii,:)
+           Sij(ind,:)=Sii(ii,:)**2 ! Re-square the spectrum.
         ELSE
-           r=SQRT( (y( iy(ii) )-y( iy(jj) ))**2+( z(iz(ii)) - z( iz(jj) ))**2 )
-           um=(u(ii)+u(jj))/2.
+           r=SQRT ( (y( iy(ii) )-y( iy(jj) ))**2+( z(iz(ii)) - z( iz(jj) ))**2 )
+           um=((u(ii)+u(jj))/2.)**2
            zm=(z(iz(ii))+z(iz(jj)))/2.
-           Sij(ind,:)=EXP(-1*coefs(1)*(r/zm)**coefExp*SQRT((f*r/um)**2+(coefs(2)*r)**2))*SQRT(Sii(ii,:)*Sii(jj,:))
+           Sij(ind,:)=EXP(coefs(1)*(r/zm)**coefExp*r*SQRT(f/um+coefs(2)))*Sii(ii,:)*Sii(jj,:)
         ENDIF
      ENDDO
   ENDDO

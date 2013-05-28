@@ -12,7 +12,7 @@ from subprocess import call
 ts_file_type='.wnd'
 
 # Run TurbSim and HydroTurbSim?
-flag_run=False# or True
+flag_run=False or True
 # Plot the results and compare?
 flag_plot=False or True
 
@@ -23,7 +23,7 @@ fnames=['Tidal','Smooth','IecKai','IecVkm','GPllj','NWTCup','wfup','wf07d','wf14
 fnames=['IecVkm'] #CHECKED 4/26/2013
 fnames=['IecKai'] #CHECKED 4/26/2013
 fnames=['Smooth'] #CHECKED 4/26/2013
-#fnames=['Tidal'] #CHECKED 4/26/2013
+fnames=['Tidal'] #CHECKED 4/26/2013
 #fnames=['GPllj']
 #fnames=['River'] #CHECKED 4/26/2013
 #fnames=['NWTCup'] #CHECKED 4/26/2013
@@ -81,13 +81,13 @@ if flag_plot:
         c+=1
         tsdat=pyts.tsio.readModel('./ts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
         tsdat.tm=pyts.buildModel(tsdat.config)
-        tsdat=pyts.tsio.readModel('./pyts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
-        tsdat.tm=pyts.buildModel(tsdat.config)
+        ptsdat=pyts.tsio.readModel('./pyts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
+        ptsdat.tm=pyts.buildModel(tsdat.config)
 
         fg=pyts_plot.summfig(3000+c,nfft=1024,title=nm.upper()+' spectral model')
-        fg.setinds(tsdat,igrid=None,)
+        fg.setinds(ptsdat,igrid=None,)
         #fg.setinds(tsdat,igrid=(0,1),)
         fg.plot(tsdat,color='r',label='TSv1')
-        fg.plot(tsdat,color='b',theory_line=True,label='TSv2')
+        fg.plot(ptsdat,color='b',theory_line=True,label='TSv2')
         fg.finish()
 
