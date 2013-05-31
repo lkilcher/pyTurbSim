@@ -333,11 +333,15 @@ def readModel(fname,inp_fname=None):
     """
     if fname.endswith('.inp'):
         config=readConfig(fname)
+        foundfile=False
         for sfx,rdr in readers.iteritems():
             fnm=convname(fname,sfx)
             if path.isfile(fnm):
+                foundfile=True
                 utmp=rdr(fnm)
                 break
+        if not foundfile:
+            raise IOError('TurbSim output file not found. Run pyTurbSim on the input file %s, before loading...' % (fname) )
     else:
         if inp_fname is None:
             config=readConfig(convname(fname,'inp'))
@@ -348,7 +352,7 @@ def readModel(fname,inp_fname=None):
             rdr=readers[sfx]
             utmp=rdr(fname)
         else:
-            raise Exception('No reader for this file type.')
+            raise IOError('No reader for this file type.')
     umn=utmp.mean(-1)
     utmp-=umn[:,:,:,None]
     out=tsdata(config,utmp,umn)

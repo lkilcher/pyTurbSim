@@ -188,9 +188,9 @@ class tscfg(dict):
 
     @property
     def _dflt_UStar(self,):
-        if (not hasattr(self,'URef') or self['URef'] is None) and (not hasattr(self,'UStar') or self['UStar'] is None):
+        if (not self.has_key('URef') or self['URef'] is None) and (not self.has_key('UStar') or self['UStar'] is None):
             raise InvalidConfig('Either URef or UStar must be defined in the input file.')
-        mdl=self.turbmodel
+        mdl=self['TurbModel'].lower()
         if mdl=='smooth':
             ustar=ustar0
         elif mdl=='nwtcup':
@@ -208,7 +208,7 @@ class tscfg(dict):
             else:
                 ustar=1.370*ustar0**0.66666
         elif mdl in ['tidal', 'river']:
-            ustar=self.URef*0.05
+            ustar=self['URef']*0.05
         return ustar
 
     @property

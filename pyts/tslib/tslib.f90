@@ -62,7 +62,7 @@ subroutine ieccoh(Sij,Sii,f,y,z,uhub,a,Lc,nf,ny,nz)
   real,intent(in)       :: Sii(ny*nz,nf),f(nf),y(ny),z(nz),uhub,a,Lc
   integer, intent(in)   :: nf,ny,nz
   integer       :: ind,ii,jj,iz(ny*nz),iy(ny*nz)
-  real          :: r
+  real          :: r, ftmp(nf), Sii_sqrt(ny*nz,nf)
 
   DO ii=1,ny*nz
      iy(ii)=mod(ii-1,ny)+1
@@ -70,16 +70,16 @@ subroutine ieccoh(Sij,Sii,f,y,z,uhub,a,Lc,nf,ny,nz)
   ENDDO
 
   ind=0
-  f=SQRT((f/uhub)**2+(0.12/Lc)**2)
-  Sii=SQRT(Sii) ! n_p sqrt's.
+  ftmp=SQRT((f/uhub)**2+(0.12/Lc)**2)
+  Sii_sqrt=SQRT(Sii)
   DO jj=1,ny*nz
      DO ii=jj,ny*nz
         ind=ind+1
         if (ii==jj) THEN
-           Sij(ind,:)=Sii(ii,:) ! Re-square the spectrum. n_p sq's.
+           Sij(ind,:)=Sii(ii,:)
         ELSE
            r=SQRT( (y( iy(ii) )-y( iy(jj) ))**2+( z(iz(ii)) - z( iz(jj) ))**2 )
-           Sij(ind,:)=EXP(-1*a*r*f)*Sii(ii,:)*Sii(jj,:)
+           Sij(ind,:)=EXP(-1*a*r*ftmp)*Sii_sqrt(ii,:)*Sii_sqrt(jj,:)
         ENDIF
      ENDDO
   ENDDO
@@ -99,7 +99,7 @@ subroutine nonIECcoh(Sij,Sii,f,y,z,u,coefs,coefExp,nf,ny,nz)
   integer, intent(in) :: nf, ny, nz
   integer             :: ii, jj, ind, np
   integer             :: iy(ny*nz), iz(ny*nz)
-  real                :: r2, um, zm
+  real                :: r, um, zm, ftmp(nf), tmpcoefs(2), Sii_sqrt(ny*nz,nf)
   np=ny*nz
 
   DO ii=1,np
@@ -108,20 +108,20 @@ subroutine nonIECcoh(Sij,Sii,f,y,z,u,coefs,coefExp,nf,ny,nz)
   ENDDO
 
   ind=0
-  coefs(2)=coefs(2)**2
-  coefs(1)=-1*coefs(1)
-  f=f**2
-  Sii=SQRT(Sii)
+  ftmp=f**2
+  tmpcoefs(1)=-1*coefs(1)
+  tmpcoefs(2)=coefs(2)**2
+  Sii_sqrt=SQRT(Sii)
   DO jj=1,np ! The packmat (Sij) needs to be in column order for lapack's SPPTRF.
      DO ii=jj,np
         ind=ind+1
         if ( ii == jj ) THEN
-           Sij(ind,:)=Sii(ii,:)**2 ! Re-square the spectrum.
+           Sij(ind,:)=Sii(ii,:)
         ELSE
            r=SQRT ( (y( iy(ii) )-y( iy(jj) ))**2+( z(iz(ii)) - z( iz(jj) ))**2 )
            um=((u(ii)+u(jj))/2.)**2
            zm=(z(iz(ii))+z(iz(jj)))/2.
-           Sij(ind,:)=EXP(coefs(1)*(r/zm)**coefExp*r*SQRT(f/um+coefs(2)))*Sii(ii,:)*Sii(jj,:)
+           Sij(ind,:)=EXP(tmpcoefs(1)*(r/zm)**coefExp*r*SQRT(ftmp/um+tmpcoefs(2)))*Sii_sqrt(ii,:)*Sii_sqrt(jj,:)
         ENDIF
      ENDDO
   ENDDO

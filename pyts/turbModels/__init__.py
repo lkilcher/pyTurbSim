@@ -1,14 +1,14 @@
-import nwtc,iec,vonKrmn,hydro,wf
+import nwtc,iec,hydro
 model_alias={
     'ieckai':iec.ieckai,
     'iecvkm':iec.iecvkm,
     'smooth':nwtc.smooth,
     'nwtcup':nwtc.nwtcup,
-    'wf_upw':wf.inf_turb,
-    'wf_07d':wf.outf_turb,
-    'wf_14d':wf.outf_turb,
-    'gp_llj':wf.gp_llj,
-    'usrvkm':vonKrmn.main,
+#    'wf_upw':wf.inf_turb,
+#    'wf_07d':wf.outf_turb,
+#    'wf_14d':wf.outf_turb,
+#    'gp_llj':wf.gp_llj,
+#    'usrvkm':vonKrmn.main,
     'tidal':hydro.tidal,
     'river':hydro.river,
     }

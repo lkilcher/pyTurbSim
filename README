@@ -79,6 +79,19 @@ On windows 7, to access these parameters, go-to 'My Computer(Right-Click)->Prope
 
 
 ################################
+##### Reading output files #####
+
+pyTurbSim comes with the ability to read (and write) TurbSim '.wnd', '.bl' (Bladed format) and '.bts' (AeroDyn/TurbSim format) files.  To read these files:
+1) 'import pyts.tsio'
+2) You can either use:
+   a) 'pyts.tsio.readBladed' or 'pyts.tsio.readAero' to return an
+      array of the turbulence timeseries, or
+   b) 'pyts.tsio.readModel' to read the appropriate data file, and
+      also load information from the config (.inp) file to create a
+      'tsdata' object that includes both the array and also the
+      config and turbModel objects.
+
+################################
 ##### Customizing pyTurbSim ####
 
 Adding custom models is outlined briefly in the pyTurbSim wiki (github.com/lkilcher/pyTurbSim/wiki).  Details for doing so is outlined in the 'newModel_example.py' modules in the pyts/turbModels and pyts/profModels directories.
