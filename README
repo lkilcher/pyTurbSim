@@ -16,9 +16,13 @@ It does supports some, but not all spectral models of the original (atmospheric)
 
 On any system with a python installation pyTS can be executed as, e.g.:
 python pyTurbSim.py TurbSim.inp
+  ...or, for the GUI:
+python gTurbSim.py TurbSim.inp
 
 On must Unix-like systems the pyTurbSim.py file can be executed directly, e.g.:
 ./pyTurbSim.py TurbSim.inp
+  ...or, for the GUI:
+./gTurbSim.py TurbSim.inp
 
 In windows, if py2exe is installed, an executable (pyTurbSim.exe) can be constructed using the command:
    python setup.py
@@ -35,6 +39,12 @@ Alternatively, one can use pyTS in an interactive shell or in other software pac
         tms=pyts.run_out('TurbSim.inp')   - This DOES NOT write files, instead the TurbSim-data object is returned to 'tms'.
   c) by passing a 'tscfg' dictionary to the 'run_main' function:
         tms=pyts.run_main(*tscfg*)        - The *tscfg* object must contain all of the input parameters that are necessary for the spectral model.
+
+##################################
+# Graphical user interface (GUI) #
+
+The pyTurbSim graphical user interface (GUI) provides a user-friendly environment for editing TurbSim input (config) files, and for running pyTurbSim (and TurbSim) using those configuration files.
+
 
 ################################
 ######## File Structure ########
