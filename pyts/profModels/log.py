@@ -15,7 +15,10 @@ class H2O(profModelBase,):
     The 'water' logarithmic mean velocity profile.
     """
     def initModel(self,):
-        self._u[0]=(self.UStar/kappa*np.log(self.grid.z/self.RefHt)+self.URef)[:,None]
+        self._u[0]=self.model(self.grid.z)
+
+    def model(self,z):
+        return (self.UStar/kappa*np.log(z/self.RefHt)+self.URef)[:,None]
 
 class user(profModelBase):
     """

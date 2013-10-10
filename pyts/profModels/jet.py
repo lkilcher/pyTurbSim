@@ -15,7 +15,7 @@ class main(profModelBase):
         self.config['ZJetMax']=val
         return val
 
-    def initModel(self,):
+    def model2(self,z):
         HtIndx=min(max(int(self.zjet_max-50)/20-1,0),20)
         scoef=spd_coefs[HtIndx]
         dcoef=dir_coefs[HtIndx]
@@ -28,11 +28,17 @@ class main(profModelBase):
             prms[0]=(self.URef-utmp1)/utmp2
         scoef=np.dot(scoef,prms[:,None]) # These are now vectors
         dcoef=np.dot(dcoef,prms[:,None]) # These are now vectors
-        ang=chebval(self.grid.z,dcoef)
+        ang=chebval(z,dcoef)
         ang-=ang[self.grid.ihub[0]] # The hub-height angle should be zero.
         ang[ang<-45.],ang[ang>45.]=-45.,45. # No angle should be more than 45 degrees.
-        tmpdat=chebval(self.grid.z,scoef)*np.exp(1j*np.pi/180.*ang)[:,None]
-        self._u[:1]=tmpdat.real,tmpdat.imag
+        tmpdat=chebval(z,scoef)*np.exp(1j*np.pi/180.*ang)[:,None]
+        return tmpdat.real,tmpdat.imag
+
+    def model(self,z):
+        return self.model2(z)[0]
+    
+    def initModel(self,):
+        self._u[:1]=self.model2(self.grid.z)
 
 ### These are the 'Chebyshef' coefficients, copied from the Modules.f90 file of TurbSim v1.x.
 ### The coefficients are:

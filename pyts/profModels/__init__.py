@@ -1,5 +1,6 @@
 import log,power
 model_alias={'pl':power.main,
+             'power':power.main,
              'power.main':power.main,
              'log':log.main,
              'log.main':log.main,

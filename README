@@ -1,11 +1,11 @@
-This is the pyTurbSim repository.  pyTurbSim is the official water-turbulence simulation tool for hydrokinetic turbine device simulation (a.k.a. HydroTurbSim), and is also a valuable development and testing platform for NREL's 'TurbSim' tool.  New spectral models can be implemented here easily and direct access to the 'core' code is more straightforward.
+This is the pyTurbSim repository.  pyTurbSim is the official water-turbulence simulation tool for hydrokinetic turbine device simulation (a.k.a. HydroTurbSim), and is also a valuable development and testing platform for NREL's 'TurbSim' tool.  New spectral models can be implemented easily in a pythonic, object-oriented manner.
 
 This software is copyrighted by the National Renewable Energy Laboratory. It is released publically under the Gnu GPLv3.
 
 pyTurbSim (herafter pyTS) is a tool for producing spatial time-series (a sequence of 2-D planes) that are statistically similar to real oceanic and riverine Turbulence.  In particular, pyTS is designed to produce time-series with energy spectra, spatial coherence, mean profile, tke profile, and Reynold's-stress profiles that are similar to real marine/river turbulence.
 
-################################
-### HydroTurbSim and TurbSim ###
+#############################
+### pyTurbSim and TurbSim ###
 
 pyTS has been developed to simulate turbulence in the marine and river environment (i.e. in water).  It is based on 'TurbSim' (for atmospheric turbulence) developed at the National Renewable Energy Lab's National Wind Technology Center.  pyTS was written in Python to provide a more easily customizable, object-oriented interface to the functionality that TurbSim provides.  This makes it an ideal tool for testing new spectral models and performing validation tests of TurbSim functionality.
 
@@ -14,39 +14,39 @@ It does supports some, but not all spectral models of the original (atmospheric)
 ################################
 #### Installation and usage ####
 
-On any system with an python installation pyTS can be executed as, e.g.:
-python HydroTurbSim.py TurbSim.inp
+On any system with a python installation pyTS can be executed as, e.g.:
+python pyTurbSim.py TurbSim.inp
 
-On must Unix-like systems the HydroTurbSim.py file can be executed directly, e.g.:
-./HydroTurbSim.py TurbSim.inp
+On must Unix-like systems the pyTurbSim.py file can be executed directly, e.g.:
+./pyTurbSim.py TurbSim.inp
 
-In windows, if py2exe is installed, an executable (HydroTurbSim.exe) can be constructed using the command:
+In windows, if py2exe is installed, an executable (pyTurbSim.exe) can be constructed using the command:
    python setup.py
 
 ## Using pyTS interactively or from within other python scripts/modules ##
 
 Alternatively, one can use pyTS in an interactive shell or in other software packages.  To do this:
-1) make sure the directory containing the 'hts' directory is on your python path (i.e. the directory containing this README).
-2) import the 'hts' package (the 'hts' directory)
+1) make sure the directory containing the 'pyts' directory is on your python path (i.e. the directory containing this README).
+2) import the 'pyts' package (the 'pyts' directory)
 3) Once the package is loaded there are multiple ways to run TurbSim.
   a) by passing the 'run' function an input file, e.g.:
-        hts.run('TurbSim.inp')           - This will write the output data to the appropriate binary files (e.g. TurbSim.bts)
+        pyts.run('TurbSim.inp')           - This will write the output data to the appropriate binary files (e.g. TurbSim.bts)
   b) by passing the 'run_out' function an input file, e.g.:
-        tms=hts.run_out('TurbSim.inp')   - This DOES NOT write files, instead the TurbSim-data object is returned to 'tms'.
+        tms=pyts.run_out('TurbSim.inp')   - This DOES NOT write files, instead the TurbSim-data object is returned to 'tms'.
   c) by passing a 'tscfg' dictionary to the 'run_main' function:
-        tms=hts.run_main(*tscfg*)        - The *tscfg* object must contain all of the input parameters that are necessary for the spectral model.
+        tms=pyts.run_main(*tscfg*)        - The *tscfg* object must contain all of the input parameters that are necessary for the spectral model.
 
 ################################
 ######## File Structure ########
 
 The pyTS file structure is as follows:
 1) execution programs and general information files (e.g. this README) are contained in the base directory.
-2) the core of the program is contained entirely within the 'hts' directory (package).
-3) the 'hts/profModels' and 'hts/turbModels' directories (sub-packages) contain the model-base modules (mBase.py) and all of the specific models.  New models can be added here relatively easily (see 'adding models' section).
-4) the 'hts/tslib' directory contains the fortran library for more efficient execution (it may need to be compiled, see section on 'building tslib').
+2) the core of the program is contained entirely within the 'pyts' directory (package).
+3) the 'pyts/profModels' and 'pyts/turbModels' directories (sub-packages) contain the model-base modules (mBase.py) and all of the specific models.  New models can be added here relatively easily (see 'adding models' section).
+4) the 'pyts/tslib' directory contains the fortran library for more efficient execution (it may need to be compiled, see section on 'building tslib').
 
 ################################
-##### HydroTurbSim objects #####
+##### pyTurbSim objects #####
 
 Several object types are defined in pyTS.  The most important ones are:
 tscfg (base.py)                    - A 'configuration' dictionary that stores information from input (.inp) files and handles *some* defaults from those input files.
@@ -62,9 +62,9 @@ turbModel (turbModels/mBase.py)    - The base 'turbulence model' object.  This i
 ######## Building tslib ########
 
 'tslib' is a fortran library implementation of the computationally expensive pieces of pyTS.  'f2py' has been used to link tslib to the python code.  pyTS produces identical results with or without tslib, but it works much faster (and uses nearly half as much memory) with it.  A MS windows pre-compiled version of tslib (tslib.pyd) is provided with this distribution.  On unix systems (and to rebuild the library for windows***) perform the following steps:
-1) cd to <turbsim root>/hts/tslib/
+1) cd to <turbsim root>/pyts/tslib/
 2) type './build' and hit <enter>
-If there are no errors, the tslib module will now be in the 'hts/' directory and pyTS will run much more efficiently.
+If there are no errors, the tslib module will now be in the 'pyts/' directory and pyTS will run much more efficiently.
 
 ***: Compiling tslib in windows
 The build.bat script depends on the 'minGW' program-suite (and Python, of course).  In order to compile tslib you will need to:

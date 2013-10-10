@@ -179,9 +179,20 @@ class turbModelCohNonIEC(turbModelBase):
         """
         self._coh_coefs=np.empty((3,2),dtype=ts_float)
         self._CohExp=self.config['CohExp'] or 0.0
-        self._coh_coefs[0]=self.config['IncDec1'] or [self.profModel.uhub,0]
-        self._coh_coefs[1]=self.config['IncDec2'] or 0.75*self._coh_coefs[0]
-        self._coh_coefs[2]=self.config['IncDec3'] or 0.75*self._coh_coefs[0]
+        if self.config['IncDec1'] is None:
+            self._coh_coefs[0]=np.array([self.profModel.uhub,0])
+        else:
+            self._coh_coefs[0] = self.config['IncDec1']
+
+        if self.config['IncDec2'] is None:
+            self._coh_coefs[1] = 0.75*self._coh_coefs[0]
+        else:
+            self._coh_coefs[1]=self.config['IncDec2']
+
+        if self.config['IncDec3'] is None:
+            self._coh_coefs[1]=0.75*self._coh_coefs[0]
+        else:
+            self._coh_coefs[1]=self.config['IncDec3']
 
     def setCrossSpec_pack(self,comp):
         """

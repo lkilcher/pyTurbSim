@@ -6,9 +6,15 @@ class main(profModelBase):
     """
 
     def initModel(self,):
-        self._u[0]=self.model(self.grid.z,self.URef,self.RefHt)[:,None]
+        self._u[0]=self.model(self.grid.z,)[:,None]
 
-    def model(self,z,uref,zref):
+    def model(self,z):
+        """
+        The function for calculating the mean velocity profile.
+        """
+        return self.model2(z,self.URef,self.RefHt)
+
+    def model2(self,z,uref,zref):
         """
         The function for calculating the mean velocity profile.
         """

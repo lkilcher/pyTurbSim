@@ -9,5 +9,4 @@ f2py --fcompiler=gnu95 -c tslib.f90 -m tslib lapack\lsame.f lapack\xerbla.f lapa
 REM I've tried to use the intel compiler, but haven't been able to get it to work.
 REM f2py --fcompiler=intelv -c tslib.f90 -m tslib lapack\lsame.f lapack\xerbla.f lapack\sdot.f lapack\sscal.f lapack\sspr.f lapack\stpsv.f lapack\spptrf.f
 
-
 copy tslib.pyd ..\

@@ -1,10 +1,13 @@
 import numpy as np
 from struct import pack,unpack
-from os import listdir,path
+from os import listdir,path,getcwd
 from base import tscfg,prog,ts_float,tsdata
 import time
 
 e='<'
+
+tsroot=path.realpath(__file__).rsplit('/',1)[0]+'/'
+userroot=path.expanduser('~')
 
 def convname(fname,sfx=''):
     """
@@ -20,18 +23,23 @@ def convname(fname,sfx=''):
 
 def _readInputLine(line):
     types=[np.int32,np.float32,bool,str]
-    val=line.split()[0]
+    if line[0]=='"':
+        val=line.split('"')[1]
+    elif line[0]=="'":
+        val=line.split("'")[1]
+    else:
+        val=line.split()[0]
     idx=0
+    if val=='default':
+        return None
     while True:
         try:
             if types[idx] is bool:
-                if not (val=='False' or val=='True'):
+                tmp=val.lower().replace('"','').replace("'","")
+                if not (tmp=='false' or tmp=='true'):
                     raise ValueError
                 else:
-                    if val=='False':
-                        return False
-                    else:
-                        return True
+                    return tmp=='true'
             out=types[idx](val)
             if types[idx] is str and out.startswith('"') and out.endswith('"'):
                 out=out[1:-1]
@@ -71,6 +79,89 @@ def readInPSD(fname):
     out['Sww']*=SpecScale3
     return out
 
+inputfile_form={
+    3:'RandSeed1', #Line numbers and 
+    4:'RandSeed2',
+    5:'WrBHHTP',
+    6:'WrFHHTP',
+    7:'WrADHH',
+    8:'WrADFF',
+    9:'WrBLFF',
+    10:'WrADTWR',
+    11:'WrFMTFF',
+    12:'WrACT',
+    13:'Clockwise',
+    14:'ScaleIEC',
+    17:'NumGrid_Z',
+    18:'NumGrid_Y',
+    19:'TimeStep',
+    20:'AnalysisTime',
+    21:'UsableTime',
+    22:'HubHt',
+    23:'GridHeight',
+    24:'GridWidth',
+    25:'VFlowAng',
+    26:'HFlowAng',
+    29:'TurbModel',
+    30:'IECstandard',
+    31:'IECturbc',
+    32:'IEC_WindType',
+    33:'ETMc',
+    34:'WindProfileType',
+    35:'RefHt',
+    36:'URef',
+    37:'ZJetMax',
+    38:'PLExp',
+    39:'Z0',
+    42:'Latitude',
+    43:'RICH_NO',
+    44:'UStar',
+    45:'ZI',
+    46:'PC_UW',
+    47:'PC_UV',
+    48:'PC_VW',
+    49:'IncDec1',
+    50:'IncDec2',
+    51:'IncDec3',
+    52:'CohExp',
+    55:'CTEventPath',
+    56:'CTEventFile',
+    57:'Randomize',
+    58:'DistScl',
+    59:'CTLy',
+    60:'CTLz',
+    61:'CTStartTime',
+    64:'NumUSRz',
+    65:'StdScale1',
+    66:'StdScale2',
+    67:'StdScale3',
+    }
+
+def writeConfig(fname,config,headertext=None):
+    """
+    Writeout a config file. This does not yet support writing user-defined profiles.
+    """
+    format=open(tsroot+'form/input.form','r')
+    out=open(fname,'w')
+    for idx,ln in enumerate(format):
+        if idx==0 and headertext is not None:
+            ln+=headertext
+        if inputfile_form.has_key(idx):
+            val=config[inputfile_form[idx]]
+            if inputfile_form[idx]=='RandSeed2' and val is None:
+                val='RANLUX'
+            elif val.__class__ is str:
+                val='"'+val+'"'
+            elif val is None:
+                val='default'
+            elif val.__class__ is np.ndarray:
+                val=('"'+'%0.2g '*(len(val)-1)+'%0.2g"') % tuple(val)
+            s=str(val)
+            s+=' '*(25-len(s))
+            ln=s+ln
+        out.write(ln)
+    out.close()
+    
 def readConfig(fname):
     """
     Read a TurbSim input (.inp) file.
@@ -87,88 +178,20 @@ def readConfig(fname):
     out['UserProfile']=False
     with open(fname) as fl:
         dat=fl.readlines()
+    fl.close()
     out['header']=dat[0] # Header line at top of file.  Sometimes used to indicate the files specific use.
-    tmp0=ril(dat[3])
-    tmp1=ril(dat[4])
-    # This block just handles the random numbers...
-    if tmp0.__class__ is str and tmp1.__class__ is str:
-        out['RandSeed']=None
-    elif tmp0.__class__ is not str and tmp1.__class__ is not str:
-        out['RandSeed']=np.uint(np.abs(tmp0+tmp1))
-    elif tmp1.__class__ is str:
-        if tmp0<0:
-            tmp0+=np.uint(2**31)
-        out['RandSeed']=np.uint(tmp0)
-    else:
-        if tmp1<0:
-            tmp1+=2**31
-        out['RandSeed']=np.uint(tmp1)
-        
-    out['writeout_BHHTP']=ril(dat[5])
-    out['writeout_FHHTP']=ril(dat[6])
-    out['writeout_ADHH']=ril(dat[7])
-    out['writeout_ADFF']=ril(dat[8])
-    out['writeout_BLFF']=ril(dat[9])
-    out['writeout_ADTWR']=ril(dat[10])
-    out['writeout_MFTFF']=ril(dat[11])
-    out['writeout_ACT']=ril(dat[12])
-    out['clockwise']=ril(dat[13])
-    out['ScaleIEC']=ril(dat[14])
-    out['NumGrid_Z']=ril(dat[17])
-    out['NumGrid_Y']=ril(dat[18])
-    out['TimeStep']=ril(dat[19])
-    out['AnalysisTime']=ril(dat[20])
-    out['UsableTime']=ril(dat[21])
-    out['HubHt']=ril(dat[22])
-    out['GridHeight']=ril(dat[23])
-    out['GridWidth']=ril(dat[24])
-    out['VFlowAng']=ril(dat[25])
-    out['HFlowAng']=ril(dat[26])
-    out['TurbModel']=ril(dat[29])
-    out['IECstandard']=ril(dat[30])
-    out['IECturbc']=ril(dat[31])
-    out['IEC_WindType']=ril(dat[32])
-    out['ETMc']=ril(dat[33])
-    out['WindProfileType']=ril(dat[34])
-    out['RefHt']=ril(dat[35])
-    out['URef']=ril(dat[36])
-    out['ZJetMax']=ril(dat[37])
-    out['PLExp']=ril(dat[38])
-    out['Z0']=ril(dat[39])
-    out['Latitude']=ril(dat[42])
-    out['RICH_NO']=ril(dat[43])
-    out['UStar']=ril(dat[44])
-    out['ZI']=ril(dat[45])
-    out['PC_UW']=ril(dat[46])
-    out['PC_UV']=ril(dat[47])
-    out['PC_VW']=ril(dat[48])
-    if not dat[49].startswith('default'):
-        out['IncDec1']=np.array(dat[49].split('"')[1].split(),dtype=ts_float)
-    else:
-        out['IncDec1']=None
-    if not dat[50].startswith('default'):
-        out['IncDec2']=np.array(dat[50].split('"')[1].split(),dtype=ts_float)
-    else:
-        out['IncDec2']=None
-    if not dat[51].startswith('default'):
-        out['IncDec3']=np.array(dat[51].split('"')[1].split(),dtype=ts_float)
-    else:
-        out['IncDec3']=None
-    out['CohExp']=ril(dat[52])
-    out['CTEventPath']=ril(dat[55])
-    out['CTEventFile']=ril(dat[56])
-    out['Randomize']=ril(dat[57])
-    out['DistScl']=ril(dat[58])
-    out['CTLy']=ril(dat[59])
-    out['CTLz']=ril(dat[60])
-    out['CTStartTime']=ril(dat[61])
+    # Deal the data from the file:
+    for idx,ln in enumerate(dat):
+        if inputfile_form.has_key(idx):
+            out[inputfile_form[idx]]=ril(dat[idx])
+    # Customize the input fields for pyTurbSim...
+    if out['RandSeed2'].__class__ is str and out['RandSeed2'].upper()=='RANLUX':
+        out['RandSeed2']=None
+    for nm in ['IncDec1','IncDec2','IncDec3']:
+        if out[nm] is not None:
+            out[nm]=np.array(out[nm].split(),dtype=ts_float)
     if len(dat)>=70 and dat[64].split()[1]=='NumUSRz':
-        # This has a user-defined profile.
-        out['NumUSRz']=ril(dat[64])
-        out['StdScale']=np.empty((3),dtype=ts_float)
-        out['StdScale'][0]=ril(dat[65])
-        out['StdScale'][1]=ril(dat[66])
-        out['StdScale'][2]=ril(dat[67])
+        # This file has a user-defined profile.
         out['UserProf_H']=np.empty(out['NumUSRz'],dtype='float32')
         out['UserProf_U']=np.empty_like(out['UserProf_H'])
         out['UserProf_Ang']=np.empty_like(out['UserProf_H'])
@@ -215,9 +238,9 @@ def writeBladed(fname,tsdat):
     fl.write(pack(e+'3f',*(100*ti)))
     fl.write(pack(e+'3flf',tsdat.grid.dz,tsdat.grid.dy,tsdat.UHUB*tsdat.dt,tsdat.shape[-1]/2,tsdat.UHUB))
     fl.write(pack(e+'3fl',*([0]*4))) # Unused bytes
-    fl.write(pack(e+'3l',tsconfig['RandSeed'],tsdat.grid.n_z,tsdat.grid.n_y))
+    fl.write(pack(e+'3l',tsconfig['RandSeed1'],tsdat.grid.n_z,tsdat.grid.n_y))
     fl.write(pack(e+'6l',*([0]*6))) # Unused bytes
-    if tsconfig['clockwise']:
+    if tsconfig['Clockwise']:
         out=(ts[:,::-1,::-1,:]*scale-off).astype(np.int16)
     else:
         out=(ts[:,::-1]*scale-off).astype(np.int16)
@@ -283,7 +306,7 @@ def writeAero(fname,tsdat):
     # component (fastest), y-index, z-index, time (slowest).
     fl.write(np.rollaxis(out[:,::-1],2,1).tostring(order='F'))
     fl.close()
-
+    
 
 def readAero(fname):
     """
@@ -306,9 +329,9 @@ def writeOut(fname,tsdat):
     """
     Write out the requested summary and binary files.
     """
-    if tsdat.config['writeout_BLFF']:
+    if tsdat.config['WrBLFF']:
         writeBladed(fname,tsdat)
-    if tsdat.config['writeout_ADFF']:
+    if tsdat.config['WrADFF']:
         writeAero(fname,tsdat)
 
 

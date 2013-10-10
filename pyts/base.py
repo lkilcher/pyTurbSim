@@ -11,8 +11,9 @@ except ImportError:
     tslib=None
 
 #tslib=None
-prog={'name':'HydroTurbSim',
+prog={'name':'pyTurbSim',
       'ver':'0.1',
+      'date':'June-16-2013',
       }
 
 ts_float=np.float32
@@ -141,6 +142,8 @@ class tscfg(dict):
 
         Otherwise return *None*.
         """
+        if key=='RandSeed':
+            return self.randseed
         if not self.has_key(key) or dict.__getitem__(self,key) is None:
             if hasattr(self,'_dflt_'+key):
                 self[key]=self.__getattribute__('_dflt_'+key)
@@ -150,6 +153,12 @@ class tscfg(dict):
                 return None
         else:
             return dict.__getitem__(self,key)
+        
+    def __setitem__(self,key,val):
+        if key=='RandSeed':
+            self.randseed=val
+        else:
+            dict.__setitem__(self,key,val)
 
     def __init__(self,*args,**kwargs):
         self._dict_isdefault={}
@@ -171,6 +180,39 @@ class tscfg(dict):
         else:
             return False
 
+    @property
+    def randseed(self,):
+        tmpval=0
+        if self.has_key('RandSeed1') and self['RandSeed1'] is not None:
+            tmpval+=np.uint32(self['RandSeed1'])
+        if self.has_key('RandSeed2') and self['RandSeed2'] is not None:
+            tmpval+=np.uint32(self['RandSeed2'])<<32
+        if tmpval==0:
+            return None
+        return tmpval
+
+    @randseed.setter
+    def randseed(self,val):
+        if val is None:
+            self['RandSeed1']=None
+            self['RandSeed2']=None
+        else:
+            self['RandSeed1']=np.int32(val & 2**32-1)
+            val2=np.int32(val>>32)
+            if val2>0:
+                self['RandSeed2']=val2
+            else:
+                self['RandSeed2']=None
+
+    @property
+    def _dflt_WindProfileType(self,):
+        if self['TurbModel'].lower()=='gp_llj':
+            return 'JET'
+        elif self['TurbModel'].lower() in ['river','tidal']:
+            return 'H2L'
+        else:
+            return 'IEC'
+
     # These are only called if the key is not in the dictionary:
     @property
     def _dflt_Z0(self,):
@@ -179,7 +221,7 @@ class tscfg(dict):
                 'smooth':0.01,
                 'gp_llj':0.005,
                 'nwtcup':0.021,
-                'wf_upw':0.018,
+        'wf_upw':0.018,
                 'wf_07d':0.064,
                 'wf_14d':0.233,
                 'tidal':0.1,
