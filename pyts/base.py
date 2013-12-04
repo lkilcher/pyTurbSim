@@ -3,7 +3,7 @@ try:
     import tslib
 except ImportError:
     print """
-    ***Warning***: 'tslib' did not load correctly.  HydroTurbSim
+    ***Warning***: 'tslib' did not load correctly.  pyTurbSim
     will produce accurate results, but less efficiently. To improve
     performance recompile the library as decribed in the 'Building
     tslib' section of the README file.
@@ -20,6 +20,42 @@ ts_float=np.float32
 ts_complex=np.complex64
 
 kappa=0.41 # Von-Karman's constant
+
+def pfactor(n,pmax=31):
+    primes=np.array([2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71])
+    primes=primes[primes<=pmax]
+    lst=set()
+    for ip in primes:
+        while mod(n,ip)==0:
+            lst.add(ip)
+            n/=ip
+    if n!=1:
+        lst.add(n)
+    return sort(list(lst))
+
+def lowPrimeFact_near(n,pmax=31,nmin=None,evens_only=True):
+    if (np.array(pfactor(n,pmax))<pmax).all():
+        return n
+    if evens_only: # Only deal with evens.
+        dl=2
+        if mod(n,2)>0:
+            n+=1
+    else:
+        dl=1
+    lowval=None
+    ih=n
+    if nmin is not None:
+        il=n-dl
+        while il>nmin:
+            if (np.array(pfactor(il,pmax))<pmax).all():
+                return il
+            elif (np.array(pfactor(ih,pmax))<pmax).all():
+                return ih
+            il-=dl
+            ih+=dl
+    while not (np.array(pfactor(ih,pmax))<pmax).all():
+        ih+=dl
+    return ih
 
 class tsdata(object):
     """
@@ -221,7 +257,7 @@ class tscfg(dict):
                 'smooth':0.01,
                 'gp_llj':0.005,
                 'nwtcup':0.021,
-        'wf_upw':0.018,
+                'wf_upw':0.018,
                 'wf_07d':0.064,
                 'wf_14d':0.233,
                 'tidal':0.1,
@@ -363,36 +399,75 @@ class modelBase(object):
         return self.config['Z0']
 
 def getGrid(tsconfig):
-    return tsGrid(tsconfig['NumGrid_Y'],tsconfig['NumGrid_Z'],tsconfig['GridWidth'],tsconfig['GridHeight'],tsconfig['HubHt'])
+    return tsGrid(tsconfig['HubHt'],ny=tsconfig['NumGrid_Y'],nz=tsconfig['NumGrid_Z'],width=tsconfig['GridWidth'],height=tsconfig['GridHeight'],time_sec=tsconfig['AnalysisTime'],time_sec_out=tsconfig['UsableTime'],dt=tsconfig['TimeStep'],)
 
 class tsGrid(object):
     """
     A TurbSim grid object.  The grid is defined so that the first row is the bottom, and the last is the top.
     """
-    def __init__(self,ny,nz,width,height,center):
+    def __init__(self,center,ny=None,nz=None,width=None,height=None,dy=None,dz=None,nt=None,time_sec=None,time_min=None,dt=None,time_sec_out=None,findClose_nt_lowPrimeFactors=True,prime_max=31):
         """
-        Initialize the grid object.
+        The TurbSim time-space grid object.
+
+        Each grid dimension (x,y,time) can be specified by any combination of 2 inputs,
+          for the x-grid, for example, you may specify:
+              dx and nx, or width and dx, or width and nx.
         
-        Inputs:
-          ny,nz        - number of points in the y and z directions.
-          width,height - spacing between points in the y and z directions.
+        Spatial dimension inputs (in meters):
           center       - height of the center of the grid.
-        
+          ny,nz        - number of points in the y and z directions.
+          width,height - total width and height of grid.
+          dy,dx        - spacing between points in the y and z directions (subordinate to ny,nz and width,height).
+          
+        Time dimension inputs:
+          nt           - number of timesteps
+          time_sec     - length of run (seconds)
+          time_min     - length of run (minutes, subordinate to time_sec)
+          dt           - timestep (seconds, subordinate to nt and time_sec)
+          time_sec_out - length of output timeseries (seconds, defaults to time_sec)
+
+        Other inputs:
+          findClose_nt_lowPrimeFactors - Adjust nfft to be a multiple of low primes (True or False).
+          prime_max                    - The maximum prime number allowed as a 'low prime'
+          
         """
-        width=ts_float(width)
-        height=ts_float(height)
-        self.n_y=ny
-        self.n_z=nz
-        self.width=width
-        self.height=height
-        self.dz=height/(nz-1)
-        self.dy=width/(ny-1)
-        self.n_p=ny*nz
-        self._zdata=center+np.arange(height/2,-(height/2+self.dz/10),-self.dz,dtype=ts_float)
-        self._ydata=np.arange(-width/2,width/2+self.dy/10,self.dy,dtype=ts_float)
+        self.n_y,self.width,self.dy=self._parse_inputs(ny,width,dy)
+        self.n_z,self.height,self.dz=self._parse_inputs(nz,height,dz)
+        if time_sec is None:
+            time_sec=time_min*60.
+        if time_sec_out is None:
+            time_sec_out=time_sec
+        else:
+            time_sec=max(time_sec_out,time_sec)
+        self.n_t,self.time_sec,self.dt=self._parse_inputs(nt,time_sec,dt,plus_one=0)
+        self.n_t_out,self.time_sec_out,junk=self._parse_inputs(None,time_sec_out,self.dt,plus_one=0)
+        if findClose_nt_lowPrimeFactors:
+            self.n_t=lowPrimeFact_near(self.n_t,nmin=self.n_t_out,pmax=prime_max)
+            self.n_t,self.time_sec,junk=self._parse_inputs(self.n_t,None,self.dt)
+        self.df=1./self.time_sec
+        self.n_f=self.n_t/2
+        self.f=np.arange(self.n_f,dtype=ts_float)*self.df+self.df  # !!!CHECKTHIS
+        self.n_p=self.n_y*self.n_z
+        self._zdata=center+np.arange(self.height/2,-(self.height/2+self.dz/10),-self.dz,dtype=ts_float)
+        self._ydata=np.arange(-self.width/2,self.width/2+self.dy/10,self.dy,dtype=ts_float)
         self.ihub=(self.n_z/2,self.n_y/2)
         self.tower=False
         self.n_tower=0 # A place holder, we need to add this later.
+
+    def _parse_inputs(self,n,l,d,plus_one=1):
+        if (n is None)+(l is None)+(d is None)>1:
+            raise Exception('Invalid inputs to Grid Initialization.')
+        if n is None:
+            d=ts_float(d)
+            n=int(l/d)+plus_one
+            l=(n-plus_one)*d
+        elif width is None
+            d=ts_float(d)
+            l=(n-plus_one)*d
+        else: # Always override d if the other two are specified.
+            l=ts_float(l)
+            d=l/(n-plus_one)
+        return n,l,d
 
     @property
     def shape(self,):
@@ -400,6 +475,21 @@ class tsGrid(object):
         A shortcut to the grid shape.
         """
         return (self.n_z,self.n_y)
+
+
+    @property
+    def shape_wt(self,):
+        """
+        A shortcut to the grid shape, including the time dimension.
+        """
+        return (self.n_z,self.n_y,self.n_t)
+
+    @property
+    def shape_wf(self,):
+        """
+        A shortcut to the grid shape, including the frequency dimension.
+        """
+        return (self.n_z,self.n_y,self.n_f)
 
     @property
     def z(self,):

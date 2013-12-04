@@ -45,7 +45,7 @@ def buildModel(tsconfig):
         tsconfig['RandSeed']=np.random.randint(1e6,1e18)
     np.random.seed(tsconfig['RandSeed'])
     
-    grid=tsGrid(tsconfig['NumGrid_Y'],tsconfig['NumGrid_Z'],tsconfig['GridWidth'],tsconfig['GridHeight'],tsconfig['HubHt'])
+    grid=tsGrid(tsconfig['HubHt'],ny=tsconfig['NumGrid_Y'],nz=tsconfig['NumGrid_Z'],width=tsconfig['GridWidth'],height=tsconfig['GridHeight'],time_sec=tsconfig['AnalysisTime'],time_sec_out=tsconfig['UsableTime']+tsconfig['GridWidth']/tsconfig['URef'],dt=tsconfig['TimeStep'])
 
     profModel=pm.getModel(tsconfig,grid) # This function is defined in profModel/__init__.py
     

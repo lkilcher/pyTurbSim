@@ -16,7 +16,7 @@ class tidal(hydroGen):
 
     def initStress(self,):
         """
-        The tidal model Reynold's stress model.  The u'w' component decreases linearly with height to zero at z=config['RefHt']
+        The tidal model Reynold's stress model.  The u'w' component decreases linearly with z to zero at z=config['RefHt']
         """
 
         self._rstrCoh[0]=0 # No u'v' stress.

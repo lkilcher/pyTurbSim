@@ -7,6 +7,12 @@ class profModelBase(modelBase):
     """
     A base class for TurbSim profile models.
     """
+
+    def __getattr__(self,name):
+        if hasattr(self.grid,name):
+            return getattr(self.grid,name)
+        else:
+            raise AttributeError
     
     def __init__(self,tsConfig,grid):
         """
@@ -29,7 +35,7 @@ class profModelBase(modelBase):
         """
         Returns the u-component hub-height wind speed.
         """
-        return self.u[self.grid.ihub]
+        return self.u[self.ihub]
 
     @property
     def u(self,):

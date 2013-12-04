@@ -20,8 +20,11 @@ class H2O(profModelBase,):
     def model(self,z):
         return (self.UStar/kappa*np.log(z/self.RefHt)+self.URef)[:,None]
 
-class user(profModelBase):
-    """
-    The 'user' logarithmic mean velocity profile.
-    """
+#def log_main(tsconfig,grid):
     
+
+## class user(profModelBase):
+##     """
+##     The 'user' logarithmic mean velocity profile.
+##     """
+##     def __init__(self,
