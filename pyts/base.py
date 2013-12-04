@@ -26,19 +26,19 @@ def pfactor(n,pmax=31):
     primes=primes[primes<=pmax]
     lst=set()
     for ip in primes:
-        while mod(n,ip)==0:
+        while np.mod(n,ip)==0:
             lst.add(ip)
             n/=ip
     if n!=1:
         lst.add(n)
-    return sort(list(lst))
+    return np.sort(list(lst))
 
 def lowPrimeFact_near(n,pmax=31,nmin=None,evens_only=True):
     if (np.array(pfactor(n,pmax))<pmax).all():
         return n
     if evens_only: # Only deal with evens.
         dl=2
-        if mod(n,2)>0:
+        if np.mod(n,2)>0:
             n+=1
     else:
         dl=1
@@ -453,6 +453,7 @@ class tsGrid(object):
         self.ihub=(self.n_z/2,self.n_y/2)
         self.tower=False
         self.n_tower=0 # A place holder, we need to add this later.
+        self.i0_out=np.random.randint(self.n_t-self.n_t_out+1) # Grab a random number of where to cut the timeseries from.
 
     def _parse_inputs(self,n,l,d,plus_one=1):
         if (n is None)+(l is None)+(d is None)>1:
@@ -461,7 +462,7 @@ class tsGrid(object):
             d=ts_float(d)
             n=int(l/d)+plus_one
             l=(n-plus_one)*d
-        elif width is None
+        elif l is None:
             d=ts_float(d)
             l=(n-plus_one)*d
         else: # Always override d if the other two are specified.
