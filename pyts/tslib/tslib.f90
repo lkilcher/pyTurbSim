@@ -64,9 +64,9 @@ subroutine ieccoh(Sij,Sii,f,y,z,uhub,a,Lc,nf,ny,nz)
   integer       :: ind,ii,jj,iz(ny*nz),iy(ny*nz)
   real          :: r, ftmp(nf), Sii_sqrt(ny*nz,nf)
 
-  DO ii=1,ny*nz
-     iy(ii)=mod(ii-1,ny)+1
-     iz(ii)=(ii-1)/ny+1
+  DO ii=1,ny*nz ! The arrays are in fortran order.
+     iz(ii)=mod(ii-1,ny)+1
+     iy(ii)=(ii-1)/ny+1
   ENDDO
 
   ind=0
@@ -102,9 +102,9 @@ subroutine nonIECcoh(Sij,Sii,f,y,z,u,coefs,coefExp,nf,ny,nz)
   real                :: r, um, zm, ftmp(nf), tmpcoefs(2), Sii_sqrt(ny*nz,nf)
   np=ny*nz
 
-  DO ii=1,np
-     iy(ii)=mod(ii-1,ny)+1
-     iz(ii)=(ii-1)/ny+1
+  DO ii=1,np ! The arrays are in fortran order.
+     iz(ii)=mod(ii-1,ny)+1
+     iy(ii)=(ii-1)/ny+1
   ENDDO
 
   ind=0

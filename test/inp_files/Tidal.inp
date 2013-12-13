@@ -15,13 +15,13 @@ True                Clockwise       - Clockwise rotation looking downwind? (used
  0                   ScaleIEC        - Scale IEC turbulence models to exact target standard deviation? [0=no additional scaling; 1=use hub scale uniformly; 2=use individual scales]
  
 --------Turbine/Model Specifications-----------------------
-7                  NumGrid_Z       - Vertical grid-point matrix dimension
-7                  NumGrid_Y       - Horizontal grid-point matrix dimension
+5                  NumGrid_Z       - Vertical grid-point matrix dimension
+4                  NumGrid_Y       - Horizontal grid-point matrix dimension
 0.5                TimeStep        - Time step [seconds]
 6000                 AnalysisTime    - Length of analysis time series [seconds] (program will add time if necessary: AnalysisTime = MAX(AnalysisTime, UsableTime+GridWidth/MeanHHWS) )
 4000                 UsableTime      - Usable length of output time series [seconds] (program will add GridWidth/MeanHHWS seconds)
 10             HubHt           - Hub height [m] (should be > 0.5*GridHeight)
-10.00               GridHeight      - Grid height [m] 
+3.00               GridHeight      - Grid height [m] 
 10.00               GridWidth       - Grid width [m] (should be >= 2*(RotorRadius+ShaftLength))
 0                   VFlowAng        - Vertical mean flow (uptilt) angle [degrees]
 0                   HFlowAng        - Horizontal mean flow (skew) angle [degrees]

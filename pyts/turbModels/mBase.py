@@ -39,7 +39,7 @@ class turbModelBase(base.modelBase):
         self.profModel=profModel
         self.grid=profModel.grid
         self.rand=np.array(np.exp(1j*2*np.pi*self.grid.randgen.rand(self.n_comp,self.n_p,self.n_f)),dtype=base.ts_complex,order='F')
-        self.Saa=np.empty((self.n_comp,self.n_z,self.n_y,self.n_f),dtype=base.ts_float)
+        self.Saa=np.empty((self.n_comp,self.n_z,self.n_y,self.n_f),dtype=base.ts_float,order='F')
         return self
 
     @property
@@ -79,10 +79,6 @@ class turbModelBase(base.modelBase):
         # !!!ADDDOC
         # 'flatten' the _autoSpec matrix for use in the cross-spectral calculations
         return self.grid.flatten(self.Saa)
-        # Note: defining the _autoSpec matrix as order='F' will not make Saa_flat order='F' b/c of this flatten/reshape operation
-        #       (which must be done in C-order).
-        #       The order='F' operation is done when calling tslib (below).  This way, Saa_flat and Saa are the same data in memory
-        #       (only duplicated in process of being passed to tslib).
 
 class cohModelBase(base.modelBase):
     # !!!ADDDOC
@@ -208,7 +204,7 @@ class cohModelNonIEC(cohModelBase):
         if self._crossSpec_pack_name==comp:
             return self._crossSpec_pack
         if base.tslib is not None:
-            self._crossSpec_pack=base.tslib.nonieccoh(np.array(self.Saa_flat[comp],order='F'),self.f,self.grid.y,self.grid.z,self.grid.flatten(self.profModel.u),self._coh_coefs[comp],self._CohExp,len(self.f),len(self.grid.y),len(self.grid.z))
+            self._crossSpec_pack=base.tslib.nonieccoh(self.Saa_flat[comp],self.f,self.grid.y,self.grid.z,self.grid.flatten(self.profModel.u),self._coh_coefs[comp],self._CohExp,len(self.f),len(self.grid.y),len(self.grid.z))
             self._crossSpec_pack_name=comp
             return self._crossSpec_pack
         else:
@@ -262,7 +258,7 @@ class cohModelIEC(cohModelBase):
             self._crossSpec_pack_name=comp
             return self._crossSpec_pack
         elif base.tslib is not None:
-            self._crossSpec_pack=base.tslib.ieccoh(np.array(self.Saa_flat[comp],order='F'),self.f,self.grid.y,self.grid.z,self.profModel.uhub,self.a,self.L,len(self.f),len(self.grid.y),len(self.grid.z))
+            self._crossSpec_pack=base.tslib.ieccoh(self.Saa_flat[comp],self.f,self.grid.y,self.grid.z,self.profModel.uhub,self.a,self.L,len(self.f),len(self.grid.y),len(self.grid.z))
             self._crossSpec_pack_name=comp
             return self._crossSpec_pack
         else:

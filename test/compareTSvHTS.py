@@ -13,10 +13,10 @@ ts_file_type='.wnd'
 
 # Run TurbSim and HydroTurbSim?
 flag_run=False or True
-flag_run_ts=False
-flag_run_pyts=True
+flag_run_ts=False or True
+flag_run_pyts=False or True
 # Plot the results and compare?
-flag_plot=False# or True
+flag_plot=False or True
 
 ########################################################################################
 ## These are the name of the input files (in ./inp_files/) that are run and compared. ##
@@ -25,7 +25,7 @@ fnames=['Tidal','Smooth','IecKai','IecVkm','GPllj','NWTCup','wfup','wf07d','wf14
 fnames=['IecVkm'] #CHECKED 4/26/2013
 fnames=['IecKai'] #CHECKED 4/26/2013
 #fnames=['Smooth'] #CHECKED 4/26/2013
-#fnames=['Tidal'] #CHECKED 4/26/2013
+fnames=['Tidal'] #CHECKED 4/26/2013
 #fnames=['GPllj']
 #fnames=['River'] #CHECKED 4/26/2013
 #fnames=['NWTCup'] #CHECKED 4/26/2013
@@ -84,9 +84,7 @@ if flag_plot:
     for nm in fnames:
         c+=1
         tsdat=pyts.tsio.readModel('./ts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
-        tsdat.tm=pyts.buildModel(tsdat.config)
         ptsdat=pyts.tsio.readModel('./pyts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
-        ptsdat.tm=pyts.buildModel(tsdat.config)
 
         fg=pyts_plot.summfig(3000+c,nfft=1024,title=nm.upper()+' spectral model')
         fg.setinds(ptsdat,igrid=None,)

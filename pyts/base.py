@@ -346,19 +346,19 @@ class tsGrid(object):
     
     def ind2sub(self,ind):
         """
-        Return the subscripts (iz,iy) corresponding to the `flattened' index *ind* (row-order) for this grid.
+        Return the subscripts (iz,iy) corresponding to the `flattened' index *ind* (column-order) for this grid.
         """
-        iz=ind/self.n_y
-        if iz>self.n_z:
+        iy=ind/self.n_z
+        if iy>=self.n_y:
             raise IndexError('Index beyond range of grid.')
-        iy=np.mod(ind,self.n_y)
+        iz=np.mod(ind,self.n_z)
         return (iz,iy)
     
     def sub2ind(self,subs):
         """
-        Return the `flattened' index (row-order) corresponding to the subscript *subs* (iz,iy) for this grid.
+        Return the `flattened' index (column-order) corresponding to the subscript *subs* (iz,iy) for this grid.
         """
-        return subs[0]*self.n_y+subs[1]
+        return subs[1]*self.n_z+subs[0]
 
     def flatten(self,arr):
         """
@@ -370,7 +370,7 @@ class tsGrid(object):
             shp=[self.n_p]+list(arr.shape[2:])
         else:
             raise ValueError('The array shape does not match this grid.')
-        return arr.reshape(shp,order='C')
+        return arr.reshape(shp,order='F')
 
     def reshape(self,arr):
         """
@@ -382,5 +382,5 @@ class tsGrid(object):
             shp=[self.n_z,self.n_y]+list(arr.shape[1:])
         else:
             raise ValueError('The array shape does not match this grid.')
-        return arr.reshape(shp,order='C')
+        return arr.reshape(shp,order='F')
 
