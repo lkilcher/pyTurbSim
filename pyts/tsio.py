@@ -1,7 +1,8 @@
 import numpy as np
 from struct import pack,unpack
 from os import listdir,path,getcwd
-from base import tscfg,prog,ts_float,tsdata
+from base import prog,ts_float,tsdata
+from runConfig import buildModel,tscfg
 import time
 
 e='<'
@@ -221,10 +222,20 @@ def writeBladed(fname,tsdat):
 
     This code was copied from the original TSsubs.f90.
     """
-    stats=tsdat.stats
-    tsconfig=tsdat.config
+    if hasattr(tsdat.turbModel,'Latitude'):
+        lat=tsdat.turbModel.Latitude
+    elif hasattr(tsdat.turbModel.profModel,'Latitude'):
+        lat=tsdat.turbModel.profModel.Latitude
+    else:
+        lat=0.0
+    if hasattr(tsdat.turbModel,'Z0'):
+        Z0=tsdat.turbModel.Z0
+    elif hasattr(tsdat.turbModel.profModel,'Z0'):
+        Z0=tsdat.turbModel.profModel.Z0
+    else:
+        Z0=0.0
     ts=tsdat.utotal
-    ti=stats['Ti'].copy()
+    ti=np.sqrt(tsdat.tke[:,tsdat.ihub[0],tsdat.ihub[1]])/tsdat.UHUB
     ti[ti<1e-5]=1
     scale=1000./(tsdat.UHUB*ti[:,None,None,None])
     off=np.array([1000./(ti[0]),0,0])[:,None,None,None]
@@ -232,15 +243,15 @@ def writeBladed(fname,tsdat):
         fname=convname(fname,'.wnd')
     fl=file(fname,'wb')
     # First write some setup data:
-    fl.write(pack(e+'2hl3f',-99,4,3,tsconfig['Latitude'],tsconfig['Z0'],tsdat.grid.z[0]+tsdat.grid.height/2.0))
+    fl.write(pack(e+'2hl3f',-99,4,3,lat,Z0,tsdat.grid.z[0]+tsdat.grid.height/2.0))
     # Now write the turbulence intensity, grid spacing, numsteps, and hub mean wind speed
     # For some reason this takes half the number of timesteps...
     fl.write(pack(e+'3f',*(100*ti)))
     fl.write(pack(e+'3flf',tsdat.grid.dz,tsdat.grid.dy,tsdat.UHUB*tsdat.dt,tsdat.shape[-1]/2,tsdat.UHUB))
     fl.write(pack(e+'3fl',*([0]*4))) # Unused bytes
-    fl.write(pack(e+'3l',tsconfig['RandSeed1'],tsdat.grid.n_z,tsdat.grid.n_y))
+    fl.write(pack(e+'3l',tsdat.grid.RandSeed,tsdat.grid.n_z,tsdat.grid.n_y))
     fl.write(pack(e+'6l',*([0]*6))) # Unused bytes
-    if tsconfig['Clockwise']:
+    if tsdat.grid.clockwise:
         out=(ts[:,::-1,::-1,:]*scale-off).astype(np.int16)
     else:
         out=(ts[:,::-1]*scale-off).astype(np.int16)
@@ -324,7 +335,6 @@ def readAero(fname):
     out/=u_scl[:,None,None,None]
     return out
 
-    
 def writeOut(fname,tsdat):
     """
     Write out the requested summary and binary files.
@@ -333,7 +343,6 @@ def writeOut(fname,tsdat):
         writeBladed(fname,tsdat)
     if tsdat.config['WrADFF']:
         writeAero(fname,tsdat)
-
 
 readers={'wnd':readBladed,
          'bl':readBladed,
@@ -378,5 +387,5 @@ def readModel(fname,inp_fname=None):
             raise IOError('No reader for this file type.')
     umn=utmp.mean(-1)
     utmp-=umn[:,:,:,None]
-    out=tsdata(config,utmp,umn)
+    out=tsdata(buildModel(config),utmp,umn)
     return out

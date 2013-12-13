@@ -13,8 +13,10 @@ ts_file_type='.wnd'
 
 # Run TurbSim and HydroTurbSim?
 flag_run=False or True
+flag_run_ts=False
+flag_run_pyts=True
 # Plot the results and compare?
-flag_plot=False or True
+flag_plot=False# or True
 
 ########################################################################################
 ## These are the name of the input files (in ./inp_files/) that are run and compared. ##
@@ -22,8 +24,8 @@ fnames=['Tidal','Smooth','IecKai','IecVkm','GPllj','NWTCup','wfup','wf07d','wf14
 #fnames=['Smooth','IecKai','IecVkm','GPllj','NWTCup','wfup','wf07d','wf14d',]
 fnames=['IecVkm'] #CHECKED 4/26/2013
 fnames=['IecKai'] #CHECKED 4/26/2013
-fnames=['Smooth'] #CHECKED 4/26/2013
-fnames=['Tidal'] #CHECKED 4/26/2013
+#fnames=['Smooth'] #CHECKED 4/26/2013
+#fnames=['Tidal'] #CHECKED 4/26/2013
 #fnames=['GPllj']
 #fnames=['River'] #CHECKED 4/26/2013
 #fnames=['NWTCup'] #CHECKED 4/26/2013
@@ -60,16 +62,18 @@ if flag_run:
     # Now run TurbSim and HydroTurbSim on the input files specified above.
     for fnm in fnames:
         # Run HydroTurbSim:
-        tsdat=pyts.run_out('./inp_files/'+fnm+'.inp')
-        pyts.writeOut('./pyts/'+fnm+'.inp',tsdat) # Write out the data.
-        # Run TurbSim:
-        call(['./'+ts_exec_file,'./inp_files/'+fnm+'.inp'])
-        dst='./ts/'+fnm+ts_file_type
-        try:
-            os.remove(dst) # This is for windows compatability.
-        except:
-            pass
-        os.rename('./inp_files/'+fnm+ts_file_type,dst)
+        if flag_run_pyts:
+            tsdat=pyts.run_out('./inp_files/'+fnm+'.inp')
+            pyts.tsio.writeBladed('./pyts/'+fnm+'.inp',tsdat) # Write out the data.
+        if flag_run_ts:
+            # Run TurbSim:
+            call(['./'+ts_exec_file,'./inp_files/'+fnm+'.inp'])
+            dst='./ts/'+fnm+ts_file_type
+            try:
+                os.remove(dst) # This is for windows compatability.
+            except:
+                pass
+            os.rename('./inp_files/'+fnm+ts_file_type,dst)
 
 ########################################
 ########################################

@@ -1,4 +1,3 @@
-from mBase import *
 """
 An example module for defining a new 'profile model' called 'aNewModel'.
 
@@ -11,6 +10,7 @@ You can also create a shortcut to this model by adding:
 to the model_alias dictionary in the __init__.py file.  The model can then be specified simply as 'mymodel' in the input file.
 
 """
+from mBase import profModelBase,np
 
 class aNewModel(profModelBase):
     """
@@ -29,18 +29,30 @@ class aNewModel(profModelBase):
 
     """
 
-    def initModel(self,):
+    def __init__(self,grid,coef_u,coef_w=[0.01,0.2]):
         """
-        Each profile model should define this 'initModel' method to specify the
-        '_u' property (i.e. the mean velocity vector-field).
+        Each profile model should define the __init__ method.
+
+        The __init__ method must take the *grid* as the first input parameter.  All other input
+        parameters can be specified to define the model.
+
+        The *grid* input parameter is automatically added as an attribute of the profile model.
+
+        This method should set all three components of the mean velocity field, '_u'.
+        The components default to 0 if they are not set here.
         """
         # In this example, we set the u-component to increase linearly with height:
-        self._u[0]=0.3*self.grid.z[:,None] # Arbitrarily chose a factor of 0.3
+        # Note: we are making use of the automatically added 'grid' attribute
+        self._u[0]=coef_u*self.grid.z[:,None] # Arbitrarily chose a factor of 0.3
         # Note that the 'grid' object of this TurbSim run is accessible in the profile model.
+        self.coef_w=coef_w # We can store variables for use in other methods.
         self._u[2]=self.calc_vertical_velocity()
 
     def calc_vertical_velocity(self):
         """
-        Define as many methods as you like for helping the initModel method...
+        Define as many methods as you like for helping the __init__ method...
         """
-        return 0.01*self.grid.y[None,:]+0.2 # Arbitrarily set the vertical velocity to increase in the y-direction (not very realistic).
+        # Note: again we make use of the automatically added 'grid' attribute, and the stored coef_w attribute.
+        # Here we arbitrarily set the vertical velocity to increase in the y-direction (not very realistic).
+        return self.coef_w[0]*self.grid.y[None,:]+self.coef_w[1]
+        

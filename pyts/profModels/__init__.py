@@ -1,13 +1,13 @@
 import log,power
-model_alias={'pl':power.main,
-             'power':power.main,
-             'power.main':power.main,
-             'log':log.main,
-             'log.main':log.main,
-             'h2l':log.H2O,
-             'h2log':log.H2O,
-             'log.H2O':log.H2O,
-             'log.h2o':log.H2O,
+model_alias={'pl':power.cfg_nwtc,
+             'power':power.cfg_nwtc,
+             'power.main':power.cfg_nwtc,
+             'log':log.cfg_nwtc,
+             'log.main':log.cfg_nwtc,
+             'h2l':log.cfg_H2O,
+             'h2log':log.cfg_H2O,
+             'log.H2O':log.cfg_H2O,
+             'log.h2o':log.cfg_H2O,
              #'iec':iec.main
              }
 

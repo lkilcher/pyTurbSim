@@ -1,5 +1,6 @@
 ### This file defines the 'run' functions of the hts package.
-from main import *
+from main import run_main
+import tsio as io
 from tsio import writeOut,readConfig
 
 def run_out(fname):
@@ -10,6 +11,7 @@ def run_out(fname):
     """
     
     config=readConfig(fname)
+    
     return run_main(config)
 
 def run(fname):

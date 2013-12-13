@@ -30,6 +30,7 @@ class deltaTextCtrl(object):
     def n(self,val):
         if val is None:
             self.nCtrl.ChangeValue(str(int(self.x/self.dx)+self.one))
+            self.x=None
         else:
             self.nCtrl.SetValue(str(int(val)))
 

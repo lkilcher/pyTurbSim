@@ -20,7 +20,7 @@ True                     Clockwise       - Clockwise rotation looking downwind? 
 0.5                      TimeStep        - Time step [seconds]
 6000                     AnalysisTime    - Length of analysis time series [seconds] (program will add time if necessary: AnalysisTime = MAX(AnalysisTime, UsableTime+GridWidth/MeanHHWS) )
 4000                     UsableTime      - Usable length of output time series [seconds] (program will add GridWidth/MeanHHWS seconds)
-10                       HubHt           - Hub height [m] (should be > 0.5*GridHeight)
+5.001                       HubHt           - Hub height [m] (should be > 0.5*GridHeight)
 10.0                     GridHeight      - Grid height [m] 
 10.0                     GridWidth       - Grid width [m] (should be >= 2*(RotorRadius+ShaftLength))
 0                        VFlowAng        - Vertical mean flow (uptilt) angle [degrees]
@@ -33,7 +33,7 @@ True                     Clockwise       - Clockwise rotation looking downwind? 
 "NTM"                    IEC_WindType    - IEC turbulence type ("NTM"=normal, "xETM"=extreme turbulence, "xEWM1"=extreme 1-year wind, "xEWM50"=extreme 50-year wind, where x=wind turbine class 1, 2, or 3)
 default                  ETMc            - IEC Extreme Turbulence Model "c" parameter [m/s]
 "H2L"                    WindProfileType - Wind profile type ("JET","LOG"=logarithmic,"PL"=power law,"IEC"=PL on rotor disk,LOG elsewhere, or "default")
-10                       RefHt           - Height of the reference wind speed [m]
+12                       RefHt           - Height of the reference wind speed [m]
 2.4                      URef            - Mean (total) wind speed at the reference height [m/s] (or "default" for JET wind profile)
 default                  ZJetMax         - Jet height [m] (used only for JET wind profile, valid 70-490 m)
 default                  PLExp           - Power law exponent [-] (or "default")           

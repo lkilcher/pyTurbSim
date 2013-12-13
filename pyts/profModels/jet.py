@@ -1,4 +1,4 @@
-from mBase import *
+from mBase import profModelBase,np
 from numpy.polynomial.chebyshev import chebval
 
 class main(profModelBase):
@@ -10,7 +10,7 @@ class main(profModelBase):
         if self.config['ZJetMax'] is not None:
             return self.config['ZJetMax']
         val=1.9326*(-14.820*self.Ri+56.488123*self.zL+166.499069*self.UStar+188.253377)-252.7267
-        rnd=min(max(np.random.standard_cauchy(1)*10-20,-160),120) # !!!VERSION_INCONSISTENCY: I've used the standard Cuachy distribution, rather than 'PearsonIV' from indecipherable code.
+        rnd=min(max(self.grid.randgen.standard_cauchy(1)*10-20,-160),120) # !!!VERSION_INCONSISTENCY: I've used the standard Cuachy distribution, rather than 'PearsonIV' from indecipherable code.
         val+=rnd
         self.config['ZJetMax']=val
         return val

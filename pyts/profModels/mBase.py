@@ -1,28 +1,20 @@
+# !!!ADDDOC
 try:
-    from ..base import *
+    from .. import base
 except ValueError:
-    from base import *
+    import base
+np=base.np
 
-class profModelBase(modelBase):
+class profModelBase(base.modelBase):
     """
     A base class for TurbSim profile models.
     """
 
-    def __getattr__(self,name):
-        if hasattr(self.grid,name):
-            return getattr(self.grid,name)
-        else:
-            raise AttributeError
-    
-    def __init__(self,tsConfig,grid):
-        """
-        Initialize the profModelBase, then calls the user-customizable `initModel' routine.
-        """
+    def __new__(cls,grid,*args,**kwargs):
+        self=super(profModelBase,cls).__new__(cls,grid,*args,**kwargs)
         self.grid=grid
-        self.config=tsConfig
-        self._u=np.zeros([3]+list(self.grid.shape),dtype=np.float32,order='F')
-        if hasattr(self,'initModel'):
-            self.initModel()
+        self._u=np.zeros([3]+list(self.grid.shape),dtype=base.ts_float,order='F')
+        return self
 
     @property
     def _dudz(self,):
@@ -35,7 +27,7 @@ class profModelBase(modelBase):
         """
         Returns the u-component hub-height wind speed.
         """
-        return self.u[self.ihub]
+        return self.u[self.grid.ihub]
 
     @property
     def u(self,):
