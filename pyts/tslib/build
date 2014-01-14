@@ -1,7 +1,10 @@
 #!/bin/bash
 
+f90_flags='-openmp'
+
 f2py --overwrite-signature -m tslib -h tslib.pyf tslib.f90
 #f2py -c -L/usr/local/lib -llapack tslib.pyf tslib.f90
-f2py -c tslib.pyf tslib.f90 ./lapack/*.f
+f2py -c --f90flags='-fopenmp' --opt='-O3' -lgomp tslib.pyf tslib.f90 ./lapack/*.f
+#f2py -c tslib.pyf tslib.f90 ./lapack/*.f
 
 cp tslib.so ../

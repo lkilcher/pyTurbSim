@@ -5,21 +5,16 @@ except ValueError:
     import base
 np=base.np
 
-class profModelBase(base.modelBase):
-    """
-    A base class for TurbSim profile models.
-    """
+class prof(base.gridProps,base.calcObj):
 
-    def __new__(cls,grid,*args,**kwargs):
-        self=super(profModelBase,cls).__new__(cls,grid,*args,**kwargs)
-        self.grid=grid
-        self._u=np.zeros([3]+list(self.grid.shape),dtype=base.ts_float,order='F')
-        return self
+    def __init__(self,tsrun):
+        self.grid=tsrun.grid
+        self.data=np.zeros([3]+list(self.grid.shape),dtype=base.ts_float,order='F')
 
     @property
     def _dudz(self,):
         if not hasattr(self,'_val_dudz'):
-            self._val_dudz=np.concatenate(((self._u[:,1]-self._u[:,0])[:,None,:]/self.grid.dz,(self._u[:,2:]-self._u[:,:-2])/(2*self.grid.dz),(self._u[:,-1]-self._u[:,-2])[:,None,:]/self.grid.dz),axis=1)
+            self._val_dudz=np.concatenate(((self.data[:,1]-self.data[:,0])[:,None,:]/self.grid.dz,(self.data[:,2:]-self.data[:,:-2])/(2*self.grid.dz),(self.data[:,-1]-self.data[:,-2])[:,None,:]/self.grid.dz),axis=1)
         return self._val_dudz
 
     @property
@@ -34,19 +29,19 @@ class profModelBase(base.modelBase):
         """
         Returns the w-component of the mean velocity field.
         """
-        return self._u[0]
+        return self.data[0]
     @property
     def v(self,):
         """
         Returns the w-component of the mean velocity field.
         """
-        return self._u[1]
+        return self.data[1]
     @property
     def w(self,):
         """
         Returns the w-component of the mean velocity field.
         """
-        return self._u[2]
+        return self.data[2]
 
     @property
     def dudz(self,):
@@ -66,3 +61,9 @@ class profModelBase(base.modelBase):
         Returns the vertical derivative of the w-component of the mean velocity field.
         """
         return self._dudz[2]
+
+class profModelBase(base.modelBase):
+    """
+    A base class for TurbSim profile models.
+    """
+    pass

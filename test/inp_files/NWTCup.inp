@@ -17,12 +17,12 @@ True                Clockwise       - Clockwise rotation looking downwind? (used
 --------Turbine/Model Specifications-----------------------
 3                  NumGrid_Z       - Vertical grid-point matrix dimension
 3                  NumGrid_Y       - Horizontal grid-point matrix dimension
-0.05                TimeStep        - Time step [seconds]
-24000                 AnalysisTime    - Length of analysis time series [seconds] (program will add time if necessary: AnalysisTime = MAX(AnalysisTime, UsableTime+GridWidth/MeanHHWS) )
-20000                 UsableTime      - Usable length of output time series [seconds] (program will add GridWidth/MeanHHWS seconds)
-4.57             HubHt           - Hub height [m] (should be > 0.5*GridHeight)
-4.00               GridHeight      - Grid height [m] 
-4.00               GridWidth       - Grid width [m] (should be >= 2*(RotorRadius+ShaftLength))
+0.5                TimeStep        - Time step [seconds]
+54000                 AnalysisTime    - Length of analysis time series [seconds] (program will add time if necessary: AnalysisTime = MAX(AnalysisTime, UsableTime+GridWidth/MeanHHWS) )
+50000                 UsableTime      - Usable length of output time series [seconds] (program will add GridWidth/MeanHHWS seconds)
+70.57             HubHt           - Hub height [m] (should be > 0.5*GridHeight)
+40.00               GridHeight      - Grid height [m] 
+40.00               GridWidth       - Grid width [m] (should be >= 2*(RotorRadius+ShaftLength))
 0                   VFlowAng        - Vertical mean flow (uptilt) angle [degrees]
 0                   HFlowAng        - Horizontal mean flow (skew) angle [degrees]
   
@@ -44,13 +44,13 @@ default             Latitude        - Site latitude [degrees] (or "default")
 0.05                RICH_NO         - Gradient Richardson number 
 0.17 0.1             UStar           - Friction or shear velocity [m/s] (or "default")
 default             ZI              - Mixing layer depth [m] (or "default")
-default 0             PC_UW           - Hub mean u'w' Reynolds stress (or "default")
-default 0             PC_UV           - Hub mean u'v' Reynolds stress (or "default")
-default 0             PC_VW           - Hub mean v'w' Reynolds stress (or "default")
-default             IncDec1         - u-component coherence parameters (e.g. "10.0  0.3e-3" in quotes) (or "default")
-default             IncDec2         - v-component coherence parameters (e.g. "10.0  0.3e-3" in quotes) (or "default")
-default             IncDec3         - w-component coherence parameters (e.g. "10.0  0.3e-3" in quotes) (or "default")
-default             CohExp          - Coherence exponent (or "default")
+0             PC_UW           - Hub mean u'w' Reynolds stress (or "default")
+0             PC_UV           - Hub mean u'v' Reynolds stress (or "default")
+0             PC_VW           - Hub mean v'w' Reynolds stress (or "default")
+"10.0 0.3e-3" default             IncDec1         - u-component coherence parameters (e.g. "10.0  0.3e-3" in quotes) (or "default")
+"10.0 0.3e-3" default             IncDec2         - v-component coherence parameters (e.g. "10.0  0.3e-3" in quotes) (or "default")
+"10.0 0.3e-3" default             IncDec3         - w-component coherence parameters (e.g. "10.0  0.3e-3" in quotes) (or "default")
+0.1 default             CohExp          - Coherence exponent (or "default")
 
 --------Coherent Turbulence Scaling Parameters-------------------
 "/home/lkilcher/work/nwtc/turbsim/trunk/Test/EventData/"  CTEventPath     - Name of the path where event data files are located

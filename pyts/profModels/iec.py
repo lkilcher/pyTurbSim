@@ -1,12 +1,12 @@
 from mBase import profModelBase
-from log import main as logmain
-from power import main as powmain
+from log import nwtc as logmain
+from power import nwtc as powmain
 
-class main(profModelBase,logmain,powmain):
+class main(logmain,powmain):
     """
     The iec wind profile.
     """
-    def __init__(self,grid,URef,RefHt,Z0,Ri,PLexp=0.2,turbmodel=None):
+    def __init__(self,URef,RefHt,Z0,Ri,PLexp=0.2,turbmodel=None):
         """
         Create an 'IEC' mean velocity profile, where the velocity is a power-law
         across the rotor disk and logarithmic elsewhere.
@@ -29,17 +29,18 @@ class main(profModelBase,logmain,powmain):
         out      - An 'IEC' wind profile object that matches the
                    specified input parameters.
         """
-        self.grid=grid # Every profile model must begin by adding the grid.
         self.Uref=URef
         self.Zref=RefHt
         self.PLexp=PLexp
         self.Z0=Z0
         self.Ri=Ri
         self.TurbModel=turbmodel
-        self._u[0]=logmain.nwtc.model(self,self.z)[:,None]
-        zinds=-self.rotor_diam/2<=self.z-self.zhub & self.z-self.zhub<=self.rotor_diam/2
-        self._u[0][zinds][:,(-self.rotor_diam/2<=self.y & self.y<=self.rotor_diam/2)]=powmain.nwtc.model(self,self.z[zinds])
 
-    
-def cfg_iec(tsconfig,grid):
-    return main(grid,tsconfig['URef'],tsconfig['RefHt'],tsconfig['Z0'],tsconfig['RICH_NO'],tsconfig['PLExp'],tsconfig['TurbModel'],
+    def __call__(self,tsrun):
+        out=prof(tsrun)
+        grid=tsrun.grid # A temporary, internal shortcut.
+        out[0]=logmain.nwtc.model(self,grid.z)[:,None]
+        zinds=-grid.rotor_diam/2<=grid.z-grid.zhub & grid.z-grid.zhub<=grid.rotor_diam/2
+        out[0][zinds][:,(-grid.rotor_diam/2<=grid.y & grid.y<=grid.rotor_diam/2)]=powmain.nwtc.model(self,grid.z[zinds])
+        return out
+

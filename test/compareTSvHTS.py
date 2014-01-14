@@ -2,9 +2,10 @@ import sys
 import os
 if '../' not in sys.path:
     sys.path.append('../')
-import pyts
+from pyts.runConfig import main as pyts
+#import pyts
 import pyts_plot
-import pyts.tsio
+import pyts.io.main as tsio
 from subprocess import call
 
 # This is the file type that the .inp files (in inp_files directory) are configured to output.
@@ -22,8 +23,8 @@ flag_plot=False or True
 ## These are the name of the input files (in ./inp_files/) that are run and compared. ##
 fnames=['Tidal','Smooth','IecKai','IecVkm','GPllj','NWTCup','wfup','wf07d','wf14d',]
 #fnames=['Smooth','IecKai','IecVkm','GPllj','NWTCup','wfup','wf07d','wf14d',]
-fnames=['IecVkm'] #CHECKED 4/26/2013
-fnames=['IecKai'] #CHECKED 4/26/2013
+#fnames=['IecVkm'] #CHECKED 4/26/2013
+#fnames=['IecKai'] #CHECKED 4/26/2013
 #fnames=['Smooth'] #CHECKED 4/26/2013
 fnames=['Tidal'] #CHECKED 4/26/2013
 #fnames=['GPllj']
@@ -63,8 +64,8 @@ if flag_run:
     for fnm in fnames:
         # Run HydroTurbSim:
         if flag_run_pyts:
-            tsdat=pyts.run_out('./inp_files/'+fnm+'.inp')
-            pyts.tsio.writeBladed('./pyts/'+fnm+'.inp',tsdat) # Write out the data.
+            tsdat=pyts.run(pyts.readConfig('./inp_files/'+fnm+'.inp'))
+            tsdat.writeBladed('./pyts/'+fnm+'.inp') # Write out the data.
         if flag_run_ts:
             # Run TurbSim:
             call(['./'+ts_exec_file,'./inp_files/'+fnm+'.inp'])
@@ -83,13 +84,13 @@ if flag_plot:
     c=0
     for nm in fnames:
         c+=1
-        tsdat=pyts.tsio.readModel('./ts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
-        ptsdat=pyts.tsio.readModel('./pyts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
+        tsdat=tsio.readModel('./ts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
+        ptsdat=tsio.readModel('./pyts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
 
         fg=pyts_plot.summfig(3000+c,nfft=1024,title=nm.upper()+' spectral model')
         fg.setinds(ptsdat,igrid=None,)
         #fg.setinds(tsdat,igrid=(0,1),)
-        fg.plot(tsdat,color='r',label='TSv1')
-        fg.plot(ptsdat,color='b',theory_line=True,label='TSv2')
+        fg.plot(tsdat,color='r',label='oTS')
+        fg.plot(ptsdat,color='b',theory_line=True,label='pyTS')
         fg.finish()
 

@@ -1,5 +1,14 @@
 import numpy as np
-from misc import kappa
+
+kappa=0.41 # Von-Karman's constant
+
+def Lambda(zhub,IECedition):
+    """
+    Equation 23 of TurbSim Manual.
+    """
+    if IECedition<=2:
+        return 0.7*min(30,zhub)
+    return 0.7*min(60,zhub)
 
 
 def zL(Ri,TurbModel=None):
@@ -34,7 +43,6 @@ def zL(Ri,TurbModel=None):
         else:
             return 1
 
-
 def psiM(Ri,TurbModel=None):
     zl=zL(Ri,TurbModel)
     if zl>=0:
@@ -43,6 +51,53 @@ def psiM(Ri,TurbModel=None):
         tmp=(1.-15.0*zl)**0.25
         return -np.log(0.125*((1.0+tmp)**2*(1.0+tmp**2)))+2.0*np.arctan(tmp)-0.5*np.pi
 
+def pfactor(n,pmax=31):
+    primes=np.array([2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71])
+    primes=primes[primes<=pmax]
+    lst=set()
+    for ip in primes:
+        while np.mod(n,ip)==0:
+            lst.add(ip)
+            n/=ip
+    if n!=1:
+        lst.add(n)
+    return np.sort(list(lst))
+
+def lowPrimeFact_near(n,pmax=31,nmin=None,evens_only=True):
+    if (np.array(pfactor(n,pmax))<pmax).all():
+        return n
+    if evens_only: # Only deal with evens.
+        dl=2
+        if np.mod(n,2)>0:
+            n+=1
+    else:
+        dl=1
+    lowval=None
+    ih=n
+    if nmin is not None:
+        il=n-dl
+        while il>nmin:
+            if (np.array(pfactor(il,pmax))<pmax).all():
+                return il
+            elif (np.array(pfactor(ih,pmax))<pmax).all():
+                return ih
+            il-=dl
+            ih+=dl
+    while not (np.array(pfactor(ih,pmax))<pmax).all():
+        ih+=dl
+    return ih
+
+def fix2range(vals,minval,maxval):
+    """
+    A helper function that sets the value of the array or number *vals* to
+    fall within the range minval<=vals<=maxval.
+    
+    Values of *vals* outside the range are fixed to minval or maxval.
+    """
+    if not hasattr(vals,'__len__'):
+        return max( min( vals,maxval),minval)
+    vals[vals>maxval],vals[vals<minval]=maxval,minval
+    return vals
 
 class InvalidConfig(Exception):
     """

@@ -2,7 +2,7 @@ import wx
 import numpy as np
 
 import gTurbSim_wdr as gts_wdr
-import pyts.tsio as tsio
+import io as tsio
 
 import matplotlib as mpl
 mpl.use('WXAgg')

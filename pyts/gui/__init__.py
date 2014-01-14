@@ -8,7 +8,8 @@
 
 # WDR: classes
 
-from base import wx,gts_wdr,tsio,ConfigSettings
+from base import wx,gts_wdr,ConfigSettings
+from ..io import config as io
 import grid,prof,turb
 import pyts
 from subprocess import call    
@@ -46,7 +47,7 @@ class gTurbFrame(wx.Frame):
 
     def loadDefault(self,strng):
         self.inp_inputfile.value=strng
-        self.config=tsio.readConfig(tsio.tsroot+'/gui/'+self._default_files[strng])
+        self.config=io.read(io.tsroot+'/gui/'+self._default_files[strng])
         
     def __init__(self, parent, id, title,
         pos = wx.DefaultPosition, size = wx.DefaultSize,
@@ -128,12 +129,12 @@ class gTurbFrame(wx.Frame):
 
     def readConfig(self,):
         try:        
-            self.config=tsio.readConfig(self.currentfile)
+            self.config=io.read(self.currentfile)
         except:
             pass
 
     def writeConfig(self,):
-        tsio.writeConfig(self.currentfile,self.config)
+        io.write(self.currentfile,self.config)
 
     def onRun(self,event):
         if self.currentfile is None:
@@ -171,7 +172,7 @@ class gTurbFrame(wx.Frame):
             self.writeConfig()
 
     def onSaveAs(self,event):
-        openFileDialog = wx.FileDialog(self, 'Select TurbSim filename for save...',tsio.userroot,'TurbSim.inp','(*.inp,*.*)|*.inp',wx.FD_SAVE)
+        openFileDialog = wx.FileDialog(self, 'Select TurbSim filename for save...',io.userroot,'TurbSim.inp','(*.inp,*.*)|*.inp',wx.FD_SAVE)
         openFileDialog.ShowModal()
         self.currentfile=openFileDialog.GetPath() # If 
         openFileDialog.Destroy()
@@ -185,7 +186,7 @@ class gTurbFrame(wx.Frame):
         self.readConfig()
 
     def onLoad(self,event):
-        openFileDialog = wx.FileDialog(self, 'Open TurbSim input file',tsio.userroot,'TurbSim.inp','(*.inp,*.*)|*.inp',wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+        openFileDialog = wx.FileDialog(self, 'Open TurbSim input file',io.userroot,'TurbSim.inp','(*.inp,*.*)|*.inp',wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
         openFileDialog.ShowModal()
         self.currentfile=openFileDialog.GetPath()
         openFileDialog.Destroy()

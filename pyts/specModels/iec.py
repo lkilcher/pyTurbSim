@@ -1,27 +1,16 @@
 # !!!ADDDOC
-from .mBase import turbModelBase,cohModelIEC,stressModelUniform,np
-from ..nwtc_funcs import InvalidConfig
-
-def cfg_ieckai(tsconfig,profModel):
-    # !!!ADDDOC
-    out=ieckai(profModel,tsconfig['IEC_WindType'],tsconfig['IECstandard'],tsconfig['IECedition'],tsconfig['IECturbc'],tsconfig['ETMc'])
-    out.set_cohereModel(cohModelIEC(out))
-    out.set_stressModel(stressModelUniform(out,upvp_=tsconfig['PC_UV'],upwp_=tsconfig['PC_UW'],vpwp_=tsconfig['PC_VW']))
-    return out
-
-def cfg_iecvkm(tsconfig,profModel):
-    # !!!ADDDOC
-    out=iecvkm(profModel,tsconfig['IEC_WindType'],tsconfig['IECstandard'],tsconfig['IECedition'],tsconfig['IECturbc'],tsconfig['ETMc'])
-    out.set_cohereModel(cohModelIEC(out))
-    out.set_stressModel(stressModelUniform(out,upvp_=tsconfig['PC_UV'],upwp_=tsconfig['PC_UW'],vpwp_=tsconfig['PC_VW']))
-    return out
+from .mBase import turbModelBase,np,ts_float,spec
+from ..misc import InvalidConfig,Lambda
 
 class iecbase(turbModelBase):
     """
-    This is a 'base' class for the two IEC models.
+    This is a base class for the IEC spectral models (IECKAI and IECVKM).
     """
     
-    def __init__(self,profModel,IECwindtype,IECstandard,IECedition,IECturbc,ETMc=None):
+    def __init__(self,IECwindtype,IECstandard,IECedition,IECturbc,ETMc=None):
+        """
+        
+        """
         # !!!ADDDOC
         if ETMc is None:
             ETMc=2.0
@@ -30,26 +19,22 @@ class iecbase(turbModelBase):
         self.IECedition=IECedition
         self.IECturbc=IECturbc
         self.ETMc=ETMc
-        self._set_IEC_Sigma()
-        self.initModel()
 
-    @property
-    def Lambda(self,):
-        """
-        Equation 23 of TurbSim Manual.
-        """
-        if self.IECedition==2:
-            return 0.7*min(30,self.grid.zhub)
-        return 0.7*min(60,self.grid.zhub)
+    def Lambda(self,zhub):
+        return Lambda(zhub,self.IECedition)
 
-    def _set_IEC_Sigma(self,):
+    def check_ewm(self,grid):
+        if self.IECturbc.__class__ is str and self.IECstandard==1 and self.IECedition==3 and self.IECwindtype.lower()[1:4]=='ewm' and self.grid.time_sec_out!=600.:
+            warnings.warn("The extreme wind model is only valid for 10min (600s) runs.  Setting 'UsableTime' to 600s.")
+            grid.time_sec_out=600.
+
+    def IEC_Sigma(self,uhub):
         """
         Calculate the default value of the standard deviation of wind speed.
         """
         iecver=self.IECstandard
         if iecver is None:
-            self.IEC_Sigma=None
-            return
+            return None
         if self.IECturbc.__class__ is str:
             # !!!VERSION_INCONSISTENCY: add 'khtest' functionality.
             val=self.IECturbc.lower()
@@ -67,8 +52,8 @@ class iecbase(turbModelBase):
                         SigmaSlope=3.0
                     else:
                         raise InvalidConfig("For the 61400-1 2nd edition, IECturbc must be set to 'a', 'b', or a number (Turbulence intensity).")
-                    self.IEC_Sigma=TurbInt15*(( 15.0 + SigmaSlope*self.profModel.uhub)/(SigmaSlope +1))
-                    return
+                    IEC_Sigma=TurbInt15*(( 15.0 + SigmaSlope*uhub)/(SigmaSlope +1))
+                    return IEC_Sigma
                 elif edi==3: #3rd edition
                     if val=='a':
                         TurbInt15 = 0.16
@@ -79,22 +64,19 @@ class iecbase(turbModelBase):
                     else:
                         raise InvalidConfig("For the 61400-1 3rd edition, IECturbc must be set to 'a', 'b', 'c', or a number (Turbulence intensity).")
                     if wndtp=='ntm':
-                        self.IEC_Sigma=TurbInt15*(0.75*self.profModel.uhub+5.6)#/uhub
-                        return
+                        IEC_Sigma=TurbInt15*(0.75*uhub+5.6)#/uhub
+                        return IEC_Sigma
                     elif wndtp[0] not in ['1','2','3']:
                         raise InvalidConfig("A wind turbine class (1, 2 or 3) must be specified with the extreme turbulence and extreme wind types (e.g. '1ETM' or '2EWM').")
                     elif wndtp[1:4] in ['etm','ewm']:
-                        if wndtp[1:4]=='ewm' and self.grid.time_sec_out!=600.:
-                            warnings.warn("The extreme wind model is only valid for 10min (600s) runs.  Setting 'UsableTime' to 600s.",ConfigWarning)
-                            self.grid.time_sec_out=600.
                         Vref={'1':50,'2':42.5,'3':37.5}[wndtp[0]]
                         wndtp=wndtp[1:]
                         if wndtp=='etm':
                             vave=0.2*Vref
-                            self.IEC_Sigma=self.ETMc*TurbInt15*(0.072*(0.2*Vref/self.ETMc+3.)*(self.profModel.uhub/self.ETMc-4)+10.)
-                            return
+                            IEC_Sigma=self.ETMc*TurbInt15*(0.072*(0.2*Vref/self.ETMc+3.)*(uhub/self.ETMc-4)+10.)
+                            return IEC_Sigma
                         else:
-                            self.IEC_Sigma=0.11*self.profModel.uhub
+                            IEC_Sigma=0.11*uhub
                             return 0.11 # Fixed turbulence intensity for the EWM models.
                     else:
                         raise InvalidConfig("Invalid 'IEC_WindType' specified in config file.")
@@ -108,24 +90,28 @@ class iecbase(turbModelBase):
 
 class ieckai(iecbase):
     # !!!ADDDOC
-    
-    def initModel(self,):
-        # !!!ADDDOC
-        sig2=4*self.IEC_Sigma**2
-        fctr=np.array([1,0.64,0.25])
-        L_u=self.Lambda/self.profModel.uhub*np.array([8.10,2.70,0.66])
-        for comp in self.comp:
-            self.Saa[comp]=(sig2*fctr[comp]*L_u[comp]/(1+6*self.f*L_u[comp])**self.pow5_3)[None,None,:]
 
+    def __call__(self,tsrun):
+        # !!!ADDDOC
+        self.check_ewm(tsrun.grid)
+        out=spec(tsrun)
+        sig2=4*self.IEC_Sigma(tsrun.prof.uhub)**2
+        fctr=np.array([1,0.64,0.25],dtype=ts_float)
+        L_u=self.Lambda(tsrun.grid.zhub)/tsrun.prof.uhub*np.array([8.10,2.70,0.66],dtype=ts_float)
+        for comp in self.comp:
+            out[comp]=(sig2*fctr[comp]*L_u[comp]/(1+6*out.f*L_u[comp])**self.pow5_3)[None,None,:]
+        return out
+    
 class iecvkm(iecbase):
     # !!!ADDDOC
 
-    def initModel(self,):
+    def __call__(self,tsrun):
         # !!!ADDDOC
-        sig2=4*self.IEC_Sigma**2
-        L_u=3.5*self.Lambda/self.profModel.uhub
-        dnm=1+71*(self.f*L_u)**2
-        self.Saa[0]=(sig2*L_u/(dnm)**0.8333333)[None,None,:]
-        self.Saa[1]=(sig2/2*L_u/(dnm)**1.8333333*(1+189*(self.f*L_u)**2))[None,None,:]
-        self.Saa[2]=self.Saa[1]
-    
+        self.check_ewm(tsrun.grid)
+        out=spec(tsrun)
+        sig2=4*self.IEC_Sigma(tsrun.prof.uhub)**2
+        L_u=3.5*self.Lambda(tsrun.grid.zhub)/tsrun.prof.uhub
+        dnm=1+71*(out.f*L_u)**2
+        out[0]=(sig2*L_u/(dnm)**0.8333333)[None,None,:]
+        out[2]=out[1]=(sig2/2*L_u/(dnm)**1.8333333*(1+189*(out.f*L_u)**2))[None,None,:]
+        return out

@@ -1,5 +1,5 @@
 from base import ConfigFrame,wx,np,mpl,FigCanvas,Figure,gts_wdr
-from pyts.main import buildModel
+#from pyts.main import buildModel
 import copy
 
 class profFigure(object):

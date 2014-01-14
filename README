@@ -1,6 +1,6 @@
 This is the pyTurbSim repository.  pyTurbSim is the official water-turbulence simulation tool for hydrokinetic turbine device simulation (a.k.a. HydroTurbSim), and is also a valuable development and testing platform for NREL's 'TurbSim' tool.  New spectral models can be implemented easily in a pythonic, object-oriented manner.
 
-This software is copyrighted by the National Renewable Energy Laboratory. It is released publically under the Gnu GPLv3.
+This software is copyrighted by the National Renewable Energy Laboratory. It is released publically under the FreeBSD license.
 
 pyTurbSim (herafter pyTS) is a tool for producing spatial time-series (a sequence of 2-D planes) that are statistically similar to real oceanic and riverine Turbulence.  In particular, pyTS is designed to produce time-series with energy spectra, spatial coherence, mean profile, tke profile, and Reynold's-stress profiles that are similar to real marine/river turbulence.
 

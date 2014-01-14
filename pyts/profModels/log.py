@@ -1,13 +1,12 @@
 # !!!ADDDOC
-from mBase import profModelBase,np
-from ..nwtc_funcs import psiM
-from ..misc import kappa
+from mBase import profModelBase,np,prof
+from ..misc import kappa,psiM
 
 class nwtc(profModelBase,):
     """
     The logarithmic mean wind profile.
     """
-    def __init__(self,grid,URef,RefHt,Z0,Ri,turbmodel=None):
+    def __init__(self,URef,RefHt,Z0,Ri,turbmodel=None):
         """
         Create a logarathmic wind profile according to the NWTC standard.
 
@@ -25,14 +24,17 @@ class nwtc(profModelBase,):
         out      - A logarithmic wind profile object that matches the
                    specified input parameters.
         """
-        self.grid=grid # Every profile model must begin by adding the grid.
         self.Uref=URef
         self.Zref=RefHt
         self.Z0=Z0
         self.Ri=Ri
         self.TurbModel=turbmodel
-        self._u[0]=self.model(grid.z)[:,None]
 
+    def __call__(self,tsrun):
+        out=prof(tsrun)
+        out[0]=self.model(out.grid.z)[:,None]
+        return out
+    
     def model(self,z):
         """
         The function that calculates the log profile.
@@ -48,19 +50,22 @@ class H2O(profModelBase,):
     """
     The logarithmic mean water profile.
     """
-    def __init__(self,grid,Uref,Zref,ustar):
+    def __init__(self,Uref,Zref,ustar):
         # !!!ADDDOC
-        self.grid=grid # Every profile model must begin by adding the grid.
         self.Uref=Uref
         self.Zref=Zref
         self.Ustar=ustar
+
+    def __call__(self,tsrun):
         # # !!!FIXTHIS: this is not right for a log-layer.  Zref should be Z0 (or something), like above.
-        self._u[0]=(ustar/kappa*np.log(grid.z/Zref)+Uref)[:,None]
+        out=prof(tsrun)
+        out[0]=(self.Ustar/kappa*np.log(out.grid.z/self.Zref)+self.Uref)[:,None]
+        return out
 
-def cfg_nwtc(tsconfig,grid):
+def cfg_nwtc(tsconfig):
     # !!!ADDDOC
-    return nwtc(grid,tsconfig['URef'],tsconfig['RefHt'],tsconfig['Z0'],tsconfig['RICH_NO'],tsconfig['TurbModel'])
+    return nwtc(tsconfig['URef'],tsconfig['RefHt'],tsconfig['Z0'],tsconfig['RICH_NO'],tsconfig['TurbModel'])
 
-def cfg_H2O(tsconfig,grid):
+def cfg_H2O(tsconfig):
     # !!!ADDDOC
-    return H2O(grid,tsconfig['URef'],tsconfig['RefHt'],tsconfig['UStar'])
+    return H2O(tsconfig['URef'],tsconfig['RefHt'],tsconfig['UStar'])

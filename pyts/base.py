@@ -1,6 +1,9 @@
+# !!!ADDDOC
 import numpy as np
+from misc import lowPrimeFact_near
+from os import path
 try:
-    import tslib
+    from tslib import tslib
 except ImportError:
     print """
     ***Warning***: 'tslib' did not load correctly.  pyTurbSim
@@ -10,25 +13,51 @@ except ImportError:
     """
     tslib=None
 
-from misc import lowPrimeFact_near,kappa
+dbg=None
+import dbg
 
-#tslib=None
-prog={'name':'pyTurbSim',
-      'ver':'0.2',
-      'date':'Dec-13-2013',
-      }
+tsroot=path.realpath(__file__).replace("\\","/").rsplit('/',1)[0]+'/'
+userroot=path.expanduser('~')
 
 ts_float=np.float32
 ts_complex=np.complex64
+#ts_float={'dtype':np.float32,'order':'F'}
+#ts_complex={'dtype':np.complex64,'order':'F'}
 
-class tsarray(np.ndarray):
-    pass
-        
-class gridProps(object):
+class tsBaseObj(object):
+    """
+    An abstract, base object, that contains the component (u,v,w) information for derived classes.
+    """
+    comp_name=['u','v','w']
+    n_comp=len(comp_name)
+    comp=range(n_comp)
+
+class calcObj(tsBaseObj):
+    """
+    
+    """
+    _alias0=['u','v','w']
+
+    def __getitem__(self,ind):
+        if ind in self._alias0:
+            ind=self._alias0.index(ind)
+        if hasattr(self,'_alias1') and ind in self._alias1:
+            ind=self._alias1.index(ind)
+        return self.data[ind]
+
+    def __setitem__(self,ind,val):
+        if ind in self._alias0:
+            ind=self._alias0.index(ind)
+        if hasattr(self,'_alias1') and ind in self._alias1:
+            ind=self._alias1.index(ind)
+        self.data[ind]=val
+
+
+class gridProps(tsBaseObj):
     """
     A list of shortcuts for objects that have the grid as one of their attributes.
     """
-    
+
     @property
     def z(self,):
         return self.grid.z
@@ -56,168 +85,25 @@ class gridProps(object):
     @property
     def dt(self,):
         return self.grid.dt
-
-class modelBase(gridProps):
-    """
-    A base class for all TurbSim models.
-    """
-    comp_name=['u','v','w']
-    n_comp=len(comp_name)
-    comp=range(n_comp)
-
-
-class tsdata(gridProps):
-    """
-    A data object for TurbSim output.  It contains all information about the simulation.
-    """
-
-    def __init__(self,turbModel,uturb=None,uprof=None):
-        self.turbModel=turbModel
-        self.grid=turbModel.grid
-        if uturb is not None:
-            # Make sure the turbulence component has zero mean.
-            self.uturb=uturb-uturb.mean(-1)[...,None]
-        if uprof is not None:
-            self.uprof=uprof
-
-    @property
-    def shape(self,):
-        """
-        The shape of the turbulence time-series (output) array.
-        """
-        return self.uturb.shape
-
-    @property
-    def ihub(self,):
-        """
-        The index of the hub.
-        """
-        return self.grid.ihub
-
-    @property
-    def time(self,):
-        """
-        The time vector, in seconds, starting at zero.
-        """
-        if not hasattr(self,'_time'):
-            self._time=np.arange(0,self.uturb.shape[-1]*self.dt,self.dt)
-        return self._time
-
-
-    def __repr__(self,):
-        return '<TurbSim data object: %s spectral model.\n%d %4.2fs-timesteps, %0.2fx%0.2fm (%dx%d) z-y grid (hubheight=%0.2fm).>' % (self.turbModel.__class__, self.uturb.shape[-1],self.dt,self.grid.height,self.grid.width,self.grid.n_z,self.grid.n_y,self.grid.zhub)
-
-    @property
-    def utotal(self,):
-        """
-        The total (mean + turbulent), 3-d velocity array
-        """
-        return self.uturb+self.uprof[:,:,:,None]
-
-    @property
-    def u(self,):
-        """
-        The total (mean + turbulent), u-component of velocity.
-        """
-        return self.uturb[0]+self.uprof[0,:,:,None]
-    @property
-    def v(self,):
-        """
-        The total (mean + turbulent), v-component of velocity.
-        """
-        return self.uturb[1]+self.uprof[1,:,:,None]
-    @property
-    def w(self,):
-        """
-        The total (mean + turbulent), w-component of velocity.
-        """
-        return self.uturb[2]+self.uprof[2,:,:,None]
-
-    @property
-    def UHUB(self,):
-        """
-        The hub-height mean velocity.
-        """
-        return self.uprof[0][self.ihub]
     
-    @property
-    def uhub(self,):
-        """
-        The hub-height u-component time-series.
-        """
-        return self.u[self.ihub]
-    @property
-    def vhub(self,):
-        """
-        The hub-height v-component time-series.
-        """
-        return self.v[self.ihub]
-    @property
-    def whub(self,):
-        """
-        The hub-height w-component time-series.
-        """
-        return self.w[self.ihub]
 
-    @property
-    def tke(self,):
-        """
-        The turbulence kinetic energy.
-        """
-        return (self.uturb**2).mean(-1)
-
-    @property
-    def Ti(self,):
-        """
-        The turbulence intensity, std(u')/U, at each point in the grid.
-        """
-        return np.std(self.uturb[0],axis=-1)/self.uprof[0]
-
-    @property
-    def upvp_(self,):
-        """
-        Returns the u'v' component of the Reynold's stress.
-        """
-        return np.mean(self.uturb[0]*self.uturb[1],axis=-1)
-
-    @property
-    def upwp_(self,):
-        """
-        Returns the u'w' component of the Reynold's stress.
-        """
-        return np.mean(self.uturb[0]*self.uturb[2],axis=-1)
-
-    @property
-    def vpwp_(self,):
-        """
-        Returns the v'w' component of the Reynold's stress.
-        """
-        return np.mean(self.uturb[1]*self.uturb[2],axis=-1)
-
-    @property
-    def stats(self,):
-        """
-        Compute and return relevant statistics for this turbsim time-series.
-        """
-        slc=[slice(None)]+list(self.ihub)
-        stats={}
-        stats['Ti']=self.tke[slc]/self.UHUB
-        return stats
-
-def getGrid(tsconfig):
-    return tsGrid(tsconfig['HubHt'],ny=tsconfig['NumGrid_Y'],nz=tsconfig['NumGrid_Z'],width=tsconfig['GridWidth'],height=tsconfig['GridHeight'],time_sec=tsconfig['AnalysisTime'],time_sec_out=tsconfig['UsableTime'],dt=tsconfig['TimeStep'],RandSeed=tsconfig['RandSeed'],clockwise=tsconfig['Clockwise'])
-
-class tsGrid(object):
+class tsGrid(tsBaseObj):
     """
-    A TurbSim grid object.  The grid is defined so that the first row is the bottom, and the last is the top.
+    A TurbSim 'grid' object.
+    
+    The grid is defined so that the first row is the bottom, and the last is the top.
     """
+
     def __init__(self,center=None,ny=None,nz=None,width=None,height=None,dy=None,dz=None,nt=None,time_sec=None,time_min=None,dt=None,time_sec_out=None,findClose_nt_lowPrimeFactors=True,prime_max=31,RandSeed=None,clockwise=True):
         """
-        The TurbSim time-space grid object.
+        Initialize the TurbSim time-space grid object.
 
         Each grid dimension (x,y,time) can be specified by any combination of 2 inputs,
           for the x-grid, for example, you may specify:
               dx and nx, or width and dx, or width and nx.
+
+        Input Parameters
+        ----------------
         
         Spatial dimension inputs (in meters):
           center       - height of the center of the grid.
@@ -240,12 +126,6 @@ class tsGrid(object):
                          This is only used when writing 'Bladed' output files.
           
         """
-        # Initialize the random number generator before doing anything else.
-        if RandSeed is None:
-            self.RandSeed=np.random.randint(1e6,1e18)
-        else:
-            self.RandSeed=RandSeed
-        self.randgen=np.random.RandomState(self.RandSeed) # We may want to move this to a 'tsrun' object, if we create that. For now, we'll put it here.
         if center is None:
             raise TypeError("tsGrid objects require that the height of the grid center (input parameter 'center') be specified.")
         self.n_y,self.width,self.dy=self._parse_inputs(ny,width,dy)
@@ -271,7 +151,6 @@ class tsGrid(object):
         self.tower=False
         self.clockwise=clockwise
         self.n_tower=0 # A place holder, we need to add this later.
-        self.i0_out=self.randgen.randint(self.n_t-self.n_t_out+1) # Grab a random number of where to cut the timeseries from.
 
     def __repr__(self,):
         return '<TurbSim Grid:%5.1fm high x %0.1fm wide grid  (%d x %d points), centered at %0.1fm.\n              %5.1fsec simulation, dt=%0.1fsec (%d timesteps).>' % (self.height,self.width,self.n_z,self.n_y,self.zhub,self.time_sec,self.dt,self.n_t)
@@ -296,21 +175,20 @@ class tsGrid(object):
         """
         A shortcut to the grid shape.
         """
-        return (self.n_z,self.n_y)
-
-    @property
-    def shape_wt(self,):
-        """
-        A shortcut to the grid shape, including the time dimension.
-        """
-        return (self.n_z,self.n_y,self.n_t)
+        return [self.n_z,self.n_y]
 
     @property
     def shape_wf(self,):
         """
         A shortcut to the grid shape, including the frequency dimension.
         """
-        return (self.n_z,self.n_y,self.n_f)
+        return [self.n_z,self.n_y,self.n_f]
+    @property
+    def _shape(self,):
+        return [self.n_comp,self.n_z,self.n_z]
+    @property
+    def _shape_wf(self,):
+        return [self.n_comp,self.n_z,self.n_z,self.n_f]
 
     @property
     def z(self,):
@@ -384,3 +262,82 @@ class tsGrid(object):
             raise ValueError('The array shape does not match this grid.')
         return arr.reshape(shp,order='F')
 
+
+class modelBase(tsBaseObj):
+    """
+    An abstract base class for all TurbSim models.
+    """
+    
+    @property
+    def parameters(self,):
+        return dict(self.__dict__)
+
+
+def Veers84(Sij,Sii,X,ncore=0):
+    """
+    Paul Veers' method for computing timeseries from input spectra and cross-spectra.  Returns the spectrum, ready for irfft.
+
+    Full Reference:
+       Veers, Paul (1984) 'Modeling Stochastic Wind Loads on Vertical Axis Wind Turbines',
+       Sandia Report 1909, 17 pages.
+
+    Inputs: 
+      Sij  - Input cross-spectra matrix for all points (Np,Np,Nf).
+      X    - Random (phase) vector, shape = (Np,Nf,)
+
+    Notes
+    =================
+
+    1) Veers84's equation 7 is actually a 'Cholesky Factorization'.  Therefore, rather than
+    writing this functionality explicitly we call 'cholesky' routines to do this work.
+
+    2) This function uses one of two methods for computing the Cholesky factorization.  If
+    the Fortran library tslib is available it is used (it is much more efficient), otherwise
+    the numpy implementation of Cholesky is used.
+    
+    """
+    n_f=X.shape[-1]
+    n_p=X.shape[0]
+    if tslib is not None:
+        return tslib.veers84(Sij,Sii,X,ncore,n_p,n_f)
+    H=np.zeros((n_p,n_p,n_f),dtype=ts_float)
+    out=np.zeros((n_p,n_f+1),dtype=ts_complex)
+    for ff in range(n_f):
+        H[:,:,ff]=np.linalg.cholesky(Sij[:,:,ff])
+    out[:,1:]=np.einsum('ijk,jk->ik',H,X)
+    return out
+
+#ts_float=np.float32
+#ts_complex=np.complex64
+
+def empty(shape,view=None):
+    arr=np.empty(shape,dtype=ts_float)
+    if view is None:
+        return arr
+    return arr.view(view)
+
+## class tsarray(np.ndarray,gridProps):
+
+##     def __new__(cls,dim_names,grid,buffer=None,offset=0,strides=None,dtype=ts_float['dtype'],order=ts_float['order']):
+##         shape=[]
+##         for nm in dim_names:
+##             shape.append(getattr(grid,'n_'+nm))
+##         obj=super(tsarray,cls).__new__(cls,shape,buffer=buffer,offset=offset,srides=strides,dtype=dtype,order=order)
+##         obj.grid=grid
+##         return obj
+        
+##     def __array_finalize__(self,obj):
+
+##         if obj is None:
+##             return
+##         self.grid=getattr(obj,'grid',None)
+        
+
+
+## class tsarray(np.ndarray):
+        
+## class tsarray_complex(np.ndarray):
+##     def __new__(cls,*args,**kwargs):
+##         kwargs['order']='F'
+##         kwargs['dtype']=ts_complex
+##         return super(tsarray,cls).__new__(cls,*args,**kwargs)

@@ -51,6 +51,8 @@ class mChoice(wx.Choice,):
     @value.setter
     def value(self,val):
         chcs=self.Strings
+        if val.__class__ is not str:
+            val=str(val)
         idx=None
         try:
             idx=chcs.index(val)
