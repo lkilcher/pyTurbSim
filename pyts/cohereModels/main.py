@@ -86,7 +86,7 @@ class nwtc(cohModelBase):
         else:
             cohModelBase.calc(self,cohi,comp)
 
-    def calcCoh(self,cohi,comp,ii,jj):
+    def calcij(self,f,comp,ii,jj):
         """
         The base function for calculating coherence for non-IEC spectral models.
 
@@ -98,7 +98,7 @@ class nwtc(cohModelBase):
         two=ts_float(2)
         zm=(cohi.grid.z[ii[1]]+cohi.grid.z[jj[1]])/two
         um=(cohi.prof.u[ii]+cohi.prof.u[jj])/two
-        return np.exp(-cohi.a[comp]*(r/zm)**self.CohExp*np.sqrt((cohi.f*r/um)**two+(cohi.b[comp])**two))
+        return np.exp(-self.a[comp]*(r/zm)**self.CohExp*np.sqrt((f*r/um)**two+(self.b[comp])**two))
     
 
 class iec(cohModelBase):

@@ -304,7 +304,7 @@ def Veers84(Sij,Sii,X,ncore=0):
     out=np.zeros((n_p,n_f+1),dtype=ts_complex)
     for ff in range(n_f):
         H[:,:,ff]=np.linalg.cholesky(Sij[:,:,ff])
-    out[:,1:]=np.einsum('ijk,jk->ik',H,X)
+    out[:,1:]=np.einsum('ijk,ik,jk->ik',H,Sii,X)
     return out
 
 #ts_float=np.float32

@@ -182,18 +182,19 @@ class cohModelBase(modelBase):
         csm_w=cohi[2]
 
         """
-        #out=np.empty((self.n_comp,self.n_p,self.n_f+1),dtype=ts_float,order='F')
-        if tslib is None:
-            out=cohereCalc(tsrun)
-        else:
-            out=cohereCalc_pack(tsrun)
-        out.model=self
-        if hasattr(self,'init_cohi'):
-            self.init_cohi(out)
-        #tsrun.cohere=out
+        out=np.zeros((self.n_comp,self.n_p,self.n_f+1),dtype=ts_float,order='F')
+        phr=tsrun.stress.calcPhases()
+        for icomp in self.comp:
+            self.calc(out[icomp,:,1:],phr[icomp],icomp)
+        out*=np.sqrt(self.spec.flat)
         return out
+
+    def _iter_inds(self,):
+        for jj in range(self.n_p):
+            for ii in range(jj,n_p):
+                yield ii,jj
     
-    def calc(self,cohi,comp):
+    def calc(self,spec,phr,comp):
         """
         Compute and set the full cross-spectral matrix for component
         *comp* for 'coherence calculator' instance *cohi*.
@@ -209,14 +210,18 @@ class cohModelBase(modelBase):
         calcij - computes the coherence for individual grid-point pairs.
 
         """
-        cohi._crossSpec[cohi._i_diag]=cohi.spec.flat[comp]
-        for (ii,jj),indx in cohi._iter_flat_inds:
-            if ii!=jj:
-                cohi._crossSpec[indx]=self.calcij(cohi,comp,ii,jj)*np.sqrt(cohi.spec.flat[comp,ii]*cohi.spec.flat[comp,jj])
-                if cohi.__class__ is cohereCalc: # Mirror the data.
-                    cohi._crossSpec[indx[1],indx[0]]=cohi._crossSpec[indx]
+        tmp=np.empty((self.n_p,self.n_p),dtype=ts_float)
+        for ff in np.range(self.n_f):
+            for ii,jj in self._iter_inds():
+                if ii==jj:
+                    tmp[ii,ii]=1
+                else:
+                    tmp[ii,jj]=tmp[jj,ii]=self.calcCoh(self.f[ff],comp,ii,jj)
+            tmp=np.linalg.cholesky(tmp)
+            for ii in range(self.n_p):
+                spec(ii,ff)=sum(tmp.flatten()*phr[:,ff])
 
-    def calcij(self,cohi,comp,ii,jj):
+    def calcij(self,f,comp,ii,jj):
         """
         THIS IS A PLACEHOLDER METHOD WHICH SHOULD BE OVER-WRITTEN FOR ALL SUB-CLASSES
         OF cohModelBase. THIS METHOD ONLY RAISES AN ERROR.
