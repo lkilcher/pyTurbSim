@@ -17,9 +17,9 @@ FUNCTION INDX(ii,jj,np)
   RETURN
 END FUNCTION INDX
 
-subroutine veers84(Sij, Sii, phr, ncore, np, nf,spec)
+subroutine veers84(spec, Sij, phr, ncore, np, nf)
 !DEC$ ATTRIBUTES DLLEXPORT, DECORATE, ALIAS : "VEERS84" :: VEERS84
-!DEC$ ATTRIBUTES REFERENCE :: SIJ,SII,PHR,NP,NF,SPEC
+!DEC$ ATTRIBUTES REFERENCE :: SPEC,SIJ,PHR,NP,NF
   ! This function performs the math in Veers1984 equations 7 and 8.
   ! The full reference is:
   !     Veers, Paul (1984) 'Modeling Stochastic Wind Loads on Vertical Axis Wind Turbines',
@@ -42,8 +42,8 @@ subroutine veers84(Sij, Sii, phr, ncore, np, nf,spec)
   real,intent(in)             :: Sij(np*(np+1)/2,nf)  ! This is the lower-triangular piece
                                                       ! of a (np,np,nf) shaped matrix.
   complex,intent(in)          :: phr(np,nf)        
-  real,intent(in)     :: Sii(np,nf)
-  complex,intent(out)         :: spec(np,nf+1) ! The +1 is for the zero frequency.
+  !real,intent(in)     :: Sii(np,nf)
+  complex,intent(inout)         :: spec(np,nf)
   integer :: ii,jj!,indx
   integer :: ff,stat
 
@@ -55,7 +55,7 @@ subroutine veers84(Sij, Sii, phr, ncore, np, nf,spec)
   ! A Cholesky factorization *is* Veers84's equation 7, it converts the cross-spectral
   ! matrix Sij to Veers' H matrix.
   !$omp parallel private(stat , ff ) shared( Sij , np)
-  !$omp do 
+  !$omp do schedule( dynamic )
   DO ff=1,nf
      CALL SPPTRF('L',np,Sij(:,ff),stat) ! Cholesky Factorization
      !$print *, stat
@@ -63,7 +63,6 @@ subroutine veers84(Sij, Sii, phr, ncore, np, nf,spec)
   !$omp end do
   !$omp end parallel
 
-  spec=0
   !indx=0 ! Index for the lower-triangular matrix Sij (i.e. Veers84 'H').
   !$omp parallel private(ii, jj) default(shared)
   !$omp do schedule( dynamic )
@@ -73,7 +72,7 @@ subroutine veers84(Sij, Sii, phr, ncore, np, nf,spec)
         !Note: we must compute the index (as below) rather than 
         !indx=(jj-1)*(np+1)+ii-jj+1-(jj*(jj-1))/2
         ! The first column needs to be zeros (for numpy.irfft; zero at the zero frequency); i.e. the '2:'.
-        spec(ii,2:)=spec(ii,2:)+Sij(indx(ii,jj,np),:)*SQRT(Sii(ii,:))*phr(jj,:) ! Multiply the columns of the H matrix (Sij) by the random phases (phr) and sum the rows.
+        spec(ii,:)=spec(ii,:)+Sij(indx(ii,jj,np),:)*phr(jj,:) ! Multiply the columns of the H matrix (Sij) by the random phases (phr) and sum the rows.
      ENDDO
   ENDDO
   !$omp end do
@@ -89,7 +88,7 @@ subroutine ieccoh(Sij,f,y,z,uhub,a,Lc,ncore,nf,ny,nz)
 !DEC$ ATTRIBUTES REFERENCE :: SIJ,F,Y,Z,UHUB,A,LC,NCORE,NF,NY,NZ
   use omp_lib
   implicit none
-  real,intent(out)      :: Sij(ny*nz*(ny*nz+1)/2,nf)
+  real,intent(inout)      :: Sij(ny*nz*(ny*nz+1)/2,nf)
   real,intent(in)       :: f(nf),y(ny),z(nz),uhub,a,Lc
   integer, intent(in)   :: nf,ny,nz,ncore
   integer       :: ind,ii,jj,iz(ny*nz),iy(ny*nz)
@@ -107,7 +106,7 @@ subroutine ieccoh(Sij,f,y,z,uhub,a,Lc,ncore,nf,ny,nz)
   ind=0
   ftmp=SQRT((f/uhub)**2+(0.12/Lc)**2)
   !$omp parallel private(ii , jj, r, ind ) default(shared)
-  !$omp do 
+  !$omp do schedule( dynamic )
   DO jj=1,ny*nz
      DO ii=jj,ny*nz
         ind=indx(ii,jj,ny*nz)
@@ -132,7 +131,7 @@ subroutine nonIECcoh(Sij,f,y,z,u,coef_a,coef_b,coefExp,ncore,nf,ny,nz)
 !DEC$ ATTRIBUTES REFERENCE :: SIJ,F,Y,Z,U,COEFS,COEFEXP,NCORE,NF,NY,NZ
   use omp_lib
   implicit none
-  real,intent(out)    :: Sij(ny*nz*(ny*nz+1)/2,nf)
+  real,intent(inout)    :: Sij(ny*nz*(ny*nz+1)/2,nf)
   real,intent(in)     :: coef_a,coef_b,coefExp
   real,intent(in)     :: y(ny), z(nz), u(ny*nz), f(nf)
   integer, intent(in) :: nf, ny, nz, ncore
@@ -158,7 +157,7 @@ subroutine nonIECcoh(Sij,f,y,z,u,coef_a,coef_b,coefExp,ncore,nf,ny,nz)
   ENDIF
   !print *, 'start coh'
   !$omp parallel private(ii , jj, r, tmp, ind, tmp_a ) default(shared)
-  !$omp do 
+  !$omp do schedule( dynamic )
   DO jj=1,np ! The packmat (Sij) needs to be in column order for lapack's SPPTRF.
      DO ii=jj,np
         !ind=ind+1

@@ -273,7 +273,7 @@ class modelBase(tsBaseObj):
         return dict(self.__dict__)
 
 
-def Veers84(Sij,Sii,X,ncore=0):
+def Veers84(Sij,Sii,X,ncore=1):
     """
     Paul Veers' method for computing timeseries from input spectra and cross-spectra.  Returns the spectrum, ready for irfft.
 
@@ -298,10 +298,12 @@ def Veers84(Sij,Sii,X,ncore=0):
     """
     n_f=X.shape[-1]
     n_p=X.shape[0]
+    out=np.zeros((n_p,n_f+1),dtype=ts_complex,order='F')
     if tslib is not None:
-        return tslib.veers84(Sij,Sii,X,ncore,n_p,n_f)
+        tslib.veers84(out[:,1:],Sij,X,ncore,n_p,n_f)
+        out[:,1:]*=np.sqrt(Sii)
+        return out
     H=np.zeros((n_p,n_p,n_f),dtype=ts_float)
-    out=np.zeros((n_p,n_f+1),dtype=ts_complex)
     for ff in range(n_f):
         H[:,:,ff]=np.linalg.cholesky(Sij[:,:,ff])
     out[:,1:]=np.einsum('ijk,jk->ik',H,X)

@@ -80,7 +80,7 @@ class nwtc(cohModelBase):
             if dbg:
                 self.timer.start()
             #cohi[:]=tslib.nonieccoh(cohi.spec.flat[comp],cohi.f,cohi.grid.y,cohi.grid.z,cohi.grid.flatten(cohi.prof.u),cohi.a[comp],cohi.b[comp],self.CohExp,cohi.ncore,cohi.n_f,cohi.n_y,cohi.n_z)
-            cohi[:]=tslib.nonieccoh(cohi.f,cohi.grid.y,cohi.grid.z,cohi.grid.flatten(cohi.prof.u),cohi.a[comp],cohi.b[comp],self.CohExp,cohi.ncore,cohi.n_f,cohi.n_y,cohi.n_z)
+            tslib.nonieccoh(cohi._crossSpec,cohi.f,cohi.grid.y,cohi.grid.z,cohi.grid.flatten(cohi.prof.u),cohi.a[comp],cohi.b[comp],self.CohExp,cohi.ncore,cohi.n_f,cohi.n_y,cohi.n_z)
             if dbg:
                 self.timer.stop()
         else:
@@ -172,7 +172,7 @@ class iec(cohModelBase):
         elif tslib is not None:
             if dbg:
                 self.timer.start()
-            cohi[:]=tslib.ieccoh(cohi.f,cohi.y,cohi.z,cohi.prof.uhub,self.a,cohi.Lc(cohi.grid.zhub),cohi.ncore,cohi.n_f,cohi.n_y,cohi.n_z)
+            cohi[:]=tslib.ieccoh(cohi._crossSpec,cohi.f,cohi.y,cohi.z,cohi.prof.uhub,self.a,cohi.Lc(cohi.grid.zhub),cohi.ncore,cohi.n_f,cohi.n_y,cohi.n_z)
             if dbg:
                 self.timer.start()
         else:

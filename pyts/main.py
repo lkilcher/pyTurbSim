@@ -35,7 +35,7 @@ class tsrun(object):
     """
     A TurbSim 'run' object.  
     """
-    def __init__(self,RandSeed=None,ncore=0):
+    def __init__(self,RandSeed=None,ncore=1):
         # Initialize the random number generator before doing anything else.
         if RandSeed is None:
             self.RandSeed=np.random.randint(1e6,1e18)
