@@ -1,160 +1,169 @@
 """
 This is the base module for coherence models.
 
-function of frequency.  That is
-Coherence is defined as
 """
-try:
-    from ..base import gridProps,modelBase,np,ts_float,tslib,dbg
-except ValueError:
-    from base import gridProps,modelBase,np,ts_float,tslib,dbg
+from ..base import gridProps,modelBase,np,ts_float,ts_complex,tslib,dbg,calcObj
 
-
-class cohereCalc(gridProps):
-    """
-    A cross-spectral matrix 'calculator' object.
-
-    This is a memory-efficient representation of the full cross-spectral matrix.
-    The 'full' cross-spectral matrix size is large: (3 x n_p x n_p x n_f).
-
-    This 'calculator' object saves memory by taking advantage of the fact that each
-    component (first dimension of full array) are utilized independently by TurbSim.
-    Therefore, this cohereCalc class utilizes 1/3 the space in memory
-    (i.e. n_p x n_p x n_f), and calculates the cross-spectral matrix for each
-    component as-needed.
-
-    See also
-    --------
-    cohereCalc_pack - A more memory efficient form of the cross-spectral calculator
-                      utilized when 'tslib' is available.
-    
-    """
-    _crossSpec_name=None
+class cohereObj(gridProps,calcObj):
 
     @property
-    def _i_diag(self,):
+    def array(self,):
         """
-        The diagonal indices of this coherence calculator.
-        """
-        return 2*[np.arange(self.grid.n_p)]
-
-    def __getitem__(self,comp):
-        if hasattr(comp,'__len__'):
-            self.__call__(comp[0])
-            return self._crossSpec[comp[1:]]
-        return self.__call__(comp)
-
-    def __setitem__(self,ind,val):
-        if hasattr(ind,'__len__'):
-            if len(ind)==2:
-                i2=(ind[0],slice(None),ind[1])
-            elif len(ind)==3:
-                i2=(ind[0],ind[2],ind[1])
-            elif len(ind)>3:
-                i2=(ind[0],ind[2],ind[1],ind[3:])
-            self._crossSpec[i2]=val
-        self._crossSpec[ind]=val # !!!FIXTHIS, I don't believe the cross-spectral matrix is currently mirrored!
-
-    def __init__(self,tsrun):
-        self._crossSpec=np.empty((tsrun.grid.n_p,tsrun.grid.n_p,tsrun.grid.n_f),dtype=ts_float,order='F') # This is a working array used 1-component at a time.
-        self.grid=tsrun.grid
-        self.spec=tsrun.spec
-        self.prof=tsrun.prof
-        self.ncore=tsrun.ncore # Number of CPU cores (for use with tslib)
-
-    @property
-    def _iter_flat_inds(self,):
-        for jj in range(self.n_p):
-            for ii in range(jj,self.n_p):
-                yield (ii,jj),(ii,jj) # This is correct, we need to return
-
-    def __call__(self,comp):
-        """
-        Calculate the cross-spectral matrix, Sij for velocity component *comp* (0,1,2).
+        This property computes and returns the full coherence array.
         
-        This function sets and returns the variable self._crossSpec for the component *comp* (i.e. u,v,w).
+        This array utilizes significant memory (3 x np x np x nf) and
+        should be avoided unless needed.  By default PyTurbSim
+        avoids holding the entire array in memory and instead computes
+        small pieces of it as needed.
         """
-        if self._crossSpec_name==comp:
-            return self._crossSpec
-        self.model.calc(self,comp)
-        self._crossSpec_name=comp
-        return self._crossSpec
-
-    def __iter__(self,):
-        """
-        Iterate over the u,v,w components of the spectrum.
-
-        Yields cross-spectral matrix.
-        """
-        for comp in self.grid.comp:
-            yield self(comp)
-
-class cohereCalc_pack(cohereCalc):
-    """
-    A cross-spectral matrix 'calculator' object.
-
-    This is a memory-efficient representation of the full cross-spectral matrix.
-    The 'full' cross-spectral matrix size is large: (3 x n_p x n_p x n_f).
-
-    This 'calculator' object saves memory by taking advantage of two factors:
-      1) Each component (first dimension of full array) is utilized independently
-         by TurbSim.
-      2) Each component of the cross-spectral matrix is symmetric.
-    By computing the cross-spectral matrix on-demand, we can reduce the memory
-    demands by 1/3, and by taking advantage of the symmetry can further reduce
-    memory demands by nearly 1/2.  Thus, this format utilizes nearly 1/6 the memory
-    as the 'full' cross-spectral matrix.
-
-    See also
-    --------
-    cohereCalc - A less memory efficient form of this cross-spectral calculator
-                 utilized when 'tslib' is not available.
-    
-    """
-
-    @property
-    def _i_diag(self,):
-        """
-        The diagonal indices of this coherence calculator.
-        """
-        return np.cumsum(np.arange(self.grid.n_p,0,-1)+1)-self.grid.n_p-1
-
-    @property
-    def _iter_flat_inds(self,):
-        indx=0
-         # The _crossSpec_pack needs to be in column order for lapack's SPPTRF.
-        for jj in range(self.n_p):
-            for ii in range(jj,self.n_p):
-                yield (ii,jj),indx
-                indx+=1
+        if not hasattr(self,'_array'):
+            self._array=np.empty((self.n_comp,self.n_p,self.n_p,self.n_f),dtype=ts_complex,order='F')
+            for icomp in range(3):
+                for ff in range(self.n_f):
+                    for ii,jj in self._iter_inds():
+                        self._array[icomp,ii,jj]=self._array[icomp,jj,ii]=self.calcCoh(self.grid.f,icomp,ii,jj)
+        return self._array
+    @array.setter
+    def array(self,val):
+        self._array=val
+    @array.deleter
+    def array(self,):
+        del self._array
 
     def __init__(self,tsrun):
-        self._crossSpec=np.empty((tsrun.grid.n_p*(tsrun.grid.n_p+1)/2,tsrun.grid.n_f),dtype=ts_float,order='F') # This is a working array, used 1-component at a time.
         self.grid=tsrun.grid
-        self.spec=tsrun.spec
         self.prof=tsrun.prof
-        self.ncore=tsrun.ncore # Number of CPU cores (for use with tslib)
+        self.spec=tsrun.spec
+        self.stress=tsrun.stress
+        self.ncore=tsrun.ncore # This is used by tslib.
 
-class cohModelBase(modelBase):
+    def _iter_inds(self,):
+        """
+        An iterator for the lower-triangular indices (ii and jj) of
+        the coherence matrix.
+        """
+        for jj in range(self.n_p):
+            for ii in range(jj,self.n_p):
+                yield ii,jj
+
+    def calc_phases(self,phases):
+        """
+        Compute and set the full cross-spectral matrix for component
+        *comp* for 'coherence calculator' instance *cohi*.
+
+        This method should not be called explicitly.  It is called by
+        a 'coherence calculator' instance's __call__ method.
+
+        This routine utilizes a model's 'calcCoh' method, which must
+        be defined explicitly for all sub-classes of cohereModelBase.
+
+        See also
+        --------
+        calcCoh - computes the coherence for individual grid-point pairs.
+
+        """
+        out=np.zeros((self.n_comp,self.n_p,self.n_f),dtype=ts_complex,order='F')
+        tmp=np.empty((self.n_p,self.n_p),dtype=ts_float,order='F')
+        for icomp in range(3):
+            for ff in np.range(self.n_f):
+                for ii,jj in self._iter_inds():
+                    if ii==jj:
+                        tmp[ii,ii]=1
+                    else:
+                        tmp[ii,jj]=tmp[jj,ii]=self.calcCoh(self.grid.f[ff],icomp,ii,jj)
+                tmp[:]=np.linalg.cholesky(tmp)
+                for ii in range(self.n_p):
+                    out[icomp,ii,ff]=sum(tmp.flatten('F')*phases[icomp,:,ff])
+        return out
+    
+    def calcCoh(self,f,comp,ii,jj):
+        """
+        THIS IS A PLACEHOLDER METHOD WHICH SHOULD BE OVER-WRITTEN FOR ALL SUB-CLASSES
+        OF cohereModelBase. THIS METHOD ONLY RAISES AN ERROR.
+        
+        A functioning version of this method (i.e. in a subclass of cohereModelBase)
+        should return the a length-n_f vector that is the coherence between point
+        *ii*=(iz,iy) and *jj*=(jz,jy) for velocity component *comp*.
+
+        Parameters
+        ----------
+        *cohi*    - A 'coherence calculator' instance (for the given tsrun).
+        *comp*    - an integer (0,1,2) indicating the velocity component for which to
+                    compute the coherence.
+        *ii*,*jj* - Two-integer elements indicating the grid-points between which to
+                    calculate the coherence. For example: ii=(1,3),jj=(2,3)
+        
+        See also
+        --------
+        calc - iterates over grid-point pairs and calls calcCoh to compute the full
+               cross-spectral matrix.
+        
+        """
+        raise Exception('Subclasses of cohereObj must overwrite the calcCoh method or redfine the calc_phases method.')
+
+class cohereUser(cohereObj):
+
+    def __init__(self,array):
+        """
+        Specify the coherence explicitly as an array.
+
+        The array must have the dimensions 3 x np x np x nf, where np
+        is the number of points in the grid, and nf is the number of
+        frequencies for the inverse fft.  The dimensions of the array
+        are:
+          0) velocity component (u,v,w)
+          1) first spatial point,
+          2) second spatial point,
+          3) frequency.
+        The ordering of the spatial points (dims 1,2) must match the
+        ordering of the TurbSim grid.  See the tsGrid classes
+        'sub2ind', 'ind2sub', 'flatten' and 'reshape' methods for more
+        details on this.
+        
+        """
+        self.array=array
+
+    def calc_phases(self,phases):
+        """
+        Compute and set the full cross-spectral matrix for component
+        *comp* for 'coherence calculator' instance *cohi*.
+
+        This method should not be called explicitly.  It is called by
+        a 'coherence calculator' instance's __call__ method.
+
+        This routine utilizes a model's 'calcCoh' method, which must
+        be defined explicitly for all sub-classes of cohereModelBase.
+
+        """
+        tmp=np.empty((self.n_p,self.n_p),dtype=ts_float,order='F')
+        for ff in np.range(self.n_f):
+            tmp[:]=np.linalg.cholesky(self.array[comp,:,:,ff])
+            for ii in range(self.n_p):
+                coh[ii,ff]=sum(tmp.flatten('F')*phases[:,ff])
+
+class cohereModelBase(modelBase,gridProps):
     """
     Examples
     --------
-    When a coherence model class is called, it returns a 'coherence model instance'
-    (as expected) e.g.:
+    When a coherence model class is called, it returns a 'coherence
+    model instance' (as expected) e.g.:
     cm = myCohereModel(inarg1,inarg2,...)
 
-    A 'coherence model instance' is an instance of a specific coherence model that is
-    independent of a turbsim run (i.e. the coherence model instance holds parameters
-    that are specific the grid, mean profile model, or spectral model.
+    A 'coherence model instance' is an instance of a specific
+    coherence model that is independent of a turbsim run (i.e. the
+    coherence model instance holds parameters that are specific the
+    grid, mean profile model, or spectral model).
     
-    When a 'coherence model instance' is called, it returns a 'coherence instance',
+    When a 'coherence model instance' is called, it returns a
+    'coherence object' instance,
     e.g.:
     coh=cm(tsr)
 
     Where tsr is a 'tsrun' object.
     
     """
-    lib=None # This must be set explicitly in a subclass that utilizes it
+    cohereObj=cohereObj # This needs to be set to the appropriate
+                        # 'coherence object' for each model.
 
     def __call__(self,tsrun):
         """
@@ -182,66 +191,10 @@ class cohModelBase(modelBase):
         csm_w=cohi[2]
 
         """
-        out=np.zeros((self.n_comp,self.n_p,self.n_f+1),dtype=ts_float,order='F')
-        phr=tsrun.stress.calcPhases()
-        for icomp in self.comp:
-            self.calc(out[icomp,:,1:],phr[icomp],icomp)
-        out*=np.sqrt(self.spec.flat)
+        out=self.cohereObj(tsrun)
+        if hasattr(self,'set_coefs'):
+            self.set_coefs(out)
         return out
 
-    def _iter_inds(self,):
-        for jj in range(self.n_p):
-            for ii in range(jj,n_p):
-                yield ii,jj
+        
     
-    def calc(self,spec,phr,comp):
-        """
-        Compute and set the full cross-spectral matrix for component
-        *comp* for 'coherence calculator' instance *cohi*.
-
-        This method should not be called explicitly.  It is called by
-        a 'coherence calculator' instance's __call__ method.
-
-        This routine utilizes a model's 'calcCoh' method, which must
-        be defined explicitly for all sub-classes of cohModelBase.
-
-        See also
-        --------
-        calcij - computes the coherence for individual grid-point pairs.
-
-        """
-        tmp=np.empty((self.n_p,self.n_p),dtype=ts_float)
-        for ff in np.range(self.n_f):
-            for ii,jj in self._iter_inds():
-                if ii==jj:
-                    tmp[ii,ii]=1
-                else:
-                    tmp[ii,jj]=tmp[jj,ii]=self.calcCoh(self.f[ff],comp,ii,jj)
-            tmp=np.linalg.cholesky(tmp)
-            for ii in range(self.n_p):
-                spec(ii,ff)=sum(tmp.flatten()*phr[:,ff])
-
-    def calcij(self,f,comp,ii,jj):
-        """
-        THIS IS A PLACEHOLDER METHOD WHICH SHOULD BE OVER-WRITTEN FOR ALL SUB-CLASSES
-        OF cohModelBase. THIS METHOD ONLY RAISES AN ERROR.
-        
-        A functioning version of this method (i.e. in a subclass of cohModelBase)
-        should return the a length-n_f vector that is the coherence between point
-        *ii*=(iz,iy) and *jj*=(jz,jy) for velocity component *comp*.
-
-        Parameters
-        ----------
-        *cohi*    - A 'coherence calculator' instance (for the given tsrun).
-        *comp*    - an integer (0,1,2) indicating the velocity component for which to
-                    compute the coherence.
-        *ii*,*jj* - Two-integer elements indicating the grid-points between which to
-                    calculate the coherence. For example: ii=(1,3),jj=(2,3)
-
-        See also
-        --------
-        calc - iterates over grid-point pairs and calls calcCoh to compute the full
-               cross-spectral matrix.
-        
-        """
-        raise Exception('Subclasses of cohModelBase must overwrite the calcCoh method.')

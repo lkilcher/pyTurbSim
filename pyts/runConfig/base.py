@@ -1,3 +1,8 @@
+"""
+The base module for the runConfig package. This module defines the TurbSim config class (tscfg). The tscfg class is a dictionary for storing data from a TurbSim input file. The class contains several methods that specify default values for several input variables. Those defaults documented in the Original-TurbSim documentation:
+https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf
+
+"""
 from ..base import np
 
 class tscfg(dict):
@@ -5,13 +10,22 @@ class tscfg(dict):
     The TurbSim config object and 'global defaults' handler.
 
     Regarding global defaults:
-    The '_dflt_...' functions define 'global' default definitions (used by multiple profModels and/or turbModels).  Other, model specific, defaults are defined in the model itself.
+    The '_dflt_...' functions define 'global' default definitions
+    (used by multiple profModels and/or turbModels).  Other, model
+    specific, defaults are defined in the model itself.
+
+    For further information on the 'defaults' defined here, consult
+    the O-TurbSim documentation:
+    https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf
+
     """
     def __getitem__(self,key):
         """
         Gets the item *key* from the dictionary.
 
-        If there is no value, or it is 'None', and there is a '_dflt_<key>' property, it uses this property to 'set the default'.
+        If there is no value, or it is 'None', and there is a
+        '_dflt_<key>' property in the class, it uses this property to
+        'set the default'.
 
         Otherwise return *None*.
         """
@@ -36,6 +50,9 @@ class tscfg(dict):
 
     @property
     def incdec_a(self,):
+        """
+        The 'a' coherence decrement.
+        """
         out=[None,None,None]
         if self['IncDec1'] is not None:
             if hasattr(self['IncDec1'],'__len__'):

@@ -1,10 +1,14 @@
+"""
+This module contains a few random helper functions that are used
+throughout the code.
+"""
 import numpy as np
 
 kappa=0.41 # Von-Karman's constant
 
 def Lambda(zhub,IECedition):
     """
-    Equation 23 of TurbSim Manual.
+    Equation 23 of the TurbSim Manual.
     """
     if IECedition<=2:
         return 0.7*min(30,zhub)
@@ -16,6 +20,13 @@ def zL(Ri,TurbModel=None):
     *zL* is the Monin-Obhukov (M-O) stability parameter z/L, where L is the M-O length.
 
     zL>0 means stable conditions.
+
+    Parameters
+    ----------
+    *Ri*        - The Richardson number.
+    *TurbModel* - The turbulence model that is being used (optional).
+                  In some cases z/L depends on the Turbulence model.
+    
     """
     if TurbModel.__class__ is str and TurbModel.lower()=='nwtcup':
         Ri=max( min(Ri,0.155),-1.)
@@ -44,6 +55,10 @@ def zL(Ri,TurbModel=None):
             return 1
 
 def psiM(Ri,TurbModel=None):
+    """
+    The psi_M stability parameter is used for various mean wind-speed
+    profiles and turbulence models.
+    """
     zl=zL(Ri,TurbModel)
     if zl>=0:
         return -5.0*min(zl,1.0)
@@ -52,6 +67,23 @@ def psiM(Ri,TurbModel=None):
         return -np.log(0.125*((1.0+tmp)**2*(1.0+tmp**2)))+2.0*np.arctan(tmp)-0.5*np.pi
 
 def pfactor(n,pmax=31):
+    """
+    Calculate the prime factors of the integer *n*.
+
+    Parameters
+    ----------
+    *n*        - The integer for which to calculate prime-factors.
+    *pmax*     - The maximum prime to use (default 31, can be up to 71).
+
+    Returns
+    -------
+    A set of the primes.
+    
+    The first 20 primes (up to 71) are hard-coded into this
+    routine. You'll need to add more primes to the list if you want
+    them.
+
+    """
     primes=np.array([2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71])
     primes=primes[primes<=pmax]
     lst=set()
@@ -64,6 +96,23 @@ def pfactor(n,pmax=31):
     return np.sort(list(lst))
 
 def lowPrimeFact_near(n,pmax=31,nmin=None,evens_only=True):
+    """
+    Find the nearest integer to *n* with prime factors all less than
+    *pmax*.
+
+    This routine is used to change the length of arrays to speed-up
+    Fast Fourier Transforms.
+
+    Parameters
+    ----------
+    *n*      - The starting integer.
+    *pmax*   - The maximum prime to be found.
+
+    Returns
+    -------
+    The nearest integer to *n* that has prime factors less than *pmax*.
+    
+    """
     if (np.array(pfactor(n,pmax))<pmax).all():
         return n
     if evens_only: # Only deal with evens.
@@ -101,7 +150,8 @@ def fix2range(vals,minval,maxval):
 
 class InvalidConfig(Exception):
     """
-    Exception raised by the baseModel classes.  Used to indicate that a model has not defined a necessary attribute.
+    Exception raised by the baseModel classes.  Used to indicate that
+    a model has not defined a necessary attribute.
     """
     def __init__(self,msg='Invalid option specified in config file.'):
         self.msg=msg

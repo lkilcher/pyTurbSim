@@ -1,5 +1,8 @@
-## from struct import pack,unpack
+"""
+A base module for the io package.
+"""
 
+# This defines the 'endianness' for reading/writing binary files in PyTurbSim.
 e='<'
 
 def convname(fname,sfx=''):

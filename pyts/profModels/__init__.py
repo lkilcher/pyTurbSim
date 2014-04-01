@@ -1,13 +1,19 @@
-# !!!ADDDOC
-import log as log_models
-import power as power_models
-import iec as iec_models
+"""\namespace profModels
+This is the PyTurbSim mean velocity 'profile models' package.  This
+package contains pre-defined profile models that can be implemented in
+a PyTurbSim run.
 
-# Shortcut the log models
-h2l=log_models.H2O
-log=log_models.nwtc
+This package contains:
+ api.py        - The API for this package.
+ mBase.py      - The package's base module defines classes used by
+                 models in the package.
+ iec.py        - Contains International Electrotechnical Commission
+                 (IEC) profile models.
+ log.py        - Contains logarithmic mean velocity profile models.
+ power.py      - Contains power-law mean velocity profile models.
 
-# Shortcut the power-law model
-pl=power_models.nwtc
+For more information and to use this module import the profModels.api
+package, e.g.:
+import pyts.profModels.api as pm
 
-iec=iec_models.main
+"""

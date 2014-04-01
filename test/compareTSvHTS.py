@@ -14,8 +14,8 @@ ts_file_type='.wnd'
 
 # Run TurbSim and HydroTurbSim?
 flag_run=False or True
-flag_run_ts=False or True
-flag_run_pyts=False or True
+flag_run_ts=False# or True
+flag_run_pyts=False# or True
 # Plot the results and compare?
 flag_plot=False or True
 
@@ -46,19 +46,20 @@ except:
 # Run the turbsim programs ##
 #############################
 if flag_run:
-    # Check to see that a TurbSim executable exists:
-    if sys.platform.startswith('win'):
-        if os.path.isfile('TurbSim.exe'):
-            ts_exec_file='TurbSim.exe'
-        elif os.path.isfile('TurbSim64.exe'):
-            ts_exec_file='TurbSim.exe'
+    if flag_run_ts:
+        # Check to see that a TurbSim executable exists:
+        if sys.platform.startswith('win'):
+            if os.path.isfile('TurbSim.exe'):
+                ts_exec_file='TurbSim.exe'
+            elif os.path.isfile('TurbSim64.exe'):
+                ts_exec_file='TurbSim.exe'
+            else:
+                raise Exception('TurbSim (original) is not present in the working directory.  Download the TurbSim program from:\n http://wind.nrel.gov/designcodes/preprocessors/turbsim/\n and copy one of the executables to this directory.')
         else:
-            raise Exception('TurbSim (original) is not present in the working directory.  Download the TurbSim program from:\n http://wind.nrel.gov/designcodes/preprocessors/turbsim/\n and copy one of the executables to this directory.')
-    else:
-        if os.path.isfile('TurbSim'):
-            ts_exec_file='TurbSim'
-        else:
-            raise Exception('TurbSim (original) is not present in the working directory.  Download the TurbSim program from:\n http://wind.nrel.gov/designcodes/preprocessors/turbsim/\n and build an executable from source, then copy it to this directory.')
+            if os.path.isfile('TurbSim'):
+                ts_exec_file='TurbSim'
+            else:
+                raise Exception('TurbSim (original) is not present in the working directory.  Download the TurbSim program from:\n http://wind.nrel.gov/designcodes/preprocessors/turbsim/\n and build an executable from source, then copy it to this directory.')
 
     # Now run TurbSim and HydroTurbSim on the input files specified above.
     for fnm in fnames:
@@ -89,8 +90,8 @@ if flag_plot:
 
         fg=pyts_plot.summfig(3000+c,nfft=1024,title=nm.upper()+' spectral model')
         fg.setinds(ptsdat,igrid=None,)
-        #fg.setinds(tsdat,igrid=(0,1),)
-        fg.plot(tsdat,color='r',label='oTS')
+        fg.setinds(tsdat,igrid=(0,1),)
+        fg.plot(tsdat,color='r',label='TS')
         fg.plot(ptsdat,color='b',theory_line=True,label='pyTS')
         fg.finish()
-
+    #fg.savefig('../pub/fig/compareTSvPyTS.png',dpi=300)

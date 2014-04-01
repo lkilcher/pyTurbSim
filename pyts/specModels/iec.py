@@ -1,8 +1,8 @@
 # !!!ADDDOC
-from .mBase import turbModelBase,np,ts_float,spec
+from .mBase import specModelBase,np,ts_float,specObj
 from ..misc import InvalidConfig,Lambda
 
-class iecbase(turbModelBase):
+class iecbase(specModelBase):
     """
     This is a base class for the IEC spectral models (IECKAI and IECVKM).
     """
@@ -94,7 +94,7 @@ class ieckai(iecbase):
     def __call__(self,tsrun):
         # !!!ADDDOC
         self.check_ewm(tsrun.grid)
-        out=spec(tsrun)
+        out=specObj(tsrun)
         sig2=4*self.IEC_Sigma(tsrun.prof.uhub)**2
         fctr=np.array([1,0.64,0.25],dtype=ts_float)
         L_u=self.Lambda(tsrun.grid.zhub)/tsrun.prof.uhub*np.array([8.10,2.70,0.66],dtype=ts_float)
@@ -108,7 +108,7 @@ class iecvkm(iecbase):
     def __call__(self,tsrun):
         # !!!ADDDOC
         self.check_ewm(tsrun.grid)
-        out=spec(tsrun)
+        out=specObj(tsrun)
         sig2=4*self.IEC_Sigma(tsrun.prof.uhub)**2
         L_u=3.5*self.Lambda(tsrun.grid.zhub)/tsrun.prof.uhub
         dnm=1+71*(out.f*L_u)**2

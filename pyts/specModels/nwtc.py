@@ -3,12 +3,16 @@ This module contains the following spectral models:
   smooth - The 'smooth' spectral model.
   nwtcup - The NWTC 'upwind' model.
 """
-from .mBase import turbModelBase,np,ts_float,spec
+from .mBase import specModelBase,np,ts_float,specObj
 from ..misc import zL,fix2range
 
-class NWTCgenModel(turbModelBase):
+class NWTCgenModel(specModelBase):
     """
-    Base class for the nwtc models.
+    A base (generic) class for the NWTCUP and SMOOTH spectral models.
+
+    This model allows for two
+
+    
     """
     
     s_coef=np.array([[79.,263.],[13.,32.],[3.5,8.6]])
@@ -74,7 +78,7 @@ class NWTCgenModel(turbModelBase):
             self._work=0.95*coef[0,0]*num0/(1+2*coef[0,1]*fZI_u)**pow5_3*np.sqrt((fz_u**2+(0.3*z_ZI)**2)/(fz_u**2+0.0225)) + coef[1,0]*2*num1/(1+coef[1,1]*5.3*fz_u**pow5_3)
         return self._work
 
-    def __init__(self,Ustar,Ri,ZI):
+    def __init__(self,Ustar,Ri,ZI=None):
         """
         
         Important note: you cannot modify values of this model before
@@ -86,11 +90,11 @@ class NWTCgenModel(turbModelBase):
         self.Ri=Ri
         self.ZI=ZI
         self.initCoefs()
-        print self.stable
-        print self.coefs
+        #print self.stable
+        #print self.coefs
 
     def __call__(self,tsrun):
-        out=spec(tsrun)
+        out=specObj(tsrun)
         # !!!FIXTHIS: The following lines bind output to the specModel object. It would be better to make this explicit, or something.
         # Also, the numer and denom objects lock output info to the specModel object.
         self.f=out.f
@@ -111,8 +115,6 @@ class smooth(NWTCgenModel):
     """
     The NWTC 'smooth' spectral model.
     """
-
-    # !!!ADDDOC
     turbmodel='smooth'
 
     def initCoefs(self,):

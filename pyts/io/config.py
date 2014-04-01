@@ -1,11 +1,16 @@
+"""
+This module is for reading/writing PyTurbSim config (.inp) files.
+"""
 from os import listdir
 from ..runConfig.base import tscfg
 from copy import deepcopy
 import numpy as np
 from ..base import ts_float,userroot,tsroot
 
+# Inpute files are in fixed format. That is, variables are defined by linenumber.
+# This defines the input-file format:
 inputfile_form={
-    3:'RandSeed1', #Line numbers and parameter names.
+    3:'RandSeed1',
     4:'RandSeed2',
     5:'WrBHHTP',
     6:'WrFHHTP',
@@ -64,7 +69,13 @@ inputfile_form={
 
 def write(fname,config,headertext=None):
     """
-    Writeout a config file. This does not yet support writing user-defined profiles.
+    Writeout a config file.
+
+    Parameters
+    ----------
+    *fname*   - The filename to write out.
+    *config*  - The PyTurbSim config dictionary.
+    
     """
     format=open(tsroot+'form/input.form','r')
     out=open(fname,'w')
@@ -91,7 +102,15 @@ def read(fname):
     """
     Read a TurbSim input (.inp) file.
     
-    Returns a dictionary of TurbSim config options.
+
+    Parameters
+    ----------
+    *fname*   - The filename to read the config from.
+
+    Returns
+    -------
+    *config*  - A PyTurbSim config dictionary.
+
     """
     # TurbSim input files are static:
     #   Variable are determined by line number.
@@ -145,6 +164,10 @@ def read(fname):
 
 
 def _readInputLine(line):
+    """
+    This function parses data from config file lines and returns it as the 
+    correct 'type' (e.g. int, float, bool, str).
+    """
     types=[np.int32,np.float32,bool,str]
     if line[0]=='"':
         val=line.split('"')[1]
@@ -172,9 +195,15 @@ def _readInputLine(line):
 
 def readInPSD(fname):
     """
-    Read the input spectrum from file *fname*, and return it as a dictionary.
+    Read the input spectrum from file *fname*, and return it as a
+    dictionary.
 
-    The frequency in the input file should be in units of hz, and the spectrum should be in units of m^2/s^2/hz.
+    Parameters
+    ----------
+    *fname*   - The filename to read the PSD from.
+
+    The frequency in the input file should be in units of hz, and the
+    spectrum should be in units of m^2/s^2/hz.
     """
     ril=_readInputLine
     out={}

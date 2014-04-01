@@ -1,14 +1,17 @@
-# !!!ADDDOC
-import hydro,nwtc,iec
+"""\namespace specModels
+This is the PyTurbSim 'spectral models' package.
 
-# Shortcut the hydro models
-tidal=hydro.tidal
-river=hydro.river
+This package contains:
+ api.py        - The API for this package.
+ mBase.py      - The package's base module defines classes used by
+                 models in the package.
+ hydro.py      - Contains the water (hydro) spectral models.
+ iec.py        - Contains International Electrotechnical Commission
+                 (IEC) spectral models.
+ nwtc.py       - Contains NWTC wind turbulence spectral models.
+ 
+For more information and to use this module import the api
+package, e.g.:
+import pyts.specModels.api as sm
 
-# Shortcut the nwtc models
-nwtcup=nwtc.nwtcup
-smooth=nwtc.smooth
-
-# Shortcut the iec models
-ieckai=iec.ieckai
-iecvkm=iec.iecvkm
+"""

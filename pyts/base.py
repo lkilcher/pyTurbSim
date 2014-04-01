@@ -1,9 +1,18 @@
-# !!!ADDDOC
+"""
+This is the 'base' module for the PyTurbSim program.
+
+This module:
+ a) imports numpy,
+ b) defines the 'tsGrid' class,
+ c) imports the tslib Fortran module (if it is available) and
+ d) Defines several abstract base classes.
+
+"""
 import numpy as np
 from misc import lowPrimeFact_near
 from os import path
 try:
-    from tslib import tslib
+    from tslib import tslib # The file tslib.so contains the module 'tslib'.
 except ImportError:
     print """
     ***Warning***: 'tslib' did not load correctly.  pyTurbSim
@@ -14,7 +23,7 @@ except ImportError:
     tslib=None
 
 dbg=None
-import dbg
+#import dbg
 
 tsroot=path.realpath(__file__).replace("\\","/").rsplit('/',1)[0]+'/'
 userroot=path.expanduser('~')
@@ -34,7 +43,13 @@ class tsBaseObj(object):
 
 class calcObj(tsBaseObj):
     """
-    
+    This is a base class for objects that are have .array properties.
+    It creates a shortcut for accessing the array through the getitem
+    method.
+
+    This is used in each of the model packages as a base-class for the
+    output 'statistics' of that class. In other words: profObj,
+    specObj, stressObj, and cohereObj all derive from this class.
     """
     _alias0=['u','v','w']
 
@@ -43,19 +58,20 @@ class calcObj(tsBaseObj):
             ind=self._alias0.index(ind)
         if hasattr(self,'_alias1') and ind in self._alias1:
             ind=self._alias1.index(ind)
-        return self.data[ind]
+        return self.array[ind]
 
     def __setitem__(self,ind,val):
         if ind in self._alias0:
             ind=self._alias0.index(ind)
         if hasattr(self,'_alias1') and ind in self._alias1:
             ind=self._alias1.index(ind)
-        self.data[ind]=val
+        self.array[ind]=val
 
 
 class gridProps(tsBaseObj):
     """
-    A list of shortcuts for objects that have the grid as one of their attributes.
+    A list of shortcuts for objects that have the grid as one of their
+    attributes.
     """
 
     @property
@@ -85,7 +101,6 @@ class gridProps(tsBaseObj):
     @property
     def dt(self,):
         return self.grid.dt
-    
 
 class tsGrid(tsBaseObj):
     """
@@ -145,7 +160,8 @@ class tsGrid(tsBaseObj):
         self.n_f=self.n_t/2
         self.f=np.arange(self.n_f,dtype=ts_float)*self.df+self.df  # !!!CHECKTHIS
         self.n_p=self.n_y*self.n_z
-        self._zdata=center+np.arange(self.height/2,-(self.height/2+self.dz/10),-self.dz,dtype=ts_float)
+        #self._zdata=center+np.arange(self.height/2,-(self.height/2+self.dz/10),-self.dz,dtype=ts_float)
+        self._zdata=center+np.arange(-self.height/2,self.height/2+self.dz/10,self.dz,dtype=ts_float)
         self._ydata=np.arange(-self.width/2,self.width/2+self.dy/10,self.dy,dtype=ts_float)
         self.ihub=(self.n_z/2,self.n_y/2)
         self.tower=False
@@ -156,6 +172,23 @@ class tsGrid(tsBaseObj):
         return '<TurbSim Grid:%5.1fm high x %0.1fm wide grid  (%d x %d points), centered at %0.1fm.\n              %5.1fsec simulation, dt=%0.1fsec (%d timesteps).>' % (self.height,self.width,self.n_z,self.n_y,self.zhub,self.time_sec,self.dt,self.n_t)
 
     def _parse_inputs(self,n,l,d,plus_one=1):
+        """
+        Parse inputs that describe a grid dimension.
+
+        Parameters
+        ----------
+        *n*   - The number of points in that dimension (integer).
+        *l*   - The total length of that dimension (float).
+        *d*   - The spacing between points (float).
+           NOTE: any one of these may be 'None', in which case it is
+                 computed from the other two. If all three are
+                 specified, n and l take precedence and d is computed.
+        *plus_one* - 0 or 1. This specifies whether or not the number
+                     of points includes an endpoint, or not. This
+                     should be 1 for spatial inputs, and 0 for time
+                     inputs.
+        """
+        plus_one=plus_one and 1
         if (n is None)+(l is None)+(d is None)>1:
             raise Exception('Invalid inputs to Grid Initialization.')
         if n is None:
@@ -183,17 +216,11 @@ class tsGrid(tsBaseObj):
         A shortcut to the grid shape, including the frequency dimension.
         """
         return [self.n_z,self.n_y,self.n_f]
-    @property
-    def _shape(self,):
-        return [self.n_comp,self.n_z,self.n_z]
-    @property
-    def _shape_wf(self,):
-        return [self.n_comp,self.n_z,self.n_z,self.n_f]
 
     @property
     def z(self,):
         """
-        Returns the y-position of the grid points.
+        Returns the z-position of the grid points.
         """
         return self._zdata
     
@@ -206,7 +233,19 @@ class tsGrid(tsBaseObj):
 
     def dist(self,ii,jj):
         """
-        Returns the distance between the points ii=(iz,iy) and jj=(jz,jy).
+        Compute the distance between the points *ii* and *jj*.
+
+        Parameters
+        ----------
+        *ii*  - Index of first grid-point. 
+        *jj*  - Index of second grid-point.
+           Note: These indices can either be a grid-point pair (e.g. a
+                 tuple, indicating the grid-point, or a linear index
+                 such as would be returned by sub2ind).
+
+        Returns
+        -------
+        The distance between the two grid points.
         """
         if not hasattr(ii,'__len__'):
             ii=self.ind2sub(ii)
@@ -216,31 +255,85 @@ class tsGrid(tsBaseObj):
 
     @property
     def zhub(self,):
+        """
+        The height of the hub.
+        """
         return self.z[self.ihub[0]]
 
     @property
     def rotor_diam(self,):
+        """
+        Return the min of the grid width and height (this is all that
+        TurbSim knows about rotor diameter).
+        """
         return min(self.width,self.height)
     
+    ## def ind2sub(self,ind):
+    ##     """
+    ##     Return the subscripts (iz,iy) corresponding to the `flattened' index *ind* (column-order) for this grid.
+    ##     """
+    ##     iy=ind/self.n_z
+    ##     if iy>=self.n_y:
+    ##         raise IndexError('Index beyond range of grid.')
+    ##     iz=np.mod(ind,self.n_z)
+    ##     return (iz,iy)
+    
+    ## def sub2ind(self,subs):
+    ##     """
+    ##     Return the `flattened' index (column-order) corresponding to the subscript *subs* (iz,iy) for this grid.
+    ##     """
+    ##     return subs[1]*self.n_z+subs[0]
+
+    ## def flatten(self,arr):
+    ##     """
+    ##     Reshape an array so that the z-y grid points are one-dimension of the array (for Cholesky factorization).
+    ##     """
+    ##     if arr.ndim>2 and arr.shape[0]==3 and arr.shape[1]==self.n_z and arr.shape[2]==self.n_y:
+    ##         shp=[3,self.n_p]+list(arr.shape[3:])
+    ##     elif arr.shape[0]==self.n_z and arr.shape[1]==self.n_y:
+    ##         shp=[self.n_p]+list(arr.shape[2:])
+    ##     else:
+    ##         raise ValueError('The array shape does not match this grid.')
+    ##     return arr.reshape(shp,order='F')
+
+    ## def reshape(self,arr):
+    ##     """
+    ##     Reshape the array *arr* so that its z-y grid points are two-dimensions of the array (after Cholesky factorization).
+    ##     """
+    ##     if arr.shape[0]==3 and arr.shape[1]==self.n_p:
+    ##         shp=[3,self.n_z,self.n_y]+list(arr.shape[2:])
+    ##     elif arr.shape[0]==self.n_p:
+    ##         shp=[self.n_z,self.n_y]+list(arr.shape[1:])
+    ##     else:
+    ##         raise ValueError('The array shape does not match this grid.')
+    ##     return arr.reshape(shp,order='F')
+
     def ind2sub(self,ind):
         """
-        Return the subscripts (iz,iy) corresponding to the `flattened' index *ind* (column-order) for this grid.
+        Return the subscripts (iz,iy) corresponding to the `flattened'
+        index *ind* (row/C-order) for this grid.
         """
-        iy=ind/self.n_z
-        if iy>=self.n_y:
+        iz=ind/self.n_y
+        if iz>=self.n_z:
             raise IndexError('Index beyond range of grid.')
-        iz=np.mod(ind,self.n_z)
+        iy=np.mod(ind,self.n_y)
         return (iz,iy)
-    
+
     def sub2ind(self,subs):
         """
-        Return the `flattened' index (column-order) corresponding to the subscript *subs* (iz,iy) for this grid.
+        Return the `flattened' index (row/C-order) corresponding to
+        the subscript *subs* (iz,iy) for this grid.
         """
-        return subs[1]*self.n_z+subs[0]
+        if subs[0]<0:
+            subs=(self.n_z+subs[0],subs[1])
+        if subs[1]<0:
+            subs=(subs[0],self.n_y+subs[1])
+        return subs[0]*self.n_y+subs[1]
 
     def flatten(self,arr):
         """
-        Reshape an array so that the z-y grid points are one-dimension of the array (for Cholesky factorization).
+        Reshape an array so that the z-y grid points are one-dimension
+        of the array (e.g. prior to Cholesky factorization).
         """
         if arr.ndim>2 and arr.shape[0]==3 and arr.shape[1]==self.n_z and arr.shape[2]==self.n_y:
             shp=[3,self.n_p]+list(arr.shape[3:])
@@ -248,11 +341,12 @@ class tsGrid(tsBaseObj):
             shp=[self.n_p]+list(arr.shape[2:])
         else:
             raise ValueError('The array shape does not match this grid.')
-        return arr.reshape(shp,order='F')
+        return arr.reshape(shp,order='C')
 
     def reshape(self,arr):
         """
-        Reshape the array *arr* so that its z-y grid points are two-dimensions of the array (after Cholesky factorization).
+        Reshape the array *arr* so that its z-y grid points are
+        two-dimensions of the array.
         """
         if arr.shape[0]==3 and arr.shape[1]==self.n_p:
             shp=[3,self.n_z,self.n_y]+list(arr.shape[2:])
@@ -260,7 +354,7 @@ class tsGrid(tsBaseObj):
             shp=[self.n_z,self.n_y]+list(arr.shape[1:])
         else:
             raise ValueError('The array shape does not match this grid.')
-        return arr.reshape(shp,order='F')
+        return arr.reshape(shp,order='C')
 
 
 class modelBase(tsBaseObj):
@@ -272,72 +366,3 @@ class modelBase(tsBaseObj):
     def parameters(self,):
         return dict(self.__dict__)
 
-
-def Veers84(Sij,Sii,X,ncore=0):
-    """
-    Paul Veers' method for computing timeseries from input spectra and cross-spectra.  Returns the spectrum, ready for irfft.
-
-    Full Reference:
-       Veers, Paul (1984) 'Modeling Stochastic Wind Loads on Vertical Axis Wind Turbines',
-       Sandia Report 1909, 17 pages.
-
-    Inputs: 
-      Sij  - Input cross-spectra matrix for all points (Np,Np,Nf).
-      X    - Random (phase) vector, shape = (Np,Nf,)
-
-    Notes
-    =================
-
-    1) Veers84's equation 7 is actually a 'Cholesky Factorization'.  Therefore, rather than
-    writing this functionality explicitly we call 'cholesky' routines to do this work.
-
-    2) This function uses one of two methods for computing the Cholesky factorization.  If
-    the Fortran library tslib is available it is used (it is much more efficient), otherwise
-    the numpy implementation of Cholesky is used.
-    
-    """
-    n_f=X.shape[-1]
-    n_p=X.shape[0]
-    if tslib is not None:
-        return tslib.veers84(Sij,Sii,X,ncore,n_p,n_f)
-    H=np.zeros((n_p,n_p,n_f),dtype=ts_float)
-    out=np.zeros((n_p,n_f+1),dtype=ts_complex)
-    for ff in range(n_f):
-        H[:,:,ff]=np.linalg.cholesky(Sij[:,:,ff])
-    out[:,1:]=np.einsum('ijk,ik,jk->ik',H,Sii,X)
-    return out
-
-#ts_float=np.float32
-#ts_complex=np.complex64
-
-def empty(shape,view=None):
-    arr=np.empty(shape,dtype=ts_float)
-    if view is None:
-        return arr
-    return arr.view(view)
-
-## class tsarray(np.ndarray,gridProps):
-
-##     def __new__(cls,dim_names,grid,buffer=None,offset=0,strides=None,dtype=ts_float['dtype'],order=ts_float['order']):
-##         shape=[]
-##         for nm in dim_names:
-##             shape.append(getattr(grid,'n_'+nm))
-##         obj=super(tsarray,cls).__new__(cls,shape,buffer=buffer,offset=offset,srides=strides,dtype=dtype,order=order)
-##         obj.grid=grid
-##         return obj
-        
-##     def __array_finalize__(self,obj):
-
-##         if obj is None:
-##             return
-##         self.grid=getattr(obj,'grid',None)
-        
-
-
-## class tsarray(np.ndarray):
-        
-## class tsarray_complex(np.ndarray):
-##     def __new__(cls,*args,**kwargs):
-##         kwargs['order']='F'
-##         kwargs['dtype']=ts_complex
-##         return super(tsarray,cls).__new__(cls,*args,**kwargs)
