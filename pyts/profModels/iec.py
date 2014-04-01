@@ -1,16 +1,20 @@
-from mBase import profModelBase
+"""
+This module contains the power-law mean-velocity profiles:
+ main   - The IEC mean wind speed profile.
+ 
+"""
+from mBase import profModelBase,profObj
 from log import nwtc as logmain
 from power import nwtc as powmain
 
 class main(logmain,powmain):
     """
-    The iec wind profile.
+    The iec wind profile.  This profile is a power-law
+    across the rotor disk and logarithmic elsewhere.
     """
     def __init__(self,URef,RefHt,Z0,Ri,PLexp=0.2,turbmodel=None):
         """
-        Create an 'IEC' mean velocity profile, where the velocity is a power-law
-        across the rotor disk and logarithmic elsewhere.
-        Was this specified in an old IEC standard? Is it still valid?
+        Create an 'IEC' mean velocity profile model instance.
 
         Parameters
         ----------
@@ -37,7 +41,19 @@ class main(logmain,powmain):
         self.TurbModel=turbmodel
 
     def __call__(self,tsrun):
-        out=prof(tsrun)
+        """
+        Call the mean wind speed profile with a *tsrun* object to return the
+        run-specific mean velocity profile object.
+
+        Parameters
+        ----------
+        tsrun    - A TurbSim run object.
+        
+        Returns
+        -------
+        out      - An IEC wind-speed profile for the grid in tsrun.
+        """
+        out=profObj(tsrun)
         grid=tsrun.grid # A temporary, internal shortcut.
         out[0]=logmain.nwtc.model(self,grid.z)[:,None]
         zinds=-grid.rotor_diam/2<=grid.z-grid.zhub & grid.z-grid.zhub<=grid.rotor_diam/2

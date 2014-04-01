@@ -1,24 +1,19 @@
 # !!!ADDDOC
-try:
-    from .. import base
-    #from ..base import modelBase,np,ts_float,ts_complex
-except ImportError:
-    import base
-    #from base import modelBase,np,ts_float,ts_complex
+from .. import base
 np=base.np
 
 class stressModelBase(base.modelBase):
     pass
 
-class stress(base.calcObj,base.gridProps):
+class stressObj(base.calcObj,base.gridProps):
 
     def __init__(self,tsrun):
         self.grid=tsrun.grid
         self.randgen=tsrun.randgen
-        self.data=np.zeros([3]+self.grid.shape,dtype=base.ts_float,order='F')
+        self.array=np.zeros([3]+self.grid.shape,dtype=base.ts_float,order='F')
         self.spec=tsrun.spec
         std_u=np.sqrt(self.spec.tke)
-        self.stress_max=np.empty_like(self.data)
+        self.stress_max=np.empty_like(self.array)
         self.stress_max[0]=std_u[0]*std_u[1] # u'v'
         self.stress_max[1]=std_u[0]*std_u[2] # u'w'
         self.stress_max[2]=std_u[1]*std_u[2] # v'w'
@@ -50,32 +45,32 @@ class stress(base.calcObj,base.gridProps):
         """
         The u'v' Reynolds stress for this model.
         """
-        return self.data[0]
+        return self.array[0]
     @upvp_.setter
     def upvp_(self,val):
-        self.data[0]=val
+        self.array[0]=val
     @property
     def upwp_(self,):
         """
         The u'w' Reynolds stress for this model.
         """
-        return self.data[1]
+        return self.array[1]
     @upwp_.setter
     def upwp_(self,val):
-        self.data[1]=val
+        self.array[1]=val
     @property
     def vpwp_(self,):
         """
         The v'w' Reynolds stress for this model.
         """
-        return self.data[2]
+        return self.array[2]
     @vpwp_.setter
     def vpwp_(self,val):
-        self.data[2]=val
+        self.array[2]=val
 
     @property
     def corr(self,):
-        return self.data/self.stress_max
+        return self.array/self.stress_max
 
     @property
     def validity(self,):
@@ -99,13 +94,13 @@ class stress(base.calcObj,base.gridProps):
         valid=np.empty(srt.shape,dtype=bool)
         valid[0]=np.all(srt<1,0) # All individual stresses must be less than stress_max (i.e. the correlation between components can not be larger than the product of their standard devations).
         valid[1]=(1+srt[0]-srt[1]-srt[2]>0) # This is the 'overlap' criterion.
-        valid[2]=((self.data<0).sum(0)!=1) | (srt.sum(0)<=1) # This is the 'sign' criterion: if there is only one negative stress, their can be no overlap (sum(srt) must be <1).
+        valid[2]=((self.array<0).sum(0)!=1) | (srt.sum(0)<=1) # This is the 'sign' criterion: if there is only one negative stress, their can be no overlap (sum(srt) must be <1).
         ############################
-        # Now compute the 'overlap' (so that we don't have to redo or store the sort for _setPhases).
+        # Now compute the 'overlap' (so that we don't have to redo or store the sort for calc_phases).
         # average the product of the smallest value with the two larger ones. Then take the minimum value of that with the smallest value. This is the 'overlap', i.e. the fraction of points that will have the same phase for all three components.
         # Note, this is specific choice of how the three components are correlated.
         self._overlap=np.minimum((srt[0]*srt[1]+srt[0]*srt[2])/2,srt[0])
-        self._overlap[(self.data<0).sum(0)==1]=0 # If there is only 1 negative stress than the overlap must be zero (if they are valid).
+        self._overlap[(self.array<0).sum(0)==1]=0 # If there is only 1 negative stress than the overlap must be zero (if they are valid).
         return valid
 
     def check_validity(self,):
@@ -116,15 +111,13 @@ class stress(base.calcObj,base.gridProps):
         if ~(self.validity.all()):
             raise Exception('The input reynolds stresses are inconsistent.')
 
-    def calcPhases(self,):
+    def calc_phases(self,phases):
         """
-        Here we control the Reynold's stress by setting the phases between components to be the same for fraction of the frequencies.
+        Here we control the Reynold's stress by setting the phases between components to be the same for a fraction of the frequencies.
         """
         self.check_validity()
         rgen=self.randgen.rand
-        phases=np.empty((self.grid.n_comp,self.grid.n_p,self.grid.n_f),dtype=base.ts_complex,order='F')
-        phases[:]=(np.exp(1j*2*np.pi*rgen(self.grid.n_comp,self.grid.n_p,self.grid.n_f)))
-        if (self.data==0).all():
+        if (self.array==0).all():
             return phases # No stress, so the phases are independently-random.
         #fudge_factor=0.93 #!!!FIXTHIS: The 0.93 is a fudge factor to account for ... ???
         fudge_factor=1

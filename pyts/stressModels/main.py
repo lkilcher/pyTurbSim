@@ -1,4 +1,4 @@
-from mBase import stressModelBase,stress
+from mBase import stressModelBase,stressObj
 
 class uniform(stressModelBase):
     # !!!ADDDOC
@@ -10,7 +10,7 @@ class uniform(stressModelBase):
         self.vals=[upvp_,upwp_,vpwp_]
 
     def __call__(self,tsrun):
-        out=stress(tsrun)
+        out=stressObj(tsrun)
         out.upvp_[:]=self.vals[0]
         out.upwp_[:]=self.vals[1]
         out.vpwp_[:]=self.vals[2]

@@ -69,9 +69,9 @@ class summfig(object):
         self.ax_prof[0].annoteCorner('$u$','ul',fontsize='x-large')
         self.ax_prof[1].annoteCorner('$v$','ul',fontsize='x-large')
         self.ax_prof[2].annoteCorner('$w$','ul',fontsize='x-large')
-        self.ax_rstr[0].annoteCorner(r"$\langle{u'w'}\rangle$",'ul',fontsize='x-large')
-        self.ax_rstr[1].annoteCorner(r"$\langle{v'w'}\rangle$",'ul',fontsize='x-large')
-        self.ax_rstr[2].annoteCorner(r"$\langle{u'v'}\rangle$",'ul',fontsize='x-large')
+        self.ax_rstr[0].annoteCorner(r"$\langle{u'v'}\rangle$",'ul',fontsize='x-large')
+        self.ax_rstr[1].annoteCorner(r"$\langle{u'w'}\rangle$",'ul',fontsize='x-large')
+        self.ax_rstr[2].annoteCorner(r"$\langle{v'w'}\rangle$",'ul',fontsize='x-large')
         self.ax_prof.vln(0,color='k',ls='--')
         self.ax_rstr.vln(0,color='k',ls='--')
 
@@ -88,19 +88,6 @@ class summfig(object):
     ##     npt=shp[-1]/self.nfft
     ##     return arr[...,self.nfft*npt].reshape(list(shp[:-1])+[self.nfft,npt])
 
-    @property
-    def iy(self,):
-        """
-        The y-grid index of the TurbSim object that is plotted in this figure.
-        """
-        return self.igrid[1]
-    @property
-    def iz(self,):
-        """
-        The z-grid index of the TurbSim object that is plotted in this figure.
-        """
-        return self.igrid[0]
-
     def plot_prof(self,tsdata,**kwargs):
         """
         Plot the mean velocity profile of the input *tsdata* object (at the 'iy' grid index of this summfig object).
@@ -110,9 +97,9 @@ class summfig(object):
         """
         prf=tsdata.uprof
         for ind in range(3):
-            self.ax_prof[ind].plot(tsdata.uprof[ind][:,self.iy],tsdata.z,**kwargs)
+            self.ax_prof[ind].plot(tsdata.uprof[ind][:,self.igrid[1]],tsdata.z,**kwargs)
 
-    def plot_tke(self,tsdata,**kwargs):
+    def plot_tke(self,tsdata,factor=1e4,**kwargs):
         """
         Plot the tke profile of the input *tsdata* object (at the 'iy' grid index of this summfig instance).
 
@@ -120,10 +107,11 @@ class summfig(object):
         
         """
         prf=tsdata.uprof
+        self.tke_factor=factor
         for ind in range(3):
-            self.ax_tke[ind].plot((tsdata.uturb[ind][:,self.iy]**2).mean(-1),tsdata.z,**kwargs)
+            self.ax_tke[ind].plot((tsdata.uturb[ind][:,self.igrid[1]]**2).mean(-1)*factor,tsdata.z,**kwargs)
 
-    def plot_rs(self,tsdata,factor=1e4,**kwargs):
+    def plot_rs(self,tsdata,factor=1e4,*args,**kwargs):
         """
         Plot the Reynolds stress profile of the input *tsdata* object (at the 'iy' grid index of this summfig instance).
 
@@ -132,18 +120,48 @@ class summfig(object):
         """
         prf=tsdata.uprof
         self.rs_factor=factor
-        self.ax_rstr[0].plot(factor*(tsdata.uturb[0][:,self.iy]*tsdata.uturb[2][:,self.iy]).mean(-1),tsdata.z,**kwargs)
-        self.ax_rstr[1].plot(factor*(tsdata.uturb[1][:,self.iy]*tsdata.uturb[2][:,self.iy]).mean(-1),tsdata.z,**kwargs)
-        self.ax_rstr[2].plot(factor*(tsdata.uturb[0][:,self.iy]*tsdata.uturb[1][:,self.iy]).mean(-1),tsdata.z,**kwargs)
+        self.ax_rstr[0].plot(factor*(tsdata.uturb[0][:,self.igrid[1]]*tsdata.uturb[1][:,self.igrid[1]]).mean(-1),tsdata.z,*args,**kwargs)
+        self.ax_rstr[1].plot(factor*(tsdata.uturb[0][:,self.igrid[1]]*tsdata.uturb[2][:,self.igrid[1]]).mean(-1),tsdata.z,*args,**kwargs)
+        self.ax_rstr[2].plot(factor*(tsdata.uturb[1][:,self.igrid[1]]*tsdata.uturb[2][:,self.igrid[1]]).mean(-1),tsdata.z,*args,**kwargs)
 
     def plot_profpt(self,tsdata,**kwargs):
         """
         Plot a circle on the velocity profile at the point where the spectra are taken from for this summfig instance (iz,iy).
         """
         prf=tsdata.uprof
+        kw1=dict(kwargs)
+        kw2=dict(kwargs)
+        kw1.setdefault('ms',6)
+        kw1.setdefault('mec','none')
+        kw1.setdefault('mfc','b')
+        kw2.setdefault('ms',10)
+        kw2.setdefault('mec','b')
+        kw2.setdefault('mfc','none')
+        if not (hasattr(kw1,'markersize') or hasattr(kw1,'ms')):
+            kw1['ms']=6
+        if not (hasattr(kw1,'markersize') or hasattr(kw1,'ms')):
+            kw1['ms']=6
         for ind in range(3):
-            self.ax_prof[ind].plot(tsdata.uprof[ind][self.igrid],tsdata.z[self.iz],'o',**kwargs)
-
+            self.ax_prof[ind].plot(tsdata.uprof[ind][self.igrid],tsdata.z[self.igrid[0]],'o',**kw1)
+            self.ax_prof[ind].plot(tsdata.uprof[ind][self.icoh],tsdata.z[self.icoh[0]],'o',**kw2)
+    
+    @property
+    def igrid(self,):
+        if not hasattr(self,'_igrid'):
+            self._igrid=(0,0)
+        return self._igrid
+    @igrid.setter
+    def igrid(self,val):
+        self._igrid=val
+    @property
+    def icoh(self,):
+        if not hasattr(self,'_icoh'):
+            self._icoh=(-1,-1)
+        return self._icoh
+    @icoh.setter
+    def icoh(self,val):
+        self._icoh=val
+    
     def setinds(self,tsdata,igrid=None,icoh=None):
         """
         Set the (iz,iy) indices for this summfig instance.
@@ -157,7 +175,7 @@ class summfig(object):
         else:
             self.icoh=icoh
     
-    def plot_spec(self,tsdata,theory_line=False,**kwargs):
+    def plot_spec(self,tsdata,theory_line=False,*args,**kwargs):
         """
         Plot the spectrum (point iz,iy) of the input *tsdata* TurbSim data object.
         """
@@ -167,13 +185,23 @@ class summfig(object):
             if hasattr(tsdata,'tm') and theory_line:
                 self.ax_spec[ind].loglog(tsdata.tm.f,tsdata.tm.Suu[ind][self.igrid],'k--',zorder=10)
 
-    def plot_coh(self,tsdata,**kwargs):
+    def plot_theory(self,tsrun,*args,**kwargs):
+        for ind in range(3):
+            self.ax_prof[ind].plot(tsrun.prof.array[ind].mean(-1),tsrun.grid.z,*args,**kwargs)
+            self.ax_spec[ind].loglog(tsrun.grid.f,tsrun.spec.array[ind][self.igrid],*args,**kwargs)
+            #print tsrun.grid.sub2ind(self.icoh),tsrun.grid.sub2ind(self.igrid)
+            self.ax_cohr[ind].semilogx(tsrun.grid.f,tsrun.cohere.calcCoh(tsrun.grid.f,ind,tsrun.grid.sub2ind(self.igrid),tsrun.grid.sub2ind(self.icoh))**2,*args,**kwargs)
+            self.ax_tke[ind].plot(tsrun.spec.tke[ind].mean(-1)*self.tke_factor,tsrun.grid.z,*args,**kwargs)
+            self.ax_rstr[ind].plot(tsrun.stress.array[ind].mean(-1)*self.rs_factor,tsrun.grid.z,*args,**kwargs)
+        
+
+    def plot_coh(self,tsdata,*args,**kwargs):
         """
         Plot the coherence of the input *tsdata* TurbSim data object (between points iz,iy and icohz,icohy).
         """
         for ind in range(3):
             p,f=mpl.mlab.cohere(tsdata.uturb[ind][self.igrid],tsdata.uturb[ind][self.icoh],self.nfft,1./tsdata.dt,detrend=mpl.pylab.detrend_linear,noverlap=self.nfft/2,scale_by_freq=False)
-            self.ax_cohr[ind].semilogx(f,p,**kwargs)
+            self.ax_cohr[ind].semilogx(f,p,*args,**kwargs)
             #if hasattr(tsdata,'tm') and theory_line:
             #    self.ax_spec[ind].loglog(tsdata.tm.f,tsdata.tm.Suu[ind][igrid])
 
@@ -196,6 +224,7 @@ class summfig(object):
         self.ax_prof[-1].set_ylabel('$z/\mathrm{[m]}$')
         self.ax_spec[-1].set_ylabel('$S_{xx}/\mathrm{[m^2s^{-2}/hz]}$')
         self.ax_rstr[-1].set_xlabel('$\mathrm{10^{%d}[m^2s^{-2}]}$' % np.log10(self.rs_factor))
+        self.ax_tke[-1].set_xlabel('$\mathrm{10^{%d}[m^2s^{-2}]}$' % np.log10(self.tke_factor))
         self.ax_spec[0].legend(loc=1)
         self.ax_tke[-1].set_xlim([0,None])
         
@@ -211,7 +240,10 @@ class summfig(object):
         self.plot_coh(tsdata,**kwargs)
         self.plot_tke(tsdata,**kwargs)
         self.plot_rs(tsdata,**kwargs)
-        
+
+    def savefig(self,*args,**kwargs):
+        kwargs.setdefault('dpi',300)
+        return self.fig.savefig(*args,**kwargs)
 
 def showts(tsdata,fignum=2001,nfft=1024,igrid=None,icoh=None,**kwargs):
     if fignum.__class__ is summfig:

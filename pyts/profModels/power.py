@@ -1,10 +1,16 @@
-# !!!ADDDOC
-from mBase import profModelBase,prof
+"""
+This module contains the power-law mean-velocity profiles:
+ nwtc   - The NWTC power-law mean wind speed profile.
+
+"""
+from mBase import profModelBase,profObj
 
 class nwtc(profModelBase):
-    # !!!ADDDOC
     """
     The power-law mean wind profile.
+
+           Ubar(z) = URef * ( z / RefHt )^PLexp
+    
     """
     def __init__(self,Uref,RefHt,PLexp=1./7.):
         """
@@ -35,17 +41,17 @@ class nwtc(profModelBase):
 
     def __call__(self,tsrun):
         """
-        Calculate the profile array for this current profile model.
+        Calculate the profile object for this profile model.
         
         Parameters
         ----------
-        tsrun     - The 'TurbSim run' object for this simulation.
+        tsrun    - A TurbSim run object.
 
         Returns
         -------
-        prof     - A TurbSim profile object, containing the array of mean
+        out      - A TurbSim profile object, containing the array of mean
                    velocity for the simulation.
         """
-        out=prof(tsrun)
+        out=profObj(tsrun)
         out[0]=self.model(out.grid.z)[:,None]
         return out

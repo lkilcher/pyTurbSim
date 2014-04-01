@@ -1,3 +1,10 @@
+"""
+This module is for reading/writing PyTurbSim data objects to
+Bladed (Trademark: GL Garrad-Hassan) format binary files.
+
+The functions in this module were translated directly from the
+original TSsubs.f90 file.
+"""
 from base import convname
 import numpy as np
 from struct import pack,unpack
@@ -7,7 +14,12 @@ def write(fname,tsdat):
     """
     Write the data to a Bladed-format binary file.
 
-    This code was copied from the original TSsubs.f90.
+
+    Parameters
+    ----------
+    *fname*  - The filename to which the data should be written.
+    *tsdat*  - The 'tsdata' object that contains the data.
+
     """
     prms=tsdat.parameters
     lat=prms.get('Latitude',0.0)
@@ -30,9 +42,9 @@ def write(fname,tsdat):
     fl.write(pack(e+'3l',tsdat.info['RandSeed'],tsdat.grid.n_z,tsdat.grid.n_y))
     fl.write(pack(e+'6l',*([0]*6))) # Unused bytes
     if tsdat.grid.clockwise:
-        out=(ts[:,::-1,::-1,:]*scale-off).astype(np.int16)
+        out=(ts[:,:,::-1,:]*scale-off).astype(np.int16)
     else:
-        out=(ts[:,::-1]*scale-off).astype(np.int16)
+        out=(ts*scale-off).astype(np.int16)
     # Swap the y and z indices so that fortran-order writing agrees with the file format.
     out=np.rollaxis(out,2,1)
     # Write the data so that the first index varies fastest (F order).
@@ -40,11 +52,23 @@ def write(fname,tsdat):
     # (decreasing) order:
     # component (fastest), y-index, z-index, time (slowest).
     fl.write(out.tostring(order='F'))
+    #fl.write(out.tostring(order='F'))
     fl.close()
 
 def read(fname,):
     """
     Read Bladed format (.wnd, .bl) full-field time-series binary data files.
+
+    Parameters
+    ----------
+    *fname*  - The filename from which to read the data.
+
+    Returns
+    -------
+    *tsdat*  - An array of data.
+
+    !!!FIXTHIS, this should return a tsData object:
+    *tsdat*  - A tsdata object that contains the data.
     """
     with file(fname,'rb') as fl:
         junk,nffc,ncomp,lat,z0,zoff=unpack(e+'2hl3f',fl.read(20))
@@ -57,7 +81,7 @@ def read(fname,):
         randseed,n_z,n_y=unpack(e+'3l',fl.read(12))
         fl.seek(24,1) # Unused bytes
         nbt=ncomp*n_y*n_z*n_t
-        dat=np.rollaxis(np.fromstring(fl.read(2*nbt),dtype=np.int16).astype(np.float32).reshape([ncomp,n_y,n_z,n_t],order='F'),2,1)[:,::-1]
+        dat=np.rollaxis(np.fromstring(fl.read(2*nbt),dtype=np.int16).astype(np.float32).reshape([ncomp,n_y,n_z,n_t],order='F'),2,1)
     dat[0]+=1000.0/ti[0]
     dat/=1000./(uhub*ti[:,None,None,None])
     return dat

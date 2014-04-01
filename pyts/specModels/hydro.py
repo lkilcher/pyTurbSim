@@ -1,8 +1,14 @@
-# !!!ADDDOC
-from .mBase import turbModelBase,np,spec,ts_float
+"""
+This module contains the following spectral models:
+  tidal - The 'tidal' spectral model.
+  river - The 'river' spectral model.
+"""
+from .mBase import specModelBase,np,specObj,ts_float
 
-class tidal(turbModelBase):
-    # !!!ADDDOC
+class tidal(specModelBase):
+    """
+    
+    """
     s_coef=np.array([[1.21,4.3],[0.33,0.50],[0.23,0.26]],dtype=ts_float)
 
     def __init__(self,Ustar,RefHt):
@@ -10,7 +16,7 @@ class tidal(turbModelBase):
         self.Zref=RefHt
         
     def __call__(self,tsrun):
-        out=spec(tsrun)
+        out=specObj(tsrun)
         dudz=np.abs(tsrun.prof.dudz[None,:,:,None])
         out.sigma2=self.Ustar**2*np.array([4.5,2.25,0.9])[:,None]*np.exp(-2*tsrun.grid.z[None,:]/self.Zref)
         out[:]=(out.sigma2[:,:,None,None]*self.s_coef[:,0][:,None,None,None]/dudz)/(1+self.s_coef[:,1][:,None,None,None]*(tsrun.grid.f[None,None,None,:]/dudz)**self.pow5_3)

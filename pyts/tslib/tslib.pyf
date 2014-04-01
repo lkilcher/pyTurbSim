@@ -3,40 +3,24 @@
 
 python module tslib ! in 
     interface  ! in :tslib
-        module tslib ! in :tslib:tslib.f90
-            function indx(ii,jj,np) ! in :tslib:tslib.f90:tslib
+        module tslib ! in :tslib:tslib.f95
+            function indx(ii,jj,np) ! in :tslib:tslib.f95:tslib
                 integer :: ii
                 integer :: jj
                 integer :: np
                 integer :: indx
             end function indx
-            subroutine veers84(sij,sii,phr,ncore,np,nf,spec) ! in :tslib:tslib.f90:tslib
-                real dimension(np*(np+1)/2,nf),intent(in),depend(np,nf) :: sij
-                real dimension(np,nf),intent(in),depend(np,nf) :: sii
-                complex dimension(np,nf),intent(in),depend(np,nf) :: phr
-                integer intent(in) :: ncore
-                integer, optional,intent(in),depend() :: np=shape(phr,0)
-                integer, optional,intent(in),depend() :: nf=shape(phr,1)
-                complex dimension(np,nf + 1),intent(out),depend(np,nf) :: spec
-            end subroutine veers84
-            subroutine ieccoh(sij,f,y,z,uhub,a,lc,ncore,nf,ny,nz) ! in :tslib:tslib.f90:tslib
-                use omp_lib
-                real dimension(ny*nz*(ny*nz+1)/2,nf),intent(out),depend(ny,nz,nf) :: sij
-                real dimension(nf),intent(in) :: f
+            function r_arr(y,z,ny,nz) ! in :tslib:tslib.f95:tslib
                 real dimension(ny),intent(in) :: y
                 real dimension(nz),intent(in) :: z
-                real intent(in) :: uhub
-                real intent(in) :: a
-                real intent(in) :: lc
-                integer intent(in) :: ncore
-                integer, optional,intent(in),check(len(f)>=nf),depend(f) :: nf=len(f)
                 integer, optional,intent(in),check(len(y)>=ny),depend(y) :: ny=len(y)
                 integer, optional,intent(in),check(len(z)>=nz),depend(z) :: nz=len(z)
-            end subroutine ieccoh
-            subroutine nonieccoh(sij,f,y,z,u,coef_a,coef_b,coefexp,ncore,nf,ny,nz) ! in :tslib:tslib.f90:tslib
+                real dimension(ny*nz*(ny*nz+1)/2) :: r_arr
+            end function r_arr
+            subroutine nonieccoh(phr,f,y,z,u,coef_a,coef_b,coefexp,ncore,nf,ny,nz) ! in :tslib:tslib.f95:tslib
                 use omp_lib
-                real dimension(ny*nz*(ny*nz+1)/2,nf),intent(out),depend(ny,nz,nf) :: sij
-                real dimension(nf),intent(in) :: f
+                complex dimension(ny*nz,nf),intent(inout),depend(ny,nz) :: phr
+                real dimension(nf),intent(in),depend(nf) :: f
                 real dimension(ny),intent(in) :: y
                 real dimension(nz),intent(in) :: z
                 real dimension(ny*nz),intent(in),depend(ny,nz) :: u
@@ -44,10 +28,24 @@ python module tslib ! in
                 real intent(in) :: coef_b
                 real intent(in) :: coefexp
                 integer intent(in) :: ncore
-                integer, optional,intent(in),check(len(f)>=nf),depend(f) :: nf=len(f)
+                integer, optional,intent(in),check(shape(phr,1)==nf),depend(phr) :: nf=shape(phr,1)
                 integer, optional,intent(in),check(len(y)>=ny),depend(y) :: ny=len(y)
                 integer, optional,intent(in),check(len(z)>=nz),depend(z) :: nz=len(z)
             end subroutine nonieccoh
+            subroutine ieccoh(phr,f,y,z,uhub,a,lc,ncore,nf,ny,nz) ! in :tslib:tslib.f95:tslib
+                use omp_lib
+                complex dimension(ny*nz,nf),intent(inout),depend(ny,nz) :: phr
+                real dimension(nf),intent(in),depend(nf) :: f
+                real dimension(ny),intent(in) :: y
+                real dimension(nz),intent(in) :: z
+                real intent(in) :: uhub
+                real intent(in) :: a
+                real intent(in) :: lc
+                integer intent(in) :: ncore
+                integer, optional,intent(in),check(shape(phr,1)==nf),depend(phr) :: nf=shape(phr,1)
+                integer, optional,intent(in),check(len(y)>=ny),depend(y) :: ny=len(y)
+                integer, optional,intent(in),check(len(z)>=nz),depend(z) :: nz=len(z)
+            end subroutine ieccoh
         end module tslib
     end interface 
 end python module tslib

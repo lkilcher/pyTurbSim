@@ -1,3 +1,9 @@
+"""
+This is the main (top-level) io module. It defines the 'readModel'
+function, which is useful for collecting information from available
+TurbSim input/output files.
+"""
+
 import bladed,aerodyn
 import config as cfg_io
 from base import convname
@@ -11,11 +17,13 @@ readers={'wnd':bladed.read,
 
 def readModel(fname,inp_fname=None):
     """
-    Reads a TurbSim data and input (config) file and returns a tsdata object.
-    If *fname* ends in .inp, it reads this input file, and searches for a binary file
-    that can be read (throws error if none is found).
+    Reads a TurbSim data and input (config) file and returns a tsdata
+    object.  If *fname* ends in .inp, it reads this input file, and
+    searches for a binary file that can be read (throws error if none
+    is found).
     
-    If *fname* is a filetype that can be read, it reads that file and the associated .inp file.
+    If *fname* is a filetype that can be read, it reads that file and
+    the associated .inp file.
 
     In other words:
       tsdat=readModel('TurbSim.inp')

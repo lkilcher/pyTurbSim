@@ -1,13 +1,3 @@
-# -*- coding: iso-8859-15 -*-
-#----------------------------------------------------------------------------
-# Name:         gTurbSim.py
-# Author:       XXXX
-# Created:      XX/XX/XX
-# Copyright:    
-#----------------------------------------------------------------------------
-
-# WDR: classes
-
 from base import wx,gts_wdr,ConfigSettings
 from ..io import config as io
 import grid,prof,turb
@@ -19,7 +9,6 @@ import sys
 
 # TODO:
 #  - Summarize the configuration on the main window.
-#  - Output .sum files
 #  - Add tooltips
 #    .. 'disabled' tooltips
 #    .. More documentation than tooltips can provide?
