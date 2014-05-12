@@ -1,0 +1,422 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>profModels Package &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../index.html" />
+    <link rel="up" title="pyts Package" href="pyts.html" />
+    <link rel="next" title="runConfig Package" href="pyts.runConfig.html" />
+    <link rel="prev" title="phaseModels Package" href="pyts.phaseModels.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyts.runConfig.html" title="runConfig Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pyts.phaseModels.html" title="phaseModels Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >pyts</a> &raquo;</li>
+          <li><a href="pyts.html" accesskey="U">pyts Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="profmodels-package">
+<h1>profModels Package<a class="headerlink" href="#profmodels-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">profModels</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-pyts.profModels"></span><p>This is the PyTurbSim mean velocity &#8216;profile models&#8217; package.  This
+package contains pre-defined profile models that can be implemented in
+a PyTurbSim run.</p>
+<dl class="docutils">
+<dt>This package contains:</dt>
+<dd><p class="first">api.py        - The API for this package.
+mBase.py      - The package&#8217;s base module defines classes used by</p>
+<blockquote>
+<div>models in the package.</div></blockquote>
+<dl class="docutils">
+<dt>iec.py        - Contains International Electrotechnical Commission</dt>
+<dd>(IEC) profile models.</dd>
+</dl>
+<p class="last">log.py        - Contains logarithmic mean velocity profile models.
+power.py      - Contains power-law mean velocity profile models.</p>
+</dd>
+</dl>
+<p>For more information and to use this module import the profModels.api
+package, e.g.:
+import pyts.profModels.api as pm</p>
+</div>
+<div class="section" id="module-pyts.profModels.api">
+<span id="api-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">api</span></tt> Module<a class="headerlink" href="#module-pyts.profModels.api" title="Permalink to this headline">¶</a></h2>
+<p>PyTurbSim mean velocity &#8216;profile models&#8217; package.</p>
+<div class="section" id="available-profiles">
+<h3>Available profiles:<a class="headerlink" href="#available-profiles" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>log_models.nwtc (alias: log)  - The nwtc logarithmic mean wind-speed profile.
+log_models.H2O (alias: h2l)   - The hydro (water) logarithmic mean velocity profile.</p>
+<p>power_models.nwtc (alias: pl) - The nwtc 1/7 power-law mean wind-speed profile.</p>
+<p>iec_models.main (alias: iec)  - The IEC mean wind-speed profile.</p>
+</div></blockquote>
+</div>
+<div class="section" id="example-usage">
+<h3>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h3>
+<p>import pyts.profModels.api as pm</p>
+<p># Create a logarithmic mean wind-speed &#8216;profile model&#8217; with 18m/s wind
+at 80m, and surface roughness length of 1m:
+my_prof_model=pm.log(18,80,1)</p>
+<p># Now set &#8216;tsrun&#8217; to use this profile model:
+tsrun.prof=my_prof_model(tsrun)</p>
+</div>
+<div class="section" id="see-also">
+<h3>See also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h3>
+<p>For a description of the difference between &#8216;profile models&#8217;
+(e.g. &#8216;my_prof_model&#8217; in example above) and the profile they output
+(tsrun.prof), see the &#8216;models_and_stats_example.py&#8217; file.</p>
+</div>
+</div>
+<div class="section" id="module-pyts.profModels.iec">
+<span id="iec-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">iec</span></tt> Module<a class="headerlink" href="#module-pyts.profModels.iec" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>This module contains the power-law mean-velocity profiles:</dt>
+<dd>main   - The IEC mean wind speed profile.</dd>
+</dl>
+<dl class="class">
+<dt id="pyts.profModels.iec.main">
+<em class="property">class </em><tt class="descclassname">pyts.profModels.iec.</tt><tt class="descname">main</tt><big>(</big><em>URef</em>, <em>RefHt</em>, <em>Z0</em>, <em>Ri</em>, <em>PLexp=0.2</em>, <em>turbmodel=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/iec.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.iec.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.profModels.log.nwtc" title="pyts.profModels.log.nwtc"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.log.nwtc</span></tt></a>, <a class="reference internal" href="#pyts.profModels.power.nwtc" title="pyts.profModels.power.nwtc"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.power.nwtc</span></tt></a></p>
+<p>The iec wind profile.  This profile is a power-law
+across the rotor disk and logarithmic elsewhere.</p>
+<dl class="method">
+<dt id="pyts.profModels.iec.main.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/iec.html#main.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.iec.main.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the mean wind speed profile with a <em>tsrun</em> object to return the
+run-specific mean velocity profile object.</p>
+<p>tsrun    - A TurbSim run object.</p>
+<p>out      - An IEC wind-speed profile for the grid in tsrun.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.profModels.jet">
+<span id="jet-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">jet</span></tt> Module<a class="headerlink" href="#module-pyts.profModels.jet" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyts.profModels.jet.main">
+<em class="property">class </em><tt class="descclassname">pyts.profModels.jet.</tt><tt class="descname">main</tt><a class="reference internal" href="../_modules/pyts/profModels/jet.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.jet.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.mBase.profModelBase</span></tt></a></p>
+<p>The low-level jet wind velocity profile.</p>
+<dl class="method">
+<dt id="pyts.profModels.jet.main.initModel">
+<tt class="descname">initModel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/jet.html#main.initModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.jet.main.initModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyts.profModels.jet.main.model">
+<tt class="descname">model</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/jet.html#main.model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.jet.main.model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyts.profModels.jet.main.model2">
+<tt class="descname">model2</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/jet.html#main.model2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.jet.main.model2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.profModels.jet.main.zjet_max">
+<tt class="descname">zjet_max</tt><a class="reference internal" href="../_modules/pyts/profModels/jet.html#main.zjet_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.jet.main.zjet_max" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.profModels.log">
+<span id="log-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">log</span></tt> Module<a class="headerlink" href="#module-pyts.profModels.log" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>This module contains the log-law mean-velocity profiles:</dt>
+<dd>nwtc   - The NWTC logarithmic mean wind speed profile.
+H2O    - The hydro-logarithmic mean velocity profile.</dd>
+</dl>
+<dl class="class">
+<dt id="pyts.profModels.log.H2O">
+<em class="property">class </em><tt class="descclassname">pyts.profModels.log.</tt><tt class="descname">H2O</tt><big>(</big><em>Uref</em>, <em>Zref</em>, <em>ustar</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/log.html#H2O"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.log.H2O" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.mBase.profModelBase</span></tt></a></p>
+<p>The logarithmic mean water velocity profile.</p>
+<blockquote>
+<div>Ubar(z) = Ustar/kappa * ln( z / Zref) + Uref</div></blockquote>
+<dl class="method">
+<dt id="pyts.profModels.log.H2O.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/log.html#H2O.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.log.H2O.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the mean wind speed profile with a <em>tsrun</em> object to return the
+run-specific mean velocity profile object.</p>
+<p>tsrun    - A TurbSim run object.</p>
+<dl class="docutils">
+<dt>out - A logarithmic mean-velocity profile object for the</dt>
+<dd>spatial grid in tsrun.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyts.profModels.log.nwtc">
+<em class="property">class </em><tt class="descclassname">pyts.profModels.log.</tt><tt class="descname">nwtc</tt><big>(</big><em>URef</em>, <em>ZRef</em>, <em>Z0</em>, <em>Ri=0</em>, <em>turbmodel=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/log.html#nwtc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.log.nwtc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.mBase.profModelBase</span></tt></a></p>
+<p>The NWTC logarithmic mean wind-speed profile.</p>
+<div class="math">
+\[\bar{U}(z) = U_{Ref}\frac{ln( z / Z0 ) - \psi_M}{ln( Z_{Ref} / Z0) - \psi_M}\]</div>
+<p>Where psi_M is a function of Ri, the Richardson number (psi_M=0
+for Ri=0), and the turbulence model.</p>
+<dl class="method">
+<dt id="pyts.profModels.log.nwtc.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/log.html#nwtc.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.log.nwtc.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the mean wind speed profile with a <em>tsrun</em> object to return the
+run-specific mean velocity profile object.</p>
+<p>tsrun    - A TurbSim run object.</p>
+<p>out      - A logarithmic wind-speed profile for the grid in tsrun.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyts.profModels.log.nwtc.model">
+<tt class="descname">model</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/log.html#nwtc.model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.log.nwtc.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the log profile for input variable <em>z</em>.</p>
+<p>z       - Height above the ground (nz x ny array).</p>
+<p>mean velocity (nz x ny array).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.profModels.log.nwtc.psiM">
+<tt class="descname">psiM</tt><a class="reference internal" href="../_modules/pyts/profModels/log.html#nwtc.psiM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.log.nwtc.psiM" title="Permalink to this definition">¶</a></dt>
+<dd><p>The psi_M parameter for this profile model.</p>
+<p>See the pyts.misc.psiM function for details.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.profModels.mBase">
+<span id="mbase-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">mBase</span></tt> Module<a class="headerlink" href="#module-pyts.profModels.mBase" title="Permalink to this headline">¶</a></h2>
+<p>This is the velocity profile package&#8217;s base module.</p>
+<dl class="docutils">
+<dt>This module defines:</dt>
+<dd>profObj        - The mean-profile object class.
+profModelBase  - The base class for mean-profile models.</dd>
+</dl>
+<dl class="class">
+<dt id="pyts.profModels.mBase.profModelBase">
+<em class="property">class </em><tt class="descclassname">pyts.profModels.mBase.</tt><tt class="descname">profModelBase</tt><a class="reference internal" href="../_modules/pyts/profModels/mBase.html#profModelBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.mBase.profModelBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.modelBase" title="pyts.base.modelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.modelBase</span></tt></a></p>
+<p>A base class for TurbSim profile models.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyts.profModels.mBase.profObj">
+<em class="property">class </em><tt class="descclassname">pyts.profModels.mBase.</tt><tt class="descname">profObj</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/mBase.html#profObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.mBase.profObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.gridProps" title="pyts.base.gridProps"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.gridProps</span></tt></a>, <a class="reference internal" href="pyts.html#pyts.base.calcObj" title="pyts.base.calcObj"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.calcObj</span></tt></a></p>
+<p>Profile objects contain the array (self.array) of mean-velocity
+values for a specific PyTurbSim run. This class defines various
+shortcuts to the mean velocity data including:</p>
+<p>u     - The u-component mean-velocity array
+v     - The v-component mean-velocity array
+w     - The w-component mean-velocity array</p>
+<p>dudz  - The vertical shear of u-component.
+dvdz  - The vertical shear of v-component.
+dwdz  - The vertical shear of w-component.</p>
+<p>uhub  - The hub-height u-component mean-velocity.</p>
+<dl class="attribute">
+<dt id="pyts.profModels.mBase.profObj.dudz">
+<tt class="descname">dudz</tt><a class="reference internal" href="../_modules/pyts/profModels/mBase.html#profObj.dudz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.mBase.profObj.dudz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the vertical derivative of the u-component of the mean velocity field.
+(Centered difference)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.profModels.mBase.profObj.dvdz">
+<tt class="descname">dvdz</tt><a class="reference internal" href="../_modules/pyts/profModels/mBase.html#profObj.dvdz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.mBase.profObj.dvdz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the vertical derivative of the v-component of the mean velocity field.
+(Centered difference)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.profModels.mBase.profObj.dwdz">
+<tt class="descname">dwdz</tt><a class="reference internal" href="../_modules/pyts/profModels/mBase.html#profObj.dwdz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.mBase.profObj.dwdz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the vertical derivative of the w-component of the mean velocity field.
+(Centered difference)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.profModels.mBase.profObj.u">
+<tt class="descname">u</tt><a class="reference internal" href="../_modules/pyts/profModels/mBase.html#profObj.u"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.mBase.profObj.u" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the w-component of the mean velocity field.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.profModels.mBase.profObj.uhub">
+<tt class="descname">uhub</tt><a class="reference internal" href="../_modules/pyts/profModels/mBase.html#profObj.uhub"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.mBase.profObj.uhub" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the u-component hub-height wind speed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.profModels.mBase.profObj.v">
+<tt class="descname">v</tt><a class="reference internal" href="../_modules/pyts/profModels/mBase.html#profObj.v"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.mBase.profObj.v" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the w-component of the mean velocity field.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.profModels.mBase.profObj.w">
+<tt class="descname">w</tt><a class="reference internal" href="../_modules/pyts/profModels/mBase.html#profObj.w"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.mBase.profObj.w" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the w-component of the mean velocity field.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.profModels.power">
+<span id="power-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">power</span></tt> Module<a class="headerlink" href="#module-pyts.profModels.power" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>This module contains the power-law mean-velocity profiles:</dt>
+<dd>nwtc   - The NWTC power-law mean wind speed profile.</dd>
+</dl>
+<dl class="class">
+<dt id="pyts.profModels.power.nwtc">
+<em class="property">class </em><tt class="descclassname">pyts.profModels.power.</tt><tt class="descname">nwtc</tt><big>(</big><em>Uref</em>, <em>RefHt</em>, <em>PLexp=0.14285714285714285</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/power.html#nwtc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.power.nwtc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.mBase.profModelBase</span></tt></a></p>
+<p>The power-law mean wind profile.</p>
+<blockquote>
+<div>Ubar(z) = URef * ( z / RefHt )^PLexp</div></blockquote>
+<dl class="method">
+<dt id="pyts.profModels.power.nwtc.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/power.html#nwtc.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.power.nwtc.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the profile object for this profile model.</p>
+<p>tsrun    - A TurbSim run object.</p>
+<dl class="docutils">
+<dt>out      - A TurbSim profile object, containing the array of mean</dt>
+<dd>velocity for the simulation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyts.profModels.power.nwtc.model">
+<tt class="descname">model</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/power.html#nwtc.model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.power.nwtc.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function for calculating the mean velocity profile.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">profModels Package</a><ul>
+<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">profModels</span></tt> Package</a></li>
+<li><a class="reference internal" href="#module-pyts.profModels.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a><ul>
+<li><a class="reference internal" href="#available-profiles">Available profiles:</a></li>
+<li><a class="reference internal" href="#example-usage">Example usage</a></li>
+<li><a class="reference internal" href="#see-also">See also</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyts.profModels.iec"><tt class="docutils literal"><span class="pre">iec</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.profModels.jet"><tt class="docutils literal"><span class="pre">jet</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.profModels.log"><tt class="docutils literal"><span class="pre">log</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.profModels.mBase"><tt class="docutils literal"><span class="pre">mBase</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.profModels.power"><tt class="docutils literal"><span class="pre">power</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyts.phaseModels.html"
+                        title="previous chapter">phaseModels Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyts.runConfig.html"
+                        title="next chapter">runConfig Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/pyts.profModels.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyts.runConfig.html" title="runConfig Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pyts.phaseModels.html" title="phaseModels Package"
+             >previous</a> |</li>
+        <li><a href="../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >pyts</a> &raquo;</li>
+          <li><a href="pyts.html" >pyts Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

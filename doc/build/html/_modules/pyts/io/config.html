@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.io.config &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyts.io.config</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module is for reading/writing PyTurbSim config (.inp) files.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
+<span class="kn">from</span> <span class="nn">..runConfig.base</span> <span class="kn">import</span> <span class="n">tscfg</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ts_float</span><span class="p">,</span><span class="n">userroot</span><span class="p">,</span><span class="n">tsroot</span>
+
+<span class="c"># Inpute files are in fixed format. That is, variables are defined by linenumber.</span>
+<span class="c"># This defines the input-file format:</span>
+<span class="n">inputfile_form</span><span class="o">=</span><span class="p">{</span>
+    <span class="mi">3</span><span class="p">:</span><span class="s">&#39;RandSeed1&#39;</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">,</span>
+    <span class="mi">5</span><span class="p">:</span><span class="s">&#39;WrBHHTP&#39;</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">:</span><span class="s">&#39;WrFHHTP&#39;</span><span class="p">,</span>
+    <span class="mi">7</span><span class="p">:</span><span class="s">&#39;WrADHH&#39;</span><span class="p">,</span>
+    <span class="mi">8</span><span class="p">:</span><span class="s">&#39;WrADFF&#39;</span><span class="p">,</span>
+    <span class="mi">9</span><span class="p">:</span><span class="s">&#39;WrBLFF&#39;</span><span class="p">,</span>
+    <span class="mi">10</span><span class="p">:</span><span class="s">&#39;WrADTWR&#39;</span><span class="p">,</span>
+    <span class="mi">11</span><span class="p">:</span><span class="s">&#39;WrFMTFF&#39;</span><span class="p">,</span>
+    <span class="mi">12</span><span class="p">:</span><span class="s">&#39;WrACT&#39;</span><span class="p">,</span>
+    <span class="mi">13</span><span class="p">:</span><span class="s">&#39;Clockwise&#39;</span><span class="p">,</span>
+    <span class="mi">14</span><span class="p">:</span><span class="s">&#39;ScaleIEC&#39;</span><span class="p">,</span>
+    <span class="mi">17</span><span class="p">:</span><span class="s">&#39;NumGrid_Z&#39;</span><span class="p">,</span>
+    <span class="mi">18</span><span class="p">:</span><span class="s">&#39;NumGrid_Y&#39;</span><span class="p">,</span>
+    <span class="mi">19</span><span class="p">:</span><span class="s">&#39;TimeStep&#39;</span><span class="p">,</span>
+    <span class="mi">20</span><span class="p">:</span><span class="s">&#39;AnalysisTime&#39;</span><span class="p">,</span>
+    <span class="mi">21</span><span class="p">:</span><span class="s">&#39;UsableTime&#39;</span><span class="p">,</span>
+    <span class="mi">22</span><span class="p">:</span><span class="s">&#39;HubHt&#39;</span><span class="p">,</span>
+    <span class="mi">23</span><span class="p">:</span><span class="s">&#39;GridHeight&#39;</span><span class="p">,</span>
+    <span class="mi">24</span><span class="p">:</span><span class="s">&#39;GridWidth&#39;</span><span class="p">,</span>
+    <span class="mi">25</span><span class="p">:</span><span class="s">&#39;VFlowAng&#39;</span><span class="p">,</span>
+    <span class="mi">26</span><span class="p">:</span><span class="s">&#39;HFlowAng&#39;</span><span class="p">,</span>
+    <span class="mi">29</span><span class="p">:</span><span class="s">&#39;TurbModel&#39;</span><span class="p">,</span>
+    <span class="mi">30</span><span class="p">:</span><span class="s">&#39;IECstandard&#39;</span><span class="p">,</span>
+    <span class="mi">31</span><span class="p">:</span><span class="s">&#39;IECturbc&#39;</span><span class="p">,</span>
+    <span class="mi">32</span><span class="p">:</span><span class="s">&#39;IEC_WindType&#39;</span><span class="p">,</span>
+    <span class="mi">33</span><span class="p">:</span><span class="s">&#39;ETMc&#39;</span><span class="p">,</span>
+    <span class="mi">34</span><span class="p">:</span><span class="s">&#39;WindProfileType&#39;</span><span class="p">,</span>
+    <span class="mi">35</span><span class="p">:</span><span class="s">&#39;RefHt&#39;</span><span class="p">,</span>
+    <span class="mi">36</span><span class="p">:</span><span class="s">&#39;URef&#39;</span><span class="p">,</span>
+    <span class="mi">37</span><span class="p">:</span><span class="s">&#39;ZJetMax&#39;</span><span class="p">,</span>
+    <span class="mi">38</span><span class="p">:</span><span class="s">&#39;PLExp&#39;</span><span class="p">,</span>
+    <span class="mi">39</span><span class="p">:</span><span class="s">&#39;Z0&#39;</span><span class="p">,</span>
+    <span class="mi">42</span><span class="p">:</span><span class="s">&#39;Latitude&#39;</span><span class="p">,</span>
+    <span class="mi">43</span><span class="p">:</span><span class="s">&#39;RICH_NO&#39;</span><span class="p">,</span>
+    <span class="mi">44</span><span class="p">:</span><span class="s">&#39;UStar&#39;</span><span class="p">,</span>
+    <span class="mi">45</span><span class="p">:</span><span class="s">&#39;ZI&#39;</span><span class="p">,</span>
+    <span class="mi">46</span><span class="p">:</span><span class="s">&#39;PC_UW&#39;</span><span class="p">,</span>
+    <span class="mi">47</span><span class="p">:</span><span class="s">&#39;PC_UV&#39;</span><span class="p">,</span>
+    <span class="mi">48</span><span class="p">:</span><span class="s">&#39;PC_VW&#39;</span><span class="p">,</span>
+    <span class="mi">49</span><span class="p">:</span><span class="s">&#39;IncDec1&#39;</span><span class="p">,</span>
+    <span class="mi">50</span><span class="p">:</span><span class="s">&#39;IncDec2&#39;</span><span class="p">,</span>
+    <span class="mi">51</span><span class="p">:</span><span class="s">&#39;IncDec3&#39;</span><span class="p">,</span>
+    <span class="mi">52</span><span class="p">:</span><span class="s">&#39;CohExp&#39;</span><span class="p">,</span>
+    <span class="mi">55</span><span class="p">:</span><span class="s">&#39;CTEventPath&#39;</span><span class="p">,</span>
+    <span class="mi">56</span><span class="p">:</span><span class="s">&#39;CTEventFile&#39;</span><span class="p">,</span>
+    <span class="mi">57</span><span class="p">:</span><span class="s">&#39;Randomize&#39;</span><span class="p">,</span>
+    <span class="mi">58</span><span class="p">:</span><span class="s">&#39;DistScl&#39;</span><span class="p">,</span>
+    <span class="mi">59</span><span class="p">:</span><span class="s">&#39;CTLy&#39;</span><span class="p">,</span>
+    <span class="mi">60</span><span class="p">:</span><span class="s">&#39;CTLz&#39;</span><span class="p">,</span>
+    <span class="mi">61</span><span class="p">:</span><span class="s">&#39;CTStartTime&#39;</span><span class="p">,</span>
+    <span class="mi">64</span><span class="p">:</span><span class="s">&#39;NumUSRz&#39;</span><span class="p">,</span>
+    <span class="mi">65</span><span class="p">:</span><span class="s">&#39;StdScale1&#39;</span><span class="p">,</span>
+    <span class="mi">66</span><span class="p">:</span><span class="s">&#39;StdScale2&#39;</span><span class="p">,</span>
+    <span class="mi">67</span><span class="p">:</span><span class="s">&#39;StdScale3&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.config.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">config</span><span class="p">,</span><span class="n">headertext</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Writeout a config file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    *fname*   - The filename to write out.</span>
+<span class="sd">    *config*  - The PyTurbSim config dictionary.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">format</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">tsroot</span><span class="o">+</span><span class="s">&#39;form/input.form&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">ln</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">format</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">idx</span><span class="o">==</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">headertext</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">ln</span><span class="o">+=</span><span class="n">headertext</span>
+        <span class="k">if</span> <span class="n">inputfile_form</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+            <span class="n">val</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="n">inputfile_form</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">inputfile_form</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;RandSeed2&#39;</span> <span class="ow">and</span> <span class="n">val</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">val</span><span class="o">=</span><span class="s">&#39;RANLUX&#39;</span>
+            <span class="k">elif</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+                <span class="n">val</span><span class="o">=</span><span class="s">&#39;&quot;&#39;</span><span class="o">+</span><span class="n">val</span><span class="o">+</span><span class="s">&#39;&quot;&#39;</span>
+            <span class="k">elif</span> <span class="n">val</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">val</span><span class="o">=</span><span class="s">&#39;default&#39;</span>
+            <span class="k">elif</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+                <span class="n">val</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="o">+</span><span class="s">&#39;</span><span class="si">%0.2g</span><span class="s"> &#39;</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;</span><span class="si">%0.2g</span><span class="s">&quot;&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">s</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">s</span><span class="o">+=</span><span class="s">&#39; &#39;</span><span class="o">*</span><span class="p">(</span><span class="mi">25</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+            <span class="n">ln</span><span class="o">=</span><span class="n">s</span><span class="o">+</span><span class="n">ln</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ln</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    </div>
+<div class="viewcode-block" id="read"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.config.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read a TurbSim input (.inp) file.</span>
+<span class="sd">    </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    *fname*   - The filename to read the config from.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    *config*  - A PyTurbSim config dictionary.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># TurbSim input files are static:</span>
+    <span class="c">#   Variable are determined by line number.</span>
+    <span class="c">#   Only the first string on the line matters.</span>
+    <span class="c">#   All else is commenting.</span>
+    <span class="c">#   Therefore we simply assign variables by line number.</span>
+    <span class="n">ril</span><span class="o">=</span><span class="n">_readInputLine</span>
+    <span class="n">out</span><span class="o">=</span><span class="n">tscfg</span><span class="p">()</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">filename</span><span class="o">=</span><span class="n">fname</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProfile&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">False</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="k">as</span> <span class="n">fl</span><span class="p">:</span>
+        <span class="n">dat</span><span class="o">=</span><span class="n">fl</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;header&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">dat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># Header line at top of file.  Sometimes used to indicate the files specific use.</span>
+    <span class="c"># Deal the data from the file:</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">ln</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dat</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">inputfile_form</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">inputfile_form</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span><span class="o">=</span><span class="n">ril</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="c"># Customize the input fields for pyTurbSim...</span>
+    <span class="k">if</span> <span class="n">out</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">out</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">==</span><span class="s">&#39;RANLUX&#39;</span><span class="p">:</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">None</span>
+    <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;IncDec1&#39;</span><span class="p">,</span><span class="s">&#39;IncDec2&#39;</span><span class="p">,</span><span class="s">&#39;IncDec3&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">70</span> <span class="ow">and</span> <span class="n">dat</span><span class="p">[</span><span class="mi">64</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;NumUSRz&#39;</span><span class="p">:</span>
+        <span class="c"># This file has a user-defined profile.</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;NumUSRz&#39;</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_U&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">])</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_Ang&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">])</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_Std&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">])</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_L&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;NumUSRz&#39;</span><span class="p">]):</span>
+            <span class="n">tmp</span><span class="o">=</span><span class="n">dat</span><span class="p">[</span><span class="mi">72</span><span class="o">+</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">ts_float</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_U&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">ts_float</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_Ang&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">ts_float</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_Std&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">ts_float</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_L&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">ts_float</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProfile&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">fls</span><span class="o">=</span><span class="n">listdir</span><span class="p">(</span><span class="n">fname</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">fl</span> <span class="ow">in</span> <span class="p">[</span><span class="n">fname</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;_Spec.inp&#39;</span><span class="p">,</span><span class="s">&#39;UsrSpec.inp&#39;</span><span class="p">,]:</span>
+            <span class="k">if</span> <span class="n">fl</span> <span class="ow">in</span> <span class="n">fls</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;psd&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">readInPSD</span><span class="p">(</span><span class="n">fname</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;/&#39;</span><span class="o">+</span><span class="n">fl</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ky</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">val</span><span class="o">==</span><span class="s">&#39;default&#39;</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">=</span><span class="bp">None</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">__original__</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+</div>
+<span class="k">def</span> <span class="nf">_readInputLine</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function parses data from config file lines and returns it as the </span>
+<span class="sd">    correct &#39;type&#39; (e.g. int, float, bool, str).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">types</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span><span class="nb">bool</span><span class="p">,</span><span class="nb">str</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;&quot;&#39;</span><span class="p">:</span>
+        <span class="n">val</span><span class="o">=</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s">&quot;&#39;&quot;</span><span class="p">:</span>
+        <span class="n">val</span><span class="o">=</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;&#39;&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">val</span><span class="o">=</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">idx</span><span class="o">=</span><span class="mi">0</span>
+    <span class="k">if</span> <span class="n">val</span><span class="o">==</span><span class="s">&#39;default&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">types</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
+                <span class="n">tmp</span><span class="o">=</span><span class="n">val</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;&#39;&quot;</span><span class="p">,</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">tmp</span><span class="o">==</span><span class="s">&#39;false&#39;</span> <span class="ow">or</span> <span class="n">tmp</span><span class="o">==</span><span class="s">&#39;true&#39;</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">tmp</span><span class="o">==</span><span class="s">&#39;true&#39;</span>
+            <span class="n">out</span><span class="o">=</span><span class="n">types</span><span class="p">[</span><span class="n">idx</span><span class="p">](</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">types</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">out</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">out</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">):</span>
+                <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">out</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">idx</span><span class="o">+=</span><span class="mi">1</span>
+
+<div class="viewcode-block" id="readInPSD"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.config.readInPSD">[docs]</a><span class="k">def</span> <span class="nf">readInPSD</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read the input spectrum from file *fname*, and return it as a</span>
+<span class="sd">    dictionary.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    *fname*   - The filename to read the PSD from.</span>
+
+<span class="sd">    The frequency in the input file should be in units of hz, and the</span>
+<span class="sd">    spectrum should be in units of m^2/s^2/hz.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ril</span><span class="o">=</span><span class="n">_readInputLine</span>
+    <span class="n">out</span><span class="o">=</span><span class="p">{}</span>
+    <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="n">dat</span><span class="o">=</span><span class="n">fname</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="k">as</span> <span class="n">fl</span><span class="p">:</span>
+            <span class="n">dat</span><span class="o">=</span><span class="n">fl</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">NumUSRf</span><span class="o">=</span><span class="n">ril</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">SpecScale1</span><span class="o">=</span><span class="n">ril</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">SpecScale2</span><span class="o">=</span><span class="n">ril</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+    <span class="n">SpecScale3</span><span class="o">=</span><span class="n">ril</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">NumUSRf</span><span class="p">,</span><span class="o">**</span><span class="n">ts_float</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;Suu&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">NumUSRf</span><span class="p">,</span><span class="o">**</span><span class="n">ts_float</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;Svv&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">NumUSRf</span><span class="p">,</span><span class="o">**</span><span class="n">ts_float</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;Sww&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">NumUSRf</span><span class="p">,</span><span class="o">**</span><span class="n">ts_float</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">NumUSRf</span><span class="p">):</span>
+        <span class="n">tmp</span><span class="o">=</span><span class="n">dat</span><span class="p">[</span><span class="n">ind</span><span class="o">+</span><span class="mi">11</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span><span class="o">=</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;Suu&#39;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span><span class="o">=</span><span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;Svv&#39;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span><span class="o">=</span><span class="n">tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;Sww&#39;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span><span class="o">=</span><span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;Suu&#39;</span><span class="p">]</span><span class="o">*=</span><span class="n">SpecScale1</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;Svv&#39;</span><span class="p">]</span><span class="o">*=</span><span class="n">SpecScale2</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;Sww&#39;</span><span class="p">]</span><span class="o">*=</span><span class="n">SpecScale3</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

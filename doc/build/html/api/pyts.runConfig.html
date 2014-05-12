@@ -1,0 +1,399 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>runConfig Package &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../index.html" />
+    <link rel="up" title="pyts Package" href="pyts.html" />
+    <link rel="next" title="specModels Package" href="pyts.specModels.html" />
+    <link rel="prev" title="profModels Package" href="pyts.profModels.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyts.specModels.html" title="specModels Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pyts.profModels.html" title="profModels Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >pyts</a> &raquo;</li>
+          <li><a href="pyts.html" accesskey="U">pyts Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="runconfig-package">
+<h1>runConfig Package<a class="headerlink" href="#runconfig-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">runConfig</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-pyts.runConfig"></span><p>This is the PyTurbSim package that provides tools for emulating
+o-TurbSim functionality. In particular it contains functions for
+taking a TurbSim &#8216;config&#8217; object and performing a TurbSim run that
+matches that config. Note that TurbSim &#8216;config&#8217; objects can be created
+from a TurbSim &#8216;input&#8217; file using the io.config module.</p>
+<dl class="docutils">
+<dt>This package contains the following files:</dt>
+<dd><p class="first">base.py       - A base module that defines TurbSim config objects (tscfg)
+main.py       - The main module that has the primary wrapper routines.
+profModels.py - A module that contains wrapper functions for</p>
+<blockquote>
+<div>implementing the tscfg&#8217;s mean-profile model.</div></blockquote>
+<dl class="last docutils">
+<dt>turbModels.py - A module that contains wrapper functions for</dt>
+<dd>implementing the tscfg&#8217;s turbulence models
+(specModel, cohereModel, stressModel).</dd>
+</dl>
+</dd>
+</dl>
+<div class="section" id="example-usage">
+<h3>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>See either:</dt>
+<dd><ol class="first last arabic simple">
+<li>the pyTurbSim.py executable script in the PyTurbSim root directory</li>
+<li>The runConfig/main.py docstring for example usage.</li>
+</ol>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="module-pyts.runConfig.base">
+<span id="base-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">base</span></tt> Module<a class="headerlink" href="#module-pyts.runConfig.base" title="Permalink to this headline">¶</a></h2>
+<p>The base module for the runConfig package. This module defines the TurbSim config class (tscfg). The tscfg class is a dictionary for storing data from a TurbSim input file. The class contains several methods that specify default values for several input variables. Those defaults documented in the Original-TurbSim documentation:
+<a class="reference external" href="https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf</a></p>
+<dl class="class">
+<dt id="pyts.runConfig.base.tscfg">
+<em class="property">class </em><tt class="descclassname">pyts.runConfig.base.</tt><tt class="descname">tscfg</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/base.html#tscfg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.base.tscfg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></p>
+<p>The TurbSim config object and &#8216;global defaults&#8217; handler.</p>
+<p>Regarding global defaults:
+The &#8216;_dflt_...&#8217; functions define &#8216;global&#8217; default definitions
+(used by multiple profModels and/or turbModels).  Other, model
+specific, defaults are defined in the model itself.</p>
+<p>For further information on the &#8216;defaults&#8217; defined here, consult
+the O-TurbSim documentation:
+<a class="reference external" href="https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf</a></p>
+<dl class="attribute">
+<dt id="pyts.runConfig.base.tscfg.incdec_a">
+<tt class="descname">incdec_a</tt><a class="reference internal" href="../_modules/pyts/runConfig/base.html#tscfg.incdec_a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.base.tscfg.incdec_a" title="Permalink to this definition">¶</a></dt>
+<dd><p>The &#8216;a&#8217; coherence decrement.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.runConfig.base.tscfg.incdec_b">
+<tt class="descname">incdec_b</tt><a class="reference internal" href="../_modules/pyts/runConfig/base.html#tscfg.incdec_b"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.base.tscfg.incdec_b" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyts.runConfig.base.tscfg.isdefault">
+<tt class="descname">isdefault</tt><big>(</big><em>key</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/base.html#tscfg.isdefault"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.base.tscfg.isdefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is the given variable a default?</p>
+<p>True  : The value is not specified and there is no &#8216;_dflt_...&#8217; function.
+2     : The value is defined by a &#8216;_dflt_...&#8217; function.
+False : The value is specified explicitly in the configuration.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyts.runConfig.base.tscfg.parse_IEC_standard">
+<tt class="descname">parse_IEC_standard</tt><big>(</big><em>iecstd</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/base.html#tscfg.parse_IEC_standard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.base.tscfg.parse_IEC_standard" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.runConfig.base.tscfg.psiM">
+<tt class="descname">psiM</tt><a class="reference internal" href="../_modules/pyts/runConfig/base.html#tscfg.psiM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.base.tscfg.psiM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.runConfig.base.tscfg.randseed">
+<tt class="descname">randseed</tt><a class="reference internal" href="../_modules/pyts/runConfig/base.html#tscfg.randseed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.base.tscfg.randseed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.runConfig.base.tscfg.turbmodel">
+<tt class="descname">turbmodel</tt><a class="reference internal" href="../_modules/pyts/runConfig/base.html#tscfg.turbmodel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.base.tscfg.turbmodel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.runConfig.base.tscfg.ustar0">
+<tt class="descname">ustar0</tt><a class="reference internal" href="../_modules/pyts/runConfig/base.html#tscfg.ustar0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.base.tscfg.ustar0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.runConfig.base.tscfg.zL">
+<tt class="descname">zL</tt><a class="reference internal" href="../_modules/pyts/runConfig/base.html#tscfg.zL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.base.tscfg.zL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.runConfig.main">
+<span id="main-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">main</span></tt> Module<a class="headerlink" href="#module-pyts.runConfig.main" title="Permalink to this headline">¶</a></h2>
+<p>The &#8216;main&#8217; module for the PyTurbSim runConfig package defines the
+&#8216;run&#8217; and &#8216;write&#8217; routines for performing a TurbSim run and
+writing-out data.</p>
+<div class="section" id="id2">
+<h3>Example usage<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p># First create a tsconfig object using the io.config.read function:
+tsconfig=pyts.io.config.read(&#8216;MyInputFile.inp&#8217;)</p>
+<p># Now run PyTurbSim using the runConfig &#8216;run&#8217; function:
+tsdata=runConfig.run(tsconfig)</p>
+<p># This data can be written to the files specified in the input file
+# (tsconfig) using:
+runConfig.write(tsdata,tsconfig)</p>
+<dl class="function">
+<dt id="pyts.runConfig.main.cfg2grid">
+<tt class="descclassname">pyts.runConfig.main.</tt><tt class="descname">cfg2grid</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/main.html#cfg2grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.main.cfg2grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>cfg2grid produces a TurbSim-grid object that matches the
+specificitions in the <em>tsconfig</em> object.</p>
+<p>tsconfig  - A TurbSim config object.</p>
+<p>tsgrid   - A TurbSim grid object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.main.cfg2tsrun">
+<tt class="descclassname">pyts.runConfig.main.</tt><tt class="descname">cfg2tsrun</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/main.html#cfg2tsrun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.main.cfg2tsrun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a &#8216;tsrun&#8217; object that matches the configuration options in <em>tsconfig</em>.</p>
+<p><em>tsconfig</em> - A TurbSim config object.</p>
+<dl class="docutils">
+<dt><em>tsrun</em> - A TurbSim run object with profModel, specModel,</dt>
+<dd>cohereModel and stressModel consistent with the input
+<em>tsconfig</em> object.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.main.run">
+<tt class="descclassname">pyts.runConfig.main.</tt><tt class="descname">run</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/main.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.main.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a PyTurbSim run based on the input/config object <em>tsconfig</em>.</p>
+<p>A PyTurbSim data object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.main.write">
+<tt class="descclassname">pyts.runConfig.main.</tt><tt class="descname">write</tt><big>(</big><em>tsdat</em>, <em>tsconfig</em>, <em>fname=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/main.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.main.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the data in the TurbSim data object <em>tsdat</em> to summary and
+binary files specified in the tsconfig object.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-pyts.runConfig.profModels">
+<span id="profmodels-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">profModels</span></tt> Module<a class="headerlink" href="#module-pyts.runConfig.profModels" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions for producing the appropriate profile
+model for a specific TurbSim config object (derived from an input
+file).</p>
+<p>When a new model is added to the profModels package, it will need a
+wrapper function here in order to be accessible using input files.</p>
+<dl class="function">
+<dt id="pyts.runConfig.profModels.getModel">
+<tt class="descclassname">pyts.runConfig.profModels.</tt><tt class="descname">getModel</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/profModels.html#getModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.profModels.getModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the wrapper function for all profile models implemented in
+the runConfig package.</p>
+<p>tsconfig   - A TurbSim config object.</p>
+<p>The appropriately initialized &#8216;profile model&#8217; object specified in
+the supplied tsconfig object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.profModels.h2l">
+<tt class="descclassname">pyts.runConfig.profModels.</tt><tt class="descname">h2l</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/profModels.html#h2l"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.profModels.h2l" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function parses the correct variables from the tsconfig
+object and supplies them to the &#8216;H2O log&#8217; profile model.</p>
+<p>tsconfig  - A TurbSim config object (with WindProfileType &#8216;h2l&#8217;).</p>
+<p>H2O-log mean profile model instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.profModels.iec">
+<tt class="descclassname">pyts.runConfig.profModels.</tt><tt class="descname">iec</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/profModels.html#iec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.profModels.iec" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function parses the correct variables from the tsconfig
+object and supplies them to the wind &#8216;IEC&#8217; profile model.</p>
+<p>tsconfig  - A TurbSim config object (with WindProfileType &#8216;IEC&#8217;).</p>
+<p>IEC mean profile model instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.profModels.log">
+<tt class="descclassname">pyts.runConfig.profModels.</tt><tt class="descname">log</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/profModels.html#log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.profModels.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function parses the correct variables from the tsconfig
+object and supplies them to the wind &#8216;log&#8217; profile model.</p>
+<p>tsconfig  - A TurbSim config object (with WindProfileType &#8216;log&#8217;).</p>
+<p>wind log mean profile model instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.profModels.pl">
+<tt class="descclassname">pyts.runConfig.profModels.</tt><tt class="descname">pl</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/profModels.html#pl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.profModels.pl" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function parses the correct variables from the tsconfig
+object and supplies them to the wind &#8216;power-law&#8217; profile model.</p>
+<p>tsconfig  - A TurbSim config object (with WindProfileType &#8216;pl&#8217;).</p>
+<p>power-law mean profile model instance.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.runConfig.turbModels">
+<span id="turbmodels-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">turbModels</span></tt> Module<a class="headerlink" href="#module-pyts.runConfig.turbModels" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions for producing the appropriate turbulence
+model for a specific TurbSim config object (derived from an input
+file).</p>
+<p>The term &#8216;TurbModels&#8217; encompasses the &#8216;specModel&#8217;, &#8216;cohereModel&#8217; and
+&#8216;stressModel&#8217; functionalities of the PyTurbSim program.  Within the
+&#8216;runConfig&#8217; package all three of these statistics are handled in this
+module.  Thus, each wrapper function for a &#8216;TurbModel&#8217; should should
+specify/define a model for each of these statistics.</p>
+<p>More information on the specific TurbModels can be found in the
+corresponding package for the statistic of interest.</p>
+<p>To make a new specModel, cohereModel, or stressModel available from
+input files add a wrapper function for it here.</p>
+<dl class="function">
+<dt id="pyts.runConfig.turbModels.getModel">
+<tt class="descclassname">pyts.runConfig.turbModels.</tt><tt class="descname">getModel</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/turbModels.html#getModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.turbModels.getModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.turbModels.ieckai">
+<tt class="descclassname">pyts.runConfig.turbModels.</tt><tt class="descname">ieckai</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/turbModels.html#ieckai"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.turbModels.ieckai" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.turbModels.iecvkm">
+<tt class="descclassname">pyts.runConfig.turbModels.</tt><tt class="descname">iecvkm</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/turbModels.html#iecvkm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.turbModels.iecvkm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.turbModels.nwtcup">
+<tt class="descclassname">pyts.runConfig.turbModels.</tt><tt class="descname">nwtcup</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/turbModels.html#nwtcup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.turbModels.nwtcup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.turbModels.river">
+<tt class="descclassname">pyts.runConfig.turbModels.</tt><tt class="descname">river</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/turbModels.html#river"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.turbModels.river" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.turbModels.smooth">
+<tt class="descclassname">pyts.runConfig.turbModels.</tt><tt class="descname">smooth</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/turbModels.html#smooth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.turbModels.smooth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyts.runConfig.turbModels.tidal">
+<tt class="descclassname">pyts.runConfig.turbModels.</tt><tt class="descname">tidal</tt><big>(</big><em>tsconfig</em><big>)</big><a class="reference internal" href="../_modules/pyts/runConfig/turbModels.html#tidal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runConfig.turbModels.tidal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">runConfig Package</a><ul>
+<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">runConfig</span></tt> Package</a><ul>
+<li><a class="reference internal" href="#example-usage">Example usage</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyts.runConfig.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.runConfig.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a><ul>
+<li><a class="reference internal" href="#id2">Example usage</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyts.runConfig.profModels"><tt class="docutils literal"><span class="pre">profModels</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.runConfig.turbModels"><tt class="docutils literal"><span class="pre">turbModels</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyts.profModels.html"
+                        title="previous chapter">profModels Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyts.specModels.html"
+                        title="next chapter">specModels Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/pyts.runConfig.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyts.specModels.html" title="specModels Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pyts.profModels.html" title="profModels Package"
+             >previous</a> |</li>
+        <li><a href="../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >pyts</a> &raquo;</li>
+          <li><a href="pyts.html" >pyts Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.gui &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyts.gui</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="n">wx</span><span class="p">,</span><span class="n">gts_wdr</span><span class="p">,</span><span class="n">ConfigSettings</span>
+<span class="kn">from</span> <span class="nn">..io</span> <span class="kn">import</span> <span class="n">config</span> <span class="k">as</span> <span class="n">io</span>
+<span class="kn">import</span> <span class="nn">grid</span><span class="o">,</span><span class="nn">prof</span><span class="o">,</span><span class="nn">turb</span>
+<span class="kn">import</span> <span class="nn">pyts</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">call</span>    
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c"># TODO:</span>
+<span class="c">#  - Summarize the configuration on the main window.</span>
+<span class="c">#  - Add tooltips</span>
+<span class="c">#    .. &#39;disabled&#39; tooltips</span>
+<span class="c">#    .. More documentation than tooltips can provide?</span>
+<span class="c">#  - &#39;Load data&#39; panels</span>
+<span class="c">#    .. ADCP</span>
+<span class="c">#    .. ADV</span>
+<span class="c">#    .. FIT spectrum/profile to data!</span>
+
+<div class="viewcode-block" id="gTurbFrame"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame">[docs]</a><span class="k">class</span> <span class="nc">gTurbFrame</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="p">):</span>
+
+    <span class="n">_default_files</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;-- Default Wind Config --&#39;</span><span class="p">:</span><span class="s">&#39;TurbSim_WIND_Default.inp&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;-- Default IEC (Wind) Config --&#39;</span><span class="p">:</span><span class="s">&#39;TurbSim_WIND_IEC_Default.inp&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;-- Default Tidal (Hydro) Config --&#39;</span><span class="p">:</span><span class="s">&#39;TurbSim_TIDAL_Default.inp&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;-- Default River (Hydro) Config --&#39;</span><span class="p">:</span><span class="s">&#39;TurbSim_RIVER_Default.inp&#39;</span><span class="p">,</span>
+                    <span class="p">}</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">currentfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentfile</span>
+
+    <span class="nd">@currentfile.setter</span>
+<div class="viewcode-block" id="gTurbFrame.currentfile"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.currentfile">[docs]</a>    <span class="k">def</span> <span class="nf">currentfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fl</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;inp_inputfile&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inp_inputfile</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="n">fl</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentfile</span><span class="o">=</span><span class="n">fl</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.loadDefault"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.loadDefault">[docs]</a>    <span class="k">def</span> <span class="nf">loadDefault</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">strng</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inp_inputfile</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="n">strng</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">=</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">tsroot</span><span class="o">+</span><span class="s">&#39;/gui/&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_files</span><span class="p">[</span><span class="n">strng</span><span class="p">])</span>
+        </div>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span>
+        <span class="n">style</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">DEFAULT_FRAME_STYLE</span> <span class="p">):</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">currentfile</span><span class="o">=</span><span class="bp">None</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">CreateMyMenuBar</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">CreateMyToolBar</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">CreateStatusBar</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetStatusText</span><span class="p">(</span><span class="s">&quot;Welcome!&quot;</span><span class="p">)</span>
+
+        <span class="c"># Layout the panel:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">Panel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">gts_wdr</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">)</span>
+
+        <span class="c"># Define the inputs:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_inputs</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">loadDefault</span><span class="p">(</span><span class="s">&#39;-- Default Wind Config --&#39;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">bind_menu</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bind_dialog</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_turbsim_exec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">find_turbsim_exec</span><span class="p">())</span>
+
+        <span class="c"># WDR: handler declarations for gTurbFrame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Fit</span><span class="p">()</span>
+
+<div class="viewcode-block" id="gTurbFrame.find_turbsim_exec"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.find_turbsim_exec">[docs]</a>    <span class="k">def</span> <span class="nf">find_turbsim_exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;win&#39;</span><span class="p">):</span>
+            <span class="n">fname</span><span class="o">=</span><span class="s">&#39;TurbSim.exe&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fname</span><span class="o">=</span><span class="s">&#39;TurbSim&#39;</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span><span class="o">+</span><span class="n">fname</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.set_turbsim_exec"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.set_turbsim_exec">[docs]</a>    <span class="k">def</span> <span class="nf">set_turbsim_exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to set or find the TurbSim (original) executable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TurbSim_exec&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">wrn01</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">MessageDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;TurbSim executable not found. &#39;</span><span class="p">,</span><span class="s">&#39;Warning!&#39;</span><span class="p">,</span><span class="n">wx</span><span class="o">.</span><span class="n">ICON_HAND</span><span class="p">)</span>
+            <span class="n">wrn01</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TurbSim_exec&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rdo_turbsim</span><span class="o">.</span><span class="n">Enable</span><span class="p">(</span><span class="ow">not</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.init_inputs"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.init_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">init_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">Children</span><span class="p">:</span> <span class="c">#wxDesigner does not allow defining variables, but it does allow names, so we use this as a hack.</span>
+            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;inp_&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">obj</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;btn_&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">obj</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;pnl_&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">obj</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;cho_&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">obj</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;rdo_&#39;</span><span class="p">):</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obj</span><span class="o">.</span><span class="n">GetName</span><span class="p">(),</span><span class="n">obj</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.bind_dialog"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.bind_dialog">[docs]</a>    <span class="k">def</span> <span class="nf">bind_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inp_inputfile</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_TEXT</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">onSetFile</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btn_inputfile</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">onLoad</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btn_run</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">onRun</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="gTurbFrame.bind_menu"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.bind_menu">[docs]</a>    <span class="k">def</span> <span class="nf">bind_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ABOUT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OnAbout</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_EXIT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OnQuit</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="mi">20101</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onConfigSettings</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="mi">20102</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onConfigGrid</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="mi">20103</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onConfigProf</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="mi">20104</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onConfigTurb</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="mi">20003</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onLoad</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="mi">20004</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onSaveAs</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="mi">20005</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onSave</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">EVT_CLOSE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OnCloseWindow</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.readConfig"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.readConfig">[docs]</a>    <span class="k">def</span> <span class="nf">readConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">try</span><span class="p">:</span>        
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">=</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currentfile</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.writeConfig"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.writeConfig">[docs]</a>    <span class="k">def</span> <span class="nf">writeConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="n">io</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currentfile</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.onRun"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.onRun">[docs]</a>    <span class="k">def</span> <span class="nf">onRun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentfile</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">onSave</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="n">n_iter</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inp_iterations</span><span class="o">.</span><span class="n">GetValue</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">n_iter</span><span class="o">&gt;</span><span class="mi">1</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;RandSeed&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">wrn01</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">MessageDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;Multiple iterations with a fixed Random Seed will result in identical results.  Change the &quot;RandSeed&quot; variable in the &quot;Settings&quot; dialog to &quot;default&quot; so that TurbSim will use different random seeds. For now a single iteration will run.&#39;</span><span class="p">,</span><span class="s">&#39;Warning!&#39;</span><span class="p">,</span><span class="n">wx</span><span class="o">.</span><span class="n">ICON_HAND</span><span class="p">)</span>
+            <span class="n">wrn01</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span>
+            <span class="n">n_iter</span><span class="o">=</span><span class="mi">1</span>
+        <span class="n">nd</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">n_iter</span><span class="p">)</span>
+        <span class="n">dtxt</span><span class="o">=</span><span class="s">&#39;%0&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">nd</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;d&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rdo_pyturbsim</span><span class="o">.</span><span class="n">GetValue</span><span class="p">():</span>
+            <span class="n">cmd_list</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;python&quot;</span><span class="p">,</span><span class="s">&quot;pyTurbSim.py&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">currentfile</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cmd_list</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TurbSim_exec&#39;</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">currentfile</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">itr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SetStatusText</span><span class="p">((</span><span class="s">&quot;Running &quot;</span><span class="o">+</span><span class="n">dtxt</span><span class="o">+</span><span class="s">&quot;/</span><span class="si">%d</span><span class="s">...&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">itr</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">n_iter</span><span class="p">))</span>
+            <span class="n">retcode</span><span class="o">=</span><span class="n">call</span><span class="p">(</span><span class="n">cmd_list</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">movefiles</span><span class="p">(</span><span class="n">itr</span><span class="p">,</span><span class="n">dtxt</span><span class="p">,)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetStatusText</span><span class="p">(</span><span class="s">&quot;Done.&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.movefiles"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.movefiles">[docs]</a>    <span class="k">def</span> <span class="nf">movefiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">itr</span><span class="p">,</span><span class="n">dtxt</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move the output files to an &#39;iteration&#39; name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">iglob</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currentfile</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;*&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">nm</span><span class="o">!=</span><span class="bp">self</span><span class="o">.</span><span class="n">currentfile</span><span class="p">:</span>
+                <span class="n">base</span><span class="p">,</span><span class="n">ext</span><span class="o">=</span><span class="n">nm</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">nm</span><span class="p">,((</span><span class="n">base</span><span class="o">+</span><span class="n">dtxt</span><span class="o">+</span><span class="s">&#39;.&#39;</span><span class="o">+</span><span class="n">ext</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">itr</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.onSave"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.onSave">[docs]</a>    <span class="k">def</span> <span class="nf">onSave</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentfile</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">onSaveAs</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writeConfig</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.onSaveAs"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.onSaveAs">[docs]</a>    <span class="k">def</span> <span class="nf">onSaveAs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">event</span><span class="p">):</span>
+        <span class="n">openFileDialog</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">FileDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;Select TurbSim filename for save...&#39;</span><span class="p">,</span><span class="n">io</span><span class="o">.</span><span class="n">userroot</span><span class="p">,</span><span class="s">&#39;TurbSim.inp&#39;</span><span class="p">,</span><span class="s">&#39;(*.inp,*.*)|*.inp&#39;</span><span class="p">,</span><span class="n">wx</span><span class="o">.</span><span class="n">FD_SAVE</span><span class="p">)</span>
+        <span class="n">openFileDialog</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">currentfile</span><span class="o">=</span><span class="n">openFileDialog</span><span class="o">.</span><span class="n">GetPath</span><span class="p">()</span> <span class="c"># If </span>
+        <span class="n">openFileDialog</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeConfig</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.onSetFile"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.onSetFile">[docs]</a>    <span class="k">def</span> <span class="nf">onSetFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inp_inputfile</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_files</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loadDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inp_inputfile</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">currentfile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inp_inputfile</span><span class="o">.</span><span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">readConfig</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.onLoad"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.onLoad">[docs]</a>    <span class="k">def</span> <span class="nf">onLoad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">event</span><span class="p">):</span>
+        <span class="n">openFileDialog</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">FileDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;Open TurbSim input file&#39;</span><span class="p">,</span><span class="n">io</span><span class="o">.</span><span class="n">userroot</span><span class="p">,</span><span class="s">&#39;TurbSim.inp&#39;</span><span class="p">,</span><span class="s">&#39;(*.inp,*.*)|*.inp&#39;</span><span class="p">,</span><span class="n">wx</span><span class="o">.</span><span class="n">FD_OPEN</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">FD_FILE_MUST_EXIST</span><span class="p">)</span>
+        <span class="n">openFileDialog</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">currentfile</span><span class="o">=</span><span class="n">openFileDialog</span><span class="o">.</span><span class="n">GetPath</span><span class="p">()</span>
+        <span class="n">openFileDialog</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">readConfig</span><span class="p">()</span>
+        
+    <span class="c"># WDR: methods for gTurbFrame</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.onConfigSettings"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.onConfigSettings">[docs]</a>    <span class="k">def</span> <span class="nf">onConfigSettings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">event</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigSettings</span><span class="o">.</span><span class="n">Raise</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigSettings</span><span class="o">=</span><span class="n">ConfigSettings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span><span class="s">&#39;General Settings&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigSettings</span><span class="o">.</span><span class="n">Show</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="gTurbFrame.onConfigGrid"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.onConfigGrid">[docs]</a>    <span class="k">def</span> <span class="nf">onConfigGrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">event</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigGrid</span><span class="o">.</span><span class="n">Raise</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigGrid</span><span class="o">=</span><span class="n">grid</span><span class="o">.</span><span class="n">gridConfigFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span><span class="s">&#39;Grid Configuration&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigGrid</span><span class="o">.</span><span class="n">Show</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.onConfigProf"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.onConfigProf">[docs]</a>    <span class="k">def</span> <span class="nf">onConfigProf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">event</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigProf</span><span class="o">.</span><span class="n">Raise</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigProf</span><span class="o">=</span><span class="n">prof</span><span class="o">.</span><span class="n">profConfigFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span><span class="s">&#39;Profile Model Configuration&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigProf</span><span class="o">.</span><span class="n">Show</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.onConfigTurb"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.onConfigTurb">[docs]</a>    <span class="k">def</span> <span class="nf">onConfigTurb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">event</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigTurb</span><span class="o">.</span><span class="n">Raise</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigTurb</span><span class="o">=</span><span class="n">turb</span><span class="o">.</span><span class="n">turbConfigFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span><span class="s">&#39;Turbulence Model Configuration&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigTurb</span><span class="o">.</span><span class="n">Show</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="gTurbFrame.CreateMyMenuBar"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.CreateMyMenuBar">[docs]</a>    <span class="k">def</span> <span class="nf">CreateMyMenuBar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetMenuBar</span><span class="p">(</span> <span class="n">gts_wdr</span><span class="o">.</span><span class="n">MyMenuBarFunc</span><span class="p">()</span> <span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="gTurbFrame.CreateMyToolBar"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.CreateMyToolBar">[docs]</a>    <span class="k">def</span> <span class="nf">CreateMyToolBar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">tb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CreateToolBar</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">TB_HORIZONTAL</span><span class="o">|</span><span class="n">wx</span><span class="o">.</span><span class="n">NO_BORDER</span><span class="p">)</span>
+        <span class="n">gts_wdr</span><span class="o">.</span><span class="n">MyToolBarFunc</span><span class="p">(</span> <span class="n">tb</span> <span class="p">)</span>
+    
+    <span class="c"># WDR: handler implementations for gTurbFrame</span>
+    </div>
+<div class="viewcode-block" id="gTurbFrame.OnAbout"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.OnAbout">[docs]</a>    <span class="k">def</span> <span class="nf">OnAbout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">dialog</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MessageDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&quot;Welcome to the TurbSim GUI! Written by L. Kilcher (National Renewable Energy Laboratory)&quot;</span><span class="p">,</span>
+            <span class="s">&quot;About TurbSim&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">OK</span><span class="o">|</span><span class="n">wx</span><span class="o">.</span><span class="n">ICON_INFORMATION</span> <span class="p">)</span>
+        <span class="n">dialog</span><span class="o">.</span><span class="n">CentreOnParent</span><span class="p">()</span>
+        <span class="n">dialog</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span>
+        <span class="n">dialog</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+    </div>
+<div class="viewcode-block" id="gTurbFrame.OnQuit"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.OnQuit">[docs]</a>    <span class="k">def</span> <span class="nf">OnQuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Close</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="gTurbFrame.OnCloseWindow"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbFrame.OnCloseWindow">[docs]</a>    <span class="k">def</span> <span class="nf">OnCloseWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+    
+
+<span class="c">#----------------------------------------------------------------------------</span>
+</div></div>
+<div class="viewcode-block" id="gTurbApp"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbApp">[docs]</a><span class="k">class</span> <span class="nc">gTurbApp</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">App</span><span class="p">):</span>
+    
+<div class="viewcode-block" id="gTurbApp.OnInit"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbApp.OnInit">[docs]</a>    <span class="k">def</span> <span class="nf">OnInit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">InitAllImageHandlers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">gTurbFrame</span><span class="p">(</span> <span class="bp">None</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;gTurbSim&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span> <span class="p">[</span><span class="mi">500</span><span class="p">,</span><span class="mi">340</span><span class="p">]</span> <span class="p">)</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">Show</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="gTurbApp.setfile"><a class="viewcode-back" href="../../api/pyts.gui.html#pyts.gui.gTurbApp.setfile">[docs]</a>    <span class="k">def</span> <span class="nf">setfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fname</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frm</span><span class="o">.</span><span class="n">currentfile</span><span class="o">=</span><span class="n">fname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frm</span><span class="o">.</span><span class="n">readConfig</span><span class="p">()</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

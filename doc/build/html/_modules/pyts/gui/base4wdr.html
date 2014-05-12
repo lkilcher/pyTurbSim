@@ -1,0 +1,182 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.gui.base4wdr &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="pyts.gui" href="../gui.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../gui.html" accesskey="U">pyts.gui</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyts.gui.base4wdr</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">wx</span>
+
+<div class="viewcode-block" id="mTextCtrl"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.base4wdr.mTextCtrl">[docs]</a><span class="k">class</span> <span class="nc">mTextCtrl</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">TextCtrl</span><span class="p">):</span>
+    <span class="n">default_value</span><span class="o">=</span><span class="s">&#39;default&#39;</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="n">val</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetValue</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">val</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">:</span>
+            <span class="n">val</span><span class="o">=</span><span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">val</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">==</span><span class="n">val</span><span class="p">:</span>
+                    <span class="n">val</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">val</span>
+
+    <span class="nd">@value.setter</span>
+<div class="viewcode-block" id="mTextCtrl.value"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.base4wdr.mTextCtrl.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">val</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">default_value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">val</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="mComboBox"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.base4wdr.mComboBox">[docs]</a><span class="k">class</span> <span class="nc">mComboBox</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">ComboBox</span><span class="p">,</span><span class="n">mTextCtrl</span><span class="p">):</span>
+    <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="mCheckBox"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.base4wdr.mCheckBox">[docs]</a><span class="k">class</span> <span class="nc">mCheckBox</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">CheckBox</span><span class="p">,):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetValue</span><span class="p">()</span>
+
+    <span class="nd">@value.setter</span>
+<div class="viewcode-block" id="mCheckBox.value"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.base4wdr.mCheckBox.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="mChoice"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.base4wdr.mChoice">[docs]</a><span class="k">class</span> <span class="nc">mChoice</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Choice</span><span class="p">,):</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="n">val</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Strings</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">GetCurrentSelection</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;aliases&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ky</span><span class="p">,</span><span class="n">lst</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">aliases</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
+                    <span class="n">val</span><span class="o">=</span><span class="n">ky</span>
+        <span class="k">return</span> <span class="n">val</span>
+    
+    <span class="nd">@value.setter</span>
+<div class="viewcode-block" id="mChoice.value"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.base4wdr.mChoice.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="n">chcs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Strings</span>
+        <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">val</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="n">idx</span><span class="o">=</span><span class="bp">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">idx</span><span class="o">=</span><span class="n">chcs</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;aliases&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">aliases</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">idx</span><span class="o">=</span><span class="n">chcs</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aliases</span><span class="p">[</span><span class="n">val</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;&#39;</span><span class="si">%s</span><span class="s">&#39; is not a valid selection for the &#39;</span><span class="si">%s</span><span class="s">&#39; Choice box.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">GetName</span><span class="p">()))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SetSelection</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="mChoiceBin"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.base4wdr.mChoiceBin">[docs]</a><span class="k">class</span> <span class="nc">mChoiceBin</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Choice</span><span class="p">,):</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="n">val</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetCurrentSelection</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;aliases&#39;</span><span class="p">):</span>
+            <span class="n">val</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">aliases</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">val</span>
+    
+    <span class="nd">@value.setter</span>
+<div class="viewcode-block" id="mChoiceBin.value"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.base4wdr.mChoiceBin.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;aliases&#39;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">val</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">aliases</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSelection</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../gui.html" >pyts.gui</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

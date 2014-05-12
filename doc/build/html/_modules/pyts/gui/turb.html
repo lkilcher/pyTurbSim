@@ -1,0 +1,265 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.gui.turb &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="pyts.gui" href="../gui.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../gui.html" accesskey="U">pyts.gui</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyts.gui.turb</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="cho_windtype_turbclass"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.cho_windtype_turbclass">[docs]</a><span class="k">class</span> <span class="nc">cho_windtype_turbclass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">cho_type</span><span class="p">,</span><span class="n">cho_class</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">windtype</span> <span class="o">=</span> <span class="n">cho_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">turbclass</span> <span class="o">=</span> <span class="n">cho_class</span>
+
+<div class="viewcode-block" id="cho_windtype_turbclass.Disable"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.cho_windtype_turbclass.Disable">[docs]</a>    <span class="k">def</span> <span class="nf">Disable</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">windtype</span><span class="o">.</span><span class="n">Disable</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">turbclass</span><span class="o">.</span><span class="n">Disable</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="cho_windtype_turbclass.Enable"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.cho_windtype_turbclass.Enable">[docs]</a>    <span class="k">def</span> <span class="nf">Enable</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">windtype</span><span class="o">.</span><span class="n">Enable</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">turbclass</span><span class="o">.</span><span class="n">Enable</span><span class="p">()</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">windtype</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;NTM&#39;</span><span class="p">,</span><span class="s">&#39;ETM&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">windtype</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;</span><span class="si">%d%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turbclass</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">windtype</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@value.setter</span>
+<div class="viewcode-block" id="cho_windtype_turbclass.value"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.cho_windtype_turbclass.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;NTM&#39;</span><span class="p">,</span><span class="s">&#39;ETM&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">turbclass</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="s">&#39;--&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">windtype</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">turbclass</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">windtype</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+</div></div>
+<div class="viewcode-block" id="cohParam"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.cohParam">[docs]</a><span class="k">class</span> <span class="nc">cohParam</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">inp_a</span><span class="p">,</span><span class="n">inp_b</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">=</span><span class="n">inp_a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">=</span><span class="n">inp_b</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<div class="viewcode-block" id="cohParam.Disable"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.cohParam.Disable">[docs]</a>    <span class="k">def</span> <span class="nf">Disable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">Disable</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">Disable</span><span class="p">()</span>
+        </div>
+<div class="viewcode-block" id="cohParam.Enable"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.cohParam.Enable">[docs]</a>    <span class="k">def</span> <span class="nf">Enable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">Enable</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">Enable</span><span class="p">()</span>
+        </div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">value</span><span class="o">==</span><span class="s">&#39;--&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:]</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="nd">@value.setter</span>
+<div class="viewcode-block" id="cohParam.value"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.cohParam.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="s">&#39;default&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="s">&#39;--&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:]</span><span class="o">=</span><span class="n">val</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</div></div>
+<div class="viewcode-block" id="turbConfigFrame"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.turbConfigFrame">[docs]</a><span class="k">class</span> <span class="nc">turbConfigFrame</span><span class="p">(</span><span class="n">ConfigFrame</span><span class="p">):</span>
+
+    <span class="n">save_vars</span><span class="o">=</span><span class="p">{</span>
+        <span class="s">&#39;cho_turbmodel&#39;</span><span class="p">:</span><span class="s">&#39;TurbModel&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_ustar&#39;</span><span class="p">:</span><span class="s">&#39;UStar&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_Ri&#39;</span><span class="p">:</span><span class="s">&#39;RICH_NO&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_z0&#39;</span><span class="p">:</span><span class="s">&#39;Z0&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_zi&#39;</span><span class="p">:</span><span class="s">&#39;ZI&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_upwp&#39;</span><span class="p">:</span><span class="s">&#39;PC_UW&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_vpwp&#39;</span><span class="p">:</span><span class="s">&#39;PC_VW&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_upvp&#39;</span><span class="p">:</span><span class="s">&#39;PC_UV&#39;</span><span class="p">,</span>
+        <span class="s">&#39;cho_iec_turbclass_windtype&#39;</span><span class="p">:</span><span class="s">&#39;IEC_WindType&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_iecturbc&#39;</span><span class="p">:</span><span class="s">&#39;IECturbc&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_etmc&#39;</span><span class="p">:</span><span class="s">&#39;ETMc&#39;</span><span class="p">,</span>
+        <span class="s">&#39;cho_iecstandard&#39;</span><span class="p">:</span><span class="s">&#39;IECstandard&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_cohexp&#39;</span><span class="p">:</span><span class="s">&#39;CohExp&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_cohU&#39;</span><span class="p">:</span><span class="s">&#39;IncDec1&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_cohV&#39;</span><span class="p">:</span><span class="s">&#39;IncDec2&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_cohW&#39;</span><span class="p">:</span><span class="s">&#39;IncDec3&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_addkh&#39;</span><span class="p">:</span><span class="s">&#39;WrACT&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="n">exclude_vars</span><span class="o">=</span><span class="p">{</span>
+        <span class="s">&#39;IECKAI&#39;</span><span class="p">:[</span><span class="s">&#39;inp_Ri&#39;</span><span class="p">,</span><span class="s">&#39;inp_zi&#39;</span><span class="p">,</span><span class="s">&#39;inp_ustar&#39;</span><span class="p">,</span><span class="s">&#39;inp_cohexp&#39;</span><span class="p">,</span><span class="s">&#39;inp_cohexp&#39;</span><span class="p">,</span><span class="s">&#39;inp_cohU&#39;</span><span class="p">,</span><span class="s">&#39;inp_cohV&#39;</span><span class="p">,</span><span class="s">&#39;inp_cohW&#39;</span><span class="p">,</span><span class="s">&#39;inp_upwp&#39;</span><span class="p">,</span><span class="s">&#39;inp_upvp&#39;</span><span class="p">,</span><span class="s">&#39;inp_vpwp&#39;</span><span class="p">,],</span>
+        <span class="s">&#39;IECVKM&#39;</span><span class="p">:[</span><span class="s">&#39;inp_Ri&#39;</span><span class="p">,</span><span class="s">&#39;inp_zi&#39;</span><span class="p">,</span><span class="s">&#39;inp_ustar&#39;</span><span class="p">,</span><span class="s">&#39;inp_cohexp&#39;</span><span class="p">,</span><span class="s">&#39;inp_cohU&#39;</span><span class="p">,</span><span class="s">&#39;inp_cohV&#39;</span><span class="p">,</span><span class="s">&#39;inp_cohW&#39;</span><span class="p">,</span><span class="s">&#39;inp_upwp&#39;</span><span class="p">,</span><span class="s">&#39;inp_upvp&#39;</span><span class="p">,</span><span class="s">&#39;inp_vpwp&#39;</span><span class="p">,],</span>
+        <span class="s">&#39;SMOOTH&#39;</span><span class="p">:[</span><span class="s">&#39;cho_iec_turbclass_windtype&#39;</span><span class="p">,</span><span class="s">&#39;inp_iecturbc&#39;</span><span class="p">,</span><span class="s">&#39;cho_iecstandard&#39;</span><span class="p">,</span><span class="s">&#39;inp_etmc&#39;</span><span class="p">,],</span>
+        <span class="s">&#39;TIDAL&#39;</span><span class="p">:[</span><span class="s">&#39;cho_iec_turbclass_windtype&#39;</span><span class="p">,</span><span class="s">&#39;inp_iecturbc&#39;</span><span class="p">,</span><span class="s">&#39;cho_iecstandard&#39;</span><span class="p">,</span><span class="s">&#39;inp_etmc&#39;</span><span class="p">,</span><span class="s">&#39;inp_Ri&#39;</span><span class="p">,</span><span class="s">&#39;inp_z0&#39;</span><span class="p">,</span><span class="s">&#39;inp_zi&#39;</span><span class="p">],</span>
+        <span class="s">&#39;RIVER&#39;</span><span class="p">:[</span><span class="s">&#39;cho_iec_turbclass_windtype&#39;</span><span class="p">,</span><span class="s">&#39;inp_iecturbc&#39;</span><span class="p">,</span><span class="s">&#39;cho_iecstandard&#39;</span><span class="p">,</span><span class="s">&#39;inp_etmc&#39;</span><span class="p">,</span><span class="s">&#39;inp_Ri&#39;</span><span class="p">,</span><span class="s">&#39;inp_z0&#39;</span><span class="p">,</span><span class="s">&#39;inp_zi&#39;</span><span class="p">],</span>
+        <span class="s">&#39;GP_LLJ&#39;</span><span class="p">:[</span><span class="s">&#39;cho_iec_turbclass_windtype&#39;</span><span class="p">,</span><span class="s">&#39;inp_iecturbc&#39;</span><span class="p">,</span><span class="s">&#39;cho_iecstandard&#39;</span><span class="p">,</span><span class="s">&#39;inp_etmc&#39;</span><span class="p">,],</span>
+        <span class="s">&#39;WF_UPW&#39;</span><span class="p">:[</span><span class="s">&#39;cho_iec_turbclass_windtype&#39;</span><span class="p">,</span><span class="s">&#39;inp_iecturbc&#39;</span><span class="p">,</span><span class="s">&#39;cho_iecstandard&#39;</span><span class="p">,</span><span class="s">&#39;inp_etmc&#39;</span><span class="p">,],</span>
+        <span class="s">&#39;WF_07D&#39;</span><span class="p">:[</span><span class="s">&#39;cho_iec_turbclass_windtype&#39;</span><span class="p">,</span><span class="s">&#39;inp_iecturbc&#39;</span><span class="p">,</span><span class="s">&#39;cho_iecstandard&#39;</span><span class="p">,</span><span class="s">&#39;inp_etmc&#39;</span><span class="p">,],</span>
+        <span class="s">&#39;WF_14D&#39;</span><span class="p">:[</span><span class="s">&#39;cho_iec_turbclass_windtype&#39;</span><span class="p">,</span><span class="s">&#39;inp_iecturbc&#39;</span><span class="p">,</span><span class="s">&#39;cho_iecstandard&#39;</span><span class="p">,</span><span class="s">&#39;inp_etmc&#39;</span><span class="p">,],</span>
+        <span class="s">&#39;NWTCUP&#39;</span><span class="p">:[</span><span class="s">&#39;cho_iec_turbclass_windtype&#39;</span><span class="p">,</span><span class="s">&#39;inp_iecturbc&#39;</span><span class="p">,</span><span class="s">&#39;cho_iecstandard&#39;</span><span class="p">,</span><span class="s">&#39;inp_etmc&#39;</span><span class="p">,],</span>
+        <span class="p">}</span>
+    
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="turbConfigFrame.model"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.turbConfigFrame.model">[docs]</a>    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cho_turbmodel</span><span class="o">.</span><span class="n">value</span>
+    </div>
+<div class="viewcode-block" id="turbConfigFrame.set_aliases"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.turbConfigFrame.set_aliases">[docs]</a>    <span class="k">def</span> <span class="nf">set_aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="c">#self.cho_turbmodel={}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cho_iec_turbclass_windtype</span><span class="o">=</span><span class="n">cho_windtype_turbclass</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cho_iecwindtype</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">cho_iecclass</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inp_cohU</span><span class="o">=</span><span class="n">cohParam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inp_cohUa</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">inp_cohUb</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inp_cohV</span><span class="o">=</span><span class="n">cohParam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inp_cohVa</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">inp_cohVb</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inp_cohW</span><span class="o">=</span><span class="n">cohParam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inp_cohWa</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">inp_cohWb</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="turbConfigFrame.onKHCheckBox"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.turbConfigFrame.onKHCheckBox">[docs]</a>    <span class="k">def</span> <span class="nf">onKHCheckBox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">event</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btn_khconfig</span><span class="o">.</span><span class="n">Enable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inp_addkh</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="turbConfigFrame.init_layout"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.turbConfigFrame.init_layout">[docs]</a>    <span class="k">def</span> <span class="nf">init_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">Panel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="c">#,-1,style=wx.NO_BORDER)</span>
+        <span class="n">gts_wdr</span><span class="o">.</span><span class="n">turbSetup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="turbConfigFrame.init_bindings"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.turbConfigFrame.init_bindings">[docs]</a>    <span class="k">def</span> <span class="nf">init_bindings</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="c"># Set the bindings:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btn_khconfig</span><span class="o">.</span><span class="n">Enable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inp_addkh</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">EVT_CLOSE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OnCloseWindow</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btn_cancel</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">OnCloseWindow</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btn_ok</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">OnOk</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cho_turbmodel</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_CHOICE</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inp_addkh</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_CHECKBOX</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">onKHCheckBox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btn_khconfig</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">onKHConfig</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="turbConfigFrame.onKHConfig"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.turbConfigFrame.onKHConfig">[docs]</a>    <span class="k">def</span> <span class="nf">onKHConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">event</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigProf</span><span class="o">.</span><span class="n">Raise</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigProf</span><span class="o">=</span><span class="n">KHBillowsConfigFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span><span class="s">&#39;Kelvin-Helmholtz Billows - Settings&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frm_ConfigProf</span><span class="o">.</span><span class="n">Show</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    </div></div>
+<div class="viewcode-block" id="KHBillowsConfigFrame"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.KHBillowsConfigFrame">[docs]</a><span class="k">class</span> <span class="nc">KHBillowsConfigFrame</span><span class="p">(</span><span class="n">ConfigFrame</span><span class="p">):</span>
+
+    <span class="n">save_vars</span><span class="o">=</span><span class="p">{</span>
+        <span class="s">&#39;inp_eventpath&#39;</span><span class="p">:</span><span class="s">&#39;CTEventPath&#39;</span><span class="p">,</span>
+        <span class="s">&#39;cho_eventfile&#39;</span><span class="p">:</span><span class="s">&#39;CTEventFile&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_randomize&#39;</span><span class="p">:</span><span class="s">&#39;Randomize&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_distscl&#39;</span><span class="p">:</span><span class="s">&#39;DistScl&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_ctlz&#39;</span><span class="p">:</span><span class="s">&#39;CTLz&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_ctly&#39;</span><span class="p">:</span><span class="s">&#39;CTLy&#39;</span><span class="p">,</span>
+        <span class="s">&#39;inp_ctt&#39;</span><span class="p">:</span><span class="s">&#39;CTStartTime&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="n">exclude_vars</span><span class="o">=</span><span class="p">{</span>
+        <span class="bp">True</span><span class="p">:[</span><span class="s">&#39;inp_distscl&#39;</span><span class="p">,</span><span class="s">&#39;inp_ctlz&#39;</span><span class="p">,</span><span class="s">&#39;inp_ctly&#39;</span><span class="p">],</span>
+        <span class="bp">False</span><span class="p">:[]</span>
+        <span class="p">}</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="KHBillowsConfigFrame.model"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.KHBillowsConfigFrame.model">[docs]</a>    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inp_randomize</span><span class="o">.</span><span class="n">value</span>
+</div>
+<div class="viewcode-block" id="KHBillowsConfigFrame.init_layout"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.KHBillowsConfigFrame.init_layout">[docs]</a>    <span class="k">def</span> <span class="nf">init_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">Panel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="c">#,-1,style=wx.NO_BORDER)</span>
+        <span class="n">gts_wdr</span><span class="o">.</span><span class="n">kh_billows</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="KHBillowsConfigFrame.init_bindings"><a class="viewcode-back" href="../../../api/pyts.gui.html#pyts.gui.turb.KHBillowsConfigFrame.init_bindings">[docs]</a>    <span class="k">def</span> <span class="nf">init_bindings</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="c"># Set the bindings:</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">EVT_CLOSE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OnCloseWindow</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btn_cancel</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">OnCloseWindow</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btn_ok</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">OnOk</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inp_randomize</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_CHECKBOX</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
+    </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../gui.html" >pyts.gui</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

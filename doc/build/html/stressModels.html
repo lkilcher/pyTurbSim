@@ -1,0 +1,156 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Reynold’s stress Models &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="index.html" />
+    <link rel="next" title="Coherence Models" href="cohereModels.html" />
+    <link rel="prev" title="Spectral Models" href="specModels.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="cohereModels.html" title="Coherence Models"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="specModels.html" title="Spectral Models"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PyTurbSim 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyts.stressModels.api">
+<span id="reynold-s-stress-models"></span><h1>Reynold&#8217;s stress Models<a class="headerlink" href="#module-pyts.stressModels.api" title="Permalink to this headline">¶</a></h1>
+<p>PyTurbSim &#8216;Reynold&#8217;s stress models&#8217; package.</p>
+<p>The Reynold&#8217;s stress quantifies correlations betweens turbulent
+velocity components. It has three components: &lt;u&#8217;v&#8217;&gt;, &lt;u&#8217;w&#8217;&gt; and
+&lt;v&#8217;w&#8217;&gt; (&#8216;&lt;x&gt;&#8217; denotes an &#8216;appropriate&#8217; time average of the quantity
+&#8216;x&#8217;).</p>
+<div class="section" id="available-stress-models">
+<h2>Available stress models:<a class="headerlink" href="#available-stress-models" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>uniform   - A uniform Reynold&#8217;s stress over the spatial domain.
+tidal     - The Reynold&#8217;s stress increases linearly toward the seafloor.</div></blockquote>
+</div>
+<div class="section" id="example-usage">
+<h2>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<p>import pyts.stressmodels.api as rm</p>
+<p># Create a uniform Reynold&#8217;s stress model where each component is
+# specified explicitly:
+my_stress_model=rm.uniform(upvp_=0.01,upwp_=0.1,vpwp_=0.0)</p>
+<p># This stress model can then be applied to a tsrun (see
+# pyts.main.tsrun):
+tsrun.stress=my_stress_model(tsrun)</p>
+</div>
+<div class="section" id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<p>For a description of the difference between &#8216;stress models&#8217;
+(e.g. &#8216;my_stress_model&#8217; in example above) and the stress they output
+(tsrun.prof), see the &#8216;models_and_stats_example.py&#8217; file.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Reynold&#8217;s stress Models</a><ul>
+<li><a class="reference internal" href="#available-stress-models">Available stress models:</a></li>
+<li><a class="reference internal" href="#example-usage">Example usage</a></li>
+<li><a class="reference internal" href="#see-also">See also</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="specModels.html"
+                        title="previous chapter">Spectral Models</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="cohereModels.html"
+                        title="next chapter">Coherence Models</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/stressModels.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="cohereModels.html" title="Coherence Models"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="specModels.html" title="Spectral Models"
+             >previous</a> |</li>
+        <li><a href="index.html">PyTurbSim 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

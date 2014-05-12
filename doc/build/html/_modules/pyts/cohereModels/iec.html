@@ -1,0 +1,155 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.cohereModels.iec &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyts.cohereModels.iec</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">mBase</span> <span class="kn">import</span> <span class="n">cohereModelBase</span><span class="p">,</span><span class="n">cohereObj</span>
+
+<div class="viewcode-block" id="cohModelIEC"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.iec.cohModelIEC">[docs]</a><span class="k">class</span> <span class="nc">cohModelIEC</span><span class="p">(</span><span class="n">cohereModelBase</span><span class="p">):</span>
+    <span class="c"># !!!ADDDOC</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The coherence model for the IEC spectral models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="cohModelIEC.L"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.iec.cohModelIEC.L">[docs]</a>    <span class="k">def</span> <span class="nf">L</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">zhub</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Lfactor</span><span class="o">*</span><span class="n">Lambda</span><span class="p">(</span><span class="n">zhub</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">IECedition</span><span class="p">)</span>
+    </div>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">IECedition</span><span class="p">):</span>
+        <span class="c"># !!!ADDDOC</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the coherence parameters for the IEC spectral model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">IECedition</span><span class="o">=</span><span class="n">IECedition</span>
+        
+        <span class="k">if</span> <span class="n">IECedition</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_Lfactor</span><span class="o">=</span><span class="mf">3.5</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">=</span><span class="mf">8.8</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c"># 3rd edition IEC standard:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_Lfactor</span><span class="o">=</span><span class="mf">3.5</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">=</span><span class="mf">12.</span>
+
+    <span class="c">## def tslib_func(self,calcinst):</span>
+        
+
+<div class="viewcode-block" id="cohModelIEC.get_crossSpec_pack"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.iec.cohModelIEC.get_crossSpec_pack">[docs]</a>    <span class="k">def</span> <span class="nf">get_crossSpec_pack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function sets the variable self._crossSpec_pack for the component *comp* (i.e. 0,1,2).</span>
+<span class="sd">        </span>
+<span class="sd">        This function uses the TSlib.ieccoh function to compute the cross-spectral matrix.</span>
+<span class="sd">        If that library is not available, it computes the cross-spectral matrix in pure</span>
+<span class="sd">        python using the calcCoh method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crossSpec_pack_name</span><span class="o">==</span><span class="n">comp</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crossSpec_pack</span>
+        <span class="k">if</span> <span class="n">comp</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_crossSpec_pack</span><span class="p">[:]</span><span class="o">=</span><span class="mi">0</span> <span class="c"># Set all elements to zero.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_crossSpec_pack</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Saa_flat</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span> <span class="c"># Set the diagonal elements to be the spectra:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_crossSpec_pack_name</span><span class="o">=</span><span class="n">comp</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crossSpec_pack</span>
+        <span class="k">elif</span> <span class="n">base</span><span class="o">.</span><span class="n">tslib</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_crossSpec_pack</span><span class="o">=</span><span class="n">base</span><span class="o">.</span><span class="n">tslib</span><span class="o">.</span><span class="n">ieccoh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Saa_flat</span><span class="p">[</span><span class="n">comp</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">profModel</span><span class="o">.</span><span class="n">uhub</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">(</span><span class="n">calcinst</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">y</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_crossSpec_pack_name</span><span class="o">=</span><span class="n">comp</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crossSpec_pack</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cohModelBase</span><span class="o">.</span><span class="n">get_crossSpec_pack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="cohModelIEC.calcCoh"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.iec.cohModelIEC.calcCoh">[docs]</a>    <span class="k">def</span> <span class="nf">calcCoh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">calcinst</span><span class="p">,</span><span class="n">comp</span><span class="p">,</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The *comp*=(0,1,2=u,v,w), coherence between points *ii*=(iz,iy) and *jj*=(jz,jy).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">comp</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">r</span><span class="o">=</span><span class="n">calcinst</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span>
+            <span class="n">calcinst</span><span class="o">.</span><span class="n">_work</span><span class="p">[:]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">calcinst</span><span class="o">.</span><span class="n">f</span><span class="o">*</span><span class="n">r</span><span class="o">/</span><span class="n">calcinst</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="mf">0.12</span><span class="o">*</span><span class="n">r</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">(</span><span class="n">calcinst</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">calcinst</span><span class="o">.</span><span class="n">_work</span><span class="p">[:]</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">return</span> <span class="n">calcinst</span><span class="o">.</span><span class="n">_work</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

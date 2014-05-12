@@ -1,0 +1,770 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.main &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyts.main</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module brings together the main components of the TurbSim program</span>
+<span class="sd">and defines the primary high-level objects that users of the Python</span>
+<span class="sd">interface will utilize.</span>
+
+<span class="sd">This module, however, contains more functions and objects than the</span>
+<span class="sd">typical user will want access to. For a more compact version of the</span>
+<span class="sd">PyTurbSim interface import the ./api.py package.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="n">np</span><span class="p">,</span><span class="n">tslib</span><span class="p">,</span><span class="n">ts_float</span><span class="p">,</span><span class="n">ts_complex</span><span class="p">,</span><span class="n">gridProps</span><span class="p">,</span><span class="n">dbg</span><span class="p">,</span><span class="n">modelBase</span>
+<span class="kn">from</span> <span class="nn">profModels.mBase</span> <span class="kn">import</span> <span class="n">profModelBase</span><span class="p">,</span><span class="n">profObj</span>
+<span class="kn">from</span> <span class="nn">specModels.mBase</span> <span class="kn">import</span> <span class="n">specModelBase</span><span class="p">,</span><span class="n">specObj</span>
+<span class="kn">from</span> <span class="nn">cohereModels.mBase</span> <span class="kn">import</span> <span class="n">cohereModelBase</span><span class="p">,</span><span class="n">cohereObj</span><span class="p">,</span><span class="n">cohereUser</span>
+<span class="kn">from</span> <span class="nn">stressModels.mBase</span> <span class="kn">import</span> <span class="n">stressModelBase</span><span class="p">,</span><span class="n">stressObj</span>
+<span class="kn">from</span> <span class="nn">phaseModels.api</span> <span class="kn">import</span> <span class="n">randPhase</span>
+<span class="kn">from</span> <span class="nn">_version</span> <span class="kn">import</span> <span class="n">__version__</span><span class="p">,</span><span class="n">__prog_name__</span><span class="p">,</span><span class="n">__version_date__</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">bladed</span><span class="p">,</span><span class="n">aerodyn</span>
+
+<span class="c"># !!!VERSION_INCONSISTENCY</span>
+<span class="c"># inconsistency between this and older versions of TurbSim</span>
+<span class="c"># !!!CHECKTHIS</span>
+<span class="c"># means I need to ensure that something is right.</span>
+<span class="c"># !!!FIXTHIS</span>
+<span class="c"># means I know I am doing something wrong.</span>
+<span class="c"># !!!ADDDOC</span>
+<span class="c"># Means add documentation here</span>
+
+<span class="c"># TODO:</span>
+<span class="c">#  - Add ability to rotate mean velocity field (for a prof instance and a profModel).</span>
+<span class="c">#  - Add ability to add veer to mean velocity field (prof instance and profModel).</span>
+<span class="c">#  - DOCUMENTATION!!!</span>
+<span class="c">#  - Update these files and add them to the repository:</span>
+<span class="c">#    .turbModels/newModel_example.py</span>
+<span class="c">#    .turbModels/newCohereModel_example.py</span>
+<span class="c">#  - &#39;User-defined&#39; models</span>
+<span class="c">#  - Add parameter logging, so that we can write summary files that track all parameters that were input.</span>
+<span class="c">#  - Write .sum summary files (tsio.py), (so they are fully self-contained).</span>
+<span class="c">#  - Write FF files (tsio.py).</span>
+<span class="c">#  - Write HubHeight files (tsio.py).</span>
+<span class="c">#  - Add KHtest functionality? (rgrep for &#39;#KHTEST&#39;)</span>
+<span class="c">#  - Write &#39;events&#39; (includes adding &#39;coherent events&#39; to TS)</span>
+
+<div class="viewcode-block" id="tsrun"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsrun">[docs]</a><span class="k">class</span> <span class="nc">tsrun</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the PyTurbSim &#39;run&#39; class. This class provides the</span>
+<span class="sd">    interface for controlling PyTurbSim simulations and output.</span>
+
+<span class="sd">    Examples of how to use this class, and the PyTurbSim interface in</span>
+<span class="sd">    general can be found in the PyTurbSim /examples directory.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">RandSeed</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">ncore</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        PyTurbSim &#39;run&#39; objects can be initialized with a specific</span>
+<span class="sd">        random seed, *RandSeed*, and number of cores, *ncore*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Initialize the random number generator before doing anything else.</span>
+        <span class="k">if</span> <span class="n">RandSeed</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">2147483648</span><span class="p">,</span><span class="mi">2147483647</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span><span class="o">=</span><span class="n">RandSeed</span>
+        <span class="c"># Seeds for numpy must be positive, but original-TurbSim had negative seeds.</span>
+        <span class="c"># In order to attempt to be consistent, we use the values in the files but make them positive for the numpy random generator.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">randgen</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span><span class="o">+</span><span class="mi">2147483648</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ncore</span><span class="o">=</span><span class="n">ncore</span>
+        <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">=</span><span class="n">dbg</span><span class="o">.</span><span class="n">timer</span><span class="p">(</span><span class="s">&#39;Veers84&#39;</span><span class="p">)</span>
+
+    <span class="n">phase</span><span class="o">=</span><span class="n">randPhase</span><span class="p">()</span> <span class="c"># For now this is a place-holder, I may want to make this an &#39;input property&#39; eventually.</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">prof</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the &#39;mean velocity profile&#39; input property. This</span>
+<span class="sd">        property can be defined with three types of objects:</span>
+<span class="sd">          1) define it with a &#39;profile model&#39; (recommended), e.g.:</span>
+<span class="sd">          </span>
+<span class="sd">                  ts_run.prof=a_prof_model</span>
+<span class="sd">            </span>
+<span class="sd">             In this case the model is set to my_ts_run.profModel, and</span>
+<span class="sd">             this model is called to produce a profObj AS NEEDED.  At</span>
+<span class="sd">             the end of the ts_run call that profObj is cleared so</span>
+<span class="sd">             that subsequent runs do not use a fixed profObj (i.e. in</span>
+<span class="sd">             the case that the model is modified or another</span>
+<span class="sd">             model/object that the profile model depends on is</span>
+<span class="sd">             changed between runs).</span>
+
+<span class="sd">          2) define it with a profObj directly (profile</span>
+<span class="sd">             statistic-object), e.g.:</span>
+
+<span class="sd">              ts_run.prof=a_prof_model(ts_run)</span>
+<span class="sd">              </span>
+<span class="sd">             In this case the profObj is FIXED. That is, all</span>
+<span class="sd">             subsequent PyTurbSim runs will utilize this profile,</span>
+<span class="sd">             which is based on the state of the a_prof_model and</span>
+<span class="sd">             ts_run at the time of the profObj creation.</span>
+
+<span class="sd">          3) define it with an array directly, e.g.:</span>
+
+<span class="sd">               ts_run.prof=a_numpy_array   [units: m/s]</span>
+
+<span class="sd">             In this case the profObj is again fixed and defined by</span>
+<span class="sd">             the input array.  The numpy array dimensions must match</span>
+<span class="sd">             those of the tsGrid.  That is, the dimensions of the</span>
+<span class="sd">             array should be (3 x grid.n_z x grid.n_y).  The first</span>
+<span class="sd">             dimension is for each component of the profile (u,v,w),</span>
+<span class="sd">             the next two are for each point (z,y) in the grid.</span>
+<span class="sd">        </span>
+<span class="sd">        This property always returns a &#39;profObj&#39; object or raises an</span>
+<span class="sd">        AttributeError.  </span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        Other input properties:</span>
+<span class="sd">          tsrun.spec</span>
+<span class="sd">          tsrun.cohere</span>
+<span class="sd">          tsrun.stress</span>
+
+<span class="sd">        the &#39;profModels&#39; package for a list of available profile</span>
+<span class="sd">        models and more detailed documentation.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;profModel&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;_prof&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_prof</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">profModel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prof</span>
+    <span class="nd">@prof.setter</span>
+    <span class="k">def</span> <span class="nf">prof</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">profModelBase</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">profModel</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_prof</span><span class="o">=</span><span class="n">profObj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_prof</span><span class="o">.</span><span class="n">array</span><span class="p">[:]</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">elif</span> <span class="n">profObj</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_prof</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;The input must be a profile model, profile object or numpy array; it is none of these.&#39;</span><span class="p">)</span>
+    <span class="nd">@prof.deleter</span>
+<div class="viewcode-block" id="tsrun.prof"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsrun.prof">[docs]</a>    <span class="k">def</span> <span class="nf">prof</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;profModel&#39;</span><span class="p">):</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prof</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the &#39;tke spectrum&#39; input property. This property can</span>
+<span class="sd">        be defined with three types of objects:</span>
+<span class="sd">          1) define it with a &#39;spectral model&#39; (recommended), e.g.:</span>
+<span class="sd">          </span>
+<span class="sd">                  ts_run.spec=a_spec_model</span>
+<span class="sd">            </span>
+<span class="sd">             In this case the model is set to my_ts_run.specModel, and</span>
+<span class="sd">             this model is called to produce a specObj AS NEEDED.  At</span>
+<span class="sd">             the end of the ts_run call that specObj is cleared so</span>
+<span class="sd">             that subsequent runs do not use a fixed specObj (i.e. in</span>
+<span class="sd">             the case that another model/object that the spectral model</span>
+<span class="sd">             depends on is changed between runs).</span>
+
+<span class="sd">          2) define it with a specObj directly, e.g.:</span>
+
+<span class="sd">              ts_run.spec=a_spec_model(ts_run)</span>
+<span class="sd">              </span>
+<span class="sd">             In this case the specObj is FIXED. That is, all</span>
+<span class="sd">             subsequent PyTurbSim runs will utilize this spectral</span>
+<span class="sd">             model, which is based on the state of ts_run at the time</span>
+<span class="sd">             of the specObj creation.</span>
+
+<span class="sd">          3) define it with an array directly, e.g.:</span>
+
+<span class="sd">               ts_run.spec=a_numpy_array  - [units: m^2/(s^2.Hz)]</span>
+
+<span class="sd">             In this case the specObj is again fixed and defined by</span>
+<span class="sd">             the input array.  The numpy array dimensions must match</span>
+<span class="sd">             those of the tsGrid.  That is, the dimensions of the</span>
+<span class="sd">             array should be (3 x grid.n_z x grid.n_y x grid.n_f).</span>
+<span class="sd">             The first dimension is for each component of the spectrum</span>
+<span class="sd">             (u,v,w), the next two are for each point (z,y) in the</span>
+<span class="sd">             grid, and the last dimension is the frequency dependence</span>
+<span class="sd">             of the spectrum.</span>
+
+<span class="sd">        This property always returns a &#39;specObj&#39; object or raises an</span>
+<span class="sd">        AttributeError.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        Other input properties:</span>
+<span class="sd">          tsrun.prof</span>
+<span class="sd">          tsrun.cohere</span>
+<span class="sd">          tsrun.stress</span>
+
+<span class="sd">        &#39;specModels&#39; package for a list of available spectral</span>
+<span class="sd">        models and more detailed documentation.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;specModel&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;_spec&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">specModel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span>
+    <span class="nd">@spec.setter</span>
+    <span class="k">def</span> <span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">specModelBase</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">specModel</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">=</span><span class="n">specObj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">array</span><span class="p">[:]</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">elif</span> <span class="n">specObj</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;The input must be a spectral model, spectra object or numpy array; it is none of these.&#39;</span><span class="p">)</span>
+    <span class="nd">@spec.deleter</span>
+<div class="viewcode-block" id="tsrun.spec"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsrun.spec">[docs]</a>    <span class="k">def</span> <span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;specModel&#39;</span><span class="p">):</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span>
+    </div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cohere</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the &#39;coherence&#39; input property.</span>
+
+<span class="sd">        Because the bulk of PyTurbSim&#39;s computational requirements</span>
+<span class="sd">        (memory and processor time) are consumed by dealing with this</span>
+<span class="sd">        statistic, it behaves somewhat differently from the others. In</span>
+<span class="sd">        particular, rather than relying on arrays for holding data</span>
+<span class="sd">        &#39;coherence objects&#39; define functions that are called as</span>
+<span class="sd">        needed.  This dramatically reduces the memory requirements of</span>
+<span class="sd">        PyTurbSim without increasing.  See the cohereModels package</span>
+<span class="sd">        documentation for further details.  Fortunately, at this</span>
+<span class="sd">        level, coherence is specified identically to other</span>
+<span class="sd">        statistics...</span>
+
+<span class="sd">        This property can be defined with three types of objects:</span>
+<span class="sd">          1) define it with a &#39;coherence model&#39; (recommended), e.g.:</span>
+<span class="sd">          </span>
+<span class="sd">                  ts_run.cohere=a_coherence_model</span>
+<span class="sd">            </span>
+<span class="sd">             In this case the model is set to my_ts_run.cohereModel,</span>
+<span class="sd">             and this model sets the is called at runtime to produce the phase</span>
+<span class="sd">             array. At the end of the ts_run call that phase array is</span>
+<span class="sd">             cleared so that subsequent runs do not use a fixed</span>
+<span class="sd">             phase information (i.e. in the case that the coherence</span>
+<span class="sd">             model is modified or another model/object that the</span>
+<span class="sd">             coherence model depends on is changed between runs).</span>
+
+<span class="sd">          2) define it with a cohereObj directly, e.g.:</span>
+
+<span class="sd">              ts_run.spec=a_coherence_model(ts_run)</span>
+<span class="sd">              </span>
+<span class="sd">             In this case the cohereObj is FIXED. That is, all</span>
+<span class="sd">             subsequent PyTurbSim runs will utilize this coherence</span>
+<span class="sd">             model, which is based on the state of ts_run at the time</span>
+<span class="sd">             of execution of this command.</span>
+
+<span class="sd">          3) define it with an array directly, e.g.:</span>
+
+<span class="sd">               ts_run.cohere=a_numpy_array  - [units: non-dimensional]</span>
+
+<span class="sd">             In this case the coherence will be fixed and defined by</span>
+<span class="sd">             this input array.  The numpy array dimensions must match</span>
+<span class="sd">             those of the tsGrid.  That is, the dimensions of the</span>
+<span class="sd">             array should be (3 x grid.n_p x grid.n_p x grid.n_f).</span>
+<span class="sd">             The first dimension is for each component of the spectrum</span>
+<span class="sd">             (u,v,w), the next two are for each point-pair (z,y) in the</span>
+<span class="sd">             grid, and the last dimension is the frequency dependence</span>
+<span class="sd">             of the spectrum.</span>
+
+<span class="sd">             This approach for specifying the coherence - while</span>
+<span class="sd">             explicit and flexible - requires considerably more memory</span>
+<span class="sd">             than the &#39;coherence model&#39; approach.  Furthermore using</span>
+<span class="sd">             this approach one must be careful to make sure that the</span>
+<span class="sd">             ordering of the array agrees with that of the &#39;flattened</span>
+<span class="sd">             grid&#39; (see the tsGrid.flatten method, and/or the</span>
+<span class="sd">             cohereUser coherence model for more information).</span>
+
+<span class="sd">        This property always returns a &#39;cohereObj&#39; object or raises an</span>
+<span class="sd">        AttributeError (if a coherence model is not defined).</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        Other input properties:</span>
+<span class="sd">          tsrun.prof</span>
+<span class="sd">          tsrun.spec</span>
+<span class="sd">          tsrun.stress</span>
+
+<span class="sd">        the &#39;cohereModels&#39; package for a list of available coherence</span>
+<span class="sd">        models and more detailed documentation.</span>
+
+<span class="sd">        &#39;cohereUser&#39; coherence model (in the cohereModels/mBase.py</span>
+<span class="sd">        file)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;cohereModel&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;_cohere&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cohere</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cohereModel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cohere</span>
+    <span class="nd">@cohere.setter</span>
+    <span class="k">def</span> <span class="nf">cohere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">cohereModelBase</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cohereModel</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cohereModel</span><span class="o">=</span><span class="n">cohereUser</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cohereObj</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cohere</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;The input must be a coherence model, coherence object or numpy array; it is none of these.&#39;</span><span class="p">)</span>
+    <span class="nd">@cohere.deleter</span>
+<div class="viewcode-block" id="tsrun.cohere"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsrun.cohere">[docs]</a>    <span class="k">def</span> <span class="nf">cohere</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;cohereModel&#39;</span><span class="p">):</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cohere</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">stress</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the Reynold&#39;s stress input property. This property can</span>
+<span class="sd">        be defined with three types of objects:</span>
+<span class="sd">          1) define it with a &#39;spectral model&#39; (recommended), e.g.:</span>
+<span class="sd">          </span>
+<span class="sd">                  ts_run.stress=a_stress_model</span>
+<span class="sd">            </span>
+<span class="sd">             In this case the model is set to my_ts_run.stressModel, and</span>
+<span class="sd">             this model is called to produce a stressObj AS NEEDED.  At</span>
+<span class="sd">             the end of the ts_run call that stressObj is cleared so</span>
+<span class="sd">             that subsequent runs do not use a fixed stressObj (i.e. in</span>
+<span class="sd">             the case that another model/object that the stress model</span>
+<span class="sd">             depends on is changed between runs).</span>
+
+<span class="sd">          2) define it with a stressObj directly, e.g.:</span>
+
+<span class="sd">              ts_run.stress=a_stress_model(ts_run)</span>
+<span class="sd">              </span>
+<span class="sd">             In this case the stressObj is FIXED. That is, all</span>
+<span class="sd">             subsequent PyTurbSim runs will utilize this stress</span>
+<span class="sd">             model, which is based on the state of ts_run at the time</span>
+<span class="sd">             of the stressObj creation.</span>
+
+<span class="sd">          3) define it with an array directly, e.g.:</span>
+
+<span class="sd">               ts_run.stress=a_numpy_array  - [units: m^2/s^2]</span>
+
+<span class="sd">             In this case the stressObj is again fixed and defined by</span>
+<span class="sd">             the input array.  The numpy array dimensions must match</span>
+<span class="sd">             those of the tsGrid.  That is, the dimensions of the</span>
+<span class="sd">             array should be (3 x grid.n_z x grid.n_y).</span>
+<span class="sd">             The first dimension is for each component of the stress</span>
+<span class="sd">             (u,v,w), the next two are for each point (z,y) in the</span>
+<span class="sd">             grid.</span>
+
+<span class="sd">        This property always returns a &#39;stressObj&#39; object or raises an</span>
+<span class="sd">        AttributeError (if no stressModel is defined).</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        Other input properties:</span>
+<span class="sd">          tsrun.prof</span>
+<span class="sd">          tsrun.spec</span>
+<span class="sd">          tsrun.cohere</span>
+
+<span class="sd">        &#39;stressModels&#39; package for a list of available stress models</span>
+<span class="sd">        and more detailed documentation.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;stressModel&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;_stress&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stress</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stressModel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stress</span>
+    <span class="nd">@stress.setter</span>
+    <span class="k">def</span> <span class="nf">stress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">stressModelBase</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stressModel</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stress</span><span class="o">=</span><span class="n">stressObj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stress</span><span class="o">.</span><span class="n">array</span><span class="p">[:]</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">elif</span> <span class="n">stressObj</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stress</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;The input must be a stress model, stress object or numpy array; it is none of these.&#39;</span><span class="p">)</span>
+    <span class="nd">@stress.deleter</span>
+<div class="viewcode-block" id="tsrun.stress"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsrun.stress">[docs]</a>    <span class="k">def</span> <span class="nf">stress</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;stressModel&#39;</span><span class="p">):</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stress</span>
+</div>
+<div class="viewcode-block" id="tsrun.reset"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsrun.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clear the input statistics and reset the Random Number</span>
+<span class="sd">        generator to its initial state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">prof</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">spec</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">cohere</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">stress</span>
+        <span class="k">if</span> <span class="n">RandSeed</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">randgen</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span><span class="p">)</span>
+        </div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsrun.info"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsrun.info">[docs]</a>    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Model names and initialization parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span><span class="o">=</span><span class="nb">dict</span><span class="p">()</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;version&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">__prog_name__</span><span class="p">,</span><span class="n">__version__</span><span class="p">,</span><span class="n">__version_date__</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;RandSeed&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;profModel&#39;</span><span class="p">,</span><span class="s">&#39;specModel&#39;</span><span class="p">,</span><span class="s">&#39;cohereModel&#39;</span><span class="p">,</span><span class="s">&#39;stressModel&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nm</span><span class="p">):</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nm</span><span class="p">)</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="n">nm</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&quot;&#39;&gt;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">&#39;s.&#39;</span><span class="p">)</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="o">+</span><span class="s">&#39;_params&#39;</span><span class="p">]</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span>
+        <span class="k">return</span> <span class="n">out</span>
+    </div>
+<div class="viewcode-block" id="tsrun.__call__"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsrun.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run PyTurbSim.</span>
+
+<span class="sd">        Before calling this method be sure that the following</span>
+<span class="sd">        properties of this run-object have been set to the desired</span>
+<span class="sd">        values:</span>
+<span class="sd">        prof   - The mean profile model, object or array.</span>
+<span class="sd">        spec   - The tke spectrum model, object or array.</span>
+<span class="sd">        cohere - The coherence model, object or array.</span>
+<span class="sd">        stress - The Reynold&#39;s stress model, object or array.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        PyTurbSim tsdata object.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
+            <span class="n">tmr</span><span class="o">=</span><span class="n">dbg</span><span class="o">.</span><span class="n">timer</span><span class="p">(</span><span class="s">&#39;Total CPU time&#39;</span><span class="p">)</span>
+            <span class="n">tmr</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeseries</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_calcTimeSeries</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
+            <span class="n">tmr</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+            <span class="k">print</span> <span class="n">tmr</span>
+            <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">timer</span>
+            <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">cohereModel</span><span class="o">.</span><span class="n">timer</span>
+        <span class="n">out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_build_outdata</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">out</span>
+</div>
+    <span class="n">run</span><span class="o">=</span><span class="n">__call__</span> <span class="c"># A more explicit shortcut...</span>
+
+    <span class="k">def</span> <span class="nf">_build_outdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct the output data object and return it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span><span class="o">=</span><span class="n">tsdata</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">uturb</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeseries</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">uprof</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">array</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">info</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span>
+        <span class="k">return</span> <span class="n">out</span>
+        
+    <span class="k">def</span> <span class="nf">_calcTimeSeries</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the u,v,w, timeseries based on the spectral, coherence</span>
+<span class="sd">        and Reynold&#39;s stress models.</span>
+<span class="sd">        </span>
+<span class="sd">        This method performs the work of taking a specified spectrum</span>
+<span class="sd">        and coherence function and transforming it into a spatial</span>
+<span class="sd">        timeseries.  It performs the steps outlined in Veers84&#39;s</span>
+<span class="sd">        equations 7 and 8.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        turb - the turbulent velocity timeseries array (3 x nz x ny x</span>
+<span class="sd">               nt) for this PyTurbSim run.</span>
+
+
+<span class="sd">        References</span>
+<span class="sd">        =================</span>
+
+<span class="sd">        The full reference for &#39;Veers84&#39; is:</span>
+<span class="sd">           Veers, Paul (1984) &#39;Modeling Stochastic Wind Loads on Vertical Axis Wind Turbines&#39;,</span>
+<span class="sd">           Sandia Report 1909, 17 pages.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        =================</span>
+
+<span class="sd">        1) Veers84&#39;s equation 7 is actually a &#39;Cholesky Factorization&#39;.  Therefore, rather than</span>
+<span class="sd">        writing this functionality explicitly we call &#39;cholesky&#39; routines to do this work.</span>
+<span class="sd">        </span>
+<span class="sd">        2) This function uses one of two methods for computing the Cholesky factorization.  If</span>
+<span class="sd">        the Fortran library tslib is available it is used (it is much more efficient), otherwise</span>
+<span class="sd">        the numpy implementation of Cholesky is used.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">grid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span>
+        <span class="n">tmp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_complex</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="c"># First calculate the &#39;base&#39; set of random phases:</span>
+        <span class="n">phases</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c"># Now correlate the phases at each point to set the Reynold&#39;s stress:</span>
+        <span class="n">phases</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">calc_phases</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
+        <span class="c"># Now correlate the phases between points to set the spatial coherence:</span>
+        <span class="n">phases</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cohere</span><span class="o">.</span><span class="n">calc_phases</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
+        <span class="c"># Now multiply the phases by the spectrum...</span>
+        <span class="n">tmp</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="mi">1</span><span class="p">:]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">array</span><span class="p">)</span><span class="o">*</span><span class="n">grid</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
+        <span class="c"># and compute the inverse fft to produce the timeseries:</span>
+        <span class="n">ts</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">irfft</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="c"># Select only the time period requested:</span>
+        <span class="n">i0_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">randgen</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">n_t</span><span class="o">-</span><span class="n">grid</span><span class="o">.</span><span class="n">n_t_out</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="c"># Grab a random number of where to cut the timeseries.</span>
+        <span class="n">ts</span><span class="o">=</span><span class="n">ts</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">i0_out</span><span class="p">:</span><span class="n">i0_out</span><span class="o">+</span><span class="n">grid</span><span class="o">.</span><span class="n">n_t_out</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">dt</span><span class="o">/</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+        <span class="n">ts</span><span class="o">-=</span><span class="n">ts</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span> <span class="c"># Make sure the turbulence has zero mean.</span>
+        <span class="k">return</span> <span class="n">ts</span>
+</div>
+<div class="viewcode-block" id="tsdata"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata">[docs]</a><span class="k">class</span> <span class="nc">tsdata</span><span class="p">(</span><span class="n">gridProps</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TurbSim output data object.  In addition to the output of a</span>
+<span class="sd">    simulation (velocity timeseries array) it also includes all</span>
+<span class="sd">    information for reproducing the simulation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.parameters"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.parameters">[docs]</a>    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="n">out</span><span class="o">=</span><span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;info&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;profModel_params&#39;</span><span class="p">,</span><span class="s">&#39;specModel_params&#39;</span><span class="p">,</span><span class="s">&#39;cohereModel_params&#39;</span><span class="p">,</span><span class="s">&#39;stressModel_params&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">nm</span><span class="p">):</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="n">nm</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">out</span>
+                
+</div>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">grid</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a tdata object with a grid object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">=</span><span class="n">grid</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.shape"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The shape of the turbulence time-series (output) array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="o">.</span><span class="n">shape</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.ihub"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.ihub">[docs]</a>    <span class="k">def</span> <span class="nf">ihub</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The index of the hub.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.time"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.time">[docs]</a>    <span class="k">def</span> <span class="nf">time</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The time vector, in seconds, starting at zero.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;_time&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span>
+</div>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;TurbSim data object:</span><span class="se">\n</span><span class="si">%d</span><span class="s"> </span><span class="si">%4.2f</span><span class="s">s-timesteps, </span><span class="si">%0.2f</span><span class="s">x</span><span class="si">%0.2f</span><span class="s">m (</span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">) z-y grid (hubheight=</span><span class="si">%0.2f</span><span class="s">m).&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">height</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">width</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.utotal"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.utotal">[docs]</a>    <span class="k">def</span> <span class="nf">utotal</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The total (mean + turbulent), 3-d velocity array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[:,:,:,</span><span class="bp">None</span><span class="p">]</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.u"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.u">[docs]</a>    <span class="k">def</span> <span class="nf">u</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The total (mean + turbulent), u-component of velocity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,:,</span><span class="bp">None</span><span class="p">]</span></div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.v"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.v">[docs]</a>    <span class="k">def</span> <span class="nf">v</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The total (mean + turbulent), v-component of velocity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">1</span><span class="p">,:,:,</span><span class="bp">None</span><span class="p">]</span></div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.w"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.w">[docs]</a>    <span class="k">def</span> <span class="nf">w</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The total (mean + turbulent), w-component of velocity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">2</span><span class="p">,:,:,</span><span class="bp">None</span><span class="p">]</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.UHUB"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.UHUB">[docs]</a>    <span class="k">def</span> <span class="nf">UHUB</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The hub-height mean velocity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">]</span>
+    </div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.uhub"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.uhub">[docs]</a>    <span class="k">def</span> <span class="nf">uhub</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The hub-height u-component time-series.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">]</span></div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.vhub"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.vhub">[docs]</a>    <span class="k">def</span> <span class="nf">vhub</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The hub-height v-component time-series.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">]</span></div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.whub"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.whub">[docs]</a>    <span class="k">def</span> <span class="nf">whub</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The hub-height w-component time-series.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">]</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.tke"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.tke">[docs]</a>    <span class="k">def</span> <span class="nf">tke</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The turbulence kinetic energy.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.Ti"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.Ti">[docs]</a>    <span class="k">def</span> <span class="nf">Ti</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The turbulence intensity, std(u&#39;)/U, at each point in the grid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.upvp_"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.upvp_">[docs]</a>    <span class="k">def</span> <span class="nf">upvp_</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the u&#39;v&#39; component of the Reynold&#39;s stress.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.upwp_"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.upwp_">[docs]</a>    <span class="k">def</span> <span class="nf">upwp_</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the u&#39;w&#39; component of the Reynold&#39;s stress.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.vpwp_"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.vpwp_">[docs]</a>    <span class="k">def</span> <span class="nf">vpwp_</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the v&#39;w&#39; component of the Reynold&#39;s stress.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tsdata.stats"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.stats">[docs]</a>    <span class="k">def</span> <span class="nf">stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute and return relevant statistics for this turbsim time-series.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">slc</span><span class="o">=</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span><span class="o">+</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">)</span>
+        <span class="n">stats</span><span class="o">=</span><span class="p">{}</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s">&#39;Ti&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">UHUB</span>
+        <span class="k">return</span> <span class="n">stats</span>
+</div>
+<div class="viewcode-block" id="tsdata.writeBladed"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.writeBladed">[docs]</a>    <span class="k">def</span> <span class="nf">writeBladed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the data in this tsdata object in &#39;bladed&#39; format.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        *filename*  - The filename to which the data should be written.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bladed</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="tsdata.writeAero"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.writeAero">[docs]</a>    <span class="k">def</span> <span class="nf">writeAero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the data in this tsdata object in &#39;AeroDyn&#39; format.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        *filename*  - The filename to which the data should be written.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">aerodyn</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="tsdata.writeSum"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.writeSum">[docs]</a>    <span class="k">def</span> <span class="nf">writeSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Currently PyTurbSim does not support writing summary (.sum) files.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">#!!!FIXTHIS!!!</span>
+        <span class="k">pass</span>
+    </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
