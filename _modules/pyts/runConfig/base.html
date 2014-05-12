@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.runConfig.base &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyts.runConfig.base</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The base module for the runConfig package. This module defines the TurbSim config class (tscfg). The tscfg class is a dictionary for storing data from a TurbSim input file. The class contains several methods that specify default values for several input variables. Those defaults documented in the Original-TurbSim documentation:</span>
+<span class="sd">https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">np</span>
+
+<div class="viewcode-block" id="tscfg"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.base.tscfg">[docs]</a><span class="k">class</span> <span class="nc">tscfg</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The TurbSim config object and &#39;global defaults&#39; handler.</span>
+
+<span class="sd">    Regarding global defaults:</span>
+<span class="sd">    The &#39;_dflt_...&#39; functions define &#39;global&#39; default definitions</span>
+<span class="sd">    (used by multiple profModels and/or turbModels).  Other, model</span>
+<span class="sd">    specific, defaults are defined in the model itself.</span>
+
+<span class="sd">    For further information on the &#39;defaults&#39; defined here, consult</span>
+<span class="sd">    the O-TurbSim documentation:</span>
+<span class="sd">    https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the item *key* from the dictionary.</span>
+
+<span class="sd">        If there is no value, or it is &#39;None&#39;, and there is a</span>
+<span class="sd">        &#39;_dflt_&lt;key&gt;&#39; property in the class, it uses this property to</span>
+<span class="sd">        &#39;set the default&#39;.</span>
+
+<span class="sd">        Otherwise return *None*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">==</span><span class="s">&#39;RandSeed&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">randseed</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;IECstandard&#39;</span><span class="p">,</span><span class="s">&#39;IECedition&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">dict</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;IECstandard&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">[</span><span class="s">&#39;IECstandard&#39;</span><span class="p">],</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IECedition&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_IEC_standard</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;IECstandard&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">dict</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;_dflt_&#39;</span><span class="o">+</span><span class="n">key</span><span class="p">):</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="s">&#39;_dflt_&#39;</span><span class="o">+</span><span class="n">key</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dict_isdefault</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">=</span><span class="mi">2</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">==</span><span class="s">&#39;RandSeed&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">randseed</span><span class="o">=</span><span class="n">val</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">dict</span><span class="o">.</span><span class="n">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tscfg.incdec_a"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.base.tscfg.incdec_a">[docs]</a>    <span class="k">def</span> <span class="nf">incdec_a</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The &#39;a&#39; coherence decrement.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span><span class="o">=</span><span class="p">[</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec1&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec1&#39;</span><span class="p">],</span><span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+                <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec1&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec1&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec2&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec2&#39;</span><span class="p">],</span><span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+                <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec2&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec2&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec3&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec3&#39;</span><span class="p">],</span><span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+                <span class="n">out</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec3&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec3&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">out</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tscfg.incdec_b"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.base.tscfg.incdec_b">[docs]</a>    <span class="k">def</span> <span class="nf">incdec_b</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="n">out</span><span class="o">=</span><span class="p">[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec1&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec1&#39;</span><span class="p">],</span><span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec1&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec2&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec2&#39;</span><span class="p">],</span><span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec2&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec3&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec3&#39;</span><span class="p">],</span><span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;IncDec3&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">out</span>
+</div>
+<div class="viewcode-block" id="tscfg.parse_IEC_standard"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.base.tscfg.parse_IEC_standard">[docs]</a>    <span class="k">def</span> <span class="nf">parse_IEC_standard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">iecstd</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">iecstd</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">iecstd</span><span class="o">=</span><span class="n">iecstd</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="n">tmp</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">iecstd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">iecstd</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">tmp</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">iecedt</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">iecstd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">iecedt</span><span class="o">=</span><span class="bp">None</span> <span class="c"># There are no editions to the -2 and -3 standards.</span>
+            <span class="n">iecstd</span><span class="o">=</span><span class="n">tmp</span>
+        <span class="k">elif</span> <span class="n">iecstd</span><span class="o">==</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">iecstd</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">iecstd</span><span class="o">=</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">turbmodel</span><span class="o">==</span><span class="s">&#39;ieckai&#39;</span><span class="p">:</span>
+                <span class="n">iecedt</span><span class="o">=</span><span class="mi">3</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">iecedt</span><span class="o">=</span><span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">iecedt</span><span class="o">=</span><span class="bp">None</span> <span class="c"># There are no editions to the -2 and -3 standards.</span>
+        <span class="k">if</span> <span class="n">iecedt</span><span class="o">==</span><span class="mi">3</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">turbmodel</span><span class="o">==</span><span class="s">&#39;iecvkm&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidConfig</span><span class="p">(</span><span class="s">&quot;The von-Karman spectral model (IECVKM) is not valid for IEC standard 61400-1&#39;s 3rd edition. Either change TurbModel to IECKAI, or change the IECstandard to &#39;1-ed2&#39; or simply &#39;1&#39;.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">iecedt</span><span class="o">&gt;</span><span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;IEC_WindType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">!=</span><span class="s">&#39;ntm&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidConfig</span><span class="p">(</span><span class="s">&quot;If the IECstandard is 1-ed2 or 1-ed3, than the WindType must be &#39;NTM&#39;.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">iecstd</span><span class="p">,</span><span class="n">iecedt</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dict_isdefault</span><span class="o">=</span><span class="p">{}</span>
+        <span class="nb">dict</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="tscfg.isdefault"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.base.tscfg.isdefault">[docs]</a>    <span class="k">def</span> <span class="nf">isdefault</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Is the given variable a default?</span>
+<span class="sd">        </span>
+<span class="sd">        True  : The value is not specified and there is no &#39;_dflt_...&#39; function.</span>
+<span class="sd">        2     : The value is defined by a &#39;_dflt_...&#39; function.</span>
+<span class="sd">        False : The value is specified explicitly in the configuration.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict_isdefault</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict_isdefault</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">randseed</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="n">tmpval</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;RandSeed1&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed1&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">tmpval</span><span class="o">+=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed1&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">tmpval</span><span class="o">+=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">])</span><span class="o">&lt;&lt;</span><span class="mi">32</span>
+        <span class="k">if</span> <span class="n">tmpval</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">tmpval</span>
+
+    <span class="nd">@randseed.setter</span>
+<div class="viewcode-block" id="tscfg.randseed"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.base.tscfg.randseed">[docs]</a>    <span class="k">def</span> <span class="nf">randseed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed1&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">None</span>
+            <span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed1&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">val</span> <span class="o">&amp;</span> <span class="mi">2</span><span class="o">**</span><span class="mi">32</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">val2</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">val</span><span class="o">&gt;&gt;</span><span class="mi">32</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">val2</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">val2</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">None</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_dflt_WindProfileType</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">turbmodel</span><span class="o">==</span><span class="s">&#39;gp_llj&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;JET&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">turbmodel</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;river&#39;</span><span class="p">,</span><span class="s">&#39;tidal&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="s">&#39;H2L&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;IEC&#39;</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tscfg.turbmodel"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.base.tscfg.turbmodel">[docs]</a>    <span class="k">def</span> <span class="nf">turbmodel</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;TurbModel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="c"># These are only called if the key is not in the dictionary:</span></div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_dflt_Z0</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;ieckai&#39;</span><span class="p">:</span><span class="mf">0.03</span><span class="p">,</span>
+                <span class="s">&#39;iecvkm&#39;</span><span class="p">:</span><span class="mf">0.03</span><span class="p">,</span>
+                <span class="s">&#39;smooth&#39;</span><span class="p">:</span><span class="mf">0.01</span><span class="p">,</span>
+                <span class="s">&#39;gp_llj&#39;</span><span class="p">:</span><span class="mf">0.005</span><span class="p">,</span>
+                <span class="s">&#39;nwtcup&#39;</span><span class="p">:</span><span class="mf">0.021</span><span class="p">,</span>
+                <span class="s">&#39;wf_upw&#39;</span><span class="p">:</span><span class="mf">0.018</span><span class="p">,</span>
+                <span class="s">&#39;wf_07d&#39;</span><span class="p">:</span><span class="mf">0.064</span><span class="p">,</span>
+                <span class="s">&#39;wf_14d&#39;</span><span class="p">:</span><span class="mf">0.233</span><span class="p">,</span>
+                <span class="s">&#39;tidal&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span>
+                <span class="s">&#39;river&#39;</span><span class="p">:</span><span class="mf">0.1</span>
+                <span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">turbmodel</span><span class="p">]</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_dflt_UStar</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;URef&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;UStar&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;UStar&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">InvalidConfig</span><span class="p">(</span><span class="s">&#39;Either URef or UStar must be defined in the input file.&#39;</span><span class="p">)</span>
+        <span class="n">mdl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">turbmodel</span>
+        <span class="n">ustar0</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ustar0</span>
+        <span class="k">if</span> <span class="n">mdl</span><span class="o">==</span><span class="s">&#39;smooth&#39;</span><span class="p">:</span>
+            <span class="n">ustar</span><span class="o">=</span><span class="n">ustar0</span>
+        <span class="k">elif</span> <span class="n">mdl</span><span class="o">==</span><span class="s">&#39;nwtcup&#39;</span><span class="p">:</span>
+            <span class="n">ustar</span><span class="o">=</span><span class="mf">0.2716</span> <span class="o">+</span> <span class="mf">0.7573</span><span class="o">*</span><span class="n">ustar0</span><span class="o">**</span><span class="mf">1.2599</span>
+        <span class="k">elif</span> <span class="n">mdl</span><span class="o">==</span><span class="s">&#39;gp_llj&#39;</span><span class="p">:</span>
+            <span class="n">ustar</span><span class="o">=</span><span class="mf">0.17454</span> <span class="o">+</span> <span class="mf">0.72045</span><span class="o">*</span><span class="n">ustar0</span><span class="o">**</span><span class="mf">1.36242</span>
+        <span class="k">elif</span> <span class="n">mdl</span><span class="o">==</span><span class="s">&#39;wf_upw&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zL</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">ustar</span><span class="o">=</span><span class="mf">1.162</span><span class="o">*</span><span class="n">ustar0</span><span class="o">**</span><span class="mf">0.66666</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ustar</span><span class="o">=</span><span class="mf">0.911</span><span class="o">*</span><span class="n">ustar0</span><span class="o">**</span><span class="mf">0.66666</span>
+        <span class="k">elif</span> <span class="n">mdl</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;wf_07d&#39;</span><span class="p">,</span><span class="s">&#39;wf_14d&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zL</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">ustar</span><span class="o">=</span><span class="mf">1.484</span><span class="o">*</span><span class="n">ustar0</span><span class="o">**</span><span class="mf">0.66666</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ustar</span><span class="o">=</span><span class="mf">1.370</span><span class="o">*</span><span class="n">ustar0</span><span class="o">**</span><span class="mf">0.66666</span>
+        <span class="k">elif</span> <span class="n">mdl</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;tidal&#39;</span><span class="p">,</span> <span class="s">&#39;river&#39;</span><span class="p">]:</span>
+            <span class="n">ustar</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">0.05</span>
+        <span class="k">return</span> <span class="n">ustar</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_dflt_Latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="mf">45.0</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_dflt_ZI</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;UStar&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">ustar0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">400</span><span class="o">*</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;RefHt&#39;</span><span class="p">]</span><span class="o">/</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;Z0&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;UStar&#39;</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="mi">12</span><span class="o">*</span><span class="mf">7.292116e-5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;Latitude&#39;</span><span class="p">])))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_dflt_PC_UV</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_dflt_PC_UW</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_dflt_PC_VW</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_dflt_PLExp</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The default Wind Profile power law exponent.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">turbmodel</span>
+        <span class="n">Ri</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;RICH_NO&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">tm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;ieckai&#39;</span><span class="p">,</span><span class="s">&#39;iecvkm&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;IECstandard&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;IEC_WindType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">==</span><span class="s">&#39;ewm&#39;</span><span class="p">:</span>
+                <span class="n">plexp</span><span class="o">=</span><span class="mf">0.11</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;IECstandard&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>
+                <span class="n">plexp</span><span class="o">=</span><span class="mf">0.14</span>
+            <span class="n">plexp</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;ewm&#39;</span><span class="p">:</span><span class="mf">0.11</span><span class="p">,</span><span class="s">&#39;ntm&#39;</span><span class="p">:</span><span class="mf">0.14</span><span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;WindProfileType&#39;</span><span class="p">],</span><span class="mf">0.2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">tm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;wf_upw&#39;</span><span class="p">,</span><span class="s">&#39;nwtcup&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;IECturbc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">==</span><span class="s">&#39;khtest&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">turbmodel</span><span class="o">==</span><span class="s">&#39;nwtcup&#39;</span><span class="p">:</span>
+                <span class="n">plexp</span><span class="o">=</span><span class="mf">0.3</span>
+            <span class="k">if</span> <span class="n">Ri</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">plexp</span><span class="o">=</span><span class="mf">0.14733</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plexp</span><span class="o">=</span><span class="mf">0.087688</span><span class="o">+</span><span class="mf">0.059641</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">Ri</span><span class="o">/</span><span class="mf">0.04717783</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">tm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;wf_07d&#39;</span><span class="p">,</span><span class="s">&#39;wf_14d&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">Ri</span><span class="o">&gt;</span><span class="mf">0.04</span><span class="p">:</span>
+                <span class="n">plexp</span><span class="o">=</span><span class="mf">0.17903</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plexp</span><span class="o">=</span><span class="mf">0.1277</span><span class="o">+</span><span class="mf">0.031229</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">Ri</span><span class="o">/</span><span class="mf">0.0805173</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c">#[&#39;smooth&#39;,&#39;gp_llj&#39;,&#39;tidal&#39;,&#39;river&#39;]:</span>
+            <span class="n">plexp</span><span class="o">=</span><span class="mf">0.143</span>
+        <span class="k">return</span> <span class="n">plexp</span>
+    
+    <span class="c">### These are helper functions, not &#39;default input parameters&#39;:</span>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tscfg.ustar0"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.base.tscfg.ustar0">[docs]</a>    <span class="k">def</span> <span class="nf">ustar0</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="n">kappa</span><span class="o">*</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;RefHt&#39;</span><span class="p">]</span><span class="o">/</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;Z0&#39;</span><span class="p">])</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">psiM</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tscfg.zL"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.base.tscfg.zL">[docs]</a>    <span class="k">def</span> <span class="nf">zL</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;_val_zL&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_val_zL</span><span class="o">=</span><span class="n">zL</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;RICH_NO&#39;</span><span class="p">],</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;TurbModel&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val_zL</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="tscfg.psiM"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.base.tscfg.psiM">[docs]</a>    <span class="k">def</span> <span class="nf">psiM</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;_val_psiM&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_val_psiM</span><span class="o">=</span><span class="n">psiM</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;RICH_NO&#39;</span><span class="p">],</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;TurbModel&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val_psiM</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

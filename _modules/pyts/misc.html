@@ -1,0 +1,252 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.misc &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyts.misc</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains a few random helper functions that are used</span>
+<span class="sd">throughout the code.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">kappa</span><span class="o">=</span><span class="mf">0.41</span> <span class="c"># Von-Karman&#39;s constant</span>
+
+<div class="viewcode-block" id="Lambda"><a class="viewcode-back" href="../../api/pyts.html#pyts.misc.Lambda">[docs]</a><span class="k">def</span> <span class="nf">Lambda</span><span class="p">(</span><span class="n">zhub</span><span class="p">,</span><span class="n">IECedition</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Equation 23 of the TurbSim Manual.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">IECedition</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.7</span><span class="o">*</span><span class="nb">min</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="n">zhub</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">0.7</span><span class="o">*</span><span class="nb">min</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="n">zhub</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="zL"><a class="viewcode-back" href="../../api/pyts.html#pyts.misc.zL">[docs]</a><span class="k">def</span> <span class="nf">zL</span><span class="p">(</span><span class="n">Ri</span><span class="p">,</span><span class="n">TurbModel</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    *zL* is the Monin-Obhukov (M-O) stability parameter z/L, where L is the M-O length.</span>
+
+<span class="sd">    zL&gt;0 means stable conditions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    *Ri*        - The Richardson number.</span>
+<span class="sd">    *TurbModel* - The turbulence model that is being used (optional).</span>
+<span class="sd">                  In some cases z/L depends on the Turbulence model.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">TurbModel</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">TurbModel</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">==</span><span class="s">&#39;nwtcup&#39;</span><span class="p">:</span>
+        <span class="n">Ri</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span> <span class="nb">min</span><span class="p">(</span><span class="n">Ri</span><span class="p">,</span><span class="mf">0.155</span><span class="p">),</span><span class="o">-</span><span class="mf">1.</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">Ri</span><span class="o">&lt;=-</span><span class="mf">0.1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mf">0.254</span> <span class="o">+</span> <span class="mf">1.047</span><span class="o">*</span><span class="n">Ri</span>
+        <span class="k">elif</span> <span class="n">Ri</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">10.369</span><span class="o">*</span><span class="n">Ri</span><span class="o">/</span><span class="p">(</span><span class="mf">1.</span><span class="o">-</span><span class="mf">19.393</span><span class="o">*</span><span class="n">Ri</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">2.535</span><span class="o">*</span><span class="n">Ri</span><span class="o">/</span><span class="p">(</span><span class="mf">1.</span><span class="o">-</span><span class="mf">6.252</span><span class="o">*</span><span class="n">Ri</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">TurbModel</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">TurbModel</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">==</span><span class="s">&#39;gp_llj&#39;</span><span class="p">:</span>
+        <span class="n">Ri</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span> <span class="nb">min</span><span class="p">(</span><span class="n">Ri</span><span class="p">,</span><span class="mf">0.1367</span><span class="p">),</span><span class="o">-</span><span class="mf">1.</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">Ri</span><span class="o">&lt;=-</span><span class="mf">0.1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mf">0.047</span> <span class="o">+</span> <span class="mf">1.056</span><span class="o">*</span><span class="n">Ri</span>
+        <span class="k">elif</span> <span class="n">Ri</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">2.213</span><span class="o">*</span><span class="n">Ri</span><span class="o">/</span><span class="p">(</span><span class="mf">1.</span><span class="o">-</span><span class="mf">4.698</span><span class="o">*</span><span class="n">Ri</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">3.132</span><span class="o">*</span><span class="n">Ri</span><span class="o">/</span><span class="p">(</span><span class="mf">1.</span><span class="o">-</span><span class="mf">6.762</span><span class="o">*</span><span class="n">Ri</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># This is the relationship between zL and Ri detailed in:</span>
+        <span class="c"># Businger etal &#39;Flux-Profile Relationships in the Atmospheric Surface Layer&#39; 1971,</span>
+        <span class="k">if</span> <span class="n">Ri</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Ri</span>
+        <span class="k">elif</span> <span class="n">Ri</span><span class="o">&lt;.</span><span class="mi">16666666</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Ri</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mf">5.</span><span class="o">*</span><span class="n">Ri</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span>
+</div>
+<div class="viewcode-block" id="psiM"><a class="viewcode-back" href="../../api/pyts.html#pyts.misc.psiM">[docs]</a><span class="k">def</span> <span class="nf">psiM</span><span class="p">(</span><span class="n">Ri</span><span class="p">,</span><span class="n">TurbModel</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The psi_M stability parameter is used for various mean wind-speed</span>
+<span class="sd">    profiles and turbulence models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">zl</span><span class="o">=</span><span class="n">zL</span><span class="p">(</span><span class="n">Ri</span><span class="p">,</span><span class="n">TurbModel</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">zl</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mf">5.0</span><span class="o">*</span><span class="nb">min</span><span class="p">(</span><span class="n">zl</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tmp</span><span class="o">=</span><span class="p">(</span><span class="mf">1.</span><span class="o">-</span><span class="mf">15.0</span><span class="o">*</span><span class="n">zl</span><span class="p">)</span><span class="o">**</span><span class="mf">0.25</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.125</span><span class="o">*</span><span class="p">((</span><span class="mf">1.0</span><span class="o">+</span><span class="n">tmp</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">tmp</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span><span class="o">+</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+</div>
+<div class="viewcode-block" id="pfactor"><a class="viewcode-back" href="../../api/pyts.html#pyts.misc.pfactor">[docs]</a><span class="k">def</span> <span class="nf">pfactor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">pmax</span><span class="o">=</span><span class="mi">31</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the prime factors of the integer *n*.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    *n*        - The integer for which to calculate prime-factors.</span>
+<span class="sd">    *pmax*     - The maximum prime to use (default 31, can be up to 71).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A set of the primes.</span>
+<span class="sd">    </span>
+<span class="sd">    The first 20 primes (up to 71) are hard-coded into this</span>
+<span class="sd">    routine. You&#39;ll need to add more primes to the list if you want</span>
+<span class="sd">    them.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">primes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">29</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">37</span><span class="p">,</span><span class="mi">41</span><span class="p">,</span><span class="mi">43</span><span class="p">,</span><span class="mi">47</span><span class="p">,</span><span class="mi">53</span><span class="p">,</span><span class="mi">59</span><span class="p">,</span><span class="mi">61</span><span class="p">,</span><span class="mi">67</span><span class="p">,</span><span class="mi">71</span><span class="p">])</span>
+    <span class="n">primes</span><span class="o">=</span><span class="n">primes</span><span class="p">[</span><span class="n">primes</span><span class="o">&lt;=</span><span class="n">pmax</span><span class="p">]</span>
+    <span class="n">lst</span><span class="o">=</span><span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">ip</span> <span class="ow">in</span> <span class="n">primes</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">ip</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">lst</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+            <span class="n">n</span><span class="o">/=</span><span class="n">ip</span>
+    <span class="k">if</span> <span class="n">n</span><span class="o">!=</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">lst</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">lst</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="lowPrimeFact_near"><a class="viewcode-back" href="../../api/pyts.html#pyts.misc.lowPrimeFact_near">[docs]</a><span class="k">def</span> <span class="nf">lowPrimeFact_near</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">pmax</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">nmin</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">evens_only</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the nearest integer to *n* with prime factors all less than</span>
+<span class="sd">    *pmax*.</span>
+
+<span class="sd">    This routine is used to change the length of arrays to speed-up</span>
+<span class="sd">    Fast Fourier Transforms.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    *n*      - The starting integer.</span>
+<span class="sd">    *pmax*   - The maximum prime to be found.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    The nearest integer to *n* that has prime factors less than *pmax*.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pfactor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">pmax</span><span class="p">))</span><span class="o">&lt;</span><span class="n">pmax</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">if</span> <span class="n">evens_only</span><span class="p">:</span> <span class="c"># Only deal with evens.</span>
+        <span class="n">dl</span><span class="o">=</span><span class="mi">2</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">n</span><span class="o">+=</span><span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dl</span><span class="o">=</span><span class="mi">1</span>
+    <span class="n">lowval</span><span class="o">=</span><span class="bp">None</span>
+    <span class="n">ih</span><span class="o">=</span><span class="n">n</span>
+    <span class="k">if</span> <span class="n">nmin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">il</span><span class="o">=</span><span class="n">n</span><span class="o">-</span><span class="n">dl</span>
+        <span class="k">while</span> <span class="n">il</span><span class="o">&gt;</span><span class="n">nmin</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pfactor</span><span class="p">(</span><span class="n">il</span><span class="p">,</span><span class="n">pmax</span><span class="p">))</span><span class="o">&lt;</span><span class="n">pmax</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">il</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pfactor</span><span class="p">(</span><span class="n">ih</span><span class="p">,</span><span class="n">pmax</span><span class="p">))</span><span class="o">&lt;</span><span class="n">pmax</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">ih</span>
+            <span class="n">il</span><span class="o">-=</span><span class="n">dl</span>
+            <span class="n">ih</span><span class="o">+=</span><span class="n">dl</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pfactor</span><span class="p">(</span><span class="n">ih</span><span class="p">,</span><span class="n">pmax</span><span class="p">))</span><span class="o">&lt;</span><span class="n">pmax</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+        <span class="n">ih</span><span class="o">+=</span><span class="n">dl</span>
+    <span class="k">return</span> <span class="n">ih</span>
+</div>
+<div class="viewcode-block" id="fix2range"><a class="viewcode-back" href="../../api/pyts.html#pyts.misc.fix2range">[docs]</a><span class="k">def</span> <span class="nf">fix2range</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span><span class="n">minval</span><span class="p">,</span><span class="n">maxval</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A helper function that sets the value of the array or number *vals* to</span>
+<span class="sd">    fall within the range minval&lt;=vals&lt;=maxval.</span>
+<span class="sd">    </span>
+<span class="sd">    Values of *vals* outside the range are fixed to minval or maxval.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span><span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span> <span class="nb">min</span><span class="p">(</span> <span class="n">vals</span><span class="p">,</span><span class="n">maxval</span><span class="p">),</span><span class="n">minval</span><span class="p">)</span>
+    <span class="n">vals</span><span class="p">[</span><span class="n">vals</span><span class="o">&gt;</span><span class="n">maxval</span><span class="p">],</span><span class="n">vals</span><span class="p">[</span><span class="n">vals</span><span class="o">&lt;</span><span class="n">minval</span><span class="p">]</span><span class="o">=</span><span class="n">maxval</span><span class="p">,</span><span class="n">minval</span>
+    <span class="k">return</span> <span class="n">vals</span>
+</div>
+<div class="viewcode-block" id="InvalidConfig"><a class="viewcode-back" href="../../api/pyts.html#pyts.misc.InvalidConfig">[docs]</a><span class="k">class</span> <span class="nc">InvalidConfig</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised by the baseModel classes.  Used to indicate that</span>
+<span class="sd">    a model has not defined a necessary attribute.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">msg</span><span class="o">=</span><span class="s">&#39;Invalid option specified in config file.&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">msg</span><span class="o">=</span><span class="n">msg</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

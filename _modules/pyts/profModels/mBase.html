@@ -1,0 +1,198 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.profModels.mBase &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyts.profModels.mBase</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is the velocity profile package&#39;s base module.</span>
+
+<span class="sd">This module defines:</span>
+<span class="sd"> profObj        - The mean-profile object class.</span>
+<span class="sd"> profModelBase  - The base class for mean-profile models.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">base</span>
+<span class="n">np</span><span class="o">=</span><span class="n">base</span><span class="o">.</span><span class="n">np</span>
+
+<div class="viewcode-block" id="profObj"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.mBase.profObj">[docs]</a><span class="k">class</span> <span class="nc">profObj</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">gridProps</span><span class="p">,</span><span class="n">base</span><span class="o">.</span><span class="n">calcObj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Profile objects contain the array (self.array) of mean-velocity</span>
+<span class="sd">    values for a specific PyTurbSim run. This class defines various</span>
+<span class="sd">    shortcuts to the mean velocity data including:</span>
+
+<span class="sd">    u     - The u-component mean-velocity array</span>
+<span class="sd">    v     - The v-component mean-velocity array</span>
+<span class="sd">    w     - The w-component mean-velocity array</span>
+
+<span class="sd">    dudz  - The vertical shear of u-component.</span>
+<span class="sd">    dvdz  - The vertical shear of v-component.</span>
+<span class="sd">    dwdz  - The vertical shear of w-component.</span>
+
+<span class="sd">    uhub  - The hub-height u-component mean-velocity.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a profile object instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tsrun - The PyTurbSim run object in which the profile will be</span>
+<span class="sd">                used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">=</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">base</span><span class="o">.</span><span class="n">ts_float</span><span class="p">,</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_dudz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is a property for creating/returning the vertical shear.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;_val_dudz&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_val_dudz</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(((</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])[:,</span><span class="bp">None</span><span class="p">,:]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dz</span><span class="p">,(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dz</span><span class="p">),(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[:,</span><span class="o">-</span><span class="mi">2</span><span class="p">])[:,</span><span class="bp">None</span><span class="p">,:]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dz</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val_dudz</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="profObj.uhub"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.mBase.profObj.uhub">[docs]</a>    <span class="k">def</span> <span class="nf">uhub</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the u-component hub-height wind speed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">]</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="profObj.u"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.mBase.profObj.u">[docs]</a>    <span class="k">def</span> <span class="nf">u</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the w-component of the mean velocity field.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="profObj.v"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.mBase.profObj.v">[docs]</a>    <span class="k">def</span> <span class="nf">v</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the w-component of the mean velocity field.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="profObj.w"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.mBase.profObj.w">[docs]</a>    <span class="k">def</span> <span class="nf">w</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the w-component of the mean velocity field.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="profObj.dudz"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.mBase.profObj.dudz">[docs]</a>    <span class="k">def</span> <span class="nf">dudz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the vertical derivative of the u-component of the mean velocity field.</span>
+<span class="sd">        (Centered difference)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dudz</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="profObj.dvdz"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.mBase.profObj.dvdz">[docs]</a>    <span class="k">def</span> <span class="nf">dvdz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the vertical derivative of the v-component of the mean velocity field.</span>
+<span class="sd">        (Centered difference)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dudz</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="profObj.dwdz"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.mBase.profObj.dwdz">[docs]</a>    <span class="k">def</span> <span class="nf">dwdz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the vertical derivative of the w-component of the mean velocity field.</span>
+<span class="sd">        (Centered difference)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dudz</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</div></div>
+<div class="viewcode-block" id="profModelBase"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.mBase.profModelBase">[docs]</a><span class="k">class</span> <span class="nc">profModelBase</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">modelBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A base class for TurbSim profile models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

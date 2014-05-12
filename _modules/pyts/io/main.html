@@ -1,0 +1,158 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.io.main &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyts.io.main</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is the main (top-level) io module. It defines the &#39;readModel&#39;</span>
+<span class="sd">function, which is useful for collecting information from available</span>
+<span class="sd">TurbSim input/output files.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">bladed</span><span class="o">,</span><span class="nn">aerodyn</span>
+<span class="kn">import</span> <span class="nn">config</span> <span class="kn">as</span> <span class="nn">cfg_io</span>
+<span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="n">convname</span>
+<span class="kn">from</span> <span class="nn">..main</span> <span class="kn">import</span> <span class="n">tsdata</span>
+<span class="kn">from</span> <span class="nn">..runConfig</span> <span class="kn">import</span> <span class="n">main</span> <span class="k">as</span> <span class="n">runConfig</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">readers</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;wnd&#39;</span><span class="p">:</span><span class="n">bladed</span><span class="o">.</span><span class="n">read</span><span class="p">,</span>
+         <span class="s">&#39;bl&#39;</span><span class="p">:</span><span class="n">bladed</span><span class="o">.</span><span class="n">read</span><span class="p">,</span>
+         <span class="s">&#39;bts&#39;</span><span class="p">:</span><span class="n">aerodyn</span><span class="o">.</span><span class="n">read</span><span class="p">,}</span>
+
+<div class="viewcode-block" id="readModel"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.main.readModel">[docs]</a><span class="k">def</span> <span class="nf">readModel</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">inp_fname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads a TurbSim data and input (config) file and returns a tsdata</span>
+<span class="sd">    object.  If *fname* ends in .inp, it reads this input file, and</span>
+<span class="sd">    searches for a binary file that can be read (throws error if none</span>
+<span class="sd">    is found).</span>
+<span class="sd">    </span>
+<span class="sd">    If *fname* is a filetype that can be read, it reads that file and</span>
+<span class="sd">    the associated .inp file.</span>
+
+<span class="sd">    In other words:</span>
+<span class="sd">      tsdat=readModel(&#39;TurbSim.inp&#39;)</span>
+<span class="sd">        and</span>
+<span class="sd">      tsdat=readModel(&#39;TurbSim.bts&#39;)</span>
+<span class="sd">    Do essentially the same thing.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.inp&#39;</span><span class="p">):</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">cfg_io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="n">foundfile</span><span class="o">=</span><span class="bp">False</span>
+        <span class="k">for</span> <span class="n">sfx</span><span class="p">,</span><span class="n">rdr</span> <span class="ow">in</span> <span class="n">readers</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">fnm</span><span class="o">=</span><span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">sfx</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fnm</span><span class="p">):</span>
+                <span class="n">foundfile</span><span class="o">=</span><span class="bp">True</span>
+                <span class="n">utmp</span><span class="o">=</span><span class="n">rdr</span><span class="p">(</span><span class="n">fnm</span><span class="p">)</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">foundfile</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;TurbSim output file not found. Run pyTurbSim on the input file </span><span class="si">%s</span><span class="s">, before loading...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">inp_fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">cfg_io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s">&#39;inp&#39;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">cfg_io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">inp_fname</span><span class="p">)</span>
+        <span class="n">sfx</span><span class="o">=</span><span class="n">fname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">readers</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">sfx</span><span class="p">):</span>
+            <span class="n">rdr</span><span class="o">=</span><span class="n">readers</span><span class="p">[</span><span class="n">sfx</span><span class="p">]</span>
+            <span class="n">utmp</span><span class="o">=</span><span class="n">rdr</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;No reader for this file type.&#39;</span><span class="p">)</span>
+    <span class="n">umn</span><span class="o">=</span><span class="n">utmp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">utmp</span><span class="o">-=</span><span class="n">umn</span><span class="p">[:,:,:,</span><span class="bp">None</span><span class="p">]</span>
+    
+    <span class="n">out</span><span class="o">=</span><span class="n">tsdata</span><span class="p">(</span><span class="n">runConfig</span><span class="o">.</span><span class="n">cfg2grid</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">uturb</span><span class="o">=</span><span class="n">utmp</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">uprof</span><span class="o">=</span><span class="n">umn</span>
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

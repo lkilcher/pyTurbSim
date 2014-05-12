@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>io Package &mdash; PyTurbSim 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PyTurbSim 1.0 documentation" href="../index.html" />
+    <link rel="up" title="pyts Package" href="pyts.html" />
+    <link rel="next" title="phaseModels Package" href="pyts.phaseModels.html" />
+    <link rel="prev" title="gui Package" href="pyts.gui.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyts.phaseModels.html" title="phaseModels Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pyts.gui.html" title="gui Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >pyts</a> &raquo;</li>
+          <li><a href="pyts.html" accesskey="U">pyts Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="io-package">
+<h1>io Package<a class="headerlink" href="#io-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">io</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-pyts.io"></span><p>This is the PyTurbSim input/output package. It contains modules for
+reading/writing PyTurbSim input/data from/to disk.</p>
+<dl class="docutils">
+<dt>The modules contained in this package are:</dt>
+<dd><p class="first">bladed.py  - For reading/writing &#8216;bladed&#8217; format binary files.
+aerodyn.py - For reading/writing &#8216;Aerodyn/TurbSim&#8217; format binary files.
+config.py  - For reading/writing TurbSim input files (.inp).
+base.py    - This describes a few base functions/variables used by</p>
+<blockquote>
+<div>other modules in this package.</div></blockquote>
+<dl class="last docutils">
+<dt>main.py    - This contains a somewhat deprecated function</dt>
+<dd>&#8216;readModel&#8217; for collecting data from TurbSim
+input/output files.</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="module-pyts.io.aerodyn">
+<span id="aerodyn-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">aerodyn</span></tt> Module<a class="headerlink" href="#module-pyts.io.aerodyn" title="Permalink to this headline">¶</a></h2>
+<p>This module is for reading/writing PyTurbSim data objects to
+TurbSim/Aerodyn format binary files.</p>
+<p>The functions in this module were translated directly from the
+original TSsubs.f90 file.</p>
+<dl class="function">
+<dt id="pyts.io.aerodyn.read">
+<tt class="descclassname">pyts.io.aerodyn.</tt><tt class="descname">read</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/aerodyn.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.aerodyn.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read AeroDyn/TurbSim format (.bts) full-field time-series binary data files.</p>
+<p><em>fname</em>  - The filename from which to read the data.</p>
+<p><em>tsdat</em>  - An array of data.</p>
+<p>!!!FIXTHIS, this should return a tsData object:
+<em>tsdat</em>  - A tsdata object that contains the data.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.io.aerodyn.write">
+<tt class="descclassname">pyts.io.aerodyn.</tt><tt class="descname">write</tt><big>(</big><em>fname</em>, <em>tsdat</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/aerodyn.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.aerodyn.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the data to a AeroDyn-/TurbSim-format binary file.</p>
+<p><em>fname</em>  - The filename to which the data should be written.
+<em>tsdat</em>  - The &#8216;tsdata&#8217; object that contains the data.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.io.base">
+<span id="base-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">base</span></tt> Module<a class="headerlink" href="#module-pyts.io.base" title="Permalink to this headline">¶</a></h2>
+<p>A base module for the io package.</p>
+<dl class="function">
+<dt id="pyts.io.base.convname">
+<tt class="descclassname">pyts.io.base.</tt><tt class="descname">convname</tt><big>(</big><em>fname</em>, <em>sfx=''</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/base.html#convname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.base.convname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the suffix from &#8216;.inp&#8217;, if necessary.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.io.bladed">
+<span id="bladed-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">bladed</span></tt> Module<a class="headerlink" href="#module-pyts.io.bladed" title="Permalink to this headline">¶</a></h2>
+<p>This module is for reading/writing PyTurbSim data objects to
+Bladed (Trademark: GL Garrad-Hassan) format binary files.</p>
+<p>The functions in this module were translated directly from the
+original TSsubs.f90 file.</p>
+<dl class="function">
+<dt id="pyts.io.bladed.read">
+<tt class="descclassname">pyts.io.bladed.</tt><tt class="descname">read</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/bladed.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.bladed.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read Bladed format (.wnd, .bl) full-field time-series binary data files.</p>
+<p><em>fname</em>  - The filename from which to read the data.</p>
+<p><em>tsdat</em>  - An array of data.</p>
+<p>!!!FIXTHIS, this should return a tsData object:
+<em>tsdat</em>  - A tsdata object that contains the data.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.io.bladed.write">
+<tt class="descclassname">pyts.io.bladed.</tt><tt class="descname">write</tt><big>(</big><em>fname</em>, <em>tsdat</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/bladed.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.bladed.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the data to a Bladed-format binary file.</p>
+<p><em>fname</em>  - The filename to which the data should be written.
+<em>tsdat</em>  - The &#8216;tsdata&#8217; object that contains the data.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.io.bladed_new">
+<span id="bladed-new-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">bladed_new</span></tt> Module<a class="headerlink" href="#module-pyts.io.bladed_new" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyts.io.bladed_new.read">
+<tt class="descclassname">pyts.io.bladed_new.</tt><tt class="descname">read</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/bladed_new.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.bladed_new.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read Bladed format (.wnd, .bl) full-field time-series binary data files.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.io.bladed_new.write">
+<tt class="descclassname">pyts.io.bladed_new.</tt><tt class="descname">write</tt><big>(</big><em>fname</em>, <em>tsdat</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/bladed_new.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.bladed_new.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the data to a Bladed-format binary file.</p>
+<p>This code was copied from the original TSsubs.f90.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.io.bladed_recvr">
+<span id="bladed-recvr-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">bladed_recvr</span></tt> Module<a class="headerlink" href="#module-pyts.io.bladed_recvr" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyts.io.bladed_recvr.read">
+<tt class="descclassname">pyts.io.bladed_recvr.</tt><tt class="descname">read</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/bladed_recvr.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.bladed_recvr.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read Bladed format (.wnd, .bl) full-field time-series binary data files.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.io.bladed_recvr.write">
+<tt class="descclassname">pyts.io.bladed_recvr.</tt><tt class="descname">write</tt><big>(</big><em>fname</em>, <em>tsdat</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/bladed_recvr.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.bladed_recvr.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the data to a Bladed-format binary file.</p>
+<p>This code was copied from the original TSsubs.f90.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.io.config">
+<span id="config-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">config</span></tt> Module<a class="headerlink" href="#module-pyts.io.config" title="Permalink to this headline">¶</a></h2>
+<p>This module is for reading/writing PyTurbSim config (.inp) files.</p>
+<dl class="function">
+<dt id="pyts.io.config.read">
+<tt class="descclassname">pyts.io.config.</tt><tt class="descname">read</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/config.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.config.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a TurbSim input (.inp) file.</p>
+<p><em>fname</em>   - The filename to read the config from.</p>
+<p><em>config</em>  - A PyTurbSim config dictionary.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.io.config.readInPSD">
+<tt class="descclassname">pyts.io.config.</tt><tt class="descname">readInPSD</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/config.html#readInPSD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.config.readInPSD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the input spectrum from file <em>fname</em>, and return it as a
+dictionary.</p>
+<p><em>fname</em>   - The filename to read the PSD from.</p>
+<p>The frequency in the input file should be in units of hz, and the
+spectrum should be in units of m^2/s^2/hz.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.io.config.write">
+<tt class="descclassname">pyts.io.config.</tt><tt class="descname">write</tt><big>(</big><em>fname</em>, <em>config</em>, <em>headertext=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/config.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.config.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writeout a config file.</p>
+<p><em>fname</em>   - The filename to write out.
+<em>config</em>  - The PyTurbSim config dictionary.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.io.main">
+<span id="main-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">main</span></tt> Module<a class="headerlink" href="#module-pyts.io.main" title="Permalink to this headline">¶</a></h2>
+<p>This is the main (top-level) io module. It defines the &#8216;readModel&#8217;
+function, which is useful for collecting information from available
+TurbSim input/output files.</p>
+<dl class="function">
+<dt id="pyts.io.main.readModel">
+<tt class="descclassname">pyts.io.main.</tt><tt class="descname">readModel</tt><big>(</big><em>fname</em>, <em>inp_fname=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/main.html#readModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.main.readModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a TurbSim data and input (config) file and returns a tsdata
+object.  If <em>fname</em> ends in .inp, it reads this input file, and
+searches for a binary file that can be read (throws error if none
+is found).</p>
+<p>If <em>fname</em> is a filetype that can be read, it reads that file and
+the associated .inp file.</p>
+<dl class="docutils">
+<dt>In other words:</dt>
+<dd><dl class="first docutils">
+<dt>tsdat=readModel(&#8216;TurbSim.inp&#8217;)</dt>
+<dd>and</dd>
+</dl>
+<p class="last">tsdat=readModel(&#8216;TurbSim.bts&#8217;)</p>
+</dd>
+</dl>
+<p>Do essentially the same thing.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">io Package</a><ul>
+<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">io</span></tt> Package</a></li>
+<li><a class="reference internal" href="#module-pyts.io.aerodyn"><tt class="docutils literal"><span class="pre">aerodyn</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.io.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.io.bladed"><tt class="docutils literal"><span class="pre">bladed</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.io.bladed_new"><tt class="docutils literal"><span class="pre">bladed_new</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.io.bladed_recvr"><tt class="docutils literal"><span class="pre">bladed_recvr</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.io.config"><tt class="docutils literal"><span class="pre">config</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.io.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyts.gui.html"
+                        title="previous chapter">gui Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyts.phaseModels.html"
+                        title="next chapter">phaseModels Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/pyts.io.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyts.phaseModels.html" title="phaseModels Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pyts.gui.html" title="gui Package"
+             >previous</a> |</li>
+        <li><a href="../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >pyts</a> &raquo;</li>
+          <li><a href="pyts.html" >pyts Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Levi Kilcher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
