@@ -1,4 +1,4 @@
-"""\mainpage
+"""
 PyTurbSim is a program for producing simulations of turbulent velocity
 time-series for input to device simulation tools (e.g. the NWTC's
 FAST) that estimate wind- and water-turbine performance and loads.
@@ -11,8 +11,40 @@ marine hydrokinetic (MHK) turbine device simulation
 (a.k.a. HydroTurbSim), and is also designed to be a valuable
 development and testing platform for NREL's 'TurbSim' tool [2].
 
+
+.. _intro-background:
+
+Background
+----------
+
+TurbSim is a statistical rather than a physical or dynamic tool.  That
+is, rather than solving fluid-flow equations (e.g. large eddy
+simulations) it produces time-series that match specific statistics of
+real flows.  PyTurbSim is capable of matching the following statistics
+of any velocity dataset:
+
+1) the mean velocity profile,
+2) the turbulent kinetic energy spectrum (and therefore the turbulence intensity),
+3) the Reynold's stress profile, and
+4) the spatial coherence.
+
+These statistics have been found to be critical predictors of
+wind-turbine fatigue loading.  Therefore, though this tool does not
+produce time-series that obey fluid-flow equations (i.e. the
+Navier-Stokes equations, compressibility), it does provide time-series
+that drive realistic wind and MHK turbine device simulation and it
+does so using significantly lower computational resources than
+fluid-flow simulations.  That is, TurbSim and PyTurbSim efficiently
+produce time-series that drive realistic loads estimates that agree
+reasonably with measurements of loads on real wind turbines [3].
+
+A primary difference between o-TurbSim and PyTurbSim is that PyTurbSim
+is designed to facilitate explicit user-control of the four statistics
+listed above. O-TurbSim, on the other hand, is designed so that a user
+selects from a pre-defined subset of these statistics.
+
 History
--------
+^^^^^^^
 pyTurbSim is a python-implementation of the National Wind Technology
 Center's (NWTC) 'TurbSim' program. Throughout the documentation, the
 term 'TurbSim' is used to refer to both PyTurbSim and the original
@@ -36,34 +68,6 @@ a comparison of capabilities of these two tools.
 The PyTurbSim documentation is largely based on O-TurbSim's documentation. For
 additional information consider looking at that document:
 https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf
-
-Background
-----------
-
-TurbSim is a 'statistical', rather than 'dynamic' tool.  That is,
-rather than solving fluid-flow equations (e.g. large eddy simulations)
-it produces time-series that match specific statistics of real flows.
-PyTurbSim is capable of matching the following statistics of any
-velocity dataset:
-  1) the mean velocity profile,
-  2) the turbulent kinetic energy spectrum (and therefore the
-     turbulence intensity),
-  3) the Reynold's stress profile, and
-  4) the spatial coherence.
-These statistics have been found to be critical predictors of
-wind-turbine fatigue loading.  Therefore, though this tool does not
-produce time-series that obey fluid-flow equations (i.e. the
-Navier-Stokes equations, compressibility), it does provide time-series
-that drive realistic wind and MHK turbine device simulation and it
-does so using significantly lower computational resources than
-fluid-flow simulations.  That is, TurbSim and PyTurbSim efficiently
-produce time-series that drive realistic loads estimates that agree
-reasonably with measurements of loads on real wind turbines [3].
-
-A primary difference between o-TurbSim and PyTurbSim is that PyTurbSim
-is designed to facilitate explicit user-control of the four statistics
-listed above. O-TurbSim, on the other hand, is designed so that a user
-selects from a pre-defined subset of these statistics.
 
 Usage
 -----
@@ -89,7 +93,7 @@ PyTurbSim has three primary operational modes/interfaces.
   This is the core interface of PyTurbSim (the other two are
   wrappers). As such, this mode provides more control over output
   (access to lower-level functions). This interface was designed for
-  controlling the four statistics above (in the Background section)
+  controlling the four statistics above (\ :ref:`intro-background` section)
   explicitly without modifying the program itself.  It is likely to be
   particularly useful to users familiar with python who are developing
   and testing new turbulence models that will be incorporated into the
@@ -107,7 +111,7 @@ PyTurbSim has three primary operational modes/interfaces.
 Dependencies
 ------------
 
-PyTurbSim depends only on Python and numpy. The gui (gTurbSim) also
+PyTurbSim depends on Python and numpy. The gui (gTurbSim) also
 requires wxPython.
 
 
@@ -134,6 +138,5 @@ Notes and Citations
  of Solar Energy Engineering, AMERICAN SOCIETY MECHANICAL ENGINEERS,
  2002, 124, 387-395
 """
-## \brief The PyTurbSim package.
 from api import *
 

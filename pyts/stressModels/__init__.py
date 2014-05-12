@@ -1,4 +1,4 @@
-"""\namespace stressModels
+"""
 This is the PyTurbSim 'stress models' package.
 
 For more information or to use this package import the stressModels.api

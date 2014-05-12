@@ -1,4 +1,4 @@
-"""\namespace profModels
+"""
 This is the PyTurbSim mean velocity 'profile models' package.  This
 package contains pre-defined profile models that can be implemented in
 a PyTurbSim run.

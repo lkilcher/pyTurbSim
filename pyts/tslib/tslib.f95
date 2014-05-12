@@ -68,12 +68,8 @@ subroutine nonIECcoh(phr,f,y,z,u,coef_a,coef_b,coefExp,ncore,nf,ny,nz)
   complex             :: phr_tmp(ny*nz,nf)
   integer             :: ii, jj, ff, ind, stat, ntot, np, jj1!, ind2
   integer             :: iz
-!  real(4)        :: tmp
-!  real(4)                :: 
   real(4),allocatable  :: work(:), um(:), r(:), tmpz(:)
   real(4)                :: tmp_b,ftmp(nf)
-  DOUBLE PRECISION :: tm0,tm1,tm2,tm3,tm,tmr1,tmr2,tmr3,tmr_tmp0,tmr_tmp1
-!  real(4)    :: ftmp(nf)
   np=ny*nz
   ntot=(np*(np+1))/2
   phr_tmp=phr
@@ -100,80 +96,34 @@ subroutine nonIECcoh(phr,f,y,z,u,coef_a,coef_b,coefExp,ncore,nf,ny,nz)
         tmpz(ind)=(z((ii-1)/ny+1)+z((jj-1)/ny+1))/2 ! C ordering of spatial vars (matches O-TurbSim)
      ENDDO
   ENDDO
-!!$  ind=indx(4,2,np)
-!!$  print *, ind
-  !ind=20
-  !print *, tmpz(ind)
-  
-  !print *, z(2),y(2),r(ind),um(ind),((r(ind)/tmpz(ind))**coefexp),ftmp(10)
-  !print *, u((10-1)*ny+ny/2),coef_a,coef_b
   
   tmp_b=coef_b**2
-  !print *, 'start coh'
   IF (coefExp/=0) THEN
      tmpz=-1.0*coef_a*r*(r/tmpz)**coefExp
   ELSE
      tmpz=-1.0*coef_a*r
   ENDIF
-  !print *, tmpz(ind)*sqrt((ftmp(10)/um(ind))**2+tmp_b)
-  tmr1=0
-  tmr2=0
-  tmr3=0
-  tmr_tmp0=0
-  tmr_tmp1=0
-  !print *, ny,nz,nf
-  !$omp parallel private(ii, jj, ff, ind, work, r, stat) default(shared)
+
+  !$omp parallel private(ii, jj, ff, work, stat) default(shared)
   !$omp do schedule( dynamic )
   DO ff=1,nf
-     call cpu_time(tm0)
-!!$     DO ii=1,np
-!!$        DO JJ=1,II
-!!$     DO JJ=1,np
-!!$        DO ii=jj,np
-!!$           !JJ1       = JJ - 1
-!!$           ind      = np*(JJ-1) - JJ*(JJ-1)/2 + II   !Index of matrix ExCoDW (now Matrix), coherence between points I & J
-!!$           work(ind)=EXP(tmpz(ind)*SQRT((ftmp(ff)/um(ind))**2+tmp_b)) ! r*SQRT(f**2/u_mean**2+coef_b**2)
-!!$           iz=iz+1
-!!$        ENDDO
-!!$     ENDDO
-     !IF ( tmp_b/=0 ) THEN
-        work=tmpz*SQRT((f(ff)/um)**2+tmp_b)
-!!$        !call cpu_time(tm)
-!!$        !tmr_tmp0=tmr_tmp0-tm0+tm
-        work=EXP(work) ! r*SQRT(f**2/u_mean**2+coef_b**2)
-!!$        !call cpu_time(tm)
-!!$        !tmr_tmp1=tmr_tmp1-tm0+tm
-!!$     ELSE
-        !work=(tmpz/um)*f(ff)
-        !call cpu_time(tm)
-        !tmr_tmp0=tmr_tmp0-tm0+tm
-!!$        work=EXP((tmpz/um)*f(ff))
-        !call cpu_time(tm)
-        !tmr_tmp1=tmr_tmp1-tm0+tm
-!!$     ENDIF
-     call cpu_time(tm1)
+     ! Calculate the coherence for this spectral model.
+     IF (tmp_b==0) THEN
+        work=EXP(tmpz*f(ff)/um)
+     ELSE
+        work=EXP(tmpz*SQRT((f(ff)/um)**2+tmp_b))
+     ENDIF
+     ! Perform the Cholesky Factorization (Veers 1984 decomposition)
      CALL SPPTRF('L',np,work,stat)
-     call cpu_time(tm2)
      DO ii=1,np
-        ! 'ompsingle' directive unnecessary b/c parallel only applies to the outer loop.
-        !jj=indx(ii,1,np)
-        !ind=indx(ii,ii,np)
-        !phr(ii,ff+1)=sum(work(jj:ind)*phr_tmp(jj:ind,ff),1) ! THIS IS VERY SLOW
         DO jj=1,ii
-           phr(ii,ff)=phr(ii,ff)+work(indx(ii,jj,np))*phr_tmp(jj,ff) ! Multiply the columns of the H matrix (Sij) by the random phases (phr_tmp) and sum the rows.
+            ! Multiply the columns of the H matrix (Sij) by the random phases (phr_tmp) and sum the rows.
+           phr(ii,ff)=phr(ii,ff)+work(indx(ii,jj,np))*phr_tmp(jj,ff)
         ENDDO
      ENDDO
-     call cpu_time(tm3)
-     tmr1=tmr1+tm1-tm0
-     tmr2=tmr2+tm2-tm1
-     tmr3=tmr3+tm3-tm2
   ENDDO
-  !phr(:,:)=tmpphr(:,:)
   !$omp end do
   !$omp end parallel
-  !print *, tmr_tmp0,tmr_tmp1
-  !print *, tmr1,tmr2,tmr3
-  !print *, iz
   RETURN
 end subroutine nonIECcoh
 
@@ -190,8 +140,6 @@ subroutine IECcoh(phr,f,y,z,uhub,a,Lc,ncore,nf,ny,nz)
   integer               :: ii, jj, ff, np, stat!, ind2
   real                  :: r(ny*nz*(ny*nz+1)/2)
   real                  :: work(ny*nz*(ny*nz+1)/2)
-  !real(KIND=DP) :: tm0,tm1!,tm2,tmr1,tmr2
-  !DOUBLE PRECISION :: tm0,tm1!,tm2,tmr1,tmr2
   np=ny*nz
   phr_tmp=phr
   phr(:,:)=0

@@ -1,3 +1,4 @@
+## \namespace cohereModel:main
 """
 This module defines two coherence models:
 nwtc - The NWTC 'non-IEC' coherence model.

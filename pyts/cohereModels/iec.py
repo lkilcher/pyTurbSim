@@ -1,6 +1,6 @@
-from mBase import cohModelBase,cohereCalc,cohereCalc_pack
+from mBase import cohereModelBase,cohereObj
 
-class cohModelIEC(cohModelBase):
+class cohModelIEC(cohereModelBase):
     # !!!ADDDOC
     """
     The coherence model for the IEC spectral models.
@@ -23,7 +23,7 @@ class cohModelIEC(cohModelBase):
             self._Lfactor=3.5
             self.a=12.
 
-    def tslib_func(self,calcinst):
+    ## def tslib_func(self,calcinst):
         
 
     def get_crossSpec_pack(self,comp):

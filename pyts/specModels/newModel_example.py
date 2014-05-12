@@ -1,4 +1,4 @@
-from mBase import *
+from mBase import specModelBase
 """
 An example module for defining a new 'turbulence/spectral model' called 'aNewModel'.
 
@@ -15,7 +15,7 @@ specified simply as 'mymodel' in the input file.
 
 """
 
-class aNewModel(turbModelCohNonIEC): # Here we subclass a coherence model (defined in mBase.py).
+class aNewModel(specModelBase): # Here we subclass a coherence model (defined in mBase.py).
     """
     An example class for defining a spectral model.  Each spectral model should
     subclass a coherence model class.

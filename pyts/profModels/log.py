@@ -1,5 +1,5 @@
 """
-This module contains the power-law mean-velocity profiles:
+This module contains the log-law mean-velocity profiles:
  nwtc   - The NWTC logarithmic mean wind speed profile.
  H2O    - The hydro-logarithmic mean velocity profile.
 
@@ -8,16 +8,14 @@ from mBase import profModelBase,np,profObj
 from ..misc import kappa,psiM
 
 class nwtc(profModelBase,):
-    """
+    r"""
     The NWTC logarithmic mean wind-speed profile.
-        
-                               ln( z / Z0 ) - psi_M
-           Ubar(z) = URef *  ------------------------
-                              ln( ZRef / Z0) - psi_M
+                               
+    .. math::
+       \bar{U}(z) = U_{Ref}\frac{ln( z / Z0 ) - \psi_M}{ln( Z_{Ref} / Z0) - \psi_M}
 
-                              
-    Where psi_M is a function of the Ri, the Richardson number (psi_M=0 for Ri=0),
-    and the turbulence model.
+    Where psi_M is a function of Ri, the Richardson number (psi_M=0
+    for Ri=0), and the turbulence model.
 
     """
     def __init__(self,URef,ZRef,Z0,Ri=0,turbmodel=None):
@@ -68,7 +66,7 @@ class nwtc(profModelBase,):
         -------
         mean velocity (nz x ny array).
         """
-        # Note: this function is separated from the __init__ routine so that it can be utilized by other modules
+        # Note: this function is separated from the __call__ routine so that it can be utilized by other modules
         return (self.Uref*(np.log(z/self.Z0)+self.psiM)/(np.log(self.Zref/self.Z0)+self.psiM))
     
     @property

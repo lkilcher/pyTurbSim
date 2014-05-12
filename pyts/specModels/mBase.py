@@ -1,12 +1,9 @@
 """
 This is the turbulence spectrum package's base module.
 
-This module defines:
- specObj        - The spectral object class.
- specModelBase  - The base class for spectral models.
-
 """
 from ..base import modelBase,ts_float,np,gridProps,calcObj
+from kelley_coefs import p_coefs_unstable,f_coefs_unstable
 
 class specObj(gridProps,calcObj):
     """
@@ -14,27 +11,17 @@ class specObj(gridProps,calcObj):
     spectra values for a specific PyTurbSim run. This class defines
     various shortcuts to the mean velocity data including:
 
-    Suu   - The u-component spectral array.
-    Svv   - The v-component spectral array.
-    Sww   - The w-component spectral array.
-
-    tke   - The total turbulent kinetic energy array (component-wise).
-
-    flat  - The partially-flattened array for input into tslib and
-            other PyTurbSim routines.
+    Create a profile object instance.
     
+    Parameters
+    ----------
+
+    tsrun - The PyTurbSim run object in which the spectra will be
+    used.
+
     """
     
-    
     def __init__(self,tsrun):
-        """
-        Create a profile object instance.
-
-        Parameters
-        ----------
-        tsrun - The PyTurbSim run object in which the spectra will be
-        used.
-        """
         self.grid=tsrun.grid
         self.array=np.zeros((tsrun.grid.n_comp,tsrun.grid.n_z,tsrun.grid.n_y,tsrun.grid.n_f),dtype=ts_float,order='F')
     
@@ -88,7 +75,5 @@ class specModelBase(modelBase):
     """
     A base class for TurbSim spectral models.
     """
-    pow5_3=5./3.
-    pow2_3=2./3.
-        
-
+    pow5_3=ts_float(5./3.)
+    pow2_3=ts_float(2./3.)

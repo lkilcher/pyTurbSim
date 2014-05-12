@@ -428,7 +428,7 @@ class tsrun(object):
             print self.timer
             print self.cohereModel.timer
         out=self._build_outdata()
-        self.clear()
+        #self.clear()
         return out
 
     run=__call__ # A more explicit shortcut...

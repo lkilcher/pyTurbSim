@@ -5,6 +5,9 @@ This is the base module for coherence models.
 from ..base import gridProps,modelBase,np,ts_float,ts_complex,tslib,dbg,calcObj
 
 class cohereObj(gridProps,calcObj):
+    """
+    Some text.
+    """
 
     @property
     def array(self,):
@@ -102,25 +105,25 @@ class cohereObj(gridProps,calcObj):
         raise Exception('Subclasses of cohereObj must overwrite the calcCoh method or redfine the calc_phases method.')
 
 class cohereUser(cohereObj):
+    """
+    Specify the coherence explicitly as an array.
+
+    The array must have the dimensions 3 x np x np x nf, where np
+    is the number of points in the grid, and nf is the number of
+    frequencies for the inverse fft.  The dimensions of the array
+    are:
+        0) velocity component (u,v,w)
+        1) first spatial point,
+        2) second spatial point,
+        3) frequency.
+    The ordering of the spatial points (dims 1,2) must match the
+    ordering of the TurbSim grid.  See the tsGrid classes
+    'sub2ind', 'ind2sub', 'flatten' and 'reshape' methods for more
+    details on this.
+
+    """
 
     def __init__(self,array):
-        """
-        Specify the coherence explicitly as an array.
-
-        The array must have the dimensions 3 x np x np x nf, where np
-        is the number of points in the grid, and nf is the number of
-        frequencies for the inverse fft.  The dimensions of the array
-        are:
-          0) velocity component (u,v,w)
-          1) first spatial point,
-          2) second spatial point,
-          3) frequency.
-        The ordering of the spatial points (dims 1,2) must match the
-        ordering of the TurbSim grid.  See the tsGrid classes
-        'sub2ind', 'ind2sub', 'flatten' and 'reshape' methods for more
-        details on this.
-        
-        """
         self.array=array
 
     def calc_phases(self,phases):
