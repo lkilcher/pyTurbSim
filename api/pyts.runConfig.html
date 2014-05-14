@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>runConfig Package &mdash; PyTurbSim 1.0 documentation</title>
+    <title>runConfig Package &mdash; PyTurbSim 0.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PyTurbSim 1.0 documentation" href="../index.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="top" title="PyTurbSim 0.2 documentation" href="../index.html" />
     <link rel="up" title="pyts Package" href="pyts.html" />
     <link rel="next" title="specModels Package" href="pyts.specModels.html" />
     <link rel="prev" title="profModels Package" href="pyts.profModels.html" /> 
@@ -47,7 +48,7 @@
         <li class="right" >
           <a href="pyts.profModels.html" title="profModels Package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="modules.html" >pyts</a> &raquo;</li>
           <li><a href="pyts.html" accesskey="U">pyts Package</a> &raquo;</li> 
       </ul>
@@ -67,27 +68,25 @@ o-TurbSim functionality. In particular it contains functions for
 taking a TurbSim &#8216;config&#8217; object and performing a TurbSim run that
 matches that config. Note that TurbSim &#8216;config&#8217; objects can be created
 from a TurbSim &#8216;input&#8217; file using the io.config module.</p>
-<dl class="docutils">
-<dt>This package contains the following files:</dt>
-<dd><p class="first">base.py       - A base module that defines TurbSim config objects (tscfg)
-main.py       - The main module that has the primary wrapper routines.
-profModels.py - A module that contains wrapper functions for</p>
+<p>This package contains the following files:</p>
 <blockquote>
-<div>implementing the tscfg&#8217;s mean-profile model.</div></blockquote>
-<dl class="last docutils">
+<div><p>base.py       - A base module that defines TurbSim config objects (tscfg)</p>
+<p>main.py       - The main module that has the primary wrapper routines.</p>
+<dl class="docutils">
+<dt>profModels.py - A module that contains wrapper functions for</dt>
+<dd>implementing the tscfg&#8217;s mean-profile model.</dd>
 <dt>turbModels.py - A module that contains wrapper functions for</dt>
 <dd>implementing the tscfg&#8217;s turbulence models
 (specModel, cohereModel, stressModel).</dd>
 </dl>
-</dd>
-</dl>
+</div></blockquote>
 <div class="section" id="example-usage">
 <h3>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt>See either:</dt>
 <dd><ol class="first last arabic simple">
-<li>the pyTurbSim.py executable script in the PyTurbSim root directory</li>
-<li>The runConfig/main.py docstring for example usage.</li>
+<li>the <tt class="xref py py-mod docutils literal"><span class="pre">pyTurbSim</span></tt> executable script in the PyTurbSim root directory</li>
+<li>The <a class="reference internal" href="#module-pyts.runConfig.main" title="pyts.runConfig.main"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.runConfig.main</span></tt></a> docstring for example usage.</li>
 </ol>
 </dd>
 </dl>
@@ -386,13 +385,13 @@ input files add a wrapper function for it here.</p>
         <li class="right" >
           <a href="pyts.profModels.html" title="profModels Package"
              >previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 1.0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="modules.html" >pyts</a> &raquo;</li>
           <li><a href="pyts.html" >pyts Package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014, Levi Kilcher.
+        &copy; Copyright 2014, National Renewable Energy Lab.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

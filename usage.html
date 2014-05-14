@@ -1,0 +1,203 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Usage &mdash; PyTurbSim 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="PyTurbSim 0.2 documentation" href="index.html" />
+    <link rel="next" title="Code Framework" href="code-framework.html" />
+    <link rel="prev" title="Installation" href="install.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="code-framework.html" title="Code Framework"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PyTurbSim 0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="usage">
+<span id="id1"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p>PyTurbSim was designed to meet the needs of several different user groups. To meet that objective it has three primary operational modes/interfaces. Those modes are described below.</p>
+<div class="section" id="input-files">
+<h2>1) Input files<a class="headerlink" href="#input-files" title="Permalink to this headline">¶</a></h2>
+<p>This mode is designed to mimic the <a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a> interface. It is
+designed for use by device developers and other users familiar with
+the <a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a> program who want output that is consistent with
+predifined models built into TurbSim. In this mode pyTurbSim reads
+<a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a> input files and writes out binary data in the same format
+as <a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a>. This mode can be run from a standard (i.e. DOS, UNIX)
+command line and is well suited for interfacing with FAST and other
+device simulation tools in the same way that <a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a> does.  For
+more information on this mode, see the docstring in the
+<a class="reference internal" href="api/pyts.runConfig.html#module-pyts.runConfig" title="pyts.runConfig"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.runConfig</span></tt></a> docstring.</p>
+<p>To run PyTurbSim in this mode on the file &#8216;TurbSim.inp&#8217; from the
+command line do:</p>
+<div class="highlight-python"><pre>$ python pyTurbSim.py TurbSim.inp</pre>
+</div>
+<p>Alternatively, this mode can be used from an interactive python shell
+by doing:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyts.runConfig.main</span> <span class="kn">import</span> <span class="n">readConfig</span><span class="p">,</span><span class="n">run</span><span class="p">,</span><span class="n">write</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">=</span><span class="n">readConfig</span><span class="p">(</span><span class="s">&#39;TurbSim.inp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tsdat</span><span class="o">=</span><span class="n">run</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">write</span><span class="p">(</span><span class="n">tsdat</span><span class="p">,</span><span class="n">config</span><span class="p">,</span><span class="s">&#39;TurbSim&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>These two approaches produce the same output. The first allows the
+user to run PyTurbSim without ever entering an interactive python
+shell, the latter provides the user with an opportunity to view the
+output data, <tt class="docutils literal"><span class="pre">tsdat</span></tt>, without reloading it from a file.</p>
+<p>The source code for this mode is contained in the <a class="reference internal" href="api/pyts.runConfig.html#module-pyts.runConfig" title="pyts.runConfig"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.runConfig</span></tt></a> package.</p>
+</div>
+<div class="section" id="api-interface">
+<h2>2) api interface<a class="headerlink" href="#api-interface" title="Permalink to this headline">¶</a></h2>
+<p>This interface was designed for researchers who wish to develop new
+methods and models for simulating turbulence, and/or want to control
+the statistics of PyTurbSim output explicitly. As a starting point for
+using this interface checkout <a class="reference internal" href="api/pyts.html#module-pyts.api" title="pyts.api"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.api</span></tt></a>. Or start navigating
+the api interactively by importing it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyts.api</span> <span class="kn">as</span> <span class="nn">pyts</span>
+</pre></div>
+</div>
+<p>This api is the core interface of PyTurbSim (the other two are
+wrappers).</p>
+</div>
+<div class="section" id="graphical-user-interface-gui">
+<h2>3) Graphical user interface (GUI)<a class="headerlink" href="#graphical-user-interface-gui" title="Permalink to this headline">¶</a></h2>
+<p>The GUI was developed for reading and writing TurbSim input files.
+The gui was designed to help new users of TurbSim in understanding
+and writing input files. The gui can be used to run PyTurbSim or
+<a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a> (if an <a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a> executable can be found in path).
+&#8216;gTurbSim&#8217; can be run from a command line in the PyTurbSim
+directory:</p>
+<div class="highlight-python"><pre>$ python gTurbSim.py TurbSim.inp</pre>
+</div>
+<p>The source code for this mode is contained in the <a class="reference internal" href="api/pyts.gui.html#module-pyts.gui" title="pyts.gui"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.gui</span></tt></a> package.</p>
+</div>
+<div class="section" id="reading-output-files">
+<h2>Reading output files<a class="headerlink" href="#reading-output-files" title="Permalink to this headline">¶</a></h2>
+<p>pyTurbSim comes with the ability to read (and write) TurbSim &#8216;.wnd&#8217;, &#8216;.bl&#8217; (Bladed format) and &#8216;.bts&#8217; (AeroDyn/TurbSim format) files.  To read these files:
+1) &#8216;import pyts.tsio&#8217;
+2) You can either use:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><a class="reference internal" href="api/pyts.io.html#module-pyts.io.bladed" title="pyts.io.bladed"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.io.bladed</span></tt></a> or <a class="reference internal" href="api/pyts.io.html#module-pyts.io.aerodyn" title="pyts.io.aerodyn"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.io.aerodyn</span></tt></a> to return an
+array of the turbulence timeseries, or</li>
+<li><tt class="xref py py-func docutils literal"><span class="pre">pyts.tsio.readModel()</span></tt> to read the appropriate data file, and
+also load information from the config (.inp) file to create a
+&#8216;tsdata&#8217; object that includes both the array and also the
+config and turbModel objects.</li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Usage</a><ul>
+<li><a class="reference internal" href="#input-files">1) Input files</a></li>
+<li><a class="reference internal" href="#api-interface">2) api interface</a></li>
+<li><a class="reference internal" href="#graphical-user-interface-gui">3) Graphical user interface (GUI)</a></li>
+<li><a class="reference internal" href="#reading-output-files">Reading output files</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="install.html"
+                        title="previous chapter">Installation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="code-framework.html"
+                        title="next chapter">Code Framework</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/usage.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="code-framework.html" title="Code Framework"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             >previous</a> |</li>
+        <li><a href="index.html">PyTurbSim 0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, National Renewable Energy Lab.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

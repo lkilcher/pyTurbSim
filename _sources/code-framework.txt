@@ -1,0 +1,68 @@
+Code Framework
+==============
+
+|pyts| is organized into 'sub-packages' that provide a logical and functional framework for the code and its use.
+
+.. This is the PyTurbSim python advanced programming interface
+   (API). This module provides a fully-customizable high-level
+   object-oriented interface to the PyTurbSim program.
+
+The three primary components of this framework are:
+
+1) The :class:`pyts.main.tsrun` class, which is the controller/run class for PyTurbSim
+   simulations.
+2) The 'model' classes, which include:
+
+   a) :mod:`pyts.profModels`, contains the mean velocity
+      profile models.
+   b) :mod:`pyts.specModels`, contains the TKE spectral
+      models.
+   c) :mod:`pyts.stressModels`, contains the Reynold's
+      stress profile models.
+   d) :mod:`pyts.cohereModels`, contains the spatial
+      coherence models.
+
+3) The :mod:`pyts.io` package, which supports reading and writing of TurbSim
+   input (.inp) and output files (e.g. .bl, .wnd, etc.)
+
+Models vs. run-specific 'statistics'
+------------------------------------
+PyTurbSim makes a distinction between 'models' (PyTurbSim objects that
+partially define a statistic) and run-specific 'stat-objects' which are the output
+of these model objects (these are numpy array wrappers). Models are
+independent of the spatial grid and other models in a PyTurbSim
+run. The statistics are the values of the statistic that will be
+reproduced in the PyTurbSim output.
+
+
+File Structure
+--------------
+
+The PyTurbSim file structure is as follows:
+
+1) execution programs and general information files (e.g. this README) are contained in the base directory.
+2) the core of the program is contained entirely within the 'pyts' directory (package).
+3) the 'pyts/profModels' and 'pyts/turbModels' directories (sub-packages) contain the model-base modules (mBase.py) and all of the specific models.  New models can be added here relatively easily (see 'adding models' section).
+4) the 'pyts/tslib' directory contains the fortran library for more efficient execution (it may need to be compiled, see section on 'building tslib').
+
+pyTurbSim objects
+-----------------
+
+Several object types are defined in PyTurbSim.  The most important ones are:
+
+- :class:`pyts.main.tsrun`
+  
+  This is the primary 'run' object of PyTurbSim.
+
+- :class:`pyts.runConfig.base.tscfg`
+
+  A 'configuration' dictionary that stores information from input (.inp) files and handles *some* defaults from those input files.
+
+- :class:`pyts.main.tsdata`
+
+  A data object that holds turbsim output and spectral model information.
+
+
+Customizing PyTurbSim
+---------------------
+Need to add some examples here...

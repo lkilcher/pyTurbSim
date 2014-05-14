@@ -1,0 +1,10 @@
+
+Known Issues
+============
+
+PyTurbSim does not yet output .sum files.
+
+Other Notes
+===========
+
+The documentation for PyTurbSim is currently incomplete.  For further usage and operation information please see the TurbSim (original/atmosphere) documentation on the wind.nrel.gov/designcodes/ page.  Thanks for your patience.

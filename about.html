@@ -1,0 +1,210 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>About &mdash; PyTurbSim 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="#" />
+    <link rel="top" title="PyTurbSim 0.2 documentation" href="index.html" />
+    <link rel="next" title="Installation" href="install.html" />
+    <link rel="prev" title="Welcome to PyTurbSim‘s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to PyTurbSim‘s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PyTurbSim 0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="about">
+<span id="id1"></span><h1>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h1>
+<p>TurbSim is a statistical rather than a physical or dynamic tool.  That
+is, rather than solving fluid-flow equations (e.g. large eddy
+simulations) it produces time-series that match specific statistics of
+real flows.  PyTurbSim is capable of matching the following statistics
+of any velocity dataset:</p>
+<ol class="arabic simple">
+<li>the mean velocity profile,</li>
+<li>the turbulent kinetic energy spectrum (and therefore the turbulence intensity),</li>
+<li>the Reynold&#8217;s stress profile, and</li>
+<li>the spatial coherence.</li>
+</ol>
+<p>These statistics have been found to be critical predictors of
+wind-turbine fatigue loading.  Therefore, though this tool does not
+produce time-series that obey fluid-flow equations (i.e. the
+Navier-Stokes equations, compressibility), it does provide time-series
+that drive realistic wind and MHK turbine device simulation and it
+does so using significantly lower computational resources than
+fluid-flow simulations.  That is, TurbSim and PyTurbSim efficiently
+produce time-series that drive realistic loads estimates that agree
+reasonably with measurements of loads on real wind turbines <a class="footnote-reference" href="#id4" id="id2">[1]</a>.</p>
+<div class="section" id="history">
+<span id="about-history"></span><h2>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h2>
+<p>pyTurbSim is a python-implementation of the National Wind Technology
+Center&#8217;s (NWTC) &#8216;TurbSim&#8217; program <a class="footnote-reference" href="#id5" id="id3">[2]</a>. Throughout the documentation,
+the term &#8216;TurbSim&#8217; is used to refer to both PyTurbSim and the original
+TurbSim tool (hereafter &#8216;<a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a>&#8216;).  <a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a> is still actively
+maintained and available from the <a class="reference external" href="https://wind.nrel.gov/designcodes/preprocessors/turbsim/">NWTC design codes site</a>.</p>
+<p>PyTurbSim was originally written as a script for developing and
+testing new profile and turbulence models that would later be
+incorporated into <a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a>. The idea was that the script could be
+quickly modified and executed to produce new output that could be
+compared to measured datasets (for validating new models) or <a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a>
+output (for validating the script). Once a new model had been
+developed it could then be incorporated into <a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a> and released as
+part of <a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a>.  As the &#8216;PyTurbSim script&#8217; was developed to
+simplify its use it became a full-fledged program of its own with some
+capabilities that exceed <a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a>. <a class="reference internal" href="glossary.html#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a> has capabilities that
+are not included in PyTurbSim as well; see the capabilities.txt file for
+a comparison of capabilities of these two tools.</p>
+<p>PyTurbSim does supports some, but not all spectral models of the
+original (atmospheric) TurbSim program.  Furthermore, PyTurbSim does
+not support the &#8216;coherent structures&#8217; functionality that Neil Kelley
+developed.  For producing simulations of atmospheric turbulence, I
+highly recommend using the original TurbSim program, developed by
+Bonnie Jonkman and Neil Kelley (based on the original SNLWIND tool
+developed by Paul Veers).  That having been said, I believe the
+&#8216;SMOOTH&#8217; and &#8216;IEC&#8217; spectral models are accurately represented by this
+tool.  All other spectral models have not been verified or are not
+included in this tool.  PyTurbSim would not be possible without the
+work of Niel Kelley, Paul Veers and especially Bonnie Jonkman.  Thank
+you to all of these people for their excellent work and support in
+creating this tool.</p>
+<p>The PyTurbSim documentation is based on <a class="reference external" href="https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">|ots|&#8217;s documentation</a>. For
+additional information, especially regarding the &#8216;config&#8217;/&#8217;input&#8217; file
+operational mode, take a look at that document.</p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>PyTurbSim is released publically by the National Renewable Energy Lab
+under the FreeBSD license (see the COPYRIGHT file in the
+<a class="reference external" href="http://github.com/lkilcher/pyTurbSim">repository</a>).</p>
+<hr class="docutils" />
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>Moriarty, P. J.; Holley, W. E. &amp; Butterfield, S. Effect of
+turbulence variation on extreme loads prediction for wind turbines
+Transactions of the American Society of Mechanical Engineers Journal
+of Solar Energy Engineering, AMERICAN SOCIETY MECHANICAL ENGINEERS,
+2002, 124, 387-395</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>The NWTC is a center at the Department of Energy&#8217;s (DOE) National
+Renewable Energy Lab (<a class="reference internal" href="glossary.html#term-nrel"><em class="xref std std-term">NREL</em></a>).  The DOE provided funding for development
+of these tools.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">About</a><ul>
+<li><a class="reference internal" href="#history">History</a></li>
+<li><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to PyTurbSim&#8216;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="install.html"
+                        title="next chapter">Installation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/about.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to PyTurbSim‘s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">PyTurbSim 0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, National Renewable Energy Lab.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

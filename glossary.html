@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Reynold’s stress Models &mdash; PyTurbSim 0.2 documentation</title>
+    <title>Glossary &mdash; PyTurbSim 0.2 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -48,35 +48,20 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-pyts.stressModels.api">
-<span id="reynold-s-stress-models"></span><h1>Reynold&#8217;s stress Models<a class="headerlink" href="#module-pyts.stressModels.api" title="Permalink to this headline">¶</a></h1>
-<p>PyTurbSim &#8216;Reynold&#8217;s stress models&#8217; package.</p>
-<p>The Reynold&#8217;s stress quantifies correlations betweens turbulent
-velocity components. It has three components: &lt;u&#8217;v&#8217;&gt;, &lt;u&#8217;w&#8217;&gt; and
-&lt;v&#8217;w&#8217;&gt; (&#8216;&lt;x&gt;&#8217; denotes an &#8216;appropriate&#8217; time average of the quantity
-&#8216;x&#8217;).</p>
-<div class="section" id="available-stress-models">
-<h2>Available stress models:<a class="headerlink" href="#available-stress-models" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div>uniform   - A uniform Reynold&#8217;s stress over the spatial domain.
-tidal     - The Reynold&#8217;s stress increases linearly toward the seafloor.</div></blockquote>
-</div>
-<div class="section" id="example-usage">
-<h2>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
-<p>import pyts.stressmodels.api as rm</p>
-<p># Create a uniform Reynold&#8217;s stress model where each component is
-# specified explicitly:
-my_stress_model=rm.uniform(upvp_=0.01,upwp_=0.1,vpwp_=0.0)</p>
-<p># This stress model can then be applied to a tsrun (see
-# pyts.main.tsrun):
-tsrun.stress=my_stress_model(tsrun)</p>
-</div>
-<div class="section" id="see-also">
-<h2>See also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
-<p>For a description of the difference between &#8216;stress models&#8217;
-(e.g. &#8216;my_stress_model&#8217; in example above) and the stress they output
-(tsrun.prof), see the &#8216;models_and_stats_example.py&#8217; file.</p>
-</div>
+  <div class="section" id="glossary">
+<span id="id1"></span><h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
+<dl class="glossary docutils">
+<dt id="term-doe">DOE</dt>
+<dd>The <a class="reference external" href="http://energy.gov">Department of Energy</a> is the United States Agency &#8216;dedicated to advancing energy technology and promoting related innovation&#8217;.</dd>
+<dt id="term-input-file"><span id="term-config-file"></span>input file<br />config file</dt>
+<dd>TurbSim input/config files specify the input parameters which control TurbSim output. These files are the exclusive method for controlling output from <a class="reference internal" href="#term-o-turbsim"><em class="xref std std-term">O-TurbSim</em></a>. PyTurbSim has implemented additional methods (described in the <a class="reference internal" href="usage.html#usage"><em>Usage</em></a> section).</dd>
+<dt id="term-nrel">NREL</dt>
+<dd>The <a class="reference external" href="http://www.nrel.gov">National Renewable Energy Lab</a> is a federally funded research and development center (FFRDC) of the <a class="reference internal" href="#term-doe"><em class="xref std std-term">DOE</em></a>.</dd>
+<dt id="term-nwtc">NWTC</dt>
+<dd>The <a class="reference external" href="http://wind.nrel.gov">National Wind Technology Center</a> is a research center at <a class="reference internal" href="#term-nrel"><em class="xref std std-term">NREL</em></a>.</dd>
+<dt id="term-o-turbsim">O-TurbSim</dt>
+<dd>This refers to the original, Atmospheric version of TurbSim, developed at the <a class="reference internal" href="#term-nwtc"><em class="xref std std-term">NWTC</em></a>.</dd>
+</dl>
 </div>
 
 
@@ -85,19 +70,9 @@ tsrun.stress=my_stress_model(tsrun)</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Reynold&#8217;s stress Models</a><ul>
-<li><a class="reference internal" href="#available-stress-models">Available stress models:</a></li>
-<li><a class="reference internal" href="#example-usage">Example usage</a></li>
-<li><a class="reference internal" href="#see-also">See also</a></li>
-</ul>
-</li>
-</ul>
-
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/stressModels.txt"
+    <li><a href="_sources/glossary.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">

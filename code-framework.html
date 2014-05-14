@@ -1,0 +1,188 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Code Framework &mdash; PyTurbSim 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="PyTurbSim 0.2 documentation" href="index.html" />
+    <link rel="next" title="Plotting Tools" href="plotting-tools.html" />
+    <link rel="prev" title="Usage" href="usage.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plotting-tools.html" title="Plotting Tools"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="Usage"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PyTurbSim 0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="code-framework">
+<h1>Code Framework<a class="headerlink" href="#code-framework" title="Permalink to this headline">¶</a></h1>
+<p>PyTurbSim is organized into &#8216;sub-packages&#8217; that provide a logical and functional framework for the code and its use.</p>
+<p>The three primary components of this framework are:</p>
+<ol class="arabic simple">
+<li>The <a class="reference internal" href="api/pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">pyts.main.tsrun</span></tt></a> class, which is the controller/run class for PyTurbSim
+simulations.</li>
+<li>The &#8216;model&#8217; classes, which include:<ol class="loweralpha">
+<li><a class="reference internal" href="api/pyts.profModels.html#module-pyts.profModels" title="pyts.profModels"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.profModels</span></tt></a>, contains the mean velocity
+profile models.</li>
+<li><a class="reference internal" href="api/pyts.specModels.html#module-pyts.specModels" title="pyts.specModels"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.specModels</span></tt></a>, contains the TKE spectral
+models.</li>
+<li><a class="reference internal" href="api/pyts.stressModels.html#module-pyts.stressModels" title="pyts.stressModels"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.stressModels</span></tt></a>, contains the Reynold&#8217;s
+stress profile models.</li>
+<li><a class="reference internal" href="api/pyts.cohereModels.html#module-pyts.cohereModels" title="pyts.cohereModels"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.cohereModels</span></tt></a>, contains the spatial
+coherence models.</li>
+</ol>
+</li>
+<li>The <a class="reference internal" href="api/pyts.io.html#module-pyts.io" title="pyts.io"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.io</span></tt></a> package, which supports reading and writing of TurbSim
+input (.inp) and output files (e.g. .bl, .wnd, etc.)</li>
+</ol>
+<div class="section" id="models-vs-run-specific-statistics">
+<h2>Models vs. run-specific &#8216;statistics&#8217;<a class="headerlink" href="#models-vs-run-specific-statistics" title="Permalink to this headline">¶</a></h2>
+<p>PyTurbSim makes a distinction between &#8216;models&#8217; (PyTurbSim objects that
+partially define a statistic) and run-specific &#8216;stat-objects&#8217; which are the output
+of these model objects (these are numpy array wrappers). Models are
+independent of the spatial grid and other models in a PyTurbSim
+run. The statistics are the values of the statistic that will be
+reproduced in the PyTurbSim output.</p>
+</div>
+<div class="section" id="file-structure">
+<h2>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this headline">¶</a></h2>
+<p>The PyTurbSim file structure is as follows:</p>
+<ol class="arabic simple">
+<li>execution programs and general information files (e.g. this README) are contained in the base directory.</li>
+<li>the core of the program is contained entirely within the &#8216;pyts&#8217; directory (package).</li>
+<li>the &#8216;pyts/profModels&#8217; and &#8216;pyts/turbModels&#8217; directories (sub-packages) contain the model-base modules (mBase.py) and all of the specific models.  New models can be added here relatively easily (see &#8216;adding models&#8217; section).</li>
+<li>the &#8216;pyts/tslib&#8217; directory contains the fortran library for more efficient execution (it may need to be compiled, see section on &#8216;building tslib&#8217;).</li>
+</ol>
+</div>
+<div class="section" id="pyturbsim-objects">
+<h2>pyTurbSim objects<a class="headerlink" href="#pyturbsim-objects" title="Permalink to this headline">¶</a></h2>
+<p>Several object types are defined in PyTurbSim.  The most important ones are:</p>
+<ul>
+<li><p class="first"><a class="reference internal" href="api/pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">pyts.main.tsrun</span></tt></a></p>
+<p>This is the primary &#8216;run&#8217; object of PyTurbSim.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="api/pyts.runConfig.html#pyts.runConfig.base.tscfg" title="pyts.runConfig.base.tscfg"><tt class="xref py py-class docutils literal"><span class="pre">pyts.runConfig.base.tscfg</span></tt></a></p>
+<p>A &#8216;configuration&#8217; dictionary that stores information from input (.inp) files and handles <em>some</em> defaults from those input files.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="api/pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><tt class="xref py py-class docutils literal"><span class="pre">pyts.main.tsdata</span></tt></a></p>
+<p>A data object that holds turbsim output and spectral model information.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="customizing-pyturbsim">
+<h2>Customizing PyTurbSim<a class="headerlink" href="#customizing-pyturbsim" title="Permalink to this headline">¶</a></h2>
+<p>Need to add some examples here...</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Code Framework</a><ul>
+<li><a class="reference internal" href="#models-vs-run-specific-statistics">Models vs. run-specific &#8216;statistics&#8217;</a></li>
+<li><a class="reference internal" href="#file-structure">File Structure</a></li>
+<li><a class="reference internal" href="#pyturbsim-objects">pyTurbSim objects</a></li>
+<li><a class="reference internal" href="#customizing-pyturbsim">Customizing PyTurbSim</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="usage.html"
+                        title="previous chapter">Usage</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="plotting-tools.html"
+                        title="next chapter">Plotting Tools</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/code-framework.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plotting-tools.html" title="Plotting Tools"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="Usage"
+             >previous</a> |</li>
+        <li><a href="index.html">PyTurbSim 0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, National Renewable Energy Lab.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
