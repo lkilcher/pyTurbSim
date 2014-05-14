@@ -27,6 +27,8 @@ from io import bladed,aerodyn
 # Means add documentation here
 
 # TODO:
+#  - Rebuild .exe
+#  - Make sure pure-python implementation still works.
 #  - Add ability to rotate mean velocity field (for a prof instance and a profModel).
 #  - Add ability to add veer to mean velocity field (prof instance and profModel).
 #  - DOCUMENTATION!!!

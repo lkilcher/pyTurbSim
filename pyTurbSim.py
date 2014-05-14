@@ -1,4 +1,8 @@
 #!/usr/bin/python
+"""
+This is the pyTurbSim 'executable script', which utilizes the :mod:`pyts.runConfig` package.
+"""
+
 import sys
 from pyts.runConfig.main import readConfig,run,write
 import time
