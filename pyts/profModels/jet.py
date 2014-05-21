@@ -1,21 +1,35 @@
-from mBase import profModelBase,np
+from mBase import profModelBase,np,profObj
 from numpy.polynomial.chebyshev import chebval
 
 class main(profModelBase):
     """
     The low-level jet wind velocity profile.
+
+    Parameters
+    ----------
+    zjet_max :  float, optional
+                The maximum height of the jet. If a value is not
+                specified, the zjet_max property provides a default.
     """
     @property
     def zjet_max(self,):
-        if self.config['ZJetMax'] is not None:
-            return self.config['ZJetMax']
+        """
+        The value of the jet height.
+
+        This property calculates a default value if one is not specified.
+        """
+        if self._val_zjet_max is not None:
+            return self._val_zjet_max
         val=1.9326*(-14.820*self.Ri+56.488123*self.zL+166.499069*self.UStar+188.253377)-252.7267
         rnd=min(max(self.grid.randgen.standard_cauchy(1)*10-20,-160),120) # !!!VERSION_INCONSISTENCY: I've used the standard Cuachy distribution, rather than 'PearsonIV' from indecipherable code.
         val+=rnd
-        self.config['ZJetMax']=val
+        self._val_zjet_max=val
         return val
+    @zjet_max.setter
+    def zjet_max(self,val):
+        self._val_zjet_max=val
 
-    def model2(self,z):
+    def _model(self,z):
         HtIndx=min(max(int(self.zjet_max-50)/20-1,0),20)
         scoef=spd_coefs[HtIndx]
         dcoef=dir_coefs[HtIndx]
@@ -34,11 +48,33 @@ class main(profModelBase):
         tmpdat=chebval(z,scoef)*np.exp(1j*np.pi/180.*ang)[:,None]
         return tmpdat.real,tmpdat.imag
 
-    def model(self,z):
-        return self.model2(z)[0]
+    def __init__(self,zjet_max=None):
+        self.zjet_max=zjet_max
+
+    ## def model(self,z):
+    ##     return self.model(z)[0]
     
-    def initModel(self,):
-        self._u[:1]=self.model2(self.grid.z)
+    def __call__(self,tsrun):
+        """
+        Create and calculate the mean-profile object for a `tsrun`
+        instance.
+
+        Parameters
+        ----------
+        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+                        A TurbSim run object.
+        
+        Returns
+        -------
+        out :           :class:`profObj <.mBase.profObj>`
+                        A jet wind-speed profile for the grid in `tsrun`.
+    
+        """
+        out=profObj(tsrun)
+        u,v=self.model2(self.grid.z)
+        out[0],out[1]=u[:,None],v[:,None]
+        return out
+
 
 ### These are the 'Chebyshef' coefficients, copied from the Modules.f90 file of TurbSim v1.x.
 ### The coefficients are:

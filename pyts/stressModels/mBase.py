@@ -1,4 +1,11 @@
-# !!!ADDDOC
+"""
+This is the stress package's base module.
+
+produce estimates of Reynold's
+stress
+
+"""
+
 from .. import base
 np=base.np
 
@@ -92,7 +99,7 @@ class stressObj(base.calcObj,base.gridProps):
         """
         srt=np.sort(np.abs(self.corr))
         valid=np.empty(srt.shape,dtype=bool)
-        valid[0]=np.all(srt<1,0) # All individual stresses must be less than stress_max (i.e. the correlation between components can not be larger than the product of their standard devations).
+        valid[0]=(srt<1).all(0) # All individual stresses must be less than stress_max (i.e. the correlation between components can not be larger than the product of their standard devations).
         valid[1]=(1+srt[0]-srt[1]-srt[2]>0) # This is the 'overlap' criterion.
         valid[2]=((self.array<0).sum(0)!=1) | (srt.sum(0)<=1) # This is the 'sign' criterion: if there is only one negative stress, their can be no overlap (sum(srt) must be <1).
         ############################

@@ -7,32 +7,46 @@ from mBase import profModelBase,profObj
 from log import nwtc as logmain
 from power import nwtc as powmain
 
+# !!!VERSION_INCONSISTENCY
+# This model needs to account for the EWM50 and EWM1 turbulence models.
+
 class main(logmain,powmain):
     """
-    The iec wind profile.  This profile is a power-law
-    across the rotor disk and logarithmic elsewhere.
+    The iec wind profile model.  This profile is a power-law across
+    the rotor disk and logarithmic elsewhere.
+
+    Parameters
+    ----------
+    grid :      :class:`tsGrid <pyts.base.tsGrid>`
+                The TurbSim grid object for this simulation.
+
+    URef :      float
+                Reference velocity for the wind profile [m/s].
+
+    RefHt :     float
+                Reference height of the reference velocity [m].
+
+    PLexp :     float,optional (0.2)
+                The power-law exponent to be utilized for this
+                simulation [non-dimensional], default=0.2 (per
+                IEC specification).
+
+    Z0 :        float
+                Surface roughness length [m].
+
+    Ri :        float
+                The Richardon number [non-dimensional].
+
+    turbmodel : str
+                the name of the turbulence model in this simulationm, optional.
+
+    See Also
+    --------
+    .power.nwtc : The iec model is this law over the rotor disk 
+    .log.nwtc   : The iec model is this law outside the rotor disk
+
     """
     def __init__(self,URef,RefHt,Z0,Ri,PLexp=0.2,turbmodel=None):
-        """
-        Create an 'IEC' mean velocity profile model instance.
-
-        Parameters
-        ----------
-        grid     - The TurbSim grid object for this simulation.
-        URef     - Reference velocity for the wind profile [m/s].
-        RefHt    - Reference height of the reference velocity [m].
-        PLexp    - The power-law exponent to be utilized for this
-                   simulation [*non-dimensional], default=0.2 (per
-                   IEC specification).
-        Z0       - Surface roughness length [m].
-        Ri       - The Richardon number [*non-dimensional].
-        turbmodel- the name of the turbulence model in this simulationm, *optional*.
-
-        Returns
-        -------
-        out      - An 'IEC' wind profile object that matches the
-                   specified input parameters.
-        """
         self.Uref=URef
         self.Zref=RefHt
         self.PLexp=PLexp
@@ -42,16 +56,19 @@ class main(logmain,powmain):
 
     def __call__(self,tsrun):
         """
-        Call the mean wind speed profile with a *tsrun* object to return the
-        run-specific mean velocity profile object.
+        Create and calculate the mean-profile object for a `tsrun`
+        instance.
 
         Parameters
         ----------
-        tsrun    - A TurbSim run object.
+        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+                        A TurbSim run object.
         
         Returns
         -------
-        out      - An IEC wind-speed profile for the grid in tsrun.
+        out :           :class:`profObj <.mBase.profObj>`
+                        A iec wind-speed profile for the grid in `tsrun`.
+    
         """
         out=profObj(tsrun)
         grid=tsrun.grid # A temporary, internal shortcut.

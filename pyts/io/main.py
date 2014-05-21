@@ -17,18 +17,37 @@ readers={'wnd':bladed.read,
 
 def readModel(fname,inp_fname=None):
     """
-    Reads a TurbSim data and input (config) file and returns a tsdata
-    object.  If *fname* ends in .inp, it reads this input file, and
-    searches for a binary file that can be read (throws error if none
-    is found).
+    Read a TurbSim data and input file and return a 
+    :class:`tsdata <pyts.main.tsdata>` data object.
+
+    Parameters
+    ----------
+    fname : str
+            The filename to load.  If `fname` ends in .inp, it reads
+            this input file, and searches for a binary file that can
+            be read (throws error if none is found). Otherwise,
+            
+    inp_fname : str, optional
+                The input file name to associate with the data-file
+                `fname`.
+
+    Returns
+    -------
+    tsdata : :class:`tsdata <pyts.main.tsdata>`
+             The TurbSim data contained in the binary data file.
+
+    Notes
+    -----
     
-    If *fname* is a filetype that can be read, it reads that file and
+    If `fname` is a filetype that can be read, it reads that file and
     the associated .inp file.
 
-    In other words:
+    In other words::
       tsdat=readModel('TurbSim.inp')
-        and
+      
+    and::
       tsdat=readModel('TurbSim.bts')
+    
     Do essentially the same thing.
     
     """

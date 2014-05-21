@@ -2,13 +2,14 @@
 This is the 'base' module for the PyTurbSim program.
 
 This module:
- a) imports numpy,
+ a) imports common numpy functions/methods (from pyts_numpy.py),
  b) defines the 'tsGrid' class,
  c) imports the tslib Fortran module (if it is available) and
  d) Defines several abstract base classes.
 
 """
-import numpy as np
+import pyts_numpy as np
+from numpy import float32,complex64
 from misc import lowPrimeFact_near
 from os import path
 try:
@@ -20,7 +21,7 @@ except ImportError:
     performance recompile the library as decribed in the 'Building
     tslib' section of the README file.
     """
-    tslib=None
+
 
 dbg=None
 #import dbg
@@ -28,8 +29,8 @@ dbg=None
 tsroot=path.realpath(__file__).replace("\\","/").rsplit('/',1)[0]+'/'
 userroot=path.expanduser('~')
 
-ts_float=np.float32
-ts_complex=np.complex64
+ts_float=float32
+ts_complex=complex64
 #ts_float={'dtype':np.float32,'order':'F'}
 #ts_complex={'dtype':np.complex64,'order':'F'}
 
@@ -70,8 +71,8 @@ class calcObj(tsBaseObj):
 
 class gridProps(tsBaseObj):
     """
-    A list of shortcuts for objects that have the grid as one of their
-    attributes.
+    An abstract base class that provides shortcuts for objects that
+    have the grid as one of their attributes.
     """
 
     @property
@@ -105,43 +106,58 @@ class gridProps(tsBaseObj):
 
 class tsGrid(tsBaseObj):
     """
-    A TurbSim 'grid' object.
+
+    The TurbSim 'grid' class.
+
+    Parameters
+    ----------
+
+    center       : float
+        height of the center of the grid.
+    ny, nz        : int, optional*
+        number of points in the y and z directions.
+    width,height : float, optional*
+        total width and height of grid.
+    dy, dz        : float, optional*
+        spacing between points in the y and z directions.
+
+    nt           : int, optional*
+        number of timesteps
+    time_sec     : float, optional*
+        length of run (seconds)
+    time_min     : float, optional*
+        length of run (minutes, subordinate to time_sec)
+    dt           : float, optional*
+        timestep (seconds, subordinate to nt and time_sec)
+    time_sec_out : float, optional (`time_sec`)
+        length of output timeseries in seconds, must be >=`time_sec`
+
+    findClose_nt_lowPrimeFactors : bool, optional (True)
+        Adjust nfft to be a multiple of low primes?
+    prime_max    : int, optional (31)
+        The maximum prime number allowed as a 'low prime'.
+    RandSeed     : int, optional
+        Specify a random seed for the random number generator (default: generate a random one).
+    clockwise    : bool, optional (True)
+        Should the simulation write a 'clockwise' rotation output file.
+        This is only used when writing 'Bladed' output files.
+
+    Notes
+    -----
     
-    The grid is defined so that the first row is the bottom, and the last is the top.
+    The grid is defined so that the first row is the bottom and the last is the top.
+
+    \*\:  Each grid dimension (z,y,time) can be specified by any
+    combination of 2 inputs. For the y-grid, for example, you
+    may specify: dy and ny, or width and dy, or width and ny. If
+    all three are specified, dy ignored and computed from ny and
+    width.
+
+    Irregular grids are not yet supported.
+
     """
 
     def __init__(self,center=None,ny=None,nz=None,width=None,height=None,dy=None,dz=None,nt=None,time_sec=None,time_min=None,dt=None,time_sec_out=None,findClose_nt_lowPrimeFactors=True,prime_max=31,RandSeed=None,clockwise=True):
-        """
-        Initialize the TurbSim time-space grid object.
-
-        Each grid dimension (x,y,time) can be specified by any combination of 2 inputs,
-          for the x-grid, for example, you may specify:
-              dx and nx, or width and dx, or width and nx.
-
-        Input Parameters
-        ----------------
-        
-        Spatial dimension inputs (in meters):
-          center       - height of the center of the grid.
-          ny,nz        - number of points in the y and z directions.
-          width,height - total width and height of grid.
-          dy,dx        - spacing between points in the y and z directions (subordinate to ny,nz and width,height).
-          
-        Time dimension inputs:
-          nt           - number of timesteps
-          time_sec     - length of run (seconds)
-          time_min     - length of run (minutes, subordinate to time_sec)
-          dt           - timestep (seconds, subordinate to nt and time_sec)
-          time_sec_out - length of output timeseries (seconds, defaults to time_sec)
-
-        Other inputs:
-          findClose_nt_lowPrimeFactors - Adjust nfft to be a multiple of low primes (True or False, default: True).
-          prime_max    - The maximum prime number allowed as a 'low prime'.
-          RandSeed     - Specify a random seed for the random number generator (default: generate a random one).
-          clockwise    - Should the simulation write a 'clockwise' rotation output file (True or False, default: True).
-                         This is only used when writing 'Bladed' output files.
-          
-        """
         if center is None:
             raise TypeError("tsGrid objects require that the height of the grid center (input parameter 'center') be specified.")
         self.n_y,self.width,self.dy=self._parse_inputs(ny,width,dy)
@@ -178,16 +194,33 @@ class tsGrid(tsBaseObj):
 
         Parameters
         ----------
-        *n*   - The number of points in that dimension (integer).
-        *l*   - The total length of that dimension (float).
-        *d*   - The spacing between points (float).
-           NOTE: any one of these may be 'None', in which case it is
-                 computed from the other two. If all three are
-                 specified, n and l take precedence and d is computed.
-        *plus_one* - 0 or 1. This specifies whether or not the number
-                     of points includes an endpoint, or not. This
-                     should be 1 for spatial inputs, and 0 for time
-                     inputs.
+        n : int
+            The number of points in that dimension.
+        l : float
+            The total length of that dimension.
+        d : float
+            The spacing between points.
+        plus_one : bool
+                   Specifies whether or not the number of points
+                   includes an endpoint, or not. This should be 1 for
+                   spatial inputs, and 0 for time inputs.
+
+        Returns
+        -------
+        n : int
+            number of points
+        l : float
+            length of dimension
+        d : float
+            delta between points
+
+        Notes
+        -----
+        
+        Any one of `n`,`l`,`d` may be 'None', in which case it is
+        computed from the other two. If all three are specified the
+        value of `d` is disregaurded and computed from `n` and `l`.
+
         """
         plus_one=plus_one and 1
         if (n is None)+(l is None)+(d is None)>1:
@@ -207,46 +240,50 @@ class tsGrid(tsBaseObj):
     @property
     def shape(self,):
         """
-        A shortcut to the grid shape.
+        The grid shape: (n_z, n_y).
         """
         return [self.n_z,self.n_y]
 
     @property
     def shape_wf(self,):
         """
-        A shortcut to the grid shape, including the frequency dimension.
+        The grid shape, including frequency (n_z, n_y, n_f).
         """
         return [self.n_z,self.n_y,self.n_f]
 
     @property
     def z(self,):
         """
-        Returns the z-position of the grid points.
+        The z-position of the grid points.
         """
         return self._zdata
     
     @property
     def y(self,):
         """
-        Returns the y-position of the grid points.
+        The y-position of the grid points.
         """
         return self._ydata
 
     def dist(self,ii,jj):
         """
-        Compute the distance between the points *ii* and *jj*.
+        Compute the distance between the points `ii` and `jj`.
 
         Parameters
         ----------
-        *ii*  - Index of first grid-point. 
-        *jj*  - Index of second grid-point.
-           Note: These indices can either be a grid-point pair (e.g. a
-                 tuple, indicating the grid-point, or a linear index
-                 such as would be returned by sub2ind).
+        ii : Index of first grid-point. 
+        jj : Index of second grid-point.
 
         Returns
         -------
-        The distance between the two grid points.
+        r : The distance between the two grid points.
+
+        Notes
+        -----
+        Each input index can either be a grid-point pair (e.g. a tuple,
+        indicating the grid-point, or a linear index such as would be
+        returned by :attr:`sub2ind`).
+
         """
         if not hasattr(ii,'__len__'):
             ii=self.ind2sub(ii)
@@ -264,8 +301,9 @@ class tsGrid(tsBaseObj):
     @property
     def rotor_diam(self,):
         """
-        Return the min of the grid width and height (this is all that
-        TurbSim knows about rotor diameter).
+        Return the min of the grid width and height.
+
+        This is how TurbSim quantifies rotor diameter.
         """
         return min(self.width,self.height)
     
@@ -311,8 +349,8 @@ class tsGrid(tsBaseObj):
 
     def ind2sub(self,ind):
         """
-        Return the subscripts (iz,iy) corresponding to the `flattened'
-        index *ind* (row/C-order) for this grid.
+        Return the subscripts (iz,iy) corresponding to the 'flattened'
+        index `ind` (row/C-order) for this grid.
         """
         iz=ind/self.n_y
         if iz>=self.n_z:
@@ -322,8 +360,8 @@ class tsGrid(tsBaseObj):
 
     def sub2ind(self,subs):
         """
-        Return the `flattened' index (row/C-order) corresponding to
-        the subscript *subs* (iz,iy) for this grid.
+        Return the 'flattened' index (row/C-order) corresponding to
+        the subscript `subs` (iz,iy) for this grid.
         """
         if subs[0]<0:
             subs=(self.n_z+subs[0],subs[1])
@@ -333,7 +371,7 @@ class tsGrid(tsBaseObj):
 
     def flatten(self,arr):
         """
-        Reshape an array so that the z-y grid points are one-dimension
+        Reshape `arr` so that the z-y grid points are one-dimension
         of the array (e.g. prior to Cholesky factorization).
         """
         if arr.ndim>2 and arr.shape[0]==3 and arr.shape[1]==self.n_z and arr.shape[2]==self.n_y:
@@ -346,8 +384,8 @@ class tsGrid(tsBaseObj):
 
     def reshape(self,arr):
         """
-        Reshape the array *arr* so that its z-y grid points are
-        two-dimensions of the array.
+        Reshape `arr` so that its z-y grid points are two-dimensions
+        of the array.
         """
         if arr.shape[0]==3 and arr.shape[1]==self.n_p:
             shp=[3,self.n_z,self.n_y]+list(arr.shape[2:])
@@ -365,5 +403,12 @@ class modelBase(tsBaseObj):
     
     @property
     def parameters(self,):
+        """
+        This property stores information about the TurbSim model
+        initialization variables, for writing to summary files.
+
+        This functionality is not yet implemented, and this is a
+        placeholder for now.
+        """
         return dict(self.__dict__)
 

@@ -17,8 +17,10 @@ def write(fname,tsdat):
 
     Parameters
     ----------
-    *fname*  - The filename to which the data should be written.
-    *tsdat*  - The 'tsdata' object that contains the data.
+    fname : str
+            The filename to which the data should be written.
+    tsdat : :class:`tsdata <pyts.main.tsdata>`
+            A TurbSim data object.
 
     """
     prms=tsdat.parameters
@@ -61,15 +63,17 @@ def read(fname,):
 
     Parameters
     ----------
-    *fname*  - The filename from which to read the data.
+    fname : str
+            The filename from which to read the data.
 
     Returns
     -------
-    *tsdat*  - An array of data.
+    tsdat : array_like
+            An array of the TurbSim-simulated turbulence data.
 
-    !!!FIXTHIS, this should return a tsData object:
-    *tsdat*  - A tsdata object that contains the data.
     """
+    ## !!!FIXTHIS, this should return a tsData object:
+    ## *tsdat*  - A tsdata object that contains the data.
     with file(fname,'rb') as fl:
         junk,nffc,ncomp,lat,z0,zoff=unpack(e+'2hl3f',fl.read(20))
         if junk!=-99 or nffc!=4:

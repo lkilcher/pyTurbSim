@@ -4,20 +4,18 @@ This is the turbulence spectrum package's base module.
 """
 from ..base import modelBase,ts_float,np,gridProps,calcObj
 from kelley_coefs import p_coefs_unstable,f_coefs_unstable
+from numpy import trapz
 
 class specObj(gridProps,calcObj):
     """
     Spectral objects contain the array (self.array) of turbulence
     spectra values for a specific PyTurbSim run. This class defines
-    various shortcuts to the mean velocity data including:
-
-    Create a profile object instance.
+    various shortcuts to the data.
     
     Parameters
     ----------
-
-    tsrun - The PyTurbSim run object in which the spectra will be
-    used.
+    tsrun : `tsrun` type
+        The PyTurbSim run object in which the spectra will be used.
 
     """
     
@@ -49,7 +47,7 @@ class specObj(gridProps,calcObj):
         """
         This is the component-wise turbulent kinetic energy.
         """
-        return np.trapz(self.array,x=self.f,axis=-1)
+        return trapz(self.array,x=self.f,axis=-1)
     
     @property
     def flat(self,):

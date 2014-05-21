@@ -57,6 +57,14 @@ pyts Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`pyts_numpy` Module
+------------------------
+
+.. automodule:: pyts.pyts_numpy
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 

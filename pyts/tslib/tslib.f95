@@ -13,6 +13,9 @@ FUNCTION INDX(ii,jj,np)
   !     <SOME CODE>
   !   ENDDO
   ! ENDDO
+  integer :: ii,jj
+  integer :: np
+  integer :: indx
   IF (jj>ii) THEN
      ! THIS SWAPS ii AND jj VARIABLES WITHOUT A TEMPORARY VARIABLE.
      ii=ii+jj
@@ -57,8 +60,6 @@ FUNCTION r_arr(y,z,ny,nz)
 END FUNCTION r_arr
 
 subroutine nonIECcoh(phr,f,y,z,u,coef_a,coef_b,coefExp,ncore,nf,ny,nz)
-!DEC$ ATTRIBUTES DLLEXPORT, DECORATE, ALIAS : "NONIECCOH" :: NONIECCOH
-!DEC$ ATTRIBUTES REFERENCE :: PHR,F,Y,Z,U,COEF_A,COEF_B,COEFEXP,NCORE,NF,NY,NZ
   use omp_lib
   implicit none
   complex,intent(inout) :: phr(ny*nz,nf)
@@ -66,7 +67,7 @@ subroutine nonIECcoh(phr,f,y,z,u,coef_a,coef_b,coefExp,ncore,nf,ny,nz)
   real,intent(in)     :: coef_a,coef_b,coefExp
   integer, intent(in) :: ncore, nf, ny, nz
   complex             :: phr_tmp(ny*nz,nf)
-  integer             :: ii, jj, ff, ind, stat, ntot, np, jj1!, ind2
+  integer             :: ii, jj, ff, ind, stat, ntot, np!, jj1!, ind2
   integer             :: iz
   real(4),allocatable  :: work(:), um(:), r(:), tmpz(:)
   real(4)                :: tmp_b,ftmp(nf)
@@ -128,8 +129,6 @@ subroutine nonIECcoh(phr,f,y,z,u,coef_a,coef_b,coefExp,ncore,nf,ny,nz)
 end subroutine nonIECcoh
 
 subroutine IECcoh(phr,f,y,z,uhub,a,Lc,ncore,nf,ny,nz)
-!DEC$ ATTRIBUTES DLLEXPORT, DECORATE, ALIAS : "NONIECCOH" :: NONIECCOH
-!DEC$ ATTRIBUTES REFERENCE :: PHR,F,Y,Z,U,COEF_A,COEF_B,COEFEXP,NCORE,NF,NY,NZ
   use omp_lib
   implicit none
   complex,intent(inout) :: phr(ny*nz,nf)

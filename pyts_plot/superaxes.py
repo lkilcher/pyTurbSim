@@ -150,23 +150,29 @@ def annoteCorner(ax,s,pos='ll',offset=10,**kwargs):
     """
     annotate a corner of an axes with a string.
 
-    *ax* is the axes into which to place the annotation.
-    *s* is the string.
-    *pos* may be one of:
-         'll' : lower left
-         'ul' : upper left
-         'lr' : lower right
-         'ur' : upper right
-      or it may be a two element tuple in axes coordinates.
+    Parameters
+    ----------
+    *ax* : axes
+           is the axes into which to place the annotation.
+    *s* : str
+          is the text to place in the corner.
+    *pos* : str {'ll','ul','lr','ur'}, tuple(2)
+            The tuple form specifies the text locaiton in axes coordinates.
     
-    *offset* specifies the offset from the selected *pos* (in points).
+    *offset* : tuple(1 or 2)
+               Specifies the offset from the selected *pos* (in points).
+
+    Returns
+    -------
+    t : text artist.
+        Also, it creates a 'corner_label' attribute in the axes, with this text artist.
+
+    Notes
+    -----
     If the string form of *pos* is used then the sign of *offset* is
     always such that it shifts the string toward the center.If it is a
     two element tuple or string, it specifies a different offset in
     the x and y directions.
-
-    Returns the text object.  Also, it creates a 'corner_label'
-    attribute in the axes, with this text object.
     
     """
     prm={}
@@ -547,22 +553,26 @@ class axgroup(object):
 
     def hide(self,objs='xticklabels',ax=None):
         """
-        *objs* may be one of:
-            'xticklabels'
-            'yticklabels'
-            'minorxticks'
-            'minoryticks'
-          it may also be an iterable of these.
+        Hide `objs` on all axes of this group *except* for those specified in `ax`.
+
+        Parameters
+        ----------
+        objs : str {'xticklabels', 'yticklabels', 'minorxticks', 'minoryticks'}, or list of.
+        ax   : axes, optional (default: hide all)
+               The axes (or list of axes) on which these items should **not** be hidden.
+
+        Examples
+        --------
+        Hide the xticklabels on all axes except ax0::
+            hide('xticklabels',self.ax0)
+            
+        To hide all xticklabels, simply do:
+           hide('xticklabels')
         
-        Hide some objects on all axes except the one in the lower left corner.
-        You may specify a different axis (or axes) to not hide the ticks
-        of as a second input, e.g.:
-           hide('xticklabels',ax=*ax*)
-        the form:
-           hide('xticklabels',None)
-        will hide the xticklabels on all axes.
-        
-        See also: antiset
+        See also
+        --------
+        antiset
+
         """
         if objs.__class__ is str:
             objs=[objs]
@@ -621,29 +631,31 @@ class axgroup(object):
 class saxes(axgroup):
     """
     Create an axes object using S(uper)AXES.
+
     Use keyword argument fig=<figure object> to specify the figure in
     which to create the axes.
 
-    Use kwargs:
+    Notes
+    -----
     n=(3,4) to set up a 3x4 array of axes.
-    n=(3,[1,1,1,.5]) to set up a 3x4 array of axes with the last column
-                     half the width of the others.
-    n=([1,1,1.5],[1,1,1,.5]) to set up a 3x4 array of axes with the last
-                     row 1.5 times as large and the last column half as wide.
+    
+    n=(3,[1,1,1,.5]) to set up a 3x4 array of axes with the last column half the width of the others.
+    
+    n=([1,1,1.5],[1,1,1,.5]) to set up a 3x4 array of axes with the last row 1.5 times as large and the last column half as wide.
 
     h=(.1,.9,.05) to create the horizontal frame box at .1 and .9, with
-            gaps of .05 between each axes.
+    gaps of .05 between each axes.
+    
     v=(.1,.9,.05) similarly for the vertical frame/gap.
 
     drawax=L, where L is a logical array of the axes you actually want to
-            draw (default is all of them).
+    draw (default is all of them).
+    
     sharex=True, chooses whether the axes share an xaxis.
     sharey=True, chooses whether the axes share a yaxis.
+    
     """
     def __init__(self,n=(1,1),h=[.1,.9,.05],v=[.1,.9,.05],**kwargs):
-        """
-
-        """
         self.linewidth=rcParams['axes.linewidth']
         nax=[1,1]
         if hasattr(n[0],'__iter__'):

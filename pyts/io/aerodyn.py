@@ -4,6 +4,7 @@ TurbSim/Aerodyn format binary files.
 
 The functions in this module were translated directly from the
 original TSsubs.f90 file.
+
 """
 import time
 from .._version import __version__,__prog_name__,__version_date__
@@ -17,8 +18,10 @@ def write(fname,tsdat):
 
     Parameters
     ----------
-    *fname*  - The filename to which the data should be written.
-    *tsdat*  - The 'tsdata' object that contains the data.
+    fname : str
+            the filename to which the data should be written.
+    tsdata : :class:`tsdata <pyts.main.tsdata>`
+             The 'tsdata' object that contains the data.
 
     """
     ts=tsdat.utotal
@@ -56,16 +59,17 @@ def read(fname):
 
     Parameters
     ----------
-    *fname*  - The filename from which to read the data.
+    fname : str
+            The filename from which to read the data.
 
     Returns
     -------
-    *tsdat*  - An array of data.
-
-    !!!FIXTHIS, this should return a tsData object:
-    *tsdat*  - A tsdata object that contains the data.
+    tsdata : array_like
+             An array of the turbulence data. !This needs to be fixed to be a tsdata object!
     
     """
+    ## !!!FIXTHIS, to be symmetric with 'write' this should return a tsData object:
+    ## *tsdat*  - A tsdata object that contains the data.
     u_scl=np.zeros(3,np.float32)
     u_off=np.zeros(3,np.float32)
     fl=file(convname(fname,'.bts'),'rb')

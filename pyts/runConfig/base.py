@@ -1,5 +1,9 @@
 """
-The base module for the runConfig package. This module defines the TurbSim config class (tscfg). The tscfg class is a dictionary for storing data from a TurbSim input file. The class contains several methods that specify default values for several input variables. Those defaults documented in the Original-TurbSim documentation:
+The base module for the runConfig package. This module defines the
+TurbSim config class (tscfg). The tscfg class is a dictionary for
+storing data from a TurbSim input file. The class contains several
+methods that specify default values for several input variables. Those
+defaults documented in the Original-TurbSim documentation:
 https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf
 
 """
@@ -8,6 +12,10 @@ from ..base import np
 class tscfg(dict):
     """
     The TurbSim config object and 'global defaults' handler.
+
+    This class works essentially as a dictionary, but with various
+    functions and routines for providing default values in the event
+    that 'config' values are not specified explicitly by the user.
 
     Regarding global defaults:
     The '_dflt_...' functions define 'global' default definitions

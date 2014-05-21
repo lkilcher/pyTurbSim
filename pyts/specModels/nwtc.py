@@ -1,7 +1,5 @@
 """
-This module contains the following spectral models:
-  smooth - The 'smooth' spectral model.
-  nwtcup - The NWTC 'upwind' model.
+This module contains the nwtc spectral models.
 """
 from .mBase import np,ts_float,specObj,specModelBase
 from ..misc import zL,fix2range
@@ -9,11 +7,24 @@ from kelley_coefs import calc_nwtcup_coefs
 
 class genNWTC(specModelBase):
     """
-    Some text.
+    An abstract base class for NWTC spectral models.
+
     """
     def __call__(self,tsrun):
         """
-        Some more text.
+        Create and calculate the spectral object for a `tsrun`
+        instance.
+
+        Parameters
+        ----------
+        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+                        A TurbSim run object.
+        
+        Returns
+        -------
+        out :           :class:`specObj <.mBase.specObj>`
+                        An NWTC spectral object for the grid in `tsrun`.
+    
         """
         out=specObj(tsrun)
         # !!!FIXTHIS: The following lines bind output to the specModel object. It would be better to make this explicit, or something.
@@ -29,20 +40,60 @@ class genNWTC(specModelBase):
         return out
 
 class NWTC_stable(genNWTC):
-    """
-    Some text.
+    r"""
+    The NWTC 'stable' spectral model.
+
+    Parameters
+    ----------
+    Ustar :     float
+                friction velocity [m/s].
+    zL :        float
+                The z/L stability parameter [non-dimensional]
+    coef :      array_like((3,2),dtype=float)
+                spectral coefficients for this model.
+
+    Notes
+    -----
+
+    The specific form of this model is,
+
+    .. math::
+
+        S_k(f) =  \frac{U_{*}^2 A_k \hat{f}^{-1}\gamma}{1+B_k(f/\hat{f})^{5/3}} \qquad k=0,1,2\ (u,v,w)
+
+    
+    Where,
+
+       :math:`\gamma=(\phi_E/\phi_M)^{2/3}`
+
+       :math:`\hat{f}=\frac{\bar{u}\phi_M}{z}`
+
+       :math:`\phi_E=(1+2.5 (z/L)^{0.6})^{1.5}`
+
+       :math:`\phi_M=1+4.7*z/L`
+
+       :math:`\bar{u}`, is the mean velocity at each grid-point, (taken from the profile model)
+
+       :math:`A_k=\mathrm{scoef}[k,0] \mathrm{coef}[k,0]`
+
+       :math:`B_k=\mathrm{scoef}[k,1] \mathrm{coef}[k,1]^{5/3}`
+
+    See also
+    --------
+    :attr:`s_coef` : These are the hard-wired :math:`\mathrm{scoef}` coefficients.
+    
+       
     """
     s_coef=np.array([[79.,263.],[13.,32.],[3.5,8.6]])
 
-    def __init__(self,Ustar,zL,coefs=None):
-        # !!!ADDDOC
+    def __init__(self,Ustar,zL,coef=None):
         self.Ustar=Ustar
         self.Ustar2=self.Ustar**2
         self.zL=zL
-        if coefs is None:
+        if coef is None:
             self.coefs=np.ones((3,2),dtype=ts_float)
         else:
-            self.coefs=coefs
+            self.coefs=coef
     
     @property
     def _phie(self):
@@ -52,7 +103,10 @@ class NWTC_stable(genNWTC):
         return 1.+4.7*self.zL
     
     def model(self,z,u,comp):
-        # !!!ADDDOC
+        """
+        Calculate the spectral model for height `z`, velocity `u`, and
+        velocity component `comp`.
+        """
         coef=self.coefs[comp]
         z_u=z/u
         denom=(self.f/self._phim)
@@ -70,20 +124,29 @@ class NWTC_unstable(genNWTC):
     The NWTC 'unstable' spectral model.
 
     .. math::
-       S_i(f) = U_\mathrm{star}^2 G_i(f,\bar{u},z,ZI) \qquad i = u, v, w
+       S_k(f) = U_\mathrm{star}^2 G_k(f,\bar{u},z,ZI) \qquad k = u, v, w
 
-    Where :math:`G_i` is a function that depends on the frequency,
+    Where :math:`G_k` is a function that depends on the frequency,
     :math:`f`, the mean velocity :math:`\bar{u}`, the height
     :math:`z`, and the mixing layer depth :math:`ZI`. The exact form
-    of :math:`G_i` can be found in this class's 'model' method.
-    
+    of :math:`G_k` can be found in this class's 'model' method.
+
+    Parameters
+    ----------
+    Ustar : float
+            The friction velocity (at the bottom boundary).
+    zL    : float
+            The ratio of the HubHt to the Monin-Obhukov length.
+    ZI    : float
+            The friction boundary layer height.
+    p_coefs : array_like(3,2), optional
+              Fit coefficients for this model.
+    f_coefs : array_like(3,2), optional
+              Fit coefficients for this model.
+
     """
 
     def __init__(self,Ustar,zL,ZI,p_coefs=None,f_coefs=None):
-        """
-        Some more text.
-        """
-        # !!!ADDDOC
         self.Ustar=Ustar
         self.Ustar2=self.Ustar**2
         self.zL=zL
@@ -101,27 +164,31 @@ class NWTC_unstable(genNWTC):
         r"""
         Computes the spectrum for this 'unstable' spectral model.
 
-        Args
-        ----
-        
-        z (array: nz)  - Height above the surface [m].
-        
-        u (array: nz,ny)  - Mean velocity [m/s].
-
-        comp (int) - Index (0,1,2)=(u,v,w) of the spectrum to compute.
+        Parameters
+        ----------
+        z : array_like (nz)
+            Height above the surface [m].
+        u : array_like (nz,ny)  
+            Mean velocity [m/s].
+        comp : int {0,1,2}
+               Index (u,v,w) of the spectrum to compute.
 
         Returns
         -------
+        spec : :class:`.mBase.specObj`
+               The spectral object which contains the 'array'
+               (property) of spectra at each point in the grid.
 
-        spec (array: nz,ny,nf) - The spectrum at each point.
-
+        Notes
+        -----
+        
         The form of the u-compenent spectrum is:
         
         .. math::
            S_u(f) = U_\mathrm{star}^2 \left( p_{u,1}\frac{\alpha}{1+( F_{u,1} \hat{f})^{5/3}} +
            p_{u,2}\frac{\beta}{( \delta_u + F_{u,2} f' )^{5/3} } \right )
 
-        The form of the v-compenent spectrum is:
+        The form of the v-compenent spectrum is
 
         .. math::
            S_v(f) = U_\mathrm{star}^2 \left( p_{v,1}\frac{\alpha}{(1 + F_{v,1} \hat{f})^{5/3}} +
@@ -133,7 +200,7 @@ class NWTC_unstable(genNWTC):
            S_w(f) = U_\mathrm{star}^2 \left( p_{w,1}\frac{\alpha}{(1 + F_{w,1} \hat{f})^{5/3}} \gamma +
            p_{w,2}\frac{\beta}{ 1 + F_{w,2} {f'} ^{5/3} } \right )
 
-        Where:
+        Where,
         
            :math:`\hat{f} = f ZI/\bar{u}`
            
@@ -175,22 +242,21 @@ def smooth(Ustar,Ri,ZI=None):
     """
     Compute the 'smooth' spectral model.
 
-    Args
-    ----
-    Ustar         - The bottom-boundary friction velocity [m/s].
-    Ri            - The Richardson number stability parameter.
-    ZI (optional) - mixing layer depth [m].  Only needed for Ri<0.
+    Parameters
+    ----------
+    Ustar :     float
+                The bottom-boundary friction velocity [m/s].
+                
+    Ri :        float
+                The Richardson number stability parameter.
+                
+    ZI :        float, optional
+                mixing layer depth [m].  Only needed for Ri<0.
     
     Returns
     -------
-    A specModel object, either the NWTC_stable spectral object (for
-    Ri>=0), or a NWTC_unstable spectral object.
+    specModel : :class:`NWTC_stable` (Ri>0), or :class:`NWTC_unstable` (Ri<0)
 
-    See Also
-    --------
-    NWTC_stable - spectral model.
-    NWTC_unstable - spectral model.
-    
     """
     zl_=zL(Ri,'smooth')
     if zl_>=0:
@@ -203,21 +269,20 @@ def nwtcup(Ustar,Ri,ZI=None):
     """
     Compute the 'nwtcup' spectral model.
 
-    Args
-    ----
-    Ustar         - The bottom-boundary friction velocity [m/s].
-    Ri            - The Richardson number stability parameter.
-    ZI (optional) - mixing layer depth [m].  Only needed for Ri<0.
+    Parameters
+    ----------
+    Ustar :     float
+                The bottom-boundary friction velocity [m/s].
+                
+    Ri :        float
+                The Richardson number stability parameter.
+                
+    ZI :        float, optional
+                mixing layer depth [m].  Only needed for Ri<0.
 
     Returns
     -------
-    A specModel object, either the NWTC_stable spectral object (for
-    Ri>=0), or a NWTC_unstable spectral object.
-
-    See Also
-    --------
-    NWTC_stable - spectral model.
-    NWTC_unstable - spectral model.
+    specModel : :class:`NWTC_stable` (Ri>0), or :class:`NWTC_unstable` (Ri<0)
 
     """
     zl_=zL(Ri,'nwtcup')

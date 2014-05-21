@@ -69,12 +69,15 @@ inputfile_form={
 
 def write(fname,config,headertext=None):
     """
-    Writeout a config file.
+    Writeout a TurbSim input (.inp) file.
 
     Parameters
     ----------
-    *fname*   - The filename to write out.
-    *config*  - The PyTurbSim config dictionary.
+    fname :     str
+                The filename to write to.
+            
+    config :    :class:`pyts.runConfig.base.tscfg`, dict
+                The PyTurbSim config dictionary.
     
     """
     format=open(tsroot+'form/input.form','r')
@@ -101,15 +104,16 @@ def write(fname,config,headertext=None):
 def read(fname):
     """
     Read a TurbSim input (.inp) file.
-    
 
     Parameters
     ----------
-    *fname*   - The filename to read the config from.
+    fname   :   str
+                The filename to read the config from.
 
     Returns
     -------
-    *config*  - A PyTurbSim config dictionary.
+    config  :   :class:`pyts.runConfig.base.tscfg`, dict
+                A PyTurbSim config dictionary.
 
     """
     # TurbSim input files are static:
@@ -200,7 +204,8 @@ def readInPSD(fname):
 
     Parameters
     ----------
-    *fname*   - The filename to read the PSD from.
+    fname :     str
+                The filename to read the PSD from.
 
     The frequency in the input file should be in units of hz, and the
     spectrum should be in units of m^2/s^2/hz.

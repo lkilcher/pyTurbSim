@@ -33,6 +33,14 @@ specModels Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`kelley_coefs` Module
+--------------------------
+
+.. automodule:: pyts.specModels.kelley_coefs
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`mBase` Module
 -------------------
 
@@ -41,34 +49,10 @@ specModels Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`newModel_example` Module
-------------------------------
-
-.. automodule:: pyts.specModels.newModel_example
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 :mod:`nwtc` Module
 ------------------
 
 .. automodule:: pyts.specModels.nwtc
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`vonKrmn` Module
----------------------
-
-.. automodule:: pyts.specModels.vonKrmn
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`wf` Module
-----------------
-
-.. automodule:: pyts.specModels.wf
     :members:
     :undoc-members:
     :show-inheritance:

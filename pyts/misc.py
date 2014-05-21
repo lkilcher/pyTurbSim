@@ -2,13 +2,18 @@
 This module contains a few random helper functions that are used
 throughout the code.
 """
-import numpy as np
+import pyts_numpy as np
 
 kappa=0.41 # Von-Karman's constant
 
 def Lambda(zhub,IECedition):
     """
-    Equation 23 of the TurbSim Manual.
+    Calculate the IEC length scale.
+
+    Lambda = 0.7*min(Zhat,zhub)
+
+    Where: Zhat = 30,60 for IECedition = 2,3, respectively.
+
     """
     if IECedition<=2:
         return 0.7*min(30,zhub)
@@ -23,9 +28,11 @@ def zL(Ri,TurbModel=None):
 
     Parameters
     ----------
-    *Ri*        - The Richardson number.
-    *TurbModel* - The turbulence model that is being used (optional).
-                  In some cases z/L depends on the Turbulence model.
+    Ri        : float
+                The Richardson number.
+    TurbModel : str
+                The turbulence model that is being used (optional).
+                In some cases z/L depends on the Turbulence model.
     
     """
     if TurbModel.__class__ is str and TurbModel.lower()=='nwtcup':
@@ -58,6 +65,21 @@ def psiM(Ri,TurbModel=None):
     """
     The psi_M stability parameter is used for various mean wind-speed
     profiles and turbulence models.
+
+    Parameters
+    ----------
+    Ri        : float
+                The Richardson number.
+    TurbModel : str
+                The turbulence model that is being used (optional).
+                In some cases z/L depends on the Turbulence model.
+
+    Returns
+    -------
+    psiM : float
+           The psi_M stability parameter.
+
+    
     """
     zl=zL(Ri,TurbModel)
     if zl>=0:
@@ -72,12 +94,13 @@ def pfactor(n,pmax=31):
 
     Parameters
     ----------
-    *n*        - The integer for which to calculate prime-factors.
-    *pmax*     - The maximum prime to use (default 31, can be up to 71).
+    n        : The integer for which to calculate prime-factors.
+    pmax     : The maximum prime to use (default 31, can be up to 71).
 
     Returns
     -------
-    A set of the primes.
+    primes : list
+             A of the primes.
     
     The first 20 primes (up to 71) are hard-coded into this
     routine. You'll need to add more primes to the list if you want
@@ -97,20 +120,23 @@ def pfactor(n,pmax=31):
 
 def lowPrimeFact_near(n,pmax=31,nmin=None,evens_only=True):
     """
-    Find the nearest integer to *n* with prime factors all less than
-    *pmax*.
+    Find the nearest integer to `n` with prime factors all less than
+    `pmax`.
 
     This routine is used to change the length of arrays to speed-up
     Fast Fourier Transforms.
 
     Parameters
     ----------
-    *n*      - The starting integer.
-    *pmax*   - The maximum prime to be found.
+    n      : int
+             The starting integer.
+    pmax   : int
+             The maximum prime to be found.
 
     Returns
     -------
-    The nearest integer to *n* that has prime factors less than *pmax*.
+    qp_near : int
+              The nearest integer to n that has prime factors less than `pmax`.
     
     """
     if (np.array(pfactor(n,pmax))<pmax).all():
@@ -138,10 +164,24 @@ def lowPrimeFact_near(n,pmax=31,nmin=None,evens_only=True):
 
 def fix2range(vals,minval,maxval):
     """
-    A helper function that sets the value of the array or number *vals* to
-    fall within the range minval<=vals<=maxval.
-    
-    Values of *vals* outside the range are fixed to minval or maxval.
+    A helper function that sets the value of the array or number `vals` to
+    fall within the range `minval` <= `vals` <= `maxval`.
+
+    Values of `vals` that are greater than `maxval` are set to `maxval` (and similar for `minval`).
+
+    Parameters
+    ----------
+    vals : float or array_like
+           The value(s) to 'fix'.
+    minval : float
+             The minimum value.
+    maxval : float
+             The maximum value.
+
+    Returns
+    -------
+    fixed_vals : float or array_like (matches `vals`)
+                 The fixed values.
     """
     if not hasattr(vals,'__len__'):
         return max( min( vals,maxval),minval)

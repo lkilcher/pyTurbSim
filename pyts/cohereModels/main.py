@@ -30,18 +30,31 @@ class cohereObjNWTC(cohereObj):
     
     def calc_phases(self,phases):
         """
-        Compute and set the full cross-spectral matrix for component
-        *comp* for 'coherence calculator' instance *cohi*.
+        Compute the `correlated phases` for each grid-point from the
+        input `phases` based on the coherence NWTC 'non-IEC coherence
+        model.
+
+        Parameters
+        ----------
+        phases : array_like(np,nf)
+                 The input (generally randomized) phases for each
+                 point for each frequency.
+
+        Returns
+        -------
+        phases : array_like(np,nf)
+                 The correlated phases according to this cohereObj's
+                 coherence model (see :meth:`calcCoh`).
+                 
+        Notes
+        -----
 
         This method should not be called explicitly.  It is called by
-        a 'coherence calculator' instance's __call__ method.
-
-        This routine utilizes a model's 'calcCoh' method, which must
-        be defined explicitly for all sub-classes of cohereModelBase.
+        a cohereObj instance's __call__ method.
 
         See also
         --------
-        calcCoh - computes the coherence for individual grid-point pairs.
+        calcCoh : computes the coherence for individual grid-point pairs.
 
         """
         if tslib is not None:
@@ -52,7 +65,7 @@ class cohereObjNWTC(cohereObj):
                 tslib.nonieccoh(tmp,self.grid.f,self.grid.y,self.grid.z,u,self.a[icomp],self.b[icomp],self.CohExp,self.ncore,self.n_f,self.n_y,self.n_z)
                 phases[icomp]=tmp
         else:
-            phases=cohereObj.calc_phases(phases)
+            phases=cohereObj.calc_phases(self,phases)
         return phases
 
     def calcCoh(self,f,comp,ii,jj):
@@ -69,27 +82,50 @@ class cohereObjNWTC(cohereObj):
         two=ts_float(2)
         zm=(self.grid.z[ii[0]]+self.grid.z[jj[0]])/two
         um=(self.prof.u[ii]+self.prof.u[jj])/two
-        print zm
-        print self.grid.z[1],self.grid.y[1],r,um,(r/zm)**self.CohExp,self.grid.f[9]
-        print 'junk',self.a[comp],self.b[comp]
-        print -self.a[0]*r*np.sqrt((self.grid.f[9]/um)**2+(self.b[comp])**2)
+        #print zm
+        #print self.grid.z[1],self.grid.y[1],r,um,(r/zm)**self.CohExp,self.grid.f[9]
+        #print 'junk',self.a[comp],self.b[comp]
+        #print -self.a[0]*r*np.sqrt((self.grid.f[9]/um)**2+(self.b[comp])**2)
         return np.exp(-self.a[comp]*(r/zm)**self.CohExp*np.sqrt((f*r/um)**two+(self.b[comp]*r)**two))
 
 class nwtc(cohereModelBase):
     """
-    The NWTC 'non-IEC' coherence model for velocity component 'k' (u,v,w) between two
-    points (z_i,y_i) and (z_j,y_j) is:
+    The NWTC non-IEC coherence model.
 
-       Coh_k=exp(-a_k*(r/z_m)*CohExp*((f*r/u_m)**2+(b_k*r)**2))
+    Parameters
+    ----------
+    a : array_like(3)
+        The 'a' exponential 'coherence decrement' coefficients of the
+        coherence function for each velocity component.
+    b : a
+        The 'b' exponential 'coherence decrement' coefficients of the
+        coherence function for each velocity component.
+    CohExp : float
+             The 'Coherence Exponent' parameter for the coherence function.
 
-    Where:
-      f is frequency.
-      r is the distance between the two points.
-      a_k and b_k are 'coherence decrement' input parameters for each of the
-          velocity components.
-      u_m is the average velocity of the two points.
-      z_m is the average height of the two points.
-      CohExp is the 'coherence exponent' input parameter (default is 0).
+    Notes
+    -----
+    The NWTC 'non-IEC' coherence model for velocity component 'k' between two
+    points (z_i,y_i) and (z_j,y_j) is
+
+    .. math::
+    
+       Coh_k=exp(-a_k*(r/z_m)*CohExp*((f*r/u_m)^2+(b_k*r)^2))  k=u,v,w
+
+    Where,
+
+    f is frequency.
+
+    r is the distance between the two points.
+
+    a_k and b_k are 'coherence decrement' input parameters for each of the velocity components.
+
+    u_m is the average velocity of the two points.
+
+    z_m is the average height of the two points.
+
+    CohExp is the 'coherence exponent' input parameter (default is 0).
+    
     """
     __doc__+=cohereModelBase.__doc__
 
@@ -148,16 +184,30 @@ class cohereObjIEC(cohereObj):
         
     def calcCoh(self,f,comp,ii,jj):
         """
-        Calculate the *comp* (0, 1 or 2) coherence between points *ii*=(iz,iy) and *jj*=(jz,jy) for the IEC model.
-
-        This method is only used if tslib is not available.
+        Calculate the coherence for a velocity component, between two points.
         
         Parameters
         ----------
-        *cohi*    - A 'coherence calculator' instance (for the given tsrun).
-        *comp*    - an integer (0,1,2) indicating the velocity component for which to compute the coherence.
-        *ii*,*jj* - Two-integer elements indicating the grid-points between which to calculate the coherence.
-                    for example: ii=(1,3),jj=(2,3)
+        f : array_like(nf,dtype=float)
+
+        comp : int {0,1,2}
+               indicating the velocity component for which to compute
+               the coherence.
+
+        ii,jj : array_like(int,2)
+                indicating the grid-points between which to calculate
+                the coherence.  for example: ii=(1,3),jj=(2,3)
+
+        Returns
+        -------
+        coh : array_like(nf,dtype=float)
+              The coherence between the two points as a function of frequency.
+              
+        Notes
+        -----
+        
+        This method is only used if tslib is not available.
+
                     
         """
         if comp==0:
@@ -179,29 +229,48 @@ class cohereObjIEC(cohereObj):
             phases[0]=out
             return phases
         else:
-            return cohereObj.calc_phases(phases)
+            return cohereObj.calc_phases(self,phases)
 
 class iec(cohereModelBase):
     """
     The 'IEC' coherence model for the u velocity component between two
-    points (z_i,y_i) and (z_j,y_j) is:
-
-       Coh=exp(-a*((f*r/uhub)^2+(0.12*r/Lc)^2)^0.5)
-
-    The IEC coherence is zero for the v and w components (coherence matrix
-    is the identity matrix so that auto-spectra are retained).
+    points (z_i,y_i) and (z_j,y_j).
     
-    Where:
-      f is frequency.
-      r is the distance between the two points.
-      uhub is the hub-height mean velocity.
-      a and Lc are constants according to,
-        If IECedition<=2:
-          a  = 8.8
-          Lc = 2.45*min(30m,HubHt)
-        If IECedition>=3:
-          a  = 12
-          Lc = 5.67*min(60m,HubHt)
+    Create an IEC spectral model object.
+
+    Parameters
+    ----------
+    IECedition : int {2, 3},
+                 Different IEC editions have slightly different coefficients to the
+                 spectral model.
+
+    Notes
+    -----
+    The IEC coherence is zero for the v- and w-components (coherence matrix
+    is the identity matrix so that auto-spectra are retained).
+
+    The form of this model is for the u-component is,
+
+    .. math::
+    
+       Coh=exp(-a*((f*r/uhub)^2+(0.12*r/Lc)^2)^0.5)
+    
+    Where,
+
+    f is frequency.
+
+    r is the distance between the two points.
+
+    uhub is the hub-height mean velocity.
+
+    If IECedition<=2:
+    a  = 8.8, 
+    Lc = 2.45*min(30m,HubHt)
+
+    If IECedition>=3:
+    a  = 12, 
+    Lc = 5.67*min(60m,HubHt)
+
     """
     __doc__+=cohereModelBase.__doc__
 
@@ -214,15 +283,6 @@ class iec(cohereModelBase):
         return self._Lfactor*Lambda(zhub,self.IECedition)
     
     def __init__(self,IECedition=3):
-        """
-        Create an IEC spectral model object.
-
-        Parameters
-        ----------
-        IECedition - int (2 or 3),
-                     Different IEC editions have slightly different coefficients to the
-                     spectral model.
-        """
         self.IECedition=IECedition
         if IECedition<=2:
             self._Lfactor=3.5 # The Lambda function includes a factor of 0.7 (_Lfactor*0.7=2.45).
@@ -236,6 +296,7 @@ class iec(cohereModelBase):
     def set_coefs(self,cohereObj):
         """
         Initialize a coherence instance for the IEC coherence model.
+        
         """
         cohereObj.Lc=self._L(cohereObj.grid.zhub)
         cohereObj.a=self.a

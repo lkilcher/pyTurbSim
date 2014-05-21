@@ -19,6 +19,7 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) source
 .PHONY: help clean html dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest gettext
 
 default:
+	make api
 	make html
 
 help:
@@ -45,7 +46,8 @@ help:
 
 
 api:
-	$(SPHINXBUILDAPI) -f -o $source/api $(PYSOURCEDIR) 
+	$(SPHINXBUILDAPI) -f -o source/api -T -H 'PyTurbSim API' ../pyts/
+	$(SPHINXBUILDAPI) -f -o source/api -T -H 'PyTS Plot API' ../pyts_plot/
 
 clean:
 	-rm -rf $(BUILDDIR)/*

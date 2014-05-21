@@ -1,5 +1,4 @@
-from ..base import ts_float
-import numpy as np
+from ..base import ts_float,np
 
 p_coefs_unstable=[
     # u-coefs

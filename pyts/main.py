@@ -8,7 +8,7 @@ typical user will want access to. For a more compact version of the
 PyTurbSim interface import the ./api.py package.
 
 """
-from base import np,tslib,ts_float,ts_complex,gridProps,dbg,modelBase
+from base import tslib,ts_float,ts_complex,gridProps,dbg,modelBase,np
 from profModels.mBase import profModelBase,profObj
 from specModels.mBase import specModelBase,specObj
 from cohereModels.mBase import cohereModelBase,cohereObj,cohereUser
@@ -16,6 +16,10 @@ from stressModels.mBase import stressModelBase,stressObj
 from phaseModels.api import randPhase
 from _version import __version__,__prog_name__,__version_date__
 from io import bladed,aerodyn
+
+from numpy import random
+from numpy import ulonglong
+from numpy.fft import irfft
 
 # !!!VERSION_INCONSISTENCY
 # inconsistency between this and older versions of TurbSim
@@ -29,12 +33,9 @@ from io import bladed,aerodyn
 # TODO:
 #  - Rebuild .exe
 #  - Make sure pure-python implementation still works.
+#  - Fix Reynold's stress!
 #  - Add ability to rotate mean velocity field (for a prof instance and a profModel).
 #  - Add ability to add veer to mean velocity field (prof instance and profModel).
-#  - DOCUMENTATION!!!
-#  - Update these files and add them to the repository:
-#    .turbModels/newModel_example.py
-#    .turbModels/newCohereModel_example.py
 #  - 'User-defined' models
 #  - Add parameter logging, so that we can write summary files that track all parameters that were input.
 #  - Write .sum summary files (tsio.py), (so they are fully self-contained).
@@ -51,20 +52,28 @@ class tsrun(object):
     Examples of how to use this class, and the PyTurbSim interface in
     general can be found in the PyTurbSim /examples directory.
 
+    Parameters
+    ----------
+
+    RandSeed : int,optional ('random value')
+               Initialize the run-object with a RandSeed.
+    ncore : int,optional (1)
+            Number of cores (processors) to use for the pyTurbSim run
+
     """
     def __init__(self,RandSeed=None,ncore=1):
         """
         PyTurbSim 'run' objects can be initialized with a specific
-        random seed, *RandSeed*, and number of cores, *ncore*.
+        random seed, `RandSeed`, and number of cores, `ncore`.
         """
         # Initialize the random number generator before doing anything else.
         if RandSeed is None:
-            self.RandSeed=np.random.randint(-2147483648,2147483647)
+            self.RandSeed=random.randint(-2147483647,2147483647)
         else:
             self.RandSeed=RandSeed
         # Seeds for numpy must be positive, but original-TurbSim had negative seeds.
         # In order to attempt to be consistent, we use the values in the files but make them positive for the numpy random generator.
-        self.randgen=np.random.RandomState(self.RandSeed+2147483648)
+        self.randgen=random.RandomState(ulonglong(self.RandSeed+2147483648))
         self.ncore=ncore
         if dbg:
             self.timer=dbg.timer('Veers84')
@@ -74,53 +83,51 @@ class tsrun(object):
     @property
     def prof(self):
         """
-        This is the 'mean velocity profile' input property. This
-        property can be defined with three types of objects:
-          1) define it with a 'profile model' (recommended), e.g.:
+        This is the 'mean velocity profile' input property. 
+
+        This property returns a 'profObj'.
+
+        This property can be defined with three types of objects:
+
+        1) define it with a 'profile model' (recommended)::
           
                   ts_run.prof=a_prof_model
             
-             In this case the model is set to my_ts_run.profModel, and
-             this model is called to produce a profObj AS NEEDED.  At
-             the end of the ts_run call that profObj is cleared so
-             that subsequent runs do not use a fixed profObj (i.e. in
-             the case that the model is modified or another
-             model/object that the profile model depends on is
-             changed between runs).
+           In this case the model is set to my_ts_run.profModel, and
+           this model is called to produce a profObj AS NEEDED.  At
+           the end of the ts_run call that profObj is cleared so
+           that subsequent runs do not use a fixed profObj (i.e. in
+           the case that the model is modified or another
+           model/object that the profile model depends on is
+           changed between runs).
 
-          2) define it with a profObj directly (profile
-             statistic-object), e.g.:
+        2) define it with a profObj directly (profile
+           statistic-object)::
 
               ts_run.prof=a_prof_model(ts_run)
               
-             In this case the profObj is FIXED. That is, all
-             subsequent PyTurbSim runs will utilize this profile,
-             which is based on the state of the a_prof_model and
-             ts_run at the time of the profObj creation.
+           In this case the profObj is FIXED. That is, all
+           subsequent PyTurbSim runs will utilize this profile,
+           which is based on the state of the a_prof_model and
+           ts_run at the time of the profObj creation.
 
-          3) define it with an array directly, e.g.:
+        3) define it with an array directly::
 
                ts_run.prof=a_numpy_array   [units: m/s]
 
-             In this case the profObj is again fixed and defined by
-             the input array.  The numpy array dimensions must match
-             those of the tsGrid.  That is, the dimensions of the
-             array should be (3 x grid.n_z x grid.n_y).  The first
-             dimension is for each component of the profile (u,v,w),
-             the next two are for each point (z,y) in the grid.
-        
-        This property always returns a 'profObj' object or raises an
-        AttributeError.  
+           In this case the profObj is again fixed and defined by
+           the input array.  The numpy array dimensions must match
+           those of the tsGrid.  That is, the dimensions of the
+           array should be (3 x grid.n_z x grid.n_y).  The first
+           dimension is for each component of the profile (u,v,w),
+           the next two are for each point (z,y) in the grid.
 
         See Also
         --------
-        Other input properties:
-          tsrun.spec
-          tsrun.cohere
-          tsrun.stress
-
-        the 'profModels' package for a list of available profile
-        models and more detailed documentation.
+        pyts.profModels.api : to see available profile models.
+        tsrun.spec
+        tsrun.cohere
+        tsrun.stress
         
         """
         if hasattr(self,'profModel') and not hasattr(self,'_prof'):
@@ -145,53 +152,51 @@ class tsrun(object):
     @property
     def spec(self):
         """
-        This is the 'tke spectrum' input property. This property can
-        be defined with three types of objects:
-          1) define it with a 'spectral model' (recommended), e.g.:
+        This is the 'tke spectrum' input property.
+
+        This property always returns a `specObj <pyts.specModels.mBase.specObj>`.
+
+        This property can be defined with three types of objects:
+
+        1) define it with a 'spectral model' (recommended)::
           
                   ts_run.spec=a_spec_model
             
-             In this case the model is set to my_ts_run.specModel, and
-             this model is called to produce a specObj AS NEEDED.  At
-             the end of the ts_run call that specObj is cleared so
-             that subsequent runs do not use a fixed specObj (i.e. in
-             the case that another model/object that the spectral model
-             depends on is changed between runs).
+           In this case the model is set to my_ts_run.specModel, and
+           this model is called to produce a specObj AS NEEDED.  At
+           the end of the ts_run call that specObj is cleared so
+           that subsequent runs do not use a fixed specObj (i.e. in
+           the case that another model/object that the spectral model
+           depends on is changed between runs).
 
-          2) define it with a specObj directly, e.g.:
+        2) define it with a specObj directly::
 
               ts_run.spec=a_spec_model(ts_run)
               
-             In this case the specObj is FIXED. That is, all
-             subsequent PyTurbSim runs will utilize this spectral
-             model, which is based on the state of ts_run at the time
-             of the specObj creation.
+           In this case the specObj is FIXED. That is, all
+           subsequent PyTurbSim runs will utilize this spectral
+           model, which is based on the state of ts_run at the time
+           of the specObj creation.
 
-          3) define it with an array directly, e.g.:
+        3) define it with an array directly::
 
                ts_run.spec=a_numpy_array  - [units: m^2/(s^2.Hz)]
 
-             In this case the specObj is again fixed and defined by
-             the input array.  The numpy array dimensions must match
-             those of the tsGrid.  That is, the dimensions of the
-             array should be (3 x grid.n_z x grid.n_y x grid.n_f).
-             The first dimension is for each component of the spectrum
-             (u,v,w), the next two are for each point (z,y) in the
-             grid, and the last dimension is the frequency dependence
-             of the spectrum.
-
-        This property always returns a 'specObj' object or raises an
-        AttributeError.
+           In this case the specObj is again fixed and defined by
+           the input array.  The numpy array dimensions must match
+           those of the tsGrid.  That is, the dimensions of the
+           array should be (3 x grid.n_z x grid.n_y x grid.n_f).
+           The first dimension is for each component of the spectrum
+           (u,v,w), the next two are for each point (z,y) in the
+           grid, and the last dimension is the frequency dependence
+           of the spectrum.
 
         See Also
         --------
-        Other input properties:
-          tsrun.prof
-          tsrun.cohere
-          tsrun.stress
-
-        'specModels' package for a list of available spectral
-        models and more detailed documentation.
+        pyts.specModels.api : to see available spectral models.
+        tsrun.prof
+        tsrun.cohere
+        tsrun.stress
         
         """
         if hasattr(self,'specModel') and not hasattr(self,'_spec'):
@@ -218,6 +223,8 @@ class tsrun(object):
         """
         This is the 'coherence' input property.
 
+        This property always returns a :class:`cohereObj <pyts.cohereModels.mBase.cohereObj>`.
+
         Because the bulk of PyTurbSim's computational requirements
         (memory and processor time) are consumed by dealing with this
         statistic, it behaves somewhat differently from the others. In
@@ -230,63 +237,56 @@ class tsrun(object):
         statistics...
 
         This property can be defined with three types of objects:
-          1) define it with a 'coherence model' (recommended), e.g.:
+        
+        1) define it with a 'coherence model' (recommended)::
           
                   ts_run.cohere=a_coherence_model
             
-             In this case the model is set to my_ts_run.cohereModel,
-             and this model sets the is called at runtime to produce the phase
-             array. At the end of the ts_run call that phase array is
-             cleared so that subsequent runs do not use a fixed
-             phase information (i.e. in the case that the coherence
-             model is modified or another model/object that the
-             coherence model depends on is changed between runs).
+           In this case the model is set to my_ts_run.cohereModel,
+           and this model sets the is called at runtime to produce the phase
+           array. At the end of the ts_run call that phase array is
+           cleared so that subsequent runs do not use a fixed
+           phase information (i.e. in the case that the coherence
+           model is modified or another model/object that the
+           coherence model depends on is changed between runs).
 
-          2) define it with a cohereObj directly, e.g.:
+        2) define it with a cohereObj directly ::
 
               ts_run.spec=a_coherence_model(ts_run)
               
-             In this case the cohereObj is FIXED. That is, all
-             subsequent PyTurbSim runs will utilize this coherence
-             model, which is based on the state of ts_run at the time
-             of execution of this command.
+           In this case the cohereObj is FIXED. That is, all
+           subsequent PyTurbSim runs will utilize this coherence
+           model, which is based on the state of ts_run at the time
+           of execution of this command.
 
-          3) define it with an array directly, e.g.:
+        3) define it with an array directly::
 
                ts_run.cohere=a_numpy_array  - [units: non-dimensional]
 
-             In this case the coherence will be fixed and defined by
-             this input array.  The numpy array dimensions must match
-             those of the tsGrid.  That is, the dimensions of the
-             array should be (3 x grid.n_p x grid.n_p x grid.n_f).
-             The first dimension is for each component of the spectrum
-             (u,v,w), the next two are for each point-pair (z,y) in the
-             grid, and the last dimension is the frequency dependence
-             of the spectrum.
-
-             This approach for specifying the coherence - while
-             explicit and flexible - requires considerably more memory
-             than the 'coherence model' approach.  Furthermore using
-             this approach one must be careful to make sure that the
-             ordering of the array agrees with that of the 'flattened
-             grid' (see the tsGrid.flatten method, and/or the
-             cohereUser coherence model for more information).
-
-        This property always returns a 'cohereObj' object or raises an
-        AttributeError (if a coherence model is not defined).
+           In this case the coherence will be fixed and defined by
+           this input array.  The numpy array dimensions must match
+           those of the tsGrid.  That is, the dimensions of the
+           array should be (3 x grid.n_p x grid.n_p x grid.n_f).
+           The first dimension is for each component of the spectrum
+           (u,v,w), the next two are for each point-pair (z,y) in the
+           grid, and the last dimension is the frequency dependence
+           of the spectrum.
+           
+           This approach for specifying the coherence - while
+           explicit and flexible - requires considerably more memory
+           than the 'coherence model' approach.  Furthermore using
+           this approach one must be careful to make sure that the
+           ordering of the array agrees with that of the 'flattened
+           grid' (see the tsGrid.flatten method, and/or the
+           cohereUser coherence model for more information).
 
         See Also
         --------
-        Other input properties:
-          tsrun.prof
-          tsrun.spec
-          tsrun.stress
-
-        the 'cohereModels' package for a list of available coherence
-        models and more detailed documentation.
-
-        'cohereUser' coherence model (in the cohereModels/mBase.py
-        file)
+        pyts.cohereModels.api : to see a list of available coherence models.
+        pyts.cohereModels.mBase.cohereUser : the 'user-defined' or 'array-input' coherence model.
+        tsrun.prof
+        tsrun.spec
+        tsrun.stress
 
         """
         if hasattr(self,'cohereModel') and not hasattr(self,'_cohere'):
@@ -310,52 +310,51 @@ class tsrun(object):
     @property
     def stress(self):
         """
-        This is the Reynold's stress input property. This property can
-        be defined with three types of objects:
-          1) define it with a 'spectral model' (recommended), e.g.:
-          
-                  ts_run.stress=a_stress_model
-            
-             In this case the model is set to my_ts_run.stressModel, and
-             this model is called to produce a stressObj AS NEEDED.  At
-             the end of the ts_run call that stressObj is cleared so
-             that subsequent runs do not use a fixed stressObj (i.e. in
-             the case that another model/object that the stress model
-             depends on is changed between runs).
+        This is the Reynold's stress input property.
+        
+        This property always returns a :class:`stressObj <pyts.stressModels.mBase.stressObj>`.
 
-          2) define it with a stressObj directly, e.g.:
+        This property can be defined with three types of objects:
+
+        1) define it with a `specModel` (recommended)::
+          
+              ts_run.stress=a_stress_model
+            
+           In this case the model is set to my_ts_run.stressModel, and
+           this model is called to produce a stressObj AS NEEDED.  At
+           the end of the ts_run call that stressObj is cleared so
+           that subsequent runs do not use a fixed stressObj (i.e. in
+           the case that another model/object that the stress model
+           depends on is changed between runs).
+
+        2) define it with a `stressObj` directly::
 
               ts_run.stress=a_stress_model(ts_run)
               
-             In this case the stressObj is FIXED. That is, all
-             subsequent PyTurbSim runs will utilize this stress
-             model, which is based on the state of ts_run at the time
-             of the stressObj creation.
+           In this case the stressObj is FIXED. That is, all
+           subsequent PyTurbSim runs will utilize this stress
+           model, which is based on the state of ts_run at the time
+           of the stressObj creation.
 
-          3) define it with an array directly, e.g.:
+        3) define it with an array directly::
 
-               ts_run.stress=a_numpy_array  - [units: m^2/s^2]
-
-             In this case the stressObj is again fixed and defined by
-             the input array.  The numpy array dimensions must match
-             those of the tsGrid.  That is, the dimensions of the
-             array should be (3 x grid.n_z x grid.n_y).
-             The first dimension is for each component of the stress
-             (u,v,w), the next two are for each point (z,y) in the
-             grid.
-
-        This property always returns a 'stressObj' object or raises an
-        AttributeError (if no stressModel is defined).
+              ts_run.stress=a_numpy_array  - [units: m^2/s^2]
+              
+           In this case the stressObj is again fixed and defined by
+           the input array.  The numpy array dimensions must match
+           those of the tsGrid.  That is, the dimensions of the
+           array should be (3 x grid.n_z x grid.n_y).
+           The first dimension is for each component of the stress
+           (u,v,w), the next two are for each point (z,y) in the
+           grid.
 
         See Also
         --------
-        Other input properties:
-          tsrun.prof
-          tsrun.spec
-          tsrun.cohere
-
-        'stressModels' package for a list of available stress models
-        and more detailed documentation.
+        pyts.stressModels.api : To see available stress models.
+        
+        tsrun.prof
+        tsrun.spec
+        tsrun.cohere
         
         """
         if hasattr(self,'stressModel') and not hasattr(self,'_stress'):
@@ -402,22 +401,21 @@ class tsrun(object):
                 out[nm]=str(getattr(self,nm).__class__).rsplit(nm)[-1].rstrip("'>").lstrip('s.')
                 out[nm+'_params']=getattr(self,nm).parameters
         return out
-    
-    def __call__(self,):
+
+    def run(self,):
         """
         Run PyTurbSim.
 
-        Before calling this method be sure that the following
-        properties of this run-object have been set to the desired
-        values:
-        prof   - The mean profile model, object or array.
-        spec   - The tke spectrum model, object or array.
-        cohere - The coherence model, object or array.
-        stress - The Reynold's stress model, object or array.
+        Before calling this method be sure to set the following attributes to their desired values:
+
+        - :attr:`tsrun.prof`: The mean profile model, object or array.
+        - :attr:`tsrun.spec`: The tke spectrum model, object or array.
+        - :attr:`tsrun.cohere`: The coherence model, object or array.
+        - :attr:`tsrun.stress`: The Reynold's stress model, object or array.
 
         Returns
         -------
-        PyTurbSim tsdata object.
+        tsdata : :class:`tsdata`
         
         """
         if dbg:
@@ -430,10 +428,9 @@ class tsrun(object):
             print self.timer
             print self.cohereModel.timer
         out=self._build_outdata()
-        #self.clear()
         return out
 
-    run=__call__ # A more explicit shortcut...
+    __call__=run
 
     def _build_outdata(self,):
         """
@@ -452,31 +449,28 @@ class tsrun(object):
         
         This method performs the work of taking a specified spectrum
         and coherence function and transforming it into a spatial
-        timeseries.  It performs the steps outlined in Veers84's
+        timeseries.  It performs the steps outlined in Veers84's [1]_
         equations 7 and 8.
 
         Returns
         -------
-        turb - the turbulent velocity timeseries array (3 x nz x ny x
+        turb : the turbulent velocity timeseries array (3 x nz x ny x
                nt) for this PyTurbSim run.
 
-
-        References
-        =================
-
-        The full reference for 'Veers84' is:
-           Veers, Paul (1984) 'Modeling Stochastic Wind Loads on Vertical Axis Wind Turbines',
-           Sandia Report 1909, 17 pages.
-
         Notes
-        =================
-
-        1) Veers84's equation 7 is actually a 'Cholesky Factorization'.  Therefore, rather than
-        writing this functionality explicitly we call 'cholesky' routines to do this work.
+        -----
         
-        2) This function uses one of two methods for computing the Cholesky factorization.  If
-        the Fortran library tslib is available it is used (it is much more efficient), otherwise
+        1) Veers84's equation 7 [1]_ is actually a 'Cholesky
+        Factorization'.  Therefore, rather than writing this
+        functionality explicitly we call 'cholesky' routines to do
+        this work.
+        
+        2) This function uses one of two methods for computing the
+        Cholesky factorization.  If the Fortran library tslib is
+        available it is used (it is much more efficient), otherwise
         the numpy implementation of Cholesky is used.
+
+        .. [1]  Veers, Paul (1984) 'Modeling Stochastic Wind Loads on Vertical Axis Wind Turbines', Sandia Report 1909, 17 pages.
 
         """
         grid=self.grid
@@ -492,7 +486,7 @@ class tsrun(object):
         # Now multiply the phases by the spectrum...
         tmp[...,1:]=np.sqrt(self.spec.array)*grid.reshape(phases)
         # and compute the inverse fft to produce the timeseries:
-        ts=np.fft.irfft(tmp)
+        ts=irfft(tmp)
         if dbg:
             self.timer.stop()
         # Select only the time period requested:
@@ -506,6 +500,11 @@ class tsdata(gridProps):
     TurbSim output data object.  In addition to the output of a
     simulation (velocity timeseries array) it also includes all
     information for reproducing the simulation.
+
+    Parameters
+    ----------
+    grid : :class:`tsGrid`
+           TurbSim data objects are initialized with a TurbSim grid.
     """
 
     @property
@@ -520,7 +519,7 @@ class tsdata(gridProps):
 
     def __init__(self,grid):
         """
-        Initialize a tdata object with a grid object.
+        Initialize a tsdata object with a grid object.
         """
         self.grid=grid
 
@@ -619,21 +618,21 @@ class tsdata(gridProps):
     @property
     def upvp_(self,):
         """
-        Returns the u'v' component of the Reynold's stress.
+        The u'v' component of the Reynold's stress.
         """
         return np.mean(self.uturb[0]*self.uturb[1],axis=-1)
 
     @property
     def upwp_(self,):
         """
-        Returns the u'w' component of the Reynold's stress.
+        The u'w' component of the Reynold's stress.
         """
         return np.mean(self.uturb[0]*self.uturb[2],axis=-1)
 
     @property
     def vpwp_(self,):
         """
-        Returns the v'w' component of the Reynold's stress.
+        The v'w' component of the Reynold's stress.
         """
         return np.mean(self.uturb[1]*self.uturb[2],axis=-1)
 
@@ -641,6 +640,11 @@ class tsdata(gridProps):
     def stats(self,):
         """
         Compute and return relevant statistics for this turbsim time-series.
+
+        Returns
+        -------
+        stats : dict
+                A dictionary containing various statistics of interest.
         """
         slc=[slice(None)]+list(self.ihub)
         stats={}
@@ -653,7 +657,8 @@ class tsdata(gridProps):
         
         Parameters
         ----------
-        *filename*  - The filename to which the data should be written.
+        filename : str
+                   The filename to which the data should be written.
         
         """
         bladed.write(filename,self)
@@ -664,7 +669,8 @@ class tsdata(gridProps):
 
         Parameters
         ----------
-        *filename*  - The filename to which the data should be written.
+        filename : str
+                   The filename to which the data should be written.
         """
         aerodyn.write(filename,self)
 

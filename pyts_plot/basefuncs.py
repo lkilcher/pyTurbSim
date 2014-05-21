@@ -302,15 +302,36 @@ def calcAxesSize(n,totsize,gap,frame):
 
 def axvec2axpos(n,vec,vertflag=False,rel=False):
     """
-    axvec2axpos(n,vec,vflag) calculates the positions for the *n* axes,
-    based on the axes vector *vec*. *vflag* whether the calculation is
-    for vertical positions.
+    calculates the positions for the `n` axes, based on the axes
+    vector `vec`.
 
-    *vec* is a three element vector, where:
-          *vec*[0] is the left (or bottom) space
-          *vec*[1] is the right (or top) space
-          *vec*[2] is the space between axes
-        These values are (presumably) all in figure normalized units.
+    Parameters
+    ----------
+    n : int
+        The number of frames to make.
+    vec : iterable(3)
+          The (left/bottom,right/top,gap) surrounding and between
+          the axes.
+    vertflag : bool, optional (default: False)
+               Specifies this is for vertical (True) or horizontal
+               spacing.
+    rel : iterable(`n`), optional
+          This specifies the relative width of each of the axes. By
+          default all axes are the same width.
+
+    Returns
+    -------
+    pos : iterable(`n`)
+          specifies the position of each axes.
+    wd : iterable(`n`)
+         Specifies the width of each axes. Each entry will be the same
+         unless `rel` is specified.
+
+    Notes
+    -----
+
+    The units of the returned variables match that of the input `vec`.
+
     """
 
     if rel.__class__==False.__class__ and not rel: # This checks for the default value.

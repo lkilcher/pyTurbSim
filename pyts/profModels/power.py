@@ -1,35 +1,30 @@
 """
-This module contains the power-law mean-velocity profiles:
- nwtc   - The NWTC power-law mean wind speed profile.
-
+The NWTC power-law profile model.
 """
 from mBase import profModelBase,profObj
 
 class nwtc(profModelBase):
-    """
-    The power-law mean wind profile.
+    r"""
+    The power-law mean wind profile model.
 
-           Ubar(z) = URef * ( z / RefHt )^PLexp
+    .. math::
+    
+           \bar{U}(z) = U_{ref} * ( z / Z_{ref} )^{PLexp}
+           
+    Parameters
+    ----------
+    URef :      float
+                Reference velocity for the wind profile [m/s].
+    Zref  :     float
+                Reference height of the reference velocity [m].
+    PLexp :     float
+                The power-law exponent to be utilized for this
+                simulation [non-dimensional], default=1/7.
     
     """
-    def __init__(self,Uref,RefHt,PLexp=1./7.):
-        """
-        Create a power-law wind profile.
-
-        Parameters
-        ----------
-        URef     - Reference velocity for the wind profile [m/s].
-        RefHt    - Reference height of the reference velocity [m].
-        PLexp    - The power-law exponent to be utilized for this
-                   simulation [*non-dimensional], default=1/7.
-
-        Returns
-        -------
-        out      - A power-law wind profile object that matches the
-                   specified input parameters.
-        """
+    def __init__(self,Uref,Zref,PLexp=1./7.):
         self.Uref=Uref
-        self.Zref=RefHt
+        self.Zref=Zref
         self.PLexp=PLexp
 
     def model(self,z):
@@ -41,16 +36,19 @@ class nwtc(profModelBase):
 
     def __call__(self,tsrun):
         """
-        Calculate the profile object for this profile model.
-        
+        Create and calculate the mean-profile object for a `tsrun`
+        instance.
+
         Parameters
         ----------
-        tsrun    - A TurbSim run object.
-
+        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+                        A TurbSim run object.
+        
         Returns
         -------
-        out      - A TurbSim profile object, containing the array of mean
-                   velocity for the simulation.
+        out :           :class:`profObj <.mBase.profObj>`
+                        A power-law wind-speed profile for the grid in `tsrun`.
+    
         """
         out=profObj(tsrun)
         out[0]=self.model(out.grid.z)[:,None]
