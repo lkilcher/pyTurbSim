@@ -2,9 +2,13 @@
 This is the 'base' module for the PyTurbSim program.
 
 This module:
+
  a) imports common numpy functions/methods (from pyts_numpy.py),
+
  b) defines the 'tsGrid' class,
+
  c) imports the tslib Fortran module (if it is available) and
+
  d) Defines several abstract base classes.
 
 """
@@ -21,7 +25,7 @@ except ImportError:
     performance recompile the library as decribed in the 'Building
     tslib' section of the README file.
     """
-
+    tslib=None
 
 dbg=None
 #import dbg
