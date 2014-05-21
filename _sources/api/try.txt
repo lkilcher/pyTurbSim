@@ -1,0 +1,7 @@
+try Module
+==========
+
+.. automodule:: try
+    :members:
+    :undoc-members:
+    :show-inheritance:

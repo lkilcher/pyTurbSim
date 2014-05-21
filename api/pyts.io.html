@@ -49,7 +49,6 @@
           <a href="pyts.gui.html" title="gui Package"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
-          <li><a href="modules.html" >pyts</a> &raquo;</li>
           <li><a href="pyts.html" accesskey="U">pyts Package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -65,21 +64,6 @@
 <h2><tt class="xref py py-mod docutils literal"><span class="pre">io</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-pyts.io"></span><p>This is the PyTurbSim input/output package. It contains modules for
 reading/writing PyTurbSim input/data from/to disk.</p>
-<dl class="docutils">
-<dt>The modules contained in this package are:</dt>
-<dd><p class="first">bladed.py  - For reading/writing &#8216;bladed&#8217; format binary files.
-aerodyn.py - For reading/writing &#8216;Aerodyn/TurbSim&#8217; format binary files.
-config.py  - For reading/writing TurbSim input files (.inp).
-base.py    - This describes a few base functions/variables used by</p>
-<blockquote>
-<div>other modules in this package.</div></blockquote>
-<dl class="last docutils">
-<dt>main.py    - This contains a somewhat deprecated function</dt>
-<dd>&#8216;readModel&#8217; for collecting data from TurbSim
-input/output files.</dd>
-</dl>
-</dd>
-</dl>
 </div>
 <div class="section" id="module-pyts.io.aerodyn">
 <span id="aerodyn-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">aerodyn</span></tt> Module<a class="headerlink" href="#module-pyts.io.aerodyn" title="Permalink to this headline">¶</a></h2>
@@ -91,18 +75,46 @@ original TSsubs.f90 file.</p>
 <dt id="pyts.io.aerodyn.read">
 <tt class="descclassname">pyts.io.aerodyn.</tt><tt class="descname">read</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/aerodyn.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.aerodyn.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read AeroDyn/TurbSim format (.bts) full-field time-series binary data files.</p>
-<p><em>fname</em>  - The filename from which to read the data.</p>
-<p><em>tsdat</em>  - An array of data.</p>
-<p>!!!FIXTHIS, this should return a tsData object:
-<em>tsdat</em>  - A tsdata object that contains the data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
+<blockquote>
+<div><p>The filename from which to read the data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>tsdata</strong> : array_like</p>
+<blockquote class="last">
+<div><p>An array of the turbulence data. !This needs to be fixed to be a tsdata object!</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="pyts.io.aerodyn.write">
 <tt class="descclassname">pyts.io.aerodyn.</tt><tt class="descname">write</tt><big>(</big><em>fname</em>, <em>tsdat</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/aerodyn.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.aerodyn.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the data to a AeroDyn-/TurbSim-format binary file.</p>
-<p><em>fname</em>  - The filename to which the data should be written.
-<em>tsdat</em>  - The &#8216;tsdata&#8217; object that contains the data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
+<blockquote>
+<div><p>the filename to which the data should be written.</p>
+</div></blockquote>
+<p><strong>tsdata</strong> : <a class="reference internal" href="pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><tt class="xref py py-class docutils literal"><span class="pre">tsdata</span></tt></a></p>
+<blockquote class="last">
+<div><p>The &#8216;tsdata&#8217; object that contains the data.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -126,18 +138,46 @@ original TSsubs.f90 file.</p>
 <dt id="pyts.io.bladed.read">
 <tt class="descclassname">pyts.io.bladed.</tt><tt class="descname">read</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/bladed.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.bladed.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read Bladed format (.wnd, .bl) full-field time-series binary data files.</p>
-<p><em>fname</em>  - The filename from which to read the data.</p>
-<p><em>tsdat</em>  - An array of data.</p>
-<p>!!!FIXTHIS, this should return a tsData object:
-<em>tsdat</em>  - A tsdata object that contains the data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
+<blockquote>
+<div><p>The filename from which to read the data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>tsdat</strong> : array_like</p>
+<blockquote class="last">
+<div><p>An array of the TurbSim-simulated turbulence data.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="pyts.io.bladed.write">
 <tt class="descclassname">pyts.io.bladed.</tt><tt class="descname">write</tt><big>(</big><em>fname</em>, <em>tsdat</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/bladed.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.bladed.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the data to a Bladed-format binary file.</p>
-<p><em>fname</em>  - The filename to which the data should be written.
-<em>tsdat</em>  - The &#8216;tsdata&#8217; object that contains the data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
+<blockquote>
+<div><p>The filename to which the data should be written.</p>
+</div></blockquote>
+<p><strong>tsdat</strong> : <a class="reference internal" href="pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><tt class="xref py py-class docutils literal"><span class="pre">tsdata</span></tt></a></p>
+<blockquote class="last">
+<div><p>A TurbSim data object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -180,8 +220,24 @@ original TSsubs.f90 file.</p>
 <dt id="pyts.io.config.read">
 <tt class="descclassname">pyts.io.config.</tt><tt class="descname">read</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/config.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.config.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a TurbSim input (.inp) file.</p>
-<p><em>fname</em>   - The filename to read the config from.</p>
-<p><em>config</em>  - A PyTurbSim config dictionary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> :   str</p>
+<blockquote>
+<div><p>The filename to read the config from.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>config</strong> :   <a class="reference internal" href="pyts.runConfig.html#pyts.runConfig.base.tscfg" title="pyts.runConfig.base.tscfg"><tt class="xref py py-class docutils literal"><span class="pre">pyts.runConfig.base.tscfg</span></tt></a>, dict</p>
+<blockquote class="last">
+<div><p>A PyTurbSim config dictionary.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -189,17 +245,42 @@ original TSsubs.f90 file.</p>
 <tt class="descclassname">pyts.io.config.</tt><tt class="descname">readInPSD</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/config.html#readInPSD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.config.readInPSD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the input spectrum from file <em>fname</em>, and return it as a
 dictionary.</p>
-<p><em>fname</em>   - The filename to read the PSD from.</p>
-<p>The frequency in the input file should be in units of hz, and the
-spectrum should be in units of m^2/s^2/hz.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> :     str</p>
+<blockquote>
+<div><p>The filename to read the PSD from.</p>
+</div></blockquote>
+<p><strong>The frequency in the input file should be in units of hz, and the</strong> :</p>
+<p class="last"><strong>spectrum should be in units of m^2/s^2/hz.</strong> :</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="pyts.io.config.write">
 <tt class="descclassname">pyts.io.config.</tt><tt class="descname">write</tt><big>(</big><em>fname</em>, <em>config</em>, <em>headertext=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/config.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.config.write" title="Permalink to this definition">¶</a></dt>
-<dd><p>Writeout a config file.</p>
-<p><em>fname</em>   - The filename to write out.
-<em>config</em>  - The PyTurbSim config dictionary.</p>
+<dd><p>Writeout a TurbSim input (.inp) file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> :     str</p>
+<blockquote>
+<div><p>The filename to write to.</p>
+</div></blockquote>
+<p><strong>config</strong> :    <a class="reference internal" href="pyts.runConfig.html#pyts.runConfig.base.tscfg" title="pyts.runConfig.base.tscfg"><tt class="xref py py-class docutils literal"><span class="pre">pyts.runConfig.base.tscfg</span></tt></a>, dict</p>
+<blockquote class="last">
+<div><p>The PyTurbSim config dictionary.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -211,20 +292,41 @@ TurbSim input/output files.</p>
 <dl class="function">
 <dt id="pyts.io.main.readModel">
 <tt class="descclassname">pyts.io.main.</tt><tt class="descname">readModel</tt><big>(</big><em>fname</em>, <em>inp_fname=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/main.html#readModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.main.readModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads a TurbSim data and input (config) file and returns a tsdata
-object.  If <em>fname</em> ends in .inp, it reads this input file, and
-searches for a binary file that can be read (throws error if none
-is found).</p>
-<p>If <em>fname</em> is a filetype that can be read, it reads that file and
+<dd><p>Read a TurbSim data and input file and return a 
+<a class="reference internal" href="pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><tt class="xref py py-class docutils literal"><span class="pre">tsdata</span></tt></a> data object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
+<blockquote>
+<div><p>The filename to load.  If <cite>fname</cite> ends in .inp, it reads
+this input file, and searches for a binary file that can
+be read (throws error if none is found). Otherwise,</p>
+</div></blockquote>
+<p><strong>inp_fname</strong> : str, optional</p>
+<blockquote>
+<div><p>The input file name to associate with the data-file
+<cite>fname</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>tsdata</strong> : <a class="reference internal" href="pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><tt class="xref py py-class docutils literal"><span class="pre">tsdata</span></tt></a></p>
+<blockquote class="last">
+<div><p>The TurbSim data contained in the binary data file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>If <cite>fname</cite> is a filetype that can be read, it reads that file and
 the associated .inp file.</p>
 <dl class="docutils">
-<dt>In other words:</dt>
-<dd><dl class="first docutils">
-<dt>tsdat=readModel(&#8216;TurbSim.inp&#8217;)</dt>
-<dd>and</dd>
-</dl>
-<p class="last">tsdat=readModel(&#8216;TurbSim.bts&#8217;)</p>
-</dd>
+<dt>In other words::</dt>
+<dd>tsdat=readModel(&#8216;TurbSim.inp&#8217;)</dd>
+<dt>and::</dt>
+<dd>tsdat=readModel(&#8216;TurbSim.bts&#8217;)</dd>
 </dl>
 <p>Do essentially the same thing.</p>
 </dd></dl>
@@ -297,7 +399,6 @@ the associated .inp file.</p>
           <a href="pyts.gui.html" title="gui Package"
              >previous</a> |</li>
         <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
-          <li><a href="modules.html" >pyts</a> &raquo;</li>
           <li><a href="pyts.html" >pyts Package</a> &raquo;</li> 
       </ul>
     </div>

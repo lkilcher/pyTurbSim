@@ -49,7 +49,6 @@
           <a href="pyts.html" title="pyts Package"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
-          <li><a href="modules.html" >pyts</a> &raquo;</li>
           <li><a href="pyts.html" accesskey="U">pyts Package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -79,54 +78,45 @@ this is the &#8216;coherence&#8217;.</p>
 correlation between velocity signals at different points in space.
 Specically, for two signals u1 and u2 (e.g. velocity signals at points
 &#8216;z1,y1&#8217; and &#8216;z2,y2&#8217;), the coherence is defined as:</p>
-<blockquote>
-<div>Coh_(u1,u2) = C_(u1,u2)^2/(S_(u1)*S_(u2))</div></blockquote>
-<p>Where C_(u1,u2) is the cross-spectral density between signals u1 and
-u2, and S_(u1) is the auto-spectral density of signal u1 (similar for
-S_(u2)).</p>
+<div class="math">
+\[Coh_{u1,u2} = \]</div>
+<p>rac{<a href="#id2"><span class="problematic" id="id3">|</span></a>C_{u1,u2}|^2}{S_{u1}S_{u2}}</p>
+<p>Where <span class="math">\(C_(u1,u2)\)</span> is the cross-spectral density between signals u1 and
+u2, and <span class="math">\(S_(u1)\)</span> is the auto-spectral density of signal u1 (similar for
+<span class="math">\(S_(u2)\)</span>).</p>
 <p>This module provides &#8216;coherence models&#8217; which are specific spatial
 coherence forms (functions of frequency) for each component of
 velocity for all pairs of points in the grid.</p>
+<div class="section" id="available-coherence-models">
+<h3>Available coherence models<a class="headerlink" href="#available-coherence-models" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>main.iec (alias: iec)</dt>
+<dd>The IEC spatial coherence model</dd>
+<dt>main.nwtc (alias: nwtc)</dt>
+<dd>The NWTC &#8216;non-IEC&#8217; coherence model.</dd>
+<dt>main.none (alias: none)</dt>
+<dd>A &#8216;no coherence&#8217; model.</dd>
+</dl>
 </div>
-<div class="section" id="module-pyts.cohereModels.iec">
-<span id="iec-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">iec</span></tt> Module<a class="headerlink" href="#module-pyts.cohereModels.iec" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="pyts.cohereModels.iec.cohModelIEC">
-<em class="property">class </em><tt class="descclassname">pyts.cohereModels.iec.</tt><tt class="descname">cohModelIEC</tt><big>(</big><em>IECedition</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/iec.html#cohModelIEC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.iec.cohModelIEC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase" title="pyts.cohereModels.mBase.cohereModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.mBase.cohereModelBase</span></tt></a></p>
-<p>The coherence model for the IEC spectral models.</p>
-<dl class="method">
-<dt id="pyts.cohereModels.iec.cohModelIEC.L">
-<tt class="descname">L</tt><big>(</big><em>zhub</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/iec.html#cohModelIEC.L"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.iec.cohModelIEC.L" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.cohereModels.iec.cohModelIEC.calcCoh">
-<tt class="descname">calcCoh</tt><big>(</big><em>calcinst</em>, <em>comp</em>, <em>ii</em>, <em>jj</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/iec.html#cohModelIEC.calcCoh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.iec.cohModelIEC.calcCoh" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <a href="#id2"><span class="problematic" id="id3">*</span></a>comp*=(0,1,2=u,v,w), coherence between points <a href="#id4"><span class="problematic" id="id5">*</span></a>ii*=(iz,iy) and <a href="#id6"><span class="problematic" id="id7">*</span></a>jj*=(jz,jy).</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.cohereModels.iec.cohModelIEC.get_crossSpec_pack">
-<tt class="descname">get_crossSpec_pack</tt><big>(</big><em>comp</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/iec.html#cohModelIEC.get_crossSpec_pack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.iec.cohModelIEC.get_crossSpec_pack" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function sets the variable self._crossSpec_pack for the component <em>comp</em> (i.e. 0,1,2).</p>
-<p>This function uses the TSlib.ieccoh function to compute the cross-spectral matrix.
-If that library is not available, it computes the cross-spectral matrix in pure
-python using the calcCoh method.</p>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-pyts.cohereModels.mBase">
 <span id="mbase-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">mBase</span></tt> Module<a class="headerlink" href="#module-pyts.cohereModels.mBase" title="Permalink to this headline">¶</a></h2>
-<p>This is the base module for coherence models.</p>
+<p>This is the coherence package&#8217;s base module.</p>
+<p>The coherence models work somewhat different than other packages. In
+particular, rather than storing the full coherence matrix in an array,
+pieces of that matrix are compute as needed at runtime.  This is
+because that array can be very large for large number of grid points
+and timesteps (np^2 x nf).</p>
+<p>Because of this, when creating new coherence &#8216;models&#8217;, the cohereModel
+and cohereObj must be defined. While it would be possible to merge these classes, they have been kept separate to maintain the PyTurbSim &#8216;model&#8217; vs. &#8216;object&#8217; framework.
+That is: a &#8216;model&#8217; defines the coherence independent of the grid, while the &#8216;object&#8217; is specific to the grid.</p>
 <dl class="class">
 <dt id="pyts.cohereModels.mBase.cohereModelBase">
 <em class="property">class </em><tt class="descclassname">pyts.cohereModels.mBase.</tt><tt class="descname">cohereModelBase</tt><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereModelBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereModelBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.modelBase" title="pyts.base.modelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.modelBase</span></tt></a>, <a class="reference internal" href="pyts.html#pyts.base.gridProps" title="pyts.base.gridProps"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.gridProps</span></tt></a></p>
+<p class="rubric">Examples</p>
 <p>When a coherence model class is called, it returns a &#8216;coherence
-model instance&#8217; (as expected) e.g.:
+model instance&#8217; (as expected) e.g.
 cm = myCohereModel(inarg1,inarg2,...)</p>
 <p>A &#8216;coherence model instance&#8217; is an instance of a specific
 coherence model that is independent of a turbsim run (i.e. the
@@ -134,7 +124,7 @@ coherence model instance holds parameters that are specific the
 grid, mean profile model, or spectral model).</p>
 <p>When a &#8216;coherence model instance&#8217; is called, it returns a
 &#8216;coherence object&#8217; instance,
-e.g.:
+e.g.
 coh=cm(tsr)</p>
 <p>Where tsr is a &#8216;tsrun&#8217; object.</p>
 <dl class="method">
@@ -143,26 +133,59 @@ coh=cm(tsr)</p>
 <dd><p>Calculate the coherence matrix for TurbSim run <em>tsrun</em> according to this
 coherence model. The grid, profile and spectrum (tsrun.grid, tsrun.prof,
 tsrun.spec) must already be defined for the tsrun.</p>
-<dl class="docutils">
-<dt>tsrun <span class="classifier-delimiter">:</span> <span class="classifier">A &#8216;TurbSim run&#8217; object that contains the grid, prof and spec</span></dt>
-<dd>attributes.</dd>
-</dl>
-<p>A coherence instance (array or &#8216;calculator&#8217;), e.g.:
-cohi=thisCohereModel(tsrun)</p>
-<p>The coherence instance is either an array of the full
-cross-spectral matrix (3 x n_p x n_p x n_f), or a &#8216;calculator&#8217; that returns
-the components of that array. Either way, the components of the cross-spectral
-matrix (csm) can be obtained from:</p>
-<p>csm_u=cohi[0]
-csm_v=cohi[1]
-csm_w=cohi[2]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>tsrun - A &#8216;TurbSim run&#8217; object that contains the grid, prof and spec</strong> :</p>
+<blockquote>
+<div><p>attributes.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>A coherence instance (array or &#8216;calculator&#8217;), e.g.</strong> :</p>
+<p><strong>cohi=thisCohereModel(tsrun)</strong> :</p>
+<p><strong>The coherence instance is either an array of the full</strong> :</p>
+<p><strong>cross-spectral matrix (3 x n_p x n_p x n_f), or a &#8216;calculator&#8217; that returns</strong> :</p>
+<p><strong>the components of that array. Either way, the components of the cross-spectral</strong> :</p>
+<p><strong>matrix (csm) can be obtained from</strong> :</p>
+<p><strong>csm_u=cohi[0]</strong> :</p>
+<p><strong>csm_v=cohi[1]</strong> :</p>
+<p class="last"><strong>csm_w=cohi[2]</strong> :</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="pyts.cohereModels.mBase.cohereModelBase.cohereObj">
 <em class="property">class </em><tt class="descname">cohereObj</tt><big>(</big><em>tsrun</em><big>)</big><a class="headerlink" href="#pyts.cohereModels.mBase.cohereModelBase.cohereObj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.gridProps" title="pyts.base.gridProps"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.gridProps</span></tt></a>, <a class="reference internal" href="pyts.html#pyts.base.calcObj" title="pyts.base.calcObj"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.calcObj</span></tt></a></p>
-<p>Some text.</p>
+<p>This &#8216;cohereObj&#8217; class operate somewhat differently than &#8216;xxxObj&#8217;s
+in other packages (profObj,specObj,stressObj). In particular,
+cohereObj does not store the &#8216;array&#8217; of coherence internally by
+default because that array is extremely large (np x np x
+nf). Instead, cohereObj&#8217;s compute the coherence for specific
+points as needed.</p>
+<p>It is possible to compute the full array of coherence, by
+accessing this objects &#8216;array&#8217; property.  This recursively calls
+the functions for computing the coherence and returns the
+result. However, be warned that for PyTurbSim runs involving large
+numbers of grid-points and time-steps, this will utilize large
+amounts of memory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>tsrun</strong> : <cite>tsrun</cite> type</p>
+<blockquote class="last">
+<div><p>The PyTurbSim run object in which the coherence will be used.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="attribute">
 <dt id="pyts.cohereModels.mBase.cohereModelBase.cohereObj.array">
 <tt class="descname">array</tt><a class="headerlink" href="#pyts.cohereModels.mBase.cohereModelBase.cohereObj.array" title="Permalink to this definition">¶</a></dt>
@@ -171,6 +194,8 @@ csm_w=cohi[2]</p>
 should be avoided unless needed.  By default PyTurbSim
 avoids holding the entire array in memory and instead computes
 small pieces of it as needed.</p>
+<p>Avoid accessing this property on PyTurbSim runs involving many
+grid-points or timesteps.</p>
 </dd></dl>
 
 <dl class="method">
@@ -180,31 +205,64 @@ small pieces of it as needed.</p>
 OF cohereModelBase. THIS METHOD ONLY RAISES AN ERROR.</p>
 <p>A functioning version of this method (i.e. in a subclass of cohereModelBase)
 should return the a length-n_f vector that is the coherence between point
-<em>ii*=(iz,iy) and *jj*=(jz,jy) for velocity component *comp</em>.</p>
-<p><em>cohi</em>    - A &#8216;coherence calculator&#8217; instance (for the given tsrun).
-<em>comp</em>    - an integer (0,1,2) indicating the velocity component for which to</p>
+<cite>ii`=(iz,iy) and `jj`=(jz,jy) for velocity component `comp</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>cohi</strong> : A &#8216;coherence calculator&#8217; instance (for the given tsrun).</p>
+<p><strong>comp</strong> : an integer (0,1,2) indicating the velocity component for which to</p>
 <blockquote>
-<div>compute the coherence.</div></blockquote>
-<dl class="docutils">
-<dt><em>ii</em>,*jj* - Two-integer elements indicating the grid-points between which to</dt>
-<dd>calculate the coherence. For example: ii=(1,3),jj=(2,3)</dd>
-</dl>
-<dl class="docutils">
-<dt>calc - iterates over grid-point pairs and calls calcCoh to compute the full</dt>
-<dd>cross-spectral matrix.</dd>
-</dl>
+<div><p>compute the coherence.</p>
+</div></blockquote>
+<p><strong>ii,jj</strong> : Two-integer elements indicating the grid-points between which to</p>
+<blockquote class="last">
+<div><p>calculate the coherence. For example, ii=(1,3),jj=(2,3)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyts.cohereModels.mBase.cohereModelBase.cohereObj.calc_phases">
 <tt class="descname">calc_phases</tt><big>(</big><em>phases</em><big>)</big><a class="headerlink" href="#pyts.cohereModels.mBase.cohereModelBase.cohereObj.calc_phases" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute and set the full cross-spectral matrix for component
-<em>comp</em> for &#8216;coherence calculator&#8217; instance <em>cohi</em>.</p>
+<dd><p>Compute the <cite>correlated phases</cite> for each grid-point from the
+input <cite>phases</cite> based on the coherence function of this
+coherence object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np,nf)</p>
+<blockquote>
+<div><p>The input (generally randomized) phases for each
+point for each frequency.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np,nf)</p>
+<blockquote class="last">
+<div><p>The correlated phases according to this cohereObj&#8217;s
+coherence model (see <a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase.cohereObj.calcCoh" title="pyts.cohereModels.mBase.cohereModelBase.cohereObj.calcCoh"><tt class="xref py py-meth docutils literal"><span class="pre">calcCoh()</span></tt></a>).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase.cohereObj.calcCoh" title="pyts.cohereModels.mBase.cohereModelBase.cohereObj.calcCoh"><tt class="xref py py-obj docutils literal"><span class="pre">calcCoh</span></tt></a></dt>
+<dd>computes the coherence for individual grid-point pairs.</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
 <p>This method should not be called explicitly.  It is called by
-a &#8216;coherence calculator&#8217; instance&#8217;s __call__ method.</p>
+a cohereObj instance&#8217;s __call__ method.</p>
 <p>This routine utilizes a model&#8217;s &#8216;calcCoh&#8217; method, which must
-be defined explicitly for all sub-classes of cohereModelBase.</p>
-<p>calcCoh - computes the coherence for individual grid-point pairs.</p>
+be defined explicitly for all sub-classes of this class.</p>
 </dd></dl>
 
 </dd></dl>
@@ -215,7 +273,30 @@ be defined explicitly for all sub-classes of cohereModelBase.</p>
 <dt id="pyts.cohereModels.mBase.cohereObj">
 <em class="property">class </em><tt class="descclassname">pyts.cohereModels.mBase.</tt><tt class="descname">cohereObj</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereObj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.gridProps" title="pyts.base.gridProps"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.gridProps</span></tt></a>, <a class="reference internal" href="pyts.html#pyts.base.calcObj" title="pyts.base.calcObj"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.calcObj</span></tt></a></p>
-<p>Some text.</p>
+<p>This &#8216;cohereObj&#8217; class operate somewhat differently than &#8216;xxxObj&#8217;s
+in other packages (profObj,specObj,stressObj). In particular,
+cohereObj does not store the &#8216;array&#8217; of coherence internally by
+default because that array is extremely large (np x np x
+nf). Instead, cohereObj&#8217;s compute the coherence for specific
+points as needed.</p>
+<p>It is possible to compute the full array of coherence, by
+accessing this objects &#8216;array&#8217; property.  This recursively calls
+the functions for computing the coherence and returns the
+result. However, be warned that for PyTurbSim runs involving large
+numbers of grid-points and time-steps, this will utilize large
+amounts of memory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>tsrun</strong> : <cite>tsrun</cite> type</p>
+<blockquote class="last">
+<div><p>The PyTurbSim run object in which the coherence will be used.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="attribute">
 <dt id="pyts.cohereModels.mBase.cohereObj.array">
 <tt class="descname">array</tt><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereObj.array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereObj.array" title="Permalink to this definition">¶</a></dt>
@@ -224,6 +305,8 @@ be defined explicitly for all sub-classes of cohereModelBase.</p>
 should be avoided unless needed.  By default PyTurbSim
 avoids holding the entire array in memory and instead computes
 small pieces of it as needed.</p>
+<p>Avoid accessing this property on PyTurbSim runs involving many
+grid-points or timesteps.</p>
 </dd></dl>
 
 <dl class="method">
@@ -233,31 +316,64 @@ small pieces of it as needed.</p>
 OF cohereModelBase. THIS METHOD ONLY RAISES AN ERROR.</p>
 <p>A functioning version of this method (i.e. in a subclass of cohereModelBase)
 should return the a length-n_f vector that is the coherence between point
-<em>ii*=(iz,iy) and *jj*=(jz,jy) for velocity component *comp</em>.</p>
-<p><em>cohi</em>    - A &#8216;coherence calculator&#8217; instance (for the given tsrun).
-<em>comp</em>    - an integer (0,1,2) indicating the velocity component for which to</p>
+<cite>ii`=(iz,iy) and `jj`=(jz,jy) for velocity component `comp</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>cohi</strong> : A &#8216;coherence calculator&#8217; instance (for the given tsrun).</p>
+<p><strong>comp</strong> : an integer (0,1,2) indicating the velocity component for which to</p>
 <blockquote>
-<div>compute the coherence.</div></blockquote>
-<dl class="docutils">
-<dt><em>ii</em>,*jj* - Two-integer elements indicating the grid-points between which to</dt>
-<dd>calculate the coherence. For example: ii=(1,3),jj=(2,3)</dd>
-</dl>
-<dl class="docutils">
-<dt>calc - iterates over grid-point pairs and calls calcCoh to compute the full</dt>
-<dd>cross-spectral matrix.</dd>
-</dl>
+<div><p>compute the coherence.</p>
+</div></blockquote>
+<p><strong>ii,jj</strong> : Two-integer elements indicating the grid-points between which to</p>
+<blockquote class="last">
+<div><p>calculate the coherence. For example, ii=(1,3),jj=(2,3)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyts.cohereModels.mBase.cohereObj.calc_phases">
 <tt class="descname">calc_phases</tt><big>(</big><em>phases</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereObj.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereObj.calc_phases" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute and set the full cross-spectral matrix for component
-<em>comp</em> for &#8216;coherence calculator&#8217; instance <em>cohi</em>.</p>
+<dd><p>Compute the <cite>correlated phases</cite> for each grid-point from the
+input <cite>phases</cite> based on the coherence function of this
+coherence object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np,nf)</p>
+<blockquote>
+<div><p>The input (generally randomized) phases for each
+point for each frequency.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np,nf)</p>
+<blockquote class="last">
+<div><p>The correlated phases according to this cohereObj&#8217;s
+coherence model (see <a class="reference internal" href="#pyts.cohereModels.mBase.cohereObj.calcCoh" title="pyts.cohereModels.mBase.cohereObj.calcCoh"><tt class="xref py py-meth docutils literal"><span class="pre">calcCoh()</span></tt></a>).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#pyts.cohereModels.mBase.cohereObj.calcCoh" title="pyts.cohereModels.mBase.cohereObj.calcCoh"><tt class="xref py py-obj docutils literal"><span class="pre">calcCoh</span></tt></a></dt>
+<dd>computes the coherence for individual grid-point pairs.</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
 <p>This method should not be called explicitly.  It is called by
-a &#8216;coherence calculator&#8217; instance&#8217;s __call__ method.</p>
+a cohereObj instance&#8217;s __call__ method.</p>
 <p>This routine utilizes a model&#8217;s &#8216;calcCoh&#8217; method, which must
-be defined explicitly for all sub-classes of cohereModelBase.</p>
-<p>calcCoh - computes the coherence for individual grid-point pairs.</p>
+be defined explicitly for all sub-classes of this class.</p>
 </dd></dl>
 
 </dd></dl>
@@ -270,15 +386,13 @@ be defined explicitly for all sub-classes of cohereModelBase.</p>
 <p>The array must have the dimensions 3 x np x np x nf, where np
 is the number of points in the grid, and nf is the number of
 frequencies for the inverse fft.  The dimensions of the array
-are:</p>
-<blockquote>
-<div><ol class="arabic simple" start="0">
+are,</p>
+<ol class="arabic simple" start="0">
 <li>velocity component (u,v,w)</li>
 <li>first spatial point,</li>
 <li>second spatial point,</li>
 <li>frequency.</li>
 </ol>
-</div></blockquote>
 <p>The ordering of the spatial points (dims 1,2) must match the
 ordering of the TurbSim grid.  See the tsGrid classes
 &#8216;sub2ind&#8217;, &#8216;ind2sub&#8217;, &#8216;flatten&#8217; and &#8216;reshape&#8217; methods for more
@@ -309,13 +423,34 @@ iec  - The IEC coherence model.</p>
 <dl class="method">
 <dt id="pyts.cohereModels.main.cohereObjIEC.calcCoh">
 <tt class="descname">calcCoh</tt><big>(</big><em>f</em>, <em>comp</em>, <em>ii</em>, <em>jj</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjIEC.calcCoh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjIEC.calcCoh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the <em>comp</em> (0, 1 or 2) coherence between points <a href="#id8"><span class="problematic" id="id9">*</span></a>ii*=(iz,iy) and <a href="#id10"><span class="problematic" id="id11">*</span></a>jj*=(jz,jy) for the IEC model.</p>
-<p>This method is only used if tslib is not available.</p>
-<p><em>cohi</em>    - A &#8216;coherence calculator&#8217; instance (for the given tsrun).
-<em>comp</em>    - an integer (0,1,2) indicating the velocity component for which to compute the coherence.
-<em>ii</em>,*jj* - Two-integer elements indicating the grid-points between which to calculate the coherence.</p>
+<dd><p>Calculate the coherence for a velocity component, between two points.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>f</strong> : array_like(nf,dtype=float)</p>
+<p><strong>comp</strong> : int {0,1,2}</p>
 <blockquote>
-<div>for example: ii=(1,3),jj=(2,3)</div></blockquote>
+<div><p>indicating the velocity component for which to compute
+the coherence.</p>
+</div></blockquote>
+<p><strong>ii,jj</strong> : array_like(int,2)</p>
+<blockquote>
+<div><p>indicating the grid-points between which to calculate
+the coherence.  for example: ii=(1,3),jj=(2,3)</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>coh</strong> : array_like(nf,dtype=float)</p>
+<blockquote class="last">
+<div><p>The coherence between the two points as a function of frequency.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This method is only used if tslib is not available.</p>
 </dd></dl>
 
 <dl class="method">
@@ -342,13 +477,39 @@ iec  - The IEC coherence model.</p>
 <dl class="method">
 <dt id="pyts.cohereModels.main.cohereObjNWTC.calc_phases">
 <tt class="descname">calc_phases</tt><big>(</big><em>phases</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNWTC.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNWTC.calc_phases" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute and set the full cross-spectral matrix for component
-<em>comp</em> for &#8216;coherence calculator&#8217; instance <em>cohi</em>.</p>
+<dd><p>Compute the <cite>correlated phases</cite> for each grid-point from the
+input <cite>phases</cite> based on the coherence NWTC &#8216;non-IEC coherence
+model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np,nf)</p>
+<blockquote>
+<div><p>The input (generally randomized) phases for each
+point for each frequency.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np,nf)</p>
+<blockquote class="last">
+<div><p>The correlated phases according to this cohereObj&#8217;s
+coherence model (see <a class="reference internal" href="#pyts.cohereModels.main.cohereObjNWTC.calcCoh" title="pyts.cohereModels.main.cohereObjNWTC.calcCoh"><tt class="xref py py-meth docutils literal"><span class="pre">calcCoh()</span></tt></a>).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#pyts.cohereModels.main.cohereObjNWTC.calcCoh" title="pyts.cohereModels.main.cohereObjNWTC.calcCoh"><tt class="xref py py-obj docutils literal"><span class="pre">calcCoh</span></tt></a></dt>
+<dd>computes the coherence for individual grid-point pairs.</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
 <p>This method should not be called explicitly.  It is called by
-a &#8216;coherence calculator&#8217; instance&#8217;s __call__ method.</p>
-<p>This routine utilizes a model&#8217;s &#8216;calcCoh&#8217; method, which must
-be defined explicitly for all sub-classes of cohereModelBase.</p>
-<p>calcCoh - computes the coherence for individual grid-point pairs.</p>
+a cohereObj instance&#8217;s __call__ method.</p>
 </dd></dl>
 
 </dd></dl>
@@ -376,31 +537,40 @@ zero.</p>
 <em class="property">class </em><tt class="descclassname">pyts.cohereModels.main.</tt><tt class="descname">iec</tt><big>(</big><em>IECedition=3</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#iec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.iec" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase" title="pyts.cohereModels.mBase.cohereModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.mBase.cohereModelBase</span></tt></a></p>
 <p>The &#8216;IEC&#8217; coherence model for the u velocity component between two
-points (z_i,y_i) and (z_j,y_j) is:</p>
-<blockquote>
-<div>Coh=exp(-a*((f*r/uhub)^2+(0.12*r/Lc)^2)^0.5)</div></blockquote>
-<p>The IEC coherence is zero for the v and w components (coherence matrix
-is the identity matrix so that auto-spectra are retained).</p>
-<dl class="docutils">
-<dt>Where:</dt>
-<dd><p class="first">f is frequency.
-r is the distance between the two points.
-uhub is the hub-height mean velocity.
-a and Lc are constants according to,</p>
+points (z_i,y_i) and (z_j,y_j).</p>
+<p>Create an IEC spectral model object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>IECedition</strong> : int {2, 3},</p>
 <blockquote class="last">
-<div><dl class="docutils">
-<dt>If IECedition&lt;=2:</dt>
-<dd>a  = 8.8
-Lc = 2.45*min(30m,HubHt)</dd>
-<dt>If IECedition&gt;=3:</dt>
-<dd>a  = 12
-Lc = 5.67*min(60m,HubHt)</dd>
-</dl>
+<div><p>Different IEC editions have slightly different coefficients to the
+spectral model.</p>
 </div></blockquote>
-</dd>
-</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The IEC coherence is zero for the v- and w-components (coherence matrix
+is the identity matrix so that auto-spectra are retained).</p>
+<p>The form of this model is for the u-component is,</p>
+<div class="math">
+\[Coh=exp(-a*((f*r/uhub)^2+(0.12*r/Lc)^2)^0.5)\]</div>
+<p>Where,</p>
+<p>f is frequency.</p>
+<p>r is the distance between the two points.</p>
+<p>uhub is the hub-height mean velocity.</p>
+<p>If IECedition&lt;=2:
+a  = 8.8, 
+Lc = 2.45*min(30m,HubHt)</p>
+<p>If IECedition&gt;=3:
+a  = 12, 
+Lc = 5.67*min(60m,HubHt)</p>
+<p class="rubric">Examples</p>
 <p>When a coherence model class is called, it returns a &#8216;coherence
-model instance&#8217; (as expected) e.g.:
+model instance&#8217; (as expected) e.g.
 cm = myCohereModel(inarg1,inarg2,...)</p>
 <p>A &#8216;coherence model instance&#8217; is an instance of a specific
 coherence model that is independent of a turbsim run (i.e. the
@@ -408,7 +578,7 @@ coherence model instance holds parameters that are specific the
 grid, mean profile model, or spectral model).</p>
 <p>When a &#8216;coherence model instance&#8217; is called, it returns a
 &#8216;coherence object&#8217; instance,
-e.g.:
+e.g.
 coh=cm(tsr)</p>
 <p>Where tsr is a &#8216;tsrun&#8217; object.</p>
 <dl class="attribute">
@@ -443,24 +613,44 @@ zero.</p>
 <dt id="pyts.cohereModels.main.nwtc">
 <em class="property">class </em><tt class="descclassname">pyts.cohereModels.main.</tt><tt class="descname">nwtc</tt><big>(</big><em>a=[None, None, None], b=[0.0, 0.0, 0.0], CohExp=0.0</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#nwtc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.nwtc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase" title="pyts.cohereModels.mBase.cohereModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.mBase.cohereModelBase</span></tt></a></p>
-<p>The NWTC &#8216;non-IEC&#8217; coherence model for velocity component &#8216;k&#8217; (u,v,w) between two
-points (z_i,y_i) and (z_j,y_j) is:</p>
+<p>The NWTC non-IEC coherence model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>a</strong> : array_like(3)</p>
 <blockquote>
-<div>Coh_k=exp(-a_k*(r/z_m)*CohExp*((f*r/u_m)**2+(b_k*r)**2))</div></blockquote>
-<dl class="docutils">
-<dt>Where:</dt>
-<dd><p class="first">f is frequency.
-r is the distance between the two points.
-a_k and b_k are &#8216;coherence decrement&#8217; input parameters for each of the</p>
+<div><p>The &#8216;a&#8217; exponential &#8216;coherence decrement&#8217; coefficients of the
+coherence function for each velocity component.</p>
+</div></blockquote>
+<p><strong>b</strong> : a</p>
 <blockquote>
-<div>velocity components.</div></blockquote>
-<p class="last">u_m is the average velocity of the two points.
-z_m is the average height of the two points.
-CohExp is the &#8216;coherence exponent&#8217; input parameter (default is 0).</p>
-</dd>
-</dl>
+<div><p>The &#8216;b&#8217; exponential &#8216;coherence decrement&#8217; coefficients of the
+coherence function for each velocity component.</p>
+</div></blockquote>
+<p><strong>CohExp</strong> : float</p>
+<blockquote class="last">
+<div><p>The &#8216;Coherence Exponent&#8217; parameter for the coherence function.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The NWTC &#8216;non-IEC&#8217; coherence model for velocity component &#8216;k&#8217; between two
+points (z_i,y_i) and (z_j,y_j) is</p>
+<div class="math">
+\[Coh_k=exp(-a_k*(r/z_m)*CohExp*((f*r/u_m)^2+(b_k*r)^2))  k=u,v,w\]</div>
+<p>Where,</p>
+<p>f is frequency.</p>
+<p>r is the distance between the two points.</p>
+<p>a_k and b_k are &#8216;coherence decrement&#8217; input parameters for each of the velocity components.</p>
+<p>u_m is the average velocity of the two points.</p>
+<p>z_m is the average height of the two points.</p>
+<p>CohExp is the &#8216;coherence exponent&#8217; input parameter (default is 0).</p>
+<p class="rubric">Examples</p>
 <p>When a coherence model class is called, it returns a &#8216;coherence
-model instance&#8217; (as expected) e.g.:
+model instance&#8217; (as expected) e.g.
 cm = myCohereModel(inarg1,inarg2,...)</p>
 <p>A &#8216;coherence model instance&#8217; is an instance of a specific
 coherence model that is independent of a turbsim run (i.e. the
@@ -468,7 +658,7 @@ coherence model instance holds parameters that are specific the
 grid, mean profile model, or spectral model).</p>
 <p>When a &#8216;coherence model instance&#8217; is called, it returns a
 &#8216;coherence object&#8217; instance,
-e.g.:
+e.g.
 coh=cm(tsr)</p>
 <p>Where tsr is a &#8216;tsrun&#8217; object.</p>
 <dl class="attribute">
@@ -499,8 +689,10 @@ just before returning the coherence instance <em>cohi</em>.</p>
   <ul>
 <li><a class="reference internal" href="#">cohereModels Package</a><ul>
 <li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">cohereModels</span></tt> Package</a></li>
-<li><a class="reference internal" href="#module-pyts.cohereModels.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.cohereModels.iec"><tt class="docutils literal"><span class="pre">iec</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.cohereModels.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a><ul>
+<li><a class="reference internal" href="#available-coherence-models">Available coherence models</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-pyts.cohereModels.mBase"><tt class="docutils literal"><span class="pre">mBase</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-pyts.cohereModels.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
 </ul>
@@ -551,7 +743,6 @@ just before returning the coherence instance <em>cohi</em>.</p>
           <a href="pyts.html" title="pyts Package"
              >previous</a> |</li>
         <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
-          <li><a href="modules.html" >pyts</a> &raquo;</li>
           <li><a href="pyts.html" >pyts Package</a> &raquo;</li> 
       </ul>
     </div>

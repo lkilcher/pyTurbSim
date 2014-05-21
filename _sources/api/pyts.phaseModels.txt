@@ -25,10 +25,10 @@ phaseModels Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`rand` Module
+:mod:`main` Module
 ------------------
 
-.. automodule:: pyts.phaseModels.rand
+.. automodule:: pyts.phaseModels.main
     :members:
     :undoc-members:
     :show-inheritance:

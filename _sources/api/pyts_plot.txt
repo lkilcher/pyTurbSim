@@ -1,0 +1,27 @@
+pyts_plot Package
+=================
+
+:mod:`pyts_plot` Package
+------------------------
+
+.. automodule:: pyts_plot.__init__
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`basefuncs` Module
+-----------------------
+
+.. automodule:: pyts_plot.basefuncs
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`superaxes` Module
+-----------------------
+
+.. automodule:: pyts_plot.superaxes
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

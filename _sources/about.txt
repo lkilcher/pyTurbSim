@@ -62,7 +62,7 @@ work of Niel Kelley, Paul Veers and especially Bonnie Jonkman.  Thank
 you to all of these people for their excellent work and support in
 creating this tool.
 
-The PyTurbSim documentation is based on `|ots|'s documentation
+The PyTurbSim documentation is based on `O-TurbSim's documentation
 <https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf>`_. For
 additional information, especially regarding the 'config'/'input' file
 operational mode, take a look at that document.

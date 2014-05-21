@@ -1,5 +1,5 @@
-pyts
-====
+PyTurbSim API
+=============
 
 .. toctree::
    :maxdepth: 4

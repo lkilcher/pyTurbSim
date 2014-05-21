@@ -1,0 +1,973 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts_plot.superaxes &mdash; PyTurbSim 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="top" title="PyTurbSim 0.2 documentation" href="../../index.html" />
+    <link rel="up" title="pyts_plot" href="../pyts_plot.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../pyts_plot.html" accesskey="U">pyts_plot</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyts_plot.superaxes</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="kn">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">new</span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">lowercase</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="kn">as</span> <span class="nn">pylab</span>
+<span class="n">transforms</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">transforms</span>
+<span class="n">Axes</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span>
+<span class="n">rcParams</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span>
+<span class="kn">from</span> <span class="nn">basefuncs</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">## try:</span>
+<span class="c">##     import pyPdf as pdf</span>
+<span class="c">## except:</span>
+<span class="c">##     pdf=None</span>
+
+
+
+<div class="viewcode-block" id="initFig"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.initFig">[docs]</a><span class="k">def</span> <span class="nf">initFig</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a figure, and do some automatic stuff...</span>
+<span class="sd">    (e.g. clear it, name it, resize it)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">tmpd</span><span class="o">=</span><span class="p">{}</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">):</span>
+        <span class="n">tmpd</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">)</span>
+    
+    <span class="n">out</span><span class="o">=</span><span class="n">pylab</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">tmpd</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">set_window_title</span><span class="p">(</span><span class="n">tmpd</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;figsize&#39;</span><span class="p">):</span>
+        <span class="c"># Apparently the forward=True option is broken except for GTK* and WX* backends.  see:</span>
+        <span class="c"># http://matplotlib.sourceforge.net/api/figure_api.html (most of the way down)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;figsize&#39;</span><span class="p">],</span><span class="n">forward</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+        </div>
+<div class="viewcode-block" id="drawnow"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.drawnow">[docs]</a><span class="k">def</span> <span class="nf">drawnow</span><span class="p">():</span>
+    <span class="n">pylab</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">pylab</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="get_transform"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.get_transform">[docs]</a><span class="k">def</span> <span class="nf">get_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">trans</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">trans</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">trans</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">trans</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">trans</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="s">&#39;trans&#39;</span><span class="o">+</span><span class="n">trans</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="shadex"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.shadex">[docs]</a><span class="k">def</span> <span class="nf">shadex</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">transform</span><span class="o">=</span><span class="s">&#39;DataXAxesY&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;_nolegend_&#39;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=-</span><span class="mi">100</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s">&#39;k&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">get_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">transform</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span><span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="n">edgecolor</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="shadey"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.shadey">[docs]</a><span class="k">def</span> <span class="nf">shadey</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">transform</span><span class="o">=</span><span class="s">&#39;AxesXDataY&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;_nolegend_&#39;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=-</span><span class="mi">100</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s">&#39;k&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">get_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">transform</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">fill_betweenx</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span><span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="n">edgecolor</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    </div>
+<span class="k">def</span> <span class="nf">_vln</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">transform</span><span class="o">=</span><span class="s">&#39;DataXAxesY&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;_nolegend_&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s">&#39;k&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="n">rcParams</span><span class="p">[</span><span class="s">&#39;axes.linewidth&#39;</span><span class="p">],</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="nb">int</span><span class="p">,</span><span class="nb">long</span><span class="p">,</span><span class="nb">float</span><span class="p">,</span><span class="nb">complex</span><span class="p">)):</span>
+        <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">get_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">transform</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">xnow</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">xnow</span><span class="p">,</span><span class="n">xnow</span><span class="p">],</span><span class="n">y</span><span class="p">,</span><span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_hln</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">transform</span><span class="o">=</span><span class="s">&#39;AxesXDataY&#39;</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;label&#39;</span><span class="p">):</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;label&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;_nolegend_&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;color&#39;</span><span class="p">):</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;color&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;k&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;linewidth&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;lw&#39;</span><span class="p">):</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;lw&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">rcParams</span><span class="p">[</span><span class="s">&#39;axes.linewidth&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,(</span><span class="nb">int</span><span class="p">,</span><span class="nb">long</span><span class="p">,</span><span class="nb">float</span><span class="p">,</span><span class="nb">complex</span><span class="p">)):</span>
+        <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">get_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">transform</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ynow</span> <span class="ow">in</span> <span class="n">y</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,[</span><span class="n">ynow</span><span class="p">,</span><span class="n">ynow</span><span class="p">],</span><span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_setaxesframe</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+    <span class="nb">str</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span><span class="o">==</span><span class="s">&#39;t&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span><span class="o">==</span><span class="s">&#39;b&#39;</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;both&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span><span class="o">==</span><span class="s">&#39;t&#39;</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;top&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s">&#39;top&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span><span class="o">==</span><span class="s">&#39;b&#39;</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;bottom&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s">&#39;bottom&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span><span class="o">==</span><span class="s">&#39;l&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span><span class="o">==</span><span class="s">&#39;r&#39;</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;both&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span><span class="o">==</span><span class="s">&#39;l&#39;</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;left&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s">&#39;left&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span><span class="o">==</span><span class="s">&#39;r&#39;</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;right&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s">&#39;right&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="c">#for tk in ax.yaxis.get_ticklabels</span>
+
+<div class="viewcode-block" id="offset_text"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.offset_text">[docs]</a><span class="k">def</span> <span class="nf">offset_text</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">transform</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add text to an axes offset from a location.</span>
+<span class="sd">    </span>
+<span class="sd">    *offset* specifies the offset (in points) from the selected *pos*.</span>
+<span class="sd">    If *offset* is a two element list or tuple, it specifies a</span>
+<span class="sd">    different offset in the x and y directions.</span>
+
+<span class="sd">    Returns the text object.</span>
+
+<span class="sd">    By default the *x*,*y* positions are in data coordinates.  Specify</span>
+<span class="sd">    a different &#39;transform&#39; to change this.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">transform</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">transform</span><span class="o">=</span><span class="n">get_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">transform</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="n">osx</span><span class="o">=</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">72.</span>
+        <span class="n">osy</span><span class="o">=</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">72.</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">osx</span><span class="o">=</span><span class="n">offset</span><span class="o">/</span><span class="mf">72.</span>
+        <span class="n">osy</span><span class="o">=</span><span class="n">offset</span><span class="o">/</span><span class="mf">72.</span>
+    <span class="n">trfrm</span><span class="o">=</span><span class="n">transform</span><span class="o">+</span><span class="n">transforms</span><span class="o">.</span><span class="n">ScaledTranslation</span><span class="p">(</span><span class="n">osx</span><span class="p">,</span><span class="n">osy</span><span class="p">,</span><span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">dpi_scale_trans</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">transform</span><span class="o">=</span><span class="n">trfrm</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="annoteCorner"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.annoteCorner">[docs]</a><span class="k">def</span> <span class="nf">annoteCorner</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">pos</span><span class="o">=</span><span class="s">&#39;ll&#39;</span><span class="p">,</span><span class="n">offset</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    annotate a corner of an axes with a string.</span>
+
+<span class="sd">    *ax* is the axes into which to place the annotation.</span>
+<span class="sd">    *s* is the string.</span>
+<span class="sd">    *pos* may be one of:</span>
+<span class="sd">         &#39;ll&#39; : lower left</span>
+<span class="sd">         &#39;ul&#39; : upper left</span>
+<span class="sd">         &#39;lr&#39; : lower right</span>
+<span class="sd">         &#39;ur&#39; : upper right</span>
+<span class="sd">      or it may be a two element tuple in axes coordinates.</span>
+<span class="sd">    </span>
+<span class="sd">    *offset* specifies the offset from the selected *pos* (in points).</span>
+<span class="sd">    If the string form of *pos* is used then the sign of *offset* is</span>
+<span class="sd">    always such that it shifts the string toward the center.If it is a</span>
+<span class="sd">    two element tuple or string, it specifies a different offset in</span>
+<span class="sd">    the x and y directions.</span>
+
+<span class="sd">    Returns the text object.  Also, it creates a &#39;corner_label&#39;</span>
+<span class="sd">    attribute in the axes, with this text object.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prm</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">yp</span><span class="o">=</span><span class="mf">0.0</span>
+    <span class="n">xp</span><span class="o">=</span><span class="mf">0.0</span>
+    <span class="n">prm</span><span class="p">[</span><span class="s">&#39;va&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;baseline&#39;</span>
+    <span class="n">prm</span><span class="p">[</span><span class="s">&#39;ha&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;left&#39;</span>
+    <span class="c">#prm[&#39;fontsize&#39;]=&#39;medium&#39;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="n">osx</span><span class="o">=</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">osy</span><span class="o">=</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">osx</span><span class="o">=</span><span class="n">offset</span>
+        <span class="n">osy</span><span class="o">=</span><span class="n">offset</span>
+    <span class="k">if</span> <span class="n">pos</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;u&#39;</span><span class="p">:</span>
+            <span class="n">osy</span><span class="o">=-</span><span class="n">osy</span>
+            <span class="n">yp</span><span class="o">=</span><span class="mf">1.</span>
+            <span class="n">prm</span><span class="p">[</span><span class="s">&#39;va&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;top&#39;</span>
+        <span class="k">if</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;r&#39;</span><span class="p">:</span>
+            <span class="n">osx</span><span class="o">=-</span><span class="n">osx</span>
+            <span class="n">xp</span><span class="o">=</span><span class="mf">1.</span>
+            <span class="n">prm</span><span class="p">[</span><span class="s">&#39;ha&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;right&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">xp</span><span class="o">=</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">yp</span><span class="o">=</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">prm</span><span class="p">[</span><span class="s">&#39;offset&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">osx</span><span class="p">,</span><span class="n">osy</span><span class="p">)</span>
+    <span class="n">prm</span><span class="p">[</span><span class="s">&#39;transform&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span>
+    
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">prm</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">=</span><span class="n">prm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">corner_label</span><span class="o">=</span><span class="n">offset_text</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">xp</span><span class="p">,</span><span class="n">yp</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span><span class="o">.</span><span class="n">corner_label</span>
+</div>
+<div class="viewcode-block" id="skip_ticklabels"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.skip_ticklabels">[docs]</a><span class="k">def</span> <span class="nf">skip_ticklabels</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">rep</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="s">&#39;x&#39;</span><span class="p">,</span><span class="n">force</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    hide the ticklabels on ticks except for every *rep*&#39;th tick.</span>
+<span class="sd">    *offset* specifies an offset, of tick to start on.</span>
+<span class="sd">    *axis* specifies the x (default) or y axis.</span>
+<span class="sd">    when *force* is True (default) this function turns on every *rep*&#39;th tick.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">axis</span><span class="o">==</span><span class="s">&#39;x&#39;</span><span class="p">:</span>
+        <span class="n">tks</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tks</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">tk</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tks</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">idx</span><span class="o">+</span><span class="n">offset</span><span class="p">,</span><span class="n">rep</span><span class="p">):</span>
+            <span class="n">tk</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">force</span><span class="p">:</span>
+            <span class="n">tk</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c">#class myAxes(matplotlib.axes.Axes):</span></div>
+<div class="viewcode-block" id="myaxes"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.myaxes">[docs]</a><span class="k">class</span> <span class="nc">myaxes</span><span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    My own axes class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cpcolor</span><span class="o">=</span><span class="n">cpcolor</span>
+    <span class="n">hln</span><span class="o">=</span><span class="n">_hln</span>
+    <span class="n">vln</span><span class="o">=</span><span class="n">_vln</span>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="myaxes.transAxesXDataY"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.myaxes.transAxesXDataY">[docs]</a>    <span class="k">def</span> <span class="nf">transAxesXDataY</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="n">transforms</span><span class="o">.</span><span class="n">blended_transform_factory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">transData</span><span class="p">)</span></div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="myaxes.transDataXAxesY"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.myaxes.transDataXAxesY">[docs]</a>    <span class="k">def</span> <span class="nf">transDataXAxesY</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="n">transforms</span><span class="o">.</span><span class="n">blended_transform_factory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="myaxes.plot"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.myaxes.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c"># This just makes sure that my lines get drawn,</span>
+        <span class="c"># otherwise it just calls the axes&#39; plot instance.</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">myaxes</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">pylab</span><span class="o">.</span><span class="n">draw_if_interactive</span><span class="p">()</span>
+</div>
+    <span class="n">skip_ticklabels</span><span class="o">=</span><span class="n">skip_ticklabels</span>
+    <span class="n">labelax</span><span class="o">=</span><span class="n">labelax</span>
+    <span class="n">cbar</span><span class="o">=</span><span class="n">cbar</span>
+    <span class="n">offset_text</span><span class="o">=</span><span class="n">offset_text</span>
+    <span class="n">annoteCorner</span><span class="o">=</span><span class="n">annoteCorner</span>
+    <span class="n">setaxesframe</span><span class="o">=</span><span class="n">_setaxesframe</span>
+    <span class="n">errorshadex</span><span class="o">=</span><span class="n">errorshadex</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fig</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">rect</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">pylab</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">rect</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">15</span><span class="p">,</span><span class="o">.</span><span class="mi">15</span><span class="p">,</span><span class="o">.</span><span class="mi">75</span><span class="p">,</span><span class="o">.</span><span class="mi">75</span><span class="p">]</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">myaxes</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span><span class="n">rect</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">pylab</span><span class="o">.</span><span class="n">draw_if_interactive</span><span class="p">()</span>
+        
+        
+
+</div>
+<div class="viewcode-block" id="axes"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axes">[docs]</a><span class="k">def</span> <span class="nf">axes</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add an axes at position rect specified by:</span>
+
+<span class="sd">    - ``axes()`` by itself creates a default full ``subplot(111)`` window axis.</span>
+
+<span class="sd">    - ``axes(rect, axisbg=&#39;w&#39;)`` where *rect* = [left, bottom, width,</span>
+<span class="sd">      height] in normalized (0, 1) units.  *axisbg* is the background</span>
+<span class="sd">      color for the axis, default white.</span>
+
+<span class="sd">    - ``axes(h)`` where *h* is an axes instance makes *h* the current</span>
+<span class="sd">      axis.  An :class:`~matplotlib.axes.Axes` instance is returned.</span>
+
+<span class="sd">    =======   ============   ================================================</span>
+<span class="sd">    kwarg     Accepts        Desctiption</span>
+<span class="sd">    =======   ============   ================================================</span>
+<span class="sd">    axisbg    color          the axes background color</span>
+<span class="sd">    frameon   [True|False]   display the frame?</span>
+<span class="sd">    sharex    otherax        current axes shares xaxis attribute with otherax</span>
+<span class="sd">    sharey    otherax        current axes shares yaxis attribute with otherax</span>
+<span class="sd">    polar     [True|False]   use a polar axes?</span>
+<span class="sd">    =======   ============   ================================================</span>
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">    * :file:`examples/pylab_examples/axes_demo.py` places custom axes.</span>
+<span class="sd">    * :file:`examples/pylab_examples/shared_axis_demo.py` uses</span>
+<span class="sd">      *sharex* and *sharey*.</span>
+<span class="sd">      </span>
+<span class="sd">      This was copied from the pyplot axes function</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">nargs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">nargs</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">[[</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span><span class="o">.</span><span class="mi">8</span><span class="p">,</span><span class="o">.</span><span class="mi">8</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="n">nargs</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;Only one non keyword arg to axes allowed&#39;</span><span class="p">)</span>
+    <span class="n">arg</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">axd</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">newd</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">newd</span><span class="p">[</span><span class="s">&#39;lw&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">rcParams</span><span class="p">[</span><span class="s">&#39;axes.linewidth&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;axisbg&#39;</span><span class="p">):</span>
+        <span class="n">axd</span><span class="p">[</span><span class="s">&#39;axisbg&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;axisbg&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;frameon&#39;</span><span class="p">):</span>
+        <span class="n">axd</span><span class="p">[</span><span class="s">&#39;frameon&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;frameon&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;sharex&#39;</span><span class="p">):</span>
+        <span class="n">axd</span><span class="p">[</span><span class="s">&#39;sharex&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;sharex&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;sharey&#39;</span><span class="p">):</span>
+        <span class="n">axd</span><span class="p">[</span><span class="s">&#39;sharey&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;sharey&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;polar&#39;</span><span class="p">):</span>
+        <span class="n">axd</span><span class="p">[</span><span class="s">&#39;polar&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;polar&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;linewidth&#39;</span><span class="p">):</span>
+        <span class="n">newd</span><span class="p">[</span><span class="s">&#39;lw&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;linewidth&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;lw&#39;</span><span class="p">):</span>
+        <span class="n">newd</span><span class="p">[</span><span class="s">&#39;lw&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;lw&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;ticksize&#39;</span><span class="p">):</span>
+        <span class="n">newd</span><span class="p">[</span><span class="s">&#39;xticksize&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;ticksize&#39;</span><span class="p">)</span>
+        <span class="n">newd</span><span class="p">[</span><span class="s">&#39;yticksize&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;ticksize&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;xticksize&#39;</span><span class="p">):</span>
+        <span class="n">newd</span><span class="p">[</span><span class="s">&#39;xticksize&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;xticksize&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;yticksize&#39;</span><span class="p">):</span>
+        <span class="n">newd</span><span class="p">[</span><span class="s">&#39;yticksize&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;yticksize&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;fs&#39;</span><span class="p">):</span>
+        <span class="n">newd</span><span class="p">[</span><span class="s">&#39;fontsize&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;fs&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;fontsize&#39;</span><span class="p">):</span>
+        <span class="n">newd</span><span class="p">[</span><span class="s">&#39;fontsize&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;fontsize&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;xlocation&#39;</span><span class="p">):</span>
+        <span class="n">newd</span><span class="p">[</span><span class="s">&#39;xlocation&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;xlocation&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;ylocation&#39;</span><span class="p">):</span>
+        <span class="n">newd</span><span class="p">[</span><span class="s">&#39;ylocation&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;ylocation&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;fig&#39;</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;figure&#39;</span><span class="p">)):</span>
+        <span class="n">fig</span><span class="o">=</span><span class="n">pylab</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;figure&#39;</span><span class="p">):</span>
+        <span class="n">fig</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;figure&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;fig&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">mpl</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">sca</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="n">arg</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">rect</span><span class="p">,</span> <span class="o">**</span><span class="n">axd</span><span class="p">)</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">newd</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;xlocation&#39;</span><span class="p">):</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="n">newd</span><span class="p">[</span><span class="s">&#39;xlocation&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">newd</span><span class="p">[</span><span class="s">&#39;xlocation&#39;</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;top&#39;</span><span class="p">:</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">newd</span><span class="p">[</span><span class="s">&#39;xlocation&#39;</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;bottom&#39;</span><span class="p">:</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">newd</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;ylocation&#39;</span><span class="p">):</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="n">newd</span><span class="p">[</span><span class="s">&#39;ylocation&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">newd</span><span class="p">[</span><span class="s">&#39;ylocation&#39;</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;right&#39;</span><span class="p">:</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">newd</span><span class="p">[</span><span class="s">&#39;ylocation&#39;</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;left&#39;</span><span class="p">:</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">newd</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;lw&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">spines</span><span class="p">:</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="n">sp</span><span class="p">]</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">newd</span><span class="p">[</span><span class="s">&#39;lw&#39;</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">tck</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_ticklines</span><span class="p">():</span>
+                <span class="n">tck</span><span class="o">.</span><span class="n">set_mew</span><span class="p">(</span><span class="n">newd</span><span class="p">[</span><span class="s">&#39;lw&#39;</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">tck</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_ticklines</span><span class="p">():</span>
+                <span class="n">tck</span><span class="o">.</span><span class="n">set_mew</span><span class="p">(</span><span class="n">newd</span><span class="p">[</span><span class="s">&#39;lw&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">newd</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;xticksize&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">tck</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_ticklines</span><span class="p">():</span>
+                <span class="n">tck</span><span class="o">.</span><span class="n">set_ms</span><span class="p">(</span><span class="n">newd</span><span class="p">[</span><span class="s">&#39;xticksize&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">newd</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;yticksize&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">tck</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_ticklines</span><span class="p">():</span>
+                <span class="n">tck</span><span class="o">.</span><span class="n">set_ms</span><span class="p">(</span><span class="n">newd</span><span class="p">[</span><span class="s">&#39;yticksize&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">newd</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;fontsize&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">tklbl</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_ticklabels</span><span class="p">():</span>
+                <span class="n">tklbl</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">newd</span><span class="p">[</span><span class="s">&#39;fontsize&#39;</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">tklbl</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_ticklabels</span><span class="p">():</span>
+                <span class="n">tklbl</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">newd</span><span class="p">[</span><span class="s">&#39;fontsize&#39;</span><span class="p">])</span>
+
+    <span class="n">a</span><span class="o">.</span><span class="n">transAxesXDataY</span><span class="o">=</span><span class="n">transforms</span><span class="o">.</span><span class="n">blended_transform_factory</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span><span class="n">a</span><span class="o">.</span><span class="n">transData</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">transDataXAxesY</span><span class="o">=</span><span class="n">transforms</span><span class="o">.</span><span class="n">blended_transform_factory</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span><span class="n">a</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+
+    <span class="n">a</span><span class="o">.</span><span class="n">hln</span><span class="o">=</span><span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">_hln</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Axes</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">vln</span><span class="o">=</span><span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">_vln</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Axes</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">shadex</span><span class="o">=</span><span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">shadex</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Axes</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">shadey</span><span class="o">=</span><span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">shadey</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Axes</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">setaxesframe</span><span class="o">=</span><span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">_setaxesframe</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Axes</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">annoteCorner</span><span class="o">=</span><span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">annoteCorner</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Axes</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">offset_text</span><span class="o">=</span><span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">offset_text</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Axes</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">cpcolor</span><span class="o">=</span><span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">cpcolor</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Axes</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">cbar</span><span class="o">=</span><span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">cbar</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Axes</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">labelax</span><span class="o">=</span><span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">labelax</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Axes</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">skip_ticklabels</span><span class="o">=</span><span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">skip_ticklabels</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Axes</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">errorshadex</span><span class="o">=</span><span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">errorshadex</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Axes</span><span class="p">)</span>
+    <span class="c">#a.plot_specobj=new.instancemethod(plot_specobj,a,Axes)</span>
+    
+    <span class="n">pylab</span><span class="o">.</span><span class="n">draw_if_interactive</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">a</span>
+
+
+    </div>
+<div class="viewcode-block" id="alphNumAxes"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.alphNumAxes">[docs]</a><span class="k">def</span> <span class="nf">alphNumAxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">vals</span><span class="o">=</span><span class="n">lowercase</span><span class="p">,</span><span class="n">prefix</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">suffix</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Label the axes with alphanumeric characters.</span>
+
+<span class="sd">    *axs* are the axes over which to add labels to.</span>
+<span class="sd">    *vals* should be a string or list of strings to annotate</span>
+<span class="sd">    the axes with.  It defaults to string.lowercase</span>
+<span class="sd">    *prefix* and *suffix* are strings that can be placed before</span>
+<span class="sd">    and after each val. e.g.: prefix=&#39;(&#39; and suffix=&#39;)&#39; will wrap</span>
+<span class="sd">    the annotations in parenthesis.</span>
+
+<span class="sd">    By default, this function calls annoteCorner on</span>
+<span class="sd">    itss axes.ax.flatten(), and uses </span>
+
+<span class="sd">    See also: annoteCorner, string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">suffix</span><span class="o">=</span><span class="n">plot_number_suffix</span>
+    <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="n">plot_number_prefix</span>
+    <span class="n">corner_labels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="s">&#39;O&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">corner_labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">annoteCorner</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="n">vals</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">+</span><span class="n">suffix</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="axgroup"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup">[docs]</a><span class="k">class</span> <span class="nc">axgroup</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">alphNumAxes</span><span class="o">=</span><span class="n">alphNumAxes</span>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="axgroup.size"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.size">[docs]</a>    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">size</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="axgroup.ax"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.ax">[docs]</a>    <span class="k">def</span> <span class="nf">ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A shortcut to &#39;self.axes&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span>
+    </div>
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>
+            <span class="k">yield</span> <span class="n">ax</span>
+
+<div class="viewcode-block" id="axgroup.annotate"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.annotate">[docs]</a>    <span class="k">def</span> <span class="nf">annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">slice</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">axgroup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">val</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">slice</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">axgroup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">val</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
+
+<div class="viewcode-block" id="axgroup.xgrid"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.xgrid">[docs]</a>    <span class="k">def</span> <span class="nf">xgrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="axgroup.ygrid"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.ygrid">[docs]</a>    <span class="k">def</span> <span class="nf">ygrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="axgroup.shadex"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.shadex">[docs]</a>    <span class="k">def</span> <span class="nf">shadex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">shadex</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="axgroup.shadey"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.shadey">[docs]</a>    <span class="k">def</span> <span class="nf">shadey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">shadey</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="axgroup.hln"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.hln">[docs]</a>    <span class="k">def</span> <span class="nf">hln</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">hln</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="axgroup.vln"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.vln">[docs]</a>    <span class="k">def</span> <span class="nf">vln</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">vln</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="axgroup.fill_between"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.fill_between">[docs]</a>    <span class="k">def</span> <span class="nf">fill_between</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterates a fill_between call over all axes in the group.</span>
+<span class="sd">        See fill_between</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="axgroup.fill_betweenx"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.fill_betweenx">[docs]</a>    <span class="k">def</span> <span class="nf">fill_betweenx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterates a fill_betweenx call over all axes in the group.</span>
+<span class="sd">        See fill_betweenx</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">fill_betweenx</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="axgroup.set_xscale"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.set_xscale">[docs]</a>    <span class="k">def</span> <span class="nf">set_xscale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">val</span><span class="p">)</span></div>
+<div class="viewcode-block" id="axgroup.set_yscale"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.set_yscale">[docs]</a>    <span class="k">def</span> <span class="nf">set_yscale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="axgroup.set_xlim"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.set_xlim">[docs]</a>    <span class="k">def</span> <span class="nf">set_xlim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="axgroup.set_ylim"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.set_ylim">[docs]</a>    <span class="k">def</span> <span class="nf">set_ylim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="axgroup.set_xticks"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.set_xticks">[docs]</a>    <span class="k">def</span> <span class="nf">set_xticks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="axgroup.set_yticks"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.set_yticks">[docs]</a>    <span class="k">def</span> <span class="nf">set_yticks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="axgroup.set_ylabel"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.set_ylabel">[docs]</a>    <span class="k">def</span> <span class="nf">set_ylabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lbls</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">lbls</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">lbls</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">lbls</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbls</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">lbls</span><span class="o">=</span><span class="n">lbls</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ax</span><span class="p">,</span><span class="n">lbl</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lbls</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">lbl</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="axgroup.set_xlabel"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.set_xlabel">[docs]</a>    <span class="k">def</span> <span class="nf">set_xlabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lbls</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">lbls</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">lbls</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">lbls</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbls</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">lbls</span><span class="o">=</span><span class="n">lbls</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ax</span><span class="p">,</span><span class="n">lbl</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lbls</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">lbl</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">axes</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span>
+
+<div class="viewcode-block" id="axgroup.iterplot"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.iterplot">[docs]</a>    <span class="k">def</span> <span class="nf">iterplot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">iter</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span><span class="p">,(</span><span class="n">dat</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">iter</span><span class="p">):</span>
+            <span class="n">tmp</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span><span class="o">+</span><span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">tmp</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="axgroup.plot"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="axgroup.offset_text"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.offset_text">[docs]</a>    <span class="k">def</span> <span class="nf">offset_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">offset_text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="axgroup.hide"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.hide">[docs]</a>    <span class="k">def</span> <span class="nf">hide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">objs</span><span class="o">=</span><span class="s">&#39;xticklabels&#39;</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        *objs* may be one of:</span>
+<span class="sd">            &#39;xticklabels&#39;</span>
+<span class="sd">            &#39;yticklabels&#39;</span>
+<span class="sd">            &#39;minorxticks&#39;</span>
+<span class="sd">            &#39;minoryticks&#39;</span>
+<span class="sd">          it may also be an iterable of these.</span>
+<span class="sd">        </span>
+<span class="sd">        Hide some objects on all axes except the one in the lower left corner.</span>
+<span class="sd">        You may specify a different axis (or axes) to not hide the ticks</span>
+<span class="sd">        of as a second input, e.g.:</span>
+<span class="sd">           hide(&#39;xticklabels&#39;,ax=*ax*)</span>
+<span class="sd">        the form:</span>
+<span class="sd">           hide(&#39;xticklabels&#39;,None)</span>
+<span class="sd">        will hide the xticklabels on all axes.</span>
+<span class="sd">        </span>
+<span class="sd">        See also: antiset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">objs</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">objs</span><span class="o">=</span><span class="p">[</span><span class="n">objs</span><span class="p">]</span>
+        <span class="n">types</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;x&#39;</span><span class="p">:[</span><span class="s">&#39;xticklabels&#39;</span><span class="p">,</span><span class="s">&#39;minorxticks&#39;</span><span class="p">],</span><span class="s">&#39;y&#39;</span><span class="p">:[</span><span class="s">&#39;yticklabels&#39;</span><span class="p">,</span><span class="s">&#39;minoryticks&#39;</span><span class="p">]}</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ax</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">ax</span><span class="o">==</span><span class="s">&#39;all&#39;</span><span class="p">:</span>
+                <span class="n">axs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">types</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;_xlabel_ax&#39;</span><span class="p">):</span>
+                        <span class="n">ax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_xlabel_ax</span>
+                    <span class="k">elif</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">types</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s">&#39;_ylabel_ax&#39;</span><span class="p">):</span>
+                        <span class="n">ax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_ylabel_ax</span>
+                    <span class="k">else</span><span class="p">:</span> <span class="c"># This gives default behavior?</span>
+                        <span class="n">ax</span><span class="o">=</span><span class="p">[]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+                    <span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="n">ax</span><span class="p">]</span>
+                <span class="n">axs</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">ax</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">axn</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">obj</span><span class="o">==</span><span class="s">&#39;xticklabels&#39;</span><span class="p">:</span>
+                    <span class="n">pylab</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">axn</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">(),</span><span class="n">visible</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">obj</span><span class="o">==</span><span class="s">&#39;yticklabels&#39;</span><span class="p">:</span>
+                    <span class="n">pylab</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">axn</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">(),</span><span class="n">visible</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">obj</span><span class="o">==</span><span class="s">&#39;minorxticks&#39;</span><span class="p">:</span>
+                    <span class="n">pylab</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">axn</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_minorticklines</span><span class="p">(),</span><span class="n">visible</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">obj</span><span class="o">==</span><span class="s">&#39;minoryticks&#39;</span><span class="p">:</span>
+                    <span class="n">pylab</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">axn</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_minorticklines</span><span class="p">(),</span><span class="n">visible</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">error</span>
+</div>
+<div class="viewcode-block" id="axgroup.set"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">pylab</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="axgroup.antiset"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.axgroup.antiset">[docs]</a>    <span class="k">def</span> <span class="nf">antiset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ax</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c"># Some backwards compatability stuff:</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;xticklabels&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;xticklabels&#39;</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;xticklabels&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="s">&#39;xticklabels&#39;</span><span class="p">,</span><span class="n">ax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;yticklabels&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;yticklabels&#39;</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;yticklabels&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="s">&#39;yticklabels&#39;</span><span class="p">,</span><span class="n">ax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;minorxticks&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;minorxticks&#39;</span><span class="p">]:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;minorxticks&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="s">&#39;minorxticks&#39;</span><span class="p">,</span><span class="n">ax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;minoryticks&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;minoryticks&#39;</span><span class="p">]:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;minoryticks&#39;</span><span class="p">,</span><span class="n">ax</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="s">&#39;minoryticks&#39;</span><span class="p">,</span><span class="n">ax</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c"># The meat:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="n">ax</span><span class="p">]</span>
+        <span class="n">pylab</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">ax</span><span class="p">)),</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="saxes"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.saxes">[docs]</a><span class="k">class</span> <span class="nc">saxes</span><span class="p">(</span><span class="n">axgroup</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an axes object using S(uper)AXES.</span>
+<span class="sd">    Use keyword argument fig=&lt;figure object&gt; to specify the figure in</span>
+<span class="sd">    which to create the axes.</span>
+
+<span class="sd">    Use kwargs:</span>
+<span class="sd">    n=(3,4) to set up a 3x4 array of axes.</span>
+<span class="sd">    n=(3,[1,1,1,.5]) to set up a 3x4 array of axes with the last column</span>
+<span class="sd">                     half the width of the others.</span>
+<span class="sd">    n=([1,1,1.5],[1,1,1,.5]) to set up a 3x4 array of axes with the last</span>
+<span class="sd">                     row 1.5 times as large and the last column half as wide.</span>
+
+<span class="sd">    h=(.1,.9,.05) to create the horizontal frame box at .1 and .9, with</span>
+<span class="sd">            gaps of .05 between each axes.</span>
+<span class="sd">    v=(.1,.9,.05) similarly for the vertical frame/gap.</span>
+
+<span class="sd">    drawax=L, where L is a logical array of the axes you actually want to</span>
+<span class="sd">            draw (default is all of them).</span>
+<span class="sd">    sharex=True, chooses whether the axes share an xaxis.</span>
+<span class="sd">    sharey=True, chooses whether the axes share a yaxis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">h</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span><span class="o">.</span><span class="mo">05</span><span class="p">],</span><span class="n">v</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span><span class="o">.</span><span class="mo">05</span><span class="p">],</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linewidth</span><span class="o">=</span><span class="n">rcParams</span><span class="p">[</span><span class="s">&#39;axes.linewidth&#39;</span><span class="p">]</span>
+        <span class="n">nax</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s">&#39;__iter__&#39;</span><span class="p">):</span>
+            <span class="n">nax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vrel</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vrel</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="s">&#39;__iter__&#39;</span><span class="p">):</span>
+            <span class="n">nax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hrel</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hrel</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">=</span><span class="n">nax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="o">=</span><span class="n">h</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="o">=</span><span class="n">v</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sharex</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nax</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;int8&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sharey</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nax</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;int8&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sharex_ax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sharey_ax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;object&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span><span class="o">==</span><span class="s">&#39;sharey&#39;</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sharey</span><span class="p">[:]</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">key</span><span class="o">==</span><span class="s">&#39;sharex&#39;</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sharex</span><span class="p">[:]</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drawax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nax</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;bool&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="saxes.set_ylabel_pos"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.saxes.set_ylabel_pos">[docs]</a>    <span class="k">def</span> <span class="nf">set_ylabel_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pos</span><span class="p">,</span><span class="n">axs</span><span class="o">=</span><span class="bp">None</span><span class="p">,):</span>
+        <span class="k">if</span> <span class="n">axs</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">axs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_coords</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="saxes.xlabel"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.saxes.xlabel">[docs]</a>    <span class="k">def</span> <span class="nf">xlabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is different than &#39;set_xlabel&#39; because it sets the xlabel only for the &#39;self._xlabel_ax&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xlabel_ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="saxes.ylabel"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.saxes.ylabel">[docs]</a>    <span class="k">def</span> <span class="nf">ylabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is different than &#39;set_ylabel&#39; because it sets the ylabel only for the &#39;self._ylabel_ax&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ylabel_ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="saxes.axgrid"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.saxes.axgrid">[docs]</a>    <span class="k">def</span> <span class="nf">axgrid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">axg</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">4</span><span class="p">))</span>
+        <span class="n">axg</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span><span class="n">axg</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">axvec2axpos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span><span class="n">rel</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hrel</span><span class="p">)</span>
+        <span class="n">axg</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">],</span><span class="n">axg</span><span class="p">[:,:,</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="n">axvec2axpos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">,</span><span class="bp">True</span><span class="p">,</span><span class="n">rel</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vrel</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">axg</span>
+</div>
+<div class="viewcode-block" id="saxes.drawall"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.saxes.drawall">[docs]</a>    <span class="k">def</span> <span class="nf">drawall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">drawax</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">drawax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;bool&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">hrel</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hrel</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">vrel</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vrel</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;lw&#39;</span><span class="p">):</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;linewidth&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;lw&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;linewidth&#39;</span><span class="p">):</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;linewidth&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">linewidth</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linewidth</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;linewidth&#39;</span><span class="p">]</span>
+
+        <span class="n">forcesharex</span><span class="o">=</span><span class="bp">False</span>
+        <span class="n">forcesharey</span><span class="o">=</span><span class="bp">False</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;sharex&#39;</span><span class="p">):</span>
+            <span class="n">forcesharex</span><span class="o">=</span><span class="bp">True</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;sharey&#39;</span><span class="p">):</span>
+            <span class="n">forcesharey</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">inter</span><span class="o">=</span><span class="n">pylab</span><span class="o">.</span><span class="n">isinteractive</span><span class="p">()</span>
+        <span class="n">pylab</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span><span class="c"># wait to draw the axes, until they&#39;ve all been created.</span>
+        <span class="n">axg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">axgrid</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">iv</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">ih</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">forcesharex</span><span class="p">:</span> <span class="c"># I should put this functionality into a func.</span>
+                    <span class="k">pass</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sharex</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sharex_ax</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sharex</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]]:</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;sharex&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_sharex_ax</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sharex</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]]</span>
+                <span class="k">elif</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;sharex&#39;</span><span class="p">):</span>
+                    <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;sharex&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">forcesharey</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sharey</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sharey_ax</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sharey</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]]:</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;sharey&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_sharey_ax</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sharey</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]]</span>
+                <span class="k">elif</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;sharey&#39;</span><span class="p">):</span>
+                    <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;sharey&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawax</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]:</span>
+                    <span class="c">#self.ax[iv,ih]=myaxes(axg[iv,ih,:],**kwargs)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]</span><span class="o">=</span><span class="n">axes</span><span class="p">(</span><span class="n">axg</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">,:],</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sharex</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sharex_ax</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sharex</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]]:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_sharex_ax</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sharex</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sharey</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sharey_ax</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sharey</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]]:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_sharey_ax</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sharey</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span><span class="n">ih</span><span class="p">]</span>
+                    
+                <span class="n">flag</span><span class="o">=</span><span class="bp">True</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xlabel_ax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ylabel_ax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_xlabel_ax</span>
+        <span class="n">pylab</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="n">inter</span><span class="p">)</span>
+        <span class="n">pylab</span><span class="o">.</span><span class="n">draw_if_interactive</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span>
+
+</div></div>
+<div class="viewcode-block" id="fig_meta"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.fig_meta">[docs]</a><span class="k">class</span> <span class="nc">fig_meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">title</span><span class="o">=</span><span class="bp">None</span>
+    <span class="n">author</span><span class="o">=</span><span class="s">u&#39;Levi Kilcher&#39;</span>
+    <span class="n">script</span><span class="o">=</span><span class="bp">None</span>
+    <span class="n">producer</span><span class="o">=</span><span class="s">u&#39;matplotlib &#39;</span><span class="o">+</span><span class="n">mpl</span><span class="o">.</span><span class="n">__version__</span><span class="o">+</span><span class="s">&#39;, http://matplotlib.sf.net&#39;</span>
+    <span class="n">description</span><span class="o">=</span><span class="bp">None</span>
+    <span class="n">keywords</span><span class="o">=</span><span class="bp">None</span>
+    <span class="n">_fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">,</span><span class="s">&#39;author&#39;</span><span class="p">,</span><span class="s">&#39;script&#39;</span><span class="p">,</span><span class="s">&#39;producer&#39;</span><span class="p">,</span><span class="s">&#39;description&#39;</span><span class="p">,</span><span class="s">&#39;keywords&#39;</span><span class="p">]</span>
+             
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="n">ostring</span><span class="o">=</span><span class="s">&#39;&lt;ptools.fig_meta object&gt;</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">for</span> <span class="n">fld</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="p">:</span>
+            <span class="n">ostring</span><span class="o">+=</span><span class="s">&#39;</span><span class="si">%16s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fld</span><span class="p">)</span><span class="o">+</span><span class="s">&#39; : &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fld</span><span class="p">))</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">return</span> <span class="n">ostring</span>
+
+<div class="viewcode-block" id="fig_meta.write_pdf"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.fig_meta.write_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">write_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fname</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="c">## def write_pdf(self,fname):</span>
+    <span class="c">##     pdf_map=[(&#39;title&#39;,&#39;/Title&#39;),(&#39;author&#39;,&#39;/Author&#39;),(&#39;description&#39;,&#39;/Subject&#39;),(&#39;keywords&#39;,&#39;/Keywords&#39;),(&#39;producer&#39;,&#39;/Producer&#39;)]</span>
+    <span class="c">##     ostrm=pdf.PdfFileWriter()</span>
+    <span class="c">##     infoDict = ostrm._info.getObject()</span>
+    <span class="c">##     for nm,pnm in pdf_map:</span>
+    <span class="c">##         val=getattr(self,nm)</span>
+    <span class="c">##         if val is not None:</span>
+    <span class="c">##             if nm == &#39;author&#39; and self.script is not None:</span>
+    <span class="c">##                 infoDict[pdf.generic.NameObject(pnm)]=pdf.generic.createStringObject(val+&#39; (&#39;+self.script+&#39;)&#39;)</span>
+    <span class="c">##             else:</span>
+    <span class="c">##                 infoDict[pdf.generic.NameObject(pnm)]=pdf.generic.createStringObject(val)</span>
+    <span class="c">##     with file(fname,&#39;rb&#39;) as ifile:</span>
+    <span class="c">##         istrm=pdf.PdfFileReader(ifile)</span>
+    <span class="c">##         for page in range(istrm.getNumPages()):</span>
+    <span class="c">##             ostrm.addPage(istrm.getPage(page))</span>
+    <span class="c">##         with tempfile.NamedTemporaryFile(delete=False) as ofile:</span>
+    <span class="c">##             ostrm.write(ofile)</span>
+    <span class="c">##     shutil.copyfile(ofile.name,fname)</span>
+    <span class="c">##     os.remove(ofile.name)</span>
+    <span class="c">##     #os.rename(ofile.name,fname)</span>
+</div>
+<div class="viewcode-block" id="fig_meta.write"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.fig_meta.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fname</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.pdf&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_pdf</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.svg&#39;</span><span class="p">):</span>
+            <span class="k">pass</span>
+            <span class="c">#self.write_svg(fname)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+</div></div>
+<div class="viewcode-block" id="figobj"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.figobj">[docs]</a><span class="k">class</span> <span class="nc">figobj</span><span class="p">(</span><span class="n">axgroup</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A base class for my figure objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nax</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<div class="viewcode-block" id="figobj.savefig"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.figobj.savefig">[docs]</a>    <span class="k">def</span> <span class="nf">savefig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="figobj.sax_params"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.figobj.sax_params">[docs]</a>    <span class="k">def</span> <span class="nf">sax_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">kwargs</span>
+    </div>
+<div class="viewcode-block" id="figobj.saxes"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.figobj.saxes">[docs]</a>    <span class="k">def</span> <span class="nf">saxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">nax</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">nax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sax</span><span class="o">=</span><span class="n">saxes</span><span class="p">(</span><span class="n">nax</span><span class="p">,</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">sax_params</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sax</span><span class="o">.</span><span class="n">drawall</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sax</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        </div>
+<div class="viewcode-block" id="figobj.initFig"><a class="viewcode-back" href="../../api/pyts_plot.html#pyts_plot.superaxes.figobj.initFig">[docs]</a>    <span class="k">def</span> <span class="nf">initFig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fignum</span><span class="p">,</span><span class="n">nax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">figkws</span><span class="o">=</span><span class="p">{}</span>
+        <span class="n">figkws</span><span class="p">[</span><span class="s">&#39;figsize&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;figsize&#39;</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">=</span><span class="n">pylab</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fignum</span><span class="p">,</span><span class="o">**</span><span class="n">figkws</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">clf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">set_window_title</span><span class="p">(</span><span class="s">&#39;Fg</span><span class="si">%d</span><span class="s">: &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">number</span><span class="p">)</span> <span class="o">+</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">])</span>
+</div>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fignum</span><span class="p">,</span><span class="n">nax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">axsize</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">frame</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">.</span><span class="mi">3</span><span class="p">],</span><span class="n">gap</span><span class="o">=.</span><span class="mi">4</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        *fignum*   : Figure number</span>
+<span class="sd">        *nax*      : Shape of axes.</span>
+
+<span class="sd">        Other keyword arguments:</span>
+<span class="sd">        *saxparams*  : input arguments to saxes.</span>
+<span class="sd">        </span>
+<span class="sd">        *axsize*     : specifies the size of the axes [vertical,horizontal] in inches.</span>
+<span class="sd">        </span>
+<span class="sd">        When *axsize* is not None (default):</span>
+<span class="sd">        *frame*      : specifies the frame around the axes [bottom,top,left,right], </span>
+<span class="sd">                       in inches (default: [.6,.3,1,.3]).</span>
+<span class="sd">        *gap*        : specifies the gap between axes [vertical,horizontal], </span>
+<span class="sd">                       in inches (default: [.2,.2]).</span>
+<span class="sd">        *hrel*       : specifies the relative horizontal size of each axes.</span>
+<span class="sd">        *vrel*       : specifies the relative vertical size of each axes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">saxparams</span><span class="o">=</span><span class="p">{}</span>
+        <span class="k">if</span> <span class="n">nax</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">nax</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;vrel&#39;</span><span class="p">):</span>
+            <span class="n">nax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">saxparams</span><span class="p">[</span><span class="s">&#39;vrel&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;vrel&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">=</span><span class="n">fig_meta</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">axsize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">axsize</span><span class="o">=</span><span class="n">pair</span><span class="p">(</span><span class="n">axsize</span><span class="p">)</span>
+            <span class="n">gap</span><span class="o">=</span><span class="n">pair</span><span class="p">(</span><span class="n">gap</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;figsize&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;figsize&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">saxparams</span><span class="p">[</span><span class="s">&#39;h&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">calcFigSize</span><span class="p">(</span><span class="n">nax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="n">axsize</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">gap</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span><span class="n">frm</span><span class="o">=</span><span class="n">frame</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;figsize&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">saxparams</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">calcFigSize</span><span class="p">(</span><span class="n">nax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="n">axsize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gap</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span><span class="n">frm</span><span class="o">=</span><span class="n">frame</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">saxparams</span><span class="p">[</span><span class="s">&#39;sharex&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;sharex&#39;</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">saxparams</span><span class="p">[</span><span class="s">&#39;sharey&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;sharey&#39;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;saxparams&#39;</span><span class="p">):</span>
+            <span class="n">saxparams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;saxparams&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initFig</span><span class="p">(</span><span class="n">fignum</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">saxes</span><span class="p">(</span><span class="n">nax</span><span class="o">=</span><span class="n">nax</span><span class="p">,</span><span class="o">**</span><span class="n">saxparams</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+    
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">trace</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../pyts_plot.html" >pyts_plot</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, National Renewable Energy Lab.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

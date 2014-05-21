@@ -1,0 +1,7 @@
+tsread Module
+=============
+
+.. automodule:: tsread
+    :members:
+    :undoc-members:
+    :show-inheritance:

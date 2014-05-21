@@ -17,14 +17,6 @@ cohereModels Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`iec` Module
------------------
-
-.. automodule:: pyts.cohereModels.iec
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 :mod:`mBase` Module
 -------------------
 

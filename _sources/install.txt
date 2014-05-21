@@ -1,97 +1,27 @@
 .. _install:
 
-Installation
-============
+Download and Install
+====================
 
-|pyts| can be installed in several different ways depending on your system.  At the most general level, assuming you have Python and NumPy installed, you should be able to simply download |pyts| from the repository (http://github.com/lkilcher/pyTurbSim\ ), and:
+|pyts| can be installed in several different ways depending on your system.  At the most general level, assuming you have Python and NumPy installed, you should be able to simply download |pyts| from the repository (http://github.com/lkilcher/pyTurbSim\ ). For example, if git is installed, you can::
+   $ git clone http://github.com/lkilcher/pyTurbSim <download_location>
 
-a) use it out of the directory into which it is installed,
-b) add that directory to your Python path and use the package interactively, or
-c) insert a link to the pyTurbSim.py file into a working path and run that script.
+If `<download_location>` is not specified, the repository will be created in the current directory in a new `pyTurbSim` folder. Once you have downloaded |pyts|, you may either:
 
-The primary caveat to this approach is that you may need to compile
-the tslib Fortran library for your system.  While |pyts| produces
-identical results with or without tslib, it does so much faster with
-it. tslib is a fortran library that uses `LAPACK
-<http://www.netlib.org/lapack/>`_ to implement the computationally
-expensive pieces of |pyts|.  `f2py
-<http://docs.scipy.org/doc/numpy-dev/f2py/>`_ has been used to link
-tslib to the python code. A MS Windows pre-compiled version of tslib
-(tslib.pyd) is provided with this distribution.
+a) install it into your Python packages repository by executing the setup.py script::
 
-For information on how to use |pyts| consult the :doc:`usage` page.  For more specific guidance on installing |pyts|, see below...
+     $ cd <download_location>
+     $ python setup.py install
+
+b) use it out of `<download_location>`.
+
+For information on how to use |pyts| consult the :doc:`usage` page.
+For more specific guidance on installing |pyts|, see below...
 
 Dependencies
 ------------
 
-- |pyts| is known to work on Python 2.7 and numpy 1.6.
+- |pyts| is known to work with Python 2.7 and numpy 1.6.
 - The gui (gTurbSim) also requires wxPython (2.8).
-- A fortran compiler is required to compile tslib (e.g. gfortran).
+- gfortran is required to compile tslib (the setup.py file does this). In MS Windows try installing `MinGW <http://www.mingw.org/>`_\ .
 
-Downloading
------------
-
-|pyts| can be installed easily by simply downloading and/or cloning the repository from http://github.com/lkilcher/pyTurbSim.  If you have git installed, you can do this as:
-::
-   $ git clone http://github.com/lkilcher/pyTurbSim <your_preferred_install_location>
-
-Installing on Windows systems
------------------------------
-
-Their are two ways to use |pyts| on Windows. If you will be using |pyts| to produce time-series from :term:`input file`\ s, you may only need to download the pyTurbSim.exe executable and run it on your TurbSim input files as necessary, e.g.:
-::
-   $ pyTurbSim.exe TurbSim.inp
-
-If, on the other hand, you wish to use more of the operational modes of |pyts| (see :ref:`usage`), then you will need to download and install Python, NumPy, and the full |pyts| `repository <http://github.com/lkilcher/pyTurbSim/`_.  This repository includes a pre-compiled tslib.pyd python-dll that will provide faster performance than the pure-Python code that is otherwise used.
-
-Recompiling tslib in Windows
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-As noted above, tslib.pyd is a pre-compiled python-dll that should work out of the box. If you desire to recompile this library, follow these instructions.:
-
-1) The build.bat script included here depends on the 'minGW' program-suite, so you will need to install `minGW <http://www.mingw.org/>`_, or edit the file to use an alternate compiler.  Assuming you use minGW, you will want to make sure to `Edit your system's environment variables <https://www.google.com/search?q=edit+windows+environment+variables>`_:
-
-   a) Make sure that the following entries are in your system ``path``:
-      ::
-         <mingw-install-path>\bin\
-         <python-install-path>\Scripts\
-         <python-install-path>\bin\
-
-   b) Add ``.py`` to your ``PATHEXT`` environment variable.
-
-2) Run the ``build.bat`` script
-   ::
-      $ cd <turbsim root>/pyts/tslib/
-      $ build.bat
-
-Rebuilding the Windows executable
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In the event that you make changes to |pyts| and want to rebuild the stand-alone pyTurbSim.exe executable, the setup.py file is set to do this (it depends on py2exe).  You will want to make sure that the tslib.pyd file is working, then simply run:
-::
-   python setup.py
-
-Installing on Unix-like systems
--------------------------------
-
-Alternatively, one can use |pyts| in an interactive shell or in other software packages.  To do this:
-1) make sure the directory containing the 'pyts' directory is on your python path (i.e. the directory containing this README).
-2) import the 'pyts' package (the 'pyts' directory)
-3) Once the package is loaded there are multiple ways to run TurbSim.
-
-Then simply add ``<your_preferred_install_location>`` to your Python path, and add a link to ``pyTurbSim.py`` to your 
-
-If you add the directory where |pyts| was installed to your Python path, then you can use the pyTurbSim package by simply importing it:
-::
-   >>> import pyts
-
-
-Building tslib
---------------
-
-Compiling tslib in Unix
-^^^^^^^^^^^^^^^^^^^^^^^
-On unix systems make sure gfortran is installed, then open a command line and perform the following steps:
-::
-  $ cd <turbsim root>/pyts/tslib/
-  $ ./build
-
-If there are no errors, the tslib module will now be in the 'pyts/' directory and |pyts| will run much more efficiently.

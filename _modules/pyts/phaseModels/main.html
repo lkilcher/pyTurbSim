@@ -1,0 +1,128 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.phaseModels.main &mdash; PyTurbSim 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="top" title="PyTurbSim 0.2 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyts.phaseModels.main</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The main random phase models.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">mBase</span> <span class="kn">import</span> <span class="n">phaseModelBase</span><span class="p">,</span><span class="n">np</span><span class="p">,</span><span class="n">ts_complex</span>
+
+<div class="viewcode-block" id="randPhase"><a class="viewcode-back" href="../../../api/pyts.phaseModels.html#pyts.phaseModels.main.randPhase">[docs]</a><span class="k">class</span> <span class="nc">randPhase</span><span class="p">(</span><span class="n">phaseModelBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This phase-model randomizes the phases uniformly and without any</span>
+<span class="sd">    &#39;phase coherence&#39; (correlation as a function of frequency).</span>
+
+<span class="sd">    Because it is so simple, it has no initialization parameters.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="randPhase.__call__"><a class="viewcode-back" href="../../../api/pyts.phaseModels.html#pyts.phaseModels.main.randPhase.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and calculate the phases for the `tsrun` instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tsrun :         :class:`tsrun &lt;pyts.main.tsrun&gt;`</span>
+<span class="sd">                        A TurbSim run object.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out :           array_like(3,n_p,n_f)</span>
+<span class="sd">                        An array of random phases.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">phases</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_complex</span><span class="p">,</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span>
+        <span class="n">phases</span><span class="p">[:]</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">tsrun</span><span class="o">.</span><span class="n">randgen</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">phases</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, National Renewable Energy Lab.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

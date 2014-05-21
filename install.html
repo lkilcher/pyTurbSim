@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Installation &mdash; PyTurbSim 0.2 documentation</title>
+    <title>Download and Install &mdash; PyTurbSim 0.2 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -56,94 +56,31 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="installation">
-<span id="install"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>PyTurbSim can be installed in several different ways depending on your system.  At the most general level, assuming you have Python and NumPy installed, you should be able to simply download PyTurbSim from the repository (<a class="reference external" href="http://github.com/lkilcher/pyTurbSim">http://github.com/lkilcher/pyTurbSim</a>), and:</p>
-<ol class="loweralpha simple">
-<li>use it out of the directory into which it is installed,</li>
-<li>add that directory to your Python path and use the package interactively, or</li>
-<li>insert a link to the pyTurbSim.py file into a working path and run that script.</li>
+  <div class="section" id="download-and-install">
+<span id="install"></span><h1>Download and Install<a class="headerlink" href="#download-and-install" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt>PyTurbSim can be installed in several different ways depending on your system.  At the most general level, assuming you have Python and NumPy installed, you should be able to simply download PyTurbSim from the repository (<a class="reference external" href="http://github.com/lkilcher/pyTurbSim">http://github.com/lkilcher/pyTurbSim</a>). For example, if git is installed, you can::</dt>
+<dd>$ git clone <a class="reference external" href="http://github.com/lkilcher/pyTurbSim">http://github.com/lkilcher/pyTurbSim</a> &lt;download_location&gt;</dd>
+</dl>
+<p>If <cite>&lt;download_location&gt;</cite> is not specified, the repository will be created in the current directory in a new <cite>pyTurbSim</cite> folder. Once you have downloaded PyTurbSim, you may either:</p>
+<ol class="loweralpha">
+<li><p class="first">install it into your Python packages repository by executing the setup.py script:</p>
+<div class="highlight-python"><pre>$ cd &lt;download_location&gt;
+$ python setup.py install</pre>
+</div>
+</li>
+<li><p class="first">use it out of <cite>&lt;download_location&gt;</cite>.</p>
+</li>
 </ol>
-<p>The primary caveat to this approach is that you may need to compile
-the tslib Fortran library for your system.  While PyTurbSim produces
-identical results with or without tslib, it does so much faster with
-it. tslib is a fortran library that uses <a class="reference external" href="http://www.netlib.org/lapack/">LAPACK</a> to implement the computationally
-expensive pieces of PyTurbSim.  <a class="reference external" href="http://docs.scipy.org/doc/numpy-dev/f2py/">f2py</a> has been used to link
-tslib to the python code. A MS Windows pre-compiled version of tslib
-(tslib.pyd) is provided with this distribution.</p>
-<p>For information on how to use PyTurbSim consult the <a class="reference internal" href="usage.html"><em>Usage</em></a> page.  For more specific guidance on installing PyTurbSim, see below...</p>
+<p>For information on how to use PyTurbSim consult the <a class="reference internal" href="usage.html"><em>Usage</em></a> page.
+For more specific guidance on installing PyTurbSim, see below...</p>
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>PyTurbSim is known to work on Python 2.7 and numpy 1.6.</li>
+<li>PyTurbSim is known to work with Python 2.7 and numpy 1.6.</li>
 <li>The gui (gTurbSim) also requires wxPython (2.8).</li>
-<li>A fortran compiler is required to compile tslib (e.g. gfortran).</li>
+<li>gfortran is required to compile tslib (the setup.py file does this). In MS Windows try installing <a class="reference external" href="http://www.mingw.org/">MinGW</a>.</li>
 </ul>
-</div>
-<div class="section" id="downloading">
-<h2>Downloading<a class="headerlink" href="#downloading" title="Permalink to this headline">¶</a></h2>
-<p>PyTurbSim can be installed easily by simply downloading and/or cloning the repository from <a class="reference external" href="http://github.com/lkilcher/pyTurbSim">http://github.com/lkilcher/pyTurbSim</a>.  If you have git installed, you can do this as:</p>
-<div class="highlight-python"><pre>$ git clone http://github.com/lkilcher/pyTurbSim &lt;your_preferred_install_location&gt;</pre>
-</div>
-</div>
-<div class="section" id="installing-on-windows-systems">
-<h2>Installing on Windows systems<a class="headerlink" href="#installing-on-windows-systems" title="Permalink to this headline">¶</a></h2>
-<p>Their are two ways to use PyTurbSim on Windows. If you will be using PyTurbSim to produce time-series from <a class="reference internal" href="glossary.html#term-input-file"><em class="xref std std-term">input file</em></a>s, you may only need to download the pyTurbSim.exe executable and run it on your TurbSim input files as necessary, e.g.:</p>
-<div class="highlight-python"><pre>$ pyTurbSim.exe TurbSim.inp</pre>
-</div>
-<p>If, on the other hand, you wish to use more of the operational modes of PyTurbSim (see <a class="reference internal" href="usage.html#usage"><em>Usage</em></a>), then you will need to download and install Python, NumPy, and the full PyTurbSim <a href="#id1"><span class="problematic" id="id2">`repository &lt;http://github.com/lkilcher/pyTurbSim/`_</span></a>.  This repository includes a pre-compiled tslib.pyd python-dll that will provide faster performance than the pure-Python code that is otherwise used.</p>
-<div class="section" id="recompiling-tslib-in-windows">
-<h3>Recompiling tslib in Windows<a class="headerlink" href="#recompiling-tslib-in-windows" title="Permalink to this headline">¶</a></h3>
-<p>As noted above, tslib.pyd is a pre-compiled python-dll that should work out of the box. If you desire to recompile this library, follow these instructions.:</p>
-<ol class="arabic">
-<li><p class="first">The build.bat script included here depends on the &#8216;minGW&#8217; program-suite, so you will need to install <a class="reference external" href="http://www.mingw.org/">minGW</a>, or edit the file to use an alternate compiler.  Assuming you use minGW, you will want to make sure to <a class="reference external" href="https://www.google.com/search?q=edit+windows+environment+variables">Edit your system&#8217;s environment variables</a>:</p>
-<ol class="loweralpha">
-<li><p class="first">Make sure that the following entries are in your system <tt class="docutils literal"><span class="pre">path</span></tt>:</p>
-<div class="highlight-python"><pre>&lt;mingw-install-path&gt;\bin\
-&lt;python-install-path&gt;\Scripts\
-&lt;python-install-path&gt;\bin\</pre>
-</div>
-</li>
-<li><p class="first">Add <tt class="docutils literal"><span class="pre">.py</span></tt> to your <tt class="docutils literal"><span class="pre">PATHEXT</span></tt> environment variable.</p>
-</li>
-</ol>
-</li>
-<li><p class="first">Run the <tt class="docutils literal"><span class="pre">build.bat</span></tt> script</p>
-<div class="highlight-python"><pre>$ cd &lt;turbsim root&gt;/pyts/tslib/
-$ build.bat</pre>
-</div>
-</li>
-</ol>
-</div>
-<div class="section" id="rebuilding-the-windows-executable">
-<h3>Rebuilding the Windows executable<a class="headerlink" href="#rebuilding-the-windows-executable" title="Permalink to this headline">¶</a></h3>
-<p>In the event that you make changes to PyTurbSim and want to rebuild the stand-alone pyTurbSim.exe executable, the setup.py file is set to do this (it depends on py2exe).  You will want to make sure that the tslib.pyd file is working, then simply run:</p>
-<div class="highlight-python"><pre>python setup.py</pre>
-</div>
-</div>
-</div>
-<div class="section" id="installing-on-unix-like-systems">
-<h2>Installing on Unix-like systems<a class="headerlink" href="#installing-on-unix-like-systems" title="Permalink to this headline">¶</a></h2>
-<p>Alternatively, one can use PyTurbSim in an interactive shell or in other software packages.  To do this:
-1) make sure the directory containing the &#8216;pyts&#8217; directory is on your python path (i.e. the directory containing this README).
-2) import the &#8216;pyts&#8217; package (the &#8216;pyts&#8217; directory)
-3) Once the package is loaded there are multiple ways to run TurbSim.</p>
-<p>Then simply add <tt class="docutils literal"><span class="pre">&lt;your_preferred_install_location&gt;</span></tt> to your Python path, and add a link to <tt class="docutils literal"><span class="pre">pyTurbSim.py</span></tt> to your</p>
-<p>If you add the directory where PyTurbSim was installed to your Python path, then you can use the pyTurbSim package by simply importing it:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyts</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="building-tslib">
-<h2>Building tslib<a class="headerlink" href="#building-tslib" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="compiling-tslib-in-unix">
-<h3>Compiling tslib in Unix<a class="headerlink" href="#compiling-tslib-in-unix" title="Permalink to this headline">¶</a></h3>
-<p>On unix systems make sure gfortran is installed, then open a command line and perform the following steps:</p>
-<div class="highlight-python"><pre>$ cd &lt;turbsim root&gt;/pyts/tslib/
-$ ./build</pre>
-</div>
-<p>If there are no errors, the tslib module will now be in the &#8216;pyts/&#8217; directory and PyTurbSim will run much more efficiently.</p>
-</div>
 </div>
 </div>
 
@@ -155,19 +92,8 @@ $ ./build</pre>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#">Download and Install</a><ul>
 <li><a class="reference internal" href="#dependencies">Dependencies</a></li>
-<li><a class="reference internal" href="#downloading">Downloading</a></li>
-<li><a class="reference internal" href="#installing-on-windows-systems">Installing on Windows systems</a><ul>
-<li><a class="reference internal" href="#recompiling-tslib-in-windows">Recompiling tslib in Windows</a></li>
-<li><a class="reference internal" href="#rebuilding-the-windows-executable">Rebuilding the Windows executable</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#installing-on-unix-like-systems">Installing on Unix-like systems</a></li>
-<li><a class="reference internal" href="#building-tslib">Building tslib</a><ul>
-<li><a class="reference internal" href="#compiling-tslib-in-unix">Compiling tslib in Unix</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>

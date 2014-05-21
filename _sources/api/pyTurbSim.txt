@@ -1,0 +1,7 @@
+pyTurbSim Module
+================
+
+.. automodule:: pyTurbSim
+    :members:
+    :undoc-members:
+    :show-inheritance:

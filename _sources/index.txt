@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to |pyts|'s documentation!
-=====================================
+Welcome to PyTurbSim's home page!
+==================================
 |pyts| is a program for producing simulations of turbulent velocity
 time-series for input to device simulation tools that estimate water-
 and wind-turbine performance and loads.  |pyts| outputs spatial
@@ -33,8 +33,10 @@ Table of Contents
    usage
    code-framework
    plotting-tools
-   api/modules
-
+   api/pyts
+   api/pyts_plot
+   glossary
+   
 
 Indices, tables and notes
 =========================
