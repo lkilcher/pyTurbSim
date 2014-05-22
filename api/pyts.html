@@ -122,7 +122,7 @@ input (.inp) and output files (e.g. .bl, .wnd, etc.)</p>
 <span class="n">tsr</span><span class="o">.</span><span class="n">cohere</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">cohereModels</span><span class="o">.</span><span class="n">nwtc</span><span class="p">()</span>
 
 <span class="c"># ... and define/assign a &#39;stress model&#39;,</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">stress</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">stressModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">refht</span><span class="p">)</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">stress</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">stressModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span><span class="n">refht</span><span class="p">)</span>
 
 <span class="c"># Now simply &#39;call&#39; the run oject to produce the TurbSim output.</span>
 <span class="n">turbsim_output</span><span class="o">=</span><span class="n">tsr</span><span class="p">()</span>
@@ -746,7 +746,7 @@ cohereUser coherence model for more information).</p>
 
 <dl class="attribute">
 <dt id="pyts.main.tsrun.phase">
-<tt class="descname">phase</tt><em class="property"> = &lt;pyts.phaseModels.main.randPhase object at 0x2b15090&gt;</em><a class="headerlink" href="#pyts.main.tsrun.phase" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">phase</tt><em class="property"> = &lt;pyts.phaseModels.main.randPhase object at 0x32680d0&gt;</em><a class="headerlink" href="#pyts.main.tsrun.phase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
