@@ -31,14 +31,23 @@ from numpy.fft import irfft
 # Means add documentation here
 
 # TODO:
-#  - Rebuild .exe
-#  - Make sure pure-python implementation still works.
+#  - Testing:
+#     . Test 'user-defined' models
+#  - Documentation
+#     . Document plotting tools.
+################
+## These require branches
 #  - Fix Reynold's stress!
-#  - Add ability to rotate mean velocity field (for a prof instance and a profModel).
-#  - Add ability to add veer to mean velocity field (prof instance and profModel).
-#  - 'User-defined' models
-#  - Add parameter logging, so that we can write summary files that track all parameters that were input.
-#  - Write .sum summary files (tsio.py), (so they are fully self-contained).
+#  - Break Cholesky from coherence models/objects and into 'main', or tslib.
+#     . How do callbacks work fortran->python?
+#     . Can we implement this so that 'models/objects' are separated from tslib?
+#  - Add 'mods':
+#      . Add ability to rotate mean velocity field (for a prof instance and a profModel).
+#      . Add ability to add veer to mean velocity field (prof instance and profModel).
+#  - Write .sum summary files (io package), (so they are fully self-contained).
+#     . Add parameter logging, so that we can write summary files that track all parameters that were input.
+################
+## Low priority
 #  - Write FF files (tsio.py).
 #  - Write HubHeight files (tsio.py).
 #  - Add KHtest functionality? (rgrep for '#KHTEST')

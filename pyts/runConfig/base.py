@@ -8,6 +8,7 @@ https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf
 
 """
 from ..base import np
+from numpy import uint32
 
 class tscfg(dict):
     """
@@ -137,9 +138,9 @@ class tscfg(dict):
     def randseed(self,):
         tmpval=0
         if self.has_key('RandSeed1') and self['RandSeed1'] is not None:
-            tmpval+=np.uint32(self['RandSeed1'])
+            tmpval+=uint32(self['RandSeed1'])
         if self.has_key('RandSeed2') and self['RandSeed2'] is not None:
-            tmpval+=np.uint32(self['RandSeed2'])<<32
+            tmpval+=uint32(self['RandSeed2'])<<32
         if tmpval==0:
             return None
         return tmpval

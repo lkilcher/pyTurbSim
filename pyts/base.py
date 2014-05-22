@@ -21,9 +21,8 @@ try:
 except ImportError:
     print """
     ***Warning***: 'tslib' did not load correctly.  pyTurbSim
-    will produce accurate results, but less efficiently. To improve
-    performance recompile the library as decribed in the 'Building
-    tslib' section of the README file.
+    will produce accurate results, but MUCH less efficiently.
+    Consider compiling the tslib to improve performance.
     """
     tslib=None
 

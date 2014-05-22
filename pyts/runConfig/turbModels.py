@@ -56,7 +56,7 @@ def _tidal(tsconfig):
 def _river(tsconfig):
     smodel=sm.river(tsconfig['UStar'],tsconfig['RefHt'])
     cmodel=cm.nwtc(tsconfig.incdec_a,tsconfig.incdec_b,tsconfig['CohExp'])
-    rmodel=rm.tidal(tsconfig['RefHt'])
+    rmodel=rm.tidal(tsconfig['UStar'],tsconfig['RefHt'])
     return smodel,cmodel,rmodel
 
 def _ieckai(tsconfig):
