@@ -29,7 +29,7 @@ tsr.spec=pyts.specModels.tidal(ustar,refht)
 tsr.cohere=pyts.cohereModels.nwtc()
 
 # ... and define/assign a 'stress model',
-tsr.stress=pyts.stressModels.tidal(refht)
+tsr.stress=pyts.stressModels.tidal(ustar,refht)
 
 # Now simply 'call' the run oject to produce the TurbSim output.
 turbsim_output=tsr()
