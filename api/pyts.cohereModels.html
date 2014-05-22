@@ -90,13 +90,23 @@ velocity for all pairs of points in the grid.</p>
 <div class="section" id="available-coherence-models">
 <h3>Available coherence models<a class="headerlink" href="#available-coherence-models" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
-<dt>main.iec (alias: iec)</dt>
+<dt><a class="reference internal" href="#pyts.cohereModels.main.iec" title="pyts.cohereModels.main.iec"><tt class="xref py py-class docutils literal"><span class="pre">main.iec</span></tt></a> (alias: iec)</dt>
 <dd>The IEC spatial coherence model</dd>
-<dt>main.nwtc (alias: nwtc)</dt>
+<dt><a class="reference internal" href="#pyts.cohereModels.main.nwtc" title="pyts.cohereModels.main.nwtc"><tt class="xref py py-class docutils literal"><span class="pre">main.nwtc</span></tt></a> (alias: nwtc)</dt>
 <dd>The NWTC &#8216;non-IEC&#8217; coherence model.</dd>
-<dt>main.none (alias: none)</dt>
+<dt><a class="reference internal" href="#pyts.cohereModels.main.none" title="pyts.cohereModels.main.none"><tt class="xref py py-class docutils literal"><span class="pre">main.none</span></tt></a> (alias: none)</dt>
 <dd>A &#8216;no coherence&#8217; model.</dd>
+<dt><a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase" title="pyts.cohereModels.mBase.cohereModelBase"><tt class="xref py py-class docutils literal"><span class="pre">cohereModelBase</span></tt></a></dt>
+<dd>This is the base class for coherence models. To create a new one,
+subclass this class or subclass and modify an existing coherence
+model.</dd>
+<dt><a class="reference internal" href="#pyts.cohereModels.mBase.cohereObj" title="pyts.cohereModels.mBase.cohereObj"><tt class="xref py py-class docutils literal"><span class="pre">cohereObj</span></tt></a></dt>
+<dd>This is the &#8216;coherence object&#8217; class.  All coherence model <cite>__call__</cite>
+methods must take a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a> as input and
+return this class.</dd>
 </dl>
+<p>Further details on creating your own coherence model, can be found in
+<a class="reference internal" href="#module-pyts.cohereModels.mBase" title="pyts.cohereModels.mBase"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.cohereModels.mBase</span></tt></a> documentation.</p>
 </div>
 </div>
 <div class="section" id="module-pyts.cohereModels.mBase">
@@ -130,7 +140,7 @@ coh=cm(tsr)</p>
 <dl class="method">
 <dt id="pyts.cohereModels.mBase.cohereModelBase.__call__">
 <tt class="descname">__call__</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereModelBase.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereModelBase.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the coherence matrix for TurbSim run <em>tsrun</em> according to this
+<dd><p>Calculate the coherence matrix for TurbSim run <cite>tsrun</cite> according to this
 coherence model. The grid, profile and spectrum (tsrun.grid, tsrun.prof,
 tsrun.spec) must already be defined for the tsrun.</p>
 <table class="docutils field-list" frame="void" rules="none">

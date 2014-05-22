@@ -80,11 +80,19 @@ velocity components. It has three components: &lt;u&#8217;v&#8217;&gt;, &lt;u&#8
 <div class="section" id="available-stress-models">
 <h3>Available stress models:<a class="headerlink" href="#available-stress-models" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
-<dt>main.uniform (alias: uniform)</dt>
+<dt><a class="reference internal" href="#pyts.stressModels.main.uniform" title="pyts.stressModels.main.uniform"><tt class="xref py py-class docutils literal"><span class="pre">main.uniform</span></tt></a> (alias: uniform)</dt>
 <dd>A uniform Reynold&#8217;s stress over the spatial domain.</dd>
-<dt>hydro.tidal (alias: tidal)</dt>
+<dt><a class="reference internal" href="#pyts.stressModels.hydro.tidal" title="pyts.stressModels.hydro.tidal"><tt class="xref py py-class docutils literal"><span class="pre">hydro.tidal</span></tt></a> (alias: tidal)</dt>
 <dd>The &#8216;tidal` Reynold&#8217;s stress model (increases linearly toward the
 seafloor/ground).</dd>
+<dt><a class="reference internal" href="#pyts.stressModels.mBase.stressModelBase" title="pyts.stressModels.mBase.stressModelBase"><tt class="xref py py-class docutils literal"><span class="pre">stressModelBase</span></tt></a></dt>
+<dd>This is the base class for stress models. To create a new one,
+subclass this class or subclass and modify an existing stress
+model.</dd>
+<dt><a class="reference internal" href="#pyts.stressModels.mBase.stressObj" title="pyts.stressModels.mBase.stressObj"><tt class="xref py py-class docutils literal"><span class="pre">stressObj</span></tt></a></dt>
+<dd>This is the &#8216;stress object&#8217; class.  All stress model <cite>__call__</cite>
+methods must take a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a> as input and
+return this class.</dd>
 </dl>
 </div>
 <div class="section" id="example-usage">
