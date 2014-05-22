@@ -212,7 +212,7 @@ class cohereObjIEC(cohereObj):
         """
         if comp==0:
             r=self.grid.dist(ii,jj)
-            return np.exp(-self.a*np.sqrt((f*r/self.prof.uhub)**2+(0.12*r/self.Lc(self.grid.zhub))**2))
+            return np.exp(-self.a*np.sqrt((f*r/self.prof.uhub)**2+(0.12*r/self.Lc)**2))
         else:
             return 0
 

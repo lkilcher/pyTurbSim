@@ -216,7 +216,7 @@ class cohereModelBase(modelBase,gridProps):
 
     def __call__(self,tsrun):
         """
-        Calculate the coherence matrix for TurbSim run *tsrun* according to this
+        Calculate the coherence matrix for TurbSim run `tsrun` according to this
         coherence model. The grid, profile and spectrum (tsrun.grid, tsrun.prof,
         tsrun.spec) must already be defined for the tsrun.
 

@@ -24,16 +24,30 @@ velocity for all pairs of points in the grid.
 Available coherence models
 --------------------------
 
-main.iec (alias: iec)
+:class:`.main.iec` (alias: iec)
   The IEC spatial coherence model
 
-main.nwtc (alias: nwtc)
+:class:`.main.nwtc` (alias: nwtc)
   The NWTC 'non-IEC' coherence model.
 
-main.none (alias: none)
+:class:`.main.none` (alias: none)
   A 'no coherence' model.
 
+:class:`cohereModelBase <.mBase.cohereModelBase>`
+  This is the base class for coherence models. To create a new one,
+  subclass this class or subclass and modify an existing coherence
+  model.
+
+:class:`cohereObj <.mBase.cohereObj>`
+  This is the 'coherence object' class.  All coherence model `__call__`
+  methods must take a :class:`tsrun <pyts.main.tsrun>` as input and
+  return this class.
+
+Further details on creating your own coherence model, can be found in
+:mod:`pyts.cohereModels.mBase` documentation.
+
 """
+from .mBase import cohereObj,cohereModelBase
 import main
 
 iec=main.iec
