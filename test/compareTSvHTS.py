@@ -14,8 +14,8 @@ ts_file_type='.wnd'
 
 # Run TurbSim and HydroTurbSim?
 flag_run=False or True
-flag_run_ts=False# or True
-flag_run_pyts=False# or True
+flag_run_ts=False or True
+flag_run_pyts=False or True
 # Plot the results and compare?
 flag_plot=False or True
 
@@ -23,10 +23,12 @@ flag_plot=False or True
 ## These are the name of the input files (in ./inp_files/) that are run and compared. ##
 fnames=['Tidal','Smooth','IecKai','IecVkm','GPllj','NWTCup','wfup','wf07d','wf14d',]
 #fnames=['Smooth','IecKai','IecVkm','GPllj','NWTCup','wfup','wf07d','wf14d',]
-#fnames=['IecVkm'] #CHECKED 4/26/2013
+fnames=['IecVkm'] #CHECKED 4/26/2013
+fnames=['IecVkm_short'] #CHECKED 4/26/2013
 #fnames=['IecKai'] #CHECKED 4/26/2013
+#fnames=['IecKai_short'] #CHECKED 4/26/2013
 #fnames=['Smooth'] #CHECKED 4/26/2013
-fnames=['Tidal'] #CHECKED 4/26/2013
+#fnames=['Tidal'] #CHECKED 4/26/2013
 #fnames=['GPllj']
 #fnames=['River'] #CHECKED 4/26/2013
 #fnames=['NWTCup'] #CHECKED 4/26/2013
@@ -88,7 +90,7 @@ if flag_plot:
         tsdat=tsio.readModel('./ts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
         ptsdat=tsio.readModel('./pyts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
 
-        fg=pyts_plot.summfig(3000+c,nfft=1024,title=nm.upper()+' spectral model')
+        fg=pyts_plot.summfig(3000+c,nfft=1024,title=nm.upper().replace('_','-')+' spectral model')
         fg.setinds(ptsdat,igrid=None,)
         fg.setinds(tsdat,igrid=(0,1),)
         fg.plot(tsdat,color='r',label='TS')
