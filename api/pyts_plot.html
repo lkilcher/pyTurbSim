@@ -60,114 +60,14 @@
 <h1>pyts_plot Package<a class="headerlink" href="#pyts-plot-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2><tt class="xref py py-mod docutils literal"><span class="pre">pyts_plot</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-pyts_plot.__init__"></span><dl class="function">
-<dt id="pyts_plot.__init__.plot_spectra">
-<tt class="descclassname">pyts_plot.__init__.</tt><tt class="descname">plot_spectra</tt><big>(</big><em>tsdata</em>, <em>fignum=1001</em>, <em>nfft=1024</em>, <em>igrid=None</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#plot_spectra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.plot_spectra" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plots the spectra of TurbSim output.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="pyts_plot.__init__.showts">
-<tt class="descclassname">pyts_plot.__init__.</tt><tt class="descname">showts</tt><big>(</big><em>tsdata</em>, <em>fignum=2001</em>, <em>nfft=1024</em>, <em>igrid=None</em>, <em>icoh=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#showts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.showts" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="class">
-<dt id="pyts_plot.__init__.specfig">
-<em class="property">class </em><tt class="descclassname">pyts_plot.__init__.</tt><tt class="descname">specfig</tt><big>(</big><em>fignum=661</em>, <em>ncol=1</em>, <em>axsize=3</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#specfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.specfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts_plot.superaxes.figobj" title="pyts_plot.superaxes.figobj"><tt class="xref py py-class docutils literal"><span class="pre">pyts_plot.superaxes.figobj</span></tt></a></p>
-<p>A base class for plotting spectra.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts_plot.__init__.summfig">
-<em class="property">class </em><tt class="descclassname">pyts_plot.__init__.</tt><tt class="descname">summfig</tt><big>(</big><em>fignum=662, axsize=[3, 3], spacing=[0.4, 0.8], frame=[1, 0.7, 1, 0.3], nfft=1024, title=None</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>A figure object for plotting TurbSim output statistics (mean velocity profile, spectra, coherence, tke profile and the Reynolds Stress profile.</p>
-<dl class="method">
-<dt id="pyts_plot.__init__.summfig.finish">
-<tt class="descname">finish</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.finish"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.finish" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finalize the figure.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts_plot.__init__.summfig.icoh">
-<tt class="descname">icoh</tt><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.icoh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.icoh" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts_plot.__init__.summfig.igrid">
-<tt class="descname">igrid</tt><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.igrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.igrid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts_plot.__init__.summfig.plot">
-<tt class="descname">plot</tt><big>(</big><em>tsdata</em>, <em>theory_line=False</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot all of the variables (mean profile, spectrum, coherence, tke, stress) for this summfig object</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts_plot.__init__.summfig.plot_coh">
-<tt class="descname">plot_coh</tt><big>(</big><em>tsdata</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.plot_coh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.plot_coh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the coherence of the input <em>tsdata</em> TurbSim data object (between points iz,iy and icohz,icohy).</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts_plot.__init__.summfig.plot_prof">
-<tt class="descname">plot_prof</tt><big>(</big><em>tsdata</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.plot_prof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.plot_prof" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the mean velocity profile of the input <em>tsdata</em> object (at the &#8216;iy&#8217; grid index of this summfig object).</p>
-<p><em>kwargs</em> are passed to the &#8216;plot&#8217; function.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts_plot.__init__.summfig.plot_profpt">
-<tt class="descname">plot_profpt</tt><big>(</big><em>tsdata</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.plot_profpt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.plot_profpt" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot a circle on the velocity profile at the point where the spectra are taken from for this summfig instance (iz,iy).</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts_plot.__init__.summfig.plot_rs">
-<tt class="descname">plot_rs</tt><big>(</big><em>tsdata</em>, <em>factor=10000.0</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.plot_rs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.plot_rs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the Reynolds stress profile of the input <em>tsdata</em> object (at the &#8216;iy&#8217; grid index of this summfig instance).</p>
-<p><em>kwargs</em> are passed to the &#8216;plot&#8217; function.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts_plot.__init__.summfig.plot_spec">
-<tt class="descname">plot_spec</tt><big>(</big><em>tsdata</em>, <em>theory_line=False</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.plot_spec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.plot_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the spectrum (point iz,iy) of the input <em>tsdata</em> TurbSim data object.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts_plot.__init__.summfig.plot_theory">
-<tt class="descname">plot_theory</tt><big>(</big><em>tsrun</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.plot_theory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.plot_theory" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts_plot.__init__.summfig.plot_tke">
-<tt class="descname">plot_tke</tt><big>(</big><em>tsdata</em>, <em>factor=10000.0</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.plot_tke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.plot_tke" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the tke profile of the input <em>tsdata</em> object (at the &#8216;iy&#8217; grid index of this summfig instance).</p>
-<p><em>kwargs</em> are passed to the &#8216;plot&#8217; function.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts_plot.__init__.summfig.savefig">
-<tt class="descname">savefig</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.savefig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.savefig" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts_plot.__init__.summfig.set_title">
-<tt class="descname">set_title</tt><big>(</big><em>title</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.set_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.set_title" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the title of the figure.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts_plot.__init__.summfig.setinds">
-<tt class="descname">setinds</tt><big>(</big><em>tsdata</em>, <em>igrid=None</em>, <em>icoh=None</em><big>)</big><a class="reference internal" href="../_modules/pyts_plot/__init__.html#summfig.setinds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts_plot.__init__.summfig.setinds" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the (iz,iy) indices for this summfig instance.</p>
-</dd></dl>
-
-</dd></dl>
-
+<span class="target" id="module-pyts_plot.__init__"></span><p>This is the PyTurbSim plotting package. It contains various functions
+and tools for plotting data that is created by PyTurbSim (and, by
+extension, TurbSim).</p>
+<p>For more information and to use this package import the api
+module, e.g.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyts.plot.api</span> <span class="kn">as</span> <span class="nn">pt</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="module-pyts_plot.basefuncs">
 <span id="basefuncs-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">basefuncs</span></tt> Module<a class="headerlink" href="#module-pyts_plot.basefuncs" title="Permalink to this headline">¶</a></h2>
@@ -283,6 +183,9 @@ This function will then flip y2 and tack it onto y1.</p>
 This function will add and subtract y2 from y1.</p>
 </dd></dl>
 
+</div>
+<div class="section" id="main-module">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">main</span></tt> Module<a class="headerlink" href="#main-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-pyts_plot.superaxes">
 <span id="superaxes-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">superaxes</span></tt> Module<a class="headerlink" href="#module-pyts_plot.superaxes" title="Permalink to this headline">¶</a></h2>
@@ -888,6 +791,7 @@ when <em>force</em> is True (default) this function turns on every <em>rep</em>&
 <li><a class="reference internal" href="#">pyts_plot Package</a><ul>
 <li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">pyts_plot</span></tt> Package</a></li>
 <li><a class="reference internal" href="#module-pyts_plot.basefuncs"><tt class="docutils literal"><span class="pre">basefuncs</span></tt> Module</a></li>
+<li><a class="reference internal" href="#main-module"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-pyts_plot.superaxes"><tt class="docutils literal"><span class="pre">superaxes</span></tt> Module</a></li>
 </ul>
 </li>

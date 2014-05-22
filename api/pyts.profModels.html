@@ -77,14 +77,22 @@ package, e.g.</p>
 <div class="section" id="available-profile-models">
 <h3>Available profile models<a class="headerlink" href="#available-profile-models" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
-<dt>log_models.nwtc (alias: log)</dt>
+<dt><a class="reference internal" href="#pyts.profModels.log.nwtc" title="pyts.profModels.log.nwtc"><tt class="xref py py-class docutils literal"><span class="pre">log_models.nwtc</span></tt></a> (alias: log)</dt>
 <dd>The nwtc logarithmic mean wind-speed profile.</dd>
-<dt>log_models.H2O (alias: h2l)</dt>
+<dt><a class="reference internal" href="#pyts.profModels.log.H2O" title="pyts.profModels.log.H2O"><tt class="xref py py-class docutils literal"><span class="pre">log_models.H2O</span></tt></a> (alias: h2l)</dt>
 <dd>The hydro (water) logarithmic mean velocity profile.</dd>
-<dt>power_models.nwtc (alias: pl)</dt>
+<dt><a class="reference internal" href="#pyts.profModels.power.nwtc" title="pyts.profModels.power.nwtc"><tt class="xref py py-class docutils literal"><span class="pre">power_models.nwtc</span></tt></a> (alias: pl)</dt>
 <dd>The nwtc 1/7 power-law mean wind-speed profile.</dd>
-<dt>iec_models.main (alias: iec)</dt>
+<dt><a class="reference internal" href="#pyts.profModels.iec.main" title="pyts.profModels.iec.main"><tt class="xref py py-class docutils literal"><span class="pre">iec_models.main</span></tt></a> (alias: iec)</dt>
 <dd>The IEC mean wind-speed profile.</dd>
+<dt><a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">profModelBase</span></tt></a></dt>
+<dd>This is the base class for profile models. To create a new profile
+model, subclass this class or subclass and modify an existing
+profile model.</dd>
+<dt><a class="reference internal" href="#pyts.profModels.mBase.profObj" title="pyts.profModels.mBase.profObj"><tt class="xref py py-class docutils literal"><span class="pre">profObj</span></tt></a></dt>
+<dd>This is the &#8216;profile object&#8217; class.  All profile model <cite>__call__</cite>
+methods must take a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a> as input and
+return this class.</dd>
 </dl>
 </div>
 <div class="section" id="example-usage">
@@ -101,6 +109,52 @@ at 80m, and surface roughness length of 1m:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">=</span><span class="n">my_prof_model</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="creating-a-new-profile-model">
+<h3>Creating a new profile model<a class="headerlink" href="#creating-a-new-profile-model" title="Permalink to this headline">¶</a></h3>
+<p>Creating new profile models in PyTurbSim is simple. Simply subclass
+<a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">profModelBase</span></tt></a>, then:</p>
+<blockquote>
+<div><p>1) write an <cite>__init__</cite> method that takes inputs that define the
+profile model <em>in general</em> (i.e. irrespective of the spatial grid or
+other statistics of the flow), and</p>
+<p>2) write a <cite>__call__</cite> method that takes <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a>
+as input and returns a <a class="reference internal" href="#pyts.profModels.mBase.profObj" title="pyts.profModels.mBase.profObj"><tt class="xref py py-class docutils literal"><span class="pre">profObj</span></tt></a>, which</p>
+</div></blockquote>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyts.profModels.api</span> <span class="kn">as</span> <span class="nn">pm</span> <span class="c"># import the profModels api</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">polyval</span> <span class="c"># Import helper functions.</span>
+
+<span class="k">class</span> <span class="nc">my_new_model</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">profModelBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A polynomial mean-velocity profile, where coefficients can be</span>
+<span class="sd">    specified at initialization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Uref</span><span class="p">,</span><span class="n">Zref</span><span class="p">,</span><span class="n">poly_coefs</span><span class="o">=</span><span class="p">[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">]):</span>
+        <span class="c"># All units should be in meters and seconds.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uref</span><span class="o">=</span><span class="n">Uref</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="o">=</span><span class="n">Zref</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">poly_coefs</span><span class="o">=</span><span class="n">poly_coefs</span>
+        
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">=</span><span class="n">pm</span><span class="o">.</span><span class="n">profObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+        <span class="c"># Note here that tsrun contains the &#39;grid information&#39;, and</span>
+        <span class="c"># we can use that information to construct the profObj.</span>
+        <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Uref</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">poly_coefs</span><span class="p">,</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="o">/</span><span class="n">Zref</span><span class="p">)</span>
+        <span class="c"># Here we have set the u-component (index 0) to follow the</span>
+        <span class="c"># polynomial, and we leave the other components to be zero.</span>
+        <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+</div>
+<p>That&#8217;s all that is required to define a new profile model!  Now,
+assuming you have already created a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a>
+instance (e.g. <cite>tsr</cite>) you set that <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a> to
+use your new model by simply doing, for example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tsr</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">my_new_model</span><span class="p">(</span><span class="mf">3.</span><span class="p">,</span><span class="mi">20</span><span class="p">,[</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Now your PyTurbSim run will utilize your newly defined model!</p>
 </div>
 <div class="section" id="notes">
 <h3>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h3>
@@ -579,6 +633,7 @@ instance.</p>
 <li><a class="reference internal" href="#module-pyts.profModels.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a><ul>
 <li><a class="reference internal" href="#available-profile-models">Available profile models</a></li>
 <li><a class="reference internal" href="#example-usage">Example usage</a></li>
+<li><a class="reference internal" href="#creating-a-new-profile-model">Creating a new profile model</a></li>
 <li><a class="reference internal" href="#notes">Notes</a></li>
 </ul>
 </li>

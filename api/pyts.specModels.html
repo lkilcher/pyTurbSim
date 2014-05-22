@@ -79,18 +79,26 @@ package, e.g.</p>
 <div class="section" id="available-spectral-models">
 <h3>Available spectral models<a class="headerlink" href="#available-spectral-models" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
-<dt>nwtc.smooth (alias: smooth)</dt>
+<dt><a class="reference internal" href="#pyts.specModels.nwtc.smooth" title="pyts.specModels.nwtc.smooth"><tt class="xref py py-func docutils literal"><span class="pre">nwtc.smooth()</span></tt></a> (alias: smooth)</dt>
 <dd>The nwtc &#8216;smooth&#8217; spectral model.</dd>
-<dt>nwtc.nwtcup (alias: nwtcup)</dt>
+<dt><a class="reference internal" href="#pyts.specModels.nwtc.nwtcup" title="pyts.specModels.nwtc.nwtcup"><tt class="xref py py-func docutils literal"><span class="pre">nwtc.nwtcup()</span></tt></a> (alias: nwtcup)</dt>
 <dd>The nwtc &#8216;upwind&#8217; spectral model.</dd>
-<dt>hydro.tidal (alias: tidal)</dt>
+<dt><a class="reference internal" href="#pyts.specModels.hydro.tidal" title="pyts.specModels.hydro.tidal"><tt class="xref py py-class docutils literal"><span class="pre">hydro.tidal</span></tt></a> (alias: tidal)</dt>
 <dd>The hydro &#8216;tidal&#8217; spectral model.</dd>
-<dt>hydro.river (alias: river)</dt>
+<dt><a class="reference internal" href="#pyts.specModels.hydro.river" title="pyts.specModels.hydro.river"><tt class="xref py py-class docutils literal"><span class="pre">hydro.river</span></tt></a> (alias: river)</dt>
 <dd>The hydro &#8216;river&#8217; spectral model.</dd>
-<dt>iec.ieckai  (alias: ieckai)</dt>
+<dt><a class="reference internal" href="#pyts.specModels.iec.ieckai" title="pyts.specModels.iec.ieckai"><tt class="xref py py-class docutils literal"><span class="pre">iec.ieckai</span></tt></a>  (alias: ieckai)</dt>
 <dd>The IEC &#8216;Kaimal&#8217; spectral model.</dd>
-<dt>iec.iecvkm  (alias: iecvkm)</dt>
+<dt><a class="reference internal" href="#pyts.specModels.iec.iecvkm" title="pyts.specModels.iec.iecvkm"><tt class="xref py py-class docutils literal"><span class="pre">iec.iecvkm</span></tt></a>  (alias: iecvkm)</dt>
 <dd>The IEC &#8216;Von-Karman&#8217; spectral model.</dd>
+<dt><a class="reference internal" href="#pyts.specModels.mBase.specModelBase" title="pyts.specModels.mBase.specModelBase"><tt class="xref py py-class docutils literal"><span class="pre">specModelBase</span></tt></a></dt>
+<dd>This is the base class for spectral models. To create a new spectral
+model, subclass this class or subclass and modify an existing
+spectal model.</dd>
+<dt><a class="reference internal" href="#pyts.specModels.mBase.specObj" title="pyts.specModels.mBase.specObj"><tt class="xref py py-class docutils literal"><span class="pre">specObj</span></tt></a></dt>
+<dd>This is the &#8216;spectral object&#8217; class.  All spectral model <cite>__call__</cite>
+methods must take a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a> as input and
+return this class.</dd>
 </dl>
 </div>
 <div class="section" id="example-usage">
@@ -98,11 +106,11 @@ package, e.g.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyts.specModels.api</span> <span class="kn">as</span> <span class="nn">sm</span>
 </pre></div>
 </div>
-<p>Create a logarithmic mean wind-speed &#8216;profile model&#8217; with friction velocity Ustar=1m/s and Richardson number Ri=0.6:</p>
+<p>Create a <cite>smooth</cite> spectral model with friction velocity Ustar=1m/s and Richardson number Ri=0.6:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">my_spec_model</span><span class="o">=</span><span class="n">sm</span><span class="o">.</span><span class="n">smooth</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.6</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Now set the TurbSim run object <em>tsrun</em> to use this spectral model:</p>
+<p>Now set a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">pyts.main.tsrun</span></tt></a> instance to use this spectral model:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tsrun</span><span class="o">.</span><span class="n">spec</span><span class="o">=</span><span class="n">my_spec_model</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
 </pre></div>
 </div>

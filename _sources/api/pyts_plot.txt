@@ -17,6 +17,14 @@ pyts_plot Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`main` Module
+------------------
+
+.. automodule:: pyts_plot.main
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`superaxes` Module
 -----------------------
 
