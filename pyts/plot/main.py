@@ -1,7 +1,131 @@
 import matplotlib as mpl
 import superaxes as supax
 import numpy as np
+from ..main import tsdata,tsrun
 
+indx={'u':0,'v':1,'w':2}
+
+def psd(u,sr,nfft):
+    p,f=mpl.mlab.psd(u,nfft,sr,detrend=mpl.pylab.detrend_linear,noverlap=nfft/2)
+    return p[1:],f[1:]
+
+class base_ax(supax.axgroup):
+
+    method_map={tsdata:'_calc_tsdata',tsrun:'_calc_tsrun'}
+
+    def finalize(self,):
+        self.hide('xticklabels',ax=self.axes[-1])
+
+    def __init__(self,):
+        pass
+
+    def set_axes(self,axes,comp=['u','v','w']):
+        supax.axgroup.__init__(self,axes)
+        self.comp=comp
+
+    def calc(self,obj):
+        for cls,meth in self.method_map.iteritems():
+            if cls in obj.__class__.__mro__:
+                x,y=getattr(self,meth)(obj)
+                return x,y
+        raise Exception('Object type %s not recognized for %s axes-type' % (obj.__class__,self.__class__))
+
+    def plot(self,obj,*args,**kwargs):
+        """
+        Plot the spectrum of the input object.
+        """
+        f,p=self.calc(obj)
+        for idx,ax in enumerate(self.ax):
+            ax.plot(f[idx],p[idx],**kwargs)
+
+class velprof_ax(base_ax):
+    hrel=0.6
+    xax='vel'
+    yax='z'
+    
+    def __init__(self,xlim=[0,2]):
+        self._xlim_dat=xlim
+
+    def _calc_tsdata(self,tsdata,igrid=None):
+        prf=tsdata.uprof
+        u=tsdata.uprof[:,:,tsdata.ihub[1]]
+        z=np.tile(tsdata.z,(3,1))
+        return u,z
+
+class spec_ax(base_ax):
+    hrel=1
+    yax='spec'
+    xax='freq'
+    
+    def __init__(self,window_time_sec=600,igrid=None):
+        self.window_time=600
+        self.igrid=igrid
+
+    def _calc_tsdata(self,tsdata,igrid=None):
+        nfft=int(self.window_time/tsdata.dt)
+        nfft+=np.mod(nfft,2)
+        if igrid is None:
+            igrid=self.igrid
+        if self.igrid is None:
+            igrid=tsdata.ihub
+        p=np.empty((3,nfft/2),dtype=np.float32)
+        f=np.empty((3,nfft/2),dtype=np.float32)
+        for ind,c in enumerate(self.comp):
+            idx=indx[c]
+            p[ind],f[ind]=psd(tsdata.uturb[idx][igrid],1./tsdata.dt,nfft)
+        return f,p
+
+    def _calc_tsrun(self,tsrun,igrid=None):
+        if igrid is None:
+            igrid=self.igrid
+        if self.igrid is None:
+            igrid=tsdata.ihub
+
+    def plot(self,obj,*args,**kwargs):
+        """
+        Plot the spectrum of the input object.
+        """
+        f,p=self.calc(obj)
+        for idx,ax in enumerate(self.ax):
+            ax.loglog(f[idx],p[idx],**kwargs)
+    
+class fig_axtypes(supax.figobj):
+    
+    def __init__(self,fignum,axtypes=[],comp=['u','v','w'],axsize=2,frame=[.6,.3,1,.3],gap=[.2,1],**kwargs):
+        if len(axtypes)==0:
+            raise Exception('At least one axes-type instance must be provided.')
+        hrel=np.ones(len(axtypes))
+        for idx,axt in enumerate(axtypes):
+            if hasattr(axt,'hrel'):
+                hrel[idx]=axt.hrel
+        sharex=np.tile(np.arange(len(axtypes),dtype=np.uint8)+1,(len(comp),1))
+        sharey=np.tile(np.arange(len(axtypes),dtype=np.uint8)+1,(len(comp),1))
+        nax=(len(comp),hrel)
+        supax.figobj.__init__(self,fignum,nax,axsize=axsize,frame=frame,gap=gap,sharex=sharex,sharey=sharey,**kwargs)
+        for idx,axt in enumerate(axtypes):
+            axt.set_axes(self.sax.ax[:,idx],comp)
+        self.axtypes=axtypes
+
+    def plot(self,obj,**kwargs):
+        """
+        Plot the data in obj to the figure.
+
+        Parameters
+        ----------
+        obj : tsdata, tsrun, turbdata
+              A data or turbsim object to plot.
+        """
+        for axt in self.axtypes:
+            axt.plot(obj,**kwargs)
+
+    def finalize(self,):
+        for axt in self.axtypes:
+            axt.finalize()
+
+def new_summ_fig(fignum):
+    return fig_axtypes(fignum,[velprof_ax(),spec_ax(600)])
+
+        
 class specfig(supax.figobj):
     """
     A base class for plotting spectra.
@@ -28,6 +152,7 @@ def plot_spectra(tsdata,fignum=1001,nfft=1024,igrid=None):
         if hasattr(tsdata,'tm'):
             fg.sax.ax[ind,0].loglog(tsdata.tm.f,tsdata.tm.Suu[ind][igrid])
     return fg
+
 
 class summfig(object):
     """
@@ -175,15 +300,6 @@ class summfig(object):
         else:
             self.icoh=icoh
     
-    def plot_spec(self,tsdata,theory_line=False,*args,**kwargs):
-        """
-        Plot the spectrum (point iz,iy) of the input *tsdata* TurbSim data object.
-        """
-        for ind in range(3):
-            p,f=mpl.mlab.psd(tsdata.uturb[ind][self.igrid],self.nfft,1./tsdata.dt,detrend=mpl.pylab.detrend_linear,noverlap=self.nfft/2)
-            self.ax_spec[ind].loglog(f,p,**kwargs)
-            if hasattr(tsdata,'tm') and theory_line:
-                self.ax_spec[ind].loglog(tsdata.tm.f,tsdata.tm.Suu[ind][self.igrid],'k--',zorder=10)
 
     def plot_theory(self,tsrun,*args,**kwargs):
         for ind in range(3):
