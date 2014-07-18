@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -51,10 +54,16 @@
           <div class="body">
             
   <h1>Source code for pyts.dbg</h1><div class="highlight"><pre>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is the PyTurbSim debug package. It contains debugging tools specifically valuable to PyTurbSim.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">time</span>
 
 <div class="viewcode-block" id="timer"><a class="viewcode-back" href="../../api/pyts.html#pyts.dbg.timer">[docs]</a><span class="k">class</span> <span class="nc">timer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A timer class for tracking &#39;real&#39; time (rather than CPU time).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;NONE&#39;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tnew</span><span class="o">=</span><span class="mf">0.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">=</span><span class="mf">0.</span>
@@ -72,24 +81,7 @@
 </div>
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;So far the *</span><span class="si">%s</span><span class="s">* timer has clocked </span><span class="si">%0.3f</span><span class="s"> seconds.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="p">)</span>
-
-</div>
-<div class="viewcode-block" id="vec2full"><a class="viewcode-back" href="../../api/pyts.html#pyts.dbg.vec2full">[docs]</a><span class="k">def</span> <span class="nf">vec2full</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
-    <span class="n">shp</span><span class="o">=</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">n</span><span class="o">=</span><span class="nb">int</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">shp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">oshp</span><span class="o">=</span><span class="p">[</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">]</span><span class="o">+</span><span class="nb">list</span><span class="p">(</span><span class="n">shp</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-    <span class="n">g</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">oshp</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-    <span class="n">indx</span><span class="o">=</span><span class="mi">0</span>
-    <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">jj</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">ii</span><span class="o">==</span><span class="n">jj</span><span class="p">:</span>
-                <span class="n">g</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]</span><span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">indx</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">g</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]</span><span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">indx</span><span class="p">]</span>
-                <span class="n">g</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="n">ii</span><span class="p">]</span><span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">indx</span><span class="p">]</span>
-            <span class="n">indx</span><span class="o">+=</span><span class="mi">1</span>
-    <span class="k">return</span> <span class="n">g</span></div>
-</pre></div>
+</pre></div></div>
 
           </div>
         </div>
@@ -121,6 +113,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 

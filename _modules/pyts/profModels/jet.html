@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -51,24 +54,38 @@
           <div class="body">
             
   <h1>Source code for pyts.profModels.jet</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">mBase</span> <span class="kn">import</span> <span class="n">profModelBase</span><span class="p">,</span><span class="n">np</span>
+<span class="kn">from</span> <span class="nn">mBase</span> <span class="kn">import</span> <span class="n">profModelBase</span><span class="p">,</span><span class="n">np</span><span class="p">,</span><span class="n">profObj</span>
 <span class="kn">from</span> <span class="nn">numpy.polynomial.chebyshev</span> <span class="kn">import</span> <span class="n">chebval</span>
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.jet.main">[docs]</a><span class="k">class</span> <span class="nc">main</span><span class="p">(</span><span class="n">profModelBase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The low-level jet wind velocity profile.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    zjet_max :  float, optional</span>
+<span class="sd">                The maximum height of the jet. If a value is not</span>
+<span class="sd">                specified, the zjet_max property provides a default.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="main.zjet_max"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.jet.main.zjet_max">[docs]</a>    <span class="k">def</span> <span class="nf">zjet_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;ZJetMax&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;ZJetMax&#39;</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">zjet_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The value of the jet height.</span>
+
+<span class="sd">        This property calculates a default value if one is not specified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val_zjet_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val_zjet_max</span>
         <span class="n">val</span><span class="o">=</span><span class="mf">1.9326</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mf">14.820</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Ri</span><span class="o">+</span><span class="mf">56.488123</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">zL</span><span class="o">+</span><span class="mf">166.499069</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">UStar</span><span class="o">+</span><span class="mf">188.253377</span><span class="p">)</span><span class="o">-</span><span class="mf">252.7267</span>
         <span class="n">rnd</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">randgen</span><span class="o">.</span><span class="n">standard_cauchy</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="o">-</span><span class="mi">160</span><span class="p">),</span><span class="mi">120</span><span class="p">)</span> <span class="c"># !!!VERSION_INCONSISTENCY: I&#39;ve used the standard Cuachy distribution, rather than &#39;PearsonIV&#39; from indecipherable code.</span>
         <span class="n">val</span><span class="o">+=</span><span class="n">rnd</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;ZJetMax&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_val_zjet_max</span><span class="o">=</span><span class="n">val</span>
         <span class="k">return</span> <span class="n">val</span>
+    <span class="nd">@zjet_max.setter</span>
+<div class="viewcode-block" id="main.zjet_max"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.jet.main.zjet_max">[docs]</a>    <span class="k">def</span> <span class="nf">zjet_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_val_zjet_max</span><span class="o">=</span><span class="n">val</span>
 </div>
-<div class="viewcode-block" id="main.model2"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.jet.main.model2">[docs]</a>    <span class="k">def</span> <span class="nf">model2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
         <span class="n">HtIndx</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zjet_max</span><span class="o">-</span><span class="mi">50</span><span class="p">)</span><span class="o">/</span><span class="mi">20</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="mi">20</span><span class="p">)</span>
         <span class="n">scoef</span><span class="o">=</span><span class="n">spd_coefs</span><span class="p">[</span><span class="n">HtIndx</span><span class="p">]</span>
         <span class="n">dcoef</span><span class="o">=</span><span class="n">dir_coefs</span><span class="p">[</span><span class="n">HtIndx</span><span class="p">]</span>
@@ -86,12 +103,34 @@
         <span class="n">ang</span><span class="p">[</span><span class="n">ang</span><span class="o">&lt;-</span><span class="mf">45.</span><span class="p">],</span><span class="n">ang</span><span class="p">[</span><span class="n">ang</span><span class="o">&gt;</span><span class="mf">45.</span><span class="p">]</span><span class="o">=-</span><span class="mf">45.</span><span class="p">,</span><span class="mf">45.</span> <span class="c"># No angle should be more than 45 degrees.</span>
         <span class="n">tmpdat</span><span class="o">=</span><span class="n">chebval</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="n">scoef</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">180.</span><span class="o">*</span><span class="n">ang</span><span class="p">)[:,</span><span class="bp">None</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">tmpdat</span><span class="o">.</span><span class="n">real</span><span class="p">,</span><span class="n">tmpdat</span><span class="o">.</span><span class="n">imag</span>
-</div>
-<div class="viewcode-block" id="main.model"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.jet.main.model">[docs]</a>    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model2</span><span class="p">(</span><span class="n">z</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    </div>
-<div class="viewcode-block" id="main.initModel"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.jet.main.initModel">[docs]</a>    <span class="k">def</span> <span class="nf">initModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_u</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">zjet_max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zjet_max</span><span class="o">=</span><span class="n">zjet_max</span>
+
+    <span class="c">## def model(self,z):</span>
+    <span class="c">##     return self.model(z)[0]</span>
+    
+<div class="viewcode-block" id="main.__call__"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.jet.main.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and calculate the mean-profile object for a `tsrun`</span>
+<span class="sd">        instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tsrun :         :class:`tsrun &lt;pyts.main.tsrun&gt;`</span>
+<span class="sd">                        A TurbSim run object.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out :           :class:`profObj &lt;.mBase.profObj&gt;`</span>
+<span class="sd">                        A jet wind-speed profile for the grid in `tsrun`.</span>
+<span class="sd">    </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span><span class="o">=</span><span class="n">profObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+        <span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">u</span><span class="p">[:,</span><span class="bp">None</span><span class="p">],</span><span class="n">v</span><span class="p">[:,</span><span class="bp">None</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">out</span>
+
 
 <span class="c">### These are the &#39;Chebyshef&#39; coefficients, copied from the Modules.f90 file of TurbSim v1.x.</span>
 <span class="c">### The coefficients are:</span>
@@ -644,6 +683,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -57,20 +60,18 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">modelBase</span><span class="p">,</span><span class="n">ts_float</span><span class="p">,</span><span class="n">np</span><span class="p">,</span><span class="n">gridProps</span><span class="p">,</span><span class="n">calcObj</span>
 <span class="kn">from</span> <span class="nn">kelley_coefs</span> <span class="kn">import</span> <span class="n">p_coefs_unstable</span><span class="p">,</span><span class="n">f_coefs_unstable</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">trapz</span>
 
 <div class="viewcode-block" id="specObj"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.mBase.specObj">[docs]</a><span class="k">class</span> <span class="nc">specObj</span><span class="p">(</span><span class="n">gridProps</span><span class="p">,</span><span class="n">calcObj</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Spectral objects contain the array (self.array) of turbulence</span>
 <span class="sd">    spectra values for a specific PyTurbSim run. This class defines</span>
-<span class="sd">    various shortcuts to the mean velocity data including:</span>
-
-<span class="sd">    Create a profile object instance.</span>
+<span class="sd">    various shortcuts to the data.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
-<span class="sd">    tsrun - The PyTurbSim run object in which the spectra will be</span>
-<span class="sd">    used.</span>
+<span class="sd">    tsrun : `tsrun` type</span>
+<span class="sd">        The PyTurbSim run object in which the spectra will be used.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     
@@ -102,7 +103,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This is the component-wise turbulent kinetic energy.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">trapz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
     </div>
     <span class="nd">@property</span>
 <div class="viewcode-block" id="specObj.flat"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.mBase.specObj.flat">[docs]</a>    <span class="k">def</span> <span class="nf">flat</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
@@ -162,6 +163,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

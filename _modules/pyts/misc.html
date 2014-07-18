@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -55,13 +58,18 @@
 <span class="sd">This module contains a few random helper functions that are used</span>
 <span class="sd">throughout the code.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pyts_numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="n">kappa</span><span class="o">=</span><span class="mf">0.41</span> <span class="c"># Von-Karman&#39;s constant</span>
 
 <div class="viewcode-block" id="Lambda"><a class="viewcode-back" href="../../api/pyts.html#pyts.misc.Lambda">[docs]</a><span class="k">def</span> <span class="nf">Lambda</span><span class="p">(</span><span class="n">zhub</span><span class="p">,</span><span class="n">IECedition</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Equation 23 of the TurbSim Manual.</span>
+<span class="sd">    Calculate the IEC length scale.</span>
+
+<span class="sd">    Lambda = 0.7*min(Zhat,zhub)</span>
+
+<span class="sd">    Where: Zhat = 30,60 for IECedition = 2,3, respectively.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">IECedition</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.7</span><span class="o">*</span><span class="nb">min</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="n">zhub</span><span class="p">)</span>
@@ -76,9 +84,11 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *Ri*        - The Richardson number.</span>
-<span class="sd">    *TurbModel* - The turbulence model that is being used (optional).</span>
-<span class="sd">                  In some cases z/L depends on the Turbulence model.</span>
+<span class="sd">    Ri        : float</span>
+<span class="sd">                The Richardson number.</span>
+<span class="sd">    TurbModel : str</span>
+<span class="sd">                The turbulence model that is being used (optional).</span>
+<span class="sd">                In some cases z/L depends on the Turbulence model.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">TurbModel</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">TurbModel</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">==</span><span class="s">&#39;nwtcup&#39;</span><span class="p">:</span>
@@ -111,6 +121,21 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The psi_M stability parameter is used for various mean wind-speed</span>
 <span class="sd">    profiles and turbulence models.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Ri        : float</span>
+<span class="sd">                The Richardson number.</span>
+<span class="sd">    TurbModel : str</span>
+<span class="sd">                The turbulence model that is being used (optional).</span>
+<span class="sd">                In some cases z/L depends on the Turbulence model.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    psiM : float</span>
+<span class="sd">           The psi_M stability parameter.</span>
+
+<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">zl</span><span class="o">=</span><span class="n">zL</span><span class="p">(</span><span class="n">Ri</span><span class="p">,</span><span class="n">TurbModel</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">zl</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
@@ -125,12 +150,13 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *n*        - The integer for which to calculate prime-factors.</span>
-<span class="sd">    *pmax*     - The maximum prime to use (default 31, can be up to 71).</span>
+<span class="sd">    n        : The integer for which to calculate prime-factors.</span>
+<span class="sd">    pmax     : The maximum prime to use (default 31, can be up to 71).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    A set of the primes.</span>
+<span class="sd">    primes : list</span>
+<span class="sd">             A of the primes.</span>
 <span class="sd">    </span>
 <span class="sd">    The first 20 primes (up to 71) are hard-coded into this</span>
 <span class="sd">    routine. You&#39;ll need to add more primes to the list if you want</span>
@@ -150,20 +176,23 @@
 </div>
 <div class="viewcode-block" id="lowPrimeFact_near"><a class="viewcode-back" href="../../api/pyts.html#pyts.misc.lowPrimeFact_near">[docs]</a><span class="k">def</span> <span class="nf">lowPrimeFact_near</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">pmax</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span><span class="n">nmin</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">evens_only</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Find the nearest integer to *n* with prime factors all less than</span>
-<span class="sd">    *pmax*.</span>
+<span class="sd">    Find the nearest integer to `n` with prime factors all less than</span>
+<span class="sd">    `pmax`.</span>
 
 <span class="sd">    This routine is used to change the length of arrays to speed-up</span>
 <span class="sd">    Fast Fourier Transforms.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *n*      - The starting integer.</span>
-<span class="sd">    *pmax*   - The maximum prime to be found.</span>
+<span class="sd">    n      : int</span>
+<span class="sd">             The starting integer.</span>
+<span class="sd">    pmax   : int</span>
+<span class="sd">             The maximum prime to be found.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    The nearest integer to *n* that has prime factors less than *pmax*.</span>
+<span class="sd">    qp_near : int</span>
+<span class="sd">              The nearest integer to n that has prime factors less than `pmax`.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pfactor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">pmax</span><span class="p">))</span><span class="o">&lt;</span><span class="n">pmax</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
@@ -191,10 +220,24 @@
 </div>
 <div class="viewcode-block" id="fix2range"><a class="viewcode-back" href="../../api/pyts.html#pyts.misc.fix2range">[docs]</a><span class="k">def</span> <span class="nf">fix2range</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span><span class="n">minval</span><span class="p">,</span><span class="n">maxval</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A helper function that sets the value of the array or number *vals* to</span>
-<span class="sd">    fall within the range minval&lt;=vals&lt;=maxval.</span>
-<span class="sd">    </span>
-<span class="sd">    Values of *vals* outside the range are fixed to minval or maxval.</span>
+<span class="sd">    A helper function that sets the value of the array or number `vals` to</span>
+<span class="sd">    fall within the range `minval` &lt;= `vals` &lt;= `maxval`.</span>
+
+<span class="sd">    Values of `vals` that are greater than `maxval` are set to `maxval` (and similar for `minval`).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vals : float or array_like</span>
+<span class="sd">           The value(s) to &#39;fix&#39;.</span>
+<span class="sd">    minval : float</span>
+<span class="sd">             The minimum value.</span>
+<span class="sd">    maxval : float</span>
+<span class="sd">             The maximum value.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fixed_vals : float or array_like (matches `vals`)</span>
+<span class="sd">                 The fixed values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span><span class="s">&#39;__len__&#39;</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span> <span class="nb">min</span><span class="p">(</span> <span class="n">vals</span><span class="p">,</span><span class="n">maxval</span><span class="p">),</span><span class="n">minval</span><span class="p">)</span>
@@ -240,6 +283,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 

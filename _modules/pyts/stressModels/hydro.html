@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -54,16 +57,48 @@
 <span class="kn">from</span> <span class="nn">mBase</span> <span class="kn">import</span> <span class="n">stressModelBase</span><span class="p">,</span><span class="n">stressObj</span>
 
 <div class="viewcode-block" id="tidal"><a class="viewcode-back" href="../../../api/pyts.stressModels.html#pyts.stressModels.hydro.tidal">[docs]</a><span class="k">class</span> <span class="nc">tidal</span><span class="p">(</span><span class="n">stressModelBase</span><span class="p">):</span>
-    <span class="c"># !!!ADDDOC</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Ustar</span><span class="p">,</span><span class="n">RefHt</span><span class="p">):</span>
-        <span class="c"># !!!ADDDOC</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The tidal model Reynold&#39;s stress model.  The u&#39;w&#39; component decreases linearly with z to zero at z=config[&#39;RefHt&#39;]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="o">=</span><span class="n">RefHt</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The &#39;tidal&#39; model Reynold&#39;s stress model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Ustar : float</span>
+<span class="sd">            The friction velocity at the bottom boundary (aka :math:`U_*`).</span>
+<span class="sd">    Zref : float</span>
+<span class="sd">           The height of the &#39;no-stress&#39; level in the water-column.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The v&#39;w&#39; and u&#39;v&#39; components are zero. The u&#39;w&#39; component is:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \overline{u&#39;w&#39;} = -U_*^2 (1-z/Z_{\mathrm{ref}})</span>
+
+<span class="sd">    for 0&lt;z&lt;Zref, and 0 elsewhere.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Ustar</span><span class="p">,</span><span class="n">Zref</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="o">=</span><span class="n">Zref</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Ustar</span><span class="o">=</span><span class="n">Ustar</span>
 
 <div class="viewcode-block" id="tidal.__call__"><a class="viewcode-back" href="../../../api/pyts.stressModels.html#pyts.stressModels.hydro.tidal.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and calculate the stress object for a `tsrun`</span>
+<span class="sd">        instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tsrun :         :class:`tsrun &lt;pyts.main.tsrun&gt;`</span>
+<span class="sd">                        A TurbSim run object.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out :           :class:`stressObj &lt;.mBase.specObj&gt;`</span>
+<span class="sd">                        A stress object for the grid in `tsrun`.</span>
+<span class="sd">    </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span><span class="o">=</span><span class="n">stressObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
         <span class="n">out</span><span class="o">.</span><span class="n">upwp_</span><span class="p">[</span><span class="n">out</span><span class="o">.</span><span class="n">z</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="p">]</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">Ustar</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">out</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">out</span><span class="o">.</span><span class="n">z</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="p">][:,</span><span class="bp">None</span><span class="p">]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="p">)</span><span class="c">#*out.upwp_max[-1:]</span>
         <span class="c"># The other components default to zero.</span>
@@ -100,6 +135,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

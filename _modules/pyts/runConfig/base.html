@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -52,15 +55,24 @@
             
   <h1>Source code for pyts.runConfig.base</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">The base module for the runConfig package. This module defines the TurbSim config class (tscfg). The tscfg class is a dictionary for storing data from a TurbSim input file. The class contains several methods that specify default values for several input variables. Those defaults documented in the Original-TurbSim documentation:</span>
+<span class="sd">The base module for the runConfig package. This module defines the</span>
+<span class="sd">TurbSim config class (tscfg). The tscfg class is a dictionary for</span>
+<span class="sd">storing data from a TurbSim input file. The class contains several</span>
+<span class="sd">methods that specify default values for several input variables. Those</span>
+<span class="sd">defaults documented in the Original-TurbSim documentation:</span>
 <span class="sd">https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">uint32</span>
 
 <div class="viewcode-block" id="tscfg"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.base.tscfg">[docs]</a><span class="k">class</span> <span class="nc">tscfg</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The TurbSim config object and &#39;global defaults&#39; handler.</span>
+
+<span class="sd">    This class works essentially as a dictionary, but with various</span>
+<span class="sd">    functions and routines for providing default values in the event</span>
+<span class="sd">    that &#39;config&#39; values are not specified explicitly by the user.</span>
 
 <span class="sd">    Regarding global defaults:</span>
 <span class="sd">    The &#39;_dflt_...&#39; functions define &#39;global&#39; default definitions</span>
@@ -182,9 +194,9 @@
     <span class="k">def</span> <span class="nf">randseed</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="n">tmpval</span><span class="o">=</span><span class="mi">0</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;RandSeed1&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed1&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">tmpval</span><span class="o">+=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed1&#39;</span><span class="p">])</span>
+            <span class="n">tmpval</span><span class="o">+=</span><span class="n">uint32</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed1&#39;</span><span class="p">])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">tmpval</span><span class="o">+=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">])</span><span class="o">&lt;&lt;</span><span class="mi">32</span>
+            <span class="n">tmpval</span><span class="o">+=</span><span class="n">uint32</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">])</span><span class="o">&lt;&lt;</span><span class="mi">32</span>
         <span class="k">if</span> <span class="n">tmpval</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">None</span>
         <span class="k">return</span> <span class="n">tmpval</span>
@@ -356,6 +368,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

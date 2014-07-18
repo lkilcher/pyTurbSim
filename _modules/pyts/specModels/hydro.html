@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -52,35 +55,71 @@
             
   <h1>Source code for pyts.specModels.hydro</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This module contains the following spectral models:</span>
-<span class="sd">  tidal - The &#39;tidal&#39; spectral model.</span>
-<span class="sd">  river - The &#39;river&#39; spectral model.</span>
+<span class="sd">This module contains the turbulence models for the aquatic environment.</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">.mBase</span> <span class="kn">import</span> <span class="n">specModelBase</span><span class="p">,</span><span class="n">np</span><span class="p">,</span><span class="n">specObj</span><span class="p">,</span><span class="n">ts_float</span>
 
 <div class="viewcode-block" id="tidal"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.hydro.tidal">[docs]</a><span class="k">class</span> <span class="nc">tidal</span><span class="p">(</span><span class="n">specModelBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    The tidal spectral model is based on measurements from Admiralty</span>
+<span class="sd">    Inlet, in Puget Sound, WA.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Ustar :     float</span>
+<span class="sd">                bottom boundary friction velocity [m/s].</span>
+<span class="sd">    Zref :      float</span>
+<span class="sd">                Reference height at which u&#39;w&#39; stress nears zero.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    </span>
+<span class="sd">    This model is similar to :class:`.nwtc.NWTC_stable`, but uses</span>
+<span class="sd">    different values for :attr:`coef`, and does not support new</span>
+<span class="sd">    fit-coefficients. The form of this model is:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">         S_k(f) = \frac{\sigma_k^2 \mathrm{coef}[k,0]}{1+\mathrm{coef}[k,1](f/\hat{f})^{5/3}} \qquad k=0,1,2\ (u,v,w)</span>
+
+<span class="sd">    Where,</span>
+<span class="sd">    </span>
+<span class="sd">      :math:`\hat{f}=\frac{\partial \bar{u}}{\partial z}`</span>
+
+<span class="sd">      :math:`\bar{u}` is the mean velocity from the :class:`profObj &lt;pyts.profModels.mBase.profObj&gt;`.</span>
+
+<span class="sd">      :math:`\sigma_k^2 = U_{*}^2 \alpha_k exp(-2 z/Zref)`</span>
+
+<span class="sd">      :math:`\alpha_k = (4.4,2.25,0.9)`</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :attr:`coef` : The &#39;fit coefficients&#39;</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">s_coef</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.21</span><span class="p">,</span><span class="mf">4.3</span><span class="p">],[</span><span class="mf">0.33</span><span class="p">,</span><span class="mf">0.50</span><span class="p">],[</span><span class="mf">0.23</span><span class="p">,</span><span class="mf">0.26</span><span class="p">]],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
+    <span class="n">coef</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.21</span><span class="p">,</span><span class="mf">4.3</span><span class="p">],[</span><span class="mf">0.33</span><span class="p">,</span><span class="mf">0.50</span><span class="p">],[</span><span class="mf">0.23</span><span class="p">,</span><span class="mf">0.26</span><span class="p">]],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Ustar</span><span class="p">,</span><span class="n">RefHt</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Ustar</span><span class="p">,</span><span class="n">Zref</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Ustar</span><span class="o">=</span><span class="n">Ustar</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="o">=</span><span class="n">RefHt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="o">=</span><span class="n">Zref</span>
         
 <div class="viewcode-block" id="tidal.__call__"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.hydro.tidal.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
         <span class="n">out</span><span class="o">=</span><span class="n">specObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
         <span class="n">dudz</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">dudz</span><span class="p">[</span><span class="bp">None</span><span class="p">,:,:,</span><span class="bp">None</span><span class="p">])</span>
         <span class="n">out</span><span class="o">.</span><span class="n">sigma2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Ustar</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">2.25</span><span class="p">,</span><span class="mf">0.9</span><span class="p">])[:,</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="bp">None</span><span class="p">,:]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[:]</span><span class="o">=</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">sigma2</span><span class="p">[:,:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">s_coef</span><span class="p">[:,</span><span class="mi">0</span><span class="p">][:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span><span class="o">/</span><span class="n">dudz</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">s_coef</span><span class="p">[:,</span><span class="mi">1</span><span class="p">][:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,:]</span><span class="o">/</span><span class="n">dudz</span><span class="p">)</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">pow5_3</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[:]</span><span class="o">=</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">sigma2</span><span class="p">[:,:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">coef</span><span class="p">[:,</span><span class="mi">0</span><span class="p">][:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span><span class="o">/</span><span class="n">dudz</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">coef</span><span class="p">[:,</span><span class="mi">1</span><span class="p">][:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,:]</span><span class="o">/</span><span class="n">dudz</span><span class="p">)</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">pow5_3</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span>
 </div></div>
 <div class="viewcode-block" id="river"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.hydro.river">[docs]</a><span class="k">class</span> <span class="nc">river</span><span class="p">(</span><span class="n">tidal</span><span class="p">):</span>
-    <span class="c"># !!!ADDDOC</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This model is based on measurements from the East River, in New</span>
+<span class="sd">    York City. It is identical to the :class:`tidal` model, but uses</span>
+<span class="sd">    different values for :attr:`coef`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># These fit positive velocity data in eastriver:</span>
-    <span class="n">s_coef</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.057</span><span class="p">,</span><span class="mf">3.432</span><span class="p">],[</span><span class="mf">0.351</span><span class="p">,</span><span class="mf">0.546</span><span class="p">],[</span><span class="mf">0.265</span><span class="p">,</span><span class="mf">0.341</span><span class="p">]],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
+    <span class="n">coef</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.057</span><span class="p">,</span><span class="mf">3.432</span><span class="p">],[</span><span class="mf">0.351</span><span class="p">,</span><span class="mf">0.546</span><span class="p">],[</span><span class="mf">0.265</span><span class="p">,</span><span class="mf">0.341</span><span class="p">]],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
     <span class="c"># These fit negative velocity data in eastriver:</span>
-    <span class="c">#s_coef=np.array([[0.784,2.085],[0.272,0.357],[0.240,0.290]])</span>
+    <span class="c">#coef=np.array([[0.784,2.085],[0.272,0.357],[0.240,0.290]])</span>
 </pre></div></div>
 
           </div>
@@ -113,6 +152,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -51,7 +54,14 @@
           <div class="body">
             
   <h1>Source code for pyts.stressModels.mBase</h1><div class="highlight"><pre>
-<span class="c"># !!!ADDDOC</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is the stress package&#39;s base module.</span>
+
+<span class="sd">produce estimates of Reynold&#39;s</span>
+<span class="sd">stress</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">base</span>
 <span class="n">np</span><span class="o">=</span><span class="n">base</span><span class="o">.</span><span class="n">np</span>
 
@@ -145,7 +155,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">srt</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corr</span><span class="p">))</span>
         <span class="n">valid</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">srt</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
-        <span class="n">valid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">srt</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="c"># All individual stresses must be less than stress_max (i.e. the correlation between components can not be larger than the product of their standard devations).</span>
+        <span class="n">valid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">srt</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># All individual stresses must be less than stress_max (i.e. the correlation between components can not be larger than the product of their standard devations).</span>
         <span class="n">valid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">srt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">srt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">srt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="c"># This is the &#39;overlap&#39; criterion.</span>
         <span class="n">valid</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">!=</span><span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">srt</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span><span class="p">)</span> <span class="c"># This is the &#39;sign&#39; criterion: if there is only one negative stress, their can be no overlap (sum(srt) must be &lt;1).</span>
         <span class="c">############################</span>
@@ -162,6 +172,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># Currently, this raises an error if any of the points have invalid stresses.  In the future it may make sense to adjust/modify the stresses to make them valid?</span>
         <span class="k">if</span> <span class="o">~</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validity</span><span class="o">.</span><span class="n">all</span><span class="p">()):</span>
+            <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">validity</span><span class="o">.</span><span class="n">shape</span>
+            <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">validity</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;The input reynolds stresses are inconsistent.&#39;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="stressObj.calc_phases"><a class="viewcode-back" href="../../../api/pyts.stressModels.html#pyts.stressModels.mBase.stressObj.calc_phases">[docs]</a>    <span class="k">def</span> <span class="nf">calc_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">phases</span><span class="p">):</span>
@@ -231,6 +243,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

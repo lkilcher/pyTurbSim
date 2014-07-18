@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -59,15 +62,22 @@
 <span class="sd">Example usage</span>
 <span class="sd">-------------</span>
 
-<span class="sd"># First create a tsconfig object using the io.config.read function:</span>
-<span class="sd">tsconfig=pyts.io.config.read(&#39;MyInputFile.inp&#39;)</span>
+<span class="sd">First import the PyTurbSim api and runConfig package.</span>
+<span class="sd">&gt;&gt;&gt; import pyts.api as pyts</span>
+<span class="sd">&gt;&gt;&gt; import pyts.runConfig as runConfig</span>
 
-<span class="sd"># Now run PyTurbSim using the runConfig &#39;run&#39; function:</span>
-<span class="sd">tsdata=runConfig.run(tsconfig)</span>
+<span class="sd">First create a tsconfig object from an input file using the io.config.read function:</span>
 
-<span class="sd"># This data can be written to the files specified in the input file</span>
-<span class="sd"># (tsconfig) using:</span>
-<span class="sd">runConfig.write(tsdata,tsconfig)</span>
+<span class="sd">&gt;&gt;&gt; tsconfig=pyts.io.config.read(&#39;MyInputFile.inp&#39;)</span>
+
+<span class="sd">Now run PyTurbSim using the runConfig &#39;run&#39; function:</span>
+
+<span class="sd">&gt;&gt;&gt; tsdata=runConfig.run(tsconfig)</span>
+
+<span class="sd">This data can be written to the files specified in the input file</span>
+<span class="sd">(tsconfig) using:</span>
+
+<span class="sd">&gt;&gt;&gt; runConfig.write(tsdata,tsconfig)</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">tsGrid</span>
@@ -76,13 +86,36 @@
 <span class="kn">from</span> <span class="nn">turbModels</span> <span class="kn">import</span> <span class="n">getModel</span> <span class="k">as</span> <span class="n">tm_getModel</span>
 <span class="kn">from</span> <span class="nn">profModels</span> <span class="kn">import</span> <span class="n">getModel</span> <span class="k">as</span> <span class="n">pm_getModel</span>
 
+<div class="viewcode-block" id="run_fname"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.main.run_fname">[docs]</a><span class="k">def</span> <span class="nf">run_fname</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform a PyTurbSim run based on the input file `fname`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname :  str</span>
+<span class="sd">             A TurbSim input file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tsdata :    :class:`tsdata &lt;pyts.main.tsdata&gt;`</span>
+<span class="sd">                A PyTurbSim data object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">readConfig</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">run</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.main.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform a PyTurbSim run based on the input/config object *tsconfig*.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsconfig :  :class:`tscfg &lt;.base.tscfg&gt;`</span>
+<span class="sd">                A PyTurbSim config object.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    A PyTurbSim data object.</span>
+<span class="sd">    tsdata :    :class:`tsdata &lt;pyts.main.tsdata&gt;`</span>
+<span class="sd">                A PyTurbSim data object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tsr</span><span class="o">=</span><span class="n">cfg2tsrun</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">)</span>
     <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">=</span><span class="n">cfg2grid</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">)</span>
@@ -91,8 +124,19 @@
 </div>
 <div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.main.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">tsdat</span><span class="p">,</span><span class="n">tsconfig</span><span class="p">,</span><span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Write the data in the TurbSim data object *tsdat* to summary and</span>
-<span class="sd">    binary files specified in the tsconfig object.</span>
+<span class="sd">    Write TurbSim-output to a file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsdat :     :class:`tsdata &lt;pyts.main.tsdata&gt;`</span>
+<span class="sd">                The PyTurbSim data object to write out.</span>
+<span class="sd">    tsconfig :  :class:`tscfg &lt;.base.tscfg&gt;`</span>
+<span class="sd">                A PyTurbSim config object.</span>
+<span class="sd">    fname :     str, optional</span>
+<span class="sd">                The filename to writeout (default obtained from `tsconfig`)</span>
+
+<span class="sd">    This function determines which file-types to writeout (bladed or</span>
+<span class="sd">    TurbSim) from the `tsconfig` object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">fname</span><span class="o">=</span><span class="n">tsconfig</span><span class="o">.</span><span class="n">fname</span>
@@ -108,28 +152,32 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    tsconfig  - A TurbSim config object.</span>
+<span class="sd">    tsconfig :  :class:`tscfg &lt;.base.tscfg&gt;`</span>
+<span class="sd">                A PyTurbSim config object.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    tsgrid   - A TurbSim grid object.</span>
+<span class="sd">    tsgrid :    :class:`tsGrid &lt;pyts.base.tsGrid&gt;`</span>
+<span class="sd">                A PyTurbSim grid object.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">tsGrid</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;HubHt&#39;</span><span class="p">],</span><span class="n">ny</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;NumGrid_Y&#39;</span><span class="p">],</span><span class="n">nz</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;NumGrid_Z&#39;</span><span class="p">],</span><span class="n">width</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;GridWidth&#39;</span><span class="p">],</span><span class="n">height</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;GridHeight&#39;</span><span class="p">],</span><span class="n">time_sec</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;AnalysisTime&#39;</span><span class="p">],</span><span class="n">time_sec_out</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;UsableTime&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;GridWidth&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">],</span><span class="n">dt</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;TimeStep&#39;</span><span class="p">],</span><span class="n">clockwise</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;Clockwise&#39;</span><span class="p">])</span>
 </div>
 <div class="viewcode-block" id="cfg2tsrun"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.main.cfg2tsrun">[docs]</a><span class="k">def</span> <span class="nf">cfg2tsrun</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Produce a &#39;tsrun&#39; object that matches the configuration options in *tsconfig*.</span>
+<span class="sd">    Produce a `tsrun` object that matches the configuration options in tsconfig.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *tsconfig* - A TurbSim config object.</span>
+<span class="sd">    tsconfig :  str</span>
+<span class="sd">                A TurbSim config object.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    *tsrun* - A TurbSim run object with profModel, specModel,</span>
-<span class="sd">              cohereModel and stressModel consistent with the input</span>
-<span class="sd">              *tsconfig* object.</span>
+<span class="sd">    tsrun :     str</span>
+<span class="sd">                A TurbSim run object with profModel, specModel,</span>
+<span class="sd">                cohereModel and stressModel that match the input</span>
+<span class="sd">                `tsconfig` object.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -172,6 +220,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

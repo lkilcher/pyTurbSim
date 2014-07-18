@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -63,7 +66,25 @@
 <div class="viewcode-block" id="nwtc"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.log.nwtc">[docs]</a><span class="k">class</span> <span class="nc">nwtc</span><span class="p">(</span><span class="n">profModelBase</span><span class="p">,):</span>
     <span class="sd">r&quot;&quot;&quot;</span>
 <span class="sd">    The NWTC logarithmic mean wind-speed profile.</span>
-<span class="sd">                               </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    URef :          float</span>
+<span class="sd">        Reference velocity for the wind profile [m/s].</span>
+<span class="sd">    ZRef :          float</span>
+<span class="sd">        Reference height of the reference velocity [m].</span>
+<span class="sd">    Z0 :            float</span>
+<span class="sd">        Surface roughness length [m].</span>
+<span class="sd">    Ri :            float</span>
+<span class="sd">        The Richardon number [non-dimensional].</span>
+<span class="sd">    turbmodel :     str, optional</span>
+<span class="sd">        The name of the turbulence model in this simulationm.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The exact form of this model is,</span>
+<span class="sd">        </span>
 <span class="sd">    .. math::</span>
 <span class="sd">       \bar{U}(z) = U_{Ref}\frac{ln( z / Z0 ) - \psi_M}{ln( Z_{Ref} / Z0) - \psi_M}</span>
 
@@ -72,18 +93,6 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">URef</span><span class="p">,</span><span class="n">ZRef</span><span class="p">,</span><span class="n">Z0</span><span class="p">,</span><span class="n">Ri</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">turbmodel</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a NWTC logarithmic mean wind-speed profile model instance.</span>
-<span class="sd">        </span>
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        URef     - Reference velocity for the wind profile [m/s].</span>
-<span class="sd">        ZRef     - Reference height of the reference velocity [m].</span>
-<span class="sd">        Z0       - Surface roughness length [m].</span>
-<span class="sd">        Ri       - The Richardon number [*non-dimensional].</span>
-<span class="sd">        turbmodel- the name of the turbulence model in this simulationm, *optional*.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Uref</span><span class="o">=</span><span class="n">URef</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="o">=</span><span class="n">ZRef</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Z0</span><span class="o">=</span><span class="n">Z0</span>
@@ -92,16 +101,19 @@
 
 <div class="viewcode-block" id="nwtc.__call__"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.log.nwtc.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Call the mean wind speed profile with a *tsrun* object to return the</span>
-<span class="sd">        run-specific mean velocity profile object.</span>
+<span class="sd">        Create and calculate the mean-profile object for a `tsrun`</span>
+<span class="sd">        instance.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        tsrun    - A TurbSim run object.</span>
+<span class="sd">        tsrun :         :class:`tsrun &lt;pyts.main.tsrun&gt;`</span>
+<span class="sd">                        A TurbSim run object.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        out      - A logarithmic wind-speed profile for the grid in tsrun.</span>
+<span class="sd">        out :           :class:`profObj &lt;.mBase.profObj&gt;`</span>
+<span class="sd">                        A logarithmic wind-speed profile for the grid in `tsrun`.</span>
+<span class="sd">    </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span><span class="o">=</span><span class="n">profObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
         <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">)[:,</span><span class="bp">None</span><span class="p">]</span>
@@ -109,15 +121,18 @@
     </div>
 <div class="viewcode-block" id="nwtc.model"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.log.nwtc.model">[docs]</a>    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the log profile for input variable *z*.</span>
+<span class="sd">        Calculate the log profile for heights `z`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        z       - Height above the ground (nz x ny array).</span>
+<span class="sd">        z :     array_like(dtype=float)</span>
+<span class="sd">                Height above the ground [m].</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        mean velocity (nz x ny array).</span>
+<span class="sd">        u :     array_like(dtype=float)</span>
+<span class="sd">                The mean velocity array [m/s].</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># Note: this function is separated from the __call__ routine so that it can be utilized by other modules</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Uref</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">z</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Z0</span><span class="p">)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">psiM</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Z0</span><span class="p">)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">psiM</span><span class="p">))</span>
@@ -127,7 +142,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The psi_M parameter for this profile model.</span>
 
-<span class="sd">        See the pyts.misc.psiM function for details.</span>
+<span class="sd">        See the :func:`pyts.misc.psiM` function for details.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">psiM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ri</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">TurbModel</span><span class="p">)</span>
         </div></div>
@@ -135,37 +150,45 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The logarithmic mean water velocity profile.</span>
 
-<span class="sd">           Ubar(z) = Ustar/kappa * ln( z / Zref) + Uref</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    URef :      float</span>
+<span class="sd">                Reference velocity for the wind profile [m/s].</span>
+<span class="sd">    ZRef :      float</span>
+<span class="sd">                Reference height of the reference velocity [m].</span>
+<span class="sd">    ustar :     float</span>
+<span class="sd">                Surface friction veclocity [m/s].</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The precise form of this model is,</span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">    </span>
+<span class="sd">           Ubar(z) = U_*/\kappa * \mathrm{Ln}( z / Z_{ref}) + U_{ref}</span>
 <span class="sd">           </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Uref</span><span class="p">,</span><span class="n">Zref</span><span class="p">,</span><span class="n">ustar</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a hydro-logarathmic mean velocity profile model instance.</span>
-<span class="sd">        </span>
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        URef     - Reference velocity for the wind profile [m/s].</span>
-<span class="sd">        ZRef     - Reference height of the reference velocity [m].</span>
-<span class="sd">        ustar    - Surface friction veclocity [m/s].</span>
-<span class="sd">        </span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Uref</span><span class="o">=</span><span class="n">Uref</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="o">=</span><span class="n">Zref</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Ustar</span><span class="o">=</span><span class="n">ustar</span>
 
 <div class="viewcode-block" id="H2O.__call__"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.log.H2O.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Call the mean wind speed profile with a *tsrun* object to return the</span>
-<span class="sd">        run-specific mean velocity profile object.</span>
+<span class="sd">        Create and calculate the mean-profile object for a `tsrun`</span>
+<span class="sd">        instance.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        tsrun    - A TurbSim run object.</span>
+<span class="sd">        tsrun : :class:`tsrun &lt;pyts.main.tsrun&gt;`</span>
+<span class="sd">                A TurbSim run object.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        out - A logarithmic mean-velocity profile object for the</span>
-<span class="sd">              spatial grid in tsrun.</span>
+<span class="sd">        out :   :class:`profObj &lt;.mBase.profObj&gt;`</span>
+<span class="sd">                A logarithmic mean-velocity profile object for the</span>
+<span class="sd">                spatial grid in tsrun.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span><span class="o">=</span><span class="n">profObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
         <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ustar</span><span class="o">/</span><span class="n">kappa</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="p">)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Uref</span><span class="p">)[:,</span><span class="bp">None</span><span class="p">]</span>
@@ -202,6 +225,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

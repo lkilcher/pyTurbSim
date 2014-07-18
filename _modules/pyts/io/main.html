@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -70,18 +73,37 @@
 
 <div class="viewcode-block" id="readModel"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.main.readModel">[docs]</a><span class="k">def</span> <span class="nf">readModel</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">inp_fname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Reads a TurbSim data and input (config) file and returns a tsdata</span>
-<span class="sd">    object.  If *fname* ends in .inp, it reads this input file, and</span>
-<span class="sd">    searches for a binary file that can be read (throws error if none</span>
-<span class="sd">    is found).</span>
+<span class="sd">    Read a TurbSim data and input file and return a </span>
+<span class="sd">    :class:`tsdata &lt;pyts.main.tsdata&gt;` data object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname : str</span>
+<span class="sd">            The filename to load.  If `fname` ends in .inp, it reads</span>
+<span class="sd">            this input file, and searches for a binary file that can</span>
+<span class="sd">            be read (throws error if none is found). Otherwise,</span>
+<span class="sd">            </span>
+<span class="sd">    inp_fname : str, optional</span>
+<span class="sd">                The input file name to associate with the data-file</span>
+<span class="sd">                `fname`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tsdata : :class:`tsdata &lt;pyts.main.tsdata&gt;`</span>
+<span class="sd">             The TurbSim data contained in the binary data file.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
 <span class="sd">    </span>
-<span class="sd">    If *fname* is a filetype that can be read, it reads that file and</span>
+<span class="sd">    If `fname` is a filetype that can be read, it reads that file and</span>
 <span class="sd">    the associated .inp file.</span>
 
-<span class="sd">    In other words:</span>
+<span class="sd">    In other words::</span>
 <span class="sd">      tsdat=readModel(&#39;TurbSim.inp&#39;)</span>
-<span class="sd">        and</span>
+<span class="sd">      </span>
+<span class="sd">    and::</span>
 <span class="sd">      tsdat=readModel(&#39;TurbSim.bts&#39;)</span>
+<span class="sd">    </span>
 <span class="sd">    Do essentially the same thing.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -146,6 +168,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

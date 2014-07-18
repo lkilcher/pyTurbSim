@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -54,7 +57,21 @@
 <span class="kn">from</span> <span class="nn">mBase</span> <span class="kn">import</span> <span class="n">stressModelBase</span><span class="p">,</span><span class="n">stressObj</span>
 
 <div class="viewcode-block" id="uniform"><a class="viewcode-back" href="../../../api/pyts.stressModels.html#pyts.stressModels.main.uniform">[docs]</a><span class="k">class</span> <span class="nc">uniform</span><span class="p">(</span><span class="n">stressModelBase</span><span class="p">):</span>
-    <span class="c"># !!!ADDDOC</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The &#39;uniform&#39; Reynold&#39;s stress model. In this model each component</span>
+<span class="sd">    of the Reynold&#39;s stress can be specified explicitly, but the</span>
+<span class="sd">    values are uniform in space.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    upvp_ : float</span>
+<span class="sd">            The u&#39;v&#39; component of Reynold&#39;s stress.</span>
+<span class="sd">    upwp_ : float</span>
+<span class="sd">            The u&#39;w&#39; component of Reynold&#39;s stress.</span>
+<span class="sd">    vpwp_ : float</span>
+<span class="sd">            The v&#39;w&#39; component of Reynold&#39;s stress.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">upvp_</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span><span class="n">upwp_</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span><span class="n">vpwp_</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -63,6 +80,21 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">vals</span><span class="o">=</span><span class="p">[</span><span class="n">upvp_</span><span class="p">,</span><span class="n">upwp_</span><span class="p">,</span><span class="n">vpwp_</span><span class="p">]</span>
 
 <div class="viewcode-block" id="uniform.__call__"><a class="viewcode-back" href="../../../api/pyts.stressModels.html#pyts.stressModels.main.uniform.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and calculate the stress object for a `tsrun`</span>
+<span class="sd">        instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tsrun :         :class:`tsrun &lt;pyts.main.tsrun&gt;`</span>
+<span class="sd">                        A TurbSim run object.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out :           :class:`stressObj &lt;.mBase.specObj&gt;`</span>
+<span class="sd">                        A stress object for the grid in `tsrun`.</span>
+<span class="sd">    </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span><span class="o">=</span><span class="n">stressObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
         <span class="n">out</span><span class="o">.</span><span class="n">upvp_</span><span class="p">[:]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">out</span><span class="o">.</span><span class="n">upwp_</span><span class="p">[:]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -100,6 +132,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

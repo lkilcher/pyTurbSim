@@ -74,6 +74,7 @@ Subpackages
     pyts.gui
     pyts.io
     pyts.phaseModels
+    pyts.plot
     pyts.profModels
     pyts.runConfig
     pyts.specModels

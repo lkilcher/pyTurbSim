@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -60,7 +63,7 @@
 <span class="sd">wrapper function here in order to be accessible using input files.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">profModels</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">from</span> <span class="nn">..profModels</span> <span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">pm</span>
 
 <div class="viewcode-block" id="getModel"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.profModels.getModel">[docs]</a><span class="k">def</span> <span class="nf">getModel</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -69,82 +72,92 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    tsconfig   - A TurbSim config object.</span>
+<span class="sd">    tsconfig :  :class:`tscfg &lt;.base.tscfg&gt;`</span>
+<span class="sd">                A TurbSim config object.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    The appropriately initialized &#39;profile model&#39; object specified in</span>
-<span class="sd">    the supplied tsconfig object.</span>
+<span class="sd">    profModel : A subclass of :class:`profModelBase &lt;pyts.profModels.mBase.profModelBase&gt;`</span>
+<span class="sd">                The appropriately initialized &#39;profile model&#39; object</span>
+<span class="sd">                specified in `tsconfig`.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># This executes the sub-wrapper function (defined below) specified</span>
     <span class="c"># in the tsconfig-object (input file WINDPROFILETYPE line)</span>
-    <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;WindProfileType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">+</span><span class="s">&#39;(tsconfig)&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="o">+</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;WindProfileType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">+</span><span class="s">&#39;(tsconfig)&#39;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="h2l"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.profModels.h2l">[docs]</a><span class="k">def</span> <span class="nf">h2l</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_h2l</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function parses the correct variables from the tsconfig</span>
 <span class="sd">    object and supplies them to the &#39;H2O log&#39; profile model.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    tsconfig  - A TurbSim config object (with WindProfileType &#39;h2l&#39;).</span>
+<span class="sd">    tsconfig :  :class:`tscfg &lt;.base.tscfg&gt;`</span>
+<span class="sd">                A TurbSim config object (with WindProfileType &#39;h2l&#39;).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    H2O-log mean profile model instance.</span>
+<span class="sd">    profModel : :class:`pyts.profModels.log.H2O`</span>
+<span class="sd">                H2O-log mean profile model instance.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;RefHt&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;UStar&#39;</span><span class="p">])</span>
-</div>
-<div class="viewcode-block" id="log"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.profModels.log">[docs]</a><span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
+
+<span class="k">def</span> <span class="nf">_log</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function parses the correct variables from the tsconfig</span>
 <span class="sd">    object and supplies them to the wind &#39;log&#39; profile model.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    tsconfig  - A TurbSim config object (with WindProfileType &#39;log&#39;).</span>
+<span class="sd">    tsconfig :  :class:`tscfg &lt;.base.tscfg&gt;`</span>
+<span class="sd">                A TurbSim config object (with WindProfileType &#39;log&#39;).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    wind log mean profile model instance.</span>
+<span class="sd">    profModel : :class:`pyts.profModels.log.nwtc`</span>
+<span class="sd">                wind log mean profile model instance.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;RefHt&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;Z0&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;RICH_NO&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;TurbModel&#39;</span><span class="p">])</span>
-</div>
-<div class="viewcode-block" id="pl"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.profModels.pl">[docs]</a><span class="k">def</span> <span class="nf">pl</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
+
+<span class="k">def</span> <span class="nf">_pl</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function parses the correct variables from the tsconfig</span>
 <span class="sd">    object and supplies them to the wind &#39;power-law&#39; profile model.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    tsconfig  - A TurbSim config object (with WindProfileType &#39;pl&#39;).</span>
+<span class="sd">    tsconfig :  :class:`tscfg &lt;.base.tscfg&gt;`</span>
+<span class="sd">                A TurbSim config object (with WindProfileType &#39;pl&#39;).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    power-law mean profile model instance.</span>
+<span class="sd">    profModel : :class:`pyts.profModels.power.nwtc`</span>
+<span class="sd">                power-law mean profile model instance.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">pl</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;RefHt&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;PLExp&#39;</span><span class="p">])</span>
-    </div>
-<div class="viewcode-block" id="iec"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.profModels.iec">[docs]</a><span class="k">def</span> <span class="nf">iec</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
+    
+<span class="k">def</span> <span class="nf">_iec</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function parses the correct variables from the tsconfig</span>
 <span class="sd">    object and supplies them to the wind &#39;IEC&#39; profile model.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    tsconfig  - A TurbSim config object (with WindProfileType &#39;IEC&#39;).</span>
+<span class="sd">    tsconfig :  :class:`tscfg &lt;.base.tscfg&gt;`</span>
+<span class="sd">                A TurbSim config object (with WindProfileType &#39;IEC&#39;).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    IEC mean profile model instance.</span>
+<span class="sd">    profModel : :class:`pyts.profModels.iec.main`</span>
+<span class="sd">                IEC mean profile model instance.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">iec</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;RefHt&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;Z0&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;RICH_NO&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;PLExp&#39;</span><span class="p">],</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;TurbModel&#39;</span><span class="p">],)</span>
-</pre></div></div>
+</pre></div>
 
           </div>
         </div>
@@ -176,6 +189,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

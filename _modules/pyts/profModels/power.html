@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -52,37 +55,32 @@
             
   <h1>Source code for pyts.profModels.power</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This module contains the power-law mean-velocity profiles:</span>
-<span class="sd"> nwtc   - The NWTC power-law mean wind speed profile.</span>
-
+<span class="sd">The NWTC power-law profile model.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">mBase</span> <span class="kn">import</span> <span class="n">profModelBase</span><span class="p">,</span><span class="n">profObj</span>
 
 <div class="viewcode-block" id="nwtc"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.power.nwtc">[docs]</a><span class="k">class</span> <span class="nc">nwtc</span><span class="p">(</span><span class="n">profModelBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The power-law mean wind profile.</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    The power-law mean wind profile model.</span>
 
-<span class="sd">           Ubar(z) = URef * ( z / RefHt )^PLexp</span>
+<span class="sd">    .. math::</span>
+<span class="sd">    </span>
+<span class="sd">           \bar{U}(z) = U_{ref} * ( z / Z_{ref} )^{PLexp}</span>
+<span class="sd">           </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    URef :      float</span>
+<span class="sd">                Reference velocity for the wind profile [m/s].</span>
+<span class="sd">    Zref  :     float</span>
+<span class="sd">                Reference height of the reference velocity [m].</span>
+<span class="sd">    PLexp :     float</span>
+<span class="sd">                The power-law exponent to be utilized for this</span>
+<span class="sd">                simulation [non-dimensional], default=1/7.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Uref</span><span class="p">,</span><span class="n">RefHt</span><span class="p">,</span><span class="n">PLexp</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mf">7.</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a power-law wind profile.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        URef     - Reference velocity for the wind profile [m/s].</span>
-<span class="sd">        RefHt    - Reference height of the reference velocity [m].</span>
-<span class="sd">        PLexp    - The power-law exponent to be utilized for this</span>
-<span class="sd">                   simulation [*non-dimensional], default=1/7.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        out      - A power-law wind profile object that matches the</span>
-<span class="sd">                   specified input parameters.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Uref</span><span class="p">,</span><span class="n">Zref</span><span class="p">,</span><span class="n">PLexp</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mf">7.</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Uref</span><span class="o">=</span><span class="n">Uref</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="o">=</span><span class="n">RefHt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="o">=</span><span class="n">Zref</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">PLexp</span><span class="o">=</span><span class="n">PLexp</span>
 
 <div class="viewcode-block" id="nwtc.model"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.power.nwtc.model">[docs]</a>    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
@@ -94,16 +92,19 @@
 </div>
 <div class="viewcode-block" id="nwtc.__call__"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.power.nwtc.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the profile object for this profile model.</span>
-<span class="sd">        </span>
+<span class="sd">        Create and calculate the mean-profile object for a `tsrun`</span>
+<span class="sd">        instance.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        tsrun    - A TurbSim run object.</span>
-
+<span class="sd">        tsrun :         :class:`tsrun &lt;pyts.main.tsrun&gt;`</span>
+<span class="sd">                        A TurbSim run object.</span>
+<span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        out      - A TurbSim profile object, containing the array of mean</span>
-<span class="sd">                   velocity for the simulation.</span>
+<span class="sd">        out :           :class:`profObj &lt;.mBase.profObj&gt;`</span>
+<span class="sd">                        A power-law wind-speed profile for the grid in `tsrun`.</span>
+<span class="sd">    </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span><span class="o">=</span><span class="n">profObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
         <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">)[:,</span><span class="bp">None</span><span class="p">]</span>
@@ -140,6 +141,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

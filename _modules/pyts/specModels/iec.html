@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -51,20 +54,48 @@
           <div class="body">
             
   <h1>Source code for pyts.specModels.iec</h1><div class="highlight"><pre>
-<span class="c"># !!!ADDDOC</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains the IEC turbulence models.</span>
+
+<span class="sd">See the </span>
+<span class="sd">`Original-TurbSim user manual &lt;http://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf&gt;`_</span>
+<span class="sd">for more info on IEC spectral models.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">.mBase</span> <span class="kn">import</span> <span class="n">specModelBase</span><span class="p">,</span><span class="n">np</span><span class="p">,</span><span class="n">ts_float</span><span class="p">,</span><span class="n">specObj</span>
 <span class="kn">from</span> <span class="nn">..misc</span> <span class="kn">import</span> <span class="n">InvalidConfig</span><span class="p">,</span><span class="n">Lambda</span>
 
 <div class="viewcode-block" id="iecbase"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.iec.iecbase">[docs]</a><span class="k">class</span> <span class="nc">iecbase</span><span class="p">(</span><span class="n">specModelBase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This is a base class for the IEC spectral models (IECKAI and IECVKM).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    IECwindtype : str {&#39;NTM&#39;=normal, &#39;xETM&#39;=extreme turbulence,&#39;xEWM1&#39;=extreme 1-year wind, &#39;xEWM50&#39;=extreme 50-year wind, where x=wind turbine class 1, 2, or 3}</span>
+<span class="sd">    IECstandard : int {1}</span>
+<span class="sd">                  Currently this only supports IECstandard==1.</span>
+<span class="sd">                  IECstandard == 2 and 3 correspond to small and</span>
+<span class="sd">                  offshore wind, respectively, and have not yet been</span>
+<span class="sd">                  implemented here.</span>
+<span class="sd">    IECedition : int {2,3}</span>
+<span class="sd">                 This is the &#39;edition&#39; number of the -1 standard.</span>
+<span class="sd">    IECturbc : str | float {&#39;A&#39;,&#39;B&#39;,&#39;C&#39;}</span>
+<span class="sd">               The string form correspodes to the IEC turbulence</span>
+<span class="sd">               &#39;categories&#39;. If a float is provided, it specifies a</span>
+<span class="sd">               specific value of Turbulence Intensity.</span>
+<span class="sd">    ETMc : float, optional (2.0)</span>
+<span class="sd">           ETMc specifies the value of the &#39;c&#39; parameter in the</span>
+<span class="sd">           equation for :math:`\sigma_u`. It is only used when</span>
+<span class="sd">           `IECwindtype`=&#39;xETM&#39;.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    For further details on the IEC spectral models see the `Original-TurbSim user manual &lt;http://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf&gt;`_.</span>
+<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">IECwindtype</span><span class="p">,</span><span class="n">IECstandard</span><span class="p">,</span><span class="n">IECedition</span><span class="p">,</span><span class="n">IECturbc</span><span class="p">,</span><span class="n">ETMc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># !!!ADDDOC</span>
         <span class="k">if</span> <span class="n">ETMc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">ETMc</span><span class="o">=</span><span class="mf">2.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">IECwindtype</span><span class="o">=</span><span class="n">IECwindtype</span>
@@ -74,25 +105,74 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ETMc</span><span class="o">=</span><span class="n">ETMc</span>
 
 <div class="viewcode-block" id="iecbase.Lambda"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.iec.iecbase.Lambda">[docs]</a>    <span class="k">def</span> <span class="nf">Lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">zhub</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the value of Lambda for height `zhub`.</span>
+
+<span class="sd">        See also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :func:`pyts.misc.Lambda`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Lambda</span><span class="p">(</span><span class="n">zhub</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">IECedition</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="iecbase.check_ewm"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.iec.iecbase.check_ewm">[docs]</a>    <span class="k">def</span> <span class="nf">check_ewm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">grid</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_check_ewm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">grid</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">IECturbc</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">IECstandard</span><span class="o">==</span><span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">IECedition</span><span class="o">==</span><span class="mi">3</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">IECwindtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;ewm&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">time_sec_out</span><span class="o">!=</span><span class="mf">600.</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;The extreme wind model is only valid for 10min (600s) runs.  Setting &#39;UsableTime&#39; to 600s.&quot;</span><span class="p">)</span>
             <span class="n">grid</span><span class="o">.</span><span class="n">time_sec_out</span><span class="o">=</span><span class="mf">600.</span>
-</div>
+
 <div class="viewcode-block" id="iecbase.IEC_Sigma"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.iec.iecbase.IEC_Sigma">[docs]</a>    <span class="k">def</span> <span class="nf">IEC_Sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">uhub</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the default value of the standard deviation of wind speed.</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the default value of the standard deviation of u-component wind speed, :math:`\sigma` or :math:`\sigma_u`.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+
+<span class="sd">        For input :class:`IECturbc &lt;iecbase&gt;` a numeric value, it simply specifies the turbulence intensity. That is,</span>
+<span class="sd">          </span>
+<span class="sd">          .. math::</span>
+<span class="sd">             \sigma = \mathrm{IECturbc}\times u_{hub}</span>
+
+<span class="sd">        Otherwise only IECversion == 1 is supported.  In that case:</span>
+
+<span class="sd">        - For IECedition == 2 the windtype must be &#39;NTM&#39;, in that case:</span>
+<span class="sd">        </span>
+<span class="sd">          .. math::</span>
+
+<span class="sd">              \sigma = Ti (\frac{15+\beta u_{hub}}{\beta + 1})</span>
+<span class="sd">            </span>
+<span class="sd">          Where,</span>
+<span class="sd">          </span>
+<span class="sd">            Ti = (0.18,0.16) for input variable :class:`IECturbc &lt;iecbase&gt;` = (&#39;a&#39;,&#39;b&#39;), respectively.</span>
+
+<span class="sd">            :math:`\beta` = (2.0,3.0) for input variable :class:`IECturbc &lt;iecbase&gt;` = (&#39;a&#39;,&#39;b&#39;), respectively.</span>
+
+<span class="sd">        - For IECedition == 3, Ti=(0.16,0.14,0.12) for</span>
+<span class="sd">          IECturbc=(a,b,c), respectively. In this case, different</span>
+<span class="sd">          formulations are used for different :class:`IECwindtype</span>
+<span class="sd">          &lt;iecbase&gt;`.</span>
+<span class="sd">          </span>
+<span class="sd">            - For IECwindtype == &#39;NTM&#39;:</span>
+
+<span class="sd">              .. math::</span>
+<span class="sd">                 \sigma = Ti(0.75u_{hub} + 5.6)</span>
+<span class="sd">              </span>
+<span class="sd">            - For IECwindtype == &#39;xETM&#39;, the value of &#39;x&#39; in that string provides another input variable, Vref=(50,42.5,37.5) for x=1,2,3.</span>
+
+<span class="sd">              .. math::</span>
+<span class="sd">                 \sigma = \mathrm{ETMc} \times Ti (0.072(0.2 V_{ref}/\mathrm{ETMc}+3)(u_{hub}/\mathrm{ETMc}-4)+10)</span>
+
+<span class="sd">            - For IECwindtype == &#39;xEWM1&#39; | &#39;xEWM50&#39;, the same value of Vref apply and</span>
+
+<span class="sd">              .. math::</span>
+<span class="sd">                 \sigma = 0.11 V_{ref}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">iecver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">IECstandard</span>
-        <span class="k">if</span> <span class="n">iecver</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">IECturbc</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
             <span class="c"># !!!VERSION_INCONSISTENCY: add &#39;khtest&#39; functionality.</span>
             <span class="n">val</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">IECturbc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
             <span class="n">wndtp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">IECwindtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
             <span class="n">edi</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">IECedition</span>
+            <span class="k">if</span> <span class="n">iecver</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">None</span>
             <span class="k">if</span> <span class="n">iecver</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span> <span class="c"># Onshore-big wind.</span>
                 <span class="k">if</span> <span class="n">edi</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span> <span class="c">#2nd edition</span>
                     <span class="k">if</span> <span class="n">wndtp</span><span class="o">!=</span><span class="s">&#39;ntm&#39;</span><span class="p">:</span>
@@ -125,12 +205,10 @@
                         <span class="n">Vref</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;1&#39;</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span><span class="s">&#39;2&#39;</span><span class="p">:</span><span class="mf">42.5</span><span class="p">,</span><span class="s">&#39;3&#39;</span><span class="p">:</span><span class="mf">37.5</span><span class="p">}[</span><span class="n">wndtp</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
                         <span class="n">wndtp</span><span class="o">=</span><span class="n">wndtp</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
                         <span class="k">if</span> <span class="n">wndtp</span><span class="o">==</span><span class="s">&#39;etm&#39;</span><span class="p">:</span>
-                            <span class="n">vave</span><span class="o">=</span><span class="mf">0.2</span><span class="o">*</span><span class="n">Vref</span>
                             <span class="n">IEC_Sigma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ETMc</span><span class="o">*</span><span class="n">TurbInt15</span><span class="o">*</span><span class="p">(</span><span class="mf">0.072</span><span class="o">*</span><span class="p">(</span><span class="mf">0.2</span><span class="o">*</span><span class="n">Vref</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">ETMc</span><span class="o">+</span><span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">uhub</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">ETMc</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span><span class="o">+</span><span class="mf">10.</span><span class="p">)</span>
                             <span class="k">return</span> <span class="n">IEC_Sigma</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="n">IEC_Sigma</span><span class="o">=</span><span class="mf">0.11</span><span class="o">*</span><span class="n">uhub</span>
-                            <span class="k">return</span> <span class="mf">0.11</span> <span class="c"># Fixed turbulence intensity for the EWM models.</span>
+                            <span class="k">return</span> <span class="mf">0.11</span><span class="o">*</span><span class="n">Vref</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="n">InvalidConfig</span><span class="p">(</span><span class="s">&quot;Invalid &#39;IEC_WindType&#39; specified in config file.&quot;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">iecver</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span> <span class="c"># Small wind.</span>
@@ -142,11 +220,49 @@
                 <span class="k">raise</span> <span class="n">InvalidConfig</span><span class="p">(</span><span class="s">&quot;If the &#39;IECturbc&#39; config option is a number (specifying turbulence intensity), the IEC_WindType must be &#39;NTM&#39;.&quot;</span><span class="p">)</span>
 </div></div>
 <div class="viewcode-block" id="ieckai"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.iec.ieckai">[docs]</a><span class="k">class</span> <span class="nc">ieckai</span><span class="p">(</span><span class="n">iecbase</span><span class="p">):</span>
-    <span class="c"># !!!ADDDOC</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    The IEC Kaimal spectral model.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The form of this model is,</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">    </span>
+<span class="sd">        S_k(f) = \frac{4 \sigma_k^2/\hat{f}_k}{(1+6 f/\hat{f}_k )^{5/3}} \qquad \mathrm{for}\ k=u,v,w </span>
+
+<span class="sd">    Where,</span>
+
+<span class="sd">      :math:`\hat{f}_k = \alpha_k \bar{u}_{hub}/\Lambda`</span>
+<span class="sd">      </span>
+<span class="sd">      :math:`\alpha_k =` (8.1,2.7,0.66) for k= (u,v,w)</span>
+
+<span class="sd">      :math:`\sigma_u` is defined in :attr:`IEC_Sigma &lt;iecbase.IEC_Sigma&gt;`</span>
+<span class="sd">      </span>
+<span class="sd">      :math:`\sigma_v=0.8\sigma_u` and :math:`\sigma_w=0.5\sigma_u`</span>
+
+<span class="sd">      :math:`\Lambda` is defined in :attr:`Lambda &lt;iecbase.Lambda&gt;`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ieckai.__call__"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.iec.ieckai.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
-        <span class="c"># !!!ADDDOC</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">check_ewm</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and calculate the spectral object for a `tsrun`</span>
+<span class="sd">        instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tsrun :         :class:`tsrun &lt;pyts.main.tsrun&gt;`</span>
+<span class="sd">                        A TurbSim run object.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out :           :class:`specObj &lt;.mBase.specObj&gt;`</span>
+<span class="sd">                        An IEC spectral object for the grid in `tsrun`.</span>
+<span class="sd">    </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_ewm</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
         <span class="n">out</span><span class="o">=</span><span class="n">specObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
         <span class="n">sig2</span><span class="o">=</span><span class="mi">4</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">IEC_Sigma</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
         <span class="n">fctr</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.64</span><span class="p">,</span><span class="mf">0.25</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
@@ -156,11 +272,47 @@
         <span class="k">return</span> <span class="n">out</span>
     </div></div>
 <div class="viewcode-block" id="iecvkm"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.iec.iecvkm">[docs]</a><span class="k">class</span> <span class="nc">iecvkm</span><span class="p">(</span><span class="n">iecbase</span><span class="p">):</span>
-    <span class="c"># !!!ADDDOC</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    The IEC Von-Karman spectral model.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The form of this model is,</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">          S_u(f) = \frac{4 \sigma^2/\hat{f}}{(1+71(f/\hat{f})^2)^{5/6}}</span>
+
+<span class="sd">          S_v(f) = S_w(f) = (1+189(f/\hat{f})^2\frac{2\sigma^2/\hat{f}}{(1+71 (f/\hat{f})^2)^{11/6}}</span>
+<span class="sd">    </span>
+<span class="sd">    Where,</span>
+<span class="sd">          </span>
+<span class="sd">      :math:`\hat{f} = \bar{u}_{hub}/\Lambda`</span>
+
+<span class="sd">      :math:`\sigma` is defined in :attr:`IEC_Sigma &lt;iecbase.IEC_Sigma&gt;`</span>
+
+<span class="sd">      :math:`\Lambda` is defined in :attr:`Lambda &lt;iecbase.Lambda&gt;`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="iecvkm.__call__"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.iec.iecvkm.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
-        <span class="c"># !!!ADDDOC</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">check_ewm</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and calculate the spectral object for a `tsrun`</span>
+<span class="sd">        instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tsrun :         :class:`tsrun &lt;pyts.main.tsrun&gt;`</span>
+<span class="sd">                        A TurbSim run object.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out :           :class:`specObj &lt;.mBase.specObj&gt;`</span>
+<span class="sd">                        An IEC spectral object for the grid in `tsrun`.</span>
+<span class="sd">    </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_ewm</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
         <span class="n">out</span><span class="o">=</span><span class="n">specObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
         <span class="n">sig2</span><span class="o">=</span><span class="mi">4</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">IEC_Sigma</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
         <span class="n">L_u</span><span class="o">=</span><span class="mf">3.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">)</span><span class="o">/</span><span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span>
@@ -200,6 +352,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

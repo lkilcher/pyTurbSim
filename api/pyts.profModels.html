@@ -30,7 +30,7 @@
     <link rel="top" title="PyTurbSim 0.2 documentation" href="../index.html" />
     <link rel="up" title="pyts Package" href="pyts.html" />
     <link rel="next" title="runConfig Package" href="pyts.runConfig.html" />
-    <link rel="prev" title="phaseModels Package" href="pyts.phaseModels.html" /> 
+    <link rel="prev" title="plot Package" href="pyts.plot.html" /> 
   </head>
   <body>
     <div class="related">
@@ -43,10 +43,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="pyts.runConfig.html" title="runConfig Package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="pyts.phaseModels.html" title="phaseModels Package"
+          <a href="pyts.plot.html" title="plot Package"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="pyts.html" accesskey="U">pyts Package</a> &raquo;</li> 
@@ -273,7 +276,7 @@ specified, the zjet_max property provides a default.</p>
 </table>
 <dl class="method">
 <dt id="pyts.profModels.jet.main.__call__">
-<tt class="descname">__call__</tt><big>(</big><em>tsrun</em><big>)</big><a class="headerlink" href="#pyts.profModels.jet.main.__call__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__call__</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/jet.html#main.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.jet.main.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and calculate the mean-profile object for a <cite>tsrun</cite>
 instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -618,6 +621,117 @@ instance.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-pyts.profModels.simple">
+<span id="simple-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">simple</span></tt> Module<a class="headerlink" href="#module-pyts.profModels.simple" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>This module contains the log-law mean-velocity profiles:</dt>
+<dd>linear   - A linear wind speed profile
+uniform  - A uniform mean wind speed.</dd>
+</dl>
+<dl class="class">
+<dt id="pyts.profModels.simple.linear">
+<em class="property">class </em><tt class="descclassname">pyts.profModels.simple.</tt><tt class="descname">linear</tt><big>(</big><em>URef</em>, <em>ZRef</em>, <em>URef2=0.0</em>, <em>ZRef2=0.0</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/simple.html#linear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.simple.linear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.mBase.profModelBase</span></tt></a></p>
+<p>A &#8216;linear&#8217; mean wind-speed &#8216;profile&#8217;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>URef</strong> :  float</p>
+<blockquote>
+<div><p>The mean velocity you wish to produce [m/s].</p>
+</div></blockquote>
+<p><strong>ZRef</strong> :  float</p>
+<blockquote>
+<div><p>Reference height of URef [m].</p>
+</div></blockquote>
+<p><strong>URef2</strong> :  float (default = 0)</p>
+<blockquote>
+<div><p>Second velocity point [m/s].</p>
+</div></blockquote>
+<p><strong>ZRef2</strong> :  float (default = 0)</p>
+<blockquote class="last">
+<div><p>Reference height of second velocity point [m]</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The u-component is set to a linear profile through the points
+(URef,Zref) and (URef2,ZRef2). v- and w-components are zero.</p>
+<dl class="method">
+<dt id="pyts.profModels.simple.linear.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/simple.html#linear.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.simple.linear.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and calculate the mean-profile object for a <cite>tsrun</cite>
+instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>tsrun</strong> :         <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a></p>
+<blockquote>
+<div><p>A TurbSim run object.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> :           <a class="reference internal" href="#pyts.profModels.mBase.profObj" title="pyts.profModels.mBase.profObj"><tt class="xref py py-class docutils literal"><span class="pre">profObj</span></tt></a></p>
+<blockquote class="last">
+<div><p>A uniform wind-speed profile for the grid in <cite>tsrun</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyts.profModels.simple.uniform">
+<em class="property">class </em><tt class="descclassname">pyts.profModels.simple.</tt><tt class="descname">uniform</tt><big>(</big><em>URef</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/simple.html#uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.simple.uniform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.mBase.profModelBase</span></tt></a></p>
+<p>A &#8216;uniform&#8217; mean wind-speed &#8216;profile&#8217;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>URef</strong> :    The mean velocity you wish to produce.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This wind-speed &#8216;profile&#8217; actually just sets the mean u-component
+wind-speed to be spatially uniform. The v- and w-components are
+zero.</p>
+<dl class="method">
+<dt id="pyts.profModels.simple.uniform.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/simple.html#uniform.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.simple.uniform.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and calculate the mean-profile object for a <cite>tsrun</cite>
+instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>tsrun</strong> :         <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a></p>
+<blockquote>
+<div><p>A TurbSim run object.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> :           <a class="reference internal" href="#pyts.profModels.mBase.profObj" title="pyts.profModels.mBase.profObj"><tt class="xref py py-class docutils literal"><span class="pre">profObj</span></tt></a></p>
+<blockquote class="last">
+<div><p>A uniform wind-speed profile for the grid in <cite>tsrun</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -642,13 +756,14 @@ instance.</p>
 <li><a class="reference internal" href="#module-pyts.profModels.log"><tt class="docutils literal"><span class="pre">log</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-pyts.profModels.mBase"><tt class="docutils literal"><span class="pre">mBase</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-pyts.profModels.power"><tt class="docutils literal"><span class="pre">power</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.profModels.simple"><tt class="docutils literal"><span class="pre">simple</span></tt> Module</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="pyts.phaseModels.html"
-                        title="previous chapter">phaseModels Package</a></p>
+  <p class="topless"><a href="pyts.plot.html"
+                        title="previous chapter">plot Package</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="pyts.runConfig.html"
                         title="next chapter">runConfig Package</a></p>
@@ -684,10 +799,13 @@ instance.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="pyts.runConfig.html" title="runConfig Package"
              >next</a> |</li>
         <li class="right" >
-          <a href="pyts.phaseModels.html" title="phaseModels Package"
+          <a href="pyts.plot.html" title="plot Package"
              >previous</a> |</li>
         <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="pyts.html" >pyts Package</a> &raquo;</li> 

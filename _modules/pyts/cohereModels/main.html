@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -83,18 +86,31 @@
     
 <div class="viewcode-block" id="cohereObjNWTC.calc_phases"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.main.cohereObjNWTC.calc_phases">[docs]</a>    <span class="k">def</span> <span class="nf">calc_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">phases</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compute and set the full cross-spectral matrix for component</span>
-<span class="sd">        *comp* for &#39;coherence calculator&#39; instance *cohi*.</span>
+<span class="sd">        Compute the `correlated phases` for each grid-point from the</span>
+<span class="sd">        input `phases` based on the coherence NWTC &#39;non-IEC coherence</span>
+<span class="sd">        model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        phases : array_like(np,nf)</span>
+<span class="sd">                 The input (generally randomized) phases for each</span>
+<span class="sd">                 point for each frequency.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        phases : array_like(np,nf)</span>
+<span class="sd">                 The correlated phases according to this cohereObj&#39;s</span>
+<span class="sd">                 coherence model (see :meth:`calcCoh`).</span>
+<span class="sd">                 </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
 
 <span class="sd">        This method should not be called explicitly.  It is called by</span>
-<span class="sd">        a &#39;coherence calculator&#39; instance&#39;s __call__ method.</span>
-
-<span class="sd">        This routine utilizes a model&#39;s &#39;calcCoh&#39; method, which must</span>
-<span class="sd">        be defined explicitly for all sub-classes of cohereModelBase.</span>
+<span class="sd">        a cohereObj instance&#39;s __call__ method.</span>
 
 <span class="sd">        See also</span>
 <span class="sd">        --------</span>
-<span class="sd">        calcCoh - computes the coherence for individual grid-point pairs.</span>
+<span class="sd">        calcCoh : computes the coherence for individual grid-point pairs.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">tslib</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
@@ -105,7 +121,7 @@
                 <span class="n">tslib</span><span class="o">.</span><span class="n">nonieccoh</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">icomp</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="n">icomp</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">CohExp</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ncore</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">)</span>
                 <span class="n">phases</span><span class="p">[</span><span class="n">icomp</span><span class="p">]</span><span class="o">=</span><span class="n">tmp</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">phases</span><span class="o">=</span><span class="n">cohereObj</span><span class="o">.</span><span class="n">calc_phases</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
+            <span class="n">phases</span><span class="o">=</span><span class="n">cohereObj</span><span class="o">.</span><span class="n">calc_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">phases</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">phases</span>
 </div>
 <div class="viewcode-block" id="cohereObjNWTC.calcCoh"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.main.cohereObjNWTC.calcCoh">[docs]</a>    <span class="k">def</span> <span class="nf">calcCoh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">comp</span><span class="p">,</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">):</span>
@@ -122,27 +138,50 @@
         <span class="n">two</span><span class="o">=</span><span class="n">ts_float</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">zm</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">ii</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">jj</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span><span class="o">/</span><span class="n">two</span>
         <span class="n">um</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span><span class="o">/</span><span class="n">two</span>
-        <span class="k">print</span> <span class="n">zm</span>
-        <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">r</span><span class="p">,</span><span class="n">um</span><span class="p">,(</span><span class="n">r</span><span class="o">/</span><span class="n">zm</span><span class="p">)</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">CohExp</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
-        <span class="k">print</span> <span class="s">&#39;junk&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">comp</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span>
-        <span class="k">print</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">/</span><span class="n">um</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="n">comp</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="c">#print zm</span>
+        <span class="c">#print self.grid.z[1],self.grid.y[1],r,um,(r/zm)**self.CohExp,self.grid.f[9]</span>
+        <span class="c">#print &#39;junk&#39;,self.a[comp],self.b[comp]</span>
+        <span class="c">#print -self.a[0]*r*np.sqrt((self.grid.f[9]/um)**2+(self.b[comp])**2)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">/</span><span class="n">zm</span><span class="p">)</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">CohExp</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">f</span><span class="o">*</span><span class="n">r</span><span class="o">/</span><span class="n">um</span><span class="p">)</span><span class="o">**</span><span class="n">two</span><span class="o">+</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span><span class="o">*</span><span class="n">r</span><span class="p">)</span><span class="o">**</span><span class="n">two</span><span class="p">))</span>
 </div></div>
 <div class="viewcode-block" id="nwtc"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.main.nwtc">[docs]</a><span class="k">class</span> <span class="nc">nwtc</span><span class="p">(</span><span class="n">cohereModelBase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The NWTC &#39;non-IEC&#39; coherence model for velocity component &#39;k&#39; (u,v,w) between two</span>
-<span class="sd">    points (z_i,y_i) and (z_j,y_j) is:</span>
+<span class="sd">    The NWTC non-IEC coherence model.</span>
 
-<span class="sd">       Coh_k=exp(-a_k*(r/z_m)*CohExp*((f*r/u_m)**2+(b_k*r)**2))</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array_like(3)</span>
+<span class="sd">        The &#39;a&#39; exponential &#39;coherence decrement&#39; coefficients of the</span>
+<span class="sd">        coherence function for each velocity component.</span>
+<span class="sd">    b : a</span>
+<span class="sd">        The &#39;b&#39; exponential &#39;coherence decrement&#39; coefficients of the</span>
+<span class="sd">        coherence function for each velocity component.</span>
+<span class="sd">    CohExp : float</span>
+<span class="sd">             The &#39;Coherence Exponent&#39; parameter for the coherence function.</span>
 
-<span class="sd">    Where:</span>
-<span class="sd">      f is frequency.</span>
-<span class="sd">      r is the distance between the two points.</span>
-<span class="sd">      a_k and b_k are &#39;coherence decrement&#39; input parameters for each of the</span>
-<span class="sd">          velocity components.</span>
-<span class="sd">      u_m is the average velocity of the two points.</span>
-<span class="sd">      z_m is the average height of the two points.</span>
-<span class="sd">      CohExp is the &#39;coherence exponent&#39; input parameter (default is 0).</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The NWTC &#39;non-IEC&#39; coherence model for velocity component &#39;k&#39; between two</span>
+<span class="sd">    points (z_i,y_i) and (z_j,y_j) is</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">    </span>
+<span class="sd">       Coh_k=exp(-a_k*(r/z_m)*CohExp*((f*r/u_m)^2+(b_k*r)^2))  k=u,v,w</span>
+
+<span class="sd">    Where,</span>
+
+<span class="sd">    f is frequency.</span>
+
+<span class="sd">    r is the distance between the two points.</span>
+
+<span class="sd">    a_k and b_k are &#39;coherence decrement&#39; input parameters for each of the velocity components.</span>
+
+<span class="sd">    u_m is the average velocity of the two points.</span>
+
+<span class="sd">    z_m is the average height of the two points.</span>
+
+<span class="sd">    CohExp is the &#39;coherence exponent&#39; input parameter (default is 0).</span>
+<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__doc__</span><span class="o">+=</span><span class="n">cohereModelBase</span><span class="o">.</span><span class="n">__doc__</span>
 
@@ -201,21 +240,35 @@
         
 <div class="viewcode-block" id="cohereObjIEC.calcCoh"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.main.cohereObjIEC.calcCoh">[docs]</a>    <span class="k">def</span> <span class="nf">calcCoh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">comp</span><span class="p">,</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the *comp* (0, 1 or 2) coherence between points *ii*=(iz,iy) and *jj*=(jz,jy) for the IEC model.</span>
-
-<span class="sd">        This method is only used if tslib is not available.</span>
+<span class="sd">        Calculate the coherence for a velocity component, between two points.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        *cohi*    - A &#39;coherence calculator&#39; instance (for the given tsrun).</span>
-<span class="sd">        *comp*    - an integer (0,1,2) indicating the velocity component for which to compute the coherence.</span>
-<span class="sd">        *ii*,*jj* - Two-integer elements indicating the grid-points between which to calculate the coherence.</span>
-<span class="sd">                    for example: ii=(1,3),jj=(2,3)</span>
+<span class="sd">        f : array_like(nf,dtype=float)</span>
+
+<span class="sd">        comp : int {0,1,2}</span>
+<span class="sd">               indicating the velocity component for which to compute</span>
+<span class="sd">               the coherence.</span>
+
+<span class="sd">        ii,jj : array_like(int,2)</span>
+<span class="sd">                indicating the grid-points between which to calculate</span>
+<span class="sd">                the coherence.  for example: ii=(1,3),jj=(2,3)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        coh : array_like(nf,dtype=float)</span>
+<span class="sd">              The coherence between the two points as a function of frequency.</span>
+<span class="sd">              </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        </span>
+<span class="sd">        This method is only used if tslib is not available.</span>
+
 <span class="sd">                    </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">comp</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
             <span class="n">r</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">f</span><span class="o">*</span><span class="n">r</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="mf">0.12</span><span class="o">*</span><span class="n">r</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">f</span><span class="o">*</span><span class="n">r</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="mf">0.12</span><span class="o">*</span><span class="n">r</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
 </div>
@@ -232,29 +285,48 @@
             <span class="n">phases</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">out</span>
             <span class="k">return</span> <span class="n">phases</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">cohereObj</span><span class="o">.</span><span class="n">calc_phases</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">cohereObj</span><span class="o">.</span><span class="n">calc_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">phases</span><span class="p">)</span>
 </div></div>
 <div class="viewcode-block" id="iec"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.main.iec">[docs]</a><span class="k">class</span> <span class="nc">iec</span><span class="p">(</span><span class="n">cohereModelBase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The &#39;IEC&#39; coherence model for the u velocity component between two</span>
-<span class="sd">    points (z_i,y_i) and (z_j,y_j) is:</span>
-
-<span class="sd">       Coh=exp(-a*((f*r/uhub)^2+(0.12*r/Lc)^2)^0.5)</span>
-
-<span class="sd">    The IEC coherence is zero for the v and w components (coherence matrix</span>
-<span class="sd">    is the identity matrix so that auto-spectra are retained).</span>
+<span class="sd">    points (z_i,y_i) and (z_j,y_j).</span>
 <span class="sd">    </span>
-<span class="sd">    Where:</span>
-<span class="sd">      f is frequency.</span>
-<span class="sd">      r is the distance between the two points.</span>
-<span class="sd">      uhub is the hub-height mean velocity.</span>
-<span class="sd">      a and Lc are constants according to,</span>
-<span class="sd">        If IECedition&lt;=2:</span>
-<span class="sd">          a  = 8.8</span>
-<span class="sd">          Lc = 2.45*min(30m,HubHt)</span>
-<span class="sd">        If IECedition&gt;=3:</span>
-<span class="sd">          a  = 12</span>
-<span class="sd">          Lc = 5.67*min(60m,HubHt)</span>
+<span class="sd">    Create an IEC spectral model object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    IECedition : int {2, 3},</span>
+<span class="sd">                 Different IEC editions have slightly different coefficients to the</span>
+<span class="sd">                 spectral model.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The IEC coherence is zero for the v- and w-components (coherence matrix</span>
+<span class="sd">    is the identity matrix so that auto-spectra are retained).</span>
+
+<span class="sd">    The form of this model is for the u-component is,</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">    </span>
+<span class="sd">       Coh=exp(-a*((f*r/uhub)^2+(0.12*r/Lc)^2)^0.5)</span>
+<span class="sd">    </span>
+<span class="sd">    Where,</span>
+
+<span class="sd">    f is frequency.</span>
+
+<span class="sd">    r is the distance between the two points.</span>
+
+<span class="sd">    uhub is the hub-height mean velocity.</span>
+
+<span class="sd">    If IECedition&lt;=2:</span>
+<span class="sd">    a  = 8.8, </span>
+<span class="sd">    Lc = 2.45*min(30m,HubHt)</span>
+
+<span class="sd">    If IECedition&gt;=3:</span>
+<span class="sd">    a  = 12, </span>
+<span class="sd">    Lc = 5.67*min(60m,HubHt)</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__doc__</span><span class="o">+=</span><span class="n">cohereModelBase</span><span class="o">.</span><span class="n">__doc__</span>
 
@@ -267,15 +339,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Lfactor</span><span class="o">*</span><span class="n">Lambda</span><span class="p">(</span><span class="n">zhub</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">IECedition</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">IECedition</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create an IEC spectral model object.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        IECedition - int (2 or 3),</span>
-<span class="sd">                     Different IEC editions have slightly different coefficients to the</span>
-<span class="sd">                     spectral model.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">IECedition</span><span class="o">=</span><span class="n">IECedition</span>
         <span class="k">if</span> <span class="n">IECedition</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_Lfactor</span><span class="o">=</span><span class="mf">3.5</span> <span class="c"># The Lambda function includes a factor of 0.7 (_Lfactor*0.7=2.45).</span>
@@ -289,6 +352,7 @@
 <div class="viewcode-block" id="iec.set_coefs"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.main.iec.set_coefs">[docs]</a>    <span class="k">def</span> <span class="nf">set_coefs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">cohereObj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a coherence instance for the IEC coherence model.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cohereObj</span><span class="o">.</span><span class="n">Lc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="p">(</span><span class="n">cohereObj</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">)</span>
         <span class="n">cohereObj</span><span class="o">.</span><span class="n">a</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span></div></div>
@@ -324,6 +388,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -65,13 +68,15 @@
 
 <div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.bladed.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">tsdat</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Write the data to a Bladed-format binary file.</span>
+<span class="sd">    Write the data to a Bladed-format (.wnd) binary file.</span>
 
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *fname*  - The filename to which the data should be written.</span>
-<span class="sd">    *tsdat*  - The &#39;tsdata&#39; object that contains the data.</span>
+<span class="sd">    fname : str</span>
+<span class="sd">            The filename to which the data should be written.</span>
+<span class="sd">    tsdat : :class:`tsdata &lt;pyts.main.tsdata&gt;`</span>
+<span class="sd">            A TurbSim data object.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">prms</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">parameters</span>
@@ -84,6 +89,8 @@
     <span class="n">off</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1000.</span><span class="o">/</span><span class="p">(</span><span class="n">ti</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])[:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.inp&#39;</span><span class="p">):</span>
         <span class="n">fname</span><span class="o">=</span><span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s">&#39;.wnd&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="s">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">fname</span><span class="p">:</span>
+        <span class="n">fname</span><span class="o">+=</span><span class="s">&#39;.wnd&#39;</span>
     <span class="n">fl</span><span class="o">=</span><span class="nb">file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s">&#39;wb&#39;</span><span class="p">)</span>
     <span class="c"># First write some setup data:</span>
     <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pack</span><span class="p">(</span><span class="n">e</span><span class="o">+</span><span class="s">&#39;2hl3f&#39;</span><span class="p">,</span><span class="o">-</span><span class="mi">99</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">lat</span><span class="p">,</span><span class="n">Z0</span><span class="p">,</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">height</span><span class="o">/</span><span class="mf">2.0</span><span class="p">))</span>
@@ -114,15 +121,17 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *fname*  - The filename from which to read the data.</span>
+<span class="sd">    fname : str</span>
+<span class="sd">            The filename from which to read the data.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    *tsdat*  - An array of data.</span>
+<span class="sd">    tsdat : array_like</span>
+<span class="sd">            An array of the TurbSim-simulated turbulence data.</span>
 
-<span class="sd">    !!!FIXTHIS, this should return a tsData object:</span>
-<span class="sd">    *tsdat*  - A tsdata object that contains the data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">## !!!FIXTHIS, this should return a tsData object:</span>
+    <span class="c">## *tsdat*  - A tsdata object that contains the data.</span>
     <span class="k">with</span> <span class="nb">file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fl</span><span class="p">:</span>
         <span class="n">junk</span><span class="p">,</span><span class="n">nffc</span><span class="p">,</span><span class="n">ncomp</span><span class="p">,</span><span class="n">lat</span><span class="p">,</span><span class="n">z0</span><span class="p">,</span><span class="n">zoff</span><span class="o">=</span><span class="n">unpack</span><span class="p">(</span><span class="n">e</span><span class="o">+</span><span class="s">&#39;2hl3f&#39;</span><span class="p">,</span><span class="n">fl</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">junk</span><span class="o">!=-</span><span class="mi">99</span> <span class="ow">or</span> <span class="n">nffc</span><span class="o">!=</span><span class="mi">4</span><span class="p">:</span>
@@ -170,6 +179,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

@@ -40,6 +40,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
@@ -122,12 +125,15 @@
 
 <div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.config.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">config</span><span class="p">,</span><span class="n">headertext</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Writeout a config file.</span>
+<span class="sd">    Writeout a TurbSim input (.inp) file.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *fname*   - The filename to write out.</span>
-<span class="sd">    *config*  - The PyTurbSim config dictionary.</span>
+<span class="sd">    fname :     str</span>
+<span class="sd">                The filename to write to.</span>
+<span class="sd">            </span>
+<span class="sd">    config :    :class:`pyts.runConfig.base.tscfg`, dict</span>
+<span class="sd">                The PyTurbSim config dictionary.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">format</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">tsroot</span><span class="o">+</span><span class="s">&#39;form/input.form&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
@@ -154,15 +160,16 @@
 <div class="viewcode-block" id="read"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.config.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read a TurbSim input (.inp) file.</span>
-<span class="sd">    </span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *fname*   - The filename to read the config from.</span>
+<span class="sd">    fname   :   str</span>
+<span class="sd">                The filename to read the config from.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    *config*  - A PyTurbSim config dictionary.</span>
+<span class="sd">    config  :   :class:`pyts.runConfig.base.tscfg`, dict</span>
+<span class="sd">                A PyTurbSim config dictionary.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># TurbSim input files are static:</span>
@@ -187,7 +194,10 @@
         <span class="n">out</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">]</span><span class="o">=</span><span class="bp">None</span>
     <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;IncDec1&#39;</span><span class="p">,</span><span class="s">&#39;IncDec2&#39;</span><span class="p">,</span><span class="s">&#39;IncDec3&#39;</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">70</span> <span class="ow">and</span> <span class="n">dat</span><span class="p">[</span><span class="mi">64</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;NumUSRz&#39;</span><span class="p">:</span>
         <span class="c"># This file has a user-defined profile.</span>
         <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;NumUSRz&#39;</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
@@ -253,7 +263,8 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    *fname*   - The filename to read the PSD from.</span>
+<span class="sd">    fname :     str</span>
+<span class="sd">                The filename to read the PSD from.</span>
 
 <span class="sd">    The frequency in the input file should be in units of hz, and the</span>
 <span class="sd">    spectrum should be in units of m^2/s^2/hz.</span>
@@ -315,6 +326,9 @@
              >index</a></li>
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 

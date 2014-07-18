@@ -42,6 +42,9 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="api/pyts.html" title="pyts Package"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -58,6 +61,63 @@
             
   <div class="section" id="plotting-tools">
 <h1>Plotting Tools<a class="headerlink" href="#plotting-tools" title="Permalink to this headline">¶</a></h1>
+<p>PyTurbSim is equipped with a flexible set of plotting tools for plotting
+PyTurbSim output and comparing it to target (input) statistics. For
+example, the following code performs a PyTurbSim run and compares the
+output (<tt class="docutils literal"><span class="pre">out</span></tt>) mean profile and spectrum with the targets specified
+in the run (<tt class="docutils literal"><span class="pre">tsr</span></tt>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script provides an example usage of the PyTurbSim API.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c"># Begin by importing the PyTurbSim API and plotting tools</span>
+<span class="kn">import</span> <span class="nn">pyts.api</span> <span class="kn">as</span> <span class="nn">pyts</span>
+<span class="kn">import</span> <span class="nn">pyts.plot.api</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.pylab</span> <span class="kn">import</span> <span class="n">show</span>
+
+<span class="c"># Define some variables for the PyTurbSim run:</span>
+<span class="n">refht</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">ustar</span> <span class="o">=</span> <span class="mf">0.03</span>
+<span class="n">Uref</span> <span class="o">=</span> <span class="mf">3.</span>
+
+<span class="c"># Now create the PyTurbSim run, and specify input statistics.</span>
+<span class="n">tsr</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">tsrun</span><span class="p">()</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">tsGrid</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">refht</span><span class="p">,</span><span class="n">ny</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">nz</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">time_sec</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">profModels</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">Uref</span><span class="p">,</span><span class="n">refht</span><span class="p">,</span><span class="n">ustar</span><span class="p">)</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">specModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span><span class="n">refht</span><span class="p">)</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">cohere</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">cohereModels</span><span class="o">.</span><span class="n">nwtc</span><span class="p">()</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">stress</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">stressModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span><span class="n">refht</span><span class="p">)</span>
+<span class="c"># Run PyTurbSim:</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">tsr</span><span class="p">()</span>
+
+<span class="c"># Create a &#39;PyTurbSim plotting figure&#39; (plotting object):</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">new_summ_fig</span><span class="p">()</span>
+
+<span class="c"># Now just call this plotting object&#39;s &#39;plot&#39; method with the</span>
+<span class="c"># PyTurbSim output as input:</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s">&#39;k&#39;</span><span class="p">)</span>
+
+<span class="c"># These plotting objects are smart; when the same &#39;plot&#39; method</span>
+<span class="c"># is given a PyTurbSim &#39;run&#39; object it plots the target values:</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tsr</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s">&#39;r&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s">&#39;--&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
+
+<span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./../../examples/plotting.py">Source code</a>, <a class="reference external" href="./../../examples/plotting.png">png</a>, <a class="reference external" href="./../../examples/plotting.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plotting.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/plotting.png" src="_images/plotting.png" />
+</div>
+<p>The types of plots shown in the figure can be specified when
+initializing the plotting object. For example if we change the
+plotting object initialization to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">new_summ_fig</span><span class="p">(</span><span class="n">axforms</span><span class="o">=</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">velprof_axForm</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mf">3.5</span><span class="p">]),</span><span class="n">plt</span><span class="o">.</span><span class="n">tkeprof_axForm</span><span class="p">(),</span><span class="n">plt</span><span class="o">.</span><span class="n">stressprof_axForm</span><span class="p">(),</span><span class="n">plt</span><span class="o">.</span><span class="n">spec_axForm</span><span class="p">(),</span><span class="n">plt</span><span class="o">.</span><span class="n">cohere_axForm</span><span class="p">()])</span>
+</pre></div>
+</div>
+<p>Here we have used the PyTurbSim plotting &#8216;axes forms&#8217; objects to specify the types of plots to make.  Here we have specified a velocity profile (with axes limits from 0 to 3.5), a tke profile, a stress profile, a spectral plot and a coherence plot. Leaving the rest of the code the same, will produce this plot:</p>
+<img alt="_images/plotting2.png" src="_images/plotting2.png" />
 </div>
 
 
@@ -102,6 +162,9 @@
              >index</a></li>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="api/pyts.html" title="pyts Package"
