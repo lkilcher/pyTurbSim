@@ -57,3 +57,11 @@ profModels Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`simple` Module
+--------------------
+
+.. automodule:: pyts.profModels.simple
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

@@ -9,6 +9,14 @@ runConfig Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`api` Module
+-----------------
+
+.. automodule:: pyts.runConfig.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`base` Module
 ------------------
 

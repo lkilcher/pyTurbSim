@@ -7,7 +7,7 @@ example, the following code performs a |pyts| run and compares the
 output (``out``) mean profile and spectrum with the targets specified
 in the run (``tsr``).
 
-.. plot:: ../../examples/plotting.py
+.. plot:: examples/plotting.py
           :include-source:
 
 The types of plots shown in the figure can be specified when
@@ -17,5 +17,5 @@ plotting object initialization to::
 
 Here we have used the PyTurbSim plotting 'axes forms' objects to specify the types of plots to make.  Here we have specified a velocity profile (with axes limits from 0 to 3.5), a tke profile, a stress profile, a spectral plot and a coherence plot. Leaving the rest of the code the same, will produce this plot:
 
-.. image:: ../../examples/plotting2.png
+.. image:: examples/plotting2.png
 
