@@ -1,0 +1,36 @@
+This table compares the capabilities of the Original TurbSim and PyTurbSim tools.
+
+				|    Original   |	        |
+                                                |    TurbSim    |   PyTurbSim   |
+------------------------------------------------|---------------|---------------|
+Includes all mean velocity profiles^    	|       Y	    |       Y       |
+------------------------------------------------|---------------|---------------|
+Includes all turbulence models^	    	|       Y	    |       N*      |
+------------------------------------------------|---------------|---------------|
+Supports 'coherent structures' functionality^	|       Y	    |	N       |
+------------------------------------------------|---------------|---------------|
+Supports both coherence models (iec, non-iec)^	|       Y	    |	Y       |
+------------------------------------------------|---------------|---------------|
+Supports 'tower points'			|       Y	    |	N       |
+------------------------------------------------|---------------|---------------|
+Supports 'certtest'			|       Y	    |	N       |
+------------------------------------------------|---------------|---------------|
+Supports user-specified mean velocity profile	|  undocumented |	Y       |
+------------------------------------------------|---------------|---------------|
+Supports user-specified tke spectra	    	|  undocumented |	Y       |
+------------------------------------------------|---------------|---------------|
+Supports user-specified spatial coherence  	|       N	    |	Y       |
+------------------------------------------------|---------------|---------------|
+Supports user-specified Reynold's stress        |  disk-average |	Y       |
+profile  			 	|  value only   |	        |
+------------------------------------------------|---------------|---------------|
+Supports 'points coherence' (i.e. frequency	|       N	    |  undocumented |
+dependence of Reynold's stress)    		|       	    |    	        |
+------------------------------------------------|---------------|---------------|
+Writes sum files			|       Y	    |	N       |
+------------------------------------------------|---------------|---------------|
+
+^: As specified in the Original TurbSim documentation (https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf).
+
+*: Spectral models currently supported by PyTurbSim: HYDRO, RIVER, IECKAI, IECVKM, SMOOTH, NWTCUP
+           Spectral models unsupported by PyTurbSim: GP_LLJ, WF_UPW, WF_07D, WF_14D

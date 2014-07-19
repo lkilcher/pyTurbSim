@@ -43,3 +43,9 @@ test/*/*.bts
 tmp/*
 
 *.orig
+
+*.pyc
+
+*~
+
+.DS_Store
