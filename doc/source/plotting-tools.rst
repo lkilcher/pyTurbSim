@@ -25,4 +25,4 @@ Here we have used the PyTurbSim plotting 'axes forms' objects (in the :mod:`pyts
 
 .. plot:: examples/plotting2.py
 
-some more text.
+
