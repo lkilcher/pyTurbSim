@@ -6,7 +6,7 @@ import matplotlib.pylab as pylab
 transforms=mpl.transforms
 Axes=mpl.axes.Axes
 rcParams=mpl.rcParams
-from basefuncs import *
+import basefuncs as bf
 ## try:
 ##     import pyPdf as pdf
 ## except:
@@ -230,7 +230,7 @@ class myaxes(mpl.axes.Axes):
     """
     My own axes class.
     """
-    cpcolor=cpcolor
+    cpcolor=bf.cpcolor
     hln=_hln
     vln=_vln
     @property
@@ -247,12 +247,12 @@ class myaxes(mpl.axes.Axes):
         pylab.draw_if_interactive()
 
     skip_ticklabels=skip_ticklabels
-    labelax=labelax
-    cbar=cbar
+    labelax=bf.labelax
+    cbar=bf.cbar
     offset_text=offset_text
     annoteCorner=annoteCorner
     setaxesframe=_setaxesframe
-    errorshadex=errorshadex
+    errorshadex=bf.errorshadex
 
     def __init__(self,fig=None,rect=None,**kwargs):
         if fig is None:
@@ -393,11 +393,11 @@ def axes(*args, **kwargs):
     a.setaxesframe=new.instancemethod(_setaxesframe,a,Axes)
     a.annoteCorner=new.instancemethod(annoteCorner,a,Axes)
     a.offset_text=new.instancemethod(offset_text,a,Axes)
-    a.cpcolor=new.instancemethod(cpcolor,a,Axes)
-    a.cbar=new.instancemethod(cbar,a,Axes)
-    a.labelax=new.instancemethod(labelax,a,Axes)
+    a.cpcolor=new.instancemethod(bf.cpcolor,a,Axes)
+    a.cbar=new.instancemethod(bf.cbar,a,Axes)
+    a.labelax=new.instancemethod(bf.labelax,a,Axes)
     a.skip_ticklabels=new.instancemethod(skip_ticklabels,a,Axes)
-    a.errorshadex=new.instancemethod(errorshadex,a,Axes)
+    a.errorshadex=new.instancemethod(bf.errorshadex,a,Axes)
     #a.plot_specobj=new.instancemethod(plot_specobj,a,Axes)
     
     pylab.draw_if_interactive()
@@ -628,7 +628,287 @@ class axgroup(object):
             ax=[ax]
         pylab.setp(list(set(self.ax.flatten())-set(ax)),**kwargs)
 
-class saxes(axgroup):
+class axSharer(object):
+
+    def map_vals(self,):
+        return set(self.map.flatten())
+
+    def __init__(self,saxes,share_map=False):
+        self.saxes=saxes
+        self.map=np.zeros(saxes.n,dtype=np.uint16)
+        self.map[:]=share_map
+        self._share_ax={}
+
+    def __getitem__(self,ind):
+        return self.map[ind]
+
+    def __setitem__(self,ind,val):
+        self.map[ind]=val
+        
+    def __call__(self,iv,ih):
+        """
+        Returns the 'prime' axes to be shared for the axes at
+        grid-point (iv,ih).
+
+        Parameters
+        ----------
+        (iv,ih) : The index of the axgrid for which you want the shareax.
+
+        Returns
+        -------
+        shareax : :class:`axes`, or :class:`None`.
+                  `None` if the axis does not share an axes, or one
+                  has not yet been created that it matches.
+        """
+        mapVal=self.map[iv,ih]
+        if not mapVal: # mapVal==0 do not share axes.
+            return
+        elif self._share_ax.has_key(mapVal): # The mapVal is already in the _share_ax dictionary
+            return self._share_ax[mapVal]
+        else:
+            axs=self.saxes.axes[self.map==mapVal]
+            if np.any(axs): # An axis for this mapVal has been created. Add it to the _share_ax dict.
+                self._share_ax[mapVal]=axs[np.nonzero(axs)][0]
+                return self._share_ax[mapVal]
+            else: # No axis exists yet for this mapVal.
+                return 
+
+
+class axSpacer(object):
+    """
+    Defines the position and size of axes in either the horizontal or
+    vertical direction.
+
+    Parameters
+    ----------
+    axsize : array_like(n,float)
+             An array specifying the size of each axes in inches.
+    gap    : array_like(n+1,float)
+             An array specifying the spacing in inches between
+             axes. The first element is the distance from the
+             left/bottom of the figure to the first axes, the last
+             element is the distrance from the right/top of the figure
+             to the last axes.
+    vertical : bool (default: False)
+               A flag specifying that this is a 'vertical' axSpacer
+               (flips ordering of axes positions so that the first
+               axes is at the top of the figure).
+    
+    """
+    @property
+    def axsize_(self,):
+        """
+        The figure-units axes sizes, array_like.
+        """
+        return self.axsize/self.totsize
+    @axsize_.setter
+    def axsize_(self,val):
+        self.axsize=val*self.totsize
+
+    @property
+    def gap_(self,):
+        """
+        The figure-units gap between axes, array_like.
+        """
+        return self.gap/self.totsize
+    @gap_.setter
+    def gap_(self,val):
+        self.gap=val*self.totsize
+
+    @property
+    def pos_(self,):
+        """
+        The figure-units position of the axes, array_like.
+        """
+        return self.pos/self.totsize
+
+    @property
+    def n(self):
+        """
+        The number of axes described by this axSpacer.
+        """
+        return len(self.axsize)
+
+    def __len__(self,):
+        return self.n
+
+    def __init__(self,axsize=[1,1],gap=[.7,.2,.2],vertical=False):
+        self.axsize=axsize
+        self.gap=gap
+        #self.units=units # Add support for units other than inches.
+        self.vertical=vertical
+
+    @property
+    def axsize(self,):
+        """
+        The axes size, in inches.
+        """
+        return self.__axsize
+    @axsize.setter
+    def axsize(self,val):
+        self.__axsize=np.array(val)
+    
+    @property
+    def gap(self):
+        """
+        The gap between axes, in inches.
+        """
+        return self.__gap
+    @gap.setter
+    def gap(self,val):
+        self.__gap=np.array(val)
+
+    def __iter__(self,):
+        for pos,wid in zip(self.pos_,self.axsize_):
+            yield pos,wid
+
+    @property
+    def pos(self):
+        if self.vertical:
+            return (np.cumsum(self.axsize+self.gap[:-1])-self.axsize)[::-1]
+        else:
+            return np.cumsum(self.axsize+self.gap[:-1])-self.axsize
+
+    @property
+    def totsize(self,):
+        return self.axsize.sum()+self.gap.sum()
+    @totsize.setter
+    def totsize(self,val):
+        self.__axsize*=val/self.totsize
+        self.__gap*=val/self.totsize
+
+    @property
+    def frame(self,):
+        """
+        The bounding 'frame' around the axes, in inches.
+        """
+        return self.gap[[0,-1]]
+
+def simpleAxSpacer(n,axsize,gap,frm=np.array([.5,.5]),vertical=False):
+    """
+    calculates the width (or height) of a figure with *n* subplots.
+    Specify the width (height) of each subplot with *ax[0]*, the space
+    between subplots with *ax[1]*, and the left/right (bottom/top)
+    spacing with *frame[0]*/*frame[1]*.
+
+    See also: saxes, axes, calcAxesSize
+    """
+    gap=np.ones(n+1)*gap
+    gap[0]=frm[0]
+    gap[-1]=frm[1]
+    return axSpacer(np.ones(n)*axsize,gap,vertical=vertical)
+
+class axPlacer(object):
+    """
+    Axes placers contain the information on where axes objects should
+    be placed in a figure object.
+
+    Parameters
+    ----------
+    vSpacer : :class:`axSpacer`
+              The vertical axes spacer object.
+    hSpacer : :class:`axSpacer`
+              The horizontal axes spacer object.
+    """
+
+    @property
+    def n(self,):
+        return self.vSpacer.n,self.hSpacer.n
+
+    def __call__(self,iv,ih):
+        return self.hSpacer.pos_[ih],self.vSpacer.pos_[iv],self.hSpacer.axsize_[ih],self.vSpacer.axsize_[iv]
+        
+    @property
+    def figSize(self,):
+        """
+        Width x Height in inches.
+        """
+        return (self.hSpacer.totsize,self.vSpacer.totsize)
+
+    def __iter__(self,):
+        for iv in range(self.n[0]):
+            for ih in range(self.n[1]):
+                yield self(iv,ih)
+        
+
+    @property
+    def axes_positions(self,):
+        """
+        Returns a list of location tuples (left, bottom, width,
+        height) for axes objects.
+        """
+        return list(self.__iter__())
+
+    def __init__(self,vSpacer,hSpacer):
+        if not vSpacer.vertical:
+            raise Exception("The vSpacer must have property `vertical`=True")
+        self.vSpacer=vSpacer
+        self.hSpacer=hSpacer
+
+class saxes_szr(axgroup):
+
+    @property
+    def n(self,):
+        return self.axPlacer.n
+
+    def __init__(self,axPlacer,**kwargs):
+        self.axes=np.empty(axPlacer.n,dtype='object')
+        self.linewidth=kwargs.pop('linewidth',rcParams['axes.linewidth'])
+        self.axPlacer=axPlacer
+        self.sharex=axSharer(self,kwargs.pop('sharex',False))
+        self.sharey=axSharer(self,kwargs.pop('sharey',False))
+        self.drawax=np.ones(axPlacer.n,dtype='bool')
+        for key in kwargs:
+            setattr(self,key,kwargs[key])
+
+    def set_ylabel_pos(self,pos,axs=None,):
+        if axs is None:
+            axs=self.ax.flatten()
+        for ax in axs:
+            ax.yaxis.set_label_coords(pos,0.5)
+    
+    def xlabel(self,*args,**kwargs):
+        """
+        This is different than 'set_xlabel' because it sets the xlabel only for the 'self._xlabel_ax'.
+        """
+        self._xlabel_ax.set_xlabel(*args,**kwargs)
+
+    def ylabel(self,*args,**kwargs):
+        """
+        This is different than 'set_ylabel' because it sets the ylabel only for the 'self._ylabel_ax'.
+        """
+        self._ylabel_ax.set_ylabel(*args,**kwargs)
+
+    def _iter_axinds(self,):
+        for iv in range(self.n[0]):
+            for ih in range(self.n[1]):
+                yield iv,ih
+
+    def drawall(self,**kwargs):
+        if not self.n==self.drawax.shape:
+            self.drawax=np.ones(self.n,dtype='bool')
+        if kwargs.has_key('lw'):
+            kwargs['linewidth']=kwargs.pop('lw',self.linewidth)
+        if not kwargs.has_key('linewidth'):
+            kwargs['linewidth']=self.linewidth
+        else:
+            self.linewidth=kwargs['linewidth']
+
+        inter=pylab.isinteractive()
+        pylab.interactive(False)# wait to draw the axes, until they've all been created.
+        for iv,ih in self._iter_axinds():
+            if self.drawax[iv,ih]:
+                self.ax[iv,ih]=axes(self.axPlacer(iv,ih),sharex=self.sharex(iv,ih),sharey=self.sharey(iv,ih),**kwargs)
+                self.ax[iv,ih].hold(True)
+        self._xlabel_ax=self.ax[-1,0]
+        self._ylabel_ax=self._xlabel_ax
+        pylab.interactive(inter)
+        pylab.draw_if_interactive()
+        return self.ax
+
+
+
+class saxes(saxes_szr):
     """
     Create an axes object using S(uper)AXES.
 
@@ -639,9 +919,11 @@ class saxes(axgroup):
     -----
     n=(3,4) to set up a 3x4 array of axes.
     
-    n=(3,[1,1,1,.5]) to set up a 3x4 array of axes with the last column half the width of the others.
+    n=(3,[1,1,1,.5]) to set up a 3x4 array of axes with the last
+    column half the width of the others.
     
-    n=([1,1,1.5],[1,1,1,.5]) to set up a 3x4 array of axes with the last row 1.5 times as large and the last column half as wide.
+    n=([1,1,1.5],[1,1,1,.5]) to set up a 3x4 array of axes with the
+    last row 1.5 times as tall and the last column half as wide.
 
     h=(.1,.9,.05) to create the horizontal frame box at .1 and .9, with
     gaps of .05 between each axes.
@@ -655,6 +937,8 @@ class saxes(axgroup):
     sharey=True, chooses whether the axes share a yaxis.
     
     """
+    n=None # Override the property above.
+    
     def __init__(self,n=(1,1),h=[.1,.9,.05],v=[.1,.9,.05],**kwargs):
         self.linewidth=rcParams['axes.linewidth']
         nax=[1,1]
@@ -678,6 +962,7 @@ class saxes(axgroup):
         self._sharex_ax=np.empty(16,dtype='object')
         self._sharey_ax=np.empty(16,dtype='object')
         self.axes=np.empty(self.n,dtype='object')
+        self.drawax=np.ones(nax,dtype='bool')
         for key in kwargs:
             if key=='sharey' and kwargs[key].__class__ is bool:
                 self.sharey[:]=kwargs[key]
@@ -685,30 +970,11 @@ class saxes(axgroup):
                 self.sharex[:]=kwargs[key]
             else:
                 setattr(self,key,kwargs[key])
-        self.drawax=np.ones(nax,dtype='bool')
-
-    def set_ylabel_pos(self,pos,axs=None,):
-        if axs is None:
-            axs=self.ax.flatten()
-        for ax in axs:
-            ax.yaxis.set_label_coords(pos,0.5)
-    
-    def xlabel(self,*args,**kwargs):
-        """
-        This is different than 'set_xlabel' because it sets the xlabel only for the 'self._xlabel_ax'.
-        """
-        self._xlabel_ax.set_xlabel(*args,**kwargs)
-
-    def ylabel(self,*args,**kwargs):
-        """
-        This is different than 'set_ylabel' because it sets the ylabel only for the 'self._ylabel_ax'.
-        """
-        self._ylabel_ax.set_ylabel(*args,**kwargs)
 
     def axgrid(self):
         axg=np.ones((self.n[0],self.n[1],4))
-        axg[:,:,0],axg[:,:,2]=axvec2axpos(self.n[1],self.h,rel=self.hrel)
-        axg[:,:,1],axg[:,:,3]=axvec2axpos(self.n[0],self.v,True,rel=self.vrel)
+        axg[:,:,0],axg[:,:,2]=bf.axvec2axpos(self.n[1],self.h,rel=self.hrel)
+        axg[:,:,1],axg[:,:,3]=bf.axvec2axpos(self.n[0],self.v,True,rel=self.vrel)
         return axg
 
     def drawall(self,**kwargs):
@@ -719,7 +985,7 @@ class saxes(axgroup):
         if not self.n[0]==self.vrel.shape[0]:
             self.vrel=np.ones(self.n[0],dtype='float32')
         if kwargs.has_key('lw'):
-            kwargs['linewidth']=kwargs.pop('lw')
+            kwargs['linewidth']=kwargs.pop('lw',self.linewidth)
         if not kwargs.has_key('linewidth'):
             kwargs['linewidth']=self.linewidth
         else:
@@ -756,9 +1022,6 @@ class saxes(axgroup):
                         self._sharex_ax[self.sharex[iv,ih]]=self.ax[iv,ih]
                     if self.sharey[iv,ih] and not self._sharey_ax[self.sharey[iv,ih]]:
                         self._sharey_ax[self.sharey[iv,ih]]=self.ax[iv,ih]
-                    
-                flag=True
-        
         self._xlabel_ax=self.ax[-1,0]
         self._ylabel_ax=self._xlabel_ax
         pylab.interactive(inter)
@@ -853,7 +1116,7 @@ class figobj(axgroup):
         
         *axsize*     : specifies the size of the axes [vertical,horizontal] in inches.
         
-        When *axsize* is not None (default):
+        When *axsize* is not None:
         *frame*      : specifies the frame around the axes [bottom,top,left,right], 
                        in inches (default: [.6,.3,1,.3]).
         *gap*        : specifies the gap between axes [vertical,horizontal], 
@@ -868,11 +1131,11 @@ class figobj(axgroup):
             nax[0]=saxparams['vrel']=kwargs['vrel']
         self.meta=fig_meta()
         if axsize is not None:
-            axsize=pair(axsize)
-            gap=pair(gap)
+            axsize=bf.pair(axsize)
+            gap=bf.pair(gap)
             kwargs['figsize']=np.zeros(2)
-            kwargs['figsize'][0],saxparams['h']=calcFigSize(nax[1],ax=[axsize[1],gap[1]],frm=frame[2:])
-            kwargs['figsize'][1],saxparams['v']=calcFigSize(nax[0],ax=[axsize[0],gap[0]],frm=frame[:2])
+            kwargs['figsize'][0],saxparams['h']=bf.calcFigSize(nax[1],ax=[axsize[1],gap[1]],frm=frame[2:])
+            kwargs['figsize'][1],saxparams['v']=bf.calcFigSize(nax[0],ax=[axsize[0],gap[0]],frm=frame[:2])
         saxparams['sharex']=kwargs.pop('sharex',True)
         saxparams['sharey']=kwargs.pop('sharey',False)
         if kwargs.has_key('saxparams'):
@@ -886,4 +1149,20 @@ class figobj(axgroup):
     def __exit__(self,type,value,trace):
         pass
 
+class sfig(axgroup):
 
+    def clf(self):
+        self.fig.clf()
+
+    @property
+    def ax(self,):
+        return self.sax.axes
+
+    def __init__(self,fignum,axPlacer,**kwargs):
+        self.meta=fig_meta()
+        self.fig=pylab.figure(fignum,figsize=axPlacer.figSize)
+        if kwargs.has_key('title'):
+            self.fig.canvas.set_window_title('Fg%d: ' % (self.fig.number) + kwargs['title'])
+        self.clf()
+        self.sax=saxes_szr(axPlacer,**kwargs)
+        self.sax.drawall()

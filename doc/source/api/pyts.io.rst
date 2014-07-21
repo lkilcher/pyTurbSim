@@ -33,22 +33,6 @@ io Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`bladed_new` Module
-------------------------
-
-.. automodule:: pyts.io.bladed_new
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`bladed_recvr` Module
---------------------------
-
-.. automodule:: pyts.io.bladed_recvr
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 :mod:`config` Module
 --------------------
 

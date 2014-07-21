@@ -259,7 +259,7 @@ def vecs2fillvec(y1,y2,meanstd=False,x=None,axis=0):
         return np.concatenate((y1,y2[::-1],y1[[0]]),axis)
     else:
         return (np.concatenate((y1,y2[::-1],y1[[0]]),axis),np.concatenate((x,x[::-1],x[[0]]),axis))
-
+        
 
 def calcFigSize(n,ax=np.array([1,0]),frm=np.array([.5,.5]),norm=False):
     """
@@ -296,9 +296,74 @@ def calcAxesSize(n,totsize,gap,frame):
 
     See also: saxes, axes, calcFigSize
     """
-    axsz=(totsize-frame[0]-frame[1]-gap*(n-1))/n
+    if hasattr(gap,'__len__'):
+        gtot=np.sum(gap[:n])
+    else:
+        gtot=gap*(n-1)
+    axsz=(totsize-frame[0]-frame[1]-gtot)/n
     sz,v=calcFigSize(n,[axsz,gap],frame,False)
     return axsz,v
+
+
+def calcAxesSpacer(n,totsize,gap,frame):
+    """
+    Calculate the width of each axes, based on the total figure width
+    (height) *totsize*, the desired frame size, *frame*, the desired
+    spacing between axes *gap* and the number of axes *n*.
+
+    calcAxesSize returns the size each axes should be, along with the
+    three element vector for input to saxes.
+
+    See also: saxes, axes, calcFigSize
+    """
+    if hasattr(gap,'__len__'):
+        gtot=np.sum(gap[:n])
+    else:
+        gtot=gap*(n-1)
+    axsz=(totsize-frame[0]-frame[1]-gtot)/n
+    sz,v=calcFigSize(n,[axsz,gap],frame,False)
+    return axsz,v
+
+def axvec2axSpacer(n,vec,vertflag,rel=False):
+    """
+    Returns an :class:`axSpacer` corresponding to the `n` axes based
+    on the axes vector `vec`.
+
+    Parameters
+    ----------
+    n : int
+        The number of axes.
+    vec : iterable(3)
+          The (left/bottom,right/top,gap) surrounding and between
+          the axes.
+    vertflag : bool, optional (default: False)
+               Specifies this is for vertical (True) or horizontal
+               spacing.
+    rel : iterable(`n`), optional
+          This specifies the relative width of each of the axes. By
+          default all axes are the same width.
+
+    Returns
+    -------
+    axSpacer : :class:`axSpacer`
+               The axes spacer object corresponding to the specified
+               inputs.
+
+    Notes
+    -----
+
+    The units of the returned axSpacer match that of the input `vec`.
+
+    """
+    if rel.__class__==False.__class__ and not rel: # This checks for the default value.
+        rel=np.ones(n)
+    wd=(((vec[1]-vec[0])+vec[2])/n-vec[2])*rel/rel.mean()
+    gap=np.empty((len(wd)+1),dtype=wd.dtype)
+    gap[0]=vec[0]
+    gap[1:-1]=vec[2]
+    gap[-1]=vec[1]
+    return axSpacer(wd,gap,vertflag)
+    
 
 def axvec2axpos(n,vec,vertflag=False,rel=False):
     """
@@ -336,7 +401,7 @@ def axvec2axpos(n,vec,vertflag=False,rel=False):
 
     if rel.__class__==False.__class__ and not rel: # This checks for the default value.
         rel=np.ones(n)
-    wd=((vec[1]-vec[0]+vec[2])/n-vec[2])*rel/rel.mean()
+    wd=(((vec[1]-vec[0])+vec[2])/n-vec[2])*rel/rel.mean()
     if vertflag:
         pos=vec[1]-(wd+vec[2]).cumsum().reshape((n,1))+vec[2]
         wd=wd.reshape((n,1))

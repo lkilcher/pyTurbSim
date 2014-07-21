@@ -44,9 +44,9 @@ class uniform(profModelBase,):
         """
         out = profObj(tsrun)
         out[0][:] = self.Uref # Set the velocity.
+        return out
 
-
-class uniform(profModelBase,):
+class linear(profModelBase,):
     r"""
     A 'linear' mean wind-speed 'profile'.
 
@@ -94,3 +94,4 @@ class uniform(profModelBase,):
         """
         out = profObj(tsrun)
         out[0][:] = out.grid.z * (self.Uref - self.Uref2) / (self.Zref - self.Zref2)
+        return out

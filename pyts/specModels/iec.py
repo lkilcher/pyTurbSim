@@ -10,7 +10,7 @@ from .mBase import specModelBase,np,ts_float,specObj
 from ..misc import InvalidConfig,Lambda
 
 class iecbase(specModelBase):
-    """
+    r"""
     This is a base class for the IEC spectral models (IECKAI and IECVKM).
 
     Parameters
@@ -30,13 +30,12 @@ class iecbase(specModelBase):
     ETMc : float, optional (2.0)
            ETMc specifies the value of the 'c' parameter in the
            equation for :math:`\sigma_u`. It is only used when
-           `IECwindtype`='xETM'.
+           `IECwindtype`=`xETM`.
 
     Notes
     -----
 
     For further details on the IEC spectral models see the `Original-TurbSim user manual <http://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf>`_.
-    
     """
     
     def __init__(self,IECwindtype,IECstandard,IECedition,IECturbc,ETMc=None):

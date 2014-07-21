@@ -23,7 +23,12 @@ tsr.stress = pyts.stressModels.tidal(ustar,refht)
 out = tsr()
 
 # Create a 'PyTurbSim plotting figure' (plotting object):
-fig = plt.new_summ_fig(axforms=[plt.velprof_axForm([0,3.5]),plt.tkeprof_axForm(),plt.stressprof_axForm(),plt.spec_axForm(),plt.cohere_axForm()])
+fig = plt.new_summ_fig(axforms=[plt.velprof_axForm([0,3.5]),
+                                plt.tkeprof_axForm(),
+                                plt.stressprof_axForm(),
+                                plt.spec_axForm(),
+                                plt.cohere_axForm(), ],
+                       )
 
 # Now just call this plotting object's 'plot' method with the
 # PyTurbSim output as input:
