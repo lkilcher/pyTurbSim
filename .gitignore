@@ -18,8 +18,6 @@ pyts/tslib/test*
 
 pyts/tslib/*.obj
 
-*.py~
-
 pyts/plot/movie/tmp/*
 
 doc/output.txt
