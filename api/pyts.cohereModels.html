@@ -79,14 +79,13 @@ specific frequency-dependent correlations between all pairs of points;
 this is the &#8216;coherence&#8217;.</p>
 <p>Loosely defined, coherence is the frequency dependence of the
 correlation between velocity signals at different points in space.
-Specically, for two signals u1 and u2 (e.g. velocity signals at points
-&#8216;z1,y1&#8217; and &#8216;z2,y2&#8217;), the coherence is defined as:</p>
+Specically, for two signals <cite>u1</cite> and <cite>u2</cite> (e.g. velocity signals at points
+<cite>z1,y1</cite> and <cite>z2,y2</cite>), the coherence is defined as:</p>
 <div class="math">
-\[Coh_{u1,u2} = \]</div>
-<p>rac{<a href="#id2"><span class="problematic" id="id3">|</span></a>C_{u1,u2}|^2}{S_{u1}S_{u2}}</p>
-<p>Where <span class="math">\(C_(u1,u2)\)</span> is the cross-spectral density between signals u1 and
-u2, and <span class="math">\(S_(u1)\)</span> is the auto-spectral density of signal u1 (similar for
-<span class="math">\(S_(u2)\)</span>).</p>
+\[Coh_{u1,u2} = \frac{|C_{u1,u2}|^2}{S_{u1}S_{u2}}\]</div>
+<p>Where <span class="math">\(C_{u1,u2}\)</span> is the cross-spectral density between signals u1 and
+u2, and <span class="math">\(S_{u1}\)</span> is the auto-spectral density of signal u1 (similar for
+<span class="math">\(S_{u2}\)</span>).</p>
 <p>This module provides &#8216;coherence models&#8217; which are specific spatial
 coherence forms (functions of frequency) for each component of
 velocity for all pairs of points in the grid.</p>

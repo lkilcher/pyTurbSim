@@ -29,7 +29,7 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="top" title="PyTurbSim 0.2 documentation" href="../index.html" />
     <link rel="next" title="cohereModels Package" href="pyts.cohereModels.html" />
-    <link rel="prev" title="Plotting Tools" href="../plotting-tools.html" /> 
+    <link rel="prev" title="Code Framework" href="../code-framework.html" /> 
   </head>
   <body>
     <div class="related">
@@ -48,7 +48,7 @@
           <a href="pyts.cohereModels.html" title="cohereModels Package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../plotting-tools.html" title="Plotting Tools"
+          <a href="../code-framework.html" title="Code Framework"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li> 
       </ul>
@@ -815,7 +815,7 @@ cohereUser coherence model for more information).</p>
 
 <dl class="attribute">
 <dt id="pyts.main.tsrun.phase">
-<tt class="descname">phase</tt><em class="property"> = &lt;pyts.phaseModels.main.randPhase object at 0x3ff5190&gt;</em><a class="headerlink" href="#pyts.main.tsrun.phase" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">phase</tt><em class="property"> = &lt;pyts.phaseModels.main.randPhase object at 0x3c92f90&gt;</em><a class="headerlink" href="#pyts.main.tsrun.phase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1197,8 +1197,6 @@ In some cases z/L depends on the Turbulence model.</p>
 <li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.aerodyn"><tt class="docutils literal"><span class="pre">aerodyn</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.bladed"><tt class="docutils literal"><span class="pre">bladed</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.bladed_new"><tt class="docutils literal"><span class="pre">bladed_new</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.bladed_recvr"><tt class="docutils literal"><span class="pre">bladed_recvr</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.config"><tt class="docutils literal"><span class="pre">config</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
 </ul>
@@ -1216,8 +1214,11 @@ In some cases z/L depends on the Turbulence model.</p>
 <li class="toctree-l1"><a class="reference internal" href="pyts.plot.html">plot Package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#id1"><tt class="docutils literal"><span class="pre">plot</span></tt> Package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.axform"><tt class="docutils literal"><span class="pre">axform</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.basefuncs"><tt class="docutils literal"><span class="pre">basefuncs</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.dep"><tt class="docutils literal"><span class="pre">dep</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.psd"><tt class="docutils literal"><span class="pre">psd</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.superaxes"><tt class="docutils literal"><span class="pre">superaxes</span></tt> Module</a></li>
 </ul>
 </li>
@@ -1243,7 +1244,6 @@ In some cases z/L depends on the Turbulence model.</p>
 <li class="toctree-l3"><a class="reference internal" href="pyts.runConfig.html#example-usage">Example usage</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#module-pyts.runConfig.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#module-pyts.runConfig.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#module-pyts.runConfig.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pyts.runConfig.html#id2">Example usage</a></li>
@@ -1312,8 +1312,8 @@ In some cases z/L depends on the Turbulence model.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../plotting-tools.html"
-                        title="previous chapter">Plotting Tools</a></p>
+  <p class="topless"><a href="../code-framework.html"
+                        title="previous chapter">Code Framework</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="pyts.cohereModels.html"
                         title="next chapter">cohereModels Package</a></p>
@@ -1355,7 +1355,7 @@ In some cases z/L depends on the Turbulence model.</p>
           <a href="pyts.cohereModels.html" title="cohereModels Package"
              >next</a> |</li>
         <li class="right" >
-          <a href="../plotting-tools.html" title="Plotting Tools"
+          <a href="../code-framework.html" title="Code Framework"
              >previous</a> |</li>
         <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li> 
       </ul>

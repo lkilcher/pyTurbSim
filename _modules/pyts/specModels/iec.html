@@ -66,7 +66,7 @@
 <span class="kn">from</span> <span class="nn">..misc</span> <span class="kn">import</span> <span class="n">InvalidConfig</span><span class="p">,</span><span class="n">Lambda</span>
 
 <div class="viewcode-block" id="iecbase"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.iec.iecbase">[docs]</a><span class="k">class</span> <span class="nc">iecbase</span><span class="p">(</span><span class="n">specModelBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
 <span class="sd">    This is a base class for the IEC spectral models (IECKAI and IECVKM).</span>
 
 <span class="sd">    Parameters</span>
@@ -86,13 +86,12 @@
 <span class="sd">    ETMc : float, optional (2.0)</span>
 <span class="sd">           ETMc specifies the value of the &#39;c&#39; parameter in the</span>
 <span class="sd">           equation for :math:`\sigma_u`. It is only used when</span>
-<span class="sd">           `IECwindtype`=&#39;xETM&#39;.</span>
+<span class="sd">           `IECwindtype`=`xETM`.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 
 <span class="sd">    For further details on the IEC spectral models see the `Original-TurbSim user manual &lt;http://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf&gt;`_.</span>
-<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">IECwindtype</span><span class="p">,</span><span class="n">IECstandard</span><span class="p">,</span><span class="n">IECedition</span><span class="p">,</span><span class="n">IECturbc</span><span class="p">,</span><span class="n">ETMc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>

@@ -17,6 +17,22 @@ plot Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`axform` Module
+--------------------
+
+.. automodule:: pyts.plot.axform
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`base` Module
+------------------
+
+.. automodule:: pyts.plot.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`basefuncs` Module
 -----------------------
 
@@ -25,10 +41,18 @@ plot Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`main` Module
-------------------
+:mod:`dep` Module
+-----------------
 
-.. automodule:: pyts.plot.main
+.. automodule:: pyts.plot.dep
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`psd` Module
+-----------------
+
+.. automodule:: pyts.plot.psd
     :members:
     :undoc-members:
     :show-inheritance:
