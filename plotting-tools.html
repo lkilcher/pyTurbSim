@@ -121,12 +121,12 @@ in the run (<tt class="docutils literal"><span class="pre">tsr</span></tt>).</p>
 <p>The types of plots shown in the figure can be specified when
 initializing the plotting object. For example if we change the
 plotting object initialization to:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">new_summ_fig</span><span class="p">(</span><span class="n">axforms</span><span class="o">=</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">velprof</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mf">3.5</span><span class="p">]),</span>
-                                <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">tkeprof</span><span class="p">(),</span>
-                                <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">stressprof</span><span class="p">(),</span>
-                                <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">spec</span><span class="p">(),</span>
-                                <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">cohere</span><span class="p">(),</span>
-                                <span class="p">]</span> <span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">summfig</span><span class="p">(</span><span class="n">axforms</span><span class="o">=</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">velprof</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mf">3.5</span><span class="p">]),</span>
+                           <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">tkeprof</span><span class="p">(),</span>
+                           <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">stressprof</span><span class="p">(),</span>
+                           <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">spec</span><span class="p">(),</span>
+                           <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">cohere</span><span class="p">(),</span>
+                           <span class="p">]</span> <span class="p">)</span>
 </pre></div>
 </div>
 <p>Here we have used the PyTurbSim plotting &#8216;axes forms&#8217; objects (in the <a class="reference internal" href="api/pyts.plot.html#module-pyts.plot.axform" title="pyts.plot.axform"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.plot.axform</span></tt></a> module) to specify the types of plots to make.  Here we have specified a velocity profile (with axes limits from 0 to 3.5), a tke profile, a stress profile, a spectral plot and a coherence plot. This modest change produces a dramatically more informative figure:</p>
