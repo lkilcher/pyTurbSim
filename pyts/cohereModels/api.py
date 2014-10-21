@@ -12,7 +12,7 @@ Specically, for two signals `u1` and `u2` (e.g. velocity signals at points
 
 .. math::
   Coh_{u1,u2} = \frac{|C_{u1,u2}|^2}{S_{u1}S_{u2}}
-  
+
 Where :math:`C_{u1,u2}` is the cross-spectral density between signals u1 and
 u2, and :math:`S_{u1}` is the auto-spectral density of signal u1 (similar for
 :math:`S_{u2}`).
@@ -47,9 +47,9 @@ Further details on creating your own coherence model, can be found in
 :mod:`pyts.cohereModels.mBase` documentation.
 
 """
-from .mBase import cohereObj,cohereModelBase
+from .mBase import cohereObj, cohereModelBase
 import main
 
-iec=main.iec
-nwtc=main.nwtc
-none=main.none
+iec = main.iec
+nwtc = main.nwtc
+none = main.none

@@ -1,6 +1,7 @@
 import matplotlib as mpl
 
-def psd(u,sr,nfft):
+
+def psd(u, sr, nfft):
     """
     Helper function to compute the power spectral density (PSD) of a signal.
 
@@ -15,14 +16,17 @@ def psd(u,sr,nfft):
     Returns
     -------
     p : array_like
-        The power in the signal `u` as a function of frequency (units of u squared/units of sr)
+        The power in the signal `u` as a function of frequency (units
+        of u squared/units of sr)
     f : array_like
         Frequency (same units as sr).
     """
-    p,f=mpl.mlab.psd(u,nfft,sr,detrend=mpl.pylab.detrend_linear,noverlap=nfft/2)
-    return f[...,1:],p[...,1:]
+    p, f = mpl.mlab.psd(
+        u, nfft, sr, detrend=mpl.pylab.detrend_linear, noverlap=nfft / 2)
+    return f[1:], p[1:]
 
-def coh(u1,u2,sr,nfft):
+
+def coh(u1, u2, sr, nfft):
     """
     Helper function to compute the coherence between two signals.
 
@@ -39,9 +43,12 @@ def coh(u1,u2,sr,nfft):
     Returns
     -------
     p : array_like
-        The coherence between the two signal (no units) as a function of frequency.
+        The coherence between the two signal (no units) as a function
+        of frequency.
     f : array_like
         Frequency (same units as sr).
     """
-    p,f=mpl.mlab.cohere(u1,u2,nfft,sr,detrend=mpl.pylab.detrend_linear,noverlap=nfft/2,scale_by_freq=False)
-    return f[...,1:],p[...,1:]
+    p, f = mpl.mlab.cohere(u1, u2, nfft, sr,
+                           detrend=mpl.pylab.detrend_linear,
+                           noverlap=nfft / 2, scale_by_freq=False)
+    return f[1:], p[1:]

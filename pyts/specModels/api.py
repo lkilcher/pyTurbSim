@@ -6,10 +6,10 @@ Available spectral models
 
 :func:`.nwtc.smooth` (alias: smooth)
   The nwtc 'smooth' spectral model.
-  
+
 :func:`.nwtc.nwtcup` (alias: nwtcup)
   The nwtc 'upwind' spectral model.
-  
+
 :class:`hydro.tidal <pyts.specModels.hydro.tidal>` (alias: tidal)
   The hydro 'tidal' spectral model.
 
@@ -36,7 +36,7 @@ Example usage
 -------------
 
 >>> import pyts.specModels.api as sm
-  
+
 Create a `smooth` spectral model with friction velocity Ustar=1m/s and Richardson number Ri=0.6:
 
 >>> my_spec_model=sm.smooth(1.0,0.6)
@@ -54,17 +54,19 @@ output (tsrun.spec), see the :doc:`../code-framework` section of the PyTurbSim
 documentation.
 
 """
-import hydro,nwtc,iec
-from .mBase import specModelBase,specObj
+import hydro
+import nwtc
+import iec
+from .mBase import specModelBase, specObj
 
 # Shortcut the hydro models
-tidal=hydro.tidal
-river=hydro.river
+tidal = hydro.tidal
+river = hydro.river
 
 # Shortcut the nwtc models
-nwtcup=nwtc.nwtcup
-smooth=nwtc.smooth
+nwtcup = nwtc.nwtcup
+smooth = nwtc.smooth
 
 # Shortcut the iec models
-ieckai=iec.ieckai
-iecvkm=iec.iecvkm
+ieckai = iec.IECKai
+iecvkm = iec.IECVKm

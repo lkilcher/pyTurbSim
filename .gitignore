@@ -10,6 +10,8 @@ pyts/tslib/bld/*
 
 pyts/tslib/tslib*.so
 
+doc/source/api/
+
 pyts/tslib/tslib_*.f*
 
 pyts/tslib/test*
