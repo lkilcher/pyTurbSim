@@ -31,10 +31,9 @@ Table of Contents
    about
    install
    usage
-   code-framework
    plotting-tools
+   code-framework
    api/pyts
-   api/pyts_plot
    glossary
    
 

@@ -102,14 +102,18 @@ documentation.
 import log as log_models
 import power as power_models
 import iec as iec_models
+import simple
 from mBase import profModelBase
 
 # Alias the log models
-h2l=log_models.H2O
-log=log_models.nwtc
+h2l = log_models.H2O
+log = log_models.nwtc
 
 # Alias the power-law model
-pl=power_models.nwtc
+pl = power_models.nwtc
 
 # Alias the iec model.
-iec=iec_models.main
+iec = iec_models.main
+
+uniform = simple.uniform
+linear = simple.linear

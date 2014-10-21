@@ -25,6 +25,7 @@ class chmod_install_lib(install_lib):
                     log.info(('changing mode of %s to %o' % (fn, mode)))
                     os.chmod(fn,mode)
 
+
 class chmod_install_data(install_data):
     """
     This class ensures that data files get installed with

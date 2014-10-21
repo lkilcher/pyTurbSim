@@ -138,7 +138,10 @@ def read(fname):
         out['RandSeed2']=None
     for nm in ['IncDec1','IncDec2','IncDec3']:
         if out[nm] is not None:
-            out[nm]=np.array(out[nm].split(),dtype=ts_float)
+            if out[nm].__class__ is str:
+                out[nm]=np.array(out[nm].split(),dtype=ts_float)
+            else:
+                out[nm]=np.array([out[nm],0])
     if len(dat)>=70 and dat[64].split()[1]=='NumUSRz':
         # This file has a user-defined profile.
         out['UserProf_H']=np.empty(out['NumUSRz'],dtype='float32')

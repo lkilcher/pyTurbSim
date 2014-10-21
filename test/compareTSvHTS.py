@@ -4,7 +4,7 @@ if '../' not in sys.path:
     sys.path.append('../')
 from pyts.runConfig import main as pyts
 #import pyts
-import pyts_plot
+import pyts.plot.main as pt
 import pyts.io.main as tsio
 from subprocess import call
 
@@ -14,7 +14,7 @@ ts_file_type='.wnd'
 
 # Run TurbSim and HydroTurbSim?
 flag_run=False or True
-flag_run_ts=False or True
+flag_run_ts=False# or True
 flag_run_pyts=False or True
 # Plot the results and compare?
 flag_plot=False or True
@@ -68,6 +68,7 @@ if flag_run:
         # Run HydroTurbSim:
         if flag_run_pyts:
             tsdat=pyts.run(pyts.readConfig('./inp_files/'+fnm+'.inp'))
+            #error
             tsdat.writeBladed('./pyts/'+fnm+'.inp') # Write out the data.
         if flag_run_ts:
             # Run TurbSim:
@@ -90,7 +91,7 @@ if flag_plot:
         tsdat=tsio.readModel('./ts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
         ptsdat=tsio.readModel('./pyts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
 
-        fg=pyts_plot.summfig(3000+c,nfft=1024,title=nm.upper().replace('_','-')+' spectral model')
+        fg=pt.summfig(3000+c,nfft=1024,title=nm.upper().replace('_','-')+' spectral model')
         fg.setinds(ptsdat,igrid=None,)
         fg.setinds(tsdat,igrid=(0,1),)
         fg.plot(tsdat,color='r',label='TS')

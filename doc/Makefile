@@ -5,7 +5,7 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
-BUILDDIR      = ../doc-build/
+BUILDDIR      = ../../pyts-doc-build/
 SPHINXBUILDAPI  = sphinx-apidoc
 PYSOURCEDIR   = ../pyts/
 
@@ -47,7 +47,7 @@ help:
 
 api:
 	$(SPHINXBUILDAPI) -f -o source/api -T -H 'PyTurbSim API' ../pyts/
-	$(SPHINXBUILDAPI) -f -o source/api -T -H 'PyTS Plot API' ../pyts_plot/
+#	$(SPHINXBUILDAPI) -f -o source/api -T -H 'PyTS Plot API' ../pyts_plot/
 
 clean:
 	-rm -rf $(BUILDDIR)/*

@@ -17,6 +17,7 @@ from phaseModels.api import randPhase
 from _version import __version__,__prog_name__,__version_date__
 from io import bladed,aerodyn
 
+from numpy import concatenate
 from numpy import random
 from numpy import ulonglong
 from numpy.fft import irfft
@@ -126,7 +127,7 @@ class tsrun(object):
 
            In this case the profObj is again fixed and defined by
            the input array.  The numpy array dimensions must match
-           those of the tsGrid.  That is, the dimensions of the
+           those of the gridObj.  That is, the dimensions of the
            array should be (3 x grid.n_z x grid.n_y).  The first
            dimension is for each component of the profile (u,v,w),
            the next two are for each point (z,y) in the grid.
@@ -193,7 +194,7 @@ class tsrun(object):
 
            In this case the specObj is again fixed and defined by
            the input array.  The numpy array dimensions must match
-           those of the tsGrid.  That is, the dimensions of the
+           those of the gridObj.  That is, the dimensions of the
            array should be (3 x grid.n_z x grid.n_y x grid.n_f).
            The first dimension is for each component of the spectrum
            (u,v,w), the next two are for each point (z,y) in the
@@ -274,7 +275,7 @@ class tsrun(object):
 
            In this case the coherence will be fixed and defined by
            this input array.  The numpy array dimensions must match
-           those of the tsGrid.  That is, the dimensions of the
+           those of the gridObj.  That is, the dimensions of the
            array should be (3 x grid.n_p x grid.n_p x grid.n_f).
            The first dimension is for each component of the spectrum
            (u,v,w), the next two are for each point-pair (z,y) in the
@@ -286,7 +287,7 @@ class tsrun(object):
            than the 'coherence model' approach.  Furthermore using
            this approach one must be careful to make sure that the
            ordering of the array agrees with that of the 'flattened
-           grid' (see the tsGrid.flatten method, and/or the
+           grid' (see the gridObj.flatten method, and/or the
            cohereUser coherence model for more information).
 
         See Also
@@ -351,7 +352,7 @@ class tsrun(object):
               
            In this case the stressObj is again fixed and defined by
            the input array.  The numpy array dimensions must match
-           those of the tsGrid.  That is, the dimensions of the
+           those of the gridObj.  That is, the dimensions of the
            array should be (3 x grid.n_z x grid.n_y).
            The first dimension is for each component of the stress
            (u,v,w), the next two are for each point (z,y) in the
@@ -512,9 +513,23 @@ class tsdata(gridProps):
 
     Parameters
     ----------
-    grid : :class:`tsGrid`
+    grid : :class:`gridObj`
            TurbSim data objects are initialized with a TurbSim grid.
     """
+
+    def __getitem__(self,ind):
+        if not hasattr(ind,'__len__'):
+            ind=[ind]
+        else:
+            list(ind)
+        for idx,val in enumerate(ind):
+            if val.__class__ is not slice:
+                ind[idx]=slice(val,val+1)
+        out=type(self)(self.grid[ind])
+        ind=[slice(None)]+list(ind)
+        out.uturb=self.uturb[ind]
+        out.uprof=self.uprof[ind]
+        return out
 
     @property
     def parameters(self,):
@@ -625,25 +640,34 @@ class tsdata(gridProps):
         return np.std(self.uturb[0],axis=-1)/self.uprof[0]
 
     @property
+    def stress(self,):
+        """
+        The Reynold's stress tensor.
+        """
+        if not hasattr(self,'_dat_stress'):
+            self._stress_dat=np.concatenate((np.mean(self.uturb[0]*self.uturb[1],axis=-1)[None],np.mean(self.uturb[0]*self.uturb[2],axis=-1)[None],np.mean(self.uturb[1]*self.uturb[2],axis=-1)[None]),0)
+        return self._stress_dat
+
+    @property
     def upvp_(self,):
         """
         The u'v' component of the Reynold's stress.
         """
-        return np.mean(self.uturb[0]*self.uturb[1],axis=-1)
+        return self.stress[0]
 
     @property
     def upwp_(self,):
         """
         The u'w' component of the Reynold's stress.
         """
-        return np.mean(self.uturb[0]*self.uturb[2],axis=-1)
+        return self.stress[1]
 
     @property
     def vpwp_(self,):
         """
         The v'w' component of the Reynold's stress.
         """
-        return np.mean(self.uturb[1]*self.uturb[2],axis=-1)
+        return self.stress[2]
 
     @property
     def stats(self,):
@@ -662,7 +686,7 @@ class tsdata(gridProps):
 
     def writeBladed(self,filename):
         """
-        Save the data in this tsdata object in 'bladed' format.
+        Save the data in this tsdata object in 'bladed' format (.wnd).
         
         Parameters
         ----------

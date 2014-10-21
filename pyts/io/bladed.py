@@ -12,7 +12,7 @@ from base import e
 
 def write(fname,tsdat):
     """
-    Write the data to a Bladed-format binary file.
+    Write the data to a Bladed-format (.wnd) binary file.
 
 
     Parameters
@@ -33,6 +33,8 @@ def write(fname,tsdat):
     off=np.array([1000./(ti[0]),0,0])[:,None,None,None]
     if fname.endswith('.inp'):
         fname=convname(fname,'.wnd')
+    if not '.' in fname:
+        fname+='.wnd'
     fl=file(fname,'wb')
     # First write some setup data:
     fl.write(pack(e+'2hl3f',-99,4,3,lat,Z0,tsdat.grid.z[0]+tsdat.grid.height/2.0))
