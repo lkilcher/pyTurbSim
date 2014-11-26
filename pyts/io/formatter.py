@@ -59,9 +59,25 @@ class SuperFormatter(Formatter):
        could add to the method to handle all of the different types
        that value might be.
 
+    7. Custom format specifiers with arguments can be specified as
+       {my_dogs:pets(10s,10s)}. In this case the string inside
+       the parenthesis is supplied as the second argument to the
+       _format_pets method.  Thus, a method that utilizes this can be
+       defined as,
+
+       class MyNewFormatter(SuperFormatter):
+
+           def _format_pets(self, value, form2):
+               out = ''
+               for v,f in zip(value, form2.split(',')):
+                   out += format(v, f)
+               return out
+
+
     """
 
     format_prfx = ''
+    allow_sloppy = False
 
     def __init__(self, template):
         # Override the base methods to initialize the formatter with
@@ -85,26 +101,42 @@ class SuperFormatter(Formatter):
             except KeyError:
                 return None
 
+    def _fail(self):
+        if self.allow_sloppy:
+            return '??SOME JUNK??'
+        else:
+            # This _current_name business is a DIRTY HACK.
+            raise KeyError("'%s' not specified and no default value found in template." % self._current_name)  # noqa
+
     def format_field(self, value, format_spec):
         format_spec = format_spec.rstrip()  # Strip trailing spaces
 
         if '/' in format_spec:
-            format_spec, default_val = format_spec.split('/')
+            format_spec, default_val = format_spec.split('/', 1)
             # set the default value if there is no input
             if value is None:
                 return format(default_val,
                               self.format_prfx + 's')
         elif value is None:
-            raise KeyError("'%s' not specified and no default value found in template." % self._current_name)  # noqa
+            return self._fail()
 
         if '|' in format_spec:
             format_spec = format_spec.split('|')
         else:
             format_spec = [format_spec]
         for form in format_spec:
+            formtail = None
+            if '(' in form and form.endswith(')'):
+                form, formtail = form.split('(', 1)
+                formtail = formtail[:-1]
+
             try:
                 if hasattr(self, '_format_' + form):
-                    return getattr(self, '_format_' + form)(value)
+                    if formtail is None:
+                        return getattr(self, '_format_' + form)(value)
+                    else:
+                        return getattr(self, '_format_' + form)(value,
+                                                                formtail)
                 if form in ["b", "c", "d", "e", "E",
                             "f", "F", "g", "G", "n",
                             "o", "s", "x", "X", "%", '']:

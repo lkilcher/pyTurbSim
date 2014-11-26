@@ -39,6 +39,26 @@ ts_complex = complex64
 #ts_complex={'dtype':np.complex64,'order':'F'}
 
 
+class statObj(float):
+
+    def __new__(self, dat):
+        return float.__new__(self, dat.mean())
+
+    @property
+    def mean(self):
+        return self
+
+    def __init__(self, dat):
+
+        self.max = dat.max()
+        self.min = dat.min()
+        self.sigma = np.std(dat)
+        self.ti = (self.sigma / self.mean) * 100
+
+    def __repr__(self,):
+        return '<statObj mean: %0.2f, min: %0.2f, max: %0.2f>' % (self.mean, self.min, self.max)  # noqa
+
+
 class tsBaseObj(object):
 
     """
@@ -224,18 +244,22 @@ def tsGrid(center=None, ny=None, nz=None,
         raise TypeError(
             "tsGrid objects require that the height of the grid center \
             (input parameter 'center') be specified.")
-    if time_sec is None:
+    if time_sec is None and time_min is not None:
         time_sec = time_min * 60.
-    if time_sec_out is None:
+    if time_sec_out is None and time_sec is not None:
         time_sec_out = time_sec
-    else:
+    if not (time_sec_out is None or time_sec is None):
         time_sec = max(time_sec_out, time_sec)
     n_y, width, dy = _parse_inputs(ny, width, dy)
     n_z, height, dz = _parse_inputs(nz, height, dz)
     out.y = np.arange(-width / 2, width / 2 + dy / 10, dy, dtype=ts_float)
-    out.z = center + \
-        np.arange(-height / 2, height / 2 + dz / 10, dz, dtype=ts_float)
+    out.z = center + np.arange(-height / 2,
+                               height / 2 + dz / 10,
+                               dz, dtype=ts_float)
+
     out.n_t, out.time_sec, out.dt = _parse_inputs(nt, time_sec, dt, plus_one=0)
+    if time_sec_out is None:
+        time_sec_out = out.time_sec
     out.n_t_out, time_sec_out, junk = _parse_inputs(
         None, time_sec_out, dt, plus_one=0)
     if findClose_nt_lowPrimeFactors:
@@ -296,6 +320,10 @@ class gridObj(tsBaseObj):
                              self.n_z, self.n_y,
                              self.zhub, self.time_sec,
                              self.dt, self.n_t)
+
+    @property
+    def time_sec_out(self,):
+        return self.dt * self.n_t_out
 
     @property
     def width(self,):

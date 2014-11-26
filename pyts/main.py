@@ -8,16 +8,14 @@ typical user will want access to. For a more compact version of the
 PyTurbSim interface import the ./api.py package.
 
 """
-from base import tslib,ts_float,ts_complex,gridProps,dbg,modelBase,np
-from profModels.mBase import profModelBase,profObj
-from specModels.mBase import specModelBase,specObj
-from cohereModels.mBase import cohereModelBase,cohereObj,cohereUser
-from stressModels.mBase import stressModelBase,stressObj
-from phaseModels.api import randPhase
-from _version import __version__,__prog_name__,__version_date__
-from io import bladed,aerodyn
-
-from numpy import concatenate
+from .base import ts_complex, gridProps, dbg, np, statObj
+from .profModels.mBase import profModelBase, profObj
+from .specModels.mBase import specModelBase, specObj
+from .cohereModels.mBase import cohereModelBase, cohereObj, cohereUser
+from .stressModels.mBase import stressModelBase, stressObj
+from .phaseModels.api import randPhase
+from ._version import __version__, __prog_name__, __version_date__
+from .io import bladed, aerodyn, sum
 from numpy import random
 from numpy import ulonglong
 from numpy.fft import irfft
@@ -54,6 +52,7 @@ from numpy.fft import irfft
 #  - Add KHtest functionality? (rgrep for '#KHTEST')
 #  - Write 'events' (includes adding 'coherent events' to TS)
 
+
 class tsrun(object):
     """
     This is the PyTurbSim 'run' class. This class provides the
@@ -71,38 +70,42 @@ class tsrun(object):
             Number of cores (processors) to use for the pyTurbSim run
 
     """
-    def __init__(self,RandSeed=None,ncore=1):
+    def __init__(self, RandSeed=None, ncore=1):
         """
         PyTurbSim 'run' objects can be initialized with a specific
         random seed, `RandSeed`, and number of cores, `ncore`.
         """
         # Initialize the random number generator before doing anything else.
         if RandSeed is None:
-            self.RandSeed=random.randint(-2147483647,2147483647)
+            self.RandSeed = random.randint(-2147483647, 2147483647)
         else:
-            self.RandSeed=RandSeed
-        # Seeds for numpy must be positive, but original-TurbSim had negative seeds.
-        # In order to attempt to be consistent, we use the values in the files but make them positive for the numpy random generator.
-        self.randgen=random.RandomState(ulonglong(self.RandSeed+2147483648))
-        self.ncore=ncore
+            self.RandSeed = RandSeed
+        # Seeds for numpy must be positive, but original-TurbSim had
+        # negative seeds.  In order to attempt to be consistent, we
+        # use the values in the files but make them positive for the
+        # numpy random generator.
+        self.randgen = random.RandomState(
+            ulonglong(self.RandSeed + 2147483648))
+        self.ncore = ncore
         if dbg:
-            self.timer=dbg.timer('Veers84')
-
-    phase=randPhase() # For now this is a place-holder, I may want to make this an 'input property' eventually.
+            self.timer = dbg.timer('Veers84')
+    # For now this is a place-holder, I may want to make this an
+    # 'input property' eventually.
+    phase = randPhase()
 
     @property
     def prof(self):
         """
-        This is the 'mean velocity profile' input property. 
+        This is the 'mean velocity profile' input property.
 
         This property returns a 'profObj'.
 
         This property can be defined with three types of objects:
 
         1) define it with a 'profile model' (recommended)::
-          
+
                   ts_run.prof=a_prof_model
-            
+
            In this case the model is set to my_ts_run.profModel, and
            this model is called to produce a profObj AS NEEDED.  At
            the end of the ts_run call that profObj is cleared so
@@ -115,7 +118,7 @@ class tsrun(object):
            statistic-object)::
 
               ts_run.prof=a_prof_model(ts_run)
-              
+
            In this case the profObj is FIXED. That is, all
            subsequent PyTurbSim runs will utilize this profile,
            which is based on the state of the a_prof_model and
@@ -138,25 +141,27 @@ class tsrun(object):
         tsrun.spec
         tsrun.cohere
         tsrun.stress
-        
+
         """
-        if hasattr(self,'profModel') and not hasattr(self,'_prof'):
-            self._prof=self.profModel(self)
+        if hasattr(self, 'profModel') and not hasattr(self, '_prof'):
+            self._prof = self.profModel(self)
         return self._prof
+
     @prof.setter
-    def prof(self,val):
+    def prof(self, val):
         if profModelBase in val.__class__.__mro__:
-            self.profModel=val
+            self.profModel = val
         elif np.ndarray in val.__class__.__mro__:
-            self._prof=profObj(self)
-            self._prof.array[:]=val
+            self._prof = profObj(self)
+            self._prof.array[:] = val
         elif profObj in val.__class__.__mro__:
-            self._prof=val
+            self._prof = val
         else:
             raise Exception('The input must be a profile model, profile object or numpy array; it is none of these.')
+
     @prof.deleter
     def prof(self,):
-        if hasattr(self,'profModel'):
+        if hasattr(self, 'profModel'):
             del self._prof
 
     @property
@@ -169,9 +174,9 @@ class tsrun(object):
         This property can be defined with three types of objects:
 
         1) define it with a 'spectral model' (recommended)::
-          
+
                   ts_run.spec=a_spec_model
-            
+
            In this case the model is set to my_ts_run.specModel, and
            this model is called to produce a specObj AS NEEDED.  At
            the end of the ts_run call that specObj is cleared so
@@ -182,7 +187,7 @@ class tsrun(object):
         2) define it with a specObj directly::
 
               ts_run.spec=a_spec_model(ts_run)
-              
+
            In this case the specObj is FIXED. That is, all
            subsequent PyTurbSim runs will utilize this spectral
            model, which is based on the state of ts_run at the time
@@ -207,27 +212,29 @@ class tsrun(object):
         tsrun.prof
         tsrun.cohere
         tsrun.stress
-        
+
         """
-        if hasattr(self,'specModel') and not hasattr(self,'_spec'):
-            self._spec=self.specModel(self)
+        if hasattr(self, 'specModel') and not hasattr(self, '_spec'):
+            self._spec = self.specModel(self)
         return self._spec
+
     @spec.setter
-    def spec(self,val):
+    def spec(self, val):
         if specModelBase in val.__class__.__mro__:
-            self.specModel=val
+            self.specModel = val
         elif np.ndarray in val.__class__.__mro__:
-            self._spec=specObj(self)
-            self._spec.array[:]=val
+            self._spec = specObj(self)
+            self._spec.array[:] = val
         elif specObj in val.__class__.__mro__:
-            self._spec=val
+            self._spec = val
         else:
             raise Exception('The input must be a spectral model, spectra object or numpy array; it is none of these.')
+
     @spec.deleter
     def spec(self,):
-        if hasattr(self,'specModel'):
+        if hasattr(self, 'specModel'):
             del self._spec
-    
+
     @property
     def cohere(self):
         """
@@ -247,11 +254,11 @@ class tsrun(object):
         statistics...
 
         This property can be defined with three types of objects:
-        
+
         1) define it with a 'coherence model' (recommended)::
-          
+
                   ts_run.cohere=a_coherence_model
-            
+
            In this case the model is set to my_ts_run.cohereModel,
            and this model sets the is called at runtime to produce the phase
            array. At the end of the ts_run call that phase array is
@@ -263,7 +270,7 @@ class tsrun(object):
         2) define it with a cohereObj directly ::
 
               ts_run.spec=a_coherence_model(ts_run)
-              
+
            In this case the cohereObj is FIXED. That is, all
            subsequent PyTurbSim runs will utilize this coherence
            model, which is based on the state of ts_run at the time
@@ -281,7 +288,7 @@ class tsrun(object):
            (u,v,w), the next two are for each point-pair (z,y) in the
            grid, and the last dimension is the frequency dependence
            of the spectrum.
-           
+
            This approach for specifying the coherence - while
            explicit and flexible - requires considerably more memory
            than the 'coherence model' approach.  Furthermore using
@@ -299,37 +306,38 @@ class tsrun(object):
         tsrun.stress
 
         """
-        if hasattr(self,'cohereModel') and not hasattr(self,'_cohere'):
-            self._cohere=self.cohereModel(self)
+        if hasattr(self, 'cohereModel') and not hasattr(self, '_cohere'):
+            self._cohere = self.cohereModel(self)
         return self._cohere
+
     @cohere.setter
-    def cohere(self,val):
+    def cohere(self, val):
         if cohereModelBase in val.__class__.__mro__:
-            self.cohereModel=val
+            self.cohereModel = val
         elif np.ndarray in val.__class__.__mro__:
-            self.cohereModel=cohereUser(val)
+            self.cohereModel = cohereUser(val)
         elif cohereObj in val.__class__.__mro__:
-            self.cohere=val
+            self.cohere = val
         else:
             raise Exception('The input must be a coherence model, coherence object or numpy array; it is none of these.')
     @cohere.deleter
     def cohere(self,):
-        if hasattr(self,'cohereModel'):
+        if hasattr(self, 'cohereModel'):
             del self._cohere
 
     @property
     def stress(self):
         """
         This is the Reynold's stress input property.
-        
+
         This property always returns a :class:`stressObj <pyts.stressModels.mBase.stressObj>`.
 
         This property can be defined with three types of objects:
 
         1) define it with a `specModel` (recommended)::
-          
+
               ts_run.stress=a_stress_model
-            
+
            In this case the model is set to my_ts_run.stressModel, and
            this model is called to produce a stressObj AS NEEDED.  At
            the end of the ts_run call that stressObj is cleared so
@@ -340,7 +348,7 @@ class tsrun(object):
         2) define it with a `stressObj` directly::
 
               ts_run.stress=a_stress_model(ts_run)
-              
+
            In this case the stressObj is FIXED. That is, all
            subsequent PyTurbSim runs will utilize this stress
            model, which is based on the state of ts_run at the time
@@ -349,7 +357,7 @@ class tsrun(object):
         3) define it with an array directly::
 
               ts_run.stress=a_numpy_array  - [units: m^2/s^2]
-              
+
            In this case the stressObj is again fixed and defined by
            the input array.  The numpy array dimensions must match
            those of the gridObj.  That is, the dimensions of the
@@ -361,32 +369,34 @@ class tsrun(object):
         See Also
         --------
         pyts.stressModels.api : To see available stress models.
-        
+
         tsrun.prof
         tsrun.spec
         tsrun.cohere
-        
+
         """
-        if hasattr(self,'stressModel') and not hasattr(self,'_stress'):
-            self._stress=self.stressModel(self)
+        if hasattr(self, 'stressModel') and not hasattr(self, '_stress'):
+            self._stress = self.stressModel(self)
         return self._stress
+
     @stress.setter
-    def stress(self,val):
+    def stress(self, val):
         if stressModelBase in val.__class__.__mro__:
-            self.stressModel=val
+            self.stressModel = val
         elif np.ndarray in val.__class__.__mro__:
-            self._stress=stressObj(self)
-            self._stress.array[:]=val
+            self._stress = stressObj(self)
+            self._stress.array[:] = val
         elif stressObj in val.__class__.__mro__:
-            self._stress=val
+            self._stress = val
         else:
             raise Exception('The input must be a stress model, stress object or numpy array; it is none of these.')
+
     @stress.deleter
     def stress(self,):
-        if hasattr(self,'stressModel'):
+        if hasattr(self, 'stressModel'):
             del self._stress
 
-    def reset(self,seed=None):
+    def reset(self, seed=None):
         """
         Clear the input statistics and reset the Random Number
         generator to its initial state.
@@ -395,28 +405,30 @@ class tsrun(object):
         del self.spec
         del self.cohere
         del self.stress
-        if RandSeed is None:
+        if seed is None:
             self.randgen.seed(self.RandSeed)
-        
+
     @property
     def info(self,):
         """
         Model names and initialization parameters.
         """
-        out=dict()
-        out['version']=(__prog_name__,__version__,__version_date__)
-        out['RandSeed']=self.RandSeed
-        for nm in ['profModel','specModel','cohereModel','stressModel']:
-            if hasattr(self,nm):
-                out[nm]=str(getattr(self,nm).__class__).rsplit(nm)[-1].rstrip("'>").lstrip('s.')
-                out[nm+'_params']=getattr(self,nm).parameters
+        out = dict()
+        out['version'] = (__prog_name__, __version__, __version_date__)
+        out['RandSeed'] = self.RandSeed
+        for nm in ['profModel', 'specModel', 'cohereModel', 'stressModel']:
+            if hasattr(self, nm):
+                out[nm] = str(getattr(self, nm).__class__
+                              ).rsplit(nm)[-1].rstrip("'>").lstrip('s.')
+                out[nm + '_params'] = getattr(self, nm).parameters
         return out
 
     def run(self,):
         """
         Run PyTurbSim.
 
-        Before calling this method be sure to set the following attributes to their desired values:
+        Before calling this method be sure to set the following
+        attributes to their desired values:
 
         - :attr:`tsrun.prof`: The mean profile model, object or array.
         - :attr:`tsrun.spec`: The tke spectrum model, object or array.
@@ -426,37 +438,37 @@ class tsrun(object):
         Returns
         -------
         tsdata : :class:`tsdata`
-        
+
         """
         if dbg:
-            tmr=dbg.timer('Total CPU time')
+            tmr = dbg.timer('Total CPU time')
             tmr.start()
-        self.timeseries=self._calcTimeSeries()
+        self.timeseries = self._calcTimeSeries()
         if dbg:
             tmr.stop()
             print tmr
             print self.timer
             print self.cohereModel.timer
-        out=self._build_outdata()
+        out = self._build_outdata()
         return out
 
-    __call__=run
+    __call__ = run
 
     def _build_outdata(self,):
         """
         Construct the output data object and return it.
         """
-        out=tsdata(self.grid)
-        out.uturb=self.timeseries
-        out.uprof=self.prof.array
-        out.info=self.info
+        out = tsdata(self.grid)
+        out.uturb = self.timeseries
+        out.uprof = self.prof.array
+        out.info = self.info
         return out
-        
+
     def _calcTimeSeries(self,):
         """
         Compute the u,v,w, timeseries based on the spectral, coherence
         and Reynold's stress models.
-        
+
         This method performs the work of taking a specified spectrum
         and coherence function and transforming it into a spatial
         timeseries.  It performs the steps outlined in Veers84's [1]_
@@ -469,40 +481,44 @@ class tsrun(object):
 
         Notes
         -----
-        
+
         1) Veers84's equation 7 [1]_ is actually a 'Cholesky
         Factorization'.  Therefore, rather than writing this
         functionality explicitly we call 'cholesky' routines to do
         this work.
-        
+
         2) This function uses one of two methods for computing the
         Cholesky factorization.  If the Fortran library tslib is
         available it is used (it is much more efficient), otherwise
         the numpy implementation of Cholesky is used.
 
-        .. [1]  Veers, Paul (1984) 'Modeling Stochastic Wind Loads on Vertical Axis Wind Turbines', Sandia Report 1909, 17 pages.
+        .. [1] Veers, Paul (1984) 'Modeling Stochastic Wind Loads on
+               Vertical Axis Wind Turbines', Sandia Report 1909, 17
+               pages.
 
         """
-        grid=self.grid
-        tmp=np.zeros((grid.n_comp,grid.n_z,grid.n_y,grid.n_f+1),dtype=ts_complex)
+        grid = self.grid
+        tmp = np.zeros((grid.n_comp, grid.n_z, grid.n_y, grid.n_f + 1),
+                       dtype=ts_complex)
         if dbg:
             self.timer.start()
         # First calculate the 'base' set of random phases:
-        phases=self.phase(self)
+        phases = self.phase(self)
         # Now correlate the phases at each point to set the Reynold's stress:
-        phases=self.stress.calc_phases(phases)
+        phases = self.stress.calc_phases(phases)
         # Now correlate the phases between points to set the spatial coherence:
-        phases=self.cohere.calc_phases(phases)
+        phases = self.cohere.calc_phases(phases)
         # Now multiply the phases by the spectrum...
-        tmp[...,1:]=np.sqrt(self.spec.array)*grid.reshape(phases)
+        tmp[..., 1:] = np.sqrt(self.spec.array) * grid.reshape(phases)
         # and compute the inverse fft to produce the timeseries:
-        ts=irfft(tmp)
+        ts = irfft(tmp)
         if dbg:
             self.timer.stop()
         # Select only the time period requested:
-        i0_out=self.randgen.randint(grid.n_t-grid.n_t_out+1) # Grab a random number of where to cut the timeseries.
-        ts=ts[...,i0_out:i0_out+grid.n_t_out]/(grid.dt/grid.n_f)**0.5
-        ts-=ts.mean(-1)[...,None] # Make sure the turbulence has zero mean.
+        # Grab a random number of where to cut the timeseries.
+        i0_out = self.randgen.randint(grid.n_t - grid.n_t_out + 1)
+        ts = ts[..., i0_out:i0_out + grid.n_t_out] / (grid.dt / grid.n_f) ** 0.5
+        ts -= ts.mean(-1)[..., None]  # Make sure the turbulence has zero mean.
         return ts
 
 class tsdata(gridProps):
@@ -517,35 +533,52 @@ class tsdata(gridProps):
            TurbSim data objects are initialized with a TurbSim grid.
     """
 
-    def __getitem__(self,ind):
-        if not hasattr(ind,'__len__'):
-            ind=[ind]
+    @property
+    def _sumdict(self):
+        out = dict()
+
+        # Start by pulling values from the config file
+        # if there was one.
+        if hasattr(self, '_config'):
+            out.update(self._config)
+
+        out['hub'] = hub = object()
+        hub.u = statObj(self.uhub)
+        hub.v = statObj(self.vhub)
+        hub.w = statObj(self.whub)
+        out['grid'] = self.grid
+
+    def __getitem__(self, ind):
+        if not hasattr(ind, '__len__'):
+            ind = [ind]
         else:
             list(ind)
-        for idx,val in enumerate(ind):
+        for idx, val in enumerate(ind):
             if val.__class__ is not slice:
-                ind[idx]=slice(val,val+1)
-        out=type(self)(self.grid[ind])
-        ind=[slice(None)]+list(ind)
-        out.uturb=self.uturb[ind]
-        out.uprof=self.uprof[ind]
+                ind[idx] = slice(val, val + 1)
+        out = type(self)(self.grid[ind])
+        ind = [slice(None)] + list(ind)
+        out.uturb = self.uturb[ind]
+        out.uprof = self.uprof[ind]
         return out
 
     @property
     def parameters(self,):
-        out={}
-        if hasattr(self,'info'):
-            for nm in ['profModel_params','specModel_params','cohereModel_params','stressModel_params']:
-                if self.info.has_key(nm):
+        out = {}
+        if hasattr(self, 'info'):
+            for nm in ['profModel_params',
+                       'specModel_params',
+                       'cohereModel_params',
+                       'stressModel_params']:
+                if nm in self.info:
                     out.update(self.info[nm])
         return out
-                
 
-    def __init__(self,grid):
+    def __init__(self, grid):
         """
         Initialize a tsdata object with a grid object.
         """
-        self.grid=grid
+        self.grid = grid
 
     @property
     def shape(self,):
@@ -566,38 +599,40 @@ class tsdata(gridProps):
         """
         The time vector, in seconds, starting at zero.
         """
-        if not hasattr(self,'_time'):
-            self._time=np.arange(0,self.uturb.shape[-1]*self.dt,self.dt)
+        if not hasattr(self, '_time'):
+            self._time = np.arange(0, self.uturb.shape[-1] * self.dt, self.dt)
         return self._time
 
     def __repr__(self,):
-        return '<TurbSim data object:\n%d %4.2fs-timesteps, %0.2fx%0.2fm (%dx%d) z-y grid (hubheight=%0.2fm).>' % (self.uturb.shape[-1],self.dt,self.grid.height,self.grid.width,self.grid.n_z,self.grid.n_y,self.grid.zhub)
+        return '<TurbSim data object:\n%d %4.2fs-timesteps, %0.2fx%0.2fm (%dx%d) z-y grid (hubheight=%0.2fm).>' % (self.uturb.shape[-1], self.dt, self.grid.height, self.grid.width, self.grid.n_z, self.grid.n_y, self.grid.zhub)
 
     @property
     def utotal(self,):
         """
         The total (mean + turbulent), 3-d velocity array
         """
-        return self.uturb+self.uprof[:,:,:,None]
+        return self.uturb + self.uprof[:, :, :, None]
 
     @property
     def u(self,):
         """
         The total (mean + turbulent), u-component of velocity.
         """
-        return self.uturb[0]+self.uprof[0,:,:,None]
+        return self.uturb[0] + self.uprof[0, :, :, None]
+
     @property
     def v(self,):
         """
         The total (mean + turbulent), v-component of velocity.
         """
-        return self.uturb[1]+self.uprof[1,:,:,None]
+        return self.uturb[1] + self.uprof[1, :, :, None]
+
     @property
     def w(self,):
         """
         The total (mean + turbulent), w-component of velocity.
         """
-        return self.uturb[2]+self.uprof[2,:,:,None]
+        return self.uturb[2] + self.uprof[2, :, :, None]
 
     @property
     def UHUB(self,):
@@ -605,19 +640,21 @@ class tsdata(gridProps):
         The hub-height mean velocity.
         """
         return self.uprof[0][self.ihub]
-    
+
     @property
     def uhub(self,):
         """
         The hub-height u-component time-series.
         """
         return self.u[self.ihub]
+
     @property
     def vhub(self,):
         """
         The hub-height v-component time-series.
         """
         return self.v[self.ihub]
+
     @property
     def whub(self,):
         """
@@ -630,22 +667,22 @@ class tsdata(gridProps):
         """
         The turbulence kinetic energy.
         """
-        return (self.uturb**2).mean(-1)
+        return (self.uturb ** 2).mean(-1)
 
     @property
     def Ti(self,):
         """
         The turbulence intensity, std(u')/U, at each point in the grid.
         """
-        return np.std(self.uturb[0],axis=-1)/self.uprof[0]
+        return np.std(self.uturb[0], axis=-1) / self.uprof[0]
 
     @property
     def stress(self,):
         """
         The Reynold's stress tensor.
         """
-        if not hasattr(self,'_dat_stress'):
-            self._stress_dat=np.concatenate((np.mean(self.uturb[0]*self.uturb[1],axis=-1)[None],np.mean(self.uturb[0]*self.uturb[2],axis=-1)[None],np.mean(self.uturb[1]*self.uturb[2],axis=-1)[None]),0)
+        if not hasattr(self, '_dat_stress'):
+            self._stress_dat = np.concatenate((np.mean(self.uturb[0]*self.uturb[1], axis=-1)[None], np.mean(self.uturb[0]*self.uturb[2], axis=-1)[None], np.mean(self.uturb[1]*self.uturb[2], axis=-1)[None]), 0)
         return self._stress_dat
 
     @property
@@ -679,12 +716,12 @@ class tsdata(gridProps):
         stats : dict
                 A dictionary containing various statistics of interest.
         """
-        slc=[slice(None)]+list(self.ihub)
-        stats={}
-        stats['Ti']=self.tke[slc]/self.UHUB
+        slc = [slice(None)]+list(self.ihub)
+        stats = {}
+        stats['Ti'] = self.tke[slc]/self.UHUB
         return stats
 
-    def writeBladed(self,filename):
+    def writeBladed(self, filename):
         """
         Save the data in this tsdata object in 'bladed' format (.wnd).
         
@@ -694,9 +731,9 @@ class tsdata(gridProps):
                    The filename to which the data should be written.
         
         """
-        bladed.write(filename,self)
+        bladed.write(filename, self)
 
-    def writeAero(self,filename):
+    def writeAero(self, filename):
         """
         Save the data in this tsdata object in 'AeroDyn' format.
 
@@ -705,12 +742,10 @@ class tsdata(gridProps):
         filename : str
                    The filename to which the data should be written.
         """
-        aerodyn.write(filename,self)
+        aerodyn.write(filename, self)
 
-    def writeSum(self,filename):
+    def writeSum(self, filename):
         """
         Currently PyTurbSim does not support writing summary (.sum) files.
         """
-        #!!!FIXTHIS!!!
-        pass
-    
+        sum.write(filename, self._sumdict)

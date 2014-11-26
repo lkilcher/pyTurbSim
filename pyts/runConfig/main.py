@@ -30,6 +30,7 @@ from ..io.config import read as readConfig
 from turbModels import getModel as tm_getModel
 from profModels import getModel as pm_getModel
 
+
 def run_fname(fname):
     """
     Perform a PyTurbSim run based on the input file `fname`.
@@ -44,8 +45,9 @@ def run_fname(fname):
     tsdata :    :class:`tsdata <pyts.main.tsdata>`
                 A PyTurbSim data object.
     """
-    config=readConfig(fname)
+    config = readConfig(fname)
     return run(config)
+
 
 def run(tsconfig):
     """
@@ -61,12 +63,13 @@ def run(tsconfig):
     tsdata :    :class:`tsdata <pyts.main.tsdata>`
                 A PyTurbSim data object.
     """
-    tsr=cfg2tsrun(tsconfig)
-    tsr.grid=cfg2grid(tsconfig)
-    
+    tsr = cfg2tsrun(tsconfig)
+    tsr.grid = cfg2grid(tsconfig)
+
     return tsr()
 
-def write(tsdat,tsconfig,fname=None):
+
+def write(tsdat, tsconfig, fname=None):
     """
     Write TurbSim-output to a file.
 
@@ -89,6 +92,7 @@ def write(tsdat,tsconfig,fname=None):
     if tsconfig['WrADFF']:
         tsdat.writeAero(fname)
 
+
 def cfg2grid(tsconfig):
     """
     cfg2grid produces a TurbSim-grid object that matches the
@@ -103,13 +107,22 @@ def cfg2grid(tsconfig):
     -------
     tsgrid :    :class:`tsGrid <pyts.base.tsGrid>`
                 A PyTurbSim grid object.
-    
+
     """
-    return tsGrid(tsconfig['HubHt'],ny=tsconfig['NumGrid_Y'],nz=tsconfig['NumGrid_Z'],width=tsconfig['GridWidth'],height=tsconfig['GridHeight'],time_sec=tsconfig['AnalysisTime'],time_sec_out=tsconfig['UsableTime']+tsconfig['GridWidth']/tsconfig['URef'],dt=tsconfig['TimeStep'],clockwise=tsconfig['Clockwise'])
+    return tsGrid(tsconfig['HubHt'],
+                  ny=tsconfig['NumGrid_Y'], nz=tsconfig['NumGrid_Z'],
+                  dt=tsconfig['TimeStep'],
+                  width=tsconfig['GridWidth'], height=tsconfig['GridHeight'],
+                  time_sec=tsconfig['AnalysisTime'],
+                  time_sec_out=(tsconfig['UsableTime'] + tsconfig['GridWidth']
+                                / tsconfig['URef']),
+                  clockwise=tsconfig['Clockwise'])
+
 
 def cfg2tsrun(tsconfig):
     """
-    Produce a `tsrun` object that matches the configuration options in tsconfig.
+    Produce a `tsrun` object that matches the configuration options in
+    tsconfig.
 
     Parameters
     ----------
@@ -125,11 +138,13 @@ def cfg2tsrun(tsconfig):
 
     """
 
-    tsr=tsrun(tsconfig['RandSeed'])
-    
-    tsr.profModel=pm_getModel(tsconfig)
+    tsr = tsrun(tsconfig['RandSeed'])
 
-    tsr.specModel,tsr.cohereModel,tsr.stressModel=tm_getModel(tsconfig)
+    tsr.profModel = pm_getModel(tsconfig)
+
+    tsr.specModel, tsr.cohereModel, tsr.stressModel = tm_getModel(tsconfig)
+
+    # Store this for use when writing sum files.
+    tsr._config = tsconfig
 
     return tsr
-

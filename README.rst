@@ -7,5 +7,5 @@ PyTurbSim is the official water-turbulence simulation tool for hydrokinetic turb
 
 For more information visit the `PyTurbSim home page <http://lkilcher.github.io/pyTurbSim/>`_.
 
-PyTurbSim is released publically by the National Renewable Energy Lab under the FreeBSD license (see COPYRIGHT).
+PyTurbSim is released publically by the National Renewable Energy Lab under the Apache license (see LICENSE.txt).
 

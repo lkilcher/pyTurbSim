@@ -1,16 +1,19 @@
 """
 This module contains the nwtc spectral models.
 """
-from .mBase import np,ts_float,specObj,specModelBase
-from ..misc import zL,fix2range
-from kelley_coefs import calc_nwtcup_coefs
+from .mBase import np, ts_float, specObj, specModelBase
+from ..misc import zL
+from .kelley_coefs import calc_nwtcup_coefs
+
 
 class genNWTC(specModelBase):
+
     """
     An abstract base class for NWTC spectral models.
 
     """
-    def __call__(self,tsrun):
+
+    def __call__(self, tsrun):
         """
         Create and calculate the spectral object for a `tsrun`
         instance.
@@ -19,27 +22,29 @@ class genNWTC(specModelBase):
         ----------
         tsrun :         :class:`tsrun <pyts.main.tsrun>`
                         A TurbSim run object.
-        
+
         Returns
         -------
         out :           :class:`specObj <.mBase.specObj>`
                         An NWTC spectral object for the grid in `tsrun`.
-    
+
         """
-        out=specObj(tsrun)
+        out = specObj(tsrun)
         # !!!FIXTHIS: The following lines bind output to the specModel object. It would be better to make this explicit, or something.
-        self.f=out.f
-        self._work=np.zeros(out.n_f,dtype=ts_float)
+        self.f = out.f
+        self._work = np.zeros(out.n_f, dtype=ts_float)
         for iz in range(out.n_z):
             for iy in range(out.n_y):
-                z=out.grid.z[iz]
-                u=tsrun.prof.u[iz,iy]
+                z = out.grid.z[iz]
+                u = tsrun.prof.u[iz, iy]
                 for comp in out.grid.comp:
-                    self._work[:]=0.0
-                    out[comp][iz,iy]=self.model(z,u,comp)
+                    self._work[:] = 0.0
+                    out[comp][iz, iy] = self.model(z, u, comp)
         return out
 
+
 class NWTC_stable(genNWTC):
+
     r"""
     The NWTC 'stable' spectral model.
 
@@ -61,7 +66,7 @@ class NWTC_stable(genNWTC):
 
         S_k(f) =  \frac{U_{*}^2 A_k \hat{f}^{-1}\gamma}{1+B_k(f/\hat{f})^{5/3}} \qquad k=0,1,2\ (u,v,w)
 
-    
+
     Where,
 
        :math:`\gamma=(\phi_E/\phi_M)^{2/3}`
@@ -81,45 +86,48 @@ class NWTC_stable(genNWTC):
     See also
     --------
     :attr:`s_coef` : These are the hard-wired :math:`\mathrm{scoef}` coefficients.
-    
-       
-    """
-    s_coef=np.array([[79.,263.],[13.,32.],[3.5,8.6]])
 
-    def __init__(self,Ustar,zL,coef=None):
-        self.Ustar=Ustar
-        self.Ustar2=self.Ustar**2
-        self.zL=zL
+
+    """
+    s_coef = np.array([[79., 263.], [13., 32.], [3.5, 8.6]])
+
+    def __init__(self, Ustar, zL, coef=None):
+        self.Ustar = Ustar
+        self.Ustar2 = self.Ustar ** 2
+        self.zL = zL
         if coef is None:
-            self.coefs=np.ones((3,2),dtype=ts_float)
+            self.coefs = np.ones((3, 2), dtype=ts_float)
         else:
-            self.coefs=coef
-    
+            self.coefs = coef
+
     @property
     def _phie(self):
-        return (1.+2.5*self.zL**0.6)**1.5
+        return (1. + 2.5 * self.zL ** 0.6) ** 1.5
+
     @property
     def _phim(self):
-        return 1.+4.7*self.zL
-    
-    def model(self,z,u,comp):
+        return 1. + 4.7 * self.zL
+
+    def model(self, z, u, comp):
         """
         Calculate the spectral model for height `z`, velocity `u`, and
         velocity component `comp`.
         """
-        coef=self.coefs[comp]
-        z_u=z/u
-        denom=(self.f/self._phim)
-        numer=(self._phie/self._phim)**self.pow2_3/self._phim*self.Ustar2
-        if coef.ndim>1:
-            self._work[:]=0
+        coef = self.coefs[comp]
+        z_u = z / u
+        denom = (self.f / self._phim)
+        numer = (self._phie / self._phim) ** self.pow2_3 / \
+            self._phim * self.Ustar2
+        if coef.ndim > 1:
+            self._work[:] = 0
             for c in coef:
-                self._work+=self.model(z,u,comp)
+                self._work += self.model(z, u, comp)
             return self._work
-        return coef[0]*self.s_coef[comp,0]*numer*z_u/(1.+self.s_coef[comp,1]*(coef[1]*z_u*denom)**self.pow5_3)
+        return coef[0] * self.s_coef[comp, 0] * numer * z_u / (1. + self.s_coef[comp, 1] * (coef[1] * z_u * denom) ** self.pow5_3)
 
 
 class NWTC_unstable(genNWTC):
+
     r"""
     The NWTC 'unstable' spectral model.
 
@@ -146,21 +154,21 @@ class NWTC_unstable(genNWTC):
 
     """
 
-    def __init__(self,Ustar,zL,ZI,p_coefs=None,f_coefs=None):
-        self.Ustar=Ustar
-        self.Ustar2=self.Ustar**2
-        self.zL=zL
-        self.ZI=ZI
+    def __init__(self, Ustar, zL, ZI, p_coefs=None, f_coefs=None):
+        self.Ustar = Ustar
+        self.Ustar2 = self.Ustar ** 2
+        self.zL = zL
+        self.ZI = ZI
         if p_coefs is None:
-            self.p_coefs=p_coefs_unstable
+            self.p_coefs = p_coefs_unstable
         if f_coefs is None:
-            self.f_coefs=f_coefs_unstable
+            self.f_coefs = f_coefs_unstable
 
     @property
     def L(self,):
-        return self.grid.zhub/self.zL
+        return self.grid.zhub / self.zL
 
-    def model(self,z,u,comp):
+    def model(self, z, u, comp):
         r"""
         Computes the spectrum for this 'unstable' spectral model.
 
@@ -168,7 +176,7 @@ class NWTC_unstable(genNWTC):
         ----------
         z : array_like (nz)
             Height above the surface [m].
-        u : array_like (nz,ny)  
+        u : array_like (nz,ny)
             Mean velocity [m/s].
         comp : int {0,1,2}
                Index (u,v,w) of the spectrum to compute.
@@ -181,9 +189,9 @@ class NWTC_unstable(genNWTC):
 
         Notes
         -----
-        
+
         The form of the u-compenent spectrum is:
-        
+
         .. math::
            S_u(f) = U_\mathrm{star}^2 \left( p_{u,1}\frac{\alpha}{1+( F_{u,1} \hat{f})^{5/3}} +
            p_{u,2}\frac{\beta}{( \delta_u + F_{u,2} f' )^{5/3} } \right )
@@ -201,9 +209,9 @@ class NWTC_unstable(genNWTC):
            p_{w,2}\frac{\beta}{ 1 + F_{w,2} {f'} ^{5/3} } \right )
 
         Where,
-        
+
            :math:`\hat{f} = f ZI/\bar{u}`
-           
+
            :math:`f' = f z/ \bar{u}`
 
            :math:`\alpha = ZI^{5/3}/(-\bar{u}L^{2/3})`
@@ -215,30 +223,34 @@ class NWTC_unstable(genNWTC):
            :math:`\delta_v = 1+2.8 z/ZI`
 
            :math:`\gamma  = \frac{f'^2+0.09(z/ZI)^2}{f'^2+0.0225}`
-        
+
         """
-        p_coef=self.p_coefs[comp]
-        f_coef=self.f_coefs[comp]
-        pow5_3=self.pow5_3
-        z_ZI=z/self.ZI
-        num0=self.Ustar2*self.ZI/u*(self.ZI/-self.L)**self.pow2_3
-        fZI_u=self.f*self.ZI/u
-        num1=self.Ustar2*z_u*(1-z_ZI)**2
-        fz_u=self.f*z_u
-        if comp==0:
-            tmp0=1+15*z_ZI
-            self._work=p_coef[0]*num0/(1+(fZI_u*f_coef[0])**pow5_3) + p_coef[1]*num1/(tmp0+f_coef[1]*fz_u)**pow5_3
-        elif comp==1:
-            tmp0=1+2.8*z_ZI
-            self._work=p_coef[0]*num0/(1+f_coef[0]*fZI_u)**pow5_3 + p_coef[1]*num1/(tmp0+f_coef[1]*fz_u)**pow5_3
+        p_coef = self.p_coefs[comp]
+        f_coef = self.f_coefs[comp]
+        pow5_3 = self.pow5_3
+        z_ZI = z / self.ZI
+        num0 = self.Ustar2 * self.ZI / u * (self.ZI / -self.L) ** self.pow2_3
+        fZI_u = self.f * self.ZI / u
+        num1 = self.Ustar2 * z_u * (1 - z_ZI) ** 2
+        fz_u = self.f * z_u
+        if comp == 0:
+            tmp0 = 1 + 15 * z_ZI
+            self._work = p_coef[0] * num0 / (1 + (fZI_u * f_coef[0]) ** pow5_3) + p_coef[
+                1] * num1 / (tmp0 + f_coef[1] * fz_u) ** pow5_3
+        elif comp == 1:
+            tmp0 = 1 + 2.8 * z_ZI
+            self._work = p_coef[0] * num0 / (1 + f_coef[0] * fZI_u) ** pow5_3 + p_coef[
+                1] * num1 / (tmp0 + f_coef[1] * fz_u) ** pow5_3
             ## # Handle extra (e.g. wake, for outf_turb) coefficients:
             ## if coef.shape[0]>2 and not np.isnan(coef[2,0]+coef[2,1]):
-            ##     self._work+=coef[2,0]*17*num1/(tmp0+coef[2,1]*9.5*fz_u)**pow5_3
+            # self._work+=coef[2,0]*17*num1/(tmp0+coef[2,1]*9.5*fz_u)**pow5_3
         else:
-            self._work=p_coef[0]*num0/(1+f_coef[0]*fZI_u)**pow5_3*np.sqrt((fz_u**2+(0.3*z_ZI)**2)/(fz_u**2+0.0225)) + p_coef[1]*num1/(1+f_coef[1]*fz_u**pow5_3)
+            self._work = p_coef[0] * num0 / (1 + f_coef[0] * fZI_u) ** pow5_3 * np.sqrt(
+                (fz_u ** 2 + (0.3 * z_ZI) ** 2) / (fz_u ** 2 + 0.0225)) + p_coef[1] * num1 / (1 + f_coef[1] * fz_u ** pow5_3)
         return self._work
 
-def smooth(Ustar,Ri,ZI=None):
+
+def smooth(Ustar, Ri, ZI=None):
     """
     Compute the 'smooth' spectral model.
 
@@ -246,26 +258,27 @@ def smooth(Ustar,Ri,ZI=None):
     ----------
     Ustar :     float
                 The bottom-boundary friction velocity [m/s].
-                
+
     Ri :        float
                 The Richardson number stability parameter.
-                
+
     ZI :        float, optional
                 mixing layer depth [m].  Only needed for Ri<0.
-    
+
     Returns
     -------
     specModel : :class:`NWTC_stable` (Ri>0), or :class:`NWTC_unstable` (Ri<0)
 
     """
-    zl_=zL(Ri,'smooth')
-    if zl_>=0:
-        out=NWTC_stable(Ustar,zl_)
+    zl_ = zL(Ri, 'smooth')
+    if zl_ >= 0:
+        out = NWTC_stable(Ustar, zl_)
     else:
-        out=NWTC_unstable(Ustar,zl_,ZI)
+        out = NWTC_unstable(Ustar, zl_, ZI)
     return out
 
-def nwtcup(Ustar,Ri,ZI=None):
+
+def nwtcup(Ustar, Ri, ZI=None):
     """
     Compute the 'nwtcup' spectral model.
 
@@ -273,10 +286,10 @@ def nwtcup(Ustar,Ri,ZI=None):
     ----------
     Ustar :     float
                 The bottom-boundary friction velocity [m/s].
-                
+
     Ri :        float
                 The Richardson number stability parameter.
-                
+
     ZI :        float, optional
                 mixing layer depth [m].  Only needed for Ri<0.
 
@@ -285,10 +298,10 @@ def nwtcup(Ustar,Ri,ZI=None):
     specModel : :class:`NWTC_stable` (Ri>0), or :class:`NWTC_unstable` (Ri<0)
 
     """
-    zl_=zL(Ri,'nwtcup')
-    coefs=calc_nwtcup_coefs(zl_)
-    if zl_>=0:
-        out=NWTC_stable(Ustar,zl_,coefs)
+    zl_ = zL(Ri, 'nwtcup')
+    coefs = calc_nwtcup_coefs(zl_)
+    if zl_ >= 0:
+        out = NWTC_stable(Ustar, zl_, coefs)
     else:
-        out=NWTC_unstable(Ustar,zl_,ZI,coefs)
+        out = NWTC_unstable(Ustar, zl_, ZI, coefs)
     return out
