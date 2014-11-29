@@ -5,7 +5,7 @@ import matplotlib.pylab as pylab
 transforms = mpl.transforms
 Axes = mpl.axes.Axes
 rcParams = mpl.rcParams
-import basefuncs as bf
+import _basefuncs as bf
 # try:
 # import pyPdf as pdf
 # except:
@@ -38,8 +38,6 @@ class myaxes(mpl.axes.Axes):
     My own axes class.
     """
     cpcolor = bf.cpcolor
-    hln = bf._hln
-    vln = bf._vln
 
     @property
     def transAxesXDataY(self,):
@@ -59,7 +57,7 @@ class myaxes(mpl.axes.Axes):
 
     skip_ticklabels = skip_ticklabels
     labelax = bf.labelax
-    cbar = bf.cbar
+    #cbar = bf.cbar
     offset_text = bf.offset_text
     annoteCorner = bf.annoteCorner
     setaxesframe = bf._setaxesframe

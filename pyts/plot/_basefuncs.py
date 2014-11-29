@@ -159,74 +159,6 @@ def cpcolor(*args, **kwargs):
     return hndl
 
 
-def cbar(peer, mappable=None, place='right',
-         axsize=.023, axgap=.02, lims=None, **kwargs):
-    xtkdir = mpl.rcParams['xtick.direction']
-    mpl.rcParams['xtick.direction'] = 'in'
-    ytkdir = mpl.rcParams['ytick.direction']
-    mpl.rcParams['ytick.direction'] = 'in'
-    bx = mpl.pylab.getp(peer, 'position')
-    ext = bx.extents
-    axp = np.zeros(4)
-    orient = 'vertical'
-    if place == 'right':
-        axp[0] = ext[2] + axgap
-        axp[1] = ext[1]
-        axp[2] = axsize
-        axp[3] = bx.height / 2
-    elif place == 'over':
-        axp[0] = ext[0] + bx.width / 2
-        axp[1] = ext[3] + axgap
-        axp[2] = bx.width / 2
-        axp[3] = axsize
-        orient = 'horizontal'
-        lblpos = 'top'
-    elif hasattr(place, '__iter__'):
-        axp = place
-        if axp[3] < axp[2]:
-            orient = 'horizontal'
-
-    if 'orient' in kwargs.keys():
-        orient = kwargs.pop('orient')
-
-    if 'axdict' in kwargs.keys():
-        axd = kwargs.pop('axdict')
-    else:
-        axd = {}
-    ax2 = {}
-    if 'linewidth' in kwargs.keys():
-        axd['linewidth'] = kwargs.pop('linewidth')
-    if 'ticklabels' in kwargs.keys():
-        ax2['yticklabels'] = kwargs.pop('ticklabels')
-
-    if 'fontsize' in kwargs.keys():
-        ax2['fontsize'] = kwargs.pop('fontsize')
-
-    tmp = mpl.pyplot.axes(axp, **axd)
-    if mappable is None:
-        hndl = mpl.pylab.colorbar(cax=tmp, orientation=orient, **kwargs)
-    else:
-        hndl = mpl.pylab.colorbar(
-            mappable, cax=tmp, orientation=orient, **kwargs)
-
-    if 'fontsize' in ax2.keys():
-        if orient == 'vertical':
-            mpl.pylab.setp(tmp.get_yticklabels(), fontsize=ax2.pop('fontsize'))
-        else:
-            mpl.pylab.setp(tmp.get_xticklabels(), fontsize=ax2.pop('fontsize'))
-
-    tmp.set(**ax2)
-    mpl.rcParams['xtick.direction'] = xtkdir
-    mpl.rcParams['ytick.direction'] = ytkdir
-
-    if place == 'right':
-        pass
-    elif place == 'over':
-        tmp.xaxis.set_label_position('top')
-        tmp.xaxis.set_ticks_position('top')
-    return hndl
-
-
 def labelax(peer, str, place='right', **kwargs):
     if place == 'right':
         place = (1.025, .6)
@@ -505,30 +437,6 @@ def shadey(ax, y, x=[0, 1], transform='AxesXDataY', label='_nolegend_',
                      edgecolor=edgecolor, **kwargs)
 
 
-def _vln(ax, x, y=[0, 1], transform='DataXAxesY', label='_nolegend_',
-         color='k', linewidth=rcParams['axes.linewidth'], **kwargs):
-    if isinstance(x, (int, long, float, complex)):
-        x = [x]
-    transform = get_transform(ax, transform)
-    for xnow in x:
-        ax.plot([xnow, xnow], y, transform=transform, label=label,
-                color=color, linewidth=linewidth, **kwargs)
-
-
-def _hln(ax, y, x=[0, 1], transform='AxesXDataY', **kwargs):
-    if 'label' not in kwargs.keys():
-        kwargs['label'] = '_nolegend_'
-    if 'color' not in kwargs.keys():
-        kwargs['color'] = 'k'
-    if 'linewidth' not in kwargs.keys() and 'lw' not in kwargs.keys():
-        kwargs['lw'] = rcParams['axes.linewidth']
-    if isinstance(y, (int, long, float, complex)):
-        y = [y]
-    transform = get_transform(ax, transform)
-    for ynow in y:
-        ax.plot(x, [ynow, ynow], transform=transform, **kwargs)
-
-
 def _setaxesframe(ax, str):
     str = np.array(list(str))
     if any(str == 't') and any(str == 'b'):
@@ -573,26 +481,33 @@ def _setaxesframe(ax, str):
         # for tk in ax.yaxis.get_ticklabels
 
 
-def alphNumAxes(self, vals=lowercase, prefix=None, suffix=None, **kwargs):
+def alphNumAxes(axs, vals=lowercase, prefix='', suffix=')', **kwargs):
     """
     Label the axes with alphanumeric characters.
 
-    *axs* are the axes over which to add labels to.  vals* should be a
-    *string or list of strings to annotate the axes with.  It defaults
-    *to string.lowercase prefix* and *suffix* are strings that can be
-    *placed before and after each val. e.g.: prefix='(' and suffix=')'
-    *will wrap the annotations in parenthesis.
+    Parameters
+    ----------
+    axs : iterable of axes objects
+          The axes over which to add labels.
 
-    By default, this function calls annoteCorner on its
-    axes.ax.flatten(), and uses
+    vals : iterable of strings to annotate axes (default: 'abcdefg...')
 
-    See also: annoteCorner, string
+    prefix : string (default '')
+             The string to prefix to the label.
+
+    suffix : string (default ')')
+             The string to add to the end of the label.
+
+    See also
+    --------
+
+    :func:`annoteCorner`
     """
     if suffix is None:
         suffix = ')'
     if prefix is None:
         prefix = ''
-    corner_labels = np.empty(self.size, 'O')
-    for idx, ax in enumerate(self):
+    corner_labels = np.empty(len(axs), 'O')
+    for idx, ax in enumerate(axs):
         corner_labels[idx] = ax.annoteCorner(
             prefix + vals[idx] + suffix, **kwargs)
