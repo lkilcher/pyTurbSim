@@ -1,67 +1,70 @@
-profModels Package
-==================
+pyts.profModels package
+=======================
 
-:mod:`profModels` Package
--------------------------
+Submodules
+----------
 
-.. automodule:: pyts.profModels
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`api` Module
------------------
+pyts.profModels.api module
+--------------------------
 
 .. automodule:: pyts.profModels.api
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`iec` Module
------------------
+pyts.profModels.iec module
+--------------------------
 
 .. automodule:: pyts.profModels.iec
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`jet` Module
------------------
+pyts.profModels.jet module
+--------------------------
 
 .. automodule:: pyts.profModels.jet
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`log` Module
------------------
+pyts.profModels.log module
+--------------------------
 
 .. automodule:: pyts.profModels.log
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`mBase` Module
--------------------
+pyts.profModels.mBase module
+----------------------------
 
 .. automodule:: pyts.profModels.mBase
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`power` Module
--------------------
+pyts.profModels.power module
+----------------------------
 
 .. automodule:: pyts.profModels.power
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`simple` Module
---------------------
+pyts.profModels.simple module
+-----------------------------
 
 .. automodule:: pyts.profModels.simple
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: pyts.profModels
+    :members:
+    :undoc-members:
+    :show-inheritance:

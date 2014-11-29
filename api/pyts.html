@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts Package &mdash; PyTurbSim 0.2 documentation</title>
+    <title>pyts package &mdash; PyTurbSim 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,8 +25,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.2 documentation" href="../index.html" />
-    <link rel="next" title="cohereModels Package" href="pyts.cohereModels.html" />
+    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../index.html" />
+    <link rel="next" title="pyts.cohereModels package" href="pyts.cohereModels.html" />
     <link rel="prev" title="Code Framework" href="../code-framework.html" /> 
   </head>
   <body>
@@ -45,12 +43,12 @@
           <a href="../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="pyts.cohereModels.html" title="cohereModels Package"
+          <a href="pyts.cohereModels.html" title="pyts.cohereModels package"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../code-framework.html" title="Code Framework"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -60,17 +58,138 @@
           <div class="body">
             
   <div class="section" id="pyts-package">
-<h1>pyts Package<a class="headerlink" href="#pyts-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2><tt class="xref py py-mod docutils literal"><span class="pre">pyts</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-pyts.__init__"></span><p>This is the PyTurbSim package. For more information visit the <a class="reference external" href="http://lkilcher.github.io/pyTurbSim/">PyTurbSim home page</a>.</p>
+<h1>pyts package<a class="headerlink" href="#pyts-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyts.cohereModels.html">pyts.cohereModels package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyts.cohereModels.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.cohereModels.html#module-pyts.cohereModels.api">pyts.cohereModels.api module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyts.cohereModels.html#available-coherence-models">Available coherence models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.cohereModels.html#module-pyts.cohereModels.mBase">pyts.cohereModels.mBase module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.cohereModels.html#module-pyts.cohereModels.main">pyts.cohereModels.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.cohereModels.html#module-pyts.cohereModels">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyts.gui.html">pyts.gui package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui.base">pyts.gui.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui.base4wdr">pyts.gui.base4wdr module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui.gTurbSim_wdr">pyts.gui.gTurbSim_wdr module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui.grid">pyts.gui.grid module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui.prof">pyts.gui.prof module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui.turb">pyts.gui.turb module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyts.io.html">pyts.io package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.aerodyn">pyts.io.aerodyn module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.base">pyts.io.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.bladed">pyts.io.bladed module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.config">pyts.io.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.formatter">pyts.io.formatter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.main">pyts.io.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.sum">pyts.io.sum module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyts.phaseModels.html">pyts.phaseModels package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyts.phaseModels.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.phaseModels.html#module-pyts.phaseModels.api">pyts.phaseModels.api module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyts.phaseModels.html#available-phase-models">Available phase models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.phaseModels.html#module-pyts.phaseModels.mBase">pyts.phaseModels.mBase module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.phaseModels.html#module-pyts.phaseModels.main">pyts.phaseModels.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.phaseModels.html#module-pyts.phaseModels">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyts.plot.html">pyts.plot package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.api">pyts.plot.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.axform">pyts.plot.axform module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.base">pyts.plot.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.psd">pyts.plot.psd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.superaxes">pyts.plot.superaxes module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyts.profModels.html">pyts.profModels package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.api">pyts.profModels.api module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyts.profModels.html#available-profile-models">Available profile models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.profModels.html#example-usage">Example usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.profModels.html#creating-a-new-profile-model">Creating a new profile model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.profModels.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.iec">pyts.profModels.iec module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.jet">pyts.profModels.jet module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.log">pyts.profModels.log module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.mBase">pyts.profModels.mBase module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.power">pyts.profModels.power module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.simple">pyts.profModels.simple module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyts.runConfig.html">pyts.runConfig package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#module-pyts.runConfig.base">pyts.runConfig.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#module-pyts.runConfig.main">pyts.runConfig.main module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyts.runConfig.html#example-usage">Example usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#module-pyts.runConfig.profModels">pyts.runConfig.profModels module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#module-pyts.runConfig.turbModels">pyts.runConfig.turbModels module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#module-pyts.runConfig">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyts.runConfig.html#id1">Example usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyts.specModels.html">pyts.specModels package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.api">pyts.specModels.api module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyts.specModels.html#available-spectral-models">Available spectral models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.specModels.html#example-usage">Example usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.specModels.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.hydro">pyts.specModels.hydro module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.iec">pyts.specModels.iec module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.kelley_coefs">pyts.specModels.kelley_coefs module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.mBase">pyts.specModels.mBase module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.nwtc">pyts.specModels.nwtc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyts.stressModels.html">pyts.stressModels package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels.api">pyts.stressModels.api module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyts.stressModels.html#available-stress-models">Available stress models:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.stressModels.html#example-usage">Example usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.stressModels.html#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels.hydro">pyts.stressModels.hydro module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels.mBase">pyts.stressModels.mBase module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels.main">pyts.stressModels.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels.stress_freq">pyts.stressModels.stress_freq module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels">Module contents</a></li>
+</ul>
+</li>
+</ul>
 </div>
-<div class="section" id="module-pyts._version">
-<span id="version-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">_version</span></tt> Module<a class="headerlink" href="#module-pyts._version" title="Permalink to this headline">¶</a></h2>
-<p>This module contains PyTurbSim version information.</p>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-pyts.api">
-<span id="api-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">api</span></tt> Module<a class="headerlink" href="#module-pyts.api" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-api-module"></span><h2>pyts.api module<a class="headerlink" href="#module-pyts.api" title="Permalink to this headline">¶</a></h2>
 <p>This is the PyTurbSim python advanced programming interface
 (API). This module provides a fully-customizable high-level
 object-oriented interface to the PyTurbSim program.</p>
@@ -136,13 +255,14 @@ input (.inp) and output files (e.g. .bl, .wnd, etc.)</p>
 </div>
 </div>
 <div class="section" id="module-pyts.base">
-<span id="base-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">base</span></tt> Module<a class="headerlink" href="#module-pyts.base" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-base-module"></span><h2>pyts.base module<a class="headerlink" href="#module-pyts.base" title="Permalink to this headline">¶</a></h2>
 <p>This is the &#8216;base&#8217; module for the PyTurbSim program.</p>
 <p>This module:</p>
 <blockquote>
 <div><ol class="loweralpha simple">
 <li>imports common numpy functions/methods (from pyts_numpy.py),</li>
-<li>defines the <a class="reference internal" href="#pyts.base.gridObj" title="pyts.base.gridObj"><tt class="xref py py-class docutils literal"><span class="pre">gridObj</span></tt></a> class (and the <a class="reference internal" href="#pyts.base.tsGrid" title="pyts.base.tsGrid"><tt class="xref py py-func docutils literal"><span class="pre">tsGrid()</span></tt></a> helper function),</li>
+<li>defines the <a class="reference internal" href="#pyts.base.gridObj" title="pyts.base.gridObj"><tt class="xref py py-class docutils literal"><span class="pre">gridObj</span></tt></a> class (and the <a class="reference internal" href="#pyts.base.tsGrid" title="pyts.base.tsGrid"><tt class="xref py py-func docutils literal"><span class="pre">tsGrid()</span></tt></a> helper
+function),</li>
 <li>imports the tslib Fortran module (if it is available) and</li>
 <li>Defines several abstract base classes.</li>
 </ol>
@@ -167,7 +287,8 @@ specObj, stressObj, and cohereObj all derive from this class.</p>
 <p>In general, functions should be used to construct the grid.</p>
 <p class="rubric">Notes</p>
 <ol class="arabic simple">
-<li>The grid is defined so that the first row is the bottom and the last is the top.</li>
+<li>The grid is defined so that the first row is the bottom and the
+last is the top.</li>
 <li>Irregular grids are not yet supported.</li>
 </ol>
 <dl class="attribute">
@@ -188,11 +309,11 @@ specObj, stressObj, and cohereObj all derive from this class.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>ii</strong> : Index of first grid-point.</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ii</strong> : Index of first grid-point.</p>
 <p><strong>jj</strong> : Index of second grid-point.</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>r</strong> : The distance between the two grid points.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>r</strong> : The distance between the two grid points.</p>
 </td>
 </tr>
 </tbody>
@@ -296,6 +417,11 @@ the subscript <cite>subs</cite> (iz,iy) for this grid.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="pyts.base.gridObj.time_sec_out">
+<tt class="descname">time_sec_out</tt><a class="reference internal" href="../_modules/pyts/base.html#gridObj.time_sec_out"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.base.gridObj.time_sec_out" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="pyts.base.gridObj.width">
 <tt class="descname">width</tt><a class="reference internal" href="../_modules/pyts/base.html#gridObj.width"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.base.gridObj.width" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -373,10 +499,22 @@ placeholder for now.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="pyts.base.statObj">
+<em class="property">class </em><tt class="descclassname">pyts.base.</tt><tt class="descname">statObj</tt><big>(</big><em>dat</em><big>)</big><a class="reference internal" href="../_modules/pyts/base.html#statObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.base.statObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">float</span></tt></p>
+<dl class="attribute">
+<dt id="pyts.base.statObj.mean">
+<tt class="descname">mean</tt><a class="reference internal" href="../_modules/pyts/base.html#statObj.mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.base.statObj.mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="pyts.base.tsBaseObj">
 <em class="property">class </em><tt class="descclassname">pyts.base.</tt><tt class="descname">tsBaseObj</tt><a class="reference internal" href="../_modules/pyts/base.html#tsBaseObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.base.tsBaseObj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>An abstract, base object, that contains the component (u,v,w) information for derived classes.</p>
+<p>An abstract, base object, that contains the component (u,v,w)
+information for derived classes.</p>
 <dl class="attribute">
 <dt id="pyts.base.tsBaseObj.comp">
 <tt class="descname">comp</tt><em class="property"> = [0, 1, 2]</em><a class="headerlink" href="#pyts.base.tsBaseObj.comp" title="Permalink to this definition">¶</a></dt>
@@ -402,7 +540,7 @@ placeholder for now.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>center</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>center</strong> : float</p>
 <blockquote>
 <div><p>height of the center of the grid.</p>
 </div></blockquote>
@@ -448,7 +586,8 @@ placeholder for now.</p>
 </div></blockquote>
 <p><strong>RandSeed</strong> : int, optional</p>
 <blockquote>
-<div><p>Specify a random seed for the random number generator (default: generate a random one).</p>
+<div><p>Specify a random seed for the random number generator
+(default: generate a random one).</p>
 </div></blockquote>
 <p><strong>clockwise</strong> : bool, optional (True)</p>
 <blockquote class="last">
@@ -471,7 +610,7 @@ width.</li>
 
 </div>
 <div class="section" id="module-pyts.dbg">
-<span id="dbg-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">dbg</span></tt> Module<a class="headerlink" href="#module-pyts.dbg" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-dbg-module"></span><h2>pyts.dbg module<a class="headerlink" href="#module-pyts.dbg" title="Permalink to this headline">¶</a></h2>
 <p>This is the PyTurbSim debug package. It contains debugging tools specifically valuable to PyTurbSim.</p>
 <dl class="class">
 <dt id="pyts.dbg.timer">
@@ -497,7 +636,7 @@ width.</li>
 
 </div>
 <div class="section" id="module-pyts.main">
-<span id="main-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">main</span></tt> Module<a class="headerlink" href="#module-pyts.main" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-main-module"></span><h2>pyts.main module<a class="headerlink" href="#module-pyts.main" title="Permalink to this headline">¶</a></h2>
 <p>This module brings together the main components of the TurbSim program
 and defines the primary high-level objects that users of the Python
 interface will utilize.</p>
@@ -515,7 +654,7 @@ information for reproducing the simulation.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>grid</strong> : <tt class="xref py py-class docutils literal"><span class="pre">gridObj</span></tt></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>grid</strong> : <tt class="xref py py-class docutils literal"><span class="pre">gridObj</span></tt></p>
 <blockquote class="last">
 <div><p>TurbSim data objects are initialized with a TurbSim grid.</p>
 </div></blockquote>
@@ -560,7 +699,7 @@ information for reproducing the simulation.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>stats</strong> : dict</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>stats</strong> : dict</p>
 <blockquote class="last">
 <div><p>A dictionary containing various statistics of interest.</p>
 </div></blockquote>
@@ -656,7 +795,7 @@ information for reproducing the simulation.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
 <blockquote class="last">
 <div><p>The filename to which the data should be written.</p>
 </div></blockquote>
@@ -674,7 +813,7 @@ information for reproducing the simulation.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
 <blockquote class="last">
 <div><p>The filename to which the data should be written.</p>
 </div></blockquote>
@@ -704,7 +843,7 @@ general can be found in the PyTurbSim /examples directory.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>RandSeed</strong> : int,optional (&#8216;random value&#8217;)</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>RandSeed</strong> : int,optional (&#8216;random value&#8217;)</p>
 <blockquote>
 <div><p>Initialize the run-object with a RandSeed.</p>
 </div></blockquote>
@@ -720,7 +859,8 @@ general can be found in the PyTurbSim /examples directory.</p>
 <dt id="pyts.main.tsrun.__call__">
 <tt class="descname">__call__</tt><big>(</big><big>)</big><a class="headerlink" href="#pyts.main.tsrun.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run PyTurbSim.</p>
-<p>Before calling this method be sure to set the following attributes to their desired values:</p>
+<p>Before calling this method be sure to set the following
+attributes to their desired values:</p>
 <ul class="simple">
 <li><a class="reference internal" href="#pyts.main.tsrun.prof" title="pyts.main.tsrun.prof"><tt class="xref py py-attr docutils literal"><span class="pre">tsrun.prof</span></tt></a>: The mean profile model, object or array.</li>
 <li><a class="reference internal" href="#pyts.main.tsrun.spec" title="pyts.main.tsrun.spec"><tt class="xref py py-attr docutils literal"><span class="pre">tsrun.spec</span></tt></a>: The tke spectrum model, object or array.</li>
@@ -731,7 +871,7 @@ general can be found in the PyTurbSim /examples directory.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><strong>tsdata</strong> : <a class="reference internal" href="#pyts.main.tsdata" title="pyts.main.tsdata"><tt class="xref py py-class docutils literal"><span class="pre">tsdata</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>tsdata</strong> : <a class="reference internal" href="#pyts.main.tsdata" title="pyts.main.tsdata"><tt class="xref py py-class docutils literal"><span class="pre">tsdata</span></tt></a></td>
 </tr>
 </tbody>
 </table>
@@ -776,7 +916,8 @@ model, which is based on the state of ts_run at the time
 of execution of this command.</p>
 </li>
 <li><p class="first">define it with an array directly:</p>
-<div class="highlight-python"><pre>ts_run.cohere=a_numpy_array  - [units: non-dimensional]</pre>
+<div class="highlight-python"><div class="highlight"><pre>ts_run.cohere=a_numpy_array  - [units: non-dimensional]
+</pre></div>
 </div>
 <p>In this case the coherence will be fixed and defined by
 this input array.  The numpy array dimensions must match
@@ -795,7 +936,7 @@ grid&#8217; (see the gridObj.flatten method, and/or the
 cohereUser coherence model for more information).</p>
 </li>
 </ol>
-<div class="admonition-see-also admonition seealso">
+<div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="docutils">
 <dt><a class="reference internal" href="pyts.cohereModels.html#module-pyts.cohereModels.api" title="pyts.cohereModels.api"><tt class="xref py py-obj docutils literal"><span class="pre">pyts.cohereModels.api</span></tt></a></dt>
@@ -815,7 +956,7 @@ cohereUser coherence model for more information).</p>
 
 <dl class="attribute">
 <dt id="pyts.main.tsrun.phase">
-<tt class="descname">phase</tt><em class="property"> = &lt;pyts.phaseModels.main.randPhase object at 0x4c43f10&gt;</em><a class="headerlink" href="#pyts.main.tsrun.phase" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">phase</tt><em class="property"> = &lt;pyts.phaseModels.main.randPhase object at 0x2af41933c410&gt;</em><a class="headerlink" href="#pyts.main.tsrun.phase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -859,7 +1000,7 @@ dimension is for each component of the profile (u,v,w),
 the next two are for each point (z,y) in the grid.</p>
 </li>
 </ol>
-<div class="admonition-see-also admonition seealso">
+<div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="docutils">
 <dt><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.api" title="pyts.profModels.api"><tt class="xref py py-obj docutils literal"><span class="pre">pyts.profModels.api</span></tt></a></dt>
@@ -880,7 +1021,8 @@ generator to its initial state.</p>
 <dt id="pyts.main.tsrun.run">
 <tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/main.html#tsrun.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.main.tsrun.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run PyTurbSim.</p>
-<p>Before calling this method be sure to set the following attributes to their desired values:</p>
+<p>Before calling this method be sure to set the following
+attributes to their desired values:</p>
 <ul class="simple">
 <li><a class="reference internal" href="#pyts.main.tsrun.prof" title="pyts.main.tsrun.prof"><tt class="xref py py-attr docutils literal"><span class="pre">tsrun.prof</span></tt></a>: The mean profile model, object or array.</li>
 <li><a class="reference internal" href="#pyts.main.tsrun.spec" title="pyts.main.tsrun.spec"><tt class="xref py py-attr docutils literal"><span class="pre">tsrun.spec</span></tt></a>: The tke spectrum model, object or array.</li>
@@ -891,7 +1033,7 @@ generator to its initial state.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><strong>tsdata</strong> : <a class="reference internal" href="#pyts.main.tsdata" title="pyts.main.tsdata"><tt class="xref py py-class docutils literal"><span class="pre">tsdata</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>tsdata</strong> : <a class="reference internal" href="#pyts.main.tsdata" title="pyts.main.tsdata"><tt class="xref py py-class docutils literal"><span class="pre">tsdata</span></tt></a></td>
 </tr>
 </tbody>
 </table>
@@ -925,7 +1067,8 @@ model, which is based on the state of ts_run at the time
 of the specObj creation.</p>
 </li>
 <li><p class="first">define it with an array directly:</p>
-<div class="highlight-python"><pre>ts_run.spec=a_numpy_array  - [units: m^2/(s^2.Hz)]</pre>
+<div class="highlight-python"><div class="highlight"><pre>ts_run.spec=a_numpy_array  - [units: m^2/(s^2.Hz)]
+</pre></div>
 </div>
 <p>In this case the specObj is again fixed and defined by
 the input array.  The numpy array dimensions must match
@@ -937,7 +1080,7 @@ grid, and the last dimension is the frequency dependence
 of the spectrum.</p>
 </li>
 </ol>
-<div class="admonition-see-also admonition seealso">
+<div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="docutils">
 <dt><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.api" title="pyts.specModels.api"><tt class="xref py py-obj docutils literal"><span class="pre">pyts.specModels.api</span></tt></a></dt>
@@ -975,7 +1118,8 @@ model, which is based on the state of ts_run at the time
 of the stressObj creation.</p>
 </li>
 <li><p class="first">define it with an array directly:</p>
-<div class="highlight-python"><pre>ts_run.stress=a_numpy_array  - [units: m^2/s^2]</pre>
+<div class="highlight-python"><div class="highlight"><pre>ts_run.stress=a_numpy_array  - [units: m^2/s^2]
+</pre></div>
 </div>
 <p>In this case the stressObj is again fixed and defined by
 the input array.  The numpy array dimensions must match
@@ -986,7 +1130,7 @@ The first dimension is for each component of the stress
 grid.</p>
 </li>
 </ol>
-<div class="admonition-see-also admonition seealso">
+<div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="docutils">
 <dt><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels.api" title="pyts.stressModels.api"><tt class="xref py py-obj docutils literal"><span class="pre">pyts.stressModels.api</span></tt></a></dt>
@@ -1000,7 +1144,7 @@ grid.</p>
 
 </div>
 <div class="section" id="module-pyts.misc">
-<span id="misc-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">misc</span></tt> Module<a class="headerlink" href="#module-pyts.misc" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-misc-module"></span><h2>pyts.misc module<a class="headerlink" href="#module-pyts.misc" title="Permalink to this headline">¶</a></h2>
 <p>This module contains a few random helper functions that are used
 throughout the code.</p>
 <dl class="exception">
@@ -1024,12 +1168,13 @@ a model has not defined a necessary attribute.</p>
 <tt class="descclassname">pyts.misc.</tt><tt class="descname">fix2range</tt><big>(</big><em>vals</em>, <em>minval</em>, <em>maxval</em><big>)</big><a class="reference internal" href="../_modules/pyts/misc.html#fix2range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.misc.fix2range" title="Permalink to this definition">¶</a></dt>
 <dd><p>A helper function that sets the value of the array or number <cite>vals</cite> to
 fall within the range <cite>minval</cite> &lt;= <cite>vals</cite> &lt;= <cite>maxval</cite>.</p>
-<p>Values of <cite>vals</cite> that are greater than <cite>maxval</cite> are set to <cite>maxval</cite> (and similar for <cite>minval</cite>).</p>
+<p>Values of <cite>vals</cite> that are greater than <cite>maxval</cite> are set to
+<cite>maxval</cite> (and similar for <cite>minval</cite>).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>vals</strong> : float or array_like</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>vals</strong> : float or array_like</p>
 <blockquote>
 <div><p>The value(s) to &#8216;fix&#8217;.</p>
 </div></blockquote>
@@ -1043,7 +1188,7 @@ fall within the range <cite>minval</cite> &lt;= <cite>vals</cite> &lt;= <cite>ma
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>fixed_vals</strong> : float or array_like (matches <cite>vals</cite>)</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>fixed_vals</strong> : float or array_like (matches <cite>vals</cite>)</p>
 <blockquote class="last">
 <div><p>The fixed values.</p>
 </div></blockquote>
@@ -1064,7 +1209,7 @@ Fast Fourier Transforms.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>n</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n</strong> : int</p>
 <blockquote>
 <div><p>The starting integer.</p>
 </div></blockquote>
@@ -1074,7 +1219,7 @@ Fast Fourier Transforms.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>qp_near</strong> : int</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>qp_near</strong> : int</p>
 <blockquote class="last">
 <div><p>The nearest integer to n that has prime factors less than <cite>pmax</cite>.</p>
 </div></blockquote>
@@ -1092,11 +1237,11 @@ Fast Fourier Transforms.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>n</strong> : The integer for which to calculate prime-factors.</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n</strong> : The integer for which to calculate prime-factors.</p>
 <p><strong>pmax</strong> : The maximum prime to use (default 31, can be up to 71).</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>primes</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>primes</strong> : list</p>
 <blockquote>
 <div><p>A of the primes.</p>
 </div></blockquote>
@@ -1118,7 +1263,7 @@ profiles and turbulence models.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Ri</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Ri</strong> : float</p>
 <blockquote>
 <div><p>The Richardson number.</p>
 </div></blockquote>
@@ -1129,7 +1274,7 @@ In some cases z/L depends on the Turbulence model.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>psiM</strong> : float</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>psiM</strong> : float</p>
 <blockquote class="last">
 <div><p>The psi_M stability parameter.</p>
 </div></blockquote>
@@ -1142,13 +1287,14 @@ In some cases z/L depends on the Turbulence model.</p>
 <dl class="function">
 <dt id="pyts.misc.zL">
 <tt class="descclassname">pyts.misc.</tt><tt class="descname">zL</tt><big>(</big><em>Ri</em>, <em>TurbModel=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/misc.html#zL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.misc.zL" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>zL</em> is the Monin-Obhukov (M-O) stability parameter z/L, where L is the M-O length.</p>
+<dd><p><em>zL</em> is the Monin-Obhukov (M-O) stability parameter z/L,
+where L is the M-O length.</p>
 <p>zL&gt;0 means stable conditions.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Ri</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Ri</strong> : float</p>
 <blockquote>
 <div><p>The Richardson number.</p>
 </div></blockquote>
@@ -1165,125 +1311,12 @@ In some cases z/L depends on the Turbulence model.</p>
 
 </div>
 <div class="section" id="module-pyts.pyts_numpy">
-<span id="pyts-numpy-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">pyts_numpy</span></tt> Module<a class="headerlink" href="#module-pyts.pyts_numpy" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-pyts-numpy-module"></span><h2>pyts.pyts_numpy module<a class="headerlink" href="#module-pyts.pyts_numpy" title="Permalink to this headline">¶</a></h2>
 <p>This module imports the pieces of numpy that are used by PyTurbSim.</p>
 </div>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="pyts.cohereModels.html">cohereModels Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyts.cohereModels.html#id1"><tt class="docutils literal"><span class="pre">cohereModels</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.cohereModels.html#module-pyts.cohereModels.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyts.cohereModels.html#available-coherence-models">Available coherence models</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.cohereModels.html#module-pyts.cohereModels.mBase"><tt class="docutils literal"><span class="pre">mBase</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.cohereModels.html#module-pyts.cohereModels.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.gui.html">gui Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#id1"><tt class="docutils literal"><span class="pre">gui</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui.base4wdr"><tt class="docutils literal"><span class="pre">base4wdr</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui.gTurbSim_wdr"><tt class="docutils literal"><span class="pre">gTurbSim_wdr</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui.grid"><tt class="docutils literal"><span class="pre">grid</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui.prof"><tt class="docutils literal"><span class="pre">prof</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.gui.html#module-pyts.gui.turb"><tt class="docutils literal"><span class="pre">turb</span></tt> Module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.io.html">io Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#id1"><tt class="docutils literal"><span class="pre">io</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.aerodyn"><tt class="docutils literal"><span class="pre">aerodyn</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.bladed"><tt class="docutils literal"><span class="pre">bladed</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.config"><tt class="docutils literal"><span class="pre">config</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.io.html#module-pyts.io.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.phaseModels.html">phaseModels Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyts.phaseModels.html#id1"><tt class="docutils literal"><span class="pre">phaseModels</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.phaseModels.html#module-pyts.phaseModels.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyts.phaseModels.html#available-phase-models">Available phase models</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.phaseModels.html#module-pyts.phaseModels.mBase"><tt class="docutils literal"><span class="pre">mBase</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.phaseModels.html#module-pyts.phaseModels.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.plot.html">plot Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#id1"><tt class="docutils literal"><span class="pre">plot</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.axform"><tt class="docutils literal"><span class="pre">axform</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.basefuncs"><tt class="docutils literal"><span class="pre">basefuncs</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.dep"><tt class="docutils literal"><span class="pre">dep</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.psd"><tt class="docutils literal"><span class="pre">psd</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.plot.html#module-pyts.plot.superaxes"><tt class="docutils literal"><span class="pre">superaxes</span></tt> Module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.profModels.html">profModels Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#id1"><tt class="docutils literal"><span class="pre">profModels</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyts.profModels.html#available-profile-models">Available profile models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyts.profModels.html#example-usage">Example usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyts.profModels.html#creating-a-new-profile-model">Creating a new profile model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyts.profModels.html#notes">Notes</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.iec"><tt class="docutils literal"><span class="pre">iec</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.jet"><tt class="docutils literal"><span class="pre">jet</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.log"><tt class="docutils literal"><span class="pre">log</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.mBase"><tt class="docutils literal"><span class="pre">mBase</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.power"><tt class="docutils literal"><span class="pre">power</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.simple"><tt class="docutils literal"><span class="pre">simple</span></tt> Module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.runConfig.html">runConfig Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#id1"><tt class="docutils literal"><span class="pre">runConfig</span></tt> Package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyts.runConfig.html#example-usage">Example usage</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#module-pyts.runConfig.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#module-pyts.runConfig.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyts.runConfig.html#id2">Example usage</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#module-pyts.runConfig.profModels"><tt class="docutils literal"><span class="pre">profModels</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.runConfig.html#module-pyts.runConfig.turbModels"><tt class="docutils literal"><span class="pre">turbModels</span></tt> Module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.specModels.html">specModels Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#id1"><tt class="docutils literal"><span class="pre">specModels</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyts.specModels.html#available-spectral-models">Available spectral models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyts.specModels.html#example-usage">Example usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyts.specModels.html#notes">Notes</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.hydro"><tt class="docutils literal"><span class="pre">hydro</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.iec"><tt class="docutils literal"><span class="pre">iec</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.kelley_coefs"><tt class="docutils literal"><span class="pre">kelley_coefs</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.mBase"><tt class="docutils literal"><span class="pre">mBase</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.nwtc"><tt class="docutils literal"><span class="pre">nwtc</span></tt> Module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.stressModels.html">stressModels Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#id1"><tt class="docutils literal"><span class="pre">stressModels</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyts.stressModels.html#available-stress-models">Available stress models:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyts.stressModels.html#example-usage">Example usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyts.stressModels.html#see-also">See also</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels.hydro"><tt class="docutils literal"><span class="pre">hydro</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels.mBase"><tt class="docutils literal"><span class="pre">mBase</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels.stress_freq"><tt class="docutils literal"><span class="pre">stress_freq</span></tt> Module</a></li>
-</ul>
-</li>
-</ul>
-</div>
+<div class="section" id="module-pyts">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyts" title="Permalink to this headline">¶</a></h2>
+<p>This is the PyTurbSim package. For more information visit the <a class="reference external" href="http://lkilcher.github.io/pyTurbSim/">PyTurbSim home page</a>.</p>
 </div>
 </div>
 
@@ -1295,18 +1328,16 @@ In some cases z/L depends on the Turbulence model.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">pyts Package</a><ul>
-<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">pyts</span></tt> Package</a></li>
-<li><a class="reference internal" href="#module-pyts._version"><tt class="docutils literal"><span class="pre">_version</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.dbg"><tt class="docutils literal"><span class="pre">dbg</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.misc"><tt class="docutils literal"><span class="pre">misc</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.pyts_numpy"><tt class="docutils literal"><span class="pre">pyts_numpy</span></tt> Module</a></li>
-<li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-</ul>
-</li>
+<li><a class="reference internal" href="#">pyts package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyts.api">pyts.api module</a></li>
+<li><a class="reference internal" href="#module-pyts.base">pyts.base module</a></li>
+<li><a class="reference internal" href="#module-pyts.dbg">pyts.dbg module</a></li>
+<li><a class="reference internal" href="#module-pyts.main">pyts.main module</a></li>
+<li><a class="reference internal" href="#module-pyts.misc">pyts.misc module</a></li>
+<li><a class="reference internal" href="#module-pyts.pyts_numpy">pyts.pyts_numpy module</a></li>
+<li><a class="reference internal" href="#module-pyts">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -1316,7 +1347,7 @@ In some cases z/L depends on the Turbulence model.</p>
                         title="previous chapter">Code Framework</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="pyts.cohereModels.html"
-                        title="next chapter">cohereModels Package</a></p>
+                        title="next chapter">pyts.cohereModels package</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/api/pyts.txt"
@@ -1352,17 +1383,17 @@ In some cases z/L depends on the Turbulence model.</p>
           <a href="../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="pyts.cohereModels.html" title="cohereModels Package"
+          <a href="pyts.cohereModels.html" title="pyts.cohereModels package"
              >next</a> |</li>
         <li class="right" >
           <a href="../code-framework.html" title="Code Framework"
              >previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

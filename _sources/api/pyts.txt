@@ -1,69 +1,5 @@
-pyts Package
+pyts package
 ============
-
-:mod:`pyts` Package
--------------------
-
-.. automodule:: pyts.__init__
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`_version` Module
-----------------------
-
-.. automodule:: pyts._version
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`api` Module
------------------
-
-.. automodule:: pyts.api
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`base` Module
-------------------
-
-.. automodule:: pyts.base
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`dbg` Module
------------------
-
-.. automodule:: pyts.dbg
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`main` Module
-------------------
-
-.. automodule:: pyts.main
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`misc` Module
-------------------
-
-.. automodule:: pyts.misc
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`pyts_numpy` Module
-------------------------
-
-.. automodule:: pyts.pyts_numpy
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 Subpackages
 -----------
@@ -80,3 +16,62 @@ Subpackages
     pyts.specModels
     pyts.stressModels
 
+Submodules
+----------
+
+pyts.api module
+---------------
+
+.. automodule:: pyts.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.base module
+----------------
+
+.. automodule:: pyts.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.dbg module
+---------------
+
+.. automodule:: pyts.dbg
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.main module
+----------------
+
+.. automodule:: pyts.main
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.misc module
+----------------
+
+.. automodule:: pyts.misc
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.pyts_numpy module
+----------------------
+
+.. automodule:: pyts.pyts_numpy
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: pyts
+    :members:
+    :undoc-members:
+    :show-inheritance:

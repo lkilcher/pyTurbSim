@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.runConfig.main &mdash; PyTurbSim 0.2 documentation</title>
+    <title>pyts.runConfig.main &mdash; PyTurbSim 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.2 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -43,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -86,6 +84,7 @@
 <span class="kn">from</span> <span class="nn">turbModels</span> <span class="kn">import</span> <span class="n">getModel</span> <span class="k">as</span> <span class="n">tm_getModel</span>
 <span class="kn">from</span> <span class="nn">profModels</span> <span class="kn">import</span> <span class="n">getModel</span> <span class="k">as</span> <span class="n">pm_getModel</span>
 
+
 <div class="viewcode-block" id="run_fname"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.main.run_fname">[docs]</a><span class="k">def</span> <span class="nf">run_fname</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform a PyTurbSim run based on the input file `fname`.</span>
@@ -100,8 +99,9 @@
 <span class="sd">    tsdata :    :class:`tsdata &lt;pyts.main.tsdata&gt;`</span>
 <span class="sd">                A PyTurbSim data object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">config</span><span class="o">=</span><span class="n">readConfig</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">readConfig</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">run</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
 </div>
 <div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.main.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -117,12 +117,13 @@
 <span class="sd">    tsdata :    :class:`tsdata &lt;pyts.main.tsdata&gt;`</span>
 <span class="sd">                A PyTurbSim data object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">tsr</span><span class="o">=</span><span class="n">cfg2tsrun</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">)</span>
-    <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">=</span><span class="n">cfg2grid</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">)</span>
-    
+    <span class="n">tsr</span> <span class="o">=</span> <span class="n">cfg2tsrun</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">)</span>
+    <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">cfg2grid</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">tsr</span><span class="p">()</span>
+
 </div>
-<div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.main.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">tsdat</span><span class="p">,</span><span class="n">tsconfig</span><span class="p">,</span><span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.main.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">tsdat</span><span class="p">,</span> <span class="n">tsconfig</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write TurbSim-output to a file.</span>
 
@@ -144,6 +145,7 @@
         <span class="n">tsdat</span><span class="o">.</span><span class="n">writeBladed</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;WrADFF&#39;</span><span class="p">]:</span>
         <span class="n">tsdat</span><span class="o">.</span><span class="n">writeAero</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
 </div>
 <div class="viewcode-block" id="cfg2grid"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.main.cfg2grid">[docs]</a><span class="k">def</span> <span class="nf">cfg2grid</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -159,13 +161,22 @@
 <span class="sd">    -------</span>
 <span class="sd">    tsgrid :    :class:`tsGrid &lt;pyts.base.tsGrid&gt;`</span>
 <span class="sd">                A PyTurbSim grid object.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">tsGrid</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;HubHt&#39;</span><span class="p">],</span><span class="n">ny</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;NumGrid_Y&#39;</span><span class="p">],</span><span class="n">nz</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;NumGrid_Z&#39;</span><span class="p">],</span><span class="n">width</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;GridWidth&#39;</span><span class="p">],</span><span class="n">height</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;GridHeight&#39;</span><span class="p">],</span><span class="n">time_sec</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;AnalysisTime&#39;</span><span class="p">],</span><span class="n">time_sec_out</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;UsableTime&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;GridWidth&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">],</span><span class="n">dt</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;TimeStep&#39;</span><span class="p">],</span><span class="n">clockwise</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;Clockwise&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">tsGrid</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;HubHt&#39;</span><span class="p">],</span>
+                  <span class="n">ny</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;NumGrid_Y&#39;</span><span class="p">],</span> <span class="n">nz</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;NumGrid_Z&#39;</span><span class="p">],</span>
+                  <span class="n">dt</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;TimeStep&#39;</span><span class="p">],</span>
+                  <span class="n">width</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;GridWidth&#39;</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;GridHeight&#39;</span><span class="p">],</span>
+                  <span class="n">time_sec</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;AnalysisTime&#39;</span><span class="p">],</span>
+                  <span class="n">time_sec_out</span><span class="o">=</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;UsableTime&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;GridWidth&#39;</span><span class="p">]</span>
+                                <span class="o">/</span> <span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">]),</span>
+                  <span class="n">clockwise</span><span class="o">=</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;Clockwise&#39;</span><span class="p">])</span>
+
 </div>
 <div class="viewcode-block" id="cfg2tsrun"><a class="viewcode-back" href="../../../api/pyts.runConfig.html#pyts.runConfig.main.cfg2tsrun">[docs]</a><span class="k">def</span> <span class="nf">cfg2tsrun</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Produce a `tsrun` object that matches the configuration options in tsconfig.</span>
+<span class="sd">    Produce a `tsrun` object that matches the configuration options in</span>
+<span class="sd">    tsconfig.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -181,14 +192,17 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">tsr</span><span class="o">=</span><span class="n">tsrun</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;RandSeed&#39;</span><span class="p">])</span>
-    
-    <span class="n">tsr</span><span class="o">.</span><span class="n">profModel</span><span class="o">=</span><span class="n">pm_getModel</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">)</span>
+    <span class="n">tsr</span> <span class="o">=</span> <span class="n">tsrun</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">[</span><span class="s">&#39;RandSeed&#39;</span><span class="p">])</span>
 
-    <span class="n">tsr</span><span class="o">.</span><span class="n">specModel</span><span class="p">,</span><span class="n">tsr</span><span class="o">.</span><span class="n">cohereModel</span><span class="p">,</span><span class="n">tsr</span><span class="o">.</span><span class="n">stressModel</span><span class="o">=</span><span class="n">tm_getModel</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">)</span>
+    <span class="n">tsr</span><span class="o">.</span><span class="n">profModel</span> <span class="o">=</span> <span class="n">pm_getModel</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">tsr</span>
-</pre></div></div>
+    <span class="n">tsr</span><span class="o">.</span><span class="n">specModel</span><span class="p">,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">cohereModel</span><span class="p">,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">stressModel</span> <span class="o">=</span> <span class="n">tm_getModel</span><span class="p">(</span><span class="n">tsconfig</span><span class="p">)</span>
+
+    <span class="c"># Store this for use when writing sum files.</span>
+    <span class="n">tsr</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">tsconfig</span>
+
+    <span class="k">return</span> <span class="n">tsr</span></div>
+</pre></div>
 
           </div>
         </div>
@@ -224,13 +238,13 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

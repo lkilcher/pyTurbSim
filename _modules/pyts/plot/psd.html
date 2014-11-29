@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.plot.psd &mdash; PyTurbSim 0.2 documentation</title>
+    <title>pyts.plot.psd &mdash; PyTurbSim 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.2 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -43,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,7 +54,8 @@
   <h1>Source code for pyts.plot.psd</h1><div class="highlight"><pre>
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="kn">as</span> <span class="nn">mpl</span>
 
-<div class="viewcode-block" id="psd"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.psd.psd">[docs]</a><span class="k">def</span> <span class="nf">psd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">sr</span><span class="p">,</span><span class="n">nfft</span><span class="p">):</span>
+
+<div class="viewcode-block" id="psd"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.psd.psd">[docs]</a><span class="k">def</span> <span class="nf">psd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">nfft</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function to compute the power spectral density (PSD) of a signal.</span>
 
@@ -71,14 +70,17 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    p : array_like</span>
-<span class="sd">        The power in the signal `u` as a function of frequency (units of u squared/units of sr)</span>
+<span class="sd">        The power in the signal `u` as a function of frequency (units</span>
+<span class="sd">        of u squared/units of sr)</span>
 <span class="sd">    f : array_like</span>
 <span class="sd">        Frequency (same units as sr).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">p</span><span class="p">,</span><span class="n">f</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">mlab</span><span class="o">.</span><span class="n">psd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="n">sr</span><span class="p">,</span><span class="n">detrend</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">pylab</span><span class="o">.</span><span class="n">detrend_linear</span><span class="p">,</span><span class="n">noverlap</span><span class="o">=</span><span class="n">nfft</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">f</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="mi">1</span><span class="p">:],</span><span class="n">p</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">p</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">mlab</span><span class="o">.</span><span class="n">psd</span><span class="p">(</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">detrend</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">pylab</span><span class="o">.</span><span class="n">detrend_linear</span><span class="p">,</span> <span class="n">noverlap</span><span class="o">=</span><span class="n">nfft</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
 </div>
-<div class="viewcode-block" id="coh"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.psd.coh">[docs]</a><span class="k">def</span> <span class="nf">coh</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span><span class="n">u2</span><span class="p">,</span><span class="n">sr</span><span class="p">,</span><span class="n">nfft</span><span class="p">):</span>
+<div class="viewcode-block" id="coh"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.psd.coh">[docs]</a><span class="k">def</span> <span class="nf">coh</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">nfft</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function to compute the coherence between two signals.</span>
 
@@ -95,12 +97,15 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    p : array_like</span>
-<span class="sd">        The coherence between the two signal (no units) as a function of frequency.</span>
+<span class="sd">        The coherence between the two signal (no units) as a function</span>
+<span class="sd">        of frequency.</span>
 <span class="sd">    f : array_like</span>
 <span class="sd">        Frequency (same units as sr).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">p</span><span class="p">,</span><span class="n">f</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">mlab</span><span class="o">.</span><span class="n">cohere</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span><span class="n">u2</span><span class="p">,</span><span class="n">nfft</span><span class="p">,</span><span class="n">sr</span><span class="p">,</span><span class="n">detrend</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">pylab</span><span class="o">.</span><span class="n">detrend_linear</span><span class="p">,</span><span class="n">noverlap</span><span class="o">=</span><span class="n">nfft</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">scale_by_freq</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">f</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="mi">1</span><span class="p">:],</span><span class="n">p</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="mi">1</span><span class="p">:]</span></div>
+    <span class="n">p</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">mlab</span><span class="o">.</span><span class="n">cohere</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span>
+                           <span class="n">detrend</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">pylab</span><span class="o">.</span><span class="n">detrend_linear</span><span class="p">,</span>
+                           <span class="n">noverlap</span><span class="o">=</span><span class="n">nfft</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">scale_by_freq</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span></div>
 </pre></div>
 
           </div>
@@ -137,13 +142,13 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

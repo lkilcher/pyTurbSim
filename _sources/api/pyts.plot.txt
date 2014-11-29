@@ -1,67 +1,54 @@
-plot Package
-============
+pyts.plot package
+=================
 
-:mod:`plot` Package
--------------------
+Submodules
+----------
 
-.. automodule:: pyts.plot
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`api` Module
------------------
+pyts.plot.api module
+--------------------
 
 .. automodule:: pyts.plot.api
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`axform` Module
---------------------
+pyts.plot.axform module
+-----------------------
 
 .. automodule:: pyts.plot.axform
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`base` Module
-------------------
+pyts.plot.base module
+---------------------
 
 .. automodule:: pyts.plot.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`basefuncs` Module
------------------------
-
-.. automodule:: pyts.plot.basefuncs
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`dep` Module
------------------
-
-.. automodule:: pyts.plot.dep
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`psd` Module
------------------
+pyts.plot.psd module
+--------------------
 
 .. automodule:: pyts.plot.psd
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`superaxes` Module
------------------------
+pyts.plot.superaxes module
+--------------------------
 
 .. automodule:: pyts.plot.superaxes
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: pyts.plot
+    :members:
+    :undoc-members:
+    :show-inheritance:

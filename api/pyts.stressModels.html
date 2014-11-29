@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>stressModels Package &mdash; PyTurbSim 0.2 documentation</title>
+    <title>pyts.stressModels package &mdash; PyTurbSim 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,10 +25,10 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.2 documentation" href="../index.html" />
-    <link rel="up" title="pyts Package" href="pyts.html" />
+    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../index.html" />
+    <link rel="up" title="pyts package" href="pyts.html" />
     <link rel="next" title="Glossary" href="../glossary.html" />
-    <link rel="prev" title="specModels Package" href="pyts.specModels.html" /> 
+    <link rel="prev" title="pyts.specModels package" href="pyts.specModels.html" /> 
   </head>
   <body>
     <div class="related">
@@ -49,10 +47,10 @@
           <a href="../glossary.html" title="Glossary"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="pyts.specModels.html" title="specModels Package"
+          <a href="pyts.specModels.html" title="pyts.specModels package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
-          <li><a href="pyts.html" accesskey="U">pyts Package</a> &raquo;</li> 
+        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+          <li><a href="pyts.html" accesskey="U">pyts package</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -61,20 +59,13 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="stressmodels-package">
-<h1>stressModels Package<a class="headerlink" href="#stressmodels-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2><tt class="xref py py-mod docutils literal"><span class="pre">stressModels</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-pyts.stressModels"></span><p>This is the PyTurbSim &#8216;stress models&#8217; package.</p>
-<p>For more information or to use this package import the stressModels.api
-package, e.g.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyts.stressModels.api</span> <span class="kn">as</span> <span class="nn">rm</span>
-</pre></div>
-</div>
-<p><strong>Currently the stress package does not function properly, unless no coherence is used.  Fixing this is near the top of the list of things to repair in PyTurbSim.</strong></p>
+  <div class="section" id="pyts-stressmodels-package">
+<h1>pyts.stressModels package<a class="headerlink" href="#pyts-stressmodels-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-pyts.stressModels.api">
-<span id="api-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">api</span></tt> Module<a class="headerlink" href="#module-pyts.stressModels.api" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-stressmodels-api-module"></span><h2>pyts.stressModels.api module<a class="headerlink" href="#module-pyts.stressModels.api" title="Permalink to this headline">¶</a></h2>
 <p>PyTurbSim &#8216;Reynold&#8217;s stress models&#8217; package.</p>
 <p>The Reynold&#8217;s stress quantifies correlations betweens turbulent
 velocity components. It has three components: &lt;u&#8217;v&#8217;&gt;, &lt;u&#8217;w&#8217;&gt; and
@@ -120,7 +111,7 @@ pyts.main.tsrun):</p>
 </div>
 </div>
 <div class="section" id="module-pyts.stressModels.hydro">
-<span id="hydro-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hydro</span></tt> Module<a class="headerlink" href="#module-pyts.stressModels.hydro" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-stressmodels-hydro-module"></span><h2>pyts.stressModels.hydro module<a class="headerlink" href="#module-pyts.stressModels.hydro" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyts.stressModels.hydro.tidal">
 <em class="property">class </em><tt class="descclassname">pyts.stressModels.hydro.</tt><tt class="descname">tidal</tt><big>(</big><em>Ustar</em>, <em>Zref</em><big>)</big><a class="reference internal" href="../_modules/pyts/stressModels/hydro.html#tidal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.stressModels.hydro.tidal" title="Permalink to this definition">¶</a></dt>
@@ -130,7 +121,7 @@ pyts.main.tsrun):</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Ustar</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Ustar</strong> : float</p>
 <blockquote>
 <div><p>The friction velocity at the bottom boundary (aka <span class="math">\(U_*\)</span>).</p>
 </div></blockquote>
@@ -156,13 +147,13 @@ instance.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>tsrun</strong> :         <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsrun</strong> :         <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a></p>
 <blockquote>
 <div><p>A TurbSim run object.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> :           <a class="reference internal" href="pyts.specModels.html#pyts.specModels.mBase.specObj" title="pyts.specModels.mBase.specObj"><tt class="xref py py-class docutils literal"><span class="pre">stressObj</span></tt></a></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> :           <a class="reference internal" href="pyts.specModels.html#pyts.specModels.mBase.specObj" title="pyts.specModels.mBase.specObj"><tt class="xref py py-class docutils literal"><span class="pre">stressObj</span></tt></a></p>
 <blockquote class="last">
 <div><p>A stress object for the grid in <cite>tsrun</cite>.</p>
 </div></blockquote>
@@ -176,7 +167,7 @@ instance.</p>
 
 </div>
 <div class="section" id="module-pyts.stressModels.mBase">
-<span id="mbase-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">mBase</span></tt> Module<a class="headerlink" href="#module-pyts.stressModels.mBase" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-stressmodels-mbase-module"></span><h2>pyts.stressModels.mBase module<a class="headerlink" href="#module-pyts.stressModels.mBase" title="Permalink to this headline">¶</a></h2>
 <p>This is the stress package&#8217;s base module.</p>
 <p>produce estimates of Reynold&#8217;s
 stress</p>
@@ -241,7 +232,7 @@ for the given turbulence model).</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>A 3 x n_z x n_y boolean array.</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>A 3 x n_z x n_y boolean array.</strong> :</p>
 <p><strong>There are three criteria for each point in the grid.  They are listed here by their index in the array:</strong> :</p>
 <blockquote>
 <div><ol class="arabic simple" start="0">
@@ -276,7 +267,7 @@ for the given turbulence model).</p>
 
 </div>
 <div class="section" id="module-pyts.stressModels.main">
-<span id="main-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">main</span></tt> Module<a class="headerlink" href="#module-pyts.stressModels.main" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-stressmodels-main-module"></span><h2>pyts.stressModels.main module<a class="headerlink" href="#module-pyts.stressModels.main" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyts.stressModels.main.uniform">
 <em class="property">class </em><tt class="descclassname">pyts.stressModels.main.</tt><tt class="descname">uniform</tt><big>(</big><em>upvp_=0.0</em>, <em>upwp_=0.0</em>, <em>vpwp_=0.0</em><big>)</big><a class="reference internal" href="../_modules/pyts/stressModels/main.html#uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.stressModels.main.uniform" title="Permalink to this definition">¶</a></dt>
@@ -288,7 +279,7 @@ values are uniform in space.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>upvp_</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>upvp_</strong> : float</p>
 <blockquote>
 <div><p>The u&#8217;v&#8217; component of Reynold&#8217;s stress.</p>
 </div></blockquote>
@@ -313,13 +304,13 @@ instance.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>tsrun</strong> :         <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsrun</strong> :         <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a></p>
 <blockquote>
 <div><p>A TurbSim run object.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> :           <a class="reference internal" href="pyts.specModels.html#pyts.specModels.mBase.specObj" title="pyts.specModels.mBase.specObj"><tt class="xref py py-class docutils literal"><span class="pre">stressObj</span></tt></a></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> :           <a class="reference internal" href="pyts.specModels.html#pyts.specModels.mBase.specObj" title="pyts.specModels.mBase.specObj"><tt class="xref py py-class docutils literal"><span class="pre">stressObj</span></tt></a></p>
 <blockquote class="last">
 <div><p>A stress object for the grid in <cite>tsrun</cite>.</p>
 </div></blockquote>
@@ -333,7 +324,7 @@ instance.</p>
 
 </div>
 <div class="section" id="module-pyts.stressModels.stress_freq">
-<span id="stress-freq-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">stress_freq</span></tt> Module<a class="headerlink" href="#module-pyts.stressModels.stress_freq" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-stressmodels-stress-freq-module"></span><h2>pyts.stressModels.stress_freq module<a class="headerlink" href="#module-pyts.stressModels.stress_freq" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyts.stressModels.stress_freq.stressModelBase_f">
 <em class="property">class </em><tt class="descclassname">pyts.stressModels.stress_freq.</tt><tt class="descname">stressModelBase_f</tt><a class="reference internal" href="../_modules/pyts/stressModels/stress_freq.html#stressModelBase_f"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.stressModels.stress_freq.stressModelBase_f" title="Permalink to this definition">¶</a></dt>
@@ -341,6 +332,16 @@ instance.</p>
 <p>A stress-model base-class that supports setting the stress by controlling the frequency-dependent coherence between velocity components.</p>
 </dd></dl>
 
+</div>
+<div class="section" id="module-pyts.stressModels">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyts.stressModels" title="Permalink to this headline">¶</a></h2>
+<p>This is the PyTurbSim &#8216;stress models&#8217; package.</p>
+<p>For more information or to use this package import the stressModels.api
+package, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyts.stressModels.api</span> <span class="kn">as</span> <span class="nn">rm</span>
+</pre></div>
+</div>
+<p><strong>Currently the stress package does not function properly, unless no coherence is used.  Fixing this is near the top of the list of things to repair in PyTurbSim.</strong></p>
 </div>
 </div>
 
@@ -352,25 +353,26 @@ instance.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">stressModels Package</a><ul>
-<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">stressModels</span></tt> Package</a></li>
-<li><a class="reference internal" href="#module-pyts.stressModels.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a><ul>
+<li><a class="reference internal" href="#">pyts.stressModels package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyts.stressModels.api">pyts.stressModels.api module</a><ul>
 <li><a class="reference internal" href="#available-stress-models">Available stress models:</a></li>
 <li><a class="reference internal" href="#example-usage">Example usage</a></li>
 <li><a class="reference internal" href="#see-also">See also</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyts.stressModels.hydro"><tt class="docutils literal"><span class="pre">hydro</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.stressModels.mBase"><tt class="docutils literal"><span class="pre">mBase</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.stressModels.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.stressModels.stress_freq"><tt class="docutils literal"><span class="pre">stress_freq</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-pyts.stressModels.hydro">pyts.stressModels.hydro module</a></li>
+<li><a class="reference internal" href="#module-pyts.stressModels.mBase">pyts.stressModels.mBase module</a></li>
+<li><a class="reference internal" href="#module-pyts.stressModels.main">pyts.stressModels.main module</a></li>
+<li><a class="reference internal" href="#module-pyts.stressModels.stress_freq">pyts.stressModels.stress_freq module</a></li>
+<li><a class="reference internal" href="#module-pyts.stressModels">Module contents</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="pyts.specModels.html"
-                        title="previous chapter">specModels Package</a></p>
+                        title="previous chapter">pyts.specModels package</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="../glossary.html"
                         title="next chapter">Glossary</a></p>
@@ -412,15 +414,15 @@ instance.</p>
           <a href="../glossary.html" title="Glossary"
              >next</a> |</li>
         <li class="right" >
-          <a href="pyts.specModels.html" title="specModels Package"
+          <a href="pyts.specModels.html" title="pyts.specModels package"
              >previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
-          <li><a href="pyts.html" >pyts Package</a> &raquo;</li> 
+        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+          <li><a href="pyts.html" >pyts package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

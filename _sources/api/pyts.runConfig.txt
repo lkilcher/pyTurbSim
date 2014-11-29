@@ -1,43 +1,46 @@
-runConfig Package
-=================
+pyts.runConfig package
+======================
 
-:mod:`runConfig` Package
-------------------------
+Submodules
+----------
 
-.. automodule:: pyts.runConfig
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`base` Module
-------------------
+pyts.runConfig.base module
+--------------------------
 
 .. automodule:: pyts.runConfig.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`main` Module
-------------------
+pyts.runConfig.main module
+--------------------------
 
 .. automodule:: pyts.runConfig.main
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`profModels` Module
-------------------------
+pyts.runConfig.profModels module
+--------------------------------
 
 .. automodule:: pyts.runConfig.profModels
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`turbModels` Module
-------------------------
+pyts.runConfig.turbModels module
+--------------------------------
 
 .. automodule:: pyts.runConfig.turbModels
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: pyts.runConfig
+    :members:
+    :undoc-members:
+    :show-inheritance:

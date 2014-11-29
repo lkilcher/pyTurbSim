@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Download and Install &mdash; PyTurbSim 0.2 documentation</title>
+    <title>Download and Install &mdash; PyTurbSim 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     '0.2',
+        URL_ROOT:    './',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="PyTurbSim 0.2 documentation" href="index.html" />
+    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="index.html" />
     <link rel="next" title="Usage" href="usage.html" />
     <link rel="prev" title="About" href="about.html" /> 
   </head>
@@ -50,7 +48,7 @@
         <li class="right" >
           <a href="about.html" title="About"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PyTurbSim 0.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -61,29 +59,35 @@
             
   <div class="section" id="download-and-install">
 <span id="install"></span><h1>Download and Install<a class="headerlink" href="#download-and-install" title="Permalink to this headline">¶</a></h1>
-<dl class="docutils">
-<dt>PyTurbSim can be installed in several different ways depending on your system.  At the most general level, assuming you have Python and NumPy installed, you should be able to simply download PyTurbSim from the repository (<a class="reference external" href="http://github.com/lkilcher/pyTurbSim">http://github.com/lkilcher/pyTurbSim</a>). For example, if git is installed, you can::</dt>
-<dd>$ git clone <a class="reference external" href="http://github.com/lkilcher/pyTurbSim">http://github.com/lkilcher/pyTurbSim</a> &lt;download_location&gt;</dd>
-</dl>
+<p>PyTurbSim is built primarily in Python, makes heavy use of the NumPy Python package, and has a small set of Fortran libraries. Therefore, prior to installing PyTurbSim you will first need to install,</p>
+<ol class="arabic simple">
+<li>A functioning Python 2.7 installation (with pip),</li>
+<li>A Fortran compiler,</li>
+<li><a class="reference external" href="http://www.numpy.org">Numpy</a> &gt;=1.6.</li>
+</ol>
+<p>If you have not already installed these tools, doing so may be the difficult part of installing PyTurbSim. Most Linux/Unix/posix distributions provide binary packages that make it relatively easy to installing these tools. For Microsoft windows I recommend installing a Python package that includes all three of these tools (e.g. <a class="reference external" href="http://code.google.com/p/pythonxy/">Python(X,Y)</a>) because they will <em>hopefully</em> be configured to function together seamlessly. On OSX (Mavericks) I have successfully installed these tools using <a class="reference external" href="http://brew.sh">Homebrew</a>.</p>
+<p>Once these tools have been successfully installed, PyTurbSim can be installed from a command line using pip:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ pip install PyTurbSim
+</pre></div>
+</div>
+<p>That should do it!  For information on how to use PyTurbSim consult the <a class="reference internal" href="usage.html"><em>Usage</em></a> page.</p>
+<div class="section" id="installing-without-pip">
+<h2>Installing without pip<a class="headerlink" href="#installing-without-pip" title="Permalink to this headline">¶</a></h2>
+<p>If the above-mentioned one-liner does not work (e.g. because your version of Python does not include pip), you can also simply download and install PyTurbSim from the source repository (<a class="reference external" href="http://github.com/lkilcher/pyTurbSim">http://github.com/lkilcher/pyTurbSim</a>). For example, if git is installed, you can:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git clone http://github.com/lkilcher/pyTurbSim &lt;download_location&gt;
+</pre></div>
+</div>
 <p>If <cite>&lt;download_location&gt;</cite> is not specified, the repository will be created in the current directory in a new <cite>pyTurbSim</cite> folder. Once you have downloaded PyTurbSim, you may either:</p>
 <ol class="loweralpha">
 <li><p class="first">install it into your Python packages repository by executing the setup.py script:</p>
-<div class="highlight-python"><pre>$ cd &lt;download_location&gt;
-$ python setup.py install</pre>
+<div class="highlight-python"><div class="highlight"><pre>$ cd &lt;download_location&gt;
+$ python setup.py install
+</pre></div>
 </div>
 </li>
 <li><p class="first">use it out of <cite>&lt;download_location&gt;</cite>.</p>
 </li>
 </ol>
-<p>For information on how to use PyTurbSim consult the <a class="reference internal" href="usage.html"><em>Usage</em></a> page.
-For more specific guidance on installing PyTurbSim, see below...</p>
-<div class="section" id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>PyTurbSim is known to work with Python 2.7 and numpy 1.6.</li>
-<li>The gui (gTurbSim) also requires wxPython (2.8).</li>
-<li>gfortran is required to compile tslib (the setup.py file does this). In MS Windows try installing <a class="reference external" href="http://www.mingw.org/">MinGW</a>.</li>
-</ul>
 </div>
 </div>
 
@@ -96,7 +100,7 @@ For more specific guidance on installing PyTurbSim, see below...</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Download and Install</a><ul>
-<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li><a class="reference internal" href="#installing-without-pip">Installing without pip</a></li>
 </ul>
 </li>
 </ul>
@@ -147,12 +151,12 @@ For more specific guidance on installing PyTurbSim, see below...</p>
         <li class="right" >
           <a href="about.html" title="About"
              >previous</a> |</li>
-        <li><a href="index.html">PyTurbSim 0.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

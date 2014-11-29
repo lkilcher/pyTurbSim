@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to PyTurbSim’s home page! &mdash; PyTurbSim 0.2 documentation</title>
+    <title>Welcome to PyTurbSim’s home page! &mdash; PyTurbSim 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     '0.2',
+        URL_ROOT:    './',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="PyTurbSim 0.2 documentation" href="#" />
+    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="#" />
     <link rel="next" title="About" href="about.html" /> 
   </head>
   <body>
@@ -46,7 +44,7 @@
         <li class="right" >
           <a href="about.html" title="About"
              accesskey="N">next</a> |</li>
-        <li><a href="#">PyTurbSim 0.2 documentation</a> &raquo;</li> 
+        <li><a href="#">PyTurbSim 0.3.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -83,7 +81,7 @@ to targets and/or data are included.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Download and Install</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="install.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#installing-without-pip">Installing without pip</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
@@ -103,27 +101,27 @@ to targets and/or data are included.</p>
 <li class="toctree-l2"><a class="reference internal" href="code-framework.html#customizing-pyturbsim">Customizing PyTurbSim</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api/pyts.html">pyts Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#id1"><tt class="docutils literal"><span class="pre">pyts</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts._version"><tt class="docutils literal"><span class="pre">_version</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.api"><tt class="docutils literal"><span class="pre">api</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.dbg"><tt class="docutils literal"><span class="pre">dbg</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.misc"><tt class="docutils literal"><span class="pre">misc</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.pyts_numpy"><tt class="docutils literal"><span class="pre">pyts_numpy</span></tt> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/pyts.html">pyts package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/pyts.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/pyts.cohereModels.html">cohereModels Package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/pyts.gui.html">gui Package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/pyts.io.html">io Package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/pyts.phaseModels.html">phaseModels Package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/pyts.plot.html">plot Package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/pyts.profModels.html">profModels Package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/pyts.runConfig.html">runConfig Package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/pyts.specModels.html">specModels Package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/pyts.stressModels.html">stressModels Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/pyts.cohereModels.html">pyts.cohereModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/pyts.gui.html">pyts.gui package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/pyts.io.html">pyts.io package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/pyts.phaseModels.html">pyts.phaseModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/pyts.plot.html">pyts.plot package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/pyts.profModels.html">pyts.profModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/pyts.runConfig.html">pyts.runConfig package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/pyts.specModels.html">pyts.specModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/pyts.stressModels.html">pyts.stressModels package</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.api">pyts.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.base">pyts.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.dbg">pyts.dbg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.main">pyts.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.misc">pyts.misc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.pyts_numpy">pyts.pyts_numpy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
@@ -166,9 +164,7 @@ dimension.</p>
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Welcome to PyTurbSim&#8217;s home page!</a></li>
-<li><a class="reference internal" href="#table-of-contents">Table of Contents</a><ul>
-</ul>
-</li>
+<li><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
 <li><a class="reference internal" href="#indices-tables-and-notes">Indices, tables and notes</a></li>
 </ul>
 
@@ -212,12 +208,12 @@ dimension.</p>
         <li class="right" >
           <a href="about.html" title="About"
              >next</a> |</li>
-        <li><a href="#">PyTurbSim 0.2 documentation</a> &raquo;</li> 
+        <li><a href="#">PyTurbSim 0.3.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

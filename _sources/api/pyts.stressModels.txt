@@ -1,51 +1,54 @@
-stressModels Package
-====================
+pyts.stressModels package
+=========================
 
-:mod:`stressModels` Package
----------------------------
+Submodules
+----------
 
-.. automodule:: pyts.stressModels
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`api` Module
------------------
+pyts.stressModels.api module
+----------------------------
 
 .. automodule:: pyts.stressModels.api
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`hydro` Module
--------------------
+pyts.stressModels.hydro module
+------------------------------
 
 .. automodule:: pyts.stressModels.hydro
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`mBase` Module
--------------------
+pyts.stressModels.mBase module
+------------------------------
 
 .. automodule:: pyts.stressModels.mBase
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`main` Module
-------------------
+pyts.stressModels.main module
+-----------------------------
 
 .. automodule:: pyts.stressModels.main
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`stress_freq` Module
--------------------------
+pyts.stressModels.stress_freq module
+------------------------------------
 
 .. automodule:: pyts.stressModels.stress_freq
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: pyts.stressModels
+    :members:
+    :undoc-members:
+    :show-inheritance:

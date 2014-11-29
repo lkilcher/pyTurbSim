@@ -1,51 +1,70 @@
-io Package
-==========
+pyts.io package
+===============
 
-:mod:`io` Package
------------------
+Submodules
+----------
 
-.. automodule:: pyts.io
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`aerodyn` Module
----------------------
+pyts.io.aerodyn module
+----------------------
 
 .. automodule:: pyts.io.aerodyn
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`base` Module
-------------------
+pyts.io.base module
+-------------------
 
 .. automodule:: pyts.io.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`bladed` Module
---------------------
+pyts.io.bladed module
+---------------------
 
 .. automodule:: pyts.io.bladed
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`config` Module
---------------------
+pyts.io.config module
+---------------------
 
 .. automodule:: pyts.io.config
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`main` Module
-------------------
+pyts.io.formatter module
+------------------------
+
+.. automodule:: pyts.io.formatter
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.io.main module
+-------------------
 
 .. automodule:: pyts.io.main
     :members:
     :undoc-members:
     :show-inheritance:
 
+pyts.io.sum module
+------------------
+
+.. automodule:: pyts.io.sum
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: pyts.io
+    :members:
+    :undoc-members:
+    :show-inheritance:

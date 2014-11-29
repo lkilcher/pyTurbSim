@@ -1,35 +1,38 @@
-phaseModels Package
-===================
+pyts.phaseModels package
+========================
 
-:mod:`phaseModels` Package
---------------------------
+Submodules
+----------
 
-.. automodule:: pyts.phaseModels
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`api` Module
------------------
+pyts.phaseModels.api module
+---------------------------
 
 .. automodule:: pyts.phaseModels.api
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`mBase` Module
--------------------
+pyts.phaseModels.mBase module
+-----------------------------
 
 .. automodule:: pyts.phaseModels.mBase
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`main` Module
-------------------
+pyts.phaseModels.main module
+----------------------------
 
 .. automodule:: pyts.phaseModels.main
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: pyts.phaseModels
+    :members:
+    :undoc-members:
+    :show-inheritance:

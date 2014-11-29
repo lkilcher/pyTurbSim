@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.io.main &mdash; PyTurbSim 0.2 documentation</title>
+    <title>pyts.io.main &mdash; PyTurbSim 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.2 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -43,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -60,20 +58,22 @@
 <span class="sd">TurbSim input/output files.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">bladed</span><span class="o">,</span><span class="nn">aerodyn</span>
+<span class="kn">import</span> <span class="nn">bladed</span>
+<span class="kn">import</span> <span class="nn">aerodyn</span>
 <span class="kn">import</span> <span class="nn">config</span> <span class="kn">as</span> <span class="nn">cfg_io</span>
 <span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="n">convname</span>
 <span class="kn">from</span> <span class="nn">..main</span> <span class="kn">import</span> <span class="n">tsdata</span>
 <span class="kn">from</span> <span class="nn">..runConfig</span> <span class="kn">import</span> <span class="n">main</span> <span class="k">as</span> <span class="n">runConfig</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="n">readers</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;wnd&#39;</span><span class="p">:</span><span class="n">bladed</span><span class="o">.</span><span class="n">read</span><span class="p">,</span>
-         <span class="s">&#39;bl&#39;</span><span class="p">:</span><span class="n">bladed</span><span class="o">.</span><span class="n">read</span><span class="p">,</span>
-         <span class="s">&#39;bts&#39;</span><span class="p">:</span><span class="n">aerodyn</span><span class="o">.</span><span class="n">read</span><span class="p">,}</span>
+<span class="n">readers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;wnd&#39;</span><span class="p">:</span> <span class="n">bladed</span><span class="o">.</span><span class="n">read</span><span class="p">,</span>
+           <span class="s">&#39;bl&#39;</span><span class="p">:</span> <span class="n">bladed</span><span class="o">.</span><span class="n">read</span><span class="p">,</span>
+           <span class="s">&#39;bts&#39;</span><span class="p">:</span> <span class="n">aerodyn</span><span class="o">.</span><span class="n">read</span><span class="p">,</span> <span class="p">}</span>
 
-<div class="viewcode-block" id="readModel"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.main.readModel">[docs]</a><span class="k">def</span> <span class="nf">readModel</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">inp_fname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="readModel"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.main.readModel">[docs]</a><span class="k">def</span> <span class="nf">readModel</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">inp_fname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Read a TurbSim data and input file and return a </span>
+<span class="sd">    Read a TurbSim data and input file and return a</span>
 <span class="sd">    :class:`tsdata &lt;pyts.main.tsdata&gt;` data object.</span>
 
 <span class="sd">    Parameters</span>
@@ -82,7 +82,7 @@
 <span class="sd">            The filename to load.  If `fname` ends in .inp, it reads</span>
 <span class="sd">            this input file, and searches for a binary file that can</span>
 <span class="sd">            be read (throws error if none is found). Otherwise,</span>
-<span class="sd">            </span>
+
 <span class="sd">    inp_fname : str, optional</span>
 <span class="sd">                The input file name to associate with the data-file</span>
 <span class="sd">                `fname`.</span>
@@ -94,49 +94,55 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    </span>
+
 <span class="sd">    If `fname` is a filetype that can be read, it reads that file and</span>
 <span class="sd">    the associated .inp file.</span>
 
 <span class="sd">    In other words::</span>
 <span class="sd">      tsdat=readModel(&#39;TurbSim.inp&#39;)</span>
-<span class="sd">      </span>
+
 <span class="sd">    and::</span>
 <span class="sd">      tsdat=readModel(&#39;TurbSim.bts&#39;)</span>
-<span class="sd">    </span>
+
 <span class="sd">    Do essentially the same thing.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.inp&#39;</span><span class="p">):</span>
-        <span class="n">config</span><span class="o">=</span><span class="n">cfg_io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-        <span class="n">foundfile</span><span class="o">=</span><span class="bp">False</span>
-        <span class="k">for</span> <span class="n">sfx</span><span class="p">,</span><span class="n">rdr</span> <span class="ow">in</span> <span class="n">readers</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
-            <span class="n">fnm</span><span class="o">=</span><span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">sfx</span><span class="p">)</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">cfg_io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="n">foundfile</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="k">for</span> <span class="n">sfx</span><span class="p">,</span> <span class="n">rdr</span> <span class="ow">in</span> <span class="n">readers</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">fnm</span> <span class="o">=</span> <span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">sfx</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fnm</span><span class="p">):</span>
-                <span class="n">foundfile</span><span class="o">=</span><span class="bp">True</span>
-                <span class="n">utmp</span><span class="o">=</span><span class="n">rdr</span><span class="p">(</span><span class="n">fnm</span><span class="p">)</span>
+                <span class="n">foundfile</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">utmp</span> <span class="o">=</span> <span class="n">rdr</span><span class="p">(</span><span class="n">fnm</span><span class="p">)</span>
                 <span class="k">break</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">foundfile</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;TurbSim output file not found. Run pyTurbSim on the input file </span><span class="si">%s</span><span class="s">, before loading...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;TurbSim output file not found. Run pyTurbSim </span><span class="se">\</span>
+<span class="s">            on the input file </span><span class="si">%s</span><span class="s">, before loading...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">inp_fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">config</span><span class="o">=</span><span class="n">cfg_io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s">&#39;inp&#39;</span><span class="p">))</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">cfg_io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;inp&#39;</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">config</span><span class="o">=</span><span class="n">cfg_io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">inp_fname</span><span class="p">)</span>
-        <span class="n">sfx</span><span class="o">=</span><span class="n">fname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">readers</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">sfx</span><span class="p">):</span>
-            <span class="n">rdr</span><span class="o">=</span><span class="n">readers</span><span class="p">[</span><span class="n">sfx</span><span class="p">]</span>
-            <span class="n">utmp</span><span class="o">=</span><span class="n">rdr</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">cfg_io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">inp_fname</span><span class="p">)</span>
+
+        <span class="n">sfx</span> <span class="o">=</span> <span class="n">fname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">sfx</span> <span class="ow">in</span> <span class="n">readers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">rdr</span> <span class="o">=</span> <span class="n">readers</span><span class="p">[</span><span class="n">sfx</span><span class="p">]</span>
+            <span class="n">utmp</span> <span class="o">=</span> <span class="n">rdr</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;No reader for this file type.&#39;</span><span class="p">)</span>
-    <span class="n">umn</span><span class="o">=</span><span class="n">utmp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">utmp</span><span class="o">-=</span><span class="n">umn</span><span class="p">[:,:,:,</span><span class="bp">None</span><span class="p">]</span>
-    
-    <span class="n">out</span><span class="o">=</span><span class="n">tsdata</span><span class="p">(</span><span class="n">runConfig</span><span class="o">.</span><span class="n">cfg2grid</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
-    <span class="n">out</span><span class="o">.</span><span class="n">uturb</span><span class="o">=</span><span class="n">utmp</span>
-    <span class="n">out</span><span class="o">.</span><span class="n">uprof</span><span class="o">=</span><span class="n">umn</span>
-    <span class="k">return</span> <span class="n">out</span>
-</pre></div></div>
+
+    <span class="n">umn</span> <span class="o">=</span> <span class="n">utmp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">utmp</span> <span class="o">-=</span> <span class="n">umn</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="bp">None</span><span class="p">]</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">tsdata</span><span class="p">(</span><span class="n">runConfig</span><span class="o">.</span><span class="n">cfg2grid</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">uturb</span> <span class="o">=</span> <span class="n">utmp</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">uprof</span> <span class="o">=</span> <span class="n">umn</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+</pre></div>
 
           </div>
         </div>
@@ -172,13 +178,13 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

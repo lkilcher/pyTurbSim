@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>io Package &mdash; PyTurbSim 0.2 documentation</title>
+    <title>pyts.io package &mdash; PyTurbSim 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,10 +25,10 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.2 documentation" href="../index.html" />
-    <link rel="up" title="pyts Package" href="pyts.html" />
-    <link rel="next" title="phaseModels Package" href="pyts.phaseModels.html" />
-    <link rel="prev" title="gui Package" href="pyts.gui.html" /> 
+    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../index.html" />
+    <link rel="up" title="pyts package" href="pyts.html" />
+    <link rel="next" title="pyts.phaseModels package" href="pyts.phaseModels.html" />
+    <link rel="prev" title="pyts.gui package" href="pyts.gui.html" /> 
   </head>
   <body>
     <div class="related">
@@ -46,13 +44,13 @@
           <a href="../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="pyts.phaseModels.html" title="phaseModels Package"
+          <a href="pyts.phaseModels.html" title="pyts.phaseModels package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="pyts.gui.html" title="gui Package"
+          <a href="pyts.gui.html" title="pyts.gui package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
-          <li><a href="pyts.html" accesskey="U">pyts Package</a> &raquo;</li> 
+        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+          <li><a href="pyts.html" accesskey="U">pyts package</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -61,15 +59,13 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="io-package">
-<h1>io Package<a class="headerlink" href="#io-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2><tt class="xref py py-mod docutils literal"><span class="pre">io</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-pyts.io"></span><p>This is the PyTurbSim input/output package. It contains modules for
-reading/writing PyTurbSim input/data from/to disk.</p>
+  <div class="section" id="pyts-io-package">
+<h1>pyts.io package<a class="headerlink" href="#pyts-io-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-pyts.io.aerodyn">
-<span id="aerodyn-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">aerodyn</span></tt> Module<a class="headerlink" href="#module-pyts.io.aerodyn" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-io-aerodyn-module"></span><h2>pyts.io.aerodyn module<a class="headerlink" href="#module-pyts.io.aerodyn" title="Permalink to this headline">¶</a></h2>
 <p>This module is for reading/writing PyTurbSim data objects to
 TurbSim/Aerodyn format binary files.</p>
 <p>The functions in this module were translated directly from the
@@ -82,13 +78,13 @@ original TSsubs.f90 file.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
 <blockquote>
 <div><p>The filename from which to read the data.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>tsdata</strong> : array_like</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>tsdata</strong> : array_like</p>
 <blockquote class="last">
 <div><p>An array of the turbulence data. !This needs to be fixed to be a tsdata object!</p>
 </div></blockquote>
@@ -106,7 +102,7 @@ original TSsubs.f90 file.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
 <blockquote>
 <div><p>the filename to which the data should be written.</p>
 </div></blockquote>
@@ -122,7 +118,7 @@ original TSsubs.f90 file.</p>
 
 </div>
 <div class="section" id="module-pyts.io.base">
-<span id="base-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">base</span></tt> Module<a class="headerlink" href="#module-pyts.io.base" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-io-base-module"></span><h2>pyts.io.base module<a class="headerlink" href="#module-pyts.io.base" title="Permalink to this headline">¶</a></h2>
 <p>A base module for the io package.</p>
 <dl class="function">
 <dt id="pyts.io.base.convname">
@@ -132,7 +128,7 @@ original TSsubs.f90 file.</p>
 
 </div>
 <div class="section" id="module-pyts.io.bladed">
-<span id="bladed-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">bladed</span></tt> Module<a class="headerlink" href="#module-pyts.io.bladed" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-io-bladed-module"></span><h2>pyts.io.bladed module<a class="headerlink" href="#module-pyts.io.bladed" title="Permalink to this headline">¶</a></h2>
 <p>This module is for reading/writing PyTurbSim data objects to
 Bladed (Trademark: GL Garrad-Hassan) format binary files.</p>
 <p>The functions in this module were translated directly from the
@@ -145,13 +141,13 @@ original TSsubs.f90 file.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
 <blockquote>
 <div><p>The filename from which to read the data.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>tsdat</strong> : array_like</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>tsdat</strong> : array_like</p>
 <blockquote class="last">
 <div><p>An array of the TurbSim-simulated turbulence data.</p>
 </div></blockquote>
@@ -169,7 +165,7 @@ original TSsubs.f90 file.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
 <blockquote>
 <div><p>The filename to which the data should be written.</p>
 </div></blockquote>
@@ -185,8 +181,21 @@ original TSsubs.f90 file.</p>
 
 </div>
 <div class="section" id="module-pyts.io.config">
-<span id="config-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">config</span></tt> Module<a class="headerlink" href="#module-pyts.io.config" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-io-config-module"></span><h2>pyts.io.config module<a class="headerlink" href="#module-pyts.io.config" title="Permalink to this headline">¶</a></h2>
 <p>This module is for reading/writing PyTurbSim config (.inp) files.</p>
+<dl class="class">
+<dt id="pyts.io.config.InputFormatter">
+<em class="property">class </em><tt class="descclassname">pyts.io.config.</tt><tt class="descname">InputFormatter</tt><big>(</big><em>template</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/config.html#InputFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.config.InputFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.io.formatter.SuperFormatter" title="pyts.io.formatter.SuperFormatter"><tt class="xref py py-class docutils literal"><span class="pre">pyts.io.formatter.SuperFormatter</span></tt></a></p>
+<p>This formatter is defined to format/parse the templates/inp
+file.</p>
+<dl class="attribute">
+<dt id="pyts.io.config.InputFormatter.format_prfx">
+<tt class="descname">format_prfx</tt><em class="property"> = '&lt;20'</em><a class="headerlink" href="#pyts.io.config.InputFormatter.format_prfx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="function">
 <dt id="pyts.io.config.read">
 <tt class="descclassname">pyts.io.config.</tt><tt class="descname">read</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/config.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.config.read" title="Permalink to this definition">¶</a></dt>
@@ -195,13 +204,13 @@ original TSsubs.f90 file.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> :   str</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fname</strong> :   str</p>
 <blockquote>
 <div><p>The filename to read the config from.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>config</strong> :   <a class="reference internal" href="pyts.runConfig.html#pyts.runConfig.base.tscfg" title="pyts.runConfig.base.tscfg"><tt class="xref py py-class docutils literal"><span class="pre">pyts.runConfig.base.tscfg</span></tt></a>, dict</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>config</strong> :   <a class="reference internal" href="pyts.runConfig.html#pyts.runConfig.base.tscfg" title="pyts.runConfig.base.tscfg"><tt class="xref py py-class docutils literal"><span class="pre">pyts.runConfig.base.tscfg</span></tt></a>, dict</p>
 <blockquote class="last">
 <div><p>A PyTurbSim config dictionary.</p>
 </div></blockquote>
@@ -220,7 +229,7 @@ dictionary.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> :     str</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fname</strong> :     str</p>
 <blockquote>
 <div><p>The filename to read the PSD from.</p>
 </div></blockquote>
@@ -234,42 +243,152 @@ dictionary.</p>
 
 <dl class="function">
 <dt id="pyts.io.config.write">
-<tt class="descclassname">pyts.io.config.</tt><tt class="descname">write</tt><big>(</big><em>fname</em>, <em>config</em>, <em>headertext=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/config.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.config.write" title="Permalink to this definition">¶</a></dt>
-<dd><p>Writeout a TurbSim input (.inp) file.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> :     str</p>
+<tt class="descclassname">pyts.io.config.</tt><tt class="descname">write</tt><big>(</big><em>filename</em>, <em>in_dict</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/config.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.config.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a config file.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.io.formatter">
+<span id="pyts-io-formatter-module"></span><h2>pyts.io.formatter module<a class="headerlink" href="#module-pyts.io.formatter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyts.io.formatter.SuperFormatter">
+<em class="property">class </em><tt class="descclassname">pyts.io.formatter.</tt><tt class="descname">SuperFormatter</tt><big>(</big><em>template</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/formatter.html#SuperFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.formatter.SuperFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">string.Formatter</span></tt></p>
+<p>SuperFormatter adds the following capabilities:</p>
+<ol class="arabic">
+<li><p class="first">Initialize with a template string, and the <a class="reference internal" href="#pyts.io.formatter.SuperFormatter.__call__" title="pyts.io.formatter.SuperFormatter.__call__"><tt class="xref py py-meth docutils literal"><span class="pre">__call__()</span></tt></a> method uses
+this string.  Thus, example usage of this formatter looks like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">template</span> <span class="o">=</span> <span class="n">SuperFormatter</span><span class="p">(</span><span class="n">template_string</span><span class="p">)</span>
+<span class="n">out_string</span> <span class="o">=</span> <span class="n">template</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">White space at the end of a format specifier is stripped. This
+allows for aligning text within the template.</p>
+</li>
+<li><p class="first">Multiple format strings separated by <tt class="docutils literal"><span class="pre">|</span></tt> can be specified
+within a template. This formatter will loop over the format
+strings until it finds one that doesn&#8217;t throw a ValueError.
+For example, the format string <tt class="docutils literal"><span class="pre">6d|&lt;6.3f|8s</span></tt> will format the
+following objects as:</p>
 <blockquote>
-<div><p>The filename to write to.</p>
-</div></blockquote>
-<p><strong>config</strong> :    <a class="reference internal" href="pyts.runConfig.html#pyts.runConfig.base.tscfg" title="pyts.runConfig.base.tscfg"><tt class="xref py py-class docutils literal"><span class="pre">pyts.runConfig.base.tscfg</span></tt></a>, dict</p>
-<blockquote class="last">
-<div><p>The PyTurbSim config dictionary.</p>
-</div></blockquote>
-</td>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">input</th>
+<th class="head">output string</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">3.74583754</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">'3.746</span> <span class="pre">'</span></tt></td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">384</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">'</span>&nbsp;&nbsp; <span class="pre">384'</span></tt></td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">None</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">'None</span>&nbsp;&nbsp;&nbsp; <span class="pre">'</span></tt></td>
 </tr>
 </tbody>
 </table>
+</div></blockquote>
+</li>
+<li><p class="first">Default values may be specified after a <tt class="docutils literal"><span class="pre">/</span></tt> at the end of the
+format string. For example if the container is
+<tt class="docutils literal"><span class="pre">{show_data:s/False}</span></tt>, and there is no key <tt class="docutils literal"><span class="pre">show_data</span></tt> in
+<tt class="docutils literal"><span class="pre">**kwargs</span></tt>, then <tt class="docutils literal"><span class="pre">False</span></tt> will fill that location.</p>
+</li>
+<li><p class="first">The <a class="reference internal" href="#pyts.io.formatter.SuperFormatter.format_prfx" title="pyts.io.formatter.SuperFormatter.format_prfx"><tt class="xref py py-attr docutils literal"><span class="pre">format_prfx</span></tt></a> attribute allows the user to define a
+default container prefix.  This will be prepended to all format
+specifiers that are a single-character <cite>type</cite> specifier.  For
+example if <tt class="docutils literal"><span class="pre">format_prfx</span> <span class="pre">=</span> <span class="pre">'&lt;20'</span></tt>, then the format specifier
+<tt class="docutils literal"><span class="pre">'f'</span></tt> will be changed to <tt class="docutils literal"><span class="pre">'&lt;20f'</span></tt>, but <tt class="docutils literal"><span class="pre">'&gt;08.3f'</span></tt> will be
+unchanged.  This is applied to each specifier within a multiple
+specification, thus <tt class="docutils literal"><span class="pre">'d|f|s'</span></tt> would actually be
+<tt class="docutils literal"><span class="pre">'&lt;20d|&lt;20f|&lt;20s'</span></tt>.</p>
+</li>
+<li><p class="first">Custom format specifiers have been implemented by adding a
+hook that searches for a <cite>_format_&lt;specifier&gt;</cite> method prior to
+running the normal formatting routines.  That method takes the
+value to be formatted as input (in addition to <em>self</em>), and
+should return the fully-formatted string (no further formatting
+is applied).</p>
+<p>For example, a custom format specifier <cite>pet</cite> (specified as
+<tt class="docutils literal"><span class="pre">{my_dog:pet}</span></tt> in the template) could be defined as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyNewFormatter</span><span class="p">(</span><span class="n">SuperFormatter</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_format_pet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Note that this will throw an <tt class="docutils literal"><span class="pre">AttributeError</span></tt> if <em>my_dog</em> is an
+object without an <tt class="docutils literal"><span class="pre">upper</span></tt> method (i.e. not a string), but you
+could add to the method to handle all of the different types
+that <tt class="docutils literal"><span class="pre">value</span></tt> might be.</p>
+</li>
+<li><p class="first">Custom format specifiers with arguments can be specified as
+<tt class="docutils literal"><span class="pre">{my_dogs:pets(10s,10s)}</span></tt>. In this case the string inside
+the parenthesis is supplied as the second argument to the
+<tt class="docutils literal"><span class="pre">_format_pets</span></tt> method.  The method that implements this
+format could be defined as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyNewFormatter</span><span class="p">(</span><span class="n">SuperFormatter</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_format_pets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">form2</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">v</span><span class="p">,</span><span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">form2</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)):</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<dl class="method">
+<dt id="pyts.io.formatter.SuperFormatter.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/formatter.html#SuperFormatter.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.formatter.SuperFormatter.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the template string with <cite>*args</cite> and <cite>**kwargs</cite>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.io.formatter.SuperFormatter.allow_sloppy">
+<tt class="descname">allow_sloppy</tt><em class="property"> = False</em><a class="headerlink" href="#pyts.io.formatter.SuperFormatter.allow_sloppy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyts.io.formatter.SuperFormatter.format_field">
+<tt class="descname">format_field</tt><big>(</big><em>value</em>, <em>format_spec</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/formatter.html#SuperFormatter.format_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.formatter.SuperFormatter.format_field" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.io.formatter.SuperFormatter.format_prfx">
+<tt class="descname">format_prfx</tt><em class="property"> = ''</em><a class="headerlink" href="#pyts.io.formatter.SuperFormatter.format_prfx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyts.io.formatter.SuperFormatter.get_value">
+<tt class="descname">get_value</tt><big>(</big><em>key</em>, <em>args</em>, <em>kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/formatter.html#SuperFormatter.get_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.formatter.SuperFormatter.get_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
 <div class="section" id="module-pyts.io.main">
-<span id="main-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">main</span></tt> Module<a class="headerlink" href="#module-pyts.io.main" title="Permalink to this headline">¶</a></h2>
+<span id="pyts-io-main-module"></span><h2>pyts.io.main module<a class="headerlink" href="#module-pyts.io.main" title="Permalink to this headline">¶</a></h2>
 <p>This is the main (top-level) io module. It defines the &#8216;readModel&#8217;
 function, which is useful for collecting information from available
 TurbSim input/output files.</p>
 <dl class="function">
 <dt id="pyts.io.main.readModel">
 <tt class="descclassname">pyts.io.main.</tt><tt class="descname">readModel</tt><big>(</big><em>fname</em>, <em>inp_fname=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/main.html#readModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.main.readModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read a TurbSim data and input file and return a 
+<dd><p>Read a TurbSim data and input file and return a
 <a class="reference internal" href="pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><tt class="xref py py-class docutils literal"><span class="pre">tsdata</span></tt></a> data object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
 <blockquote>
 <div><p>The filename to load.  If <cite>fname</cite> ends in .inp, it reads
 this input file, and searches for a binary file that can
@@ -282,7 +401,7 @@ be read (throws error if none is found). Otherwise,</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>tsdata</strong> : <a class="reference internal" href="pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><tt class="xref py py-class docutils literal"><span class="pre">tsdata</span></tt></a></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>tsdata</strong> : <a class="reference internal" href="pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><tt class="xref py py-class docutils literal"><span class="pre">tsdata</span></tt></a></p>
 <blockquote class="last">
 <div><p>The TurbSim data contained in the binary data file.</p>
 </div></blockquote>
@@ -303,6 +422,31 @@ the associated .inp file.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-pyts.io.sum">
+<span id="pyts-io-sum-module"></span><h2>pyts.io.sum module<a class="headerlink" href="#module-pyts.io.sum" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyts.io.sum.SumFormatter">
+<em class="property">class </em><tt class="descclassname">pyts.io.sum.</tt><tt class="descname">SumFormatter</tt><big>(</big><em>template</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/sum.html#SumFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.sum.SumFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.io.formatter.SuperFormatter" title="pyts.io.formatter.SuperFormatter"><tt class="xref py py-class docutils literal"><span class="pre">pyts.io.formatter.SuperFormatter</span></tt></a></p>
+<dl class="attribute">
+<dt id="pyts.io.sum.SumFormatter.format_prfx">
+<tt class="descname">format_prfx</tt><em class="property"> = '&gt;10'</em><a class="headerlink" href="#pyts.io.sum.SumFormatter.format_prfx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.io.sum.write">
+<tt class="descclassname">pyts.io.sum.</tt><tt class="descname">write</tt><big>(</big><em>filename</em>, <em>in_dict</em><big>)</big><a class="reference internal" href="../_modules/pyts/io/sum.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.io.sum.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a config file.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.io">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyts.io" title="Permalink to this headline">¶</a></h2>
+<p>This is the PyTurbSim input/output package. It contains modules for
+reading/writing PyTurbSim input/data from/to disk.</p>
+</div>
 </div>
 
 
@@ -313,23 +457,26 @@ the associated .inp file.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">io Package</a><ul>
-<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">io</span></tt> Package</a></li>
-<li><a class="reference internal" href="#module-pyts.io.aerodyn"><tt class="docutils literal"><span class="pre">aerodyn</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.io.base"><tt class="docutils literal"><span class="pre">base</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.io.bladed"><tt class="docutils literal"><span class="pre">bladed</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.io.config"><tt class="docutils literal"><span class="pre">config</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-pyts.io.main"><tt class="docutils literal"><span class="pre">main</span></tt> Module</a></li>
+<li><a class="reference internal" href="#">pyts.io package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyts.io.aerodyn">pyts.io.aerodyn module</a></li>
+<li><a class="reference internal" href="#module-pyts.io.base">pyts.io.base module</a></li>
+<li><a class="reference internal" href="#module-pyts.io.bladed">pyts.io.bladed module</a></li>
+<li><a class="reference internal" href="#module-pyts.io.config">pyts.io.config module</a></li>
+<li><a class="reference internal" href="#module-pyts.io.formatter">pyts.io.formatter module</a></li>
+<li><a class="reference internal" href="#module-pyts.io.main">pyts.io.main module</a></li>
+<li><a class="reference internal" href="#module-pyts.io.sum">pyts.io.sum module</a></li>
+<li><a class="reference internal" href="#module-pyts.io">Module contents</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="pyts.gui.html"
-                        title="previous chapter">gui Package</a></p>
+                        title="previous chapter">pyts.gui package</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="pyts.phaseModels.html"
-                        title="next chapter">phaseModels Package</a></p>
+                        title="next chapter">pyts.phaseModels package</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/api/pyts.io.txt"
@@ -365,18 +512,18 @@ the associated .inp file.</p>
           <a href="../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="pyts.phaseModels.html" title="phaseModels Package"
+          <a href="pyts.phaseModels.html" title="pyts.phaseModels package"
              >next</a> |</li>
         <li class="right" >
-          <a href="pyts.gui.html" title="gui Package"
+          <a href="pyts.gui.html" title="pyts.gui package"
              >previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.2 documentation</a> &raquo;</li>
-          <li><a href="pyts.html" >pyts Package</a> &raquo;</li> 
+        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+          <li><a href="pyts.html" >pyts package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>
