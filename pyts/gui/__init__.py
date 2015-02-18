@@ -6,6 +6,7 @@ from subprocess import call
 import os
 import glob
 import sys
+from ..base import tsroot
 
 # TODO:
 #  - Summarize the configuration on the main window.
@@ -38,7 +39,7 @@ class gTurbFrame(wx.Frame):
 
     def loadDefault(self, strng):
         self.inp_inputfile.value = strng
-        self.config = io.read(io.tsroot + '/gui/' + self._default_files[strng])
+        self.config = io.read(tsroot + '/gui/' + self._default_files[strng])
 
     def __init__(self, parent, id, title,
                  pos=wx.DefaultPosition, size=wx.DefaultSize,
