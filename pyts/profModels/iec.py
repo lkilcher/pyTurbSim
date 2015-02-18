@@ -1,16 +1,18 @@
 """
 This module contains the power-law mean-velocity profiles:
  main   - The IEC mean wind speed profile.
- 
+
 """
-from mBase import profModelBase,profObj
-from log import nwtc as logmain
-from power import nwtc as powmain
+from .mBase import profModelBase, profObj
+from .log import nwtc as logmain
+from .power import nwtc as powmain
 
 # !!!VERSION_INCONSISTENCY
 # This model needs to account for the EWM50 and EWM1 turbulence models.
 
-class main(logmain,powmain):
+
+class main(logmain, powmain):
+
     """
     The iec wind profile model.  This profile is a power-law across
     the rotor disk and logarithmic elsewhere.
@@ -42,19 +44,20 @@ class main(logmain,powmain):
 
     See Also
     --------
-    .power.nwtc : The iec model is this law over the rotor disk 
+    .power.nwtc : The iec model is this law over the rotor disk
     .log.nwtc   : The iec model is this law outside the rotor disk
 
     """
-    def __init__(self,URef,RefHt,Z0,Ri,PLexp=0.2,turbmodel=None):
-        self.Uref=URef
-        self.Zref=RefHt
-        self.PLexp=PLexp
-        self.Z0=Z0
-        self.Ri=Ri
-        self.TurbModel=turbmodel
 
-    def __call__(self,tsrun):
+    def __init__(self, URef, RefHt, Z0, Ri, PLexp=0.2, turbmodel=None):
+        self.Uref = URef
+        self.Zref = RefHt
+        self.PLexp = PLexp
+        self.Z0 = Z0
+        self.Ri = Ri
+        self.TurbModel = turbmodel
+
+    def __call__(self, tsrun):
         """
         Create and calculate the mean-profile object for a `tsrun`
         instance.
@@ -63,17 +66,18 @@ class main(logmain,powmain):
         ----------
         tsrun :         :class:`tsrun <pyts.main.tsrun>`
                         A TurbSim run object.
-        
+
         Returns
         -------
         out :           :class:`profObj <.mBase.profObj>`
                         A iec wind-speed profile for the grid in `tsrun`.
-    
-        """
-        out=profObj(tsrun)
-        grid=tsrun.grid # A temporary, internal shortcut.
-        out[0]=logmain.nwtc.model(self,grid.z)[:,None]
-        zinds=-grid.rotor_diam/2<=grid.z-grid.zhub & grid.z-grid.zhub<=grid.rotor_diam/2
-        out[0][zinds][:,(-grid.rotor_diam/2<=grid.y & grid.y<=grid.rotor_diam/2)]=powmain.nwtc.model(self,grid.z[zinds])
-        return out
 
+        """
+        out = profObj(tsrun)
+        grid = tsrun.grid  # A temporary, internal shortcut.
+        out[0] = logmain.nwtc.model(self, grid.z)[:, None]
+        zinds = -grid.rotor_diam / 2 <= grid.z - \
+            grid.zhub & grid.z - grid.zhub <= grid.rotor_diam / 2
+        out[0][zinds][:, (-grid.rotor_diam / 2 <= grid.y & grid.y <= grid.rotor_diam / 2)] = powmain.nwtc.model(
+            self, grid.z[zinds])
+        return out

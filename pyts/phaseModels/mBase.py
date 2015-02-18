@@ -6,8 +6,8 @@ coherence models.
 The basic phase model simply returns a 'random' array.
 
 """
-from ..base import modelBase,np,ts_complex
+from ..base import modelBase, np, ts_complex
+
 
 class phaseModelBase(modelBase):
     pass
-

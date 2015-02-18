@@ -9,6 +9,7 @@ wrapper function here in order to be accessible using input files.
 """
 from ..profModels import api as pm
 
+
 def getModel(tsconfig):
     """
     This is the wrapper function for all profile models implemented in
@@ -24,11 +25,12 @@ def getModel(tsconfig):
     profModel : A subclass of :class:`profModelBase <pyts.profModels.mBase.profModelBase>`
                 The appropriately initialized 'profile model' object
                 specified in `tsconfig`.
-    
+
     """
     # This executes the sub-wrapper function (defined below) specified
     # in the tsconfig-object (input file WINDPROFILETYPE line)
-    return eval('_'+tsconfig['WindProfileType'].lower()+'(tsconfig)')
+    return eval('_' + tsconfig['WindProfileType'].lower() + '(tsconfig)')
+
 
 def _h2l(tsconfig):
     """
@@ -44,9 +46,10 @@ def _h2l(tsconfig):
     -------
     profModel : :class:`pyts.profModels.log.H2O`
                 H2O-log mean profile model instance.
-    
+
     """
-    return pm.h2l(tsconfig['URef'],tsconfig['RefHt'],tsconfig['UStar'])
+    return pm.h2l(tsconfig['URef'], tsconfig['RefHt'], tsconfig['UStar'])
+
 
 def _log(tsconfig):
     """
@@ -62,9 +65,10 @@ def _log(tsconfig):
     -------
     profModel : :class:`pyts.profModels.log.nwtc`
                 wind log mean profile model instance.
-    
+
     """
-    return pm.log(tsconfig['URef'],tsconfig['RefHt'],tsconfig['Z0'],tsconfig['RICH_NO'],tsconfig['TurbModel'])
+    return pm.log(tsconfig['URef'], tsconfig['RefHt'], tsconfig['Z0'], tsconfig['RICH_NO'], tsconfig['TurbModel'])
+
 
 def _pl(tsconfig):
     """
@@ -80,10 +84,11 @@ def _pl(tsconfig):
     -------
     profModel : :class:`pyts.profModels.power.nwtc`
                 power-law mean profile model instance.
-    
+
     """
-    return pm.pl(tsconfig['URef'],tsconfig['RefHt'],tsconfig['PLExp'])
-    
+    return pm.pl(tsconfig['URef'], tsconfig['RefHt'], tsconfig['PLExp'])
+
+
 def _iec(tsconfig):
     """
     This function parses the correct variables from the tsconfig
@@ -98,7 +103,6 @@ def _iec(tsconfig):
     -------
     profModel : :class:`pyts.profModels.iec.main`
                 IEC mean profile model instance.
-    
-    """
-    return pm.iec(tsconfig['URef'],tsconfig['RefHt'],tsconfig['Z0'],tsconfig['RICH_NO'],tsconfig['PLExp'],tsconfig['TurbModel'],)
 
+    """
+    return pm.iec(tsconfig['URef'], tsconfig['RefHt'], tsconfig['Z0'], tsconfig['RICH_NO'], tsconfig['PLExp'], tsconfig['TurbModel'],)

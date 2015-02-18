@@ -9,22 +9,25 @@ import pyts.io.main as tsio
 from subprocess import call
 
 # This is the file type that the .inp files (in inp_files directory) are configured to output.
-# It can be changed, but if it is the input files should be configured to output different files also.
-ts_file_type='.wnd'
+# It can be changed, but if it is the input files should be configured to
+# output different files also.
+ts_file_type = '.wnd'
 
 # Run TurbSim and HydroTurbSim?
-flag_run=False or True
-flag_run_ts=False# or True
-flag_run_pyts=False or True
+flag_run = False or True
+flag_run_ts = False  # or True
+flag_run_pyts = False or True
 # Plot the results and compare?
-flag_plot=False or True
+flag_plot = False or True
 
 ########################################################################################
-## These are the name of the input files (in ./inp_files/) that are run and compared. ##
-fnames=['Tidal','Smooth','IecKai','IecVkm','GPllj','NWTCup','wfup','wf07d','wf14d',]
+# These are the name of the input files (in ./inp_files/) that are run and
+# compared. ##
+fnames = ['Tidal', 'Smooth', 'IecKai', 'IecVkm',
+          'GPllj', 'NWTCup', 'wfup', 'wf07d', 'wf14d', ]
 #fnames=['Smooth','IecKai','IecVkm','GPllj','NWTCup','wfup','wf07d','wf14d',]
-fnames=['IecVkm'] #CHECKED 4/26/2013
-fnames=['IecVkm_short'] #CHECKED 4/26/2013
+fnames = ['IecVkm']  # CHECKED 4/26/2013
+fnames = ['IecVkm_short']  # CHECKED 4/26/2013
 #fnames=['IecKai'] #CHECKED 4/26/2013
 #fnames=['IecKai_short'] #CHECKED 4/26/2013
 #fnames=['Smooth'] #CHECKED 4/26/2013
@@ -52,49 +55,54 @@ if flag_run:
         # Check to see that a TurbSim executable exists:
         if sys.platform.startswith('win'):
             if os.path.isfile('TurbSim.exe'):
-                ts_exec_file='TurbSim.exe'
+                ts_exec_file = 'TurbSim.exe'
             elif os.path.isfile('TurbSim64.exe'):
-                ts_exec_file='TurbSim.exe'
+                ts_exec_file = 'TurbSim.exe'
             else:
-                raise Exception('TurbSim (original) is not present in the working directory.  Download the TurbSim program from:\n http://wind.nrel.gov/designcodes/preprocessors/turbsim/\n and copy one of the executables to this directory.')
+                raise Exception(
+                    'TurbSim (original) is not present in the working directory.  Download the TurbSim program from:\n http://wind.nrel.gov/designcodes/preprocessors/turbsim/\n and copy one of the executables to this directory.')
         else:
             if os.path.isfile('TurbSim'):
-                ts_exec_file='TurbSim'
+                ts_exec_file = 'TurbSim'
             else:
-                raise Exception('TurbSim (original) is not present in the working directory.  Download the TurbSim program from:\n http://wind.nrel.gov/designcodes/preprocessors/turbsim/\n and build an executable from source, then copy it to this directory.')
+                raise Exception(
+                    'TurbSim (original) is not present in the working directory.  Download the TurbSim program from:\n http://wind.nrel.gov/designcodes/preprocessors/turbsim/\n and build an executable from source, then copy it to this directory.')
 
     # Now run TurbSim and HydroTurbSim on the input files specified above.
     for fnm in fnames:
         # Run HydroTurbSim:
         if flag_run_pyts:
-            tsdat=pyts.run(pyts.readConfig('./inp_files/'+fnm+'.inp'))
+            tsdat = pyts.run(pyts.readConfig('./inp_files/' + fnm + '.inp'))
             #error
-            tsdat.writeBladed('./pyts/'+fnm+'.inp') # Write out the data.
+            tsdat.writeBladed('./pyts/' + fnm + '.inp')  # Write out the data.
         if flag_run_ts:
             # Run TurbSim:
-            call(['./'+ts_exec_file,'./inp_files/'+fnm+'.inp'])
-            dst='./ts/'+fnm+ts_file_type
+            call(['./' + ts_exec_file, './inp_files/' + fnm + '.inp'])
+            dst = './ts/' + fnm + ts_file_type
             try:
-                os.remove(dst) # This is for windows compatability.
+                os.remove(dst)  # This is for windows compatability.
             except:
                 pass
-            os.rename('./inp_files/'+fnm+ts_file_type,dst)
+            os.rename('./inp_files/' + fnm + ts_file_type, dst)
 
 ########################################
 ########################################
 # Plot the results of the two versions #
 ########################################
 if flag_plot:
-    c=0
+    c = 0
     for nm in fnames:
-        c+=1
-        tsdat=tsio.readModel('./ts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
-        ptsdat=tsio.readModel('./pyts/'+nm+ts_file_type,'./inp_files/'+nm+'.inp')
+        c += 1
+        tsdat = tsio.readModel(
+            './ts/' + nm + ts_file_type, './inp_files/' + nm + '.inp')
+        ptsdat = tsio.readModel(
+            './pyts/' + nm + ts_file_type, './inp_files/' + nm + '.inp')
 
-        fg=pt.summfig(3000+c,nfft=1024,title=nm.upper().replace('_','-')+' spectral model')
-        fg.setinds(ptsdat,igrid=None,)
-        fg.setinds(tsdat,igrid=(0,1),)
-        fg.plot(tsdat,color='r',label='TS')
-        fg.plot(ptsdat,color='b',theory_line=True,label='pyTS')
+        fg = pt.summfig(
+            3000 + c, nfft=1024, title=nm.upper().replace('_', '-') + ' spectral model')
+        fg.setinds(ptsdat, igrid=None,)
+        fg.setinds(tsdat, igrid=(0, 1),)
+        fg.plot(tsdat, color='r', label='TS')
+        fg.plot(ptsdat, color='b', theory_line=True, label='pyTS')
         fg.finish()
     #fg.savefig('../pub/fig/compareTSvPyTS.png',dpi=300)

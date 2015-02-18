@@ -48,6 +48,6 @@ For a description of the difference between 'stress models'
 (tsrun.prof), see the 'models_and_stats_example.py' file.
 
 """
-from mBase import stressModelBase,stressObj
-from main import uniform
-from hydro import tidal
+from .mBase import stressModelBase, stressObj
+from .main import uniform
+from .hydro import tidal

@@ -4,10 +4,12 @@ This module contains the log-law mean-velocity profiles:
  H2O    - The hydro-logarithmic mean velocity profile.
 
 """
-from mBase import profModelBase,np,profObj
-from ..misc import kappa,psiM
+from .mBase import profModelBase, np, profObj
+from ..misc import kappa, psiM
+
 
 class nwtc(profModelBase,):
+
     r"""
     The NWTC logarithmic mean wind-speed profile.
 
@@ -28,7 +30,7 @@ class nwtc(profModelBase,):
     -----
 
     The exact form of this model is,
-        
+
     .. math::
        \bar{U}(z) = U_{Ref}\frac{ln( z / Z0 ) - \psi_M}{ln( Z_{Ref} / Z0) - \psi_M}
 
@@ -36,14 +38,15 @@ class nwtc(profModelBase,):
     for Ri=0), and the turbulence model.
 
     """
-    def __init__(self,URef,ZRef,Z0,Ri=0,turbmodel=None):
-        self.Uref=URef
-        self.Zref=ZRef
-        self.Z0=Z0
-        self.Ri=Ri
-        self.TurbModel=turbmodel
 
-    def __call__(self,tsrun):
+    def __init__(self, URef, ZRef, Z0, Ri=0, turbmodel=None):
+        self.Uref = URef
+        self.Zref = ZRef
+        self.Z0 = Z0
+        self.Ri = Ri
+        self.TurbModel = turbmodel
+
+    def __call__(self, tsrun):
         """
         Create and calculate the mean-profile object for a `tsrun`
         instance.
@@ -52,18 +55,18 @@ class nwtc(profModelBase,):
         ----------
         tsrun :         :class:`tsrun <pyts.main.tsrun>`
                         A TurbSim run object.
-        
+
         Returns
         -------
         out :           :class:`profObj <.mBase.profObj>`
                         A logarithmic wind-speed profile for the grid in `tsrun`.
-    
+
         """
-        out=profObj(tsrun)
-        out[0]=self.model(out.grid.z)[:,None]
+        out = profObj(tsrun)
+        out[0] = self.model(out.grid.z)[:, None]
         return out
-    
-    def model(self,z):
+
+    def model(self, z):
         """
         Calculate the log profile for heights `z`.
 
@@ -76,11 +79,12 @@ class nwtc(profModelBase,):
         -------
         u :     array_like(dtype=float)
                 The mean velocity array [m/s].
-        
+
         """
-        # Note: this function is separated from the __call__ routine so that it can be utilized by other modules
-        return (self.Uref*(np.log(z/self.Z0)+self.psiM)/(np.log(self.Zref/self.Z0)+self.psiM))
-    
+        # Note: this function is separated from the __call__ routine so that it
+        # can be utilized by other modules
+        return (self.Uref * (np.log(z / self.Z0) + self.psiM) / (np.log(self.Zref / self.Z0) + self.psiM))
+
     @property
     def psiM(self,):
         """
@@ -88,9 +92,11 @@ class nwtc(profModelBase,):
 
         See the :func:`pyts.misc.psiM` function for details.
         """
-        return psiM(self.Ri,self.TurbModel)
-        
+        return psiM(self.Ri, self.TurbModel)
+
+
 class H2O(profModelBase,):
+
     """
     The logarithmic mean water velocity profile.
 
@@ -107,18 +113,19 @@ class H2O(profModelBase,):
     -----
 
     The precise form of this model is,
-    
-    .. math::
-    
-           Ubar(z) = U_*/\kappa * \mathrm{Ln}( z / Z_{ref}) + U_{ref}
-           
-    """
-    def __init__(self,Uref,Zref,ustar):
-        self.Uref=Uref
-        self.Zref=Zref
-        self.Ustar=ustar
 
-    def __call__(self,tsrun):
+    .. math::
+
+           Ubar(z) = U_*/\kappa * \mathrm{Ln}( z / Z_{ref}) + U_{ref}
+
+    """
+
+    def __init__(self, Uref, Zref, ustar):
+        self.Uref = Uref
+        self.Zref = Zref
+        self.Ustar = ustar
+
+    def __call__(self, tsrun):
         """
         Create and calculate the mean-profile object for a `tsrun`
         instance.
@@ -134,6 +141,7 @@ class H2O(profModelBase,):
                 A logarithmic mean-velocity profile object for the
                 spatial grid in tsrun.
         """
-        out=profObj(tsrun)
-        out[0]=(self.Ustar/kappa*np.log(out.grid.z/self.Zref)+self.Uref)[:,None]
+        out = profObj(tsrun)
+        out[0] = (self.Ustar / kappa * np.log(
+            out.grid.z / self.Zref) + self.Uref)[:, None]
         return out
