@@ -6,7 +6,7 @@ from subprocess import call
 import os
 import glob
 import sys
-from ..base import tsroot
+from ..base import tsroot, userroot
 
 # TODO:
 #  - Summarize the configuration on the main window.
@@ -168,7 +168,7 @@ class gTurbFrame(wx.Frame):
 
     def onSaveAs(self, event):
         openFileDialog = wx.FileDialog(
-            self, 'Select TurbSim filename for save...', io.userroot, 'TurbSim.inp', '(*.inp,*.*)|*.inp', wx.FD_SAVE)
+            self, 'Select TurbSim filename for save...', userroot, 'TurbSim.inp', '(*.inp,*.*)|*.inp', wx.FD_SAVE)
         openFileDialog.ShowModal()
         self.currentfile = openFileDialog.GetPath()  # If
         openFileDialog.Destroy()
@@ -183,7 +183,7 @@ class gTurbFrame(wx.Frame):
 
     def onLoad(self, event):
         openFileDialog = wx.FileDialog(
-            self, 'Open TurbSim input file', io.userroot,
+            self, 'Open TurbSim input file', userroot,
             'TurbSim.inp', '(*.inp,*.*)|*.inp', wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
         openFileDialog.ShowModal()
         self.currentfile = openFileDialog.GetPath()
