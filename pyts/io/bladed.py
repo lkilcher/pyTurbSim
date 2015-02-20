@@ -32,11 +32,7 @@ def write(fname, tsdat):
     ti[ti < 1e-5] = 1
     scale = 1000. / (tsdat.UHUB * ti[:, None, None, None])
     off = np.array([1000. / (ti[0]), 0, 0])[:, None, None, None]
-    if fname.endswith('.inp'):
-        fname = convname(fname, '.wnd')
-    if not '.' in fname:
-        fname += '.wnd'
-    fl = file(fname, 'wb')
+    fl = file(convname(fname, '.wnd'), 'wb')
     # First write some setup data:
     fl.write(
         pack(e + '2hl3f', -99, 4, 3, lat, Z0, tsdat.grid.z[0] + tsdat.grid.height / 2.0))

@@ -96,7 +96,7 @@ def read(fname):
     ## *tsdat*  - A tsdata object that contains the data.
     u_scl = np.zeros(3, np.float32)
     u_off = np.zeros(3, np.float32)
-    fl = file(convname(fname, '.bts'), 'rb')
+    fl = file(fname, 'rb')
     (junk,
      n_z,
      n_y,

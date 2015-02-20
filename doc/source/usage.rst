@@ -29,10 +29,10 @@ command line do::
 Alternatively, this mode can be used from an interactive python shell
 by doing::
 
-   >>> from pyts.runConfig.main import readConfig,run,write
-   >>> config=readConfig('TurbSim.inp')
-   >>> tsdat=run(config)
-   >>> write(tsdat,config,'TurbSim')
+   >>> from pyts.runConfig.main import readConfig, run, write
+   >>> config = readConfig('TurbSim.inp')
+   >>> tsdat = run(config)
+   >>> write(tsdat, config, 'TurbSim')
 
 These two approaches produce the same output. The first allows the
 user to run |pyts| without ever entering an interactive python
