@@ -136,7 +136,7 @@ def axes(*args, **kwargs):
         else:
             ky = nm
             nm = nm
-        if nm in kwargs.keys():
+        if ky in kwargs:
             newd[nm] = kwargs.pop(ky)
     if ('fig' not in kwargs.keys()) and ('figure' not in kwargs.keys()):
         fig = pylab.gcf()
@@ -188,15 +188,12 @@ def axes(*args, **kwargs):
     a.transDataXAxesY = transforms.blended_transform_factory(
         a.transData, a.transAxes)
 
-    a.hln = new.instancemethod(bf._hln, a, Axes)
-    a.vln = new.instancemethod(bf._vln, a, Axes)
     a.shadex = new.instancemethod(bf.shadex, a, Axes)
     a.shadey = new.instancemethod(bf.shadey, a, Axes)
     a.setaxesframe = new.instancemethod(bf._setaxesframe, a, Axes)
     a.annoteCorner = new.instancemethod(bf.annoteCorner, a, Axes)
     a.offset_text = new.instancemethod(bf.offset_text, a, Axes)
     a.cpcolor = new.instancemethod(bf.cpcolor, a, Axes)
-    a.cbar = new.instancemethod(bf.cbar, a, Axes)
     a.labelax = new.instancemethod(bf.labelax, a, Axes)
     a.skip_ticklabels = new.instancemethod(skip_ticklabels, a, Axes)
     a.errorshadex = new.instancemethod(bf.errorshadex, a, Axes)
