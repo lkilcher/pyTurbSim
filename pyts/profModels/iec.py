@@ -3,7 +3,7 @@ This module contains the power-law mean-velocity profiles:
  main   - The IEC mean wind speed profile.
 
 """
-from .mBase import profModelBase, profObj
+from .mBase import profObj
 from .log import nwtc as logmain
 from .power import nwtc as powmain
 
@@ -75,9 +75,10 @@ class main(logmain, powmain):
         """
         out = profObj(tsrun)
         grid = tsrun.grid  # A temporary, internal shortcut.
-        out[0] = logmain.nwtc.model(self, grid.z)[:, None]
-        zinds = -grid.rotor_diam / 2 <= grid.z - \
-            grid.zhub & grid.z - grid.zhub <= grid.rotor_diam / 2
-        out[0][zinds][:, (-grid.rotor_diam / 2 <= grid.y & grid.y <= grid.rotor_diam / 2)] = powmain.nwtc.model(
-            self, grid.z[zinds])
+        out[0] = logmain.model(self, grid.z)[:, None]
+        zinds = ((-grid.rotor_diam / 2 <= grid.z - grid.zhub)
+                 & (grid.z - grid.zhub <= grid.rotor_diam / 2))
+        yinds = ((-grid.rotor_diam / 2 <= grid.y)
+                 & (grid.y <= grid.rotor_diam / 2))
+        out[0][zinds][:, yinds] = powmain.model(self, grid.z[zinds])
         return out

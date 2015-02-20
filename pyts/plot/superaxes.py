@@ -453,7 +453,7 @@ class axSharer(object):
         mapVal = self.map[iv, ih]
         if not mapVal:  # mapVal==0 do not share axes.
             return
-        elif mapVal in self._share_ax.has_key():
+        elif mapVal in self._share_ax:
             # The mapVal is already in the _share_ax dictionary
             return self._share_ax[mapVal]
         else:
