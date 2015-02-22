@@ -86,11 +86,12 @@ def write(tsdat, tsconfig, fname=None):
     TurbSim) from the `tsconfig` object
     """
     if fname is None:
-        fname=tsconfig.fname
+        fname = tsconfig.fname
     if tsconfig['WrBLFF']:
         tsdat.writeBladed(fname)
     if tsconfig['WrADFF']:
         tsdat.writeAero(fname)
+    tsdat.writeSum(fname)
 
 
 def cfg2grid(tsconfig):

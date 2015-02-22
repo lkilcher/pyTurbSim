@@ -50,13 +50,48 @@ class iecbase(specModelBase):
 
     def __init__(self, IECwindtype, IECstandard,
                  IECedition, IECturbc, ETMc=None):
-        if ETMc is None:
-            ETMc = 2.0
         self.IECwindtype = IECwindtype
         self.IECstandard = IECstandard
         self.IECedition = IECedition
         self.IECturbc = IECturbc
         self.ETMc = ETMc
+
+    def _sumfile_string(self, tsrun):
+        windtype_desc = {'NTM': 'Normal Turbulence Model',
+                         'ETM': 'Extreme Turbulence Model',
+                         '1EWM1': 'Extreme 1-Year Wind Speed Model (Class 1)',
+                         '2EWM1': 'Extreme 1-Year Wind Speed Model (Class 2)',
+                         '3EWM1': 'Extreme 1-Year Wind Speed Model (Class 3)',
+                         '1EWM50': 'Extreme 50-Year Wind Speed Model (Class 1)',
+                         '2EWM50': 'Extreme 50-Year Wind Speed Model (Class 2)',
+                         '3EWM50': 'Extreme 50-Year Wind Speed Model (Class 3)',
+                         }
+        edition_desc = {(1, 1): 'IEC 61400-1 Ed. 1: 1993',
+                        (1, 2): 'IEC 61400-1 Ed. 2: 1999',
+                        (1, 3): 'IEC 61400-1 Ed. 3: 2005',
+                        (2, 2): 'IEC 61400-2 Ed. 2: 2005',
+                        (3, 1): 'IEC 61400-3 Ed. 1: 2006',
+                        }
+        sumstring_format = """
+        Turbulence model used                            =  {TurbModel_desc}
+        Turbulence characteristic                        =  {IECturbc}
+        IEC turbulence type                              =  {IECwindtype_desc}
+        IEC standard                                     =  {IECstandard_desc}
+        IEC Length scale (Lambda)                        =  {Lambda:0.4g} [m]
+        IEC Sigma                                        =  {Sigma:0.4g} [m/s]
+        ETM 'c' value                                    =  {etmc}
+        """
+        data = dict(
+            TurbModel_desc=self.model_desc,
+            IECturbc=(self.IECturbc if isinstance(self.IECturbc, basestring)
+                      else '0.4g [%]'.format(self.IECturbc)),
+            IECwindtype_desc=windtype_desc[self.IECwindtype],
+            IECstandard_desc=edition_desc[(self.IECstandard, self.IECedition)],
+            etmc='N/A' if self.ETMc is None else '{0:0.4g} [m/s]'.format(self.ETMc),
+            Lambda=self.Lambda(tsrun.grid.zhub),
+            Sigma=self.IEC_Sigma(tsrun.prof.uhub),
+        )
+        return sumstring_format.format(**data)
 
     def Lambda(self, zhub):
         """
@@ -72,7 +107,7 @@ class iecbase(specModelBase):
         if (self.IECturbc.__class__ is str and
             self.IECstandard == 1 and
             self.IECedition == 3 and
-            self.IECwindtype.lower()[1:4] == 'ewm' and
+            self.IECwindtype.upper()[1:4] == 'EWM' and
                 self.grid.time_sec_out != 600.):
             warnings.warn("The extreme wind model is only valid \
                           for 10min(600s) runs.  Setting \
@@ -143,7 +178,7 @@ class iecbase(specModelBase):
                 return None
             if iecver == 1:  # Onshore-big wind.
                 if edi == 2:  # 2nd edition
-                    if wndtp != 'ntm':
+                    if (wndtp != 'ntm'):
                         raise InvalidConfig("For IEC Turbulence models \
                         other than NTM, the iec edition must be 3.")
                     if val == 'a':
@@ -191,6 +226,8 @@ class iecbase(specModelBase):
                         Vref = {'1': 50, '2': 42.5, '3': 37.5}[wndtp[0]]
                         wndtp = wndtp[1:]
                         if wndtp == 'etm':
+                            if self.ETMc is None:
+                                self.ETMc = 2.0
                             IEC_Sigma = self.ETMc * TurbInt15 * \
                                 (0.072 * (0.2 * Vref / self.ETMc + 3.) * (
                                     uhub / self.ETMc - 4) + 10.)
@@ -215,8 +252,7 @@ class iecbase(specModelBase):
 
 class IECKai(iecbase):
 
-    r"""
-    The IEC Kaimal spectral model.
+    r"""IEC Kaimal spectral model.
 
     Notes
     -----
@@ -243,9 +279,7 @@ class IECKai(iecbase):
     """
 
     def __call__(self, tsrun):
-        """
-        Create and calculate the spectral object for a `tsrun`
-        instance.
+        """Create the spectral object for a `tsrun` instance.
 
         Parameters
         ----------
@@ -272,8 +306,7 @@ class IECKai(iecbase):
 
 class IECVKm(iecbase):
 
-    r"""
-    The IEC Von-Karman spectral model.
+    r"""IEC Von-Karman spectral model
 
     Notes
     -----

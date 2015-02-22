@@ -17,6 +17,7 @@ from . import pyts_numpy as np
 from numpy import float32, complex64
 from .misc import lowPrimeFact_near
 from os import path
+import time
 try:
     from .tslib import tslib  # The file tslib.so contains the module 'tslib'.
 except ImportError:
@@ -41,22 +42,24 @@ ts_complex = complex64
 
 class statObj(float):
 
-    def __new__(self, dat):
+    def __new__(self, dat, ubar=None):
         return float.__new__(self, dat.mean())
 
     @property
     def mean(self):
         return self
 
-    def __init__(self, dat):
+    def __init__(self, dat, ubar=None):
 
         self.max = dat.max()
         self.min = dat.min()
         self.sigma = np.std(dat)
-        self.ti = (self.sigma / self.mean) * 100
+        if ubar is None:
+            ubar = self.mean
+        self.ti = (self.sigma / ubar) * 100
 
     def __repr__(self,):
-        return '<statObj mean: %0.2f, min: %0.2f, max: %0.2f>' % (self.mean, self.min, self.max)  # noqa
+        return '<statObj mean: %0.2f, min: %0.2f, max: %0.2f>' % (self.mean, self.min, self.max)
 
 
 class tsBaseObj(object):
@@ -260,14 +263,17 @@ def tsGrid(center=None, ny=None, nz=None,
     out.n_t, out.time_sec, out.dt = _parse_inputs(nt, time_sec, dt, plus_one=0)
     if time_sec_out is None:
         time_sec_out = out.time_sec
-    out.n_t_out, time_sec_out, junk = _parse_inputs(
-        None, time_sec_out, dt, plus_one=0)
+    (out.n_t_out,
+     time_sec_out,
+     junk) = _parse_inputs(None,
+                           time_sec_out,
+                           dt, plus_one=0)
+
     if findClose_nt_lowPrimeFactors:
         out.n_t = lowPrimeFact_near(out.n_t, nmin=out.n_t_out, pmax=prime_max)
         out.n_t, out.time_sec, junk = _parse_inputs(
             out.n_t, None, out.dt, plus_one=0)
-    out.f = np.arange(out.n_f, dtype=ts_float) * \
-        out.df + out.df  # !!!CHECKTHIS
+    out.f = np.arange(out.n_f, dtype=ts_float) * out.df + out.df  # !!!CHECKTHIS
     return out
 
 
@@ -314,12 +320,12 @@ class gridObj(tsBaseObj):
         return out
 
     def __repr__(self,):
-        return '<TurbSim Grid:%5.1fm high x %0.1fm wide grid  (%d x %d points)\
-        , centered at %0.1fm.\n              %5.1fsec simulation, dt=%0.1fsec \
-        (%d timesteps).>' % (self.height, self.width,
-                             self.n_z, self.n_y,
-                             self.zhub, self.time_sec,
-                             self.dt, self.n_t)
+        return ('<TurbSim Grid:%5.1fm high x %0.1fm wide grid  (%d x %d points)'
+                ', centered at %0.1fm.\n              %5.1fsec simulation, dt=%0.1fsec '
+                '(%d timesteps).>' % (self.height, self.width,
+                                      self.n_z, self.n_y,
+                                      self.zhub, self.time_sec,
+                                      self.dt, self.n_t))
 
     @property
     def time_sec_out(self,):
@@ -528,6 +534,16 @@ class modelBase(tsBaseObj):
     """
 
     @property
+    def model_name(self,):
+        """The model name is the class definition name"""
+        return str(self.__class__).rsplit('.', 1)[-1].rstrip("'>")
+
+    @property
+    def model_desc(self,):
+        """The model description is the first line of the docstring."""
+        return self.__doc__.splitlines()[0].rstrip('.')
+
+    @property
     def parameters(self,):
         """
         This property stores information about the TurbSim model
@@ -537,3 +553,6 @@ class modelBase(tsBaseObj):
         placeholder for now.
         """
         return dict(self.__dict__)
+
+    def _sumfile_string(self, tsrun, ):
+        return "## No '_sumfile_string' defined for %s ##\n" % (str(self.__class__))

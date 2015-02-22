@@ -26,7 +26,7 @@ def zL(Ri, TurbModel=None):
     *zL* is the Monin-Obhukov (M-O) stability parameter z/L,
     where L is the M-O length.
 
-    zL>0 means stable conditions.
+    zL > 0 means stable conditions.
 
     Parameters
     ----------

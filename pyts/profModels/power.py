@@ -6,8 +6,7 @@ from .mBase import profModelBase, profObj
 
 class nwtc(profModelBase):
 
-    r"""
-    The power-law mean wind profile model.
+    r"""Power-law wind profile model.
 
     .. math::
 
@@ -29,6 +28,14 @@ class nwtc(profModelBase):
         self.Uref = Uref
         self.Zref = Zref
         self.PLexp = PLexp
+
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Profile model used                               =  {dat.model_desc}
+        Reference velocity (URef)                        =  {dat.Uref:0.2f} [m/s]
+        Power-low exponent (PLexp)                       =  {dat.PLexp:0.2f} [m]
+        """
+        return sumstring_format.format(dat=self)
 
     def model(self, z):
         """

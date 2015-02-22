@@ -3,7 +3,7 @@ This module contains the nwtc spectral models.
 """
 from .mBase import np, ts_float, specObj, specModelBase
 from ..misc import zL
-from .kelley_coefs import calc_nwtcup_coefs
+from .kelley_coefs import calc_nwtcup_coefs, p_coefs_unstable, f_coefs_unstable
 
 
 class genNWTC(specModelBase):
@@ -20,19 +20,33 @@ class genNWTC(specModelBase):
 
         Parameters
         ----------
-        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+        tsrun :         :class:`.tsrun`
                         A TurbSim run object.
 
         Returns
         -------
-        out :           :class:`specObj <.mBase.specObj>`
+        out :           :class:`.specObj`
                         An NWTC spectral object for the grid in `tsrun`.
 
         """
         out = specObj(tsrun)
-        # !!!FIXTHIS: The following lines bind output to the specModel object. It would be better to make this explicit, or something.
+        # !!!FIXTHIS: The following lines bind calculation to the
+        # !!!MODEL. This goes against the PyTurbSim philosophy of
+        # !!!keeping calculations separated from models.
         self.f = out.f
         self._work = np.zeros(out.n_f, dtype=ts_float)
+        self.zhub = tsrun.grid.zhub
+        # Fixing this will require something like changing:
+        #   out[comp][iz, iy] = model(z, u, comp)
+        # to:
+        #   self.model(out, u, icomp, iz, iy)
+        # Note here that u must be supplied explicitly because it is
+        # not known to 'out'.
+        # This would also require:
+        # 1) deleting the self._work variable
+        # 2) changing ``def L(self,)`` from a property to ``def
+        #    L(self, tsrun)`` and using tsrun.grid.zhub their.
+        # 3) changing all calls to ``self.L`` accordingly.
         for iz in range(out.n_z):
             for iy in range(out.n_y):
                 z = out.grid.z[iz]
@@ -45,8 +59,7 @@ class genNWTC(specModelBase):
 
 class NWTC_stable(genNWTC):
 
-    r"""
-    The NWTC 'stable' spectral model.
+    r"""The NWTC 'stable' spectral model.
 
     Parameters
     ----------
@@ -64,7 +77,9 @@ class NWTC_stable(genNWTC):
 
     .. math::
 
-        S_k(f) =  \frac{U_{*}^2 A_k \hat{f}^{-1}\gamma}{1+B_k(f/\hat{f})^{5/3}} \qquad k=0,1,2\ (u,v,w)
+        S_k(f) = \frac{U_{*}^2 A_k
+        \hat{f}^{-1}\gamma}{1+B_k(f/\hat{f})^{5/3}} \qquad k=0,1,2\
+        (u,v,w)
 
 
     Where,
@@ -100,6 +115,17 @@ class NWTC_stable(genNWTC):
         else:
             self.coefs = coef
 
+    def _sumfile_string(self, tsrun):
+        sumstring_format = """
+        Turbulence model used                            =  {dat.model_desc}
+        Turbulence velocity (UStar)                      =  {dat.Ustar:0.2f} [m/s]
+        Stability parameter (z/L)                        =  {dat.zL:0.2f}
+        coefs                            =  [{p[0][0]:0.2f}, {p[0][1]:0.2f}, {p[0][2]:0.2f}]
+                                            [{p[1][0]:0.2f}, {p[1][1]:0.2f}, {p[1][2]:0.2f}]
+        """
+        return sumstring_format.format(dat=self,
+                                       p=self.coefs,)
+
     @property
     def _phie(self):
         return (1. + 2.5 * self.zL ** 0.6) ** 1.5
@@ -116,20 +142,19 @@ class NWTC_stable(genNWTC):
         coef = self.coefs[comp]
         z_u = z / u
         denom = (self.f / self._phim)
-        numer = (self._phie / self._phim) ** self.pow2_3 / \
-            self._phim * self.Ustar2
+        numer = (self._phie / self._phim) ** self.pow2_3 / self._phim * self.Ustar2
         if coef.ndim > 1:
             self._work[:] = 0
             for c in coef:
                 self._work += self.model(z, u, comp)
             return self._work
-        return coef[0] * self.s_coef[comp, 0] * numer * z_u / (1. + self.s_coef[comp, 1] * (coef[1] * z_u * denom) ** self.pow5_3)
+        return (coef[0] * self.s_coef[comp, 0] * numer * z_u /
+                (1. + self.s_coef[comp, 1] * (coef[1] * z_u * denom) ** self.pow5_3))
 
 
 class NWTC_unstable(genNWTC):
 
-    r"""
-    The NWTC 'unstable' spectral model.
+    r"""The NWTC 'unstable' spectral model.
 
     .. math::
        S_k(f) = U_\mathrm{star}^2 G_k(f,\bar{u},z,ZI) \qquad k = u, v, w
@@ -164,9 +189,29 @@ class NWTC_unstable(genNWTC):
         if f_coefs is None:
             self.f_coefs = f_coefs_unstable
 
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Turbulence model used                            =  {dat.model_desc}
+        Turbulence velocity (UStar)                      =  {dat.Ustar:0.4g} [m/s]
+        Mixing layer depth (ZI)                          =  {dat.ZI:0.4g} [m]
+        Stability parameter (z/L)                        =  {dat.zL:0.4g}
+        Monin-Obhukov Length scale                       =  {Lmo:0.4g} [m]
+        p_coefs                  =  [{p[0][0]:0.4g}, {p[0][1]:0.4g}, {p[0][2]:0.4g}]
+                                    [{p[1][0]:0.4g}, {p[1][1]:0.4g}, {p[1][2]:0.4g}]
+        f_coefs                  =  [{f[0][0]:0.4g}, {f[0][1]:0.4g}, {f[0][2]:0.4g}]
+                                    [{f[1][0]:0.4g}, {f[1][1]:0.4g}, {f[1][2]:0.4g}]
+        """
+        return sumstring_format.format(dat=self,
+                                       Lmo=self.L,
+                                       p=self.p_coefs,
+                                       f=self.f_coefs,)
+
     @property
-    def L(self,):
-        return self.grid.zhub / self.zL
+    def L(self, ):
+        if not hasattr(self, 'zhub'):
+            raise Exception("The Monin-Obhukov is unknown until this "
+                            "model has been '__call__'d.")
+        return self.zhub / self.zL
 
     def model(self, z, u, comp):
         r"""
@@ -205,8 +250,9 @@ class NWTC_unstable(genNWTC):
         The form of the w-compenent spectrum is:
 
         .. math::
-           S_w(f) = U_\mathrm{star}^2 \left( p_{w,1}\frac{\alpha}{(1 + F_{w,1} \hat{f})^{5/3}} \gamma +
-           p_{w,2}\frac{\beta}{ 1 + F_{w,2} {f'} ^{5/3} } \right )
+           S_w(f) = U_\mathrm{star}^2 \left( p_{w,1}\frac{\alpha}{(1 +
+           F_{w,1} \hat{f})^{5/3}} \gamma + p_{w,2}\frac{\beta}{ 1 +
+           F_{w,2} {f'} ^{5/3} } \right )
 
         Where,
 
@@ -229,24 +275,26 @@ class NWTC_unstable(genNWTC):
         f_coef = self.f_coefs[comp]
         pow5_3 = self.pow5_3
         z_ZI = z / self.ZI
-        num0 = self.Ustar2 * self.ZI / u * (self.ZI / -self.L) ** self.pow2_3
+        num0 = self.Ustar2 * self.ZI / u * (self.ZI / -self.L()) ** self.pow2_3
         fZI_u = self.f * self.ZI / u
+        z_u = z / u
         num1 = self.Ustar2 * z_u * (1 - z_ZI) ** 2
         fz_u = self.f * z_u
         if comp == 0:
             tmp0 = 1 + 15 * z_ZI
-            self._work = p_coef[0] * num0 / (1 + (fZI_u * f_coef[0]) ** pow5_3) + p_coef[
-                1] * num1 / (tmp0 + f_coef[1] * fz_u) ** pow5_3
+            self._work = (p_coef[0] * num0 / (1 + (fZI_u * f_coef[0]) ** pow5_3)
+                          + p_coef[1] * num1 / (tmp0 + f_coef[1] * fz_u) ** pow5_3)
         elif comp == 1:
             tmp0 = 1 + 2.8 * z_ZI
-            self._work = p_coef[0] * num0 / (1 + f_coef[0] * fZI_u) ** pow5_3 + p_coef[
-                1] * num1 / (tmp0 + f_coef[1] * fz_u) ** pow5_3
+            self._work = (p_coef[0] * num0 / (1 + f_coef[0] * fZI_u) ** pow5_3
+                          + p_coef[1] * num1 / (tmp0 + f_coef[1] * fz_u) ** pow5_3)
             ## # Handle extra (e.g. wake, for outf_turb) coefficients:
             ## if coef.shape[0]>2 and not np.isnan(coef[2,0]+coef[2,1]):
             # self._work+=coef[2,0]*17*num1/(tmp0+coef[2,1]*9.5*fz_u)**pow5_3
         else:
-            self._work = p_coef[0] * num0 / (1 + f_coef[0] * fZI_u) ** pow5_3 * np.sqrt(
-                (fz_u ** 2 + (0.3 * z_ZI) ** 2) / (fz_u ** 2 + 0.0225)) + p_coef[1] * num1 / (1 + f_coef[1] * fz_u ** pow5_3)
+            self._work = (p_coef[0] * num0 / (1 + f_coef[0] * fZI_u) ** pow5_3
+                          * np.sqrt((fz_u ** 2 + (0.3 * z_ZI) ** 2) / (fz_u ** 2 + 0.0225))
+                          + p_coef[1] * num1 / (1 + f_coef[1] * fz_u ** pow5_3))
         return self._work
 
 

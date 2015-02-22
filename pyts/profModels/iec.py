@@ -13,9 +13,10 @@ from .power import nwtc as powmain
 
 class main(logmain, powmain):
 
-    """
-    The iec wind profile model.  This profile is a power-law across
-    the rotor disk and logarithmic elsewhere.
+    """IEC wind profile model.
+
+    This profile is a power-law across the rotor disk and logarithmic
+    elsewhere.
 
     Parameters
     ----------
@@ -49,13 +50,24 @@ class main(logmain, powmain):
 
     """
 
-    def __init__(self, URef, RefHt, Z0, Ri, PLexp=0.2, turbmodel=None):
+    def __init__(self, URef, RefHt, Z0, PLexp=0.2, turbmodel=None):
         self.Uref = URef
         self.Zref = RefHt
         self.PLexp = PLexp
         self.Z0 = Z0
-        self.Ri = Ri
+        self.Ri = 0.0
         self.TurbModel = turbmodel
+
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Profile model used                               =  {dat.model_desc}
+        Reference velocity (URef)                        =  {dat.Uref:0.4g} [m/s]
+        Reference height (RefHt)                         =  {dat.Zref:0.4g} [m]
+        Power-low exponent (PLexp)                       =  {dat.PLexp:0.4g}
+        Surface roughness length (Z0)                    =  {dat.Z0:0.4g} [m]
+        Turbulence Model                                 =  {dat.TurbModel}
+        """
+        return sumstring_format.format(dat=self)
 
     def __call__(self, tsrun):
         """

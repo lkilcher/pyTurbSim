@@ -1,4 +1,3 @@
-## \namespace cohereModel:main
 """
 This module defines two coherence models:
 nwtc - The NWTC 'non-IEC' coherence model.
@@ -41,13 +40,13 @@ class cohereObjNWTC(cohereObj):
 
         Parameters
         ----------
-        phases : array_like(np,nf)
+        phases : array_like(np, nf)
                  The input (generally randomized) phases for each
                  point for each frequency.
 
         Returns
         -------
-        phases : array_like(np,nf)
+        phases : array_like(np, nf)
                  The correlated phases according to this cohereObj's
                  coherence model (see :meth:`calcCoh`).
 
@@ -102,8 +101,9 @@ class cohereObjNWTC(cohereObj):
 
 class nwtc(cohereModelBase):
 
-    """
-    The NWTC non-IEC coherence model.
+    """NWTC coherence model.
+
+    This is also known as the 'non-IEC' coherence model.
 
     Parameters
     ----------
@@ -172,6 +172,17 @@ class nwtc(cohereModelBase):
         if dbg:
             #self.timer=dbg.timer('tslib-cohNWTC')
             self.timer = dbg.timer('roll')
+
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Coherence model used                             =  {dat.model_desc}
+        Coherence Exponent                               =  {dat.CohExp:0.2f}
+        Coherence decrements (IncDec):
+           U (a, b)                                      =  ({coh.a[0]:0.2f}, {coh.b[0]:0.2f})
+           V (a, b)                                      =  ({coh.a[1]:0.2f}, {coh.b[1]:0.2f})
+           W (a, b)                                      =  ({coh.a[2]:0.2f}, {coh.b[2]:0.2f})
+        """
+        return sumstring_format.format(dat=self, coh=tsrun.cohere, )
 
     def set_coefs(self, cohereObj):
         """
@@ -255,11 +266,9 @@ class cohereObjIEC(cohereObj):
 
 class iec(cohereModelBase):
 
-    """
-    The 'IEC' coherence model for the u velocity component between two
-    points (z_i,y_i) and (z_j,y_j).
+    """IEC coherence model.
 
-    Create an IEC spectral model object.
+    This coherence model only include u-component coherence.
 
     Parameters
     ----------
@@ -305,7 +314,7 @@ class iec(cohereModelBase):
         """
         return self._Lfactor * Lambda(zhub, self.IECedition)
 
-    def __init__(self, IECedition=3):
+    def __init__(self, IECedition=3, ):
         self.IECedition = IECedition
         if IECedition <= 2:
             # The Lambda function includes a factor of 0.7 (_Lfactor*0.7=2.45).
@@ -317,6 +326,14 @@ class iec(cohereModelBase):
             self.a = 12.
         if dbg:
             self.timer = dbg.timer('tslib-cohIEC')
+
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Coherence model used                             =  {dat.model_desc}
+        IEC Edition                                      =  {dat.IECedition:d}
+        Coherence length scale parameter                 =  {L:0.2f} [m]
+        """
+        return sumstring_format.format(dat=self, L=self._L(tsrun.grid.zhub))
 
     def set_coefs(self, cohereObj):
         """

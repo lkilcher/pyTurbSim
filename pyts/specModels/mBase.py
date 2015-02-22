@@ -3,7 +3,6 @@ This is the turbulence spectrum package's base module.
 
 """
 from ..base import modelBase, ts_float, np, gridProps, calcObj
-from .kelley_coefs import p_coefs_unstable, f_coefs_unstable
 from numpy import trapz
 
 

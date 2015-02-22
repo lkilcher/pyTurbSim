@@ -9,8 +9,7 @@ from .mBase import profModelBase, np, profObj
 
 class uniform(profModelBase,):
 
-    r"""
-    A 'uniform' mean wind-speed 'profile'.
+    r"""Uniform wind-speed 'profile' model.
 
     Parameters
     ----------
@@ -27,6 +26,13 @@ class uniform(profModelBase,):
 
     def __init__(self, URef):
         self.Uref = URef
+
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Profile model used                               =  {dat.model_desc}
+        Reference velocity (URef)                        =  {dat.Uref:0.2f} [m/s]
+        """
+        return sumstring_format.format(dat=self, )
 
     def __call__(self, tsrun):
         """
@@ -78,6 +84,16 @@ class linear(profModelBase,):
         self.Zref = ZRef
         self.Uref2 = URef2
         self.Zref2 = ZRef2
+
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Profile model used                               =  {dat.model_desc}
+        Reference velocity (URef)                        =  {dat.Uref:0.2f} [m/s]
+        Reference height (ZRef)                          =  {dat.Zref:0.2f} [m]
+        Reference velocity 2 (URef)                      =  {dat.Uref2:0.2f} [m/s]
+        Reference height 2 (ZRef)                        =  {dat.Zref2:0.2f} [m]
+        """
+        return sumstring_format.format(dat=self,)
 
     def __call__(self, tsrun):
         """

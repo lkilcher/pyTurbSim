@@ -48,7 +48,9 @@ def _h2l(tsconfig):
                 H2O-log mean profile model instance.
 
     """
-    return pm.h2l(tsconfig['URef'], tsconfig['RefHt'], tsconfig['UStar'])
+    return pm.h2l(tsconfig['URef'],
+                  tsconfig['RefHt'],
+                  tsconfig['UStar'])
 
 
 def _log(tsconfig):
@@ -67,7 +69,11 @@ def _log(tsconfig):
                 wind log mean profile model instance.
 
     """
-    return pm.log(tsconfig['URef'], tsconfig['RefHt'], tsconfig['Z0'], tsconfig['RICH_NO'], tsconfig['TurbModel'])
+    return pm.log(tsconfig['URef'],
+                  tsconfig['RefHt'],
+                  tsconfig['Z0'],
+                  tsconfig['RICH_NO'],
+                  tsconfig['TurbModel'])
 
 
 def _pl(tsconfig):
@@ -86,7 +92,9 @@ def _pl(tsconfig):
                 power-law mean profile model instance.
 
     """
-    return pm.pl(tsconfig['URef'], tsconfig['RefHt'], tsconfig['PLExp'])
+    return pm.pl(tsconfig['URef'],
+                 tsconfig['RefHt'],
+                 tsconfig['PLExp'])
 
 
 def _iec(tsconfig):
@@ -105,4 +113,8 @@ def _iec(tsconfig):
                 IEC mean profile model instance.
 
     """
-    return pm.iec(tsconfig['URef'], tsconfig['RefHt'], tsconfig['Z0'], tsconfig['RICH_NO'], tsconfig['PLExp'], tsconfig['TurbModel'],)
+    return pm.iec(tsconfig['URef'],
+                  tsconfig['RefHt'],
+                  tsconfig['Z0'],
+                  tsconfig['PLExp'],
+                  tsconfig['TurbModel'],)

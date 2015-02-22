@@ -38,7 +38,7 @@ class _base(object):
         if hasattr(self, '_grid_x'):
             for ax in axes:
                 for val in self._grid_x:
-                    ax.vln(val, linestyle=':', color='k', zorder=-10)
+                    ax.axvline(val, linestyle=':', color='k', zorder=-10)
         if hasattr(self, '_labels'):
             for ax in axes:
                 ax.annoteCorner(self._labels[ax.comp], pos='ul')
@@ -408,7 +408,7 @@ class fig_axForms(supax.sfig):
             axt.finalize(self.sax[:, idx])
         for c, ax in zip(self.comp, self.ax[:, 0]):
             p = ax.get_position().ymax
-            self.fig.text(0.02, p, '$'+c+'$', va='top', ha='left',
+            self.fig.text(0.02, p, '$' + c + '$', va='top', ha='left',
                           size='x-large', backgroundcolor='w')
 
 

@@ -7,7 +7,8 @@ from .mBase import specModelBase, np, specObj, ts_float
 
 class tidal(specModelBase):
 
-    r"""
+    r"""Tidal Channel spectral model.
+    
     The tidal spectral model is based on measurements from Admiralty
     Inlet, in Puget Sound, WA.
 
@@ -21,18 +22,20 @@ class tidal(specModelBase):
     Notes
     -----
 
-    This model is similar to :class:`.nwtc.NWTC_stable`, but uses
+    This model is similar to :class:`.NWTC_stable`, but uses
     different values for :attr:`coef`, and does not support new
     fit-coefficients. The form of this model is:
 
     .. math::
-         S_k(f) = \frac{\sigma_k^2 \mathrm{coef}[k,0]}{1+\mathrm{coef}[k,1](f/\hat{f})^{5/3}} \qquad k=0,1,2\ (u,v,w)
+    
+         S_k(f) = \frac{\sigma_k^2 \mathrm{coef}[k,0]}{1+\mathrm{coef}[k,1](f/\hat{f})^{5/3}}
+         \qquad k=0,1,2\ (u,v,w)
 
     Where,
 
       :math:`\hat{f}=\frac{\partial \bar{u}}{\partial z}`
 
-      :math:`\bar{u}` is the mean velocity from the :class:`profObj <pyts.profModels.mBase.profObj>`.
+      :math:`\bar{u}` is the mean velocity from the :class:`.profObj`.
 
       :math:`\sigma_k^2 = U_{*}^2 \alpha_k exp(-2 z/Zref)`
 
@@ -49,7 +52,28 @@ class tidal(specModelBase):
         self.Ustar = Ustar
         self.Zref = Zref
 
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Turbulence model used                            =  {dat.model_desc}
+        Turbulence velocity (UStar)                      =  {dat.Ustar:0.4g} [m/s]
+        Log roughness scale (Zref)                       =  {dat.Zref:0.4g} [m]
+        """
+        return sumstring_format.format(dat=self)
+
     def __call__(self, tsrun):
+        """Create the spectral object for :class:`.tsrun`.
+
+        Parameters
+        ----------
+        tsrun :         :class:`.tsrun`
+                        A TurbSim run object.
+
+        Returns
+        -------
+        out :           :class:`.specObj`
+                        An IEC spectral object for the grid in :class:`.tsrun`.
+
+        """
         out = specObj(tsrun)
         dudz = np.abs(tsrun.prof.dudz[None, :, :, None])
         out.sigma2 = self.Ustar ** 2 * np.array([4.5, 2.25, 0.9])[:, None] \
@@ -63,11 +87,13 @@ class tidal(specModelBase):
 
 class river(tidal):
 
-    """
+    """River turbulence spectral model.
+
     This model is based on measurements from the East River, in New
     York City. It is identical to the :class:`tidal` model, but uses
     different values for :attr:`coef`.
     """
+
     # These fit positive velocity data in eastriver:
     coef = np.array([[1.057, 3.432],
                      [0.351, 0.546],

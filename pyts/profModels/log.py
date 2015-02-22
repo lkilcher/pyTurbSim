@@ -10,8 +10,7 @@ from ..misc import kappa, psiM
 
 class nwtc(profModelBase,):
 
-    r"""
-    The NWTC logarithmic mean wind-speed profile.
+    r"""NWTC logarithmic wind-speed profile model.
 
     Parameters
     ----------
@@ -45,6 +44,17 @@ class nwtc(profModelBase,):
         self.Z0 = Z0
         self.Ri = Ri
         self.TurbModel = turbmodel
+
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Profile model used                               =  {dat.model_desc}
+        Reference velocity (URef)                        =  {dat.Uref:0.4g} [m/s]
+        Reference height (ZRef)                          =  {dat.Zref:0.4g} [m]
+        Surface roughness length (Z0)                    =  {dat.Z0:0.4g} [m]
+        Richardson Number (RICH_NO)                      =  {dat.Ri:0.4g}
+        Turbulence Model                                 =  {dat.TurbModel}
+        """
+        return sumstring_format.format(dat=self)
 
     def __call__(self, tsrun):
         """
@@ -83,7 +93,8 @@ class nwtc(profModelBase,):
         """
         # Note: this function is separated from the __call__ routine so that it
         # can be utilized by other modules
-        return (self.Uref * (np.log(z / self.Z0) + self.psiM) / (np.log(self.Zref / self.Z0) + self.psiM))
+        return (self.Uref * (np.log(z / self.Z0) + self.psiM) /
+                (np.log(self.Zref / self.Z0) + self.psiM))
 
     @property
     def psiM(self,):
@@ -97,8 +108,7 @@ class nwtc(profModelBase,):
 
 class H2O(profModelBase,):
 
-    """
-    The logarithmic mean water velocity profile.
+    """Logarithmic water velocity profile model.
 
     Parameters
     ----------
@@ -125,6 +135,14 @@ class H2O(profModelBase,):
         self.Zref = Zref
         self.Ustar = ustar
 
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Profile model used                               =  {dat.model_desc}
+        Reference velocity (URef)                        =  {dat.Uref:0.4g} [m/s]
+        Reference height (ZRef)                          =  {dat.Zref:0.4g} [m]
+        """
+        return sumstring_format.format(dat=self)
+
     def __call__(self, tsrun):
         """
         Create and calculate the mean-profile object for a `tsrun`
@@ -142,6 +160,5 @@ class H2O(profModelBase,):
                 spatial grid in tsrun.
         """
         out = profObj(tsrun)
-        out[0] = (self.Ustar / kappa * np.log(
-            out.grid.z / self.Zref) + self.Uref)[:, None]
+        out[0] = (self.Ustar / kappa * np.log(out.grid.z / self.Zref) + self.Uref)[:, None]
         return out

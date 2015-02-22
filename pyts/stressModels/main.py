@@ -3,10 +3,10 @@ from .mBase import stressModelBase, stressObj
 
 class uniform(stressModelBase):
 
-    """
-    The 'uniform' Reynold's stress model. In this model each component
-    of the Reynold's stress can be specified explicitly, but the
-    values are uniform in space.
+    """Uniform Reynold's stress model.
+
+    In this model each component of the Reynold's stress can be
+    specified explicitly, but the values are uniform in space.
 
     Parameters
     ----------
@@ -24,6 +24,15 @@ class uniform(stressModelBase):
         Set the Reynold's stresses to be uniform over the rotor disk.
         """
         self.vals = [upvp_, upwp_, vpwp_]
+
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Stress model used                                =  {dat.model_desc}
+        u'v'                                             =  {dat.vals[0]:0.4g} [m^2/s^2]
+        u'w'                                             =  {dat.vals[1]:0.4g} [m^2/s^2]
+        v'w'                                             =  {dat.vals[2]:0.4g} [m^2/s^2]
+        """
+        return sumstring_format.format(dat=self, )
 
     def __call__(self, tsrun):
         """

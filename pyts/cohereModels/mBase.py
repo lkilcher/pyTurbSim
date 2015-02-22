@@ -57,7 +57,12 @@ class cohereObj(gridProps, calcObj):
         grid-points or timesteps.
         """
         if not hasattr(self, '_array'):
-            self._array = np.empty((self.n_comp, self.n_p, self.n_p, self.n_f), dtype=ts_complex, order='F')
+            self._array = np.empty((self.n_comp,
+                                    self.n_p,
+                                    self.n_p,
+                                    self.n_f),
+                                   dtype=ts_complex, order='F')
+
             for icomp in range(3):
                 for ff in range(self.n_f):
                     for ii, jj in self._iter_inds():
@@ -223,8 +228,8 @@ class cohereModelBase(modelBase, gridProps):
     Where tsr is a 'tsrun' object.
 
     """
-    cohereObj = cohereObj # This needs to be set to the appropriate
-                        # 'coherence object' for each model.
+    cohereObj = cohereObj  # This needs to be set to the appropriate
+                           # 'coherence object' for each model.
 
     def __call__(self, tsrun):
         """

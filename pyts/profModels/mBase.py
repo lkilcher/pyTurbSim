@@ -36,7 +36,11 @@ class profObj(gridProps, calcObj):
         This is a property for creating/returning the vertical shear.
         """
         if not hasattr(self, '_val_dudz'):
-            self._val_dudz = np.concatenate(((self.array[:, 1]-self.array[:, 0])[:, None,:]/self.grid.dz, (self.array[:, 2:]-self.array[:, :-2])/(2*self.grid.dz), (self.array[:, -1]-self.array[:, -2])[:, None,:]/self.grid.dz), axis=1)
+            self._val_dudz = np.concatenate(
+                ((self.array[:, 1] - self.array[:, 0])[:, None, :] / self.grid.dz,
+                 (self.array[:, 2:] - self.array[:, :-2]) / (2 * self.grid.dz),
+                 (self.array[:, -1] - self.array[:, -2])[:, None, :] / self.grid.dz),
+                axis=1)
         return self._val_dudz
 
     @property

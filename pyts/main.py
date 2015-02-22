@@ -14,11 +14,12 @@ from .specModels.mBase import specModelBase, specObj
 from .cohereModels.mBase import cohereModelBase, cohereObj, cohereUser
 from .stressModels.mBase import stressModelBase, stressObj
 from .phaseModels.api import randPhase
-from ._version import __version__, __prog_name__, __version_date__
+import _version as ver
 from .io import bladed, aerodyn, sum
 from numpy import random
 from numpy import ulonglong
 from numpy.fft import irfft
+import time
 
 # !!!VERSION_INCONSISTENCY
 # inconsistency between this and older versions of TurbSim
@@ -44,7 +45,8 @@ from numpy.fft import irfft
 #      . Add ability to rotate mean velocity field (for a prof instance and a profModel).
 #      . Add ability to add veer to mean velocity field (prof instance and profModel).
 #  - Write .sum summary files (io package), (so they are fully self-contained).
-#     . Add parameter logging, so that we can write summary files that track all parameters that were input.
+#     . Add parameter logging, so that we can write summary files that
+#       track all parameters that were input.
 ################
 ## Low priority
 #  - Write FF files (tsio.py).
@@ -157,7 +159,8 @@ class tsrun(object):
         elif profObj in val.__class__.__mro__:
             self._prof = val
         else:
-            raise Exception('The input must be a profile model, profile object or numpy array; it is none of these.')
+            raise Exception('The input must be a profile model, '
+                            'profile object or numpy array; it is none of these.')
 
     @prof.deleter
     def prof(self,):
@@ -228,7 +231,8 @@ class tsrun(object):
         elif specObj in val.__class__.__mro__:
             self._spec = val
         else:
-            raise Exception('The input must be a spectral model, spectra object or numpy array; it is none of these.')
+            raise Exception('The input must be a spectral model, '
+                            'spectra object or numpy array; it is none of these.')
 
     @spec.deleter
     def spec(self,):
@@ -319,7 +323,9 @@ class tsrun(object):
         elif cohereObj in val.__class__.__mro__:
             self.cohere = val
         else:
-            raise Exception('The input must be a coherence model, coherence object or numpy array; it is none of these.')
+            raise Exception('The input must be a coherence model, '
+                            'coherence object or numpy array; it is none of these.')
+
     @cohere.deleter
     def cohere(self,):
         if hasattr(self, 'cohereModel'):
@@ -389,7 +395,8 @@ class tsrun(object):
         elif stressObj in val.__class__.__mro__:
             self._stress = val
         else:
-            raise Exception('The input must be a stress model, stress object or numpy array; it is none of these.')
+            raise Exception('The input must be a stress model, '
+                            'stress object or numpy array; it is none of these.')
 
     @stress.deleter
     def stress(self,):
@@ -407,6 +414,8 @@ class tsrun(object):
         del self.stress
         if seed is None:
             self.randgen.seed(self.RandSeed)
+        else:
+            self.randgen.seed(seed)
 
     @property
     def info(self,):
@@ -414,13 +423,22 @@ class tsrun(object):
         Model names and initialization parameters.
         """
         out = dict()
-        out['version'] = (__prog_name__, __version__, __version_date__)
+        out['version'] = (ver.__prog_name__, ver.__version__, ver.__version_date__)
         out['RandSeed'] = self.RandSeed
+        out['StartTime'] = self._starttime
+        if hasattr(self, '_config'):
+            out['config'] = self._config
         for nm in ['profModel', 'specModel', 'cohereModel', 'stressModel']:
             if hasattr(self, nm):
-                out[nm] = str(getattr(self, nm).__class__
-                              ).rsplit(nm)[-1].rstrip("'>").lstrip('s.')
-                out[nm + '_params'] = getattr(self, nm).parameters
+                mdl = getattr(self, nm)
+                out[nm] = dict(name=mdl.model_name,
+                               description=mdl.model_desc,
+                               params=mdl.parameters,
+                               sumstring=mdl._sumfile_string(self),
+                               )
+            else:
+                out[nm] = None
+        out['RunTime'] = time.time() - time.mktime(self._starttime)
         return out
 
     def run(self,):
@@ -440,15 +458,8 @@ class tsrun(object):
         tsdata : :class:`tsdata`
 
         """
-        if dbg:
-            tmr = dbg.timer('Total CPU time')
-            tmr.start()
+        self._starttime = time.localtime()
         self.timeseries = self._calcTimeSeries()
-        if dbg:
-            tmr.stop()
-            print tmr
-            print self.timer
-            print self.cohereModel.timer
         out = self._build_outdata()
         return out
 
@@ -521,6 +532,7 @@ class tsrun(object):
         ts -= ts.mean(-1)[..., None]  # Make sure the turbulence has zero mean.
         return ts
 
+
 class tsdata(gridProps):
     """
     TurbSim output data object.  In addition to the output of a
@@ -539,14 +551,53 @@ class tsdata(gridProps):
 
         # Start by pulling values from the config file
         # if there was one.
-        if hasattr(self, '_config'):
-            out.update(self._config)
+        if 'config' in self.info:
+            out.update(self.info['config'])
 
-        out['hub'] = hub = object()
-        hub.u = statObj(self.uhub)
-        hub.v = statObj(self.vhub)
-        hub.w = statObj(self.whub)
+        uhub = out['uhub'] = statObj(self.uhub)
+        out['vhub'] = statObj(self.vhub, uhub.mean)
+        out['whub'] = statObj(self.whub, uhub.mean)
+        out['hhub'] = statObj(np.sqrt(self.uhub ** 2 + self.vhub ** 2))
         out['grid'] = self.grid
+        out['upvp'] = statObj(self.uhub * self.vhub)
+        out['upwp'] = statObj(self.vhub * self.whub)
+        out['vpwp'] = statObj(self.vhub * self.whub)
+        out['upvp'].scale = 1
+        out['upwp'].scale = 1
+        out['vpwp'].scale = 1
+        out['tke'] = statObj((self.uturb ** 2).sum(0))
+        out['tke'] = statObj((self.uturb ** 2).sum(0))
+        out['ctke'] = statObj(0.5 * np.sqrt(
+            (self.uturb[0] * self.uturb[1]) ** 2 +
+            (self.uturb[0] * self.uturb[2]) ** 2 +
+            (self.uturb[1] * self.uturb[2]) ** 2))
+        out['u_sigma'] = self.uturb[0].flatten().std()
+        out['v_sigma'] = self.uturb[1].flatten().std()
+        out['w_sigma'] = self.uturb[2].flatten().std()
+        out['TurbModel_desc'] = self.info['specModel']['description']
+
+        out['profModel_sumstring'] = self.info['profModel']['sumstring']
+        out['specModel_sumstring'] = self.info['specModel']['sumstring']
+        out['stressModel_sumstring'] = self.info['stressModel']['sumstring']
+        out['cohereModel_sumstring'] = self.info['cohereModel']['sumstring']
+        out['ver'] = ver
+        out['NowDate'] = time.strftime('%a %b %d, %Y', self.info['StartTime'])
+        out['NowTime'] = time.strftime('%H:%M:%S', self.info['StartTime'])
+        out['RunTime'] = self.info['RunTime']
+        out['FreqNyquist'] = self.f[-1]
+        out['GridBase'] = self.grid.z[0]
+        out['HeightOffset'] = 0.0  # Is this correct?
+        out['ydata'] = self.grid.y
+        out['z_ustd'] = np.concatenate((self.grid.z[:, None], self.uturb[0].std(-1)), axis=1)
+        out['z_vstd'] = np.concatenate((self.grid.z[:, None], self.uturb[1].std(-1)), axis=1)
+        out['z_wstd'] = np.concatenate((self.grid.z[:, None], self.uturb[2].std(-1)), axis=1)
+        u, v, w = self.uprof.mean(-1)[:, :, None]
+        out['WINDSPEEDPROFILE'] = np.concatenate((
+            self.grid.z[:, None],
+            np.sqrt(u ** 2 + v ** 2),
+            np.angle(u + 1j * v) * 180 / np.pi,
+            u, v, w, ), axis=1)
+        return out
 
     def __getitem__(self, ind):
         if not hasattr(ind, '__len__'):
@@ -604,7 +655,15 @@ class tsdata(gridProps):
         return self._time
 
     def __repr__(self,):
-        return '<TurbSim data object:\n%d %4.2fs-timesteps, %0.2fx%0.2fm (%dx%d) z-y grid (hubheight=%0.2fm).>' % (self.uturb.shape[-1], self.dt, self.grid.height, self.grid.width, self.grid.n_z, self.grid.n_y, self.grid.zhub)
+        return ('<TurbSim data object:\n'
+                '%d %4.2fs-timesteps, %0.2fx%0.2fm (%dx%d) z-y grid (hubheight=%0.2fm).>' %
+                (self.uturb.shape[-1],
+                 self.dt,
+                 self.grid.height,
+                 self.grid.width,
+                 self.grid.n_z,
+                 self.grid.n_y,
+                 self.grid.zhub))
 
     @property
     def utotal(self,):
@@ -670,6 +729,10 @@ class tsdata(gridProps):
         return (self.uturb ** 2).mean(-1)
 
     @property
+    def ctke(self,):
+        return 0.5 * np.sqrt((self.stress ** 2).mean(-1).sum(0))
+
+    @property
     def Ti(self,):
         """
         The turbulence intensity, std(u')/U, at each point in the grid.
@@ -682,7 +745,11 @@ class tsdata(gridProps):
         The Reynold's stress tensor.
         """
         if not hasattr(self, '_dat_stress'):
-            self._stress_dat = np.concatenate((np.mean(self.uturb[0]*self.uturb[1], axis=-1)[None], np.mean(self.uturb[0]*self.uturb[2], axis=-1)[None], np.mean(self.uturb[1]*self.uturb[2], axis=-1)[None]), 0)
+            self._stress_dat = np.concatenate(
+                (np.mean(self.uturb[0] * self.uturb[1], axis=-1)[None],
+                 np.mean(self.uturb[0] * self.uturb[2], axis=-1)[None],
+                 np.mean(self.uturb[1] * self.uturb[2], axis=-1)[None]),
+                0)
         return self._stress_dat
 
     @property
@@ -716,20 +783,20 @@ class tsdata(gridProps):
         stats : dict
                 A dictionary containing various statistics of interest.
         """
-        slc = [slice(None)]+list(self.ihub)
+        slc = [slice(None)] + list(self.ihub)
         stats = {}
-        stats['Ti'] = self.tke[slc]/self.UHUB
+        stats['Ti'] = self.tke[slc] / self.UHUB
         return stats
 
     def writeBladed(self, filename):
         """
         Save the data in this tsdata object in 'bladed' format (.wnd).
-        
+
         Parameters
         ----------
         filename : str
                    The filename to which the data should be written.
-        
+
         """
         bladed.write(filename, self)
 

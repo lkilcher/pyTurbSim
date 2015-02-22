@@ -29,6 +29,14 @@ class tidal(stressModelBase):
         self.Zref = Zref
         self.Ustar = Ustar
 
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Stress model used                                =  {dat.model_desc}
+        Friction velocity (UStar)                        =  {dat.Ustar:0.4g} [m/s]
+        Reference height (ZRef)                          =  {dat.Zref:0.4g} [m]
+        """
+        return sumstring_format.format(dat=self, )
+
     def __call__(self, tsrun):
         """
         Create and calculate the stress object for a `tsrun`

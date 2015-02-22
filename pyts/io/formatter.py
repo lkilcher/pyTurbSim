@@ -83,6 +83,7 @@ class SuperFormatter(Formatter):
     """
 
     format_prfx = ''
+    default_format_prfx = ''
     allow_sloppy = False
 
     def __init__(self, template):
@@ -115,17 +116,20 @@ class SuperFormatter(Formatter):
             return '??SOME JUNK??'
         else:
             # This _current_name business is a DIRTY HACK.
-            raise KeyError("'%s' not specified and no default value found in template." % self._current_name)  # noqa
+            raise KeyError("'%s' not specified and no default "
+                           "value found in template." % self._current_name)
+
+    def _format_default(self, default_val):
+        return format(default_val, self.default_format_prfx + 's')
 
     def format_field(self, value, format_spec):
         format_spec = format_spec.rstrip()  # Strip trailing spaces
-
+        default_val = None
         if '/' in format_spec:
             format_spec, default_val = format_spec.split('/', 1)
             # set the default value if there is no input
             if value is None:
-                return format(default_val,
-                              self.format_prfx + 's')
+                return self._format_default(default_val)
         elif value is None:
             return self._fail()
 
@@ -153,4 +157,9 @@ class SuperFormatter(Formatter):
                 return format(value, form)
             except ValueError:
                 pass
-        raise ValueError('Invalid conversion specification')
+            except TypeError:
+                pass
+        # Finally, try the default again:
+        if default_val is None:
+            raise ValueError('Invalid conversion specification')
+        return self._format_default(default_val)

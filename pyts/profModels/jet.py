@@ -4,8 +4,7 @@ from numpy.polynomial.chebyshev import chebval
 
 class main(profModelBase):
 
-    """
-    The low-level jet wind velocity profile.
+    """Low-level jet wind profile model.
 
     Parameters
     ----------
@@ -36,32 +35,44 @@ class main(profModelBase):
     def zjet_max(self, val):
         self._val_zjet_max = val
 
-    def _model(self, z):
+    def _model(self, out):
+        z = out.grid.z
         HtIndx = min(max(int(self.zjet_max - 50) / 20 - 1, 0), 20)
         scoef = spd_coefs[HtIndx]
         dcoef = dir_coefs[HtIndx]
         prms = np.array([0, self.Ri, self.UStar, 1])
-        if self.zjet_max == self.RefHt:
+        if self.zjet_max == self.ZRef:
             prms[0] = self.URef
         else:
             utmp1 = chebval(
-                self.RefHt, np.dot(scoef[:, 1:], prms[1:][:, None]))
-            utmp2 = chebval(self.RefHt, scoef[:, 0])
+                self.ZRef, np.dot(scoef[:, 1:], prms[1:][:, None]))
+            utmp2 = chebval(self.ZRef, scoef[:, 0])
             prms[0] = (self.URef - utmp1) / utmp2
         scoef = np.dot(scoef, prms[:, None])  # These are now vectors
         dcoef = np.dot(dcoef, prms[:, None])  # These are now vectors
         ang = chebval(z, dcoef)
-        ang -= ang[self.grid.ihub[0]]  # The hub-height angle should be zero.
+        ang -= ang[out.grid.ihub[0]]  # The hub-height angle should be zero.
         ang[ang < -45.], ang[ang > 45.] = - \
             45., 45.  # No angle should be more than 45 degrees.
         tmpdat = chebval(z, scoef) * np.exp(1j * np.pi / 180. * ang)[:, None]
         return tmpdat.real, tmpdat.imag
 
-    def __init__(self, zjet_max=None):
+    def __init__(self, URef, ZRef, Ri, zjet_max=None):
+        self.URef = URef
+        self.ZRef = ZRef
+        self.Ri = Ri
         self.zjet_max = zjet_max
 
-    ## def model(self,z):
-    ##     return self.model(z)[0]
+    @property
+    def _sumfile_string(self,):
+        sumstring_format = """
+        Profile model used                               =  {self.model_desc}
+        Reference velocity (URef)                        =  {self.Uref:0.2f}
+        Reference height (ZRef)                          =  {self.ZRef:0.2f}
+        Richardson Number (RICH_NO)                      =  {self.Ri:0.2f}
+        Jet Height (ZJet_Max)                            =  {self.zjet_max:0.2f}
+        """
+        return sumstring_format.format(self=self,)
 
     def __call__(self, tsrun):
         """
@@ -80,7 +91,7 @@ class main(profModelBase):
 
         """
         out = profObj(tsrun)
-        u, v = self.model2(self.grid.z)
+        u, v = self._model(out)
         out[0], out[1] = u[:, None], v[:, None]
         return out
 
