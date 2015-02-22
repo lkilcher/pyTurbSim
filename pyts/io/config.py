@@ -106,7 +106,11 @@ def read(fname):
     for nm in ['IncDec1', 'IncDec2', 'IncDec3']:
         if out[nm] is not None:
             if out[nm].__class__ is str:
-                out[nm] = np.array(out[nm].split(), dtype=ts_float)
+                try:
+                    out[nm] = np.array(out[nm].split(), dtype=ts_float)
+                except ValueError:
+                    # This allows strings that don't convert to pass through.
+                    pass
             else:
                 out[nm] = np.array([out[nm], 0])
     if len(dat) >= 70 and dat[64].split()[1] == 'NumUSRz':

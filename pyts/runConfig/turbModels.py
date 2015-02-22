@@ -33,13 +33,13 @@ def getModel(tsconfig):
 
     Returns
     -------
-    specModel :         A subclass of :class:`specModelBase <pyts.specModels.mBase.specModelBase>`
+    specModel :         A subclass of :class:`.specModelBase`
                         The appropriately initialized 'spectral model' object
                         specified in `tsconfig`.
-    cohereModel :       A subclass of :class:`cohereModelBase <pyts.cohereModels.mBase.cohereModelBase>`
+    cohereModel :       A subclass of :class:`.cohereModelBase`
                         The appropriately initialized 'coherence model' object
                         specified in `tsconfig`.
-    stressModel :       A subclass of :class:`stressModelBase <pyts.stressModels.mBase.stressModelBase>`
+    stressModel :       A subclass of :class:`.stressModelBase`
                         The appropriately initialized 'stress model' object
                         specified in `tsconfig`.
 
@@ -57,35 +57,50 @@ def _tidal(tsconfig):
 
 
 def _river(tsconfig):
-    smodel = sm.river(tsconfig['UStar'], tsconfig['RefHt'])
-    cmodel = cm.nwtc(tsconfig.incdec_a, tsconfig.incdec_b, tsconfig['CohExp'])
-    rmodel = rm.tidal(tsconfig['UStar'], tsconfig['RefHt'])
+    smodel = sm.river(tsconfig['UStar'],
+                      tsconfig['RefHt'])
+    cmodel = cm.nwtc(tsconfig.incdec_a,
+                     tsconfig.incdec_b,
+                     tsconfig['CohExp'])
+    rmodel = rm.tidal(tsconfig['UStar'],
+                      tsconfig['RefHt'])
     return smodel, cmodel, rmodel
 
 
 def _ieckai(tsconfig):
-    smodel = sm.ieckai(tsconfig['IEC_WindType'], tsconfig['IECstandard'], tsconfig[
-                       'IECedition'], tsconfig['IECturbc'], tsconfig['ETMc'])
+    smodel = sm.ieckai(tsconfig['IEC_WindType'],
+                       tsconfig['IECstandard'],
+                       tsconfig['IECedition'],
+                       tsconfig['IECturbc'],
+                       tsconfig['ETMc'])
     cmodel = cm.iec(tsconfig['IECedition'])
-    rmodel = rm.uniform(
-        upvp_=tsconfig['PC_UV'], upwp_=tsconfig['PC_UW'], vpwp_=tsconfig['PC_VW'])
+    # The IEC models do not look at Reynold's Stress.
+    rmodel = rm.uniform(upvp_=0.0,
+                        upwp_=0.0,
+                        vpwp_=0.0)
     return smodel, cmodel, rmodel
 
 
 def _iecvkm(tsconfig):
-    smodel = sm.iecvkm(tsconfig['IEC_WindType'], tsconfig['IECstandard'], tsconfig[
-                       'IECedition'], tsconfig['IECturbc'], tsconfig['ETMc'])
+    smodel = sm.iecvkm(tsconfig['IEC_WindType'],
+                       tsconfig['IECstandard'],
+                       tsconfig['IECedition'],
+                       tsconfig['IECturbc'],
+                       tsconfig['ETMc'])
     cmodel = cm.iec(tsconfig['IECedition'])
-    rmodel = rm.uniform(
-        upvp_=tsconfig['PC_UV'], upwp_=tsconfig['PC_UW'], vpwp_=tsconfig['PC_VW'])
+    # The IEC models do not look at Reynold's Stress.
+    rmodel = rm.uniform(upvp_=0.0,
+                        upwp_=0.0,
+                        vpwp_=0.0)
     return smodel, cmodel, rmodel
 
 
 def _nwtcup(tsconfig):
     smodel = sm.nwtcup(tsconfig['UStar'], tsconfig['RICH_NO'], tsconfig['ZI'])
     cmodel = cm.nwtc(tsconfig.incdec_a, tsconfig.incdec_b, tsconfig['CohExp'])
-    rmodel = rm.uniform(
-        upvp_=tsconfig['PC_UV'], upwp_=tsconfig['PC_UW'], vpwp_=tsconfig['PC_VW'])
+    rmodel = rm.uniform(upvp_=tsconfig['PC_UV'],
+                        upwp_=tsconfig['PC_UW'],
+                        vpwp_=tsconfig['PC_VW'])
     return smodel, cmodel, rmodel
 
 
@@ -93,6 +108,7 @@ def _smooth(tsconfig):
     smodel = sm.nwtc.smooth(
         tsconfig['UStar'], tsconfig['RICH_NO'], tsconfig['ZI'])
     cmodel = cm.nwtc(tsconfig.incdec_a, tsconfig.incdec_b, tsconfig['CohExp'])
-    rmodel = rm.uniform(
-        upvp_=tsconfig['PC_UV'], upwp_=tsconfig['PC_UW'], vpwp_=tsconfig['PC_VW'])
+    rmodel = rm.uniform(upvp_=tsconfig['PC_UV'],
+                        upwp_=tsconfig['PC_UW'],
+                        vpwp_=tsconfig['PC_VW'])
     return smodel, cmodel, rmodel
