@@ -120,8 +120,9 @@ class NWTC_stable(genNWTC):
         Turbulence model used                            =  {dat.model_desc}
         Turbulence velocity (UStar)                      =  {dat.Ustar:0.2f} [m/s]
         Stability parameter (z/L)                        =  {dat.zL:0.2f}
-        coefs                            =  [{p[0][0]:0.2f}, {p[0][1]:0.2f}, {p[0][2]:0.2f}]
-                                            [{p[1][0]:0.2f}, {p[1][1]:0.2f}, {p[1][2]:0.2f}]
+        coefs  u                           =  [{p[0][0]:0.2f}, {p[0][1]:0.2f}]
+               v                           =  [{p[1][0]:0.2f}, {p[1][1]:0.2f}]
+               w                           =  [{p[2][0]:0.2f}, {p[2][1]:0.2f}]
         """
         return sumstring_format.format(dat=self,
                                        p=self.coefs,)
@@ -196,10 +197,12 @@ class NWTC_unstable(genNWTC):
         Mixing layer depth (ZI)                          =  {dat.ZI:0.4g} [m]
         Stability parameter (z/L)                        =  {dat.zL:0.4g}
         Monin-Obhukov Length scale                       =  {Lmo:0.4g} [m]
-        p_coefs                  =  [{p[0][0]:0.4g}, {p[0][1]:0.4g}, {p[0][2]:0.4g}]
-                                    [{p[1][0]:0.4g}, {p[1][1]:0.4g}, {p[1][2]:0.4g}]
-        f_coefs                  =  [{f[0][0]:0.4g}, {f[0][1]:0.4g}, {f[0][2]:0.4g}]
-                                    [{f[1][0]:0.4g}, {f[1][1]:0.4g}, {f[1][2]:0.4g}]
+        p_coefs   u                =  [{p[0][0]:0.4g}, {p[0][1]:0.4g}]
+                  v                =  [{p[1][0]:0.4g}, {p[1][1]:0.4g}]
+                  w                =  [{p[2][0]:0.4g}, {p[2][1]:0.4g}]
+        f_coefs   u                =  [{f[0][0]:0.4g}, {f[0][1]:0.4g}]
+                  v                =  [{f[1][0]:0.4g}, {f[1][1]:0.4g}]
+                  w                =  [{f[2][0]:0.4g}, {f[2][1]:0.4g}]
         """
         return sumstring_format.format(dat=self,
                                        Lmo=self.L,

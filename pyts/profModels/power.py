@@ -33,7 +33,8 @@ class nwtc(profModelBase):
         sumstring_format = """
         Profile model used                               =  {dat.model_desc}
         Reference velocity (URef)                        =  {dat.Uref:0.2f} [m/s]
-        Power-low exponent (PLexp)                       =  {dat.PLexp:0.2f} [m]
+        Reference Height (Zref)                          =  {dat.Zref:0.2f} [m]
+        Power-low exponent (PLexp)                       =  {dat.PLexp:0.2f}
         """
         return sumstring_format.format(dat=self)
 

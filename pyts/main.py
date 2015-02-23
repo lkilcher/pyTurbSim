@@ -438,6 +438,7 @@ class tsrun(object):
                                )
             else:
                 out[nm] = None
+        out['RandSeed'] = self.RandSeed
         out['RunTime'] = time.time() - time.mktime(self._starttime)
         return out
 
@@ -575,7 +576,8 @@ class tsdata(gridProps):
         out['v_sigma'] = self.uturb[1].flatten().std()
         out['w_sigma'] = self.uturb[2].flatten().std()
         out['TurbModel_desc'] = self.info['specModel']['description']
-
+        out['RandSeed1'] = self.info['RandSeed']
+        
         out['profModel_sumstring'] = self.info['profModel']['sumstring']
         out['specModel_sumstring'] = self.info['specModel']['sumstring']
         out['stressModel_sumstring'] = self.info['stressModel']['sumstring']
@@ -597,6 +599,17 @@ class tsdata(gridProps):
             np.sqrt(u ** 2 + v ** 2),
             np.angle(u + 1j * v) * 180 / np.pi,
             u, v, w, ), axis=1)
+        out['HFlowAng'] = np.angle(self.uprof[0][self.ihub] + 1j * self.uprof[1][self.ihub])
+        out['VFlowAng'] = np.angle(self.uprof[0][self.ihub] + 1j * self.uprof[2][self.ihub])
+        out['TurbModel'] = self.info['specModel']['name']
+        out['gridheader'] = '---------   ' * self.grid.n_y
+        for nm in ['Zref', 'RefHt', 'ZRef', ]:
+            if nm in self.info['profModel']['params']:
+                out['RefHt'] = self.info['profModel']['params'][nm]
+        for nm in ['URef', 'Uref', ]:
+            if nm in self.info['profModel']['params']:
+                out['URef'] = self.info['profModel']['params'][nm]
+        out['PLExp'] = self.info['profModel']['params'].get('PLexp', None)
         return out
 
     def __getitem__(self, ind):

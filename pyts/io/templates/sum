@@ -7,7 +7,7 @@ Configuration Options
 Runtime Options
 ---------------
 
-{RandSeed1:d     }  Random seed #1
+{RandSeed1:d     }  Random seed
 {RandSeed2:d|s/NumPy}  Type of random number generator
 {WrBHHTP:b/F     }  Output binary HH turbulence parameters?
 {WrFHHTP:b/F     }  Output formatted turbulence parameters?
@@ -18,7 +18,7 @@ Runtime Options
 {WrFMTFF:b/F     }  Output formatted FF files?
 {WrACT:b/F       }  Output coherent turbulence time step file?
 {Clockwise:b/F   }  Clockwise rotation when looking downwind?
-{ScaleIEC:2d     } - {ScaleIEC:ScaleIECtxt}  IEC turbulence models scaled to exact specified standard deviation
+{ScaleIEC:2d/N/A } - {ScaleIEC:ScaleIECtxt/ }  IEC turbulence models scaled to exact specified standard deviation
 
 
 Turbine/Model Specifications:
@@ -44,7 +44,7 @@ Meteorological Boundary Conditions:
 {IECturbc:>10s/N/A}  IEC turbulence characteristic
 {IEC_WindType:>10s/N/A}  IEC turbulence type
 {ETMc:>10s/N/A   }  IEC Extreme Turbulence Model (ETM) "c" parameter [m/s]
-{WindProfileType:>10s}  Wind profile type
+{WindProfileType:>10s/N/A}  Wind profile type
 {RefHt:f         }  Reference height [m]
 {URef:f          }  Reference wind speed [m/s]
 {Zjet:f/N/A      }  Jet height [m]
@@ -94,12 +94,6 @@ Simulation information
 Summary Statistics of Output
 ============================
 
-Mean Flow Angles:
------------------
-
-        Vertical   = {VFlowAng:5.1f} degrees
-        Horizontal = {HFlowAng:5.1f} degrees
-
 Mean Wind Speed Profile:
 ------------------------
 
@@ -148,20 +142,21 @@ Hub-Height Simulated Turbulence Statistical Summary
 Grid Point Standard Deviations
 ------------------------------
 
- Y-coord:{ydata:grid(12.2f)} [m]
+ Y-coord:{ydata:grid(12.2f)}    [m]
+              {gridheader}
 
-   Height [m]
-   ----------
-
-u component:
+Height [m]    u component standard devations [m/s]
+----------    ------------------------------------
 
 {z_ustd:grid(9.2f,12.3f)}
 
-v component:
+              v component standard devations [m/s]
+              ------------------------------------
 
 {z_vstd:grid(9.2f,12.3f)}
 
-w component:
+              w component standard devations [m/s]
+              ------------------------------------
 
 {z_wstd:grid(9.2f,12.3f)}
 
