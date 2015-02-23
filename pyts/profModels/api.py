@@ -102,6 +102,7 @@ documentation.
 import log as log_models
 import power as power_models
 import iec as iec_models
+#from jet import main as jet
 import simple
 from mBase import profModelBase
 

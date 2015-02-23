@@ -98,34 +98,50 @@ class stressObj(base.calcObj, base.gridProps):
         -------
         A 3 x n_z x n_y boolean array.
 
-        There are three criteria for each point in the grid.  They are listed here by their index in the array:
-          0) The magnitude criteria: no stress can exceed the maximum stress (correlation between components cannot exceed 1).
-          1) The 'overlap' criteria: The sum of the magnitude of the correlations can exceed one if they overlap. However, their
-             are limits to the overlap. This criteria indicates that limit has been exceeded.
-          2) The 'sign' criteria. If only one component is negative than they can not overlap. In this case the sum of magnitude
-             of the correlations must be less than 1.
+        There are three criteria for each point in the grid.  They are
+        listed here by their index in the array:
+        
+          0) The magnitude criteria: no stress can exceed the maximum
+             stress (correlation between components cannot exceed 1).
+          1) The 'overlap' criteria: The sum of the magnitude of the
+             correlations can exceed one if they overlap. However,
+             their are limits to the overlap. This criteria indicates
+             that limit has been exceeded.
+          2) The 'sign' criteria. If only one component is negative
+             than they can not overlap. In this case the sum of
+             magnitude of the correlations must be less than 1.
 
-        If any of the criteria are false at any point, than the stressModel is invalid at that point.
+        If any of the criteria are false at any point, than the
+        stressModel is invalid at that point.
         """
         srt = np.sort(np.abs(self.corr))
         valid = np.empty(srt.shape, dtype=bool)
+
+        # All individual stresses must be less than stress_max
+        # (i.e. the correlation between components can not be
+        # larger than the product of their standard devations).
         valid[0] = (srt < 1).all(0)
-                    # All individual stresses must be less than stress_max
-                    # (i.e. the correlation between components can not be
-                    # larger than the product of their standard devations).
+
+        # This is the 'overlap' criterion.
         valid[1] = (1 + srt[0] - srt[1] - srt[2] > 0)
-                    # This is the 'overlap' criterion.
+
+        # This is the 'sign' criterion: if there is only one negative
+        # stress, their can be no overlap (sum(srt) must be <1).
         valid[2] = ((self.array < 0).sum(0) != 1) | (srt.sum(0) <= 1)
-                    # This is the 'sign' criterion: if there is only one negative stress, their can be no overlap (sum(srt) must be <1).
         ############################
-        # Now compute the 'overlap' (so that we don't have to redo or store the sort for calc_phases).
-        # average the product of the smallest value with the two larger ones. Then take the minimum value of that with the smallest value. This is the 'overlap', i.e. the fraction of points that will have the same phase for all three components.
+        # Now compute the 'overlap' (so that we don't have to redo or
+        # store the sort for calc_phases).  average the product of the
+        # smallest value with the two larger ones. Then take the
+        # minimum value of that with the smallest value. This is the
+        # 'overlap', i.e. the fraction of points that will have the
+        # same phase for all three components.
+        #
         # Note, this is specific choice of how the three components are
         # correlated.
-        self._overlap = np.minimum(
-            (srt[0] * srt[1] + srt[0] * srt[2]) / 2, srt[0])
-        self._overlap[(self.array < 0).sum(
-            0) == 1] = 0  # If there is only 1 negative stress than the overlap must be zero (if they are valid).
+        self._overlap = np.minimum((srt[0] * srt[1] + srt[0] * srt[2]) / 2, srt[0])
+        # If there is only 1 negative stress than the overlap must be zero (if they are valid):
+        self._overlap[(self.array < 0).sum(0) == 1] = 0
+        #pdb.set_trace()
         return valid
 
     def check_validity(self,):
@@ -142,7 +158,9 @@ class stressObj(base.calcObj, base.gridProps):
 
     def calc_phases(self, phases):
         """
-        Here we control the Reynold's stress by setting the phases between components to be the same for a fraction of the frequencies.
+        Here we control the Reynold's stress by setting the phases
+        between components to be the same for a fraction of the
+        frequencies.
         """
         self.check_validity()
         rgen = self.randgen.rand
@@ -157,8 +175,8 @@ class stressObj(base.calcObj, base.gridProps):
         ####
         # First we set the 'overlap' stress. i.e. the phases that are the same
         # (or opposite) for all three components.
-        ovr = self.grid.flatten(self._overlap)[
-            :, None]  # This is computed during check_validity.
+        # This is computed during check_validity:
+        ovr = self.grid.flatten(self._overlap)[:, None]
         inds_used = (rgen(*shp) * fudge_factor) < ovr
         phases[2][inds_used] = (np.sign(rstrmat[1]) * phases[0])[inds_used]
         phases[1][inds_used] = (np.sign(rstrmat[0]) * phases[0])[inds_used]

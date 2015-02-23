@@ -8,71 +8,35 @@ class main(profModelBase):
 
     Parameters
     ----------
+    URef :      float
+        Reference velocity for the wind profile [m/s].
+    ZRef :      float
+        Reference height of the reference velocity [m].
+    UStar :     float
+        The bottom-boundary friction velocity [m/s].
+    Ri :        float
+        The Richardson number stability parameter.
     zjet_max :  float, optional
-                The maximum height of the jet. If a value is not
-                specified, the zjet_max property provides a default.
+        The maximum height of the jet. If a value is not specified,
+        the zjet_max property provides a default.
     """
-    @property
-    def zjet_max(self,):
-        """
-        The value of the jet height.
 
-        This property calculates a default value if one is not specified.
-        """
-        if self._val_zjet_max is not None:
-            return self._val_zjet_max
-        val = 1.9326 * \
-            (-14.820 * self.Ri + 56.488123 * self.zL +
-             166.499069 * self.UStar + 188.253377) - 252.7267
-        rnd = min(
-            max(self.grid.randgen.standard_cauchy(1) * 10 - 20, -160), 120)
-                  # !!!VERSION_INCONSISTENCY: I've used the standard Cuachy distribution, rather than 'PearsonIV' from indecipherable code.
-        val += rnd
-        self._val_zjet_max = val
-        return val
-
-    @zjet_max.setter
-    def zjet_max(self, val):
-        self._val_zjet_max = val
-
-    def _model(self, out):
-        z = out.grid.z
-        HtIndx = min(max(int(self.zjet_max - 50) / 20 - 1, 0), 20)
-        scoef = spd_coefs[HtIndx]
-        dcoef = dir_coefs[HtIndx]
-        prms = np.array([0, self.Ri, self.UStar, 1])
-        if self.zjet_max == self.ZRef:
-            prms[0] = self.URef
-        else:
-            utmp1 = chebval(
-                self.ZRef, np.dot(scoef[:, 1:], prms[1:][:, None]))
-            utmp2 = chebval(self.ZRef, scoef[:, 0])
-            prms[0] = (self.URef - utmp1) / utmp2
-        scoef = np.dot(scoef, prms[:, None])  # These are now vectors
-        dcoef = np.dot(dcoef, prms[:, None])  # These are now vectors
-        ang = chebval(z, dcoef)
-        ang -= ang[out.grid.ihub[0]]  # The hub-height angle should be zero.
-        ang[ang < -45.], ang[ang > 45.] = - \
-            45., 45.  # No angle should be more than 45 degrees.
-        tmpdat = chebval(z, scoef) * np.exp(1j * np.pi / 180. * ang)[:, None]
-        return tmpdat.real, tmpdat.imag
-
-    def __init__(self, URef, ZRef, Ri, zjet_max=None):
+    def __init__(self, URef, ZRef, UStar, Ri, zjet_max=None):
         self.URef = URef
         self.ZRef = ZRef
+        self.UStar = UStar
         self.Ri = Ri
         self.zjet_max = zjet_max
 
-    @property
     def _sumfile_string(self,):
         sumstring_format = """
-        Profile model used                               =  {self.model_desc}
-        Reference velocity (URef)                        =  {self.Uref:0.2f}
-        Reference height (ZRef)                          =  {self.ZRef:0.2f}
-        Richardson Number (RICH_NO)                      =  {self.Ri:0.2f}
-        Jet Height (ZJet_Max)                            =  {self.zjet_max:0.2f}
+        Profile model used                               =  {dat.model_desc}
+        Reference velocity (URef)                        =  {dat.Uref:0.2f}
+        Reference height (ZRef)                          =  {dat.ZRef:0.2f}
+        Richardson Number (RICH_NO)                      =  {dat.Ri:0.2f}
+        Jet Height (ZJet_Max)                            =  {dat.zjet_max:0.2f}
         """
-        return sumstring_format.format(self=self,)
+        return sumstring_format.format(dat=self,)
 
     def __call__(self, tsrun):
         """
@@ -95,6 +59,52 @@ class main(profModelBase):
         out[0], out[1] = u[:, None], v[:, None]
         return out
 
+    def _model(self, out):
+        z = out.grid.z
+        HtIndx = min(max(int(self.zjet_max - 50) / 20 - 1, 0), 20)
+        scoef = spd_coefs[HtIndx]
+        dcoef = dir_coefs[HtIndx]
+        prms = np.array([0, self.Ri, self.UStar, 1])
+        if self.zjet_max == self.ZRef:
+            prms[0] = self.URef
+        else:
+            utmp1 = chebval(
+                self.ZRef, np.dot(scoef[:, 1:], prms[1:][:, None]))
+            utmp2 = chebval(self.ZRef, scoef[:, 0])
+            prms[0] = (self.URef - utmp1) / utmp2
+        scoef = np.dot(scoef, prms[:, None])  # These are now vectors
+        dcoef = np.dot(dcoef, prms[:, None])  # These are now vectors
+        ang = chebval(z, dcoef[:, 0])
+        ang -= ang[out.grid.ihub[0]]  # The hub-height angle should be zero.
+        ang[ang < -45.], ang[ang > 45.] = - \
+            45., 45.  # No angle should be more than 45 degrees.
+        tmpdat = chebval(z, scoef) * np.exp(1j * np.pi / 180. * ang)[:, None]
+        return tmpdat.real, tmpdat.imag
+
+    @property
+    def zjet_max(self,):
+        """
+        The value of the jet height.
+
+        This property calculates a default value if one is not specified.
+        """
+        if self._val_zjet_max is not None:
+            return self._val_zjet_max
+        val = 1.9326 * \
+            (-14.820 * self.Ri + 56.488123 * self.zL +
+             166.499069 * self.UStar + 188.253377) - 252.7267
+        rnd = min(
+            max(self.grid.randgen.standard_cauchy(1) * 10 - 20, -160), 120)
+                  # !!!VERSION_INCONSISTENCY: I've used the standard
+                  # !!!Cuachy distribution, rather than 'PearsonIV'
+                  # !!!from indecipherable code.
+        val += rnd
+        self._val_zjet_max = val
+        return val
+
+    @zjet_max.setter
+    def zjet_max(self, val):
+        self._val_zjet_max = val
 
 ### These are the 'Chebyshef' coefficients, copied from the Modules.f90 file of TurbSim v1.x.
 ### The coefficients are:
