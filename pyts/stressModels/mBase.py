@@ -100,7 +100,7 @@ class stressObj(base.calcObj, base.gridProps):
 
         There are three criteria for each point in the grid.  They are
         listed here by their index in the array:
-        
+
           0) The magnitude criteria: no stress can exceed the maximum
              stress (correlation between components cannot exceed 1).
           1) The 'overlap' criteria: The sum of the magnitude of the

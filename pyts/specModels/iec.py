@@ -235,19 +235,17 @@ class iecbase(specModelBase):
                         else:
                             return 0.11 * Vref
                     else:
-                        raise InvalidConfig(
-                            "Invalid 'IEC_WindType' specified in config file."
-
-                        )
+                        raise InvalidConfig("Invalid 'IEC_WindType' specified in config file.")
             elif iecver == 2:  # Small wind.
-                pass
+                raise InvalidConfig("The 'small wind' spectral model (IEC version 2) is not "
+                                    "implemented in PyTurbSim")
             elif iecver == 3:  # Offshore wind.
-                pass
+                raise InvalidConfig("The offshore wind IEC spectral model (IEC version 3) is "
+                                    "not implemented in PyTurbSim")
         else:  # The IECturbc is numeric.
             if wndtp != 'ntm':
-                raise InvalidConfig(
-                    "If the 'IECturbc' config option is a number (specifying \
-                    turbulence intensity), the IEC_WindType must be 'NTM'.")
+                raise InvalidConfig("If the 'IECturbc' config option is a number (specifying "
+                                    "turbulence intensity), the IEC_WindType must be 'NTM'.")
 
 
 class IECKai(iecbase):
