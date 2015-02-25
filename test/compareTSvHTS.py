@@ -1,11 +1,12 @@
 import sys
 import os
 if '../' not in sys.path:
-    sys.path.append('../')
+    sys.path = ['../'] + sys.path
 from pyts.runConfig import main as pyts
 #import pyts
-import pyts.plot.main as pt
+import pyts.plot.api as pt
 import pyts.io.main as tsio
+import pyts.runConfig.main as pyts
 from subprocess import call
 
 # This is the file type that the .inp files (in inp_files directory) are configured to output.
@@ -14,9 +15,9 @@ from subprocess import call
 ts_file_type = '.wnd'
 
 # Run TurbSim and HydroTurbSim?
-flag_run = False or True
-flag_run_ts = False  # or True
-flag_run_pyts = False or True
+flag_run = False  or True
+flag_run_ts = False #  or True
+flag_run_pyts = False  or True
 # Plot the results and compare?
 flag_plot = False or True
 
@@ -28,6 +29,7 @@ fnames = ['Tidal', 'Smooth', 'IecKai', 'IecVkm',
 #fnames=['Smooth','IecKai','IecVkm','GPllj','NWTCup','wfup','wf07d','wf14d',]
 fnames = ['IecVkm']  # CHECKED 4/26/2013
 fnames = ['IecVkm_short']  # CHECKED 4/26/2013
+fnames = ['Kaimal']  # CHECKED 4/26/2013
 #fnames=['IecKai'] #CHECKED 4/26/2013
 #fnames=['IecKai_short'] #CHECKED 4/26/2013
 #fnames=['Smooth'] #CHECKED 4/26/2013
@@ -46,6 +48,11 @@ try:
 except:
     pass
 
+
+error = Exception('TurbSim (original) is not present in the working directory.'
+                  'Download the TurbSim program from:\n'
+                  '   http://wind.nrel.gov/designcodes/preprocessors/turbsim/\n'
+                  'and copy one of the executables to this directory.')
 #############################
 #############################
 # Run the turbsim programs ##
@@ -59,15 +66,12 @@ if flag_run:
             elif os.path.isfile('TurbSim64.exe'):
                 ts_exec_file = 'TurbSim.exe'
             else:
-                raise Exception(
-                    'TurbSim (original) is not present in the working directory.  Download the TurbSim program from:\n http://wind.nrel.gov/designcodes/preprocessors/turbsim/\n and copy one of the executables to this directory.')
+                raise error
         else:
             if os.path.isfile('TurbSim'):
                 ts_exec_file = 'TurbSim'
             else:
-                raise Exception(
-                    'TurbSim (original) is not present in the working directory.  Download the TurbSim program from:\n http://wind.nrel.gov/designcodes/preprocessors/turbsim/\n and build an executable from source, then copy it to this directory.')
-
+                raise error
     # Now run TurbSim and HydroTurbSim on the input files specified above.
     for fnm in fnames:
         # Run HydroTurbSim:
@@ -93,16 +97,17 @@ if flag_plot:
     c = 0
     for nm in fnames:
         c += 1
-        tsdat = tsio.readModel(
-            './ts/' + nm + ts_file_type, './inp_files/' + nm + '.inp')
-        ptsdat = tsio.readModel(
-            './pyts/' + nm + ts_file_type, './inp_files/' + nm + '.inp')
+        tsdat = tsio.readModel('./ts/' + nm + ts_file_type, './inp_files/' + nm + '.inp')
+        ptsdat = tsio.readModel('./pyts/' + nm + ts_file_type, './inp_files/' + nm + '.inp')
+        tscfg = pyts.readConfig('./inp_files/' + nm + '.inp')
+        tsr = pyts.cfg2tsrun(tscfg)
+        tsr.grid = pyts.cfg2grid(tscfg)
 
-        fg = pt.summfig(
-            3000 + c, nfft=1024, title=nm.upper().replace('_', '-') + ' spectral model')
-        fg.setinds(ptsdat, igrid=None,)
-        fg.setinds(tsdat, igrid=(0, 1),)
+        fg = pt.summfig(3000 + c,
+                        nfft=1024,
+                        title=nm.upper().replace('_', '-') + ' spectral model')
         fg.plot(tsdat, color='r', label='TS')
-        fg.plot(ptsdat, color='b', theory_line=True, label='pyTS')
-        fg.finish()
+        fg.plot(ptsdat, color='b', label='pyTS')
+        fg.plot(tsr, color='g', label='Theory')
+        fg.finalize()
     #fg.savefig('../pub/fig/compareTSvPyTS.png',dpi=300)

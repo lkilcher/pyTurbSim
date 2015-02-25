@@ -6,6 +6,7 @@ This module contains the power-law mean-velocity profiles:
 from .mBase import profObj
 from .log import nwtc as logmain
 from .power import nwtc as powmain
+from numpy import tile, where
 
 # !!!VERSION_INCONSISTENCY
 # This model needs to account for the EWM50 and EWM1 turbulence models.
@@ -88,9 +89,13 @@ class main(logmain, powmain):
         out = profObj(tsrun)
         grid = tsrun.grid  # A temporary, internal shortcut.
         out[0] = logmain.model(self, grid.z)[:, None]
-        zinds = ((-grid.rotor_diam / 2 <= grid.z - grid.zhub)
-                 & (grid.z - grid.zhub <= grid.rotor_diam / 2))
+        zinds = (((-grid.rotor_diam / 2 <= grid.z - grid.zhub)
+                 & (grid.z - grid.zhub <= grid.rotor_diam / 2))[:, None])
         yinds = ((-grid.rotor_diam / 2 <= grid.y)
-                 & (grid.y <= grid.rotor_diam / 2))
-        out[0][zinds][:, yinds] = powmain.model(self, grid.z[zinds])
+                 & (grid.y <= grid.rotor_diam / 2))[None, :]
+        out[0] = where(zinds & yinds,
+                       tile(powmain.model(self, grid.z[zinds[:, 0]])[:, None], sum(yinds)),
+                       out[0], )
+        #out[0][zinds & yinds] = 
+        #error
         return out
