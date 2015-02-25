@@ -96,7 +96,7 @@ def read(fname):
     ## *tsdat*  - A tsdata object that contains the data.
     u_scl = np.zeros(3, np.float32)
     u_off = np.zeros(3, np.float32)
-    fl = file(fname, 'rb')
+    fl = file(convname(fname, '.bts'), 'rb')
     (junk,
      n_z,
      n_y,
@@ -116,7 +116,7 @@ def read(fname):
      u_off[2],
      strlen) = unpack(e + 'h4l12fl', fl.read(70))
     #print fname, u_scl, u_off
-    #desc_str = fl.read(strlen)
+    desc_str = fl.read(strlen)  # skip these bytes.
     nbt = 3 * n_y * n_z * n_t
     out = np.rollaxis(np.fromstring(fl.read(2 * nbt), dtype=np.int16).astype(
         np.float32).reshape([3, n_y, n_z, n_t], order='F'), 2, 1)[:, ::-1]

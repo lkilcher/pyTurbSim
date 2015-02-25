@@ -65,8 +65,8 @@ def readModel(fname, inp_fname=None):
                 break
 
         if not foundfile:
-            raise IOError('TurbSim output file not found. Run pyTurbSim \
-            on the input file %s, before loading...' % (fname))
+            raise IOError('TurbSim output file not found. Run pyTurbSim '
+                          'on the input file %s, before loading...' % (fname))
 
     else:
         if inp_fname is None:
