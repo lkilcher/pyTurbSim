@@ -107,23 +107,23 @@ if flag.get('plot', False):
         ## This should be identical to `ptsdat`.
 
         ## This creates a 'figure object'
-        fg = pt.fig_axForms(3000 + c,  # fignum
-                            nfft=1024,  # specify the nfft for spectral plots.
-                            ## Here you can specify which variables to compare:
-                            ## (see options in the pt.axform module)
-                            axforms=[pt.axform.velprof(),
-                                     # Specify some axes parameters here:
-                                     pt.axform.tkeprof(xlim=[0, 10]),
-                                     pt.axform.spec(ylim=[1e-4, 1e4]),
-                                     ],
-                            # Retitle the figure:
-                            title=nm.upper().replace('_', '-') + ' spectral model',
-                            # This specifies the border space around
-                            # the axes [bot, top, left, right] (in
-                            # inches). Note that I've made space for the
-                            # legend on the right:
-                            frame=[.7, .5, 1.1, 1.5],
-                            )
+        fg = pt.FigAxForm(3000 + c,  # fignum
+                          nfft=1024,  # specify the nfft for spectral plots.
+                          ## Here you can specify which variables to compare:
+                          ## (see options in the pt.axform module)
+                          axforms=[pt.axform.velprof(),
+                                   # Specify some axes parameters here:
+                                   pt.axform.tkeprof(xlim=[0, 10]),
+                                   pt.axform.spec(ylim=[1e-4, 1e4]),
+                                   ],
+                          # Retitle the figure:
+                          title=nm.upper().replace('_', '-') + ' spectral model',
+                          # This specifies the border space around
+                          # the axes [bot, top, left, right] (in
+                          # inches). Note that I've made space for the
+                          # legend on the right:
+                          frame=[.7, .5, 1.1, 1.5],
+                          )
         ## Now comes the true power of these 'axforms':
         ## We can simply plot tsdat objects in one line:
         fg.plot(tsdat, color='r', label='TS')
