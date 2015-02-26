@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.plot.superaxes &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.plot.superaxes &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -190,7 +190,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ky</span> <span class="o">=</span> <span class="n">nm</span>
             <span class="n">nm</span> <span class="o">=</span> <span class="n">nm</span>
-        <span class="k">if</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">newd</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ky</span><span class="p">)</span>
     <span class="k">if</span> <span class="p">(</span><span class="s">&#39;fig&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">and</span> <span class="p">(</span><span class="s">&#39;figure&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
         <span class="n">fig</span> <span class="o">=</span> <span class="n">pylab</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
@@ -242,15 +242,12 @@
     <span class="n">a</span><span class="o">.</span><span class="n">transDataXAxesY</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">blended_transform_factory</span><span class="p">(</span>
         <span class="n">a</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
 
-    <span class="n">a</span><span class="o">.</span><span class="n">hln</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">_hln</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Axes</span><span class="p">)</span>
-    <span class="n">a</span><span class="o">.</span><span class="n">vln</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">_vln</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Axes</span><span class="p">)</span>
     <span class="n">a</span><span class="o">.</span><span class="n">shadex</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">shadex</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Axes</span><span class="p">)</span>
     <span class="n">a</span><span class="o">.</span><span class="n">shadey</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">shadey</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Axes</span><span class="p">)</span>
     <span class="n">a</span><span class="o">.</span><span class="n">setaxesframe</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">_setaxesframe</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Axes</span><span class="p">)</span>
     <span class="n">a</span><span class="o">.</span><span class="n">annoteCorner</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">annoteCorner</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Axes</span><span class="p">)</span>
     <span class="n">a</span><span class="o">.</span><span class="n">offset_text</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">offset_text</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Axes</span><span class="p">)</span>
     <span class="n">a</span><span class="o">.</span><span class="n">cpcolor</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">cpcolor</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Axes</span><span class="p">)</span>
-    <span class="n">a</span><span class="o">.</span><span class="n">cbar</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">cbar</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Axes</span><span class="p">)</span>
     <span class="n">a</span><span class="o">.</span><span class="n">labelax</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">labelax</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Axes</span><span class="p">)</span>
     <span class="n">a</span><span class="o">.</span><span class="n">skip_ticklabels</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">skip_ticklabels</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Axes</span><span class="p">)</span>
     <span class="n">a</span><span class="o">.</span><span class="n">errorshadex</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">instancemethod</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">errorshadex</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Axes</span><span class="p">)</span>
@@ -507,7 +504,7 @@
         <span class="n">mapVal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="n">iv</span><span class="p">,</span> <span class="n">ih</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">mapVal</span><span class="p">:</span>  <span class="c"># mapVal==0 do not share axes.</span>
             <span class="k">return</span>
-        <span class="k">elif</span> <span class="n">mapVal</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_share_ax</span><span class="o">.</span><span class="n">has_key</span><span class="p">():</span>
+        <span class="k">elif</span> <span class="n">mapVal</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_share_ax</span><span class="p">:</span>
             <span class="c"># The mapVal is already in the _share_ax dictionary</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_share_ax</span><span class="p">[</span><span class="n">mapVal</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1077,6 +1074,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
 </div>
     <span class="nd">@property</span>
+<div class="viewcode-block" id="sfig.axes"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.superaxes.sfig.axes">[docs]</a>    <span class="k">def</span> <span class="nf">axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sax</span><span class="o">.</span><span class="n">axes</span>
+</div>
+    <span class="nd">@property</span>
 <div class="viewcode-block" id="sfig.ax"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.superaxes.sfig.ax">[docs]</a>    <span class="k">def</span> <span class="nf">ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sax</span><span class="o">.</span><span class="n">axes</span>
 </div>
@@ -1125,7 +1126,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

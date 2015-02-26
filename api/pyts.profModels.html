@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.profModels package &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.profModels package &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../index.html" />
     <link rel="up" title="pyts package" href="pyts.html" />
     <link rel="next" title="pyts.runConfig package" href="pyts.runConfig.html" />
     <link rel="prev" title="pyts.plot package" href="pyts.plot.html" /> 
@@ -49,7 +49,7 @@
         <li class="right" >
           <a href="pyts.plot.html" title="pyts.plot package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="pyts.html" accesskey="U">pyts package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -165,10 +165,11 @@ documentation.</p>
 </dl>
 <dl class="class">
 <dt id="pyts.profModels.iec.main">
-<em class="property">class </em><tt class="descclassname">pyts.profModels.iec.</tt><tt class="descname">main</tt><big>(</big><em>URef</em>, <em>RefHt</em>, <em>Z0</em>, <em>Ri</em>, <em>PLexp=0.2</em>, <em>turbmodel=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/iec.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.iec.main" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pyts.profModels.iec.</tt><tt class="descname">main</tt><big>(</big><em>URef</em>, <em>RefHt</em>, <em>Z0</em>, <em>PLexp=0.2</em>, <em>turbmodel=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/iec.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.iec.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.profModels.log.nwtc" title="pyts.profModels.log.nwtc"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.log.nwtc</span></tt></a>, <a class="reference internal" href="#pyts.profModels.power.nwtc" title="pyts.profModels.power.nwtc"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.power.nwtc</span></tt></a></p>
-<p>The iec wind profile model.  This profile is a power-law across
-the rotor disk and logarithmic elsewhere.</p>
+<p>IEC wind profile model.</p>
+<p>This profile is a power-law across the rotor disk and logarithmic
+elsewhere.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -248,17 +249,33 @@ instance.</p>
 <span id="pyts-profmodels-jet-module"></span><h2>pyts.profModels.jet module<a class="headerlink" href="#module-pyts.profModels.jet" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyts.profModels.jet.main">
-<em class="property">class </em><tt class="descclassname">pyts.profModels.jet.</tt><tt class="descname">main</tt><big>(</big><em>zjet_max=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/jet.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.jet.main" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pyts.profModels.jet.</tt><tt class="descname">main</tt><big>(</big><em>URef</em>, <em>ZRef</em>, <em>UStar</em>, <em>Ri</em>, <em>zjet_max=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/jet.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.jet.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.mBase.profModelBase</span></tt></a></p>
-<p>The low-level jet wind velocity profile.</p>
+<p>Low-level jet wind profile model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>zjet_max</strong> :  float, optional</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>URef</strong> :      float</p>
+<blockquote>
+<div><p>Reference velocity for the wind profile [m/s].</p>
+</div></blockquote>
+<p><strong>ZRef</strong> :      float</p>
+<blockquote>
+<div><p>Reference height of the reference velocity [m].</p>
+</div></blockquote>
+<p><strong>UStar</strong> :     float</p>
+<blockquote>
+<div><p>The bottom-boundary friction velocity [m/s].</p>
+</div></blockquote>
+<p><strong>Ri</strong> :        float</p>
+<blockquote>
+<div><p>The Richardson number stability parameter.</p>
+</div></blockquote>
+<p><strong>zjet_max</strong> :  float, optional</p>
 <blockquote class="last">
-<div><p>The maximum height of the jet. If a value is not
-specified, the zjet_max property provides a default.</p>
+<div><p>The maximum height of the jet. If a value is not specified,
+the zjet_max property provides a default.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -310,7 +327,7 @@ H2O    - The hydro-logarithmic mean velocity profile.</dd>
 <dt id="pyts.profModels.log.H2O">
 <em class="property">class </em><tt class="descclassname">pyts.profModels.log.</tt><tt class="descname">H2O</tt><big>(</big><em>Uref</em>, <em>Zref</em>, <em>ustar</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/log.html#H2O"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.log.H2O" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.mBase.profModelBase</span></tt></a></p>
-<p>The logarithmic mean water velocity profile.</p>
+<p>Logarithmic water velocity profile model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -367,7 +384,7 @@ spatial grid in tsrun.</p>
 <dt id="pyts.profModels.log.nwtc">
 <em class="property">class </em><tt class="descclassname">pyts.profModels.log.</tt><tt class="descname">nwtc</tt><big>(</big><em>URef</em>, <em>ZRef</em>, <em>Z0</em>, <em>Ri=0</em>, <em>turbmodel=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/log.html#nwtc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.log.nwtc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.mBase.profModelBase</span></tt></a></p>
-<p>The NWTC logarithmic mean wind-speed profile.</p>
+<p>NWTC logarithmic wind-speed profile model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -553,7 +570,7 @@ used.</p>
 <dt id="pyts.profModels.power.nwtc">
 <em class="property">class </em><tt class="descclassname">pyts.profModels.power.</tt><tt class="descname">nwtc</tt><big>(</big><em>Uref</em>, <em>Zref</em>, <em>PLexp=0.14285714285714285</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/power.html#nwtc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.power.nwtc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.mBase.profModelBase</span></tt></a></p>
-<p>The power-law mean wind profile model.</p>
+<p>Power-law wind profile model.</p>
 <div class="math">
 \[\bar{U}(z) = U_{ref} * ( z / Z_{ref} )^{PLexp}\]</div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -681,7 +698,7 @@ instance.</p>
 <dt id="pyts.profModels.simple.uniform">
 <em class="property">class </em><tt class="descclassname">pyts.profModels.simple.</tt><tt class="descname">uniform</tt><big>(</big><em>URef</em><big>)</big><a class="reference internal" href="../_modules/pyts/profModels/simple.html#uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.simple.uniform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.profModels.mBase.profModelBase" title="pyts.profModels.mBase.profModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.profModels.mBase.profModelBase</span></tt></a></p>
-<p>A &#8216;uniform&#8217; mean wind-speed &#8216;profile&#8217;.</p>
+<p>Uniform wind-speed &#8216;profile&#8217; model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -809,7 +826,7 @@ package, e.g.</p>
         <li class="right" >
           <a href="pyts.plot.html" title="pyts.plot package"
              >previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="pyts.html" >pyts package</a> &raquo;</li> 
       </ul>
     </div>

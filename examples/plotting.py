@@ -3,16 +3,18 @@ This script provides an example usage of the PyTurbSim API.
 """
 
 # Begin by importing the PyTurbSim API and plotting tools
+### BLOCK1
 import pyts.api as pyts
 import pyts.plot.api as plt
 from matplotlib.pylab import show
-
+### BLOCK1.END
 # Define some variables for the PyTurbSim run:
+### BLOCK2
 refht = 4
 ustar = 0.03
 Uref = 3.
 
-# Now create the PyTurbSim run, and specify input statistics.
+# This creates a PyTurbSim 'run object':
 tsr = pyts.tsrun()
 
 tsr.grid = pyts.tsGrid(center=refht,
@@ -22,6 +24,8 @@ tsr.grid = pyts.tsGrid(center=refht,
                        width=5,
                        time_sec=3000,
                        dt=0.5,)
+### BLOCK2.END
+
 tsr.prof = pyts.profModels.h2l(Uref, refht, ustar)
 tsr.spec = pyts.specModels.tidal(ustar, refht)
 tsr.cohere = pyts.cohereModels.nwtc()

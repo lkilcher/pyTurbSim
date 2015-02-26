@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.dbg &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.dbg &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -53,33 +53,37 @@
             
   <h1>Source code for pyts.dbg</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This is the PyTurbSim debug package. It contains debugging tools specifically valuable to PyTurbSim.</span>
+<span class="sd">This is the PyTurbSim debug package. It contains debugging tools</span>
+<span class="sd">specifically valuable to PyTurbSim.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">time</span>
 
+
 <div class="viewcode-block" id="timer"><a class="viewcode-back" href="../../api/pyts.html#pyts.dbg.timer">[docs]</a><span class="k">class</span> <span class="nc">timer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A timer class for tracking &#39;real&#39; time (rather than CPU time).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;NONE&#39;</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tnew</span><span class="o">=</span><span class="mf">0.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">=</span><span class="mf">0.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">=</span><span class="n">label</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&#39;NONE&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tnew</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
 
 <div class="viewcode-block" id="timer.start"><a class="viewcode-back" href="../../api/pyts.html#pyts.dbg.timer.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tnew</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tnew</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="timer.reset"><a class="viewcode-back" href="../../api/pyts.html#pyts.dbg.timer.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">=</span><span class="mf">0.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">=</span> <span class="mf">0.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="timer.stop"><a class="viewcode-back" href="../../api/pyts.html#pyts.dbg.timer.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">+=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">tnew</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">+=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">tnew</span>
 </div>
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&quot;So far the *</span><span class="si">%s</span><span class="s">* timer has clocked </span><span class="si">%0.3f</span><span class="s"> seconds.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="p">)</span>
-</pre></div></div>
+        <span class="k">return</span> <span class="s">&quot;So far the *</span><span class="si">%s</span><span class="s">* timer has clocked </span><span class="si">%0.3f</span><span class="s"> seconds.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="p">)</span></div>
+</pre></div>
 
           </div>
         </div>
@@ -115,7 +119,7 @@
         <li class="right" >
           <a href="../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

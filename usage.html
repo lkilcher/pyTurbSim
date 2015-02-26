@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Usage &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>Usage &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="index.html" />
     <link rel="next" title="Plotting Tools" href="plotting-tools.html" />
     <link rel="prev" title="Download and Install" href="install.html" /> 
   </head>
@@ -48,7 +48,7 @@
         <li class="right" >
           <a href="install.html" title="Download and Install"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -82,10 +82,10 @@ command line do:</p>
 </div>
 <p>Alternatively, this mode can be used from an interactive python shell
 by doing:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyts.runConfig.main</span> <span class="kn">import</span> <span class="n">readConfig</span><span class="p">,</span><span class="n">run</span><span class="p">,</span><span class="n">write</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">=</span><span class="n">readConfig</span><span class="p">(</span><span class="s">&#39;TurbSim.inp&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tsdat</span><span class="o">=</span><span class="n">run</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">write</span><span class="p">(</span><span class="n">tsdat</span><span class="p">,</span><span class="n">config</span><span class="p">,</span><span class="s">&#39;TurbSim&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyts.runConfig.main</span> <span class="kn">import</span> <span class="n">readConfig</span><span class="p">,</span> <span class="n">run</span><span class="p">,</span> <span class="n">write</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">readConfig</span><span class="p">(</span><span class="s">&#39;TurbSim.inp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tsdat</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">write</span><span class="p">(</span><span class="n">tsdat</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="s">&#39;TurbSim&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>These two approaches produce the same output. The first allows the
@@ -114,34 +114,35 @@ overview of how to begin using PyTurbSim. The contents of that file is:</p>
 <span class="kn">import</span> <span class="nn">pyts.api</span> <span class="kn">as</span> <span class="nn">pyts</span>
 
 <span class="c"># Define some variables for the PyTurbSim run:</span>
-<span class="n">refht</span><span class="o">=</span><span class="mf">10.</span>
-<span class="n">ustar</span><span class="o">=</span><span class="mf">0.03</span>
-<span class="n">Uref</span><span class="o">=</span><span class="mf">3.</span>
+<span class="n">refht</span> <span class="o">=</span> <span class="mf">10.</span>
+<span class="n">ustar</span> <span class="o">=</span> <span class="mf">0.03</span>
+<span class="n">Uref</span> <span class="o">=</span> <span class="mf">3.</span>
 
 <span class="c"># First we initialize a PyTurbSim &#39;run&#39; object:</span>
-<span class="n">tsr</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">tsrun</span><span class="p">()</span>
+<span class="n">tsr</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">tsrun</span><span class="p">()</span>
 
 <span class="c"># Next we give this run object a grid:</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">tsGrid</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">refht</span><span class="p">,</span><span class="n">ny</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">nz</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span><span class="n">time_sec</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">tsGrid</span><span class="p">(</span>
+    <span class="n">center</span><span class="o">=</span><span class="n">refht</span><span class="p">,</span> <span class="n">ny</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">nz</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">time_sec</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
 <span class="c"># Now we define a mean &#39;profile model&#39;,</span>
-<span class="n">prof_model</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">profModels</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">Uref</span><span class="p">,</span><span class="n">refht</span><span class="p">,</span><span class="n">ustar</span><span class="p">)</span>
+<span class="n">prof_model</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">profModels</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">Uref</span><span class="p">,</span> <span class="n">refht</span><span class="p">,</span> <span class="n">ustar</span><span class="p">)</span>
 <span class="c"># and assign it to the run object,</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">prof</span><span class="o">=</span><span class="n">prof_model</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">prof_model</span>
 <span class="c"># These two steps can be completed in one as:</span>
 <span class="c">#tsr.profModel=pyts.profModels.h2l(U,refht,ustar)</span>
 
 <span class="c"># Next we define and assign a &#39;spectral model&#39; to the run object,</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">spec</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">specModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span><span class="n">refht</span><span class="p">)</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">specModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
 
 <span class="c"># ... and define/assign a &#39;coherence model&#39;,</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">cohere</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">cohereModels</span><span class="o">.</span><span class="n">nwtc</span><span class="p">()</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">cohere</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">cohereModels</span><span class="o">.</span><span class="n">nwtc</span><span class="p">()</span>
 
 <span class="c"># ... and define/assign a &#39;stress model&#39;,</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">stress</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">stressModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span><span class="n">refht</span><span class="p">)</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">stress</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">stressModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
 
 <span class="c"># Now simply &#39;call&#39; the run oject to produce the TurbSim output.</span>
-<span class="n">turbsim_output</span><span class="o">=</span><span class="n">tsr</span><span class="p">()</span>
+<span class="n">turbsim_output</span> <span class="o">=</span> <span class="n">tsr</span><span class="p">()</span>
 
 <span class="c"># We can save the output in &#39;bladed&#39; format,</span>
 <span class="n">turbsim_output</span><span class="o">.</span><span class="n">writeBladed</span><span class="p">(</span><span class="s">&#39;ExampleOutput.bl&#39;</span><span class="p">)</span>
@@ -242,7 +243,7 @@ config and turbModel objects.</li>
         <li class="right" >
           <a href="install.html" title="Download and Install"
              >previous</a> |</li>
-        <li><a href="index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

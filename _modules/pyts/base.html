@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.base &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.base &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -71,6 +71,7 @@
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float32</span><span class="p">,</span> <span class="n">complex64</span>
 <span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">lowPrimeFact_near</span>
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">.tslib</span> <span class="kn">import</span> <span class="n">tslib</span>  <span class="c"># The file tslib.so contains the module &#39;tslib&#39;.</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
@@ -95,22 +96,24 @@
 
 <div class="viewcode-block" id="statObj"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.statObj">[docs]</a><span class="k">class</span> <span class="nc">statObj</span><span class="p">(</span><span class="nb">float</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">ubar</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">float</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 
     <span class="nd">@property</span>
 <div class="viewcode-block" id="statObj.mean"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.statObj.mean">[docs]</a>    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span>
 </div>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">ubar</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ti</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="k">if</span> <span class="n">ubar</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">ubar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ti</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">/</span> <span class="n">ubar</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="k">return</span> <span class="s">&#39;&lt;statObj mean: </span><span class="si">%0.2f</span><span class="s">, min: </span><span class="si">%0.2f</span><span class="s">, max: </span><span class="si">%0.2f</span><span class="s">&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>  <span class="c"># noqa</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;statObj mean: </span><span class="si">%0.2f</span><span class="s">, min: </span><span class="si">%0.2f</span><span class="s">, max: </span><span class="si">%0.2f</span><span class="s">&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="tsBaseObj"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.tsBaseObj">[docs]</a><span class="k">class</span> <span class="nc">tsBaseObj</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -314,14 +317,17 @@
     <span class="n">out</span><span class="o">.</span><span class="n">n_t</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">time_sec</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">_parse_inputs</span><span class="p">(</span><span class="n">nt</span><span class="p">,</span> <span class="n">time_sec</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">plus_one</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">time_sec_out</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">time_sec_out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">time_sec</span>
-    <span class="n">out</span><span class="o">.</span><span class="n">n_t_out</span><span class="p">,</span> <span class="n">time_sec_out</span><span class="p">,</span> <span class="n">junk</span> <span class="o">=</span> <span class="n">_parse_inputs</span><span class="p">(</span>
-        <span class="bp">None</span><span class="p">,</span> <span class="n">time_sec_out</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">plus_one</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_t_out</span><span class="p">,</span>
+     <span class="n">time_sec_out</span><span class="p">,</span>
+     <span class="n">junk</span><span class="p">)</span> <span class="o">=</span> <span class="n">_parse_inputs</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span>
+                           <span class="n">time_sec_out</span><span class="p">,</span>
+                           <span class="n">dt</span><span class="p">,</span> <span class="n">plus_one</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">findClose_nt_lowPrimeFactors</span><span class="p">:</span>
         <span class="n">out</span><span class="o">.</span><span class="n">n_t</span> <span class="o">=</span> <span class="n">lowPrimeFact_near</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_t</span><span class="p">,</span> <span class="n">nmin</span><span class="o">=</span><span class="n">out</span><span class="o">.</span><span class="n">n_t_out</span><span class="p">,</span> <span class="n">pmax</span><span class="o">=</span><span class="n">prime_max</span><span class="p">)</span>
         <span class="n">out</span><span class="o">.</span><span class="n">n_t</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">time_sec</span><span class="p">,</span> <span class="n">junk</span> <span class="o">=</span> <span class="n">_parse_inputs</span><span class="p">(</span>
             <span class="n">out</span><span class="o">.</span><span class="n">n_t</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="n">plus_one</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">out</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span> <span class="o">*</span> \
-        <span class="n">out</span><span class="o">.</span><span class="n">df</span> <span class="o">+</span> <span class="n">out</span><span class="o">.</span><span class="n">df</span>  <span class="c"># !!!CHECKTHIS</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span> <span class="o">*</span> <span class="n">out</span><span class="o">.</span><span class="n">df</span> <span class="o">+</span> <span class="n">out</span><span class="o">.</span><span class="n">df</span>  <span class="c"># !!!CHECKTHIS</span>
     <span class="k">return</span> <span class="n">out</span>
 
 </div>
@@ -368,12 +374,12 @@
         <span class="k">return</span> <span class="n">out</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="k">return</span> <span class="s">&#39;&lt;TurbSim Grid:</span><span class="si">%5.1f</span><span class="s">m high x </span><span class="si">%0.1f</span><span class="s">m wide grid  (</span><span class="si">%d</span><span class="s"> x </span><span class="si">%d</span><span class="s"> points)</span><span class="se">\</span>
-<span class="s">        , centered at </span><span class="si">%0.1f</span><span class="s">m.</span><span class="se">\n</span><span class="s">              </span><span class="si">%5.1f</span><span class="s">sec simulation, dt=</span><span class="si">%0.1f</span><span class="s">sec </span><span class="se">\</span>
-<span class="s">        (</span><span class="si">%d</span><span class="s"> timesteps).&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                             <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span>
-                             <span class="bp">self</span><span class="o">.</span><span class="n">zhub</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_sec</span><span class="p">,</span>
-                             <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s">&#39;&lt;TurbSim Grid:</span><span class="si">%5.1f</span><span class="s">m high x </span><span class="si">%0.1f</span><span class="s">m wide grid  (</span><span class="si">%d</span><span class="s"> x </span><span class="si">%d</span><span class="s"> points)&#39;</span>
+                <span class="s">&#39;, centered at </span><span class="si">%0.1f</span><span class="s">m.</span><span class="se">\n</span><span class="s">              </span><span class="si">%5.1f</span><span class="s">sec simulation, dt=</span><span class="si">%0.1f</span><span class="s">sec &#39;</span>
+                <span class="s">&#39;(</span><span class="si">%d</span><span class="s"> timesteps).&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">zhub</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_sec</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_t</span><span class="p">))</span>
 
     <span class="nd">@property</span>
 <div class="viewcode-block" id="gridObj.time_sec_out"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.time_sec_out">[docs]</a>    <span class="k">def</span> <span class="nf">time_sec_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
@@ -582,6 +588,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="modelBase.model_name"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.modelBase.model_name">[docs]</a>    <span class="k">def</span> <span class="nf">model_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;The model name is the class definition name&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&quot;&#39;&gt;&quot;</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="modelBase.model_desc"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.modelBase.model_desc">[docs]</a>    <span class="k">def</span> <span class="nf">model_desc</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;The model description is the first line of the docstring.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
 <div class="viewcode-block" id="modelBase.parameters"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.modelBase.parameters">[docs]</a>    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This property stores information about the TurbSim model</span>
@@ -590,7 +606,10 @@
 <span class="sd">        This functionality is not yet implemented, and this is a</span>
 <span class="sd">        placeholder for now.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;## No &#39;_sumfile_string&#39; defined for </span><span class="si">%s</span><span class="s"> ##</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span></div>
 </pre></div>
 
           </div>
@@ -627,7 +646,7 @@
         <li class="right" >
           <a href="../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

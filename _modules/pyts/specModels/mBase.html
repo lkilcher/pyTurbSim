@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.specModels.mBase &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.specModels.mBase &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,53 +56,60 @@
 <span class="sd">This is the turbulence spectrum package&#39;s base module.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">modelBase</span><span class="p">,</span><span class="n">ts_float</span><span class="p">,</span><span class="n">np</span><span class="p">,</span><span class="n">gridProps</span><span class="p">,</span><span class="n">calcObj</span>
-<span class="kn">from</span> <span class="nn">kelley_coefs</span> <span class="kn">import</span> <span class="n">p_coefs_unstable</span><span class="p">,</span><span class="n">f_coefs_unstable</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">modelBase</span><span class="p">,</span> <span class="n">ts_float</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">gridProps</span><span class="p">,</span> <span class="n">calcObj</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">trapz</span>
 
-<div class="viewcode-block" id="specObj"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.mBase.specObj">[docs]</a><span class="k">class</span> <span class="nc">specObj</span><span class="p">(</span><span class="n">gridProps</span><span class="p">,</span><span class="n">calcObj</span><span class="p">):</span>
+
+<div class="viewcode-block" id="specObj"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.mBase.specObj">[docs]</a><span class="k">class</span> <span class="nc">specObj</span><span class="p">(</span><span class="n">gridProps</span><span class="p">,</span> <span class="n">calcObj</span><span class="p">):</span>
+
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Spectral objects contain the array (self.array) of turbulence</span>
 <span class="sd">    spectra values for a specific PyTurbSim run. This class defines</span>
 <span class="sd">    various shortcuts to the data.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    tsrun : `tsrun` type</span>
 <span class="sd">        The PyTurbSim run object in which the spectra will be used.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">=</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">,</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span>
-    
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span>
+                               <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span>
+                               <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span>
+                               <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">),</span>
+                              <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span>
+
     <span class="nd">@property</span>
 <div class="viewcode-block" id="specObj.Suu"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.mBase.specObj.Suu">[docs]</a>    <span class="k">def</span> <span class="nf">Suu</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This is the u-component of the TKE spectrum.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</div>
     <span class="nd">@property</span>
 <div class="viewcode-block" id="specObj.Svv"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.mBase.specObj.Svv">[docs]</a>    <span class="k">def</span> <span class="nf">Svv</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This is the v-component of the TKE spectrum.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</div>
     <span class="nd">@property</span>
 <div class="viewcode-block" id="specObj.Sww"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.mBase.specObj.Sww">[docs]</a>    <span class="k">def</span> <span class="nf">Sww</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This is the w-component of the TKE spectrum.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-    </div>
+</div>
     <span class="nd">@property</span>
 <div class="viewcode-block" id="specObj.tke"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.mBase.specObj.tke">[docs]</a>    <span class="k">def</span> <span class="nf">tke</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This is the component-wise turbulent kinetic energy.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">trapz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-    </div>
+        <span class="k">return</span> <span class="n">trapz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</div>
     <span class="nd">@property</span>
 <div class="viewcode-block" id="specObj.flat"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.mBase.specObj.flat">[docs]</a>    <span class="k">def</span> <span class="nf">flat</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -122,13 +129,15 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+
 </div></div>
 <div class="viewcode-block" id="specModelBase"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.mBase.specModelBase">[docs]</a><span class="k">class</span> <span class="nc">specModelBase</span><span class="p">(</span><span class="n">modelBase</span><span class="p">):</span>
+
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A base class for TurbSim spectral models.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">pow5_3</span><span class="o">=</span><span class="n">ts_float</span><span class="p">(</span><span class="mf">5.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span>
-    <span class="n">pow2_3</span><span class="o">=</span><span class="n">ts_float</span><span class="p">(</span><span class="mf">2.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span></div>
+    <span class="n">pow5_3</span> <span class="o">=</span> <span class="n">ts_float</span><span class="p">(</span><span class="mf">5.</span> <span class="o">/</span> <span class="mf">3.</span><span class="p">)</span>
+    <span class="n">pow2_3</span> <span class="o">=</span> <span class="n">ts_float</span><span class="p">(</span><span class="mf">2.</span> <span class="o">/</span> <span class="mf">3.</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
@@ -165,7 +174,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

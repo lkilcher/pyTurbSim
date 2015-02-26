@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.io.aerodyn &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.io.aerodyn &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -61,12 +61,13 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">.._version</span> <span class="kn">import</span> <span class="n">__version__</span><span class="p">,</span><span class="n">__prog_name__</span><span class="p">,</span><span class="n">__version_date__</span>
-<span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="n">pack</span><span class="p">,</span><span class="n">unpack</span>
+<span class="kn">from</span> <span class="nn">.._version</span> <span class="kn">import</span> <span class="n">__version__</span><span class="p">,</span> <span class="n">__prog_name__</span><span class="p">,</span> <span class="n">__version_date__</span>
+<span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="n">pack</span><span class="p">,</span> <span class="n">unpack</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="n">e</span><span class="p">,</span><span class="n">convname</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">e</span><span class="p">,</span> <span class="n">convname</span>
 
-<div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.aerodyn.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">tsdat</span><span class="p">):</span>
+
+<div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.aerodyn.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write the data to a AeroDyn-/TurbSim-format binary file.</span>
 
@@ -78,38 +79,60 @@
 <span class="sd">             The &#39;tsdata&#39; object that contains the data.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ts</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">utotal</span>
-    <span class="n">intmin</span><span class="o">=-</span><span class="mi">32768</span>
-    <span class="n">intrng</span><span class="o">=</span><span class="mi">65536</span>
-    <span class="n">u_minmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">u_off</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">u_scl</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">desc_str</span><span class="o">=</span><span class="s">&#39;generated by </span><span class="si">%s</span><span class="s"> v</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">__prog_name__</span><span class="p">,</span><span class="n">__version__</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%b </span><span class="si">%d</span><span class="s">, %Y, %H:%M (%Z)&#39;</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">()))</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">utotal</span>
+    <span class="n">intmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32768</span>
+    <span class="n">intrng</span> <span class="o">=</span> <span class="mi">65536</span>
+    <span class="n">u_minmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">u_off</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">u_scl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">desc_str</span> <span class="o">=</span> <span class="s">&#39;generated by </span><span class="si">%s</span><span class="s"> v</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">__prog_name__</span><span class="p">,</span>
+        <span class="n">__version__</span><span class="p">,</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%b </span><span class="si">%d</span><span class="s">, %Y, %H:%M (%Z)&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">()))</span>
     <span class="c"># Calculate the ranges:</span>
-    <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-        <span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">=</span><span class="n">ts</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">ts</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">u_scl</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
+        <span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">ts</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">u_scl</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">u_scl</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">=</span><span class="n">intrng</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
-        <span class="n">u_off</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">=</span><span class="n">intmin</span><span class="o">-</span><span class="n">u_scl</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">*</span><span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">out</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">ts</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">*</span><span class="n">u_scl</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">+</span><span class="n">u_off</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
-    <span class="n">fl</span><span class="o">=</span><span class="nb">file</span><span class="p">(</span><span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s">&#39;.bts&#39;</span><span class="p">),</span><span class="s">&#39;wb&#39;</span><span class="p">)</span>
-    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pack</span><span class="p">(</span><span class="n">e</span><span class="o">+</span><span class="s">&#39;h4l12fl&#39;</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_tower</span><span class="p">,</span><span class="n">tsdat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dz</span><span class="p">,</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span><span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span><span class="n">tsdat</span><span class="o">.</span><span class="n">UHUB</span><span class="p">,</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">,</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">u_scl</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">u_off</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">u_scl</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">u_off</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">u_scl</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">u_off</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">desc_str</span><span class="p">)))</span>
+            <span class="n">u_scl</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">intrng</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
+        <span class="n">u_off</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">intmin</span> <span class="o">-</span> <span class="n">u_scl</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">*</span> <span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ts</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">*</span> <span class="n">u_scl</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">+</span> <span class="n">u_off</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+    <span class="n">fl</span> <span class="o">=</span> <span class="nb">file</span><span class="p">(</span><span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;.bts&#39;</span><span class="p">),</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pack</span><span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="s">&#39;h4l12fl&#39;</span><span class="p">,</span>
+                  <span class="mi">7</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_tower</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dz</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">UHUB</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">u_scl</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">u_off</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">u_scl</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                  <span class="n">u_off</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                  <span class="n">u_scl</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                  <span class="n">u_off</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                  <span class="nb">len</span><span class="p">(</span><span class="n">desc_str</span><span class="p">)))</span>
     <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">desc_str</span><span class="p">)</span>
     <span class="c"># Swap the y and z indices so that fortran-order writing agrees with the file format.</span>
     <span class="c"># Also, we swap the order of z-axis to agree with the file format.</span>
     <span class="c"># Write the data so that the first index varies fastest (F order).</span>
     <span class="c"># The indexes vary in the following order:</span>
     <span class="c"># component (fastest), y-index, z-index, time (slowest).</span>
-    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">out</span><span class="p">[:,::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">))</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">out</span><span class="p">[:,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">))</span>
     <span class="n">fl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    
+
 </div>
 <div class="viewcode-block" id="read"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.aerodyn.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Read AeroDyn/TurbSim format (.bts) full-field time-series binary data files.</span>
+<span class="sd">    Read AeroDyn/TurbSim format (.bts) full-field time-series binary</span>
+<span class="sd">    data files.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -119,21 +142,40 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    tsdata : array_like</span>
-<span class="sd">             An array of the turbulence data. !This needs to be fixed to be a tsdata object!</span>
-<span class="sd">    </span>
+<span class="sd">             An array of the turbulence data. !This needs to be fixed</span>
+<span class="sd">             to be a tsdata object!</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c">## !!!FIXTHIS, to be symmetric with &#39;write&#39; this should return a tsData object:</span>
     <span class="c">## *tsdat*  - A tsdata object that contains the data.</span>
-    <span class="n">u_scl</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">u_off</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">fl</span><span class="o">=</span><span class="nb">file</span><span class="p">(</span><span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s">&#39;.bts&#39;</span><span class="p">),</span><span class="s">&#39;rb&#39;</span><span class="p">)</span>
-    <span class="n">junk</span><span class="p">,</span><span class="n">n_z</span><span class="p">,</span><span class="n">n_y</span><span class="p">,</span><span class="n">n_tower</span><span class="p">,</span><span class="n">n_t</span><span class="p">,</span><span class="n">dz</span><span class="p">,</span><span class="n">dy</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">uhub</span><span class="p">,</span><span class="n">zhub</span><span class="p">,</span><span class="n">z0</span><span class="p">,</span><span class="n">u_scl</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">u_off</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">u_scl</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">u_off</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">u_scl</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">u_off</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">strlen</span><span class="o">=</span><span class="n">unpack</span><span class="p">(</span><span class="n">e</span><span class="o">+</span><span class="s">&#39;h4l12fl&#39;</span><span class="p">,</span><span class="n">fl</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">70</span><span class="p">))</span>
-    <span class="k">print</span> <span class="n">fname</span><span class="p">,</span><span class="n">u_scl</span><span class="p">,</span><span class="n">u_off</span>
-    <span class="n">desc_str</span><span class="o">=</span><span class="n">fl</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">strlen</span><span class="p">)</span>
-    <span class="n">nbt</span><span class="o">=</span><span class="mi">3</span><span class="o">*</span><span class="n">n_y</span><span class="o">*</span><span class="n">n_z</span><span class="o">*</span><span class="n">n_t</span>
-    <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">fl</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nbt</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="n">n_y</span><span class="p">,</span><span class="n">n_z</span><span class="p">,</span><span class="n">n_t</span><span class="p">],</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">),</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)[:,::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">out</span><span class="o">-=</span><span class="n">u_off</span><span class="p">[:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span>
-    <span class="n">out</span><span class="o">/=</span><span class="n">u_scl</span><span class="p">[:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span>
+    <span class="n">u_scl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">u_off</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">fl</span> <span class="o">=</span> <span class="nb">file</span><span class="p">(</span><span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;.bts&#39;</span><span class="p">),</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">junk</span><span class="p">,</span>
+     <span class="n">n_z</span><span class="p">,</span>
+     <span class="n">n_y</span><span class="p">,</span>
+     <span class="n">n_tower</span><span class="p">,</span>
+     <span class="n">n_t</span><span class="p">,</span>
+     <span class="n">dz</span><span class="p">,</span>
+     <span class="n">dy</span><span class="p">,</span>
+     <span class="n">dt</span><span class="p">,</span>
+     <span class="n">uhub</span><span class="p">,</span>
+     <span class="n">zhub</span><span class="p">,</span>
+     <span class="n">z0</span><span class="p">,</span>
+     <span class="n">u_scl</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+     <span class="n">u_off</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+     <span class="n">u_scl</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+     <span class="n">u_off</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+     <span class="n">u_scl</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+     <span class="n">u_off</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+     <span class="n">strlen</span><span class="p">)</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="s">&#39;h4l12fl&#39;</span><span class="p">,</span> <span class="n">fl</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">70</span><span class="p">))</span>
+    <span class="c">#print fname, u_scl, u_off</span>
+    <span class="n">desc_str</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">strlen</span><span class="p">)</span>  <span class="c"># skip these bytes.</span>
+    <span class="n">nbt</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">n_y</span> <span class="o">*</span> <span class="n">n_z</span> <span class="o">*</span> <span class="n">n_t</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">fl</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">nbt</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_y</span><span class="p">,</span> <span class="n">n_z</span><span class="p">,</span> <span class="n">n_t</span><span class="p">],</span> <span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[:,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">out</span> <span class="o">-=</span> <span class="n">u_off</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span>
+    <span class="n">out</span> <span class="o">/=</span> <span class="n">u_scl</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">out</span></div>
 </pre></div>
 
@@ -171,7 +213,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

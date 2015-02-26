@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.stressModels package &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.stressModels package &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../index.html" />
     <link rel="up" title="pyts package" href="pyts.html" />
     <link rel="next" title="Glossary" href="../glossary.html" />
     <link rel="prev" title="pyts.specModels package" href="pyts.specModels.html" /> 
@@ -49,7 +49,7 @@
         <li class="right" >
           <a href="pyts.specModels.html" title="pyts.specModels package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="pyts.html" accesskey="U">pyts package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -184,7 +184,9 @@ stress</p>
 <dl class="method">
 <dt id="pyts.stressModels.mBase.stressObj.calc_phases">
 <tt class="descname">calc_phases</tt><big>(</big><em>phases</em><big>)</big><a class="reference internal" href="../_modules/pyts/stressModels/mBase.html#stressObj.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.stressModels.mBase.stressObj.calc_phases" title="Permalink to this definition">¶</a></dt>
-<dd><p>Here we control the Reynold&#8217;s stress by setting the phases between components to be the same for a fraction of the frequencies.</p>
+<dd><p>Here we control the Reynold&#8217;s stress by setting the phases
+between components to be the same for a fraction of the
+frequencies.</p>
 </dd></dl>
 
 <dl class="method">
@@ -207,8 +209,8 @@ stress</p>
 <dl class="attribute">
 <dt id="pyts.stressModels.mBase.stressObj.upvp_max">
 <tt class="descname">upvp_max</tt><a class="reference internal" href="../_modules/pyts/stressModels/mBase.html#stressObj.upvp_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.stressModels.mBase.stressObj.upvp_max" title="Permalink to this definition">¶</a></dt>
-<dd><p>The product of the standard deviations of u&#8217; and v&#8217; (i.e. the maximum stress
-for the given turbulence model).</p>
+<dd><p>The product of the standard deviations of u&#8217; and v&#8217; (i.e. the
+maximum stress for the given turbulence model).</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -220,8 +222,8 @@ for the given turbulence model).</p>
 <dl class="attribute">
 <dt id="pyts.stressModels.mBase.stressObj.upwp_max">
 <tt class="descname">upwp_max</tt><a class="reference internal" href="../_modules/pyts/stressModels/mBase.html#stressObj.upwp_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.stressModels.mBase.stressObj.upwp_max" title="Permalink to this definition">¶</a></dt>
-<dd><p>The product of the standard deviations of u&#8217; and w&#8217; (i.e. the maximum stress
-for the given turbulence model).</p>
+<dd><p>The product of the standard deviations of u&#8217; and w&#8217; (i.e. the
+maximum stress for the given turbulence model).</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -233,17 +235,23 @@ for the given turbulence model).</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>A 3 x n_z x n_y boolean array.</strong> :</p>
-<p><strong>There are three criteria for each point in the grid.  They are listed here by their index in the array:</strong> :</p>
+<p><strong>There are three criteria for each point in the grid.  They are</strong> :</p>
+<p><strong>listed here by their index in the array:</strong> :</p>
 <blockquote>
 <div><ol class="arabic simple" start="0">
-<li>The magnitude criteria: no stress can exceed the maximum stress (correlation between components cannot exceed 1).</li>
-<li>The &#8216;overlap&#8217; criteria: The sum of the magnitude of the correlations can exceed one if they overlap. However, their
-are limits to the overlap. This criteria indicates that limit has been exceeded.</li>
-<li>The &#8216;sign&#8217; criteria. If only one component is negative than they can not overlap. In this case the sum of magnitude
-of the correlations must be less than 1.</li>
+<li>The magnitude criteria: no stress can exceed the maximum
+stress (correlation between components cannot exceed 1).</li>
+<li>The &#8216;overlap&#8217; criteria: The sum of the magnitude of the
+correlations can exceed one if they overlap. However,
+their are limits to the overlap. This criteria indicates
+that limit has been exceeded.</li>
+<li>The &#8216;sign&#8217; criteria. If only one component is negative
+than they can not overlap. In this case the sum of
+magnitude of the correlations must be less than 1.</li>
 </ol>
 </div></blockquote>
-<p class="last"><strong>If any of the criteria are false at any point, than the stressModel is invalid at that point.</strong> :</p>
+<p><strong>If any of the criteria are false at any point, than the</strong> :</p>
+<p class="last"><strong>stressModel is invalid at that point.</strong> :</p>
 </td>
 </tr>
 </tbody>
@@ -259,8 +267,8 @@ of the correlations must be less than 1.</li>
 <dl class="attribute">
 <dt id="pyts.stressModels.mBase.stressObj.vpwp_max">
 <tt class="descname">vpwp_max</tt><a class="reference internal" href="../_modules/pyts/stressModels/mBase.html#stressObj.vpwp_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.stressModels.mBase.stressObj.vpwp_max" title="Permalink to this definition">¶</a></dt>
-<dd><p>The product of the standard deviations of v&#8217; and w&#8217; (i.e. the maximum stress
-for the given turbulence model).</p>
+<dd><p>The product of the standard deviations of v&#8217; and w&#8217; (i.e. the
+maximum stress for the given turbulence model).</p>
 </dd></dl>
 
 </dd></dl>
@@ -272,9 +280,9 @@ for the given turbulence model).</p>
 <dt id="pyts.stressModels.main.uniform">
 <em class="property">class </em><tt class="descclassname">pyts.stressModels.main.</tt><tt class="descname">uniform</tt><big>(</big><em>upvp_=0.0</em>, <em>upwp_=0.0</em>, <em>vpwp_=0.0</em><big>)</big><a class="reference internal" href="../_modules/pyts/stressModels/main.html#uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.stressModels.main.uniform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.stressModels.mBase.stressModelBase" title="pyts.stressModels.mBase.stressModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.stressModels.mBase.stressModelBase</span></tt></a></p>
-<p>The &#8216;uniform&#8217; Reynold&#8217;s stress model. In this model each component
-of the Reynold&#8217;s stress can be specified explicitly, but the
-values are uniform in space.</p>
+<p>Uniform Reynold&#8217;s stress model.</p>
+<p>In this model each component of the Reynold&#8217;s stress can be
+specified explicitly, but the values are uniform in space.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -416,7 +424,7 @@ package, e.g.:</p>
         <li class="right" >
           <a href="pyts.specModels.html" title="pyts.specModels package"
              >previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="pyts.html" >pyts package</a> &raquo;</li> 
       </ul>
     </div>

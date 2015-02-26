@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.specModels.nwtc &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.specModels.nwtc &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -57,7 +57,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">.mBase</span> <span class="kn">import</span> <span class="n">np</span><span class="p">,</span> <span class="n">ts_float</span><span class="p">,</span> <span class="n">specObj</span><span class="p">,</span> <span class="n">specModelBase</span>
 <span class="kn">from</span> <span class="nn">..misc</span> <span class="kn">import</span> <span class="n">zL</span>
-<span class="kn">from</span> <span class="nn">.kelley_coefs</span> <span class="kn">import</span> <span class="n">calc_nwtcup_coefs</span>
+<span class="kn">from</span> <span class="nn">.kelley_coefs</span> <span class="kn">import</span> <span class="n">calc_nwtcup_coefs</span><span class="p">,</span> <span class="n">p_coefs_unstable</span><span class="p">,</span> <span class="n">f_coefs_unstable</span>
 
 
 <div class="viewcode-block" id="genNWTC"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.nwtc.genNWTC">[docs]</a><span class="k">class</span> <span class="nc">genNWTC</span><span class="p">(</span><span class="n">specModelBase</span><span class="p">):</span>
@@ -74,19 +74,33 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        tsrun :         :class:`tsrun &lt;pyts.main.tsrun&gt;`</span>
+<span class="sd">        tsrun :         :class:`.tsrun`</span>
 <span class="sd">                        A TurbSim run object.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        out :           :class:`specObj &lt;.mBase.specObj&gt;`</span>
+<span class="sd">        out :           :class:`.specObj`</span>
 <span class="sd">                        An NWTC spectral object for the grid in `tsrun`.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">specObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
-        <span class="c"># !!!FIXTHIS: The following lines bind output to the specModel object. It would be better to make this explicit, or something.</span>
+        <span class="c"># !!!FIXTHIS: The following lines bind calculation to the</span>
+        <span class="c"># !!!MODEL. This goes against the PyTurbSim philosophy of</span>
+        <span class="c"># !!!keeping calculations separated from models.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">f</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_work</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zhub</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span>
+        <span class="c"># Fixing this will require something like changing:</span>
+        <span class="c">#   out[comp][iz, iy] = model(z, u, comp)</span>
+        <span class="c"># to:</span>
+        <span class="c">#   self.model(out, u, icomp, iz, iy)</span>
+        <span class="c"># Note here that u must be supplied explicitly because it is</span>
+        <span class="c"># not known to &#39;out&#39;.</span>
+        <span class="c"># This would also require:</span>
+        <span class="c"># 1) deleting the self._work variable</span>
+        <span class="c"># 2) changing ``def L(self,)`` from a property to ``def</span>
+        <span class="c">#    L(self, tsrun)`` and using tsrun.grid.zhub their.</span>
+        <span class="c"># 3) changing all calls to ``self.L`` accordingly.</span>
         <span class="k">for</span> <span class="n">iz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_z</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">iy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_y</span><span class="p">):</span>
                 <span class="n">z</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">iz</span><span class="p">]</span>
@@ -99,8 +113,7 @@
 </div></div>
 <div class="viewcode-block" id="NWTC_stable"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.nwtc.NWTC_stable">[docs]</a><span class="k">class</span> <span class="nc">NWTC_stable</span><span class="p">(</span><span class="n">genNWTC</span><span class="p">):</span>
 
-    <span class="sd">r&quot;&quot;&quot;</span>
-<span class="sd">    The NWTC &#39;stable&#39; spectral model.</span>
+    <span class="sd">r&quot;&quot;&quot;The NWTC &#39;stable&#39; spectral model.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -118,7 +131,9 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        S_k(f) =  \frac{U_{*}^2 A_k \hat{f}^{-1}\gamma}{1+B_k(f/\hat{f})^{5/3}} \qquad k=0,1,2\ (u,v,w)</span>
+<span class="sd">        S_k(f) = \frac{U_{*}^2 A_k</span>
+<span class="sd">        \hat{f}^{-1}\gamma}{1+B_k(f/\hat{f})^{5/3}} \qquad k=0,1,2\</span>
+<span class="sd">        (u,v,w)</span>
 
 
 <span class="sd">    Where,</span>
@@ -154,6 +169,18 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">coefs</span> <span class="o">=</span> <span class="n">coef</span>
 
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">        Turbulence model used                            =  {dat.model_desc}</span>
+<span class="s">        Turbulence velocity (UStar)                      =  {dat.Ustar:0.2f} [m/s]</span>
+<span class="s">        Stability parameter (z/L)                        =  {dat.zL:0.2f}</span>
+<span class="s">        coefs  u                           =  [{p[0][0]:0.2f}, {p[0][1]:0.2f}]</span>
+<span class="s">               v                           =  [{p[1][0]:0.2f}, {p[1][1]:0.2f}]</span>
+<span class="s">               w                           =  [{p[2][0]:0.2f}, {p[2][1]:0.2f}]</span>
+<span class="s">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                                       <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coefs</span><span class="p">,)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_phie</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">zL</span> <span class="o">**</span> <span class="mf">0.6</span><span class="p">)</span> <span class="o">**</span> <span class="mf">1.5</span>
@@ -170,20 +197,19 @@
         <span class="n">coef</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefs</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span>
         <span class="n">z_u</span> <span class="o">=</span> <span class="n">z</span> <span class="o">/</span> <span class="n">u</span>
         <span class="n">denom</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phim</span><span class="p">)</span>
-        <span class="n">numer</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_phie</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phim</span><span class="p">)</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">pow2_3</span> <span class="o">/</span> \
-            <span class="bp">self</span><span class="o">.</span><span class="n">_phim</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ustar2</span>
+        <span class="n">numer</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_phie</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phim</span><span class="p">)</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">pow2_3</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phim</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ustar2</span>
         <span class="k">if</span> <span class="n">coef</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_work</span><span class="p">[:]</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coef</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_work</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_work</span>
-        <span class="k">return</span> <span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_coef</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">numer</span> <span class="o">*</span> <span class="n">z_u</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_coef</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">z_u</span> <span class="o">*</span> <span class="n">denom</span><span class="p">)</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">pow5_3</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_coef</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">numer</span> <span class="o">*</span> <span class="n">z_u</span> <span class="o">/</span>
+                <span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_coef</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">z_u</span> <span class="o">*</span> <span class="n">denom</span><span class="p">)</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">pow5_3</span><span class="p">))</span>
 
 </div></div>
 <div class="viewcode-block" id="NWTC_unstable"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.nwtc.NWTC_unstable">[docs]</a><span class="k">class</span> <span class="nc">NWTC_unstable</span><span class="p">(</span><span class="n">genNWTC</span><span class="p">):</span>
 
-    <span class="sd">r&quot;&quot;&quot;</span>
-<span class="sd">    The NWTC &#39;unstable&#39; spectral model.</span>
+    <span class="sd">r&quot;&quot;&quot;The NWTC &#39;unstable&#39; spectral model.</span>
 
 <span class="sd">    .. math::</span>
 <span class="sd">       S_k(f) = U_\mathrm{star}^2 G_k(f,\bar{u},z,ZI) \qquad k = u, v, w</span>
@@ -218,9 +244,31 @@
         <span class="k">if</span> <span class="n">f_coefs</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">f_coefs</span> <span class="o">=</span> <span class="n">f_coefs_unstable</span>
 
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">        Turbulence model used                            =  {dat.model_desc}</span>
+<span class="s">        Turbulence velocity (UStar)                      =  {dat.Ustar:0.4g} [m/s]</span>
+<span class="s">        Mixing layer depth (ZI)                          =  {dat.ZI:0.4g} [m]</span>
+<span class="s">        Stability parameter (z/L)                        =  {dat.zL:0.4g}</span>
+<span class="s">        Monin-Obhukov Length scale                       =  {Lmo:0.4g} [m]</span>
+<span class="s">        p_coefs   u                =  [{p[0][0]:0.4g}, {p[0][1]:0.4g}]</span>
+<span class="s">                  v                =  [{p[1][0]:0.4g}, {p[1][1]:0.4g}]</span>
+<span class="s">                  w                =  [{p[2][0]:0.4g}, {p[2][1]:0.4g}]</span>
+<span class="s">        f_coefs   u                =  [{f[0][0]:0.4g}, {f[0][1]:0.4g}]</span>
+<span class="s">                  v                =  [{f[1][0]:0.4g}, {f[1][1]:0.4g}]</span>
+<span class="s">                  w                =  [{f[2][0]:0.4g}, {f[2][1]:0.4g}]</span>
+<span class="s">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                                       <span class="n">Lmo</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">,</span>
+                                       <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_coefs</span><span class="p">,</span>
+                                       <span class="n">f</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">f_coefs</span><span class="p">,)</span>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="NWTC_unstable.L"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.nwtc.NWTC_unstable.L">[docs]</a>    <span class="k">def</span> <span class="nf">L</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">zL</span>
+<div class="viewcode-block" id="NWTC_unstable.L"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.nwtc.NWTC_unstable.L">[docs]</a>    <span class="k">def</span> <span class="nf">L</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;zhub&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;The Monin-Obhukov is unknown until this &quot;</span>
+                            <span class="s">&quot;model has been &#39;__call__&#39;d.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">zhub</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">zL</span>
 </div>
 <div class="viewcode-block" id="NWTC_unstable.model"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.nwtc.NWTC_unstable.model">[docs]</a>    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">comp</span><span class="p">):</span>
         <span class="sd">r&quot;&quot;&quot;</span>
@@ -259,8 +307,9 @@
 <span class="sd">        The form of the w-compenent spectrum is:</span>
 
 <span class="sd">        .. math::</span>
-<span class="sd">           S_w(f) = U_\mathrm{star}^2 \left( p_{w,1}\frac{\alpha}{(1 + F_{w,1} \hat{f})^{5/3}} \gamma +</span>
-<span class="sd">           p_{w,2}\frac{\beta}{ 1 + F_{w,2} {f&#39;} ^{5/3} } \right )</span>
+<span class="sd">           S_w(f) = U_\mathrm{star}^2 \left( p_{w,1}\frac{\alpha}{(1 +</span>
+<span class="sd">           F_{w,1} \hat{f})^{5/3}} \gamma + p_{w,2}\frac{\beta}{ 1 +</span>
+<span class="sd">           F_{w,2} {f&#39;} ^{5/3} } \right )</span>
 
 <span class="sd">        Where,</span>
 
@@ -283,24 +332,26 @@
         <span class="n">f_coef</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_coefs</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span>
         <span class="n">pow5_3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pow5_3</span>
         <span class="n">z_ZI</span> <span class="o">=</span> <span class="n">z</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">ZI</span>
-        <span class="n">num0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ustar2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ZI</span> <span class="o">/</span> <span class="n">u</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ZI</span> <span class="o">/</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">)</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">pow2_3</span>
+        <span class="n">num0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ustar2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ZI</span> <span class="o">/</span> <span class="n">u</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ZI</span> <span class="o">/</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">())</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">pow2_3</span>
         <span class="n">fZI_u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ZI</span> <span class="o">/</span> <span class="n">u</span>
+        <span class="n">z_u</span> <span class="o">=</span> <span class="n">z</span> <span class="o">/</span> <span class="n">u</span>
         <span class="n">num1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ustar2</span> <span class="o">*</span> <span class="n">z_u</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">z_ZI</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">fz_u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">*</span> <span class="n">z_u</span>
         <span class="k">if</span> <span class="n">comp</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">tmp0</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">15</span> <span class="o">*</span> <span class="n">z_ZI</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_work</span> <span class="o">=</span> <span class="n">p_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">num0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">fZI_u</span> <span class="o">*</span> <span class="n">f_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="n">pow5_3</span><span class="p">)</span> <span class="o">+</span> <span class="n">p_coef</span><span class="p">[</span>
-                <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">num1</span> <span class="o">/</span> <span class="p">(</span><span class="n">tmp0</span> <span class="o">+</span> <span class="n">f_coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">fz_u</span><span class="p">)</span> <span class="o">**</span> <span class="n">pow5_3</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_work</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">num0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">fZI_u</span> <span class="o">*</span> <span class="n">f_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="n">pow5_3</span><span class="p">)</span>
+                          <span class="o">+</span> <span class="n">p_coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">num1</span> <span class="o">/</span> <span class="p">(</span><span class="n">tmp0</span> <span class="o">+</span> <span class="n">f_coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">fz_u</span><span class="p">)</span> <span class="o">**</span> <span class="n">pow5_3</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">comp</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">tmp0</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mf">2.8</span> <span class="o">*</span> <span class="n">z_ZI</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_work</span> <span class="o">=</span> <span class="n">p_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">num0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">f_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">fZI_u</span><span class="p">)</span> <span class="o">**</span> <span class="n">pow5_3</span> <span class="o">+</span> <span class="n">p_coef</span><span class="p">[</span>
-                <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">num1</span> <span class="o">/</span> <span class="p">(</span><span class="n">tmp0</span> <span class="o">+</span> <span class="n">f_coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">fz_u</span><span class="p">)</span> <span class="o">**</span> <span class="n">pow5_3</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_work</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">num0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">f_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">fZI_u</span><span class="p">)</span> <span class="o">**</span> <span class="n">pow5_3</span>
+                          <span class="o">+</span> <span class="n">p_coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">num1</span> <span class="o">/</span> <span class="p">(</span><span class="n">tmp0</span> <span class="o">+</span> <span class="n">f_coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">fz_u</span><span class="p">)</span> <span class="o">**</span> <span class="n">pow5_3</span><span class="p">)</span>
             <span class="c">## # Handle extra (e.g. wake, for outf_turb) coefficients:</span>
             <span class="c">## if coef.shape[0]&gt;2 and not np.isnan(coef[2,0]+coef[2,1]):</span>
             <span class="c"># self._work+=coef[2,0]*17*num1/(tmp0+coef[2,1]*9.5*fz_u)**pow5_3</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_work</span> <span class="o">=</span> <span class="n">p_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">num0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">f_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">fZI_u</span><span class="p">)</span> <span class="o">**</span> <span class="n">pow5_3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">fz_u</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.3</span> <span class="o">*</span> <span class="n">z_ZI</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">fz_u</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">0.0225</span><span class="p">))</span> <span class="o">+</span> <span class="n">p_coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">num1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">f_coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">fz_u</span> <span class="o">**</span> <span class="n">pow5_3</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_work</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">num0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">f_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">fZI_u</span><span class="p">)</span> <span class="o">**</span> <span class="n">pow5_3</span>
+                          <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">fz_u</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.3</span> <span class="o">*</span> <span class="n">z_ZI</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">fz_u</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">0.0225</span><span class="p">))</span>
+                          <span class="o">+</span> <span class="n">p_coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">num1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">f_coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">fz_u</span> <span class="o">**</span> <span class="n">pow5_3</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_work</span>
 
 </div></div>
@@ -395,7 +446,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.io.formatter &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.io.formatter &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -137,6 +137,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">format_prfx</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+    <span class="n">default_format_prfx</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
     <span class="n">allow_sloppy</span> <span class="o">=</span> <span class="bp">False</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="p">):</span>
@@ -169,17 +170,20 @@
             <span class="k">return</span> <span class="s">&#39;??SOME JUNK??&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c"># This _current_name business is a DIRTY HACK.</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&quot;&#39;</span><span class="si">%s</span><span class="s">&#39; not specified and no default value found in template.&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_name</span><span class="p">)</span>  <span class="c"># noqa</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&quot;&#39;</span><span class="si">%s</span><span class="s">&#39; not specified and no default &quot;</span>
+                           <span class="s">&quot;value found in template.&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_format_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_val</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="n">default_val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_format_prfx</span> <span class="o">+</span> <span class="s">&#39;s&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SuperFormatter.format_field"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.formatter.SuperFormatter.format_field">[docs]</a>    <span class="k">def</span> <span class="nf">format_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">format_spec</span><span class="p">):</span>
         <span class="n">format_spec</span> <span class="o">=</span> <span class="n">format_spec</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>  <span class="c"># Strip trailing spaces</span>
-
+        <span class="n">default_val</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">if</span> <span class="s">&#39;/&#39;</span> <span class="ow">in</span> <span class="n">format_spec</span><span class="p">:</span>
             <span class="n">format_spec</span><span class="p">,</span> <span class="n">default_val</span> <span class="o">=</span> <span class="n">format_spec</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="c"># set the default value if there is no input</span>
             <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="n">default_val</span><span class="p">,</span>
-                              <span class="bp">self</span><span class="o">.</span><span class="n">format_prfx</span> <span class="o">+</span> <span class="s">&#39;s&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_default</span><span class="p">(</span><span class="n">default_val</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fail</span><span class="p">()</span>
 
@@ -207,7 +211,12 @@
                 <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">form</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="k">pass</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Invalid conversion specification&#39;</span><span class="p">)</span></div></div>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="c"># Finally, try the default again:</span>
+        <span class="k">if</span> <span class="n">default_val</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Invalid conversion specification&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_default</span><span class="p">(</span><span class="n">default_val</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
@@ -244,7 +253,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

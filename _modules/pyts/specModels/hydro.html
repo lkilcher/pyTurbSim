@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.specModels.hydro &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.specModels.hydro &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -61,7 +61,8 @@
 
 <div class="viewcode-block" id="tidal"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.hydro.tidal">[docs]</a><span class="k">class</span> <span class="nc">tidal</span><span class="p">(</span><span class="n">specModelBase</span><span class="p">):</span>
 
-    <span class="sd">r&quot;&quot;&quot;</span>
+    <span class="sd">r&quot;&quot;&quot;Tidal Channel spectral model.</span>
+<span class="sd">    </span>
 <span class="sd">    The tidal spectral model is based on measurements from Admiralty</span>
 <span class="sd">    Inlet, in Puget Sound, WA.</span>
 
@@ -75,18 +76,20 @@
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 
-<span class="sd">    This model is similar to :class:`.nwtc.NWTC_stable`, but uses</span>
+<span class="sd">    This model is similar to :class:`.NWTC_stable`, but uses</span>
 <span class="sd">    different values for :attr:`coef`, and does not support new</span>
 <span class="sd">    fit-coefficients. The form of this model is:</span>
 
 <span class="sd">    .. math::</span>
-<span class="sd">         S_k(f) = \frac{\sigma_k^2 \mathrm{coef}[k,0]}{1+\mathrm{coef}[k,1](f/\hat{f})^{5/3}} \qquad k=0,1,2\ (u,v,w)</span>
+<span class="sd">    </span>
+<span class="sd">         S_k(f) = \frac{\sigma_k^2 \mathrm{coef}[k,0]}{1+\mathrm{coef}[k,1](f/\hat{f})^{5/3}}</span>
+<span class="sd">         \qquad k=0,1,2\ (u,v,w)</span>
 
 <span class="sd">    Where,</span>
 
 <span class="sd">      :math:`\hat{f}=\frac{\partial \bar{u}}{\partial z}`</span>
 
-<span class="sd">      :math:`\bar{u}` is the mean velocity from the :class:`profObj &lt;pyts.profModels.mBase.profObj&gt;`.</span>
+<span class="sd">      :math:`\bar{u}` is the mean velocity from the :class:`.profObj`.</span>
 
 <span class="sd">      :math:`\sigma_k^2 = U_{*}^2 \alpha_k exp(-2 z/Zref)`</span>
 
@@ -103,7 +106,28 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">Ustar</span> <span class="o">=</span> <span class="n">Ustar</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span> <span class="o">=</span> <span class="n">Zref</span>
 
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">        Turbulence model used                            =  {dat.model_desc}</span>
+<span class="s">        Turbulence velocity (UStar)                      =  {dat.Ustar:0.4g} [m/s]</span>
+<span class="s">        Log roughness scale (Zref)                       =  {dat.Zref:0.4g} [m]</span>
+<span class="s">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
 <div class="viewcode-block" id="tidal.__call__"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.hydro.tidal.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create the spectral object for :class:`.tsrun`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tsrun :         :class:`.tsrun`</span>
+<span class="sd">                        A TurbSim run object.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out :           :class:`.specObj`</span>
+<span class="sd">                        An IEC spectral object for the grid in :class:`.tsrun`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">specObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
         <span class="n">dudz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">dudz</span><span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="bp">None</span><span class="p">])</span>
         <span class="n">out</span><span class="o">.</span><span class="n">sigma2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ustar</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">2.25</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])[:,</span> <span class="bp">None</span><span class="p">]</span> \
@@ -117,11 +141,13 @@
 </div></div>
 <div class="viewcode-block" id="river"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.hydro.river">[docs]</a><span class="k">class</span> <span class="nc">river</span><span class="p">(</span><span class="n">tidal</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;River turbulence spectral model.</span>
+
 <span class="sd">    This model is based on measurements from the East River, in New</span>
 <span class="sd">    York City. It is identical to the :class:`tidal` model, but uses</span>
 <span class="sd">    different values for :attr:`coef`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c"># These fit positive velocity data in eastriver:</span>
     <span class="n">coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.057</span><span class="p">,</span> <span class="mf">3.432</span><span class="p">],</span>
                      <span class="p">[</span><span class="mf">0.351</span><span class="p">,</span> <span class="mf">0.546</span><span class="p">],</span>
@@ -166,7 +192,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

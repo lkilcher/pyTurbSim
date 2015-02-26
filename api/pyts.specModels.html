@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.specModels package &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.specModels package &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../index.html" />
     <link rel="up" title="pyts package" href="pyts.html" />
     <link rel="next" title="pyts.stressModels package" href="pyts.stressModels.html" />
     <link rel="prev" title="pyts.runConfig package" href="pyts.runConfig.html" /> 
@@ -49,7 +49,7 @@
         <li class="right" >
           <a href="pyts.runConfig.html" title="pyts.runConfig package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="pyts.html" accesskey="U">pyts package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -121,6 +121,7 @@ documentation.</p>
 <dt id="pyts.specModels.hydro.river">
 <em class="property">class </em><tt class="descclassname">pyts.specModels.hydro.</tt><tt class="descname">river</tt><big>(</big><em>Ustar</em>, <em>Zref</em><big>)</big><a class="reference internal" href="../_modules/pyts/specModels/hydro.html#river"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.hydro.river" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.specModels.hydro.tidal" title="pyts.specModels.hydro.tidal"><tt class="xref py py-class docutils literal"><span class="pre">pyts.specModels.hydro.tidal</span></tt></a></p>
+<p>River turbulence spectral model.</p>
 <p>This model is based on measurements from the East River, in New
 York City. It is identical to the <a class="reference internal" href="#pyts.specModels.hydro.tidal" title="pyts.specModels.hydro.tidal"><tt class="xref py py-class docutils literal"><span class="pre">tidal</span></tt></a> model, but uses
 different values for <a class="reference internal" href="#pyts.specModels.hydro.river.coef" title="pyts.specModels.hydro.river.coef"><tt class="xref py py-attr docutils literal"><span class="pre">coef</span></tt></a>.</p>
@@ -135,6 +136,7 @@ different values for <a class="reference internal" href="#pyts.specModels.hydro.
 <dt id="pyts.specModels.hydro.tidal">
 <em class="property">class </em><tt class="descclassname">pyts.specModels.hydro.</tt><tt class="descname">tidal</tt><big>(</big><em>Ustar</em>, <em>Zref</em><big>)</big><a class="reference internal" href="../_modules/pyts/specModels/hydro.html#tidal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.hydro.tidal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.specModels.mBase.specModelBase" title="pyts.specModels.mBase.specModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.specModels.mBase.specModelBase</span></tt></a></p>
+<p>Tidal Channel spectral model.</p>
 <p>The tidal spectral model is based on measurements from Admiralty
 Inlet, in Puget Sound, WA.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -161,11 +163,12 @@ Inlet, in Puget Sound, WA.</p>
 </dl>
 </div>
 <p class="rubric">Notes</p>
-<p>This model is similar to <a class="reference internal" href="#pyts.specModels.nwtc.NWTC_stable" title="pyts.specModels.nwtc.NWTC_stable"><tt class="xref py py-class docutils literal"><span class="pre">nwtc.NWTC_stable</span></tt></a>, but uses
+<p>This model is similar to <a class="reference internal" href="#pyts.specModels.nwtc.NWTC_stable" title="pyts.specModels.nwtc.NWTC_stable"><tt class="xref py py-class docutils literal"><span class="pre">NWTC_stable</span></tt></a>, but uses
 different values for <a class="reference internal" href="#pyts.specModels.hydro.tidal.coef" title="pyts.specModels.hydro.tidal.coef"><tt class="xref py py-attr docutils literal"><span class="pre">coef</span></tt></a>, and does not support new
 fit-coefficients. The form of this model is:</p>
 <div class="math">
-\[S_k(f) = \frac{\sigma_k^2 \mathrm{coef}[k,0]}{1+\mathrm{coef}[k,1](f/\hat{f})^{5/3}} \qquad k=0,1,2\ (u,v,w)\]</div>
+\[S_k(f) = \frac{\sigma_k^2 \mathrm{coef}[k,0]}{1+\mathrm{coef}[k,1](f/\hat{f})^{5/3}}
+\qquad k=0,1,2\ (u,v,w)\]</div>
 <p>Where,</p>
 <blockquote>
 <div><p><span class="math">\(\hat{f}=\frac{\partial \bar{u}}{\partial z}\)</span></p>
@@ -176,7 +179,26 @@ fit-coefficients. The form of this model is:</p>
 <dl class="method">
 <dt id="pyts.specModels.hydro.tidal.__call__">
 <tt class="descname">__call__</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/specModels/hydro.html#tidal.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.hydro.tidal.__call__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Create the spectral object for <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsrun</strong> :         <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a></p>
+<blockquote>
+<div><p>A TurbSim run object.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> :           <a class="reference internal" href="#pyts.specModels.mBase.specObj" title="pyts.specModels.mBase.specObj"><tt class="xref py py-class docutils literal"><span class="pre">specObj</span></tt></a></p>
+<blockquote class="last">
+<div><p>An IEC spectral object for the grid in <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="pyts.specModels.hydro.tidal.coef">
@@ -196,7 +218,7 @@ for more info on IEC spectral models.</p>
 <dt id="pyts.specModels.iec.IECKai">
 <em class="property">class </em><tt class="descclassname">pyts.specModels.iec.</tt><tt class="descname">IECKai</tt><big>(</big><em>IECwindtype</em>, <em>IECstandard</em>, <em>IECedition</em>, <em>IECturbc</em>, <em>ETMc=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/specModels/iec.html#IECKai"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.iec.IECKai" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.specModels.iec.iecbase" title="pyts.specModels.iec.iecbase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.specModels.iec.iecbase</span></tt></a></p>
-<p>The IEC Kaimal spectral model.</p>
+<p>IEC Kaimal spectral model.</p>
 <p class="rubric">Notes</p>
 <p>The form of this model is,</p>
 <div class="math">
@@ -213,8 +235,7 @@ for more info on IEC spectral models.</p>
 <dl class="method">
 <dt id="pyts.specModels.iec.IECKai.__call__">
 <tt class="descname">__call__</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/specModels/iec.html#IECKai.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.iec.IECKai.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create and calculate the spectral object for a <cite>tsrun</cite>
-instance.</p>
+<dd><p>Create the spectral object for a <cite>tsrun</cite> instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -241,7 +262,7 @@ instance.</p>
 <dt id="pyts.specModels.iec.IECVKm">
 <em class="property">class </em><tt class="descclassname">pyts.specModels.iec.</tt><tt class="descname">IECVKm</tt><big>(</big><em>IECwindtype</em>, <em>IECstandard</em>, <em>IECedition</em>, <em>IECturbc</em>, <em>ETMc=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/specModels/iec.html#IECVKm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.iec.IECVKm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.specModels.iec.iecbase" title="pyts.specModels.iec.iecbase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.specModels.iec.iecbase</span></tt></a></p>
-<p>The IEC Von-Karman spectral model.</p>
+<p>IEC Von-Karman spectral model</p>
 <p class="rubric">Notes</p>
 <p>The form of this model is,</p>
 <div class="math">
@@ -518,7 +539,9 @@ coherence.</p>
 <p class="rubric">Notes</p>
 <p>The specific form of this model is,</p>
 <div class="math">
-\[S_k(f) =  \frac{U_{*}^2 A_k \hat{f}^{-1}\gamma}{1+B_k(f/\hat{f})^{5/3}} \qquad k=0,1,2\ (u,v,w)\]</div>
+\[S_k(f) = \frac{U_{*}^2 A_k
+\hat{f}^{-1}\gamma}{1+B_k(f/\hat{f})^{5/3}} \qquad k=0,1,2\
+(u,v,w)\]</div>
 <p>Where,</p>
 <blockquote>
 <div><p><span class="math">\(\gamma=(\phi_E/\phi_M)^{2/3}\)</span></p>
@@ -629,8 +652,9 @@ p_{u,2}\frac{\beta}{( \delta_u + F_{u,2} f' )^{5/3} } \right )\]</div>
 p_{v,2}\frac{\beta}{( \delta_v + F_{v,2} f' )^{5/3} } \right )\]</div>
 <p>The form of the w-compenent spectrum is:</p>
 <div class="math">
-\[S_w(f) = U_\mathrm{star}^2 \left( p_{w,1}\frac{\alpha}{(1 + F_{w,1} \hat{f})^{5/3}} \gamma +
-p_{w,2}\frac{\beta}{ 1 + F_{w,2} {f'} ^{5/3} } \right )\]</div>
+\[S_w(f) = U_\mathrm{star}^2 \left( p_{w,1}\frac{\alpha}{(1 +
+F_{w,1} \hat{f})^{5/3}} \gamma + p_{w,2}\frac{\beta}{ 1 +
+F_{w,2} {f'} ^{5/3} } \right )\]</div>
 <p>Where,</p>
 <blockquote>
 <div><p><span class="math">\(\hat{f} = f ZI/\bar{u}\)</span></p>
@@ -823,7 +847,7 @@ package, e.g.</p>
         <li class="right" >
           <a href="pyts.runConfig.html" title="pyts.runConfig package"
              >previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="pyts.html" >pyts package</a> &raquo;</li> 
       </ul>
     </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.io.sum &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.io.sum &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,16 +56,15 @@
 <span class="kn">from</span> <span class="nn">pyts.io.formatter</span> <span class="kn">import</span> <span class="n">SuperFormatter</span>
 <span class="kn">import</span> <span class="nn">pkg_resources</span>
 <span class="kn">import</span> <span class="nn">pyts._version</span> <span class="kn">as</span> <span class="nn">ver</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">convname</span>
 
 
 <div class="viewcode-block" id="SumFormatter"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.sum.SumFormatter">[docs]</a><span class="k">class</span> <span class="nc">SumFormatter</span><span class="p">(</span><span class="n">SuperFormatter</span><span class="p">):</span>
 
-    <span class="n">format_prfx</span> <span class="o">=</span> <span class="s">&#39;&gt;10&#39;</span>
+    <span class="n">default_format_prfx</span> <span class="o">=</span> <span class="s">&#39;&gt;10&#39;</span>
 
     <span class="k">def</span> <span class="nf">_format_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;10.3f&#39;</span><span class="p">)</span>
-
-    <span class="c">## def _format_stringlist(self, value):</span>
 
     <span class="k">def</span> <span class="nf">_format_b</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="s">&#39;FT&#39;</span><span class="p">[</span><span class="n">value</span><span class="p">],</span> <span class="s">&#39;&gt;10s&#39;</span><span class="p">)</span>
@@ -80,6 +79,12 @@
 
     <span class="k">def</span> <span class="nf">_format_WindProfilestr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;&gt;10s&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_format_stringlist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="n">v</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">return</span> <span class="n">out</span>
 
     <span class="k">def</span> <span class="nf">_format_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
         <span class="n">out</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
@@ -106,56 +111,27 @@
 <span class="n">template</span> <span class="o">=</span> <span class="n">SumFormatter</span><span class="p">(</span>
     <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_string</span><span class="p">(</span><span class="n">ver</span><span class="o">.</span><span class="n">pkg_name</span><span class="p">,</span>
                                   <span class="s">&#39;io/templates/sum&#39;</span><span class="p">))</span>
-<span class="n">template</span><span class="o">.</span><span class="n">allow_sloppy</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="c">#template.allow_sloppy = True</span>
 
 
 <div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.sum.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">in_dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Write a config file.</span>
+<span class="sd">    Write a sum file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">outstr</span> <span class="o">=</span> <span class="n">template</span><span class="p">(</span><span class="o">**</span><span class="n">in_dict</span><span class="p">)</span>
-
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfl</span><span class="p">:</span>
-        <span class="n">outfl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">outstr</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">outstr</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">convname</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;.sum&#39;</span><span class="p">),</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfl</span><span class="p">:</span>
+        <span class="n">outfl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">template</span><span class="p">(</span><span class="o">**</span><span class="n">in_dict</span><span class="p">))</span>
 
 </div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
 
-    <span class="kn">from</span> <span class="nn">pyts.base</span> <span class="kn">import</span> <span class="n">statObj</span><span class="p">,</span> <span class="n">tsGrid</span>
-    <span class="kn">from</span> <span class="nn">pyts.io.config</span> <span class="kn">import</span> <span class="n">read</span>
+    <span class="kn">from</span> <span class="nn">pyts.runConfig.main</span> <span class="kn">import</span> <span class="n">readConfig</span><span class="p">,</span> <span class="n">run</span>
 
-    <span class="n">upwp</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
-    <span class="n">upwp</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mf">1e-4</span>
-    <span class="n">upwp</span><span class="o">.</span><span class="n">corr</span> <span class="o">=</span> <span class="mf">1e-4</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">readConfig</span><span class="p">(</span><span class="s">&#39;tmp/TurbSim.inp&#39;</span><span class="p">)</span>
+    <span class="n">tsdat</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">write</span><span class="p">(</span><span class="s">&#39;tmp/TurbSim.sum&#39;</span><span class="p">,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">_sumdict</span><span class="p">)</span>
 
-    <span class="n">dout</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">dout</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">read</span><span class="p">(</span><span class="s">&#39;tmp/testfile.inp&#39;</span><span class="p">))</span>
-
-    <span class="n">grid</span> <span class="o">=</span> <span class="n">tsGrid</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="n">nt</span><span class="o">=</span><span class="mi">6000</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
-
-    <span class="n">in_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Latitude</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span>
-                   <span class="n">VerString</span><span class="o">=</span><span class="n">ver</span><span class="o">.</span><span class="n">VerString</span><span class="p">,</span>
-                   <span class="n">uhub</span><span class="o">=</span><span class="n">statObj</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">100</span><span class="p">)),</span>
-                   <span class="n">vhub</span><span class="o">=</span><span class="n">statObj</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">100</span><span class="p">)),</span>
-                   <span class="n">whub</span><span class="o">=</span><span class="n">statObj</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">100</span><span class="p">)),</span>
-                   <span class="n">upwp</span><span class="o">=</span><span class="n">upwp</span><span class="p">,</span>
-                   <span class="n">upvp</span><span class="o">=</span><span class="n">upwp</span><span class="p">,</span>
-                   <span class="n">vpwp</span><span class="o">=</span><span class="n">upwp</span><span class="p">,</span>
-                   <span class="n">hhub</span><span class="o">=</span><span class="n">upwp</span><span class="p">,</span>
-                   <span class="n">tke</span><span class="o">=</span><span class="n">upwp</span><span class="p">,</span>
-                   <span class="n">ctke</span><span class="o">=</span><span class="n">upwp</span><span class="p">,</span>
-                   <span class="n">u</span><span class="o">=</span><span class="n">upwp</span><span class="p">,</span>
-                   <span class="n">v</span><span class="o">=</span><span class="n">upwp</span><span class="p">,</span>
-                   <span class="n">w</span><span class="o">=</span><span class="n">upwp</span><span class="p">,</span>
-                   <span class="n">WindProfileType</span><span class="o">=</span><span class="s">&#39;LOG&#39;</span><span class="p">,</span>
-                   <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
-                   <span class="p">)</span>
-
-    <span class="n">in_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dout</span><span class="p">)</span>
-
-    <span class="n">write</span><span class="p">(</span><span class="s">&#39;tmp/testfile.sum&#39;</span><span class="p">,</span> <span class="n">in_dict</span><span class="p">)</span>
+    <span class="n">tsdat</span><span class="o">.</span><span class="n">writeSum</span><span class="p">(</span><span class="s">&#39;tmp/TurbSim_alt.sum&#39;</span><span class="p">)</span>
 </pre></div>
 
           </div>
@@ -192,7 +168,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.cohereModels.main &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.cohereModels.main &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -52,7 +52,6 @@
           <div class="body">
             
   <h1>Source code for pyts.cohereModels.main</h1><div class="highlight"><pre>
-<span class="c">## \namespace cohereModel:main</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module defines two coherence models:</span>
 <span class="sd">nwtc - The NWTC &#39;non-IEC&#39; coherence model.</span>
@@ -95,13 +94,13 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        phases : array_like(np,nf)</span>
+<span class="sd">        phases : array_like(np, nf)</span>
 <span class="sd">                 The input (generally randomized) phases for each</span>
 <span class="sd">                 point for each frequency.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        phases : array_like(np,nf)</span>
+<span class="sd">        phases : array_like(np, nf)</span>
 <span class="sd">                 The correlated phases according to this cohereObj&#39;s</span>
 <span class="sd">                 coherence model (see :meth:`calcCoh`).</span>
 
@@ -156,8 +155,9 @@
 </div></div>
 <div class="viewcode-block" id="nwtc"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.main.nwtc">[docs]</a><span class="k">class</span> <span class="nc">nwtc</span><span class="p">(</span><span class="n">cohereModelBase</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The NWTC non-IEC coherence model.</span>
+    <span class="sd">&quot;&quot;&quot;NWTC coherence model.</span>
+
+<span class="sd">    This is also known as the &#39;non-IEC&#39; coherence model.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -226,6 +226,17 @@
         <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
             <span class="c">#self.timer=dbg.timer(&#39;tslib-cohNWTC&#39;)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">dbg</span><span class="o">.</span><span class="n">timer</span><span class="p">(</span><span class="s">&#39;roll&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">        Coherence model used                             =  {dat.model_desc}</span>
+<span class="s">        Coherence Exponent                               =  {dat.CohExp:0.2f}</span>
+<span class="s">        Coherence decrements (IncDec):</span>
+<span class="s">           U (a, b)                                      =  ({coh.a[0]:0.2f}, {coh.b[0]:0.2f})</span>
+<span class="s">           V (a, b)                                      =  ({coh.a[1]:0.2f}, {coh.b[1]:0.2f})</span>
+<span class="s">           W (a, b)                                      =  ({coh.a[2]:0.2f}, {coh.b[2]:0.2f})</span>
+<span class="s">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">coh</span><span class="o">=</span><span class="n">tsrun</span><span class="o">.</span><span class="n">cohere</span><span class="p">,</span> <span class="p">)</span>
 
 <div class="viewcode-block" id="nwtc.set_coefs"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.main.nwtc.set_coefs">[docs]</a>    <span class="k">def</span> <span class="nf">set_coefs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cohereObj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -309,11 +320,9 @@
 </div></div>
 <div class="viewcode-block" id="iec"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.main.iec">[docs]</a><span class="k">class</span> <span class="nc">iec</span><span class="p">(</span><span class="n">cohereModelBase</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The &#39;IEC&#39; coherence model for the u velocity component between two</span>
-<span class="sd">    points (z_i,y_i) and (z_j,y_j).</span>
+    <span class="sd">&quot;&quot;&quot;IEC coherence model.</span>
 
-<span class="sd">    Create an IEC spectral model object.</span>
+<span class="sd">    This coherence model only include u-component coherence.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -359,7 +368,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Lfactor</span> <span class="o">*</span> <span class="n">Lambda</span><span class="p">(</span><span class="n">zhub</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">IECedition</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IECedition</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IECedition</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">IECedition</span> <span class="o">=</span> <span class="n">IECedition</span>
         <span class="k">if</span> <span class="n">IECedition</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
             <span class="c"># The Lambda function includes a factor of 0.7 (_Lfactor*0.7=2.45).</span>
@@ -371,6 +380,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mf">12.</span>
         <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">dbg</span><span class="o">.</span><span class="n">timer</span><span class="p">(</span><span class="s">&#39;tslib-cohIEC&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">        Coherence model used                             =  {dat.model_desc}</span>
+<span class="s">        IEC Edition                                      =  {dat.IECedition:d}</span>
+<span class="s">        Coherence length scale parameter                 =  {L:0.2f} [m]</span>
+<span class="s">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">))</span>
 
 <div class="viewcode-block" id="iec.set_coefs"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.main.iec.set_coefs">[docs]</a>    <span class="k">def</span> <span class="nf">set_coefs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cohereObj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -415,7 +432,7 @@
         <li class="right" >
           <a href="../../../np-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

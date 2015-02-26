@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.cohereModels package &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts.cohereModels package &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../index.html" />
     <link rel="up" title="pyts package" href="pyts.html" />
     <link rel="next" title="pyts.gui package" href="pyts.gui.html" />
     <link rel="prev" title="pyts package" href="pyts.html" /> 
@@ -49,7 +49,7 @@
         <li class="right" >
           <a href="pyts.html" title="pyts package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="pyts.html" accesskey="U">pyts package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -114,8 +114,11 @@ pieces of that matrix are compute as needed at runtime.  This is
 because that array can be very large for large number of grid points
 and timesteps (np^2 x nf).</p>
 <p>Because of this, when creating new coherence &#8216;models&#8217;, the cohereModel
-and cohereObj must be defined. While it would be possible to merge these classes, they have been kept separate to maintain the PyTurbSim &#8216;model&#8217; vs. &#8216;object&#8217; framework.
-That is: a &#8216;model&#8217; defines the coherence independent of the grid, while the &#8216;object&#8217; is specific to the grid.</p>
+and cohereObj must be defined. While it would be possible to merge
+these classes, they have been kept separate to maintain the PyTurbSim
+&#8216;model&#8217; vs. &#8216;object&#8217; framework.  That is: a &#8216;model&#8217; defines the
+coherence independent of the grid, while the &#8216;object&#8217; is specific to
+the grid.</p>
 <dl class="class">
 <dt id="pyts.cohereModels.mBase.cohereModelBase">
 <em class="property">class </em><tt class="descclassname">pyts.cohereModels.mBase.</tt><tt class="descname">cohereModelBase</tt><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereModelBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereModelBase" title="Permalink to this definition">¶</a></dt>
@@ -494,14 +497,14 @@ model.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np,nf)</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np, nf)</p>
 <blockquote>
 <div><p>The input (generally randomized) phases for each
 point for each frequency.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np,nf)</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np, nf)</p>
 <blockquote class="last">
 <div><p>The correlated phases according to this cohereObj&#8217;s
 coherence model (see <a class="reference internal" href="#pyts.cohereModels.main.cohereObjNWTC.calcCoh" title="pyts.cohereModels.main.cohereObjNWTC.calcCoh"><tt class="xref py py-meth docutils literal"><span class="pre">calcCoh()</span></tt></a>).</p>
@@ -546,9 +549,8 @@ zero.</p>
 <dt id="pyts.cohereModels.main.iec">
 <em class="property">class </em><tt class="descclassname">pyts.cohereModels.main.</tt><tt class="descname">iec</tt><big>(</big><em>IECedition=3</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#iec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.iec" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase" title="pyts.cohereModels.mBase.cohereModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.mBase.cohereModelBase</span></tt></a></p>
-<p>The &#8216;IEC&#8217; coherence model for the u velocity component between two
-points (z_i,y_i) and (z_j,y_j).</p>
-<p>Create an IEC spectral model object.</p>
+<p>IEC coherence model.</p>
+<p>This coherence model only include u-component coherence.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -623,7 +625,8 @@ zero.</p>
 <dt id="pyts.cohereModels.main.nwtc">
 <em class="property">class </em><tt class="descclassname">pyts.cohereModels.main.</tt><tt class="descname">nwtc</tt><big>(</big><em>a=[None, None, None], b=[0.0, 0.0, 0.0], CohExp=0.0</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#nwtc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.nwtc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase" title="pyts.cohereModels.mBase.cohereModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.mBase.cohereModelBase</span></tt></a></p>
-<p>The NWTC non-IEC coherence model.</p>
+<p>NWTC coherence model.</p>
+<p>This is also known as the &#8216;non-IEC&#8217; coherence model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -764,7 +767,7 @@ import pyts.cohereModels.api as cm</p>
         <li class="right" >
           <a href="pyts.html" title="pyts package"
              >previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
           <li><a href="pyts.html" >pyts package</a> &raquo;</li> 
       </ul>
     </div>

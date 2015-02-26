@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts package &mdash; PyTurbSim 0.3.5 documentation</title>
+    <title>pyts package &mdash; PyTurbSim 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.3.5',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.3.5 documentation" href="../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../index.html" />
     <link rel="next" title="pyts.cohereModels package" href="pyts.cohereModels.html" />
     <link rel="prev" title="Code Framework" href="../code-framework.html" /> 
   </head>
@@ -48,7 +48,7 @@
         <li class="right" >
           <a href="../code-framework.html" title="Code Framework"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -220,34 +220,35 @@ input (.inp) and output files (e.g. .bl, .wnd, etc.)</p>
 <span class="kn">import</span> <span class="nn">pyts.api</span> <span class="kn">as</span> <span class="nn">pyts</span>
 
 <span class="c"># Define some variables for the PyTurbSim run:</span>
-<span class="n">refht</span><span class="o">=</span><span class="mf">10.</span>
-<span class="n">ustar</span><span class="o">=</span><span class="mf">0.03</span>
-<span class="n">Uref</span><span class="o">=</span><span class="mf">3.</span>
+<span class="n">refht</span> <span class="o">=</span> <span class="mf">10.</span>
+<span class="n">ustar</span> <span class="o">=</span> <span class="mf">0.03</span>
+<span class="n">Uref</span> <span class="o">=</span> <span class="mf">3.</span>
 
 <span class="c"># First we initialize a PyTurbSim &#39;run&#39; object:</span>
-<span class="n">tsr</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">tsrun</span><span class="p">()</span>
+<span class="n">tsr</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">tsrun</span><span class="p">()</span>
 
 <span class="c"># Next we give this run object a grid:</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">tsGrid</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">refht</span><span class="p">,</span><span class="n">ny</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">nz</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span><span class="n">time_sec</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">tsGrid</span><span class="p">(</span>
+    <span class="n">center</span><span class="o">=</span><span class="n">refht</span><span class="p">,</span> <span class="n">ny</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">nz</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">time_sec</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
 <span class="c"># Now we define a mean &#39;profile model&#39;,</span>
-<span class="n">prof_model</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">profModels</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">Uref</span><span class="p">,</span><span class="n">refht</span><span class="p">,</span><span class="n">ustar</span><span class="p">)</span>
+<span class="n">prof_model</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">profModels</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">Uref</span><span class="p">,</span> <span class="n">refht</span><span class="p">,</span> <span class="n">ustar</span><span class="p">)</span>
 <span class="c"># and assign it to the run object,</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">prof</span><span class="o">=</span><span class="n">prof_model</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">prof_model</span>
 <span class="c"># These two steps can be completed in one as:</span>
 <span class="c">#tsr.profModel=pyts.profModels.h2l(U,refht,ustar)</span>
 
 <span class="c"># Next we define and assign a &#39;spectral model&#39; to the run object,</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">spec</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">specModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span><span class="n">refht</span><span class="p">)</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">specModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
 
 <span class="c"># ... and define/assign a &#39;coherence model&#39;,</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">cohere</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">cohereModels</span><span class="o">.</span><span class="n">nwtc</span><span class="p">()</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">cohere</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">cohereModels</span><span class="o">.</span><span class="n">nwtc</span><span class="p">()</span>
 
 <span class="c"># ... and define/assign a &#39;stress model&#39;,</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">stress</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">stressModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span><span class="n">refht</span><span class="p">)</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">stress</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">stressModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
 
 <span class="c"># Now simply &#39;call&#39; the run oject to produce the TurbSim output.</span>
-<span class="n">turbsim_output</span><span class="o">=</span><span class="n">tsr</span><span class="p">()</span>
+<span class="n">turbsim_output</span> <span class="o">=</span> <span class="n">tsr</span><span class="p">()</span>
 
 <span class="c"># We can save the output in &#39;bladed&#39; format,</span>
 <span class="n">turbsim_output</span><span class="o">.</span><span class="n">writeBladed</span><span class="p">(</span><span class="s">&#39;ExampleOutput.bl&#39;</span><span class="p">)</span>
@@ -488,6 +489,18 @@ have the grid as one of their attributes.</p>
 <dd><p>Bases: <a class="reference internal" href="#pyts.base.tsBaseObj" title="pyts.base.tsBaseObj"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.tsBaseObj</span></tt></a></p>
 <p>An abstract base class for all TurbSim models.</p>
 <dl class="attribute">
+<dt id="pyts.base.modelBase.model_desc">
+<tt class="descname">model_desc</tt><a class="reference internal" href="../_modules/pyts/base.html#modelBase.model_desc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.base.modelBase.model_desc" title="Permalink to this definition">¶</a></dt>
+<dd><p>The model description is the first line of the docstring.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.base.modelBase.model_name">
+<tt class="descname">model_name</tt><a class="reference internal" href="../_modules/pyts/base.html#modelBase.model_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.base.modelBase.model_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The model name is the class definition name</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="pyts.base.modelBase.parameters">
 <tt class="descname">parameters</tt><a class="reference internal" href="../_modules/pyts/base.html#modelBase.parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.base.modelBase.parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property stores information about the TurbSim model
@@ -500,7 +513,7 @@ placeholder for now.</p>
 
 <dl class="class">
 <dt id="pyts.base.statObj">
-<em class="property">class </em><tt class="descclassname">pyts.base.</tt><tt class="descname">statObj</tt><big>(</big><em>dat</em><big>)</big><a class="reference internal" href="../_modules/pyts/base.html#statObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.base.statObj" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pyts.base.</tt><tt class="descname">statObj</tt><big>(</big><em>dat</em>, <em>ubar=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/base.html#statObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.base.statObj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">float</span></tt></p>
 <dl class="attribute">
 <dt id="pyts.base.statObj.mean">
@@ -611,7 +624,8 @@ width.</li>
 </div>
 <div class="section" id="module-pyts.dbg">
 <span id="pyts-dbg-module"></span><h2>pyts.dbg module<a class="headerlink" href="#module-pyts.dbg" title="Permalink to this headline">¶</a></h2>
-<p>This is the PyTurbSim debug package. It contains debugging tools specifically valuable to PyTurbSim.</p>
+<p>This is the PyTurbSim debug package. It contains debugging tools
+specifically valuable to PyTurbSim.</p>
 <dl class="class">
 <dt id="pyts.dbg.timer">
 <em class="property">class </em><tt class="descclassname">pyts.dbg.</tt><tt class="descname">timer</tt><big>(</big><em>label='NONE'</em><big>)</big><a class="reference internal" href="../_modules/pyts/dbg.html#timer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.dbg.timer" title="Permalink to this definition">¶</a></dt>
@@ -673,6 +687,11 @@ information for reproducing the simulation.</p>
 <tt class="descname">UHUB</tt><a class="reference internal" href="../_modules/pyts/main.html#tsdata.UHUB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.main.tsdata.UHUB" title="Permalink to this definition">¶</a></dt>
 <dd><p>The hub-height mean velocity.</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.main.tsdata.ctke">
+<tt class="descname">ctke</tt><a class="reference internal" href="../_modules/pyts/main.html#tsdata.ctke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.main.tsdata.ctke" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="pyts.main.tsdata.ihub">
@@ -956,7 +975,7 @@ cohereUser coherence model for more information).</p>
 
 <dl class="attribute">
 <dt id="pyts.main.tsrun.phase">
-<tt class="descname">phase</tt><em class="property"> = &lt;pyts.phaseModels.main.randPhase object at 0x2af41933c410&gt;</em><a class="headerlink" href="#pyts.main.tsrun.phase" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">phase</tt><em class="property"> = &lt;pyts.phaseModels.main.randPhase object at 0x2b4e2b02b410&gt;</em><a class="headerlink" href="#pyts.main.tsrun.phase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1289,7 +1308,7 @@ In some cases z/L depends on the Turbulence model.</p>
 <tt class="descclassname">pyts.misc.</tt><tt class="descname">zL</tt><big>(</big><em>Ri</em>, <em>TurbModel=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/misc.html#zL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.misc.zL" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>zL</em> is the Monin-Obhukov (M-O) stability parameter z/L,
 where L is the M-O length.</p>
-<p>zL&gt;0 means stable conditions.</p>
+<p>zL &gt; 0 means stable conditions.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1388,7 +1407,7 @@ In some cases z/L depends on the Turbulence model.</p>
         <li class="right" >
           <a href="../code-framework.html" title="Code Framework"
              >previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.3.5 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
