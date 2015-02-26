@@ -3,9 +3,11 @@ This script provides an example usage of the PyTurbSim API.
 """
 
 # Begin by importing the PyTurbSim API and plotting tools
+### BLOCK1
 import pyts.api as pyts
 import pyts.plot.api as plt
 from matplotlib.pylab import show
+### BLOCK1.END
 
 # Define some variables for the PyTurbSim run:
 refht = 4
@@ -19,7 +21,7 @@ tsr.grid = pyts.tsGrid(center=refht,
                        nz=5,
                        height=5,
                        width=5,
-                       time_sec=3000,
+                       time_sec=30000,
                        dt=0.5)
 tsr.prof = pyts.profModels.h2l(Uref, refht, ustar)
 tsr.spec = pyts.specModels.tidal(ustar, refht)
@@ -30,11 +32,13 @@ tsr.stress = pyts.stressModels.tidal(ustar, refht)
 out = tsr()
 
 # Create a 'PyTurbSim plotting figure' (plotting object):
-fig = plt.summfig(axforms=[plt.axform.velprof([0,3.5]),
+fig = plt.summfig(axforms=[plt.axform.velprof([0, 3.5]),
                            plt.axform.tkeprof(),
                            plt.axform.stressprof(),
                            plt.axform.spec(),
-                           plt.axform.cohere(), ], )
+                           plt.axform.cohere(), ],
+                  nfft=1024,
+                  )
 
 # Now just call this plotting object's 'plot' method with the
 # PyTurbSim output as input:

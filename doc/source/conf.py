@@ -41,6 +41,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.viewcode',
               'numpydoc',
               'matplotlib.sphinxext.plot_directive',
+              'matplotlib.sphinxext.ipython_directive',
               ]
 # extensions = ['sphinx.ext.autodoc', 'sphinx.ext.autosummary',
 # 'sphinx.ext.doctest', 'sphinx.ext.todo', 'sphinx.ext.mathjax',

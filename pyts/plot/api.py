@@ -1,5 +1,5 @@
 import axform
 
-fig_axForms = axform.fig_axForms
+FigAxForm = axform.FigAxForm
 
 summfig = axform.summfig

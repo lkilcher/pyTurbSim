@@ -1,40 +1,42 @@
-from ..main import tsdata, tsrun
+from ..main import tsdata, tsrun  # These are used only to identify object types.
 import superaxes as supax
 import psd
 from base import indx, mpl
 import numpy as np
 
 
-class _base(object):
-    """
-    A base class for 'plotting formats' for quick plotting of TurbSim
-    data.
+class axesForm(object):
+    """A base 'axesForm' class for for quickly plotting TurbSim data.
+
+    Parameters
+    ----------
+    xlim : iterable(2) (default: [None, None])
+           Specify the xlims of the axes of these plots.  The default
+           will simply select the limits automatically.
+    ylim : iterable(2) (default: [None, None])
+           Specify the ylims of the axes of these plots.  The default
+           will simply select the limits automatically.
+    xscale : ('log' or 'linear')
+        specify whether the x-scale should be logarithmic or linear.
+    yscale : ('log' or 'linear')
+        specify whether the y-scale should be logarithmic or linear.
     """
     method_map = {tsdata: '_calc_tsdata', tsrun: '_calc_tsrun'}
     hide_ylabels = False
     _lin_x_scale = 0
-    _xscale = 'linear'
-    _yscale = 'linear'
-    # _xlim_dat = [None, None]
-    # ylim = [None, None]
-    
-    ## @property
-    ## def xlim(self,):
-    ##     out = self._xlim_dat
-    ##     if out[0] is not None:
-    ##         out[0] /= 10 ** self._lin_x_scale
-    ##     if out[1] is not None:
-    ##         out[1] /= 10 ** self._lin_x_scale
-    ##     return out
 
-    def __init__(self, xlim=[None, None], ylim=[None, None], ):
+    def __init__(self,
+                 xlim=[None, None], ylim=[None, None],
+                 xscale='linear', yscale='linear',):
         self.xlim = xlim
         self.ylim = ylim
+        self.xscale = xscale
+        self.yscale = yscale
 
     def finalize(self, axes):
         """
         This function 'finishes' the `axes` according to the
-        specifications in this axesType.
+        specifications in this axesForm.
 
         Parameters
         ----------
@@ -118,8 +120,8 @@ class _base(object):
             x, y = self._calc(obj, ax.comp)
             # print x, y, self._lin_x_scale
             ax.plot(x / (10 ** self._lin_x_scale), y, **kwargs)
-            ax.set_xscale(self._xscale)
-            ax.set_yscale(self._yscale)
+            ax.set_xscale(self.xscale)
+            ax.set_yscale(self.yscale)
 
     @property
     def _xlabel(self,):
@@ -129,10 +131,8 @@ class _base(object):
             return '$\mathrm{[10^{%d}m^2s^{-2}]}$' % self._lin_x_scale
 
 
-class prof(_base):
-    """
-    A base class for plotting formats that show vertical profiles.
-    """
+class prof(axesForm):
+    "A base axesForm for plotting vertical profiles."
     yax = 'z'
     _ylabel = '$z\,\mathrm{[m]}$'
     hrel = 0.6
@@ -140,13 +140,12 @@ class prof(_base):
 
 
 class velprof(prof):
-    """
-    A 'mean velocity profile' plotting format.
+    """A 'mean velocity profile' axesForm format.
 
-    Parameters
-    ----------
-    xlim : tuple_like(2)
-           The limits of the x-axis (velocity axis).
+    See also
+    --------
+    :class:`prof`
+    :class:`axesForm`
     """
     xax = 'vel'
     _title = 'Mean Velocity'
@@ -155,26 +154,25 @@ class velprof(prof):
     def _calc_tsdata(self, tsdata, comp, igrid=None):
         """
         The function that calculates x,y values for plotting
-        :class:`tsdata <..main.tsdata>` objects.
+        :class:`.tsdata` objects.
         """
         return tsdata.uprof[comp, :, tsdata.ihub[1]], tsdata.z
 
     def _calc_tsrun(self, tsrun, comp, igrid=None):
         """
         The function that calculates x,y values for plotting
-        :class:`tsdata <..main.tsdata>` objects.
+        :class:`.tsdata` objects.
         """
         return tsrun.prof[comp, :, tsrun.grid.ihub[1]], tsrun.grid.z
 
 
 class tkeprof(prof):
-    """
-    A 'tke profile' plotting formatter.
+    """A 'tke profile' axesForm.
 
-    Parameters
-    ----------
-    xlim : tuple,list (2)
-           The limits of the x-axis (tke axis).
+    See also
+    --------
+    :class:`prof`
+    :class:`axesForm`
     """
     xax = 'tke'
     _title = 'tke'
@@ -188,13 +186,12 @@ class tkeprof(prof):
 
 
 class Tiprof(prof):
-    """
-    A 'tke profile' plotting formatter.
+    """A Turbulence intensity axesForm
 
-    Parameters
-    ----------
-    xlim : tuple,list (2)
-           The limits of the x-axis (tke axis).
+    See also
+    --------
+    :class:`prof`
+    :class:`axesForm`
     """
     xax = 'Ti'
     _title = 'Ti'
@@ -213,13 +210,12 @@ class Tiprof(prof):
 
 
 class stressprof(tkeprof):
-    """
-    A 'Reynold's stress profile' plotting format.
+    """A 'Reynold's stress profile' axesForm.
 
-    Parameters
-    ----------
-    xlim : tuple, list (2)
-           The limits of the x-axis (stress axis).
+    See also
+    --------
+    :class:`prof`
+    :class:`axesForm`
     """
     xax = 'tke'
     _title = 'stress'
@@ -238,9 +234,8 @@ class stressprof(tkeprof):
         return tsrun.stress.array[comp, :, igrid], tsrun.grid.z
 
 
-class spec(_base):
-    """
-    A 'spectral' plotting format.
+class spec(axesForm):
+    """A 'spectral' axesForm.
 
     Parameters
     ----------
@@ -249,6 +244,15 @@ class spec(_base):
     igrid : tuple,list (2), *optional* (default: i_hub)
             The spatial-index of the grid-point that should be
             plotted.
+
+    Notes
+    -----
+
+    This axesForm defaults to have 'log' x- and y-scales.
+
+    See also
+    --------
+    :class:`axesForm`
     """
     hrel = 1
     _title = 'spectrum'
@@ -256,11 +260,11 @@ class spec(_base):
     xax = 'freq'
     _xlabel = '$f\,\mathrm{[Hz]}$'
     _ylabel = '$\mathrm{[m^2s^{-2}/Hz]}$'
-    _xscale = 'log'
-    _yscale = 'log'
 
-    def __init__(self, window_time_sec=600, igrid=None, **kwargs):
-        _base.__init__(self, **kwargs)
+    def __init__(self, window_time_sec=600, igrid=None,
+                 xscale='log', yscale='log',
+                 **kwargs):
+        axesForm.__init__(self, xscale=xscale, yscale=yscale, **kwargs)
         self.window_time = window_time_sec
         self.igrid = igrid
 
@@ -269,7 +273,7 @@ class spec(_base):
         nfft += np.mod(nfft, 2)
         igrid = igrid or self.igrid or tsdata.ihub
         tmp = psd.psd(tsdata.uturb[comp][igrid],
-                      1./tsdata.dt,
+                      1. / tsdata.dt,
                       nfft)
         # print tmp
         return tmp
@@ -279,7 +283,7 @@ class spec(_base):
         return tsrun.grid.f, tsrun.spec[comp][igrid]
 
 
-class cohere(_base):
+class cohere(axesForm):
     """
     A 'coherence' plotting format for showing coherence between two
     points.
@@ -295,18 +299,26 @@ class cohere(_base):
              The second spatial-index from which to estimate+plot
              coherence.
 
-    This object also accepts all input arguments as :class:`_base`.
+    Notes
+    -----
+
+    This axesForm defaults to have a 'log' x-scale, and to have a
+    linear y-axis with ylim=[0, 1].
+
+    See also
+    --------
+    :class:`axesForm`
     """
     hrel = 1
     _title = 'coherence'
     xax = 'freq'
     yax = 'coh'
-    _xlim_dat = [0, 1]
     _xlabel = '$f\,\mathrm{[Hz]}$'
-    _xscale = 'log'
 
-    def __init__(self, window_time_sec=600, igrid0=None, igrid1=None, **kwargs):
-        _base.__init__(self, **kwargs)
+    def __init__(self, window_time_sec=600, igrid0=None, igrid1=None,
+                 xscale='log', ylim=[0, 1],
+                 **kwargs):
+        axesForm.__init__(self, xscale=xscale, ylim=ylim, **kwargs)
         self.window_time = 600
         self.igrid0 = igrid0
         self.igrid1 = igrid1
@@ -327,10 +339,8 @@ class cohere(_base):
                                                   comp, igrid0, igrid1) ** 2
 
 
-class fig_axForms(supax.sfig):
-    """
-    The 'figure' class that uses and handles 'plotting formats'
-    (e.g. :class:`velprof_axForm`).
+class FigAxForm(supax.sfig):
+    """The 'figure' class that uses and handles :class:`axesForm`s.
 
     Parameters
     ----------
@@ -432,4 +442,4 @@ class fig_axForms(supax.sfig):
 
 
 def summfig(fignum=400, axforms=[velprof(), spec(600)], **kwargs):
-    return fig_axForms(fignum, axforms=axforms, **kwargs)
+    return FigAxForm(fignum, axforms=axforms, **kwargs)
