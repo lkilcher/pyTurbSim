@@ -1020,6 +1020,10 @@ class sfig(axgroup):
         self.fig.clf()
 
     @property
+    def axes(self,):
+        return self.sax.axes
+
+    @property
     def ax(self,):
         return self.sax.axes
 

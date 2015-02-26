@@ -64,7 +64,6 @@ def run(tsconfig):
                 A PyTurbSim data object.
     """
     tsr = cfg2tsrun(tsconfig)
-    tsr.grid = cfg2grid(tsconfig)
 
     return tsr()
 
@@ -133,13 +132,15 @@ def cfg2tsrun(tsconfig):
     Returns
     -------
     tsrun :     str
-                A TurbSim run object with profModel, specModel,
+                A TurbSim run object with grid, profModel, specModel,
                 cohereModel and stressModel that match the input
                 `tsconfig` object.
 
     """
 
     tsr = tsrun(tsconfig['RandSeed'])
+
+    tsr.grid = cfg2grid(tsconfig)
 
     tsr.profModel = pm_getModel(tsconfig)
 

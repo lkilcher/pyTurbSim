@@ -15,6 +15,21 @@ class _base(object):
     _lin_x_scale = 0
     _xscale = 'linear'
     _yscale = 'linear'
+    # _xlim_dat = [None, None]
+    # ylim = [None, None]
+    
+    ## @property
+    ## def xlim(self,):
+    ##     out = self._xlim_dat
+    ##     if out[0] is not None:
+    ##         out[0] /= 10 ** self._lin_x_scale
+    ##     if out[1] is not None:
+    ##         out[1] /= 10 ** self._lin_x_scale
+    ##     return out
+
+    def __init__(self, xlim=[None, None], ylim=[None, None], ):
+        self.xlim = xlim
+        self.ylim = ylim
 
     def finalize(self, axes):
         """
@@ -46,6 +61,10 @@ class _base(object):
             for ax in axes:
                 ax.xaxis.set_major_locator(
                     mpl.ticker.MaxNLocator(self.xtick_n))
+        for ax in axes:
+            ax.set_xlim(self.xlim)
+        for ax in axes:
+            ax.set_ylim(self.ylim)
 
     def _calc(self, obj, comp):
         """
@@ -98,7 +117,7 @@ class _base(object):
         for ax in axes:
             x, y = self._calc(obj, ax.comp)
             # print x, y, self._lin_x_scale
-            ax.plot(x/(10**self._lin_x_scale), y, **kwargs)
+            ax.plot(x / (10 ** self._lin_x_scale), y, **kwargs)
             ax.set_xscale(self._xscale)
             ax.set_yscale(self._yscale)
 
@@ -133,22 +152,19 @@ class velprof(prof):
     _title = 'Mean Velocity'
     _xlabel = '$\mathrm{[m/s]}$'
 
-    def __init__(self, xlim=[0, 2]):
-        self._xlim_dat = xlim
-
     def _calc_tsdata(self, tsdata, comp, igrid=None):
         """
         The function that calculates x,y values for plotting
         :class:`tsdata <..main.tsdata>` objects.
         """
-        return tsdata.uprof[comp,:, tsdata.ihub[1]], tsdata.z
+        return tsdata.uprof[comp, :, tsdata.ihub[1]], tsdata.z
 
     def _calc_tsrun(self, tsrun, comp, igrid=None):
         """
         The function that calculates x,y values for plotting
         :class:`tsdata <..main.tsdata>` objects.
         """
-        return tsrun.prof[comp,:, tsrun.grid.ihub[1]], tsrun.grid.z
+        return tsrun.prof[comp, :, tsrun.grid.ihub[1]], tsrun.grid.z
 
 
 class tkeprof(prof):
@@ -162,16 +178,13 @@ class tkeprof(prof):
     """
     xax = 'tke'
     _title = 'tke'
-    _lin_x_scale = -2  # Units are 10^-2
-
-    def __init__(self, xlim=[0, None]):
-        self._xlim_dat = xlim
+    #_lin_x_scale = -2  # Units are 10^-2
 
     def _calc_tsdata(self, tsdata, comp, igrid=None):
-        return tsdata.tke[comp,:, tsdata.ihub[1]], tsdata.z
+        return tsdata.tke[comp, :, tsdata.ihub[1]], tsdata.z
 
     def _calc_tsrun(self, tsrun, comp, igrid=None):
-        return tsrun.spec.tke[comp,:, tsrun.grid.ihub[1]], tsrun.grid.z
+        return tsrun.spec.tke[comp, :, tsrun.grid.ihub[1]], tsrun.grid.z
 
 
 class Tiprof(prof):
@@ -188,17 +201,14 @@ class Tiprof(prof):
     _lin_x_scale = 0
     _ylabel = '%'
 
-    def __init__(self, xlim=[0, None]):
-        self._xlim_dat = xlim
-
     def _calc_tsdata(self, tsdata, comp, igrid=None):
-        tmp = 100 * np.std(tsdata.uturb[comp,:, tsdata.ihub[1]],
-                           axis=-1) / tsdata.uprof[0,:, tsdata.ihub[1]]
+        tmp = (100 * np.std(tsdata.uturb[comp, :, tsdata.ihub[1]], axis=-1)
+               / tsdata.uprof[0, :, tsdata.ihub[1]])
         return tmp, tsdata.z
 
     def _calc_tsrun(self, tsrun, comp, igrid=None):
-        return (100 * np.sqrt(tsrun.spec.tke[comp,:, tsrun.grid.ihub[1]]) / \
-                tsrun.prof.u[:, tsrun.grid.ihub[1]],
+        return (100 * np.sqrt(tsrun.spec.tke[comp, :, tsrun.grid.ihub[1]])
+                / tsrun.prof.u[:, tsrun.grid.ihub[1]],
                 tsrun.grid.z)
 
 
@@ -219,16 +229,13 @@ class stressprof(tkeprof):
                'v': r"$\overline{u'w'}$",
                'w': r"$\overline{v'w'}$"}
 
-    def __init__(self, xlim=[0, None]):
-        self._xlim_dat = xlim
-
     def _calc_tsdata(self, tsdata, comp, igrid=None):
         igrid = igrid or tsdata.ihub[1]
-        return tsdata.stress[comp,:, igrid], tsdata.z
+        return tsdata.stress[comp, :, igrid], tsdata.z
 
     def _calc_tsrun(self, tsrun, comp, igrid=None):
         igrid = igrid or tsrun.grid.ihub[1]
-        return tsrun.stress.array[comp,:, igrid], tsrun.grid.z
+        return tsrun.stress.array[comp, :, igrid], tsrun.grid.z
 
 
 class spec(_base):
@@ -252,7 +259,8 @@ class spec(_base):
     _xscale = 'log'
     _yscale = 'log'
 
-    def __init__(self, window_time_sec=600, igrid=None):
+    def __init__(self, window_time_sec=600, igrid=None, **kwargs):
+        _base.__init__(self, **kwargs)
         self.window_time = window_time_sec
         self.igrid = igrid
 
@@ -286,6 +294,8 @@ class cohere(_base):
     igrid1 : tuple,list (2), *optional* (default: (0,0))
              The second spatial-index from which to estimate+plot
              coherence.
+
+    This object also accepts all input arguments as :class:`_base`.
     """
     hrel = 1
     _title = 'coherence'
@@ -295,25 +305,26 @@ class cohere(_base):
     _xlabel = '$f\,\mathrm{[Hz]}$'
     _xscale = 'log'
 
-    def __init__(self, window_time_sec=600, igrid0=None, igrid1=None):
+    def __init__(self, window_time_sec=600, igrid0=None, igrid1=None, **kwargs):
+        _base.__init__(self, **kwargs)
         self.window_time = 600
         self.igrid0 = igrid0
         self.igrid1 = igrid1
 
     def _calc_tsdata(self, tsdata, comp, igrid0=None, igrid1=None):
-        nfft = int(self.window_time/tsdata.dt)
+        nfft = int(self.window_time / tsdata.dt)
         nfft += np.mod(nfft, 2)
         igrid0 = igrid0 or self.igrid0 or tsdata.ihub
         igrid1 = igrid1 or self.igrid1 or (0, 0)
         return psd.coh(tsdata.uturb[comp][igrid0],
                        tsdata.uturb[comp][igrid1],
-                       1./tsdata.dt, nfft)
+                       1. / tsdata.dt, nfft)
 
     def _calc_tsrun(self, tsrun, comp, igrid0=None, igrid1=None):
         igrid0 = tsrun.grid.sub2ind(igrid0 or self.igrid0 or tsrun.grid.ihub)
         igrid1 = tsrun.grid.sub2ind(igrid1 or self.igrid1 or (0, 0))
         return tsrun.grid.f, tsrun.cohere.calcCoh(tsrun.grid.f,
-                                                  comp, igrid0, igrid1)**2
+                                                  comp, igrid0, igrid1) ** 2
 
 
 class fig_axForms(supax.sfig):
@@ -355,8 +366,16 @@ class fig_axForms(supax.sfig):
     axform.
 
     """
-    def __init__(self, fignum, axforms=[], comp=['u', 'v', 'w'], axsize=2, frame=[.6, .3, 1, .3], gap=[.2, 1], tightgap=.2, **kwargs):
-        
+    def __init__(self,
+                 fignum,
+                 axforms=[],
+                 comp=['u', 'v', 'w'],
+                 axsize=2,
+                 frame=[.6, .3, 1, .3],
+                 gap=[.2, 1],
+                 tightgap=.2,
+                 **kwargs):
+
         if len(axforms) == 0:
             raise Exception('At least one axes-type \
             instance must be provided.')
@@ -365,15 +384,15 @@ class fig_axForms(supax.sfig):
                          (len(comp), 1))
         sharey = np.tile(np.arange(len(axforms), dtype=np.uint8) + 1,
                          (len(comp), 1))
-        
+
         hspacer = supax.simpleAxSpacer(len(axforms), axsize, gap[1], frame[2:])
         vspacer = supax.simpleAxSpacer(len(comp), axsize, gap[0], frame[:2],
                                        vertical=True)
-        
+
         last_yax = None
         for idx, axt in enumerate(axforms):
             if axt.yax == last_yax:
-                sharey[:, idx] = sharey[:, idx-1]
+                sharey[:, idx] = sharey[:, idx - 1]
                 hspacer.gap[idx] = tightgap
                 axt.hide_ylabels = True
             last_yax = axt.yax
