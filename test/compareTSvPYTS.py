@@ -132,7 +132,7 @@ if flag.get('plot', False):
         fg.plot(ptsdat, color='b', linestyle='-', marker='.', label='pyTS')
         ## When calling fg.plot on a tsrun object, these axform
         ## objects plot the theoretical line:
-        fg.plot(tsr, color='g', label='Theory')
+        fg.plot(tsr, color='g', label='Target')
         ## Add a legend to the upper-right axes:
         ## (Note here that indexing the 'figure object' gives axes in
         ## the grid)

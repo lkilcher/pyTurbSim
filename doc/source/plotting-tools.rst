@@ -10,7 +10,6 @@ Begin by importing |pyts| and its :mod:`.plot` package::
 
   import pyts.api as pyts
   import pyts.plot.api as plt
-  from matplotlib.pylab import show
 
 Generate some |pyts| data
 -------------------------
