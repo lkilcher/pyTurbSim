@@ -1,4 +1,7 @@
-from .base import *
+import numpy as np
+from .base import ConfigFrame
+import wx
+from . import gTurbSim_wdr as gts_wdr
 
 
 class cho_windtype_turbclass(object):
@@ -90,16 +93,31 @@ class turbConfigFrame(ConfigFrame):
     }
 
     exclude_vars = {
-        'IECKAI': ['inp_Ri', 'inp_zi', 'inp_ustar', 'inp_cohexp', 'inp_cohexp', 'inp_cohU', 'inp_cohV', 'inp_cohW', 'inp_upwp', 'inp_upvp', 'inp_vpwp', ],
-        'IECVKM': ['inp_Ri', 'inp_zi', 'inp_ustar', 'inp_cohexp', 'inp_cohU', 'inp_cohV', 'inp_cohW', 'inp_upwp', 'inp_upvp', 'inp_vpwp', ],
-        'SMOOTH': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc', ],
-        'TIDAL': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc', 'inp_Ri', 'inp_z0', 'inp_zi'],
-        'RIVER': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc', 'inp_Ri', 'inp_z0', 'inp_zi'],
-        'GP_LLJ': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc', ],
-        'WF_UPW': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc', ],
-        'WF_07D': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc', ],
-        'WF_14D': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc', ],
-        'NWTCUP': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc', ],
+        'IECKAI': ['inp_Ri', 'inp_zi', 'inp_ustar',
+                   'inp_cohexp', 'inp_cohexp',
+                   'inp_cohU', 'inp_cohV', 'inp_cohW',
+                   'inp_upwp', 'inp_upvp', 'inp_vpwp', ],
+        'IECVKM': ['inp_Ri', 'inp_zi', 'inp_ustar', 'inp_cohexp',
+                   'inp_cohU', 'inp_cohV', 'inp_cohW',
+                   'inp_upwp', 'inp_upvp', 'inp_vpwp', ],
+        'SMOOTH': ['cho_iec_turbclass_windtype', 'inp_iecturbc',
+                   'cho_iecstandard', 'inp_etmc', ],
+        'TIDAL': ['cho_iec_turbclass_windtype', 'inp_iecturbc',
+                  'cho_iecstandard', 'inp_etmc',
+                  'inp_Ri', 'inp_z0', 'inp_zi'],
+        'RIVER': ['cho_iec_turbclass_windtype', 'inp_iecturbc',
+                  'cho_iecstandard', 'inp_etmc',
+                  'inp_Ri', 'inp_z0', 'inp_zi'],
+        'GP_LLJ': ['cho_iec_turbclass_windtype', 'inp_iecturbc',
+                   'cho_iecstandard', 'inp_etmc', ],
+        'WF_UPW': ['cho_iec_turbclass_windtype', 'inp_iecturbc',
+                   'cho_iecstandard', 'inp_etmc', ],
+        'WF_07D': ['cho_iec_turbclass_windtype', 'inp_iecturbc',
+                   'cho_iecstandard', 'inp_etmc', ],
+        'WF_14D': ['cho_iec_turbclass_windtype', 'inp_iecturbc',
+                   'cho_iecstandard', 'inp_etmc', ],
+        'NWTCUP': ['cho_iec_turbclass_windtype', 'inp_iecturbc',
+                   'cho_iecstandard', 'inp_etmc', ],
     }
 
     @property

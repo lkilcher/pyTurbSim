@@ -1,5 +1,11 @@
-from .base import ConfigFrame, wx, np, mpl, FigCanvas, Figure, gts_wdr
-#from pyts.main import buildModel
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigCanvas
+from matplotlib.ticker import MaxNLocator
+import numpy as np
+import wx
+from . import gTurbSim_wdr as gts_wdr
+from .base import ConfigFrame
+from ..runInput.main import cfg2tsrun
 import copy
 
 
@@ -10,7 +16,7 @@ class profFigure(object):
         self.fig = Figure((1.9, 3.4), dpi=self.dpi)
         self.canvas = FigCanvas(panel, -1, self.fig)
         self.fig.set_facecolor('w')
-        ax = self.axes = self.fig.add_axes([0.24, 0.24, .7, 0.7])
+        self.axes = self.fig.add_axes([0.24, 0.24, .7, 0.7])
         self.sizer = wx.BoxSizer(wx.VERTICAL)
         self.sizer.Add(self.canvas, 0, wx.EXPAND | wx.ALL)
         panel.SetSizer(self.sizer)
@@ -20,18 +26,16 @@ class profFigure(object):
         parent.inputs2config()
         ax = self.axes
         ax.cla()
-        try:
-            mdl = buildModel(copy.deepcopy(parent.config))
-            ax.plot(
-                mdl.profModel.u[:, mdl.grid.ihub[1]], mdl.grid.z, 'ro', ms=7, mec='none')
-            zmx = np.max(mdl.grid.z)
-            ztmp = np.arange(zmx / 40, zmx * 1.1, zmx / 40)
-            ax.plot(mdl.profModel.model(ztmp), ztmp, 'k-', zorder=-5)
-            ax.set_xlim([0, None])
-            ax.set_ylim([0, None])
-            ax.xaxis.set_major_locator(mpl.ticker.MaxNLocator(5))
-        except:
-            pass
+        tsr = cfg2tsrun(copy.deepcopy(parent.config))
+        pr = tsr.profModel(tsr)
+        ax.plot(pr.u[:, pr.ihub[1]], pr.z,
+                'ro', ms=7, mec='none')
+        zmx = np.max(pr.z)
+        ztmp = np.arange(zmx / 40, zmx * 1.1, zmx / 40)
+        ax.plot(tsr.profModel.model(ztmp), ztmp, 'k-', zorder=-5)
+        ax.set_xlim([0, None])
+        ax.set_ylim([0, None])
+        ax.xaxis.set_major_locator(MaxNLocator(5))
         self.axes.set_xlabel('u [m/s]')
         self.axes.set_ylabel('z [m]')
         self.canvas.draw()

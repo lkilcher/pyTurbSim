@@ -1,7 +1,6 @@
 from .base import wx, gts_wdr, ConfigSettings
-from ..io import config as io
+from ..io import input as io
 from . import grid, prof, turb
-import pyts
 from subprocess import call
 import os
 import glob
@@ -21,10 +20,10 @@ from ..base import tsroot, userroot
 
 class gTurbFrame(wx.Frame):
 
-    _default_files = {'-- Default Wind Config --': 'TurbSim_WIND_Default.inp',
-                      '-- Default IEC (Wind) Config --': 'TurbSim_WIND_IEC_Default.inp',
-                      '-- Default Tidal (Hydro) Config --': 'TurbSim_TIDAL_Default.inp',
-                      '-- Default River (Hydro) Config --': 'TurbSim_RIVER_Default.inp',
+    _default_files = {'-- Default Wind Config --': 'WIND.inp',
+                      '-- Default IEC (Wind) Config --': 'WIND_IEC.inp',
+                      '-- Default Tidal (Hydro) Config --': 'TIDAL.inp',
+                      '-- Default River (Hydro) Config --': 'RIVER.inp',
                       }
 
     @property
@@ -39,7 +38,7 @@ class gTurbFrame(wx.Frame):
 
     def loadDefault(self, strng):
         self.inp_inputfile.value = strng
-        self.config = io.read(tsroot + '/gui/' + self._default_files[strng])
+        self.config = io.read(tsroot + '/gui/default_inputs/' + self._default_files[strng])
 
     def __init__(self, parent, id, title,
                  pos=wx.DefaultPosition, size=wx.DefaultSize,
@@ -99,8 +98,14 @@ class gTurbFrame(wx.Frame):
         self.rdo_turbsim.Enable(not name is None)
 
     def init_inputs(self,):
-        for obj in self.panel.Children:  # wxDesigner does not allow defining variables, but it does allow names, so we use this as a hack.
-            if obj.GetName().startswith('inp_') or obj.GetName().startswith('btn_') or obj.GetName().startswith('pnl_') or obj.GetName().startswith('cho_') or obj.GetName().startswith('rdo_'):
+        # wxDesigner does not allow defining variables, but it does
+        # allow names, so we use this as a hack.
+        for obj in self.panel.Children:
+            if  (obj.GetName().startswith('inp_')
+                 or obj.GetName().startswith('btn_')
+                 or obj.GetName().startswith('pnl_')
+                 or obj.GetName().startswith('cho_')
+                 or obj.GetName().startswith('rdo_')):
                 setattr(self, obj.GetName(), obj)
 
     def bind_dialog(self,):
@@ -135,7 +140,12 @@ class gTurbFrame(wx.Frame):
         n_iter = int(self.inp_iterations.GetValue())
         if n_iter > 1 and (self.config['RandSeed'] is not None):
             wrn01 = wx.MessageDialog(
-                self, 'Multiple iterations with a fixed Random Seed will result in identical results.  Change the "RandSeed" variable in the "Settings" dialog to "default" so that TurbSim will use different random seeds. For now a single iteration will run.', 'Warning!', wx.ICON_HAND)
+                self, ('Multiple iterations with a fixed Random Seed will '
+                       'result in identical results.  Change the "RandSeed" '
+                       'variable in the "Settings" dialog to "default" so '
+                       'that TurbSim will use different random seeds. For '
+                       'now a single iteration will run.'),
+                'Warning!', wx.ICON_HAND)
             wrn01.ShowModal()
             n_iter = 1
         nd = len('%d' % n_iter)
@@ -168,7 +178,12 @@ class gTurbFrame(wx.Frame):
 
     def onSaveAs(self, event):
         openFileDialog = wx.FileDialog(
-            self, 'Select TurbSim filename for save...', userroot, 'TurbSim.inp', '(*.inp,*.*)|*.inp', wx.FD_SAVE)
+            self,
+            'Select TurbSim filename for save...',
+            userroot,
+            'TurbSim.inp',
+            '(*.inp,*.*)|*.inp',
+            wx.FD_SAVE)
         openFileDialog.ShowModal()
         self.currentfile = openFileDialog.GetPath()  # If
         openFileDialog.Destroy()
@@ -235,8 +250,11 @@ class gTurbFrame(wx.Frame):
 
     def OnAbout(self, event):
         dialog = wx.MessageDialog(
-            self, "Welcome to the TurbSim GUI! Written by L. Kilcher (National Renewable Energy Laboratory)",
-            "About TurbSim", wx.OK | wx.ICON_INFORMATION)
+            self,
+            ("Welcome to the TurbSim GUI! Written by L. Kilcher "
+             "(National Renewable Energy Laboratory)"),
+            "About TurbSim",
+            wx.OK | wx.ICON_INFORMATION)
         dialog.CentreOnParent()
         dialog.ShowModal()
         dialog.Destroy()
