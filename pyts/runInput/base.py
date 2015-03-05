@@ -1,6 +1,6 @@
 """
-The base module for the runConfig package. This module defines the
-TurbSim config class (tscfg). The tscfg class is a dictionary for
+The base module for the runInput package. This module defines the
+TurbSim input class (tsinput). The tsinput class is a dictionary for
 storing data from a TurbSim input file. The class contains several
 methods that specify default values for several input variables. Those
 defaults documented in the Original-TurbSim documentation:
@@ -12,14 +12,14 @@ from numpy import uint32
 from ..misc import kappa, InvalidConfig, zL, psiM
 
 
-class tscfg(dict):
+class tsinput(dict):
 
     """
-    The TurbSim config object and 'global defaults' handler.
+    The TurbSim input object and 'global defaults' handler.
 
     This class works essentially as a dictionary, but with various
     functions and routines for providing default values in the event
-    that 'config' values are not specified explicitly by the user.
+    that 'input' values are not specified explicitly by the user.
 
     Regarding global defaults:
     The '_dflt_...' functions define 'global' default definitions
@@ -200,8 +200,7 @@ class tscfg(dict):
     def _dflt_UStar(self,):
         if ('URef' not in self or self['URef'] is None) and \
            ('UStar' not in self or self['UStar'] is None):
-            raise InvalidConfig(
-                'Either URef or UStar must be defined in the input file.')
+            raise InvalidConfig('Either URef or UStar must be defined in the input file.')
         mdl = self.turbmodel
         ustar0 = self.ustar0
         if mdl == 'smooth':

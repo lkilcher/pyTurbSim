@@ -235,7 +235,7 @@ class iecbase(specModelBase):
                         else:
                             return 0.11 * Vref
                     else:
-                        raise InvalidConfig("Invalid 'IEC_WindType' specified in config file.")
+                        raise InvalidConfig("Invalid 'IEC_WindType' specified in the input file.")
             elif iecver == 2:  # Small wind.
                 raise InvalidConfig("The 'small wind' spectral model (IEC version 2) is not "
                                     "implemented in PyTurbSim")
@@ -244,7 +244,7 @@ class iecbase(specModelBase):
                                     "not implemented in PyTurbSim")
         else:  # The IECturbc is numeric.
             if wndtp != 'ntm':
-                raise InvalidConfig("If the 'IECturbc' config option is a number (specifying "
+                raise InvalidConfig("If the 'IECturbc' input option is a number (specifying "
                                     "turbulence intensity), the IEC_WindType must be 'NTM'.")
 
 
@@ -281,12 +281,12 @@ class IECKai(iecbase):
 
         Parameters
         ----------
-        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+        tsrun :         :class:`.tsrun`
                         A TurbSim run object.
 
         Returns
         -------
-        out :           :class:`specObj <.mBase.specObj>`
+        out :           :class:`.specObj`
                         An IEC spectral object for the grid in `tsrun`.
 
         """
@@ -335,12 +335,12 @@ class IECVKm(iecbase):
 
         Parameters
         ----------
-        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+        tsrun :         :class:`.tsrun`
                         A TurbSim run object.
 
         Returns
         -------
-        out :           :class:`specObj <.mBase.specObj>`
+        out :           :class:`.specObj`
                         An IEC spectral object for the grid in `tsrun`.
 
         """

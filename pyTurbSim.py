@@ -5,7 +5,7 @@ This is the pyTurbSim 'executable script', which utilizes the
 """
 
 import sys
-from pyts.runConfig.main import readConfig, run, write
+from pyts.runInput.main import readInput, run, write
 import time
 
 
@@ -14,7 +14,7 @@ if len(sys.argv) > 1:
 else:
     fname = 'HydroTurbSim.inp'
 
-config = readConfig(fname)
+config = readInput(fname)
 
 tm0 = time.time()
 tsdat = run(config)

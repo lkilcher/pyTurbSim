@@ -1,10 +1,10 @@
 """
-This module is for reading/writing PyTurbSim config (.inp) files.
+This module is for reading/writing PyTurbSim input (.inp) files.
 """
 from os import listdir
 import pkg_resources
 from pyts import _version as ver
-from pyts.runConfig.base import tscfg
+from pyts.runInput.base import tsinput
 from copy import deepcopy
 import numpy as np
 from pyts.base import ts_float
@@ -55,7 +55,7 @@ for idx, ln in enumerate(template.template.split('\n')):
 
 def write(filename, in_dict):
     """
-    Write a config file.
+    Write an input file.
     """
 
     outstr = template(**in_dict)
@@ -72,12 +72,12 @@ def read(fname):
     Parameters
     ----------
     fname   :   str
-                The filename to read the config from.
+                The filename to read from.
 
     Returns
     -------
-    config  :   :class:`pyts.runConfig.base.tscfg`, dict
-                A PyTurbSim config dictionary.
+    tsinput  :   :class:`.tsinput`, dict
+                A PyTurbSim input dictionary.
 
     """
     # TurbSim input files are static:
@@ -86,7 +86,7 @@ def read(fname):
     #   All else is commenting.
     #   Therefore we simply assign variables by line number.
     ril = _readInputLine
-    out = tscfg()
+    out = tsinput()
     out.filename = fname
     out['UserProfile'] = False
     with open(fname) as fl:
@@ -143,7 +143,7 @@ def read(fname):
 
 def _readInputLine(line):
     """
-    This function parses data from config file lines and returns it as the
+    This function parses data from input file lines and returns it as the
     correct 'type' (e.g. int, float, bool, str).
     """
     types = [np.int32, np.float32, bool, str]

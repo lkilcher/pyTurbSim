@@ -70,10 +70,11 @@ def write(filename, in_dict):
 
 if __name__ == '__main__':
 
-    from pyts.runConfig.main import readConfig, run
+    from .input import read as readInput
+    from ..runInput import run
 
-    config = readConfig('tmp/TurbSim.inp')
-    tsdat = run(config)
+    inp = readInput('tmp/TurbSim.inp')
+    tsdat = run(inp)
     write('tmp/TurbSim.sum', tsdat._sumdict)
 
     tsdat.writeSum('tmp/TurbSim_alt.sum')

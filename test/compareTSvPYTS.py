@@ -2,7 +2,7 @@ import sys
 import os
 if '../' not in sys.path:
     sys.path = ['../'] + sys.path
-from pyts.runConfig import main as pyts
+from pyts.runInput import main as pyts
 #import pyts
 import pyts.plot.api as pt
 import pyts.io.main as tsio
@@ -74,7 +74,7 @@ if flag.get('run_ts', False):
 for fnm in fnames:
     ## Run PyTurbSim:
     if flag.get('run_pyts', False):
-        tsdat = pyts.run(pyts.readConfig('./inp_files/' + fnm + '.inp'))
+        tsdat = pyts.run(pyts.readInput('./inp_files/' + fnm + '.inp'))
         #error
         tsdat.write_bladed('./pyts/' + fnm + '.inp')  # Write out the data.
     if flag.get('run_ts', False):
@@ -99,7 +99,7 @@ if flag.get('plot', False):
 
         ## Create a TurbSim 'run' object based on the input file.
         ## First load the data from the input file into a 'tscfg' object:
-        tscfg = pyts.readConfig('./inp_files/' + nm + '.inp')
+        tscfg = pyts.readInput('./inp_files/' + nm + '.inp')
         # Now create a 'tsrun' object.
         tsr = pyts.cfg2tsrun(tscfg)
         ## If you want to, you can 'run' this by uncommenting:
