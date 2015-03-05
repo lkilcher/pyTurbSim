@@ -320,8 +320,12 @@ class gridObj(tsBaseObj):
                 ', centered at %0.1fm.\n              %5.1fsec simulation, dt=%0.1fsec '
                 '(%d timesteps).>' % (self.height, self.width,
                                       self.n_z, self.n_y,
-                                      self.zhub, self.time_sec,
+                                      self.center, self.time_sec,
                                       self.dt, self.n_t))
+
+    @property
+    def center(self,):
+        return (self.z[-1] + self.z[0]) / 2
 
     @property
     def time_sec_out(self,):
@@ -413,7 +417,13 @@ class gridObj(tsBaseObj):
         """
         The height of the hub.
         """
-        return self.z[self.ihub[0]]
+        if not hasattr(self, '_zhub'):
+            self._zhub = self.center
+        return self._zhub
+
+    @zhub.setter
+    def zhub(self, val):
+        self._zhub = val
 
     @property
     def rotor_diam(self,):

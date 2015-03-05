@@ -7,6 +7,8 @@ from . import gTurbSim_wdr as gts_wdr
 from .base import ConfigFrame
 from ..runInput.main import cfg2tsrun
 import copy
+from ..main import tsrun
+from ..base import tsGrid
 
 
 class profFigure(object):
@@ -27,12 +29,21 @@ class profFigure(object):
         ax = self.axes
         ax.cla()
         tsr = cfg2tsrun(copy.deepcopy(parent.config))
-        pr = tsr.profModel(tsr)
-        ax.plot(pr.u[:, pr.ihub[1]], pr.z,
-                'ro', ms=7, mec='none')
+        pr = tsr.prof
+        ax.plot(pr.u[:, pr.grid.ihub[1]], pr.z,
+                'r+', ms=7)
         zmx = np.max(pr.z)
-        ztmp = np.arange(zmx / 40, zmx * 1.1, zmx / 40)
-        ax.plot(tsr.profModel.model(ztmp), ztmp, 'k-', zorder=-5)
+        tsrtmp = tsrun()
+        nz = 100.
+        tsrtmp.grid = tsGrid(center=tsr.grid.center,
+                             ny=3, dy=tsr.grid.width / 2,
+                             nz=nz, dz=zmx / nz,
+                             dt=1, nt=1000,)
+        tsrtmp.prof = tsr.profModel
+        tsrtmp.grid.zhub = tsrtmp.grid.center
+        tsrtmp.grid.z = np.arange(zmx / 40, zmx * 1.1, zmx / nz)
+        pr = tsrtmp.prof
+        ax.plot(pr.u[:, 1], pr.z, 'k-', zorder=-5)
         ax.set_xlim([0, None])
         ax.set_ylim([0, None])
         ax.xaxis.set_major_locator(MaxNLocator(5))

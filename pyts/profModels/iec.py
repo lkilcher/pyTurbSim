@@ -12,7 +12,7 @@ from numpy import tile, where
 # This model needs to account for the EWM50 and EWM1 turbulence models.
 
 
-class main(logmain, powmain):
+class main(powmain, logmain, ):
 
     """IEC wind profile model.
 
@@ -87,15 +87,12 @@ class main(logmain, powmain):
 
         """
         out = profObj(tsrun)
-        grid = tsrun.grid  # A temporary, internal shortcut.
-        out[0] = logmain.model(self, grid.z)[:, None]
-        zinds = (((-grid.rotor_diam / 2 <= grid.z - grid.zhub)
-                 & (grid.z - grid.zhub <= grid.rotor_diam / 2))[:, None])
-        yinds = ((-grid.rotor_diam / 2 <= grid.y)
-                 & (grid.y <= grid.rotor_diam / 2))[None, :]
-        out[0] = where(zinds & yinds,
-                       tile(powmain.model(self, grid.z[zinds[:, 0]])[:, None], sum(yinds)),
-                       out[0], )
-        #out[0][zinds & yinds] = 
-        #error
+        g = tsrun.grid  # A temporary, internal shortcut.
+        zinds = (((-g.rotor_diam / 2 <= g.z - g.zhub)
+                 & (g.z - g.zhub <= g.rotor_diam / 2))[:, None])
+        yinds = ((-g.rotor_diam / 2 <= g.y)
+                 & (g.y <= g.rotor_diam / 2))[None, :]
+        out.array[0] = where(zinds & yinds,
+                             tile(powmain.model(self, g.z)[:, None], len(yinds[0])),
+                             tile(logmain.model(self, g.z)[:, None], len(yinds[0])), )
         return out
