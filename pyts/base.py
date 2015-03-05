@@ -17,7 +17,6 @@ from . import pyts_numpy as np
 from numpy import float32, complex64
 from .misc import lowPrimeFact_near
 from os import path
-import time
 try:
     from .tslib import tslib  # The file tslib.so contains the module 'tslib'.
 except ImportError:
@@ -194,7 +193,7 @@ def tsGrid(center=None, ny=None, nz=None,
            width=None, height=None, dy=None, dz=None,
            nt=None, time_sec=None, time_min=None, dt=None, time_sec_out=None,
            findClose_nt_lowPrimeFactors=True, prime_max=31,
-           RandSeed=None, clockwise=True):
+           clockwise=True):
     """
     Create a TurbSim grid.
 
@@ -225,9 +224,6 @@ def tsGrid(center=None, ny=None, nz=None,
         Adjust nfft to be a multiple of low primes?
     prime_max    : int, optional (31)
         The maximum prime number allowed as a 'low prime'.
-    RandSeed     : int, optional
-        Specify a random seed for the random number generator
-        (default: generate a random one).
     clockwise    : bool, optional (True)
         Should the simulation write a 'clockwise' rotation output file.
         This is only used when writing 'Bladed' output files.

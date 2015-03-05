@@ -87,10 +87,10 @@ def write(tsdat, tsconfig, fname=None):
     if fname is None:
         fname = tsconfig.fname
     if tsconfig['WrBLFF']:
-        tsdat.writeBladed(fname)
+        tsdat.write_bladed(fname)
     if tsconfig['WrADFF']:
-        tsdat.writeAero(fname)
-    tsdat.writeSum(fname)
+        tsdat.write_turbsim(fname)
+    tsdat.write_sum(fname)
 
 
 def cfg2grid(tsconfig):

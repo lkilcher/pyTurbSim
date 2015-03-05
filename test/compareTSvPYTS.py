@@ -76,7 +76,7 @@ for fnm in fnames:
     if flag.get('run_pyts', False):
         tsdat = pyts.run(pyts.readConfig('./inp_files/' + fnm + '.inp'))
         #error
-        tsdat.writeBladed('./pyts/' + fnm + '.inp')  # Write out the data.
+        tsdat.write_bladed('./pyts/' + fnm + '.inp')  # Write out the data.
     if flag.get('run_ts', False):
         ## Run TurbSim:
         call(['./' + ts_exec_file, './inp_files/' + fnm + '.inp'])
@@ -94,8 +94,8 @@ if flag.get('plot', False):
     for c, nm in enumerate(fnames):
 
         ## Load the data from the files:
-        tsdat = tsio.readModel('./ts/' + nm + ts_file_type, './inp_files/' + nm + '.inp')
-        ptsdat = tsio.readModel('./pyts/' + nm + ts_file_type, './inp_files/' + nm + '.inp')
+        tsdat = tsio.readModel('./ts/' + nm + ts_file_type)
+        ptsdat = tsio.readModel('./pyts/' + nm + ts_file_type)
 
         ## Create a TurbSim 'run' object based on the input file.
         ## First load the data from the input file into a 'tscfg' object:

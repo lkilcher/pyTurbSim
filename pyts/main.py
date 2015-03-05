@@ -15,7 +15,7 @@ from .cohereModels.mBase import cohereModelBase, cohereObj, cohereUser
 from .stressModels.mBase import stressModelBase, stressObj
 from .phaseModels.api import randPhase
 import _version as ver
-from .io import bladed, aerodyn, sum
+from .io import write, sum
 from numpy import random
 from numpy import ulonglong
 from numpy.fft import irfft
@@ -577,7 +577,7 @@ class tsdata(gridProps):
         out['w_sigma'] = self.uturb[2].flatten().std()
         out['TurbModel_desc'] = self.info['specModel']['description']
         out['RandSeed1'] = self.info['RandSeed']
-        
+
         out['profModel_sumstring'] = self.info['profModel']['sumstring']
         out['specModel_sumstring'] = self.info['specModel']['sumstring']
         out['stressModel_sumstring'] = self.info['stressModel']['sumstring']
@@ -801,7 +801,7 @@ class tsdata(gridProps):
         stats['Ti'] = self.tke[slc] / self.UHUB
         return stats
 
-    def writeBladed(self, filename):
+    def write_bladed(self, filename):
         """
         Save the data in this tsdata object in 'bladed' format (.wnd).
 
@@ -811,20 +811,19 @@ class tsdata(gridProps):
                    The filename to which the data should be written.
 
         """
-        bladed.write(filename, self)
+        write.bladed(filename, self)
 
-    def writeAero(self, filename):
-        """
-        Save the data in this tsdata object in 'AeroDyn' format.
+    def write_turbsim(self, filename):
+        """Save the data in this tsdata object in 'TurbSim' format.
 
         Parameters
         ----------
         filename : str
                    The filename to which the data should be written.
         """
-        aerodyn.write(filename, self)
+        write.turbsim(filename, self)
 
-    def writeSum(self, filename):
+    def write_sum(self, filename):
         """
         Currently PyTurbSim does not support writing summary (.sum) files.
         """
