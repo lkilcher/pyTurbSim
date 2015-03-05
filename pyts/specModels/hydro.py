@@ -2,13 +2,13 @@
 This module contains the turbulence models for the aquatic environment.
 
 """
-from .mBase import specModelBase, np, specObj, ts_float
+from .base import specModelBase, np, specObj, ts_float
 
 
 class tidal(specModelBase):
 
     r"""Tidal Channel spectral model.
-    
+
     The tidal spectral model is based on measurements from Admiralty
     Inlet, in Puget Sound, WA.
 
@@ -27,7 +27,7 @@ class tidal(specModelBase):
     fit-coefficients. The form of this model is:
 
     .. math::
-    
+
          S_k(f) = \frac{\sigma_k^2 \mathrm{coef}[k,0]}{1+\mathrm{coef}[k,1](f/\hat{f})^{5/3}}
          \qquad k=0,1,2\ (u,v,w)
 

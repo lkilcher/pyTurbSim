@@ -9,10 +9,10 @@ PyTurbSim interface import the ./api.py package.
 
 """
 from .base import ts_complex, gridProps, dbg, np, statObj
-from .profModels.mBase import profModelBase, profObj
-from .specModels.mBase import specModelBase, specObj
-from .cohereModels.mBase import cohereModelBase, cohereObj, cohereUser
-from .stressModels.mBase import stressModelBase, stressObj
+from .profModels.base import profModelBase, profObj
+from .specModels.base import specModelBase, specObj
+from .cohereModels.base import cohereModelBase, cohereObj, cohereUser
+from .stressModels.base import stressModelBase, stressObj
 from .phaseModels.api import randPhase
 import _version as ver
 from .io import write
@@ -172,7 +172,7 @@ class tsrun(object):
         """
         This is the 'tke spectrum' input property.
 
-        This property always returns a `specObj <pyts.specModels.mBase.specObj>`.
+        This property always returns a `.specObj`.
 
         This property can be defined with three types of objects:
 
@@ -244,7 +244,7 @@ class tsrun(object):
         """
         This is the 'coherence' input property.
 
-        This property always returns a :class:`cohereObj <pyts.cohereModels.mBase.cohereObj>`.
+        This property always returns a :class:`.cohereObj`.
 
         Because the bulk of PyTurbSim's computational requirements
         (memory and processor time) are consumed by dealing with this
@@ -304,7 +304,7 @@ class tsrun(object):
         See Also
         --------
         pyts.cohereModels.api : to see a list of available coherence models.
-        pyts.cohereModels.mBase.cohereUser : the 'user-defined' or 'array-input' coherence model.
+        pyts.cohereModels.base.cohereUser : the 'user-defined' or 'array-input' coherence model.
         tsrun.prof
         tsrun.spec
         tsrun.stress
@@ -336,7 +336,7 @@ class tsrun(object):
         """
         This is the Reynold's stress input property.
 
-        This property always returns a :class:`stressObj <pyts.stressModels.mBase.stressObj>`.
+        This property always returns a :class:`.stressObj`.
 
         This property can be defined with three types of objects:
 

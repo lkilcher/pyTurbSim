@@ -16,12 +16,12 @@ Available stress models:
   The 'tidal` Reynold's stress model (increases linearly toward the
   seafloor/ground).
 
-:class:`stressModelBase <.mBase.stressModelBase>`
+:class:`.stressModelBase`
   This is the base class for stress models. To create a new one,
   subclass this class or subclass and modify an existing stress
   model.
 
-:class:`stressObj <.mBase.stressObj>`
+:class:`.stressObj`
   This is the 'stress object' class.  All stress model `__call__`
   methods must take a :class:`tsrun <pyts.main.tsrun>` as input and
   return this class.
@@ -48,6 +48,6 @@ For a description of the difference between 'stress models'
 (tsrun.prof), see the 'models_and_stats_example.py' file.
 
 """
-from .mBase import stressModelBase, stressObj
+from .base import stressModelBase, stressObj
 from .main import uniform
 from .hydro import tidal

@@ -1,4 +1,4 @@
-from .mBase import profModelBase, np, profObj
+from .base import profModelBase, np, profObj
 from numpy.polynomial.chebyshev import chebval
 
 
@@ -45,12 +45,12 @@ class main(profModelBase):
 
         Parameters
         ----------
-        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+        tsrun :         :class:`.tsrun`
                         A TurbSim run object.
 
         Returns
         -------
-        out :           :class:`profObj <.mBase.profObj>`
+        out :           :class:`.profObj`
                         A jet wind-speed profile for the grid in `tsrun`.
 
         """

@@ -3,7 +3,7 @@ This module defines two coherence models:
 nwtc - The NWTC 'non-IEC' coherence model.
 iec  - The IEC coherence model.
 """
-from .mBase import cohereModelBase, np, ts_float, tslib, dbg, cohereObj, ts_complex
+from .base import cohereModelBase, np, ts_float, tslib, dbg, cohereObj, ts_complex
 from ..misc import Lambda
 
 

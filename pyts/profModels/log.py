@@ -4,7 +4,7 @@ This module contains the log-law mean-velocity profiles:
  H2O    - The hydro-logarithmic mean velocity profile.
 
 """
-from .mBase import profModelBase, np, profObj
+from .base import profModelBase, np, profObj
 from ..misc import kappa, psiM
 
 
@@ -63,12 +63,12 @@ class nwtc(profModelBase,):
 
         Parameters
         ----------
-        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+        tsrun :         :class:`.tsrun`
                         A TurbSim run object.
 
         Returns
         -------
-        out :           :class:`profObj <.mBase.profObj>`
+        out :           :class:`.profObj`
                         A logarithmic wind-speed profile for the grid in `tsrun`.
 
         """
@@ -150,12 +150,12 @@ class H2O(profModelBase,):
 
         Parameters
         ----------
-        tsrun : :class:`tsrun <pyts.main.tsrun>`
+        tsrun : :class:`.tsrun`
                 A TurbSim run object.
 
         Returns
         -------
-        out :   :class:`profObj <.mBase.profObj>`
+        out :   :class:`.profObj`
                 A logarithmic mean-velocity profile object for the
                 spatial grid in tsrun.
         """

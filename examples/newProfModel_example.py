@@ -15,7 +15,7 @@ the __init__.py file.  The model can then be specified simply as
 
 """
 
-from mBase import profModelBase
+from pyts.profModels.base import profModelBase
 
 
 class aNewModel(profModelBase):

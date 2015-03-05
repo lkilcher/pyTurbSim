@@ -1,4 +1,4 @@
-from .mBase import stressModelBase, stressObj
+from .base import stressModelBase, stressObj
 
 
 class uniform(stressModelBase):
@@ -41,12 +41,12 @@ class uniform(stressModelBase):
 
         Parameters
         ----------
-        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+        tsrun :         :class:`.tsrun`
                         A TurbSim run object.
 
         Returns
         -------
-        out :           :class:`stressObj <.mBase.specObj>`
+        out :           :class:`.stressObj`
                         A stress object for the grid in `tsrun`.
 
         """

@@ -1,7 +1,7 @@
 """
 The main random phase models.
 """
-from .mBase import phaseModelBase, np, ts_complex
+from .base import phaseModelBase, np, ts_complex
 
 
 class randPhase(phaseModelBase):

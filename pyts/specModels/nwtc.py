@@ -1,7 +1,7 @@
 """
 This module contains the nwtc spectral models.
 """
-from .mBase import np, ts_float, specObj, specModelBase
+from .base import np, ts_float, specObj, specModelBase
 from ..misc import zL
 from .kelley_coefs import calc_nwtcup_coefs, p_coefs_unstable, f_coefs_unstable
 
@@ -231,7 +231,7 @@ class NWTC_unstable(genNWTC):
 
         Returns
         -------
-        spec : :class:`.mBase.specObj`
+        spec : :class:`.specObj`
                The spectral object which contains the 'array'
                (property) of spectra at each point in the grid.
 

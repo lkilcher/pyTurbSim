@@ -17,12 +17,12 @@ def getModel(tsinput):
 
     Parameters
     ----------
-    tsinput :  :class:`tscfg <.base.tscfg>`
+    tsinput :  :class:`.tsinput`
                 A TurbSim input object.
 
     Returns
     -------
-    profModel : A subclass of :class:`profModelBase <pyts.profModels.mBase.profModelBase>`
+    profModel : A subclass of :class:`.profModelBase`
                 The appropriately initialized 'profile model' object
                 specified in `tsinput`.
 

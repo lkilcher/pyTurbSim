@@ -1,7 +1,7 @@
 """
 The NWTC power-law profile model.
 """
-from .mBase import profModelBase, profObj
+from .base import profModelBase, profObj
 
 
 class nwtc(profModelBase):
@@ -53,12 +53,12 @@ class nwtc(profModelBase):
 
         Parameters
         ----------
-        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+        tsrun :         :class:`.tsrun`
                         A TurbSim run object.
 
         Returns
         -------
-        out :           :class:`profObj <.mBase.profObj>`
+        out :           :class:`.profObj`
                         A power-law wind-speed profile for the grid in `tsrun`.
 
         """

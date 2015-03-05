@@ -7,7 +7,7 @@ See the
 for more info on IEC spectral models.
 
 """
-from .mBase import specModelBase, np, ts_float, specObj
+from .base import specModelBase, np, ts_float, specObj
 from ..misc import InvalidConfig, Lambda
 import warnings
 

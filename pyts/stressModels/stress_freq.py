@@ -1,25 +1,38 @@
-from .mBase import stressModelBase, np
+from .base import stressModelBase, np
+from ..base import ts_float
 
 
 class stressModelBase_f(stressModelBase):
 
     """
-    A stress-model base-class that supports setting the stress by controlling the frequency-dependent coherence between velocity components.
+    A stress-model base-class that supports setting the stress by
+    controlling the frequency-dependent coherence between velocity
+    components.
     """
 
     def __new__(cls, turbModel, *args, **kwargs):
         self = super(stressModelBase_f, cls).__new__(
             cls, turbModel, *args, **kwargs)
-        self._rstrCoh = np.zeros(
-            [self.n_comp] + list(self.grid.shape) + [self.n_f], dtype=ts_float)
+        self._rstrCoh = np.zeros([self.n_comp] +
+                                 list(self.grid.shape) +
+                                 [self.n_f], dtype=ts_float)
 
-    # In the future I need to overwrite the _setPhases routine to allow for more control of the _rstrCoh array.  For example:
-    #           It may be worthwhile to base the cross-coherence function _rstrCoh, on observed cross-component coherences (and phases). Perhaps this is a gaussion distribution (with some width) of phase shifts vs. frequency. For now we simply set a fraction of the phase shifts to be the same between the components to control the Reynold's stress.
+    # In the future I need to overwrite the _setPhases routine to
+    # allow for more control of the _rstrCoh array.  For example:
+    #           It may be worthwhile to base the cross-coherence
+    #           function _rstrCoh, on observed cross-component
+    #           coherences (and phases). Perhaps this is a gaussion
+    #           distribution (with some width) of phase shifts
+    #           vs. frequency. For now we simply set a fraction of the
+    #           phase shifts to be the same between the components to
+    #           control the Reynold's stress.
     # For now, I have simply copied the code that was here before I simplified
     # the stressModelBase class.
     def _setPhases(self,):
         """
-        Here we control the Reynold's stress by setting the 'random' phases between components to be the same for a fraction of the frequencies.
+        Here we control the Reynold's stress by setting the 'random'
+        phases between components to be the same for a fraction of the
+        frequencies.
 
         """
 
@@ -31,7 +44,9 @@ class stressModelBase_f(stressModelBase):
             self._rstrCoh)  # This doesn't currently work
         srt = np.sort(np.abs(rstrmat), axis=0)
         #rem=1+srt[0]-srt[1]-srt[2]
-        if (1 + srt[0] - srt[1] - srt[2] < 0).any() or (((rstrmat < 0).sum(0) == 1) & (srt.sum(0) > 1)).any():
+        if ((1 + srt[0] - srt[1] - srt[2] < 0).any()
+            or (((rstrmat < 0).sum(0) == 1)
+                & (srt.sum(0) > 1)).any()):
              # We can't have rem<0, or only one negative correlation if the
              # total correlation is greater than 1.
             raise Exception('The input reynolds stresses are inconsistent.')

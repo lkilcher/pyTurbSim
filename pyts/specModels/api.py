@@ -22,12 +22,12 @@ Available spectral models
 :class:`.iec.iecvkm`  (alias: iecvkm)
   The IEC 'Von-Karman' spectral model.
 
-:class:`specModelBase <.mBase.specModelBase>`
+:class:`.specModelBase`
   This is the base class for spectral models. To create a new spectral
   model, subclass this class or subclass and modify an existing
   spectal model.
 
-:class:`specObj <.mBase.specObj>`
+:class:`.specObj`
   This is the 'spectral object' class.  All spectral model `__call__`
   methods must take a :class:`tsrun <pyts.main.tsrun>` as input and
   return this class.
@@ -57,7 +57,7 @@ documentation.
 import hydro
 import nwtc
 import iec
-from .mBase import specModelBase, specObj
+from .base import specModelBase, specObj
 
 # Shortcut the hydro models
 tidal = hydro.tidal

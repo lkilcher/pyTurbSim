@@ -3,7 +3,7 @@ This module contains the power-law mean-velocity profiles:
  main   - The IEC mean wind speed profile.
 
 """
-from .mBase import profObj
+from .base import profObj
 from .log import nwtc as logmain
 from .power import nwtc as powmain
 from numpy import tile, where
@@ -77,12 +77,12 @@ class main(logmain, powmain):
 
         Parameters
         ----------
-        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+        tsrun :         :class:`.tsrun`
                         A TurbSim run object.
 
         Returns
         -------
-        out :           :class:`profObj <.mBase.profObj>`
+        out :           :class:`.profObj`
                         A iec wind-speed profile for the grid in `tsrun`.
 
         """

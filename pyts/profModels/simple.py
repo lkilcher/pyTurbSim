@@ -4,7 +4,7 @@ This module contains the log-law mean-velocity profiles:
  uniform  - A uniform mean wind speed.
 
 """
-from .mBase import profModelBase, np, profObj
+from .base import profModelBase, profObj
 
 
 class uniform(profModelBase,):
@@ -41,12 +41,12 @@ class uniform(profModelBase,):
 
         Parameters
         ----------
-        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+        tsrun :         :class:`.tsrun`
                         A TurbSim run object.
 
         Returns
         -------
-        out :           :class:`profObj <.mBase.profObj>`
+        out :           :class:`.profObj`
                         A uniform wind-speed profile for the grid in `tsrun`.
 
         """
@@ -102,12 +102,12 @@ class linear(profModelBase,):
 
         Parameters
         ----------
-        tsrun :         :class:`tsrun <pyts.main.tsrun>`
+        tsrun :         :class:`.tsrun`
                         A TurbSim run object.
 
         Returns
         -------
-        out :           :class:`profObj <.mBase.profObj>`
+        out :           :class:`.profObj`
                         A uniform wind-speed profile for the grid in `tsrun`.
 
         """
