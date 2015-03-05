@@ -213,7 +213,6 @@ def readInPSD(fname):
 
 
 if __name__ == '__main__':
-    from pyts.io.config_old import inputfile_form as ifile_form_old
 
     def dict_diff(d1, d2):
         out = dict()
@@ -253,6 +252,4 @@ if __name__ == '__main__':
 
     ## print dict_diff(inputfile_form, ifile_form_old)
 
-
     dnew = read('tmp/testfile.inp')
-    

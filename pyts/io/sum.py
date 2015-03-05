@@ -57,7 +57,6 @@ class SumFormatter(SuperFormatter):
 template = SumFormatter(
     pkg_resources.resource_string(ver.pkg_name,
                                   'io/templates/sum'))
-#template.allow_sloppy = True
 
 
 def write(filename, in_dict):

@@ -15,7 +15,7 @@ from .cohereModels.mBase import cohereModelBase, cohereObj, cohereUser
 from .stressModels.mBase import stressModelBase, stressObj
 from .phaseModels.api import randPhase
 import _version as ver
-from .io import write, sum
+from .io import write
 from numpy import random
 from numpy import ulonglong
 from numpy.fft import irfft
@@ -827,4 +827,4 @@ class tsdata(gridProps):
         """
         Currently PyTurbSim does not support writing summary (.sum) files.
         """
-        sum.write(filename, self._sumdict)
+        write.sum(filename, self._sumdict)

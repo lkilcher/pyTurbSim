@@ -10,6 +10,7 @@ from struct import pack
 from .base import e
 from .._version import __version__, __prog_name__
 import time
+from .sum import write as sum  # Make sum.write available here.
 
 
 def bladed(fname, tsdat):

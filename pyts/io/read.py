@@ -1,8 +1,9 @@
 from struct import unpack
-from .base import e
+from .base import e, checkname, convname
 import numpy as np
 from ..main import tsdata
 from ..base import tsGrid
+from warnings import warn
 
 
 def bladed(fname,):
@@ -20,6 +21,7 @@ def bladed(fname,):
              The TurbSim data contained in the binary data file.
 
     """
+    fname = checkname(fname, ['.wnd', '.bl'])
     with file(fname, 'rb') as fl:
         junk, nffc, ncomp, lat, z0, center = unpack(e + '2hl3f', fl.read(20))
         if junk != -99 or nffc != 4:
@@ -42,11 +44,20 @@ def bladed(fname,):
     dat /= 1000. / (uhub * ti[:, None, None, None])
     # Create the grid object:
     dt = dx / uhub
+    # Determine the clockwise value.
     if clockwise == 0:
-        # Not specified in the binary file, try reading a .sum file?
-        # !!!MOREHERE read .sum?
-        # else assume it's true:
-        clockwise = True
+        try:
+            d = sum_scan(convname(fname, '.sum'))
+            clockwise = d['clockwise']
+        except IOError:
+            warn("Value of 'CLOCKWISE' not specified in binary file, "
+                 "and no .sum file found. Assuming CLOCKWISE = True.")
+            clockwise = True
+        except KeyError:
+            warn("Value of 'CLOCKWISE' not specified in binary file, "
+                 "and %s has no line containing 'clockwise'. Assuming "
+                 "CLOCKWISE = True." % convname(fname, '.sum'))
+            clockwise = True
     else:
         clockwise = bool(clockwise - 1)
     if clockwise:
@@ -80,6 +91,7 @@ def turbsim(fname):
              The TurbSim data contained in the binary data file.
 
     """
+    fname = checkname(fname, ['.bts'])
     u_scl = np.zeros(3, np.float32)
     u_off = np.zeros(3, np.float32)
     fl = file(fname, 'rb')
@@ -117,4 +129,32 @@ def turbsim(fname):
     out = tsdata(grid)
     out.uprof = dat.mean(-1)
     out.uturb = dat - out.uprof[:, :, :, None]
+    return out
+
+
+def sum_scan(filename,):
+    """
+    Scan a sum file for specific variables.
+
+    Parameters
+    ----------
+    filename : string
+        The file to scan.
+
+    Returns
+    -------
+    out : dict
+        A dictionary of values identified.
+    """
+    # Currently this routine only searches for 'clockwise'.
+    out = dict()
+    with open(checkname(filename, ['.sum', '.SUM']), 'r') as infl:
+        for ln in infl:
+            ln = ln.lower()
+            if 'clockwise' in ln.lower():
+                v = ln.split()[0]
+                if v in ['t', 'y']:
+                    out['clockwise'] = True
+                else:
+                    out['clockwise'] = False
     return out
