@@ -113,7 +113,7 @@ def turbsim(fname):
      u_scl[2],
      u_off[2],
      strlen) = unpack(e + 'h4l12fl', fl.read(70))
-    center = z0 + n_z * dz / 2.0
+    center = z0 + (n_z - 1) * dz / 2.0
     #print fname, u_scl, u_off
     desc_str = fl.read(strlen)  # skip these bytes.
     nbt = 3 * n_y * n_z * n_t
