@@ -79,7 +79,7 @@ def bladed(fname, tsdat):
 
 
 def turbsim(fname, tsdat):
-    """Write the data to a TurbSim-format binary file.
+    """Write the data to a TurbSim-format binary file (.bts).
 
     Parameters
     ----------
@@ -135,5 +135,5 @@ def turbsim(fname, tsdat):
     # Write the data so that the first index varies fastest (F order).
     # The indexes vary in the following order:
     # component (fastest), y-index, z-index, time (slowest).
-    fl.write(np.rollaxis(out[:, ::-1], 2, 1).tostring(order='F'))
+    fl.write(np.rollaxis(out, 2, 1).tostring(order='F'))
     fl.close()
