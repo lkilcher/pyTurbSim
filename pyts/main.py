@@ -801,6 +801,18 @@ class tsdata(gridProps):
         stats['Ti'] = self.tke[slc] / self.UHUB
         return stats
 
+    def write_formatted(self, filename):
+        """
+        Save the data in this tsdata object in 'formatted' format (.u, .v, .w files).
+
+        Parameters
+        ----------
+
+        filename : string
+                '.u', '.v', and '.w' will be appended to the end of the filename.
+        """
+        write.formatted(self, filename)
+
     def write_bladed(self, filename):
         """
         Save the data in this tsdata object in 'bladed' format (.wnd).
