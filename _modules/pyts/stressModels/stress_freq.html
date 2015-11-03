@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.stressModels.stress_freq &mdash; PyTurbSim 0.4.2 documentation</title>
+    <title>pyts.stressModels.stress_freq &mdash; PyTurbSim 0.4.6 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.4.2',
+        VERSION:     '0.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,13 +23,13 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.6 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -38,42 +38,52 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for pyts.stressModels.stress_freq</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">.mBase</span> <span class="kn">import</span> <span class="n">stressModelBase</span><span class="p">,</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">stressModelBase</span><span class="p">,</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ts_float</span>
 
 
 <div class="viewcode-block" id="stressModelBase_f"><a class="viewcode-back" href="../../../api/pyts.stressModels.html#pyts.stressModels.stress_freq.stressModelBase_f">[docs]</a><span class="k">class</span> <span class="nc">stressModelBase_f</span><span class="p">(</span><span class="n">stressModelBase</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A stress-model base-class that supports setting the stress by controlling the frequency-dependent coherence between velocity components.</span>
+<span class="sd">    A stress-model base-class that supports setting the stress by</span>
+<span class="sd">    controlling the frequency-dependent coherence between velocity</span>
+<span class="sd">    components.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">turbModel</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">stressModelBase_f</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span>
             <span class="n">cls</span><span class="p">,</span> <span class="n">turbModel</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_rstrCoh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
-            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_comp</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rstrCoh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">n_comp</span><span class="p">]</span> <span class="o">+</span>
+                                 <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">+</span>
+                                 <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
 
-    <span class="c"># In the future I need to overwrite the _setPhases routine to allow for more control of the _rstrCoh array.  For example:</span>
-    <span class="c">#           It may be worthwhile to base the cross-coherence function _rstrCoh, on observed cross-component coherences (and phases). Perhaps this is a gaussion distribution (with some width) of phase shifts vs. frequency. For now we simply set a fraction of the phase shifts to be the same between the components to control the Reynold&#39;s stress.</span>
+    <span class="c"># In the future I need to overwrite the _setPhases routine to</span>
+    <span class="c"># allow for more control of the _rstrCoh array.  For example:</span>
+    <span class="c">#           It may be worthwhile to base the cross-coherence</span>
+    <span class="c">#           function _rstrCoh, on observed cross-component</span>
+    <span class="c">#           coherences (and phases). Perhaps this is a gaussion</span>
+    <span class="c">#           distribution (with some width) of phase shifts</span>
+    <span class="c">#           vs. frequency. For now we simply set a fraction of the</span>
+    <span class="c">#           phase shifts to be the same between the components to</span>
+    <span class="c">#           control the Reynold&#39;s stress.</span>
     <span class="c"># For now, I have simply copied the code that was here before I simplified</span>
     <span class="c"># the stressModelBase class.</span>
     <span class="k">def</span> <span class="nf">_setPhases</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Here we control the Reynold&#39;s stress by setting the &#39;random&#39; phases between components to be the same for a fraction of the frequencies.</span>
+<span class="sd">        Here we control the Reynold&#39;s stress by setting the &#39;random&#39;</span>
+<span class="sd">        phases between components to be the same for a fraction of the</span>
+<span class="sd">        frequencies.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -85,7 +95,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_rstrCoh</span><span class="p">)</span>  <span class="c"># This doesn&#39;t currently work</span>
         <span class="n">srt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rstrmat</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="c">#rem=1+srt[0]-srt[1]-srt[2]</span>
-        <span class="k">if</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">srt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">srt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">srt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">or</span> <span class="p">(((</span><span class="n">rstrmat</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">srt</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">srt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">srt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">srt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+            <span class="ow">or</span> <span class="p">(((</span><span class="n">rstrmat</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="o">&amp;</span> <span class="p">(</span><span class="n">srt</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">any</span><span class="p">()):</span>
              <span class="c"># We can&#39;t have rem&lt;0, or only one negative correlation if the</span>
              <span class="c"># total correlation is greater than 1.</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;The input reynolds stresses are inconsistent.&#39;</span><span class="p">)</span>
@@ -131,9 +143,9 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
       <input type="text" name="q" />
@@ -150,7 +162,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -159,16 +171,13 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

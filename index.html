@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to PyTurbSim’s home page! &mdash; PyTurbSim 0.4.2 documentation</title>
+    <title>Welcome to PyTurbSim’s home page! &mdash; PyTurbSim 0.4.6 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.2',
+        VERSION:     '0.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,13 +23,13 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="#" />
+    <link rel="top" title="PyTurbSim 0.4.6 documentation" href="#" />
     <link rel="next" title="About" href="about.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -39,19 +39,16 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="about.html" title="About"
              accesskey="N">next</a> |</li>
-        <li><a href="#">PyTurbSim 0.4.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">PyTurbSim 0.4.6 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="welcome-to-pyturbsim-s-home-page">
 <h1>Welcome to PyTurbSim&#8217;s home page!<a class="headerlink" href="#welcome-to-pyturbsim-s-home-page" title="Permalink to this headline">¶</a></h1>
@@ -61,12 +58,12 @@ and wind-turbine performance and loads.  PyTurbSim outputs spatial
 time-series (a sequence of 2-D, y-z, planes) of 3-component velocity
 (u,v,w) that match statistics of real oceanic, riverine and wind
 turbulence <a class="footnote-reference" href="#id2" id="id1">[1]</a>.  In other words, PyTurbSim  provides the inflow
-information that &#8216;drives&#8217; device simulations.  See the <a class="reference internal" href="about.html#about"><em>About</em></a>
+information that &#8216;drives&#8217; device simulations.  See the <a class="reference internal" href="about.html#about"><span>About</span></a>
 page for more information.</p>
 <p>PyTurbSim is the official water-turbulence simulation tool for
 hydrokinetic turbine device simulation (a.k.a. HydroTurbSim), and is
 also a valuable development and testing platform for NREL&#8217;s &#8216;TurbSim&#8217;
-tool (see <a class="reference internal" href="about.html#about-history"><em>History</em></a>).  New mean-profile, spectral and
+tool (see <a class="reference internal" href="about.html#about-history"><span>History</span></a>).  New mean-profile, spectral and
 coherence models can be implemented easily in a pythonic,
 object-oriented manner, and plotting routines for comparing output
 to targets and/or data are included.</p>
@@ -82,6 +79,7 @@ to targets and/or data are included.</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Download and Install</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="install.html#installing-without-pip">Installing without pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#windows-installation-issues">Windows Installation Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
@@ -114,7 +112,7 @@ to targets and/or data are included.</p>
 <li class="toctree-l3"><a class="reference internal" href="api/pyts.phaseModels.html">pyts.phaseModels package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/pyts.plot.html">pyts.plot package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/pyts.profModels.html">pyts.profModels package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/pyts.runConfig.html">pyts.runConfig package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/pyts.runInput.html">pyts.runInput package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/pyts.specModels.html">pyts.specModels package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/pyts.stressModels.html">pyts.stressModels package</a></li>
 </ul>
@@ -136,9 +134,9 @@ to targets and/or data are included.</p>
 <div class="section" id="indices-tables-and-notes">
 <h1>Indices, tables and notes<a class="headerlink" href="#indices-tables-and-notes" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
 <li><a class="reference internal" href="glossary.html"><em>Glossary</em></a></li>
 </ul>
 <table class="docutils footnote" frame="void" id="id2" rules="none">
@@ -164,7 +162,7 @@ dimension.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
@@ -176,12 +174,14 @@ dimension.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="about.html"
                         title="next chapter">About</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/index.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -198,7 +198,7 @@ dimension.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -208,17 +208,14 @@ dimension.</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="about.html" title="About"
              >next</a> |</li>
-        <li><a href="#">PyTurbSim 0.4.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">PyTurbSim 0.4.6 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

@@ -4,34 +4,10 @@ pyts.io package
 Submodules
 ----------
 
-pyts.io.aerodyn module
-----------------------
-
-.. automodule:: pyts.io.aerodyn
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 pyts.io.base module
 -------------------
 
 .. automodule:: pyts.io.base
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-pyts.io.bladed module
----------------------
-
-.. automodule:: pyts.io.bladed
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-pyts.io.config module
----------------------
-
-.. automodule:: pyts.io.config
     :members:
     :undoc-members:
     :show-inheritance:
@@ -44,6 +20,14 @@ pyts.io.formatter module
     :undoc-members:
     :show-inheritance:
 
+pyts.io.input module
+--------------------
+
+.. automodule:: pyts.io.input
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pyts.io.main module
 -------------------
 
@@ -52,10 +36,26 @@ pyts.io.main module
     :undoc-members:
     :show-inheritance:
 
+pyts.io.read module
+-------------------
+
+.. automodule:: pyts.io.read
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pyts.io.sum module
 ------------------
 
 .. automodule:: pyts.io.sum
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.io.write module
+--------------------
+
+.. automodule:: pyts.io.write
     :members:
     :undoc-members:
     :show-inheritance:

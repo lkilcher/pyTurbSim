@@ -20,26 +20,27 @@ as |ots|. This mode can be run from a standard (i.e. DOS, UNIX)
 command line and is well suited for interfacing with FAST and other
 device simulation tools in the same way that |ots| does.  For
 more information on this mode, see the docstring in the
-:mod:`.pyts.runConfig` docstring.
+:mod:`.pyts.runInput` docstring.
 
 To run |pyts| in this mode on the file 'TurbSim.inp' from the
 command line do::
-   $ pyTurbSim.py TurbSim.inp
+
+  $ pyTurbSim.py TurbSim.inp
 
 Alternatively, this mode can be used from an interactive python shell
 by doing::
 
-   >>> from pyts.runConfig.main import readConfig, run, write
-   >>> config = readConfig('TurbSim.inp')
-   >>> tsdat = run(config)
-   >>> write(tsdat, config, 'TurbSim')
+  >>> from pyts.runInput.main import readConfig, run, write
+  >>> config = readConfig('TurbSim.inp')
+  >>> tsdat = run(config)
+  >>> write(tsdat, config, 'TurbSim')
 
 These two approaches produce the same output. The first allows the
 user to run |pyts| without ever entering an interactive python
 shell, the latter provides the user with an opportunity to view the
 output data, ``tsdat``, without reloading it from a file.
 
-The source code for this mode is contained in the :mod:`pyts.runConfig` package.
+The source code for this mode is contained in the :mod:`pyts.runInput` package.
 
 2) Advanced programming interface (API)
 ---------------------------------------

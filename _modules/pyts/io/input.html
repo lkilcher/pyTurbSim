@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.io.input &mdash; PyTurbSim 0.4.6 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.4.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="top" title="PyTurbSim 0.4.6 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyts.io.input</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module is for reading/writing PyTurbSim input (.inp) files.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="kn">from</span> <span class="nn">pyts</span> <span class="kn">import</span> <span class="n">_version</span> <span class="k">as</span> <span class="n">ver</span>
+<span class="kn">from</span> <span class="nn">pyts.runInput.base</span> <span class="kn">import</span> <span class="n">tsinput</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pyts.base</span> <span class="kn">import</span> <span class="n">ts_float</span>
+<span class="kn">from</span> <span class="nn">pyts.io.formatter</span> <span class="kn">import</span> <span class="n">SuperFormatter</span>
+
+
+<div class="viewcode-block" id="InputFormatter"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.input.InputFormatter">[docs]</a><span class="k">class</span> <span class="nc">InputFormatter</span><span class="p">(</span><span class="n">SuperFormatter</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This formatter is defined to format/parse the templates/inp</span>
+<span class="sd">    file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">format_prfx</span> <span class="o">=</span> <span class="s">&#39;&lt;20&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_format_qs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The &quot;quote string&quot; format specifier.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="s">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">+=</span> <span class="s">&#39;&quot;&#39;</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">_format_bool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">__repr__</span><span class="p">(),</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">format_prfx</span> <span class="o">+</span> <span class="s">&#39;s&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_format_dec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">long</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_prfx</span> <span class="o">+</span> <span class="s">&#39;.2g&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="s">&#39;&quot;</span><span class="si">%0.2f</span><span class="s"> </span><span class="si">%0.2f</span><span class="s">&quot;&#39;</span> <span class="o">%</span> <span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_prfx</span> <span class="o">+</span> <span class="s">&#39;s&#39;</span><span class="p">)</span>
+
+
+<span class="c"># This is the input-file template object:</span></div>
+<span class="n">template</span> <span class="o">=</span> <span class="n">InputFormatter</span><span class="p">(</span>
+    <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_string</span><span class="p">(</span><span class="n">ver</span><span class="o">.</span><span class="n">pkg_name</span><span class="p">,</span>
+                                  <span class="s">&#39;io/templates/inp&#39;</span><span class="p">))</span>
+
+
+<span class="n">inputfile_form</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ln</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">ln</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;{&#39;</span><span class="p">):</span>
+        <span class="n">nm</span> <span class="o">=</span> <span class="n">ln</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;!&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">inputfile_form</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">nm</span>
+
+
+<div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.input.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">in_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write an input file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">outstr</span> <span class="o">=</span> <span class="n">template</span><span class="p">(</span><span class="o">**</span><span class="n">in_dict</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfl</span><span class="p">:</span>
+        <span class="n">outfl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">outstr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">outstr</span>
+
+</div>
+<div class="viewcode-block" id="read"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.input.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read a TurbSim input (.inp) file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname   :   str</span>
+<span class="sd">                The filename to read from.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tsinput  :   :class:`.tsinput`, dict</span>
+<span class="sd">                A PyTurbSim input dictionary.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># TurbSim input files are static:</span>
+    <span class="c">#   Variable are determined by line number.</span>
+    <span class="c">#   Only the first string on the line matters.</span>
+    <span class="c">#   All else is commenting.</span>
+    <span class="c">#   Therefore we simply assign variables by line number.</span>
+    <span class="n">ril</span> <span class="o">=</span> <span class="n">_readInputLine</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">tsinput</span><span class="p">()</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">fname</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProfile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="k">as</span> <span class="n">fl</span><span class="p">:</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;header&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c"># Header line at top of file.</span>
+    <span class="c"># (Sometimes used to indicate the files specific use)</span>
+    <span class="c"># Deal the data from the file:</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ln</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dat</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">inputfile_form</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">inputfile_form</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span> <span class="o">=</span> <span class="n">ril</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="c"># Customize the input fields for pyTurbSim...</span>
+    <span class="k">if</span> <span class="n">out</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> \
+       <span class="n">out</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;RANLUX&#39;</span><span class="p">:</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;RandSeed2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;IncDec1&#39;</span><span class="p">,</span> <span class="s">&#39;IncDec2&#39;</span><span class="p">,</span> <span class="s">&#39;IncDec3&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="c"># This allows strings that don&#39;t convert to pass through.</span>
+                    <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">70</span> <span class="ow">and</span> <span class="n">dat</span><span class="p">[</span><span class="mi">64</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;NumUSRz&#39;</span><span class="p">:</span>
+        <span class="c"># This file has a user-defined profile.</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;NumUSRz&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_U&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">])</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_Ang&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">])</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_Std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">])</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_L&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">&#39;NumUSRz&#39;</span><span class="p">]):</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="mi">72</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_H&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts_float</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_U&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts_float</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_Ang&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts_float</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_Std&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts_float</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProf_L&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts_float</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;UserProfile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">fls</span> <span class="o">=</span> <span class="n">listdir</span><span class="p">(</span><span class="n">fname</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">fl</span> <span class="ow">in</span> <span class="p">[</span><span class="n">fname</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;_Spec.inp&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;UsrSpec.inp&#39;</span><span class="p">,</span> <span class="p">]:</span>
+            <span class="k">if</span> <span class="n">fl</span> <span class="ow">in</span> <span class="n">fls</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;psd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">readInPSD</span><span class="p">(</span><span class="n">fname</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">fl</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ky</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s">&#39;default&#39;</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">__original__</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+</div>
+<span class="k">def</span> <span class="nf">_readInputLine</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function parses data from input file lines and returns it as the</span>
+<span class="sd">    correct &#39;type&#39; (e.g. int, float, bool, str).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;&quot;&#39;</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;&#39;&quot;</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;&#39;&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s">&#39;default&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">types</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">tmp</span> <span class="o">==</span> <span class="s">&#39;false&#39;</span> <span class="ow">or</span> <span class="n">tmp</span> <span class="o">==</span> <span class="s">&#39;true&#39;</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">tmp</span> <span class="o">==</span> <span class="s">&#39;true&#39;</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="n">idx</span><span class="p">](</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">types</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">out</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">out</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">):</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">out</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<div class="viewcode-block" id="readInPSD"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.input.readInPSD">[docs]</a><span class="k">def</span> <span class="nf">readInPSD</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read the input spectrum from file *fname*, and return it as a</span>
+<span class="sd">    dictionary.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname :     str</span>
+<span class="sd">                The filename to read the PSD from.</span>
+
+<span class="sd">    The frequency in the input file should be in units of hz, and the</span>
+<span class="sd">    spectrum should be in units of m^2/s^2/hz.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ril</span> <span class="o">=</span> <span class="n">_readInputLine</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">fname</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="k">as</span> <span class="n">fl</span><span class="p">:</span>
+            <span class="n">dat</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">NumUSRf</span> <span class="o">=</span> <span class="n">ril</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">SpecScale1</span> <span class="o">=</span> <span class="n">ril</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">SpecScale2</span> <span class="o">=</span> <span class="n">ril</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+    <span class="n">SpecScale3</span> <span class="o">=</span> <span class="n">ril</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">NumUSRf</span><span class="p">,</span> <span class="o">**</span><span class="n">ts_float</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;Suu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">NumUSRf</span><span class="p">,</span> <span class="o">**</span><span class="n">ts_float</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;Svv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">NumUSRf</span><span class="p">,</span> <span class="o">**</span><span class="n">ts_float</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;Sww&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">NumUSRf</span><span class="p">,</span> <span class="o">**</span><span class="n">ts_float</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">NumUSRf</span><span class="p">):</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">11</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;Suu&#39;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;Svv&#39;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s">&#39;Sww&#39;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;Suu&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">SpecScale1</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;Svv&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">SpecScale2</span>
+    <span class="n">out</span><span class="p">[</span><span class="s">&#39;Sww&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">SpecScale3</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">dict_diff</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">d1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">d2</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">d2</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span> <span class="o">==</span> <span class="n">d1</span><span class="p">[</span><span class="n">ky</span><span class="p">]:</span>
+                    <span class="n">out</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">d1</span><span class="p">[</span><span class="n">ky</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39; - &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">d2</span><span class="p">[</span><span class="n">ky</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">d1</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">d2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ky</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d1</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">d2</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="n">dout</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">PC_UW</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">URef</span><span class="o">=</span><span class="mf">19.3</span><span class="p">,</span>
+        <span class="n">RandSeed1</span><span class="o">=</span><span class="mi">34728904</span><span class="p">,</span>
+        <span class="n">RandSeed2</span><span class="o">=</span><span class="mi">34728904</span><span class="p">,</span>
+        <span class="n">WrBHHTP</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">WrADHH</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">NumGrid_Z</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">NumGrid_Y</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">TimeStep</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">AnalysisTime</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+        <span class="n">UsableTime</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+        <span class="n">HubHt</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+        <span class="n">GridHeight</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+        <span class="n">GridWidth</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+        <span class="n">TurbModel</span><span class="o">=</span><span class="s">&#39;SMOOTH&#39;</span><span class="p">,</span>
+        <span class="n">RefHt</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+        <span class="n">IncDec1</span><span class="o">=</span><span class="p">(</span><span class="mf">10.444</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span>
+        <span class="n">IncDec2</span><span class="o">=</span><span class="mi">10</span>
+        <span class="p">)</span>
+
+    <span class="n">fl</span> <span class="o">=</span> <span class="n">write</span><span class="p">(</span><span class="s">&#39;tmp/testfile.inp&#39;</span><span class="p">,</span> <span class="n">dout</span><span class="p">)</span>
+
+    <span class="c">## print dict_diff(inputfile_form, ifile_form_old)</span>
+
+    <span class="n">dnew</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="s">&#39;tmp/testfile.inp&#39;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2014, National Renewable Energy Lab.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

@@ -12,10 +12,10 @@ pyts.phaseModels.api module
     :undoc-members:
     :show-inheritance:
 
-pyts.phaseModels.mBase module
------------------------------
+pyts.phaseModels.base module
+----------------------------
 
-.. automodule:: pyts.phaseModels.mBase
+.. automodule:: pyts.phaseModels.base
     :members:
     :undoc-members:
     :show-inheritance:

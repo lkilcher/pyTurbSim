@@ -10,7 +10,6 @@ Begin by importing |pyts| and its :mod:`.plot` package::
 
   import pyts.api as pyts
   import pyts.plot.api as plt
-  from matplotlib.pylab import show
 
 Generate some |pyts| data
 -------------------------
@@ -45,7 +44,7 @@ you wish to simulate, and run PyTurbSim (by calling ``tsr``)::
   # Run PyTurbSim:
   out = tsr()
 
-That's it! ``out`` now contains a :class:`.tsData` object which holds
+That's it! ``out`` now contains a :class:`.tsdata` object which holds
 the output of the PyTurbSim run ``tsr``.
 
 Basic plotting
@@ -91,7 +90,7 @@ But what if you want to plot more than just the mean velocity profile and the sp
                              nfft=1024,
                              )
 
-Here we are selecting different 'axes forms' types from the :mod:`pyts.plot.axform` module.  Each of these :class:`.axesForms` objects can be customized to control various properties of the axes.
+Here we are selecting different 'axes forms' types from the :mod:`pyts.plot.axform` module.  Each of these :class:`.axesForm` objects can be customized to control various properties of the axes.
 
 In this case, we are seeking to plot the mean velocity profile, the turbulent energy profiles, the stress profiles, the spectra and the coherence. That's a lot of information! Fortunately, all of these statistics can be computed for our PyTurbSim output, and run. You may also notice that we have also specified ``nfft=1024``, which tells the plotter to use that number of points when computing ``spec`` and ``cohere``.
 

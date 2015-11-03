@@ -32,3 +32,19 @@ a) install it into your Python packages repository by executing the setup.py scr
      $ python setup.py install
 
 b) use it out of `<download_location>`.
+
+
+Windows Installation Issues
+---------------------------
+
+I have encountered various issues related to compiling the Fortran source code when installing on Windows. If you recieve the dreaded `unable to find vcvarsall.bat` message, there are widely recommended solutions summarized as answers to `this Stack Overflow Question <http://stackoverflow.com/questions/2817869/error-unable-to-find-vcvarsall-bat>`_, but I've only gotten `the one that involves creating/editing the 'distutils.cfg' file <http://stackoverflow.com/a/2838827/2121597>`_ to work for me. Note that I used `pip` to install this tool, rather than using `easy_install`, as suggested in that post.
+
+The other solution, which implicitly assumes you have `MS Visual Studio <https://www.visualstudio.com/>`_ installed, has led to other errors for me::
+
+    gfortran.lib(backtrace.o) : error LNK2019: unresolved external symbol __Unwind_GetIpInfo referenced in function _trace_function`
+
+    gfortran.lib(backtrace.o) : error LNK2019: unresolved external symbol __Unwind_Backtrace referenced in function __gfortran_backtrace
+
+I think this is a result of the compile steps being completed by `gfortran`, and the linking step is being done by MSVS' `link.exe`.
+
+If you encounter other issues installing this tool on Windows, feel free to `create an issue <https://github.com/lkilcher/pyTurbSim/issues>`_.

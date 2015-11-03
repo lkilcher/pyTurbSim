@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.cohereModels package &mdash; PyTurbSim 0.4.2 documentation</title>
+    <title>pyts.cohereModels package &mdash; PyTurbSim 0.4.6 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.4.2',
+        VERSION:     '0.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,15 +23,15 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.6 documentation" href="../index.html" />
     <link rel="up" title="pyts package" href="pyts.html" />
     <link rel="next" title="pyts.gui package" href="pyts.gui.html" />
     <link rel="prev" title="pyts package" href="pyts.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,23 +41,20 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="pyts.gui.html" title="pyts.gui package"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="pyts.html" title="pyts package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
-          <li><a href="pyts.html" accesskey="U">pyts package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="pyts.html" accesskey="U">pyts package</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="pyts-coheremodels-package">
 <h1>pyts.cohereModels package<a class="headerlink" href="#pyts-coheremodels-package" title="Permalink to this headline">¶</a></h1>
@@ -86,27 +83,27 @@ velocity for all pairs of points in the grid.</p>
 <div class="section" id="available-coherence-models">
 <h3>Available coherence models<a class="headerlink" href="#available-coherence-models" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
-<dt><a class="reference internal" href="#pyts.cohereModels.main.iec" title="pyts.cohereModels.main.iec"><tt class="xref py py-class docutils literal"><span class="pre">main.iec</span></tt></a> (alias: iec)</dt>
+<dt><a class="reference internal" href="#pyts.cohereModels.main.iec" title="pyts.cohereModels.main.iec"><code class="xref py py-class docutils literal"><span class="pre">main.iec</span></code></a> (alias: iec)</dt>
 <dd>The IEC spatial coherence model</dd>
-<dt><a class="reference internal" href="#pyts.cohereModels.main.nwtc" title="pyts.cohereModels.main.nwtc"><tt class="xref py py-class docutils literal"><span class="pre">main.nwtc</span></tt></a> (alias: nwtc)</dt>
+<dt><a class="reference internal" href="#pyts.cohereModels.main.nwtc" title="pyts.cohereModels.main.nwtc"><code class="xref py py-class docutils literal"><span class="pre">main.nwtc</span></code></a> (alias: nwtc)</dt>
 <dd>The NWTC &#8216;non-IEC&#8217; coherence model.</dd>
-<dt><a class="reference internal" href="#pyts.cohereModels.main.none" title="pyts.cohereModels.main.none"><tt class="xref py py-class docutils literal"><span class="pre">main.none</span></tt></a> (alias: none)</dt>
+<dt><a class="reference internal" href="#pyts.cohereModels.main.none" title="pyts.cohereModels.main.none"><code class="xref py py-class docutils literal"><span class="pre">main.none</span></code></a> (alias: none)</dt>
 <dd>A &#8216;no coherence&#8217; model.</dd>
-<dt><a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase" title="pyts.cohereModels.mBase.cohereModelBase"><tt class="xref py py-class docutils literal"><span class="pre">cohereModelBase</span></tt></a></dt>
+<dt><a class="reference internal" href="#pyts.cohereModels.base.cohereModelBase" title="pyts.cohereModels.base.cohereModelBase"><code class="xref py py-class docutils literal"><span class="pre">cohereModelBase</span></code></a></dt>
 <dd>This is the base class for coherence models. To create a new one,
 subclass this class or subclass and modify an existing coherence
 model.</dd>
-<dt><a class="reference internal" href="#pyts.cohereModels.mBase.cohereObj" title="pyts.cohereModels.mBase.cohereObj"><tt class="xref py py-class docutils literal"><span class="pre">cohereObj</span></tt></a></dt>
+<dt><a class="reference internal" href="#pyts.cohereModels.base.cohereModelBase.cohereObj" title="pyts.cohereModels.base.cohereModelBase.cohereObj"><code class="xref py py-class docutils literal"><span class="pre">cohereObj</span></code></a></dt>
 <dd>This is the &#8216;coherence object&#8217; class.  All coherence model <cite>__call__</cite>
-methods must take a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><tt class="xref py py-class docutils literal"><span class="pre">tsrun</span></tt></a> as input and
+methods must take a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a> as input and
 return this class.</dd>
 </dl>
 <p>Further details on creating your own coherence model, can be found in
-<a class="reference internal" href="#module-pyts.cohereModels.mBase" title="pyts.cohereModels.mBase"><tt class="xref py py-mod docutils literal"><span class="pre">pyts.cohereModels.mBase</span></tt></a> documentation.</p>
+<a class="reference internal" href="#module-pyts.cohereModels.base" title="pyts.cohereModels.base"><code class="xref py py-mod docutils literal"><span class="pre">pyts.cohereModels.base</span></code></a> documentation.</p>
 </div>
 </div>
-<div class="section" id="module-pyts.cohereModels.mBase">
-<span id="pyts-coheremodels-mbase-module"></span><h2>pyts.cohereModels.mBase module<a class="headerlink" href="#module-pyts.cohereModels.mBase" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pyts.cohereModels.base">
+<span id="pyts-coheremodels-base-module"></span><h2>pyts.cohereModels.base module<a class="headerlink" href="#module-pyts.cohereModels.base" title="Permalink to this headline">¶</a></h2>
 <p>This is the coherence package&#8217;s base module.</p>
 <p>The coherence models work somewhat different than other packages. In
 particular, rather than storing the full coherence matrix in an array,
@@ -120,9 +117,9 @@ these classes, they have been kept separate to maintain the PyTurbSim
 coherence independent of the grid, while the &#8216;object&#8217; is specific to
 the grid.</p>
 <dl class="class">
-<dt id="pyts.cohereModels.mBase.cohereModelBase">
-<em class="property">class </em><tt class="descclassname">pyts.cohereModels.mBase.</tt><tt class="descname">cohereModelBase</tt><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereModelBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereModelBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.modelBase" title="pyts.base.modelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.modelBase</span></tt></a>, <a class="reference internal" href="pyts.html#pyts.base.gridProps" title="pyts.base.gridProps"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.gridProps</span></tt></a></p>
+<dt id="pyts.cohereModels.base.cohereModelBase">
+<em class="property">class </em><code class="descclassname">pyts.cohereModels.base.</code><code class="descname">cohereModelBase</code><a class="reference internal" href="../_modules/pyts/cohereModels/base.html#cohereModelBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.base.cohereModelBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.modelBase" title="pyts.base.modelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.modelBase</span></code></a>, <a class="reference internal" href="pyts.html#pyts.base.gridProps" title="pyts.base.gridProps"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.gridProps</span></code></a></p>
 <p class="rubric">Examples</p>
 <p>When a coherence model class is called, it returns a &#8216;coherence
 model instance&#8217; (as expected) e.g.
@@ -137,8 +134,8 @@ e.g.
 coh=cm(tsr)</p>
 <p>Where tsr is a &#8216;tsrun&#8217; object.</p>
 <dl class="method">
-<dt id="pyts.cohereModels.mBase.cohereModelBase.__call__">
-<tt class="descname">__call__</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereModelBase.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereModelBase.__call__" title="Permalink to this definition">¶</a></dt>
+<dt id="pyts.cohereModels.base.cohereModelBase.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/base.html#cohereModelBase.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.base.cohereModelBase.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the coherence matrix for TurbSim run <cite>tsrun</cite> according to this
 coherence model. The grid, profile and spectrum (tsrun.grid, tsrun.prof,
 tsrun.spec) must already be defined for the tsrun.</p>
@@ -146,21 +143,21 @@ tsrun.spec) must already be defined for the tsrun.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsrun - A &#8216;TurbSim run&#8217; object that contains the grid, prof and spec</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsrun - A &#8216;TurbSim run&#8217; object that contains the grid, prof and spec</strong></p>
 <blockquote>
 <div><p>attributes.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>A coherence instance (array or &#8216;calculator&#8217;), e.g.</strong> :</p>
-<p><strong>cohi=thisCohereModel(tsrun)</strong> :</p>
-<p><strong>The coherence instance is either an array of the full</strong> :</p>
-<p><strong>cross-spectral matrix (3 x n_p x n_p x n_f), or a &#8216;calculator&#8217; that returns</strong> :</p>
-<p><strong>the components of that array. Either way, the components of the cross-spectral</strong> :</p>
-<p><strong>matrix (csm) can be obtained from</strong> :</p>
-<p><strong>csm_u=cohi[0]</strong> :</p>
-<p><strong>csm_v=cohi[1]</strong> :</p>
-<p class="last"><strong>csm_w=cohi[2]</strong> :</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A coherence instance (array or &#8216;calculator&#8217;), e.g.</p>
+<p>cohi=thisCohereModel(tsrun)</p>
+<p>The coherence instance is either an array of the full</p>
+<p>cross-spectral matrix (3 x n_p x n_p x n_f), or a &#8216;calculator&#8217; that returns</p>
+<p>the components of that array. Either way, the components of the cross-spectral</p>
+<p>matrix (csm) can be obtained from</p>
+<p>csm_u=cohi[0]</p>
+<p>csm_v=cohi[1]</p>
+<p class="last">csm_w=cohi[2]</p>
 </td>
 </tr>
 </tbody>
@@ -168,9 +165,9 @@ tsrun.spec) must already be defined for the tsrun.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="pyts.cohereModels.mBase.cohereModelBase.cohereObj">
-<em class="property">class </em><tt class="descname">cohereObj</tt><big>(</big><em>tsrun</em><big>)</big><a class="headerlink" href="#pyts.cohereModels.mBase.cohereModelBase.cohereObj" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.gridProps" title="pyts.base.gridProps"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.gridProps</span></tt></a>, <a class="reference internal" href="pyts.html#pyts.base.calcObj" title="pyts.base.calcObj"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.calcObj</span></tt></a></p>
+<dt id="pyts.cohereModels.base.cohereModelBase.cohereObj">
+<em class="property">class </em><code class="descname">cohereObj</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="headerlink" href="#pyts.cohereModels.base.cohereModelBase.cohereObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.gridProps" title="pyts.base.gridProps"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.gridProps</span></code></a>, <a class="reference internal" href="pyts.html#pyts.base.calcObj" title="pyts.base.calcObj"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.calcObj</span></code></a></p>
 <p>This &#8216;cohereObj&#8217; class operate somewhat differently than &#8216;xxxObj&#8217;s
 in other packages (profObj,specObj,stressObj). In particular,
 cohereObj does not store the &#8216;array&#8217; of coherence internally by
@@ -196,8 +193,8 @@ amounts of memory.</p>
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="pyts.cohereModels.mBase.cohereModelBase.cohereObj.array">
-<tt class="descname">array</tt><a class="headerlink" href="#pyts.cohereModels.mBase.cohereModelBase.cohereObj.array" title="Permalink to this definition">¶</a></dt>
+<dt id="pyts.cohereModels.base.cohereModelBase.cohereObj.array">
+<code class="descname">array</code><a class="headerlink" href="#pyts.cohereModels.base.cohereModelBase.cohereObj.array" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property computes and returns the full coherence array.</p>
 <p>This array utilizes significant memory (3 x np x np x nf) and
 should be avoided unless needed.  By default PyTurbSim
@@ -208,8 +205,8 @@ grid-points or timesteps.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pyts.cohereModels.mBase.cohereModelBase.cohereObj.calcCoh">
-<tt class="descname">calcCoh</tt><big>(</big><em>f</em>, <em>comp</em>, <em>ii</em>, <em>jj</em><big>)</big><a class="headerlink" href="#pyts.cohereModels.mBase.cohereModelBase.cohereObj.calcCoh" title="Permalink to this definition">¶</a></dt>
+<dt id="pyts.cohereModels.base.cohereModelBase.cohereObj.calcCoh">
+<code class="descname">calcCoh</code><span class="sig-paren">(</span><em>f</em>, <em>comp</em>, <em>ii</em>, <em>jj</em><span class="sig-paren">)</span><a class="headerlink" href="#pyts.cohereModels.base.cohereModelBase.cohereObj.calcCoh" title="Permalink to this definition">¶</a></dt>
 <dd><p>THIS IS A PLACEHOLDER METHOD WHICH SHOULD BE OVER-WRITTEN FOR ALL SUB-CLASSES
 OF cohereModelBase. THIS METHOD ONLY RAISES AN ERROR.</p>
 <p>A functioning version of this method (i.e. in a subclass of cohereModelBase)
@@ -235,8 +232,8 @@ should return the a length-n_f vector that is the coherence between point
 </dd></dl>
 
 <dl class="method">
-<dt id="pyts.cohereModels.mBase.cohereModelBase.cohereObj.calc_phases">
-<tt class="descname">calc_phases</tt><big>(</big><em>phases</em><big>)</big><a class="headerlink" href="#pyts.cohereModels.mBase.cohereModelBase.cohereObj.calc_phases" title="Permalink to this definition">¶</a></dt>
+<dt id="pyts.cohereModels.base.cohereModelBase.cohereObj.calc_phases">
+<code class="descname">calc_phases</code><span class="sig-paren">(</span><em>phases</em><span class="sig-paren">)</span><a class="headerlink" href="#pyts.cohereModels.base.cohereModelBase.cohereObj.calc_phases" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the <cite>correlated phases</cite> for each grid-point from the
 input <cite>phases</cite> based on the coherence function of this
 coherence object.</p>
@@ -254,7 +251,7 @@ point for each frequency.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np,nf)</p>
 <blockquote class="last">
 <div><p>The correlated phases according to this cohereObj&#8217;s
-coherence model (see <a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase.cohereObj.calcCoh" title="pyts.cohereModels.mBase.cohereModelBase.cohereObj.calcCoh"><tt class="xref py py-meth docutils literal"><span class="pre">calcCoh()</span></tt></a>).</p>
+coherence model (see <a class="reference internal" href="#pyts.cohereModels.base.cohereModelBase.cohereObj.calcCoh" title="pyts.cohereModels.base.cohereModelBase.cohereObj.calcCoh"><code class="xref py py-meth docutils literal"><span class="pre">calcCoh()</span></code></a>).</p>
 </div></blockquote>
 </td>
 </tr>
@@ -263,7 +260,7 @@ coherence model (see <a class="reference internal" href="#pyts.cohereModels.mBas
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase.cohereObj.calcCoh" title="pyts.cohereModels.mBase.cohereModelBase.cohereObj.calcCoh"><tt class="xref py py-obj docutils literal"><span class="pre">calcCoh</span></tt></a></dt>
+<dt><a class="reference internal" href="#pyts.cohereModels.base.cohereModelBase.cohereObj.calcCoh" title="pyts.cohereModels.base.cohereModelBase.cohereObj.calcCoh"><code class="xref py py-obj docutils literal"><span class="pre">calcCoh</span></code></a></dt>
 <dd>computes the coherence for individual grid-point pairs.</dd>
 </dl>
 </div>
@@ -279,9 +276,9 @@ be defined explicitly for all sub-classes of this class.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="pyts.cohereModels.mBase.cohereObj">
-<em class="property">class </em><tt class="descclassname">pyts.cohereModels.mBase.</tt><tt class="descname">cohereObj</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereObj" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.gridProps" title="pyts.base.gridProps"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.gridProps</span></tt></a>, <a class="reference internal" href="pyts.html#pyts.base.calcObj" title="pyts.base.calcObj"><tt class="xref py py-class docutils literal"><span class="pre">pyts.base.calcObj</span></tt></a></p>
+<dt id="pyts.cohereModels.base.cohereObj">
+<em class="property">class </em><code class="descclassname">pyts.cohereModels.base.</code><code class="descname">cohereObj</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/base.html#cohereObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.base.cohereObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.gridProps" title="pyts.base.gridProps"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.gridProps</span></code></a>, <a class="reference internal" href="pyts.html#pyts.base.calcObj" title="pyts.base.calcObj"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.calcObj</span></code></a></p>
 <p>This &#8216;cohereObj&#8217; class operate somewhat differently than &#8216;xxxObj&#8217;s
 in other packages (profObj,specObj,stressObj). In particular,
 cohereObj does not store the &#8216;array&#8217; of coherence internally by
@@ -307,8 +304,8 @@ amounts of memory.</p>
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="pyts.cohereModels.mBase.cohereObj.array">
-<tt class="descname">array</tt><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereObj.array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereObj.array" title="Permalink to this definition">¶</a></dt>
+<dt id="pyts.cohereModels.base.cohereObj.array">
+<code class="descname">array</code><a class="headerlink" href="#pyts.cohereModels.base.cohereObj.array" title="Permalink to this definition">¶</a></dt>
 <dd><p>This property computes and returns the full coherence array.</p>
 <p>This array utilizes significant memory (3 x np x np x nf) and
 should be avoided unless needed.  By default PyTurbSim
@@ -319,8 +316,8 @@ grid-points or timesteps.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pyts.cohereModels.mBase.cohereObj.calcCoh">
-<tt class="descname">calcCoh</tt><big>(</big><em>f</em>, <em>comp</em>, <em>ii</em>, <em>jj</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereObj.calcCoh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereObj.calcCoh" title="Permalink to this definition">¶</a></dt>
+<dt id="pyts.cohereModels.base.cohereObj.calcCoh">
+<code class="descname">calcCoh</code><span class="sig-paren">(</span><em>f</em>, <em>comp</em>, <em>ii</em>, <em>jj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/base.html#cohereObj.calcCoh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.base.cohereObj.calcCoh" title="Permalink to this definition">¶</a></dt>
 <dd><p>THIS IS A PLACEHOLDER METHOD WHICH SHOULD BE OVER-WRITTEN FOR ALL SUB-CLASSES
 OF cohereModelBase. THIS METHOD ONLY RAISES AN ERROR.</p>
 <p>A functioning version of this method (i.e. in a subclass of cohereModelBase)
@@ -346,8 +343,8 @@ should return the a length-n_f vector that is the coherence between point
 </dd></dl>
 
 <dl class="method">
-<dt id="pyts.cohereModels.mBase.cohereObj.calc_phases">
-<tt class="descname">calc_phases</tt><big>(</big><em>phases</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereObj.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereObj.calc_phases" title="Permalink to this definition">¶</a></dt>
+<dt id="pyts.cohereModels.base.cohereObj.calc_phases">
+<code class="descname">calc_phases</code><span class="sig-paren">(</span><em>phases</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/base.html#cohereObj.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.base.cohereObj.calc_phases" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the <cite>correlated phases</cite> for each grid-point from the
 input <cite>phases</cite> based on the coherence function of this
 coherence object.</p>
@@ -365,7 +362,7 @@ point for each frequency.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np,nf)</p>
 <blockquote class="last">
 <div><p>The correlated phases according to this cohereObj&#8217;s
-coherence model (see <a class="reference internal" href="#pyts.cohereModels.mBase.cohereObj.calcCoh" title="pyts.cohereModels.mBase.cohereObj.calcCoh"><tt class="xref py py-meth docutils literal"><span class="pre">calcCoh()</span></tt></a>).</p>
+coherence model (see <a class="reference internal" href="#pyts.cohereModels.base.cohereObj.calcCoh" title="pyts.cohereModels.base.cohereObj.calcCoh"><code class="xref py py-meth docutils literal"><span class="pre">calcCoh()</span></code></a>).</p>
 </div></blockquote>
 </td>
 </tr>
@@ -374,7 +371,7 @@ coherence model (see <a class="reference internal" href="#pyts.cohereModels.mBas
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference internal" href="#pyts.cohereModels.mBase.cohereObj.calcCoh" title="pyts.cohereModels.mBase.cohereObj.calcCoh"><tt class="xref py py-obj docutils literal"><span class="pre">calcCoh</span></tt></a></dt>
+<dt><a class="reference internal" href="#pyts.cohereModels.base.cohereObj.calcCoh" title="pyts.cohereModels.base.cohereObj.calcCoh"><code class="xref py py-obj docutils literal"><span class="pre">calcCoh</span></code></a></dt>
 <dd>computes the coherence for individual grid-point pairs.</dd>
 </dl>
 </div>
@@ -388,9 +385,9 @@ be defined explicitly for all sub-classes of this class.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="pyts.cohereModels.mBase.cohereUser">
-<em class="property">class </em><tt class="descclassname">pyts.cohereModels.mBase.</tt><tt class="descname">cohereUser</tt><big>(</big><em>array</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereUser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereUser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.mBase.cohereObj" title="pyts.cohereModels.mBase.cohereObj"><tt class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.mBase.cohereObj</span></tt></a></p>
+<dt id="pyts.cohereModels.base.cohereUser">
+<em class="property">class </em><code class="descclassname">pyts.cohereModels.base.</code><code class="descname">cohereUser</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/base.html#cohereUser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.base.cohereUser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.base.cohereObj" title="pyts.cohereModels.base.cohereObj"><code class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.base.cohereObj</span></code></a></p>
 <p>Specify the coherence explicitly as an array.</p>
 <p>The array must have the dimensions 3 x np x np x nf, where np
 is the number of points in the grid, and nf is the number of
@@ -407,8 +404,8 @@ ordering of the TurbSim grid.  See the tsGrid classes
 &#8216;sub2ind&#8217;, &#8216;ind2sub&#8217;, &#8216;flatten&#8217; and &#8216;reshape&#8217; methods for more
 details on this.</p>
 <dl class="method">
-<dt id="pyts.cohereModels.mBase.cohereUser.calc_phases">
-<tt class="descname">calc_phases</tt><big>(</big><em>phases</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/mBase.html#cohereUser.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.mBase.cohereUser.calc_phases" title="Permalink to this definition">¶</a></dt>
+<dt id="pyts.cohereModels.base.cohereUser.calc_phases">
+<code class="descname">calc_phases</code><span class="sig-paren">(</span><em>phases</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/base.html#cohereUser.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.base.cohereUser.calc_phases" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute and set the full cross-spectral matrix for component
 <em>comp</em> for &#8216;coherence calculator&#8217; instance <em>cohi</em>.</p>
 <p>This method should not be called explicitly.  It is called by
@@ -427,11 +424,11 @@ nwtc - The NWTC &#8216;non-IEC&#8217; coherence model.
 iec  - The IEC coherence model.</p>
 <dl class="class">
 <dt id="pyts.cohereModels.main.cohereObjIEC">
-<em class="property">class </em><tt class="descclassname">pyts.cohereModels.main.</tt><tt class="descname">cohereObjIEC</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjIEC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjIEC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.mBase.cohereObj" title="pyts.cohereModels.mBase.cohereObj"><tt class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.mBase.cohereObj</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">pyts.cohereModels.main.</code><code class="descname">cohereObjIEC</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjIEC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjIEC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.base.cohereObj" title="pyts.cohereModels.base.cohereObj"><code class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.base.cohereObj</span></code></a></p>
 <dl class="method">
 <dt id="pyts.cohereModels.main.cohereObjIEC.calcCoh">
-<tt class="descname">calcCoh</tt><big>(</big><em>f</em>, <em>comp</em>, <em>ii</em>, <em>jj</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjIEC.calcCoh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjIEC.calcCoh" title="Permalink to this definition">¶</a></dt>
+<code class="descname">calcCoh</code><span class="sig-paren">(</span><em>f</em>, <em>comp</em>, <em>ii</em>, <em>jj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjIEC.calcCoh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjIEC.calcCoh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the coherence for a velocity component, between two points.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -464,7 +461,7 @@ the coherence.  for example: ii=(1,3),jj=(2,3)</p>
 
 <dl class="method">
 <dt id="pyts.cohereModels.main.cohereObjIEC.calc_phases">
-<tt class="descname">calc_phases</tt><big>(</big><em>phases</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjIEC.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjIEC.calc_phases" title="Permalink to this definition">¶</a></dt>
+<code class="descname">calc_phases</code><span class="sig-paren">(</span><em>phases</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjIEC.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjIEC.calc_phases" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute and set the full cross-coherence matrix for component
 <em>comp</em> for &#8216;coherence calculator&#8217; instance <em>cohi</em>.</p>
 <p>Compute the coherence array for coherence instance cohi for
@@ -475,11 +472,11 @@ the IEC model.</p>
 
 <dl class="class">
 <dt id="pyts.cohereModels.main.cohereObjNWTC">
-<em class="property">class </em><tt class="descclassname">pyts.cohereModels.main.</tt><tt class="descname">cohereObjNWTC</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNWTC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNWTC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.mBase.cohereObj" title="pyts.cohereModels.mBase.cohereObj"><tt class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.mBase.cohereObj</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">pyts.cohereModels.main.</code><code class="descname">cohereObjNWTC</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNWTC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNWTC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.base.cohereObj" title="pyts.cohereModels.base.cohereObj"><code class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.base.cohereObj</span></code></a></p>
 <dl class="method">
 <dt id="pyts.cohereModels.main.cohereObjNWTC.calcCoh">
-<tt class="descname">calcCoh</tt><big>(</big><em>f</em>, <em>comp</em>, <em>ii</em>, <em>jj</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNWTC.calcCoh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNWTC.calcCoh" title="Permalink to this definition">¶</a></dt>
+<code class="descname">calcCoh</code><span class="sig-paren">(</span><em>f</em>, <em>comp</em>, <em>ii</em>, <em>jj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNWTC.calcCoh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNWTC.calcCoh" title="Permalink to this definition">¶</a></dt>
 <dd><p>The base function for calculating coherence for non-IEC
 spectral models.</p>
 <p>See the TurbSim documentation for further information.</p>
@@ -489,7 +486,7 @@ available.</p>
 
 <dl class="method">
 <dt id="pyts.cohereModels.main.cohereObjNWTC.calc_phases">
-<tt class="descname">calc_phases</tt><big>(</big><em>phases</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNWTC.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNWTC.calc_phases" title="Permalink to this definition">¶</a></dt>
+<code class="descname">calc_phases</code><span class="sig-paren">(</span><em>phases</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNWTC.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNWTC.calc_phases" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the <cite>correlated phases</cite> for each grid-point from the
 input <cite>phases</cite> based on the coherence NWTC &#8216;non-IEC coherence
 model.</p>
@@ -507,7 +504,7 @@ point for each frequency.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>phases</strong> : array_like(np, nf)</p>
 <blockquote class="last">
 <div><p>The correlated phases according to this cohereObj&#8217;s
-coherence model (see <a class="reference internal" href="#pyts.cohereModels.main.cohereObjNWTC.calcCoh" title="pyts.cohereModels.main.cohereObjNWTC.calcCoh"><tt class="xref py py-meth docutils literal"><span class="pre">calcCoh()</span></tt></a>).</p>
+coherence model (see <a class="reference internal" href="#pyts.cohereModels.main.cohereObjNWTC.calcCoh" title="pyts.cohereModels.main.cohereObjNWTC.calcCoh"><code class="xref py py-meth docutils literal"><span class="pre">calcCoh()</span></code></a>).</p>
 </div></blockquote>
 </td>
 </tr>
@@ -516,7 +513,7 @@ coherence model (see <a class="reference internal" href="#pyts.cohereModels.main
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference internal" href="#pyts.cohereModels.main.cohereObjNWTC.calcCoh" title="pyts.cohereModels.main.cohereObjNWTC.calcCoh"><tt class="xref py py-obj docutils literal"><span class="pre">calcCoh</span></tt></a></dt>
+<dt><a class="reference internal" href="#pyts.cohereModels.main.cohereObjNWTC.calcCoh" title="pyts.cohereModels.main.cohereObjNWTC.calcCoh"><code class="xref py py-obj docutils literal"><span class="pre">calcCoh</span></code></a></dt>
 <dd>computes the coherence for individual grid-point pairs.</dd>
 </dl>
 </div>
@@ -529,26 +526,26 @@ a cohereObj instance&#8217;s __call__ method.</p>
 
 <dl class="class">
 <dt id="pyts.cohereModels.main.cohereObjNone">
-<em class="property">class </em><tt class="descclassname">pyts.cohereModels.main.</tt><tt class="descname">cohereObjNone</tt><big>(</big><em>tsrun</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.mBase.cohereObj" title="pyts.cohereModels.mBase.cohereObj"><tt class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.mBase.cohereObj</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">pyts.cohereModels.main.</code><code class="descname">cohereObjNone</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.base.cohereObj" title="pyts.cohereModels.base.cohereObj"><code class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.base.cohereObj</span></code></a></p>
 <p>This is a &#8216;dummy&#8217; coherence object that forces the coherence to
 zero.</p>
 <dl class="method">
 <dt id="pyts.cohereModels.main.cohereObjNone.calcCoh">
-<tt class="descname">calcCoh</tt><big>(</big><em>f</em>, <em>comp</em>, <em>ii</em>, <em>jj</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNone.calcCoh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNone.calcCoh" title="Permalink to this definition">¶</a></dt>
+<code class="descname">calcCoh</code><span class="sig-paren">(</span><em>f</em>, <em>comp</em>, <em>ii</em>, <em>jj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNone.calcCoh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNone.calcCoh" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pyts.cohereModels.main.cohereObjNone.calc_phases">
-<tt class="descname">calc_phases</tt><big>(</big><em>phases</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNone.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNone.calc_phases" title="Permalink to this definition">¶</a></dt>
+<code class="descname">calc_phases</code><span class="sig-paren">(</span><em>phases</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#cohereObjNone.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.cohereObjNone.calc_phases" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="pyts.cohereModels.main.iec">
-<em class="property">class </em><tt class="descclassname">pyts.cohereModels.main.</tt><tt class="descname">iec</tt><big>(</big><em>IECedition=3</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#iec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.iec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase" title="pyts.cohereModels.mBase.cohereModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.mBase.cohereModelBase</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">pyts.cohereModels.main.</code><code class="descname">iec</code><span class="sig-paren">(</span><em>IECedition=3</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#iec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.iec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.base.cohereModelBase" title="pyts.cohereModels.base.cohereModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.base.cohereModelBase</span></code></a></p>
 <p>IEC coherence model.</p>
 <p>This coherence model only include u-component coherence.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -595,13 +592,13 @@ coh=cm(tsr)</p>
 <p>Where tsr is a &#8216;tsrun&#8217; object.</p>
 <dl class="attribute">
 <dt id="pyts.cohereModels.main.iec.cohereObj">
-<tt class="descname">cohereObj</tt><a class="headerlink" href="#pyts.cohereModels.main.iec.cohereObj" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#pyts.cohereModels.main.cohereObjIEC" title="pyts.cohereModels.main.cohereObjIEC"><tt class="xref py py-class docutils literal"><span class="pre">cohereObjIEC</span></tt></a></p>
+<code class="descname">cohereObj</code><a class="headerlink" href="#pyts.cohereModels.main.iec.cohereObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#pyts.cohereModels.main.cohereObjIEC" title="pyts.cohereModels.main.cohereObjIEC"><code class="xref py py-class docutils literal"><span class="pre">cohereObjIEC</span></code></a></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyts.cohereModels.main.iec.set_coefs">
-<tt class="descname">set_coefs</tt><big>(</big><em>cohereObj</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#iec.set_coefs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.iec.set_coefs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_coefs</code><span class="sig-paren">(</span><em>cohereObj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#iec.set_coefs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.iec.set_coefs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize a coherence instance for the IEC coherence model.</p>
 </dd></dl>
 
@@ -609,22 +606,22 @@ coh=cm(tsr)</p>
 
 <dl class="class">
 <dt id="pyts.cohereModels.main.none">
-<em class="property">class </em><tt class="descclassname">pyts.cohereModels.main.</tt><tt class="descname">none</tt><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#none"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.none" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase" title="pyts.cohereModels.mBase.cohereModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.mBase.cohereModelBase</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">pyts.cohereModels.main.</code><code class="descname">none</code><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#none"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.none" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.base.cohereModelBase" title="pyts.cohereModels.base.cohereModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.base.cohereModelBase</span></code></a></p>
 <p>This is a &#8216;dummy&#8217; coherence model that forces the coherence to
 zero.</p>
 <dl class="attribute">
 <dt id="pyts.cohereModels.main.none.cohereObj">
-<tt class="descname">cohereObj</tt><a class="headerlink" href="#pyts.cohereModels.main.none.cohereObj" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#pyts.cohereModels.main.cohereObjNone" title="pyts.cohereModels.main.cohereObjNone"><tt class="xref py py-class docutils literal"><span class="pre">cohereObjNone</span></tt></a></p>
+<code class="descname">cohereObj</code><a class="headerlink" href="#pyts.cohereModels.main.none.cohereObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#pyts.cohereModels.main.cohereObjNone" title="pyts.cohereModels.main.cohereObjNone"><code class="xref py py-class docutils literal"><span class="pre">cohereObjNone</span></code></a></p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="pyts.cohereModels.main.nwtc">
-<em class="property">class </em><tt class="descclassname">pyts.cohereModels.main.</tt><tt class="descname">nwtc</tt><big>(</big><em>a=[None, None, None], b=[0.0, 0.0, 0.0], CohExp=0.0</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#nwtc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.nwtc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.mBase.cohereModelBase" title="pyts.cohereModels.mBase.cohereModelBase"><tt class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.mBase.cohereModelBase</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">pyts.cohereModels.main.</code><code class="descname">nwtc</code><span class="sig-paren">(</span><em>a=[None, None, None], b=[0.0, 0.0, 0.0], CohExp=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#nwtc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.nwtc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.cohereModels.base.cohereModelBase" title="pyts.cohereModels.base.cohereModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.cohereModels.base.cohereModelBase</span></code></a></p>
 <p>NWTC coherence model.</p>
 <p>This is also known as the &#8216;non-IEC&#8217; coherence model.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -677,13 +674,13 @@ coh=cm(tsr)</p>
 <p>Where tsr is a &#8216;tsrun&#8217; object.</p>
 <dl class="attribute">
 <dt id="pyts.cohereModels.main.nwtc.cohereObj">
-<tt class="descname">cohereObj</tt><a class="headerlink" href="#pyts.cohereModels.main.nwtc.cohereObj" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#pyts.cohereModels.main.cohereObjNWTC" title="pyts.cohereModels.main.cohereObjNWTC"><tt class="xref py py-class docutils literal"><span class="pre">cohereObjNWTC</span></tt></a></p>
+<code class="descname">cohereObj</code><a class="headerlink" href="#pyts.cohereModels.main.nwtc.cohereObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#pyts.cohereModels.main.cohereObjNWTC" title="pyts.cohereModels.main.cohereObjNWTC"><code class="xref py py-class docutils literal"><span class="pre">cohereObjNWTC</span></code></a></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyts.cohereModels.main.nwtc.set_coefs">
-<tt class="descname">set_coefs</tt><big>(</big><em>cohereObj</em><big>)</big><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#nwtc.set_coefs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.nwtc.set_coefs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_coefs</code><span class="sig-paren">(</span><em>cohereObj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/cohereModels/main.html#nwtc.set_coefs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.cohereModels.main.nwtc.set_coefs" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method is called by the coherence model __call__ method
 just before returning the coherence instance <em>cohi</em>.</p>
 </dd></dl>
@@ -704,7 +701,7 @@ import pyts.cohereModels.api as cm</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -714,7 +711,7 @@ import pyts.cohereModels.api as cm</p>
 <li><a class="reference internal" href="#available-coherence-models">Available coherence models</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyts.cohereModels.mBase">pyts.cohereModels.mBase module</a></li>
+<li><a class="reference internal" href="#module-pyts.cohereModels.base">pyts.cohereModels.base module</a></li>
 <li><a class="reference internal" href="#module-pyts.cohereModels.main">pyts.cohereModels.main module</a></li>
 <li><a class="reference internal" href="#module-pyts.cohereModels">Module contents</a></li>
 </ul>
@@ -727,12 +724,14 @@ import pyts.cohereModels.api as cm</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="pyts.gui.html"
                         title="next chapter">pyts.gui package</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/api/pyts.cohereModels.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/pyts.cohereModels.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -749,7 +748,7 @@ import pyts.cohereModels.api as cm</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -759,21 +758,18 @@ import pyts.cohereModels.api as cm</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="pyts.gui.html" title="pyts.gui package"
              >next</a> |</li>
         <li class="right" >
           <a href="pyts.html" title="pyts package"
              >previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
-          <li><a href="pyts.html" >pyts package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="pyts.html" >pyts package</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

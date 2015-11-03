@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.runInput.main &mdash; PyTurbSim 0.4.6 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.4.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="top" title="PyTurbSim 0.4.6 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyts.runInput.main</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The &#39;main&#39; module for the PyTurbSim runInput package defines the</span>
+<span class="sd">&#39;run&#39; and &#39;write&#39; routines for performing a TurbSim run and</span>
+<span class="sd">writing-out data.</span>
+
+<span class="sd">Example usage</span>
+<span class="sd">-------------</span>
+
+<span class="sd">First import the PyTurbSim api and runInput package.</span>
+<span class="sd">&gt;&gt;&gt; import pyts.api as pyts</span>
+<span class="sd">&gt;&gt;&gt; import pyts.runInput as runInput</span>
+
+<span class="sd">First create a tsinput object from an input file using the io.input.read function:</span>
+
+<span class="sd">&gt;&gt;&gt; tsinput=pyts.io.input.read(&#39;MyInputFile.inp&#39;)</span>
+
+<span class="sd">Now run PyTurbSim using the runInput &#39;run&#39; function:</span>
+
+<span class="sd">&gt;&gt;&gt; tsdata=runInput.run(tsinput)</span>
+
+<span class="sd">This data can be written to the files specified in the input file</span>
+<span class="sd">(tsinput) using:</span>
+
+<span class="sd">&gt;&gt;&gt; runInput.write(tsdata,tsinput)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">tsGrid</span>
+<span class="kn">from</span> <span class="nn">..main</span> <span class="kn">import</span> <span class="n">tsrun</span>
+<span class="kn">from</span> <span class="nn">..io.input</span> <span class="kn">import</span> <span class="n">read</span> <span class="k">as</span> <span class="n">readInput</span>
+<span class="kn">from</span> <span class="nn">turbModels</span> <span class="kn">import</span> <span class="n">getModel</span> <span class="k">as</span> <span class="n">tm_getModel</span>
+<span class="kn">from</span> <span class="nn">profModels</span> <span class="kn">import</span> <span class="n">getModel</span> <span class="k">as</span> <span class="n">pm_getModel</span>
+
+
+<div class="viewcode-block" id="run_fname"><a class="viewcode-back" href="../../../api/pyts.runInput.html#pyts.runInput.main.run_fname">[docs]</a><span class="k">def</span> <span class="nf">run_fname</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform a PyTurbSim run based on the input file `fname`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname :  str</span>
+<span class="sd">             A TurbSim input file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tsdata :    :class:`tsdata &lt;pyts.main.tsdata&gt;`</span>
+<span class="sd">                A PyTurbSim data object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">inp</span> <span class="o">=</span> <span class="n">readInput</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">run</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../api/pyts.runInput.html#pyts.runInput.main.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform a PyTurbSim run based on the input object `tsinput`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`.tsinput`</span>
+<span class="sd">                A PyTurbSim input object.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tsdata :    :class:`.tsdata`</span>
+<span class="sd">                A PyTurbSim data object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tsr</span> <span class="o">=</span> <span class="n">cfg2tsrun</span><span class="p">(</span><span class="n">tsinput</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tsr</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.runInput.html#pyts.runInput.main.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">tsdat</span><span class="p">,</span> <span class="n">tsinput</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write TurbSim-output to a file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsdat :     :class:`.tsdata`</span>
+<span class="sd">                The PyTurbSim data object to write out.</span>
+<span class="sd">    tsinput :  :class:`.tsinput`</span>
+<span class="sd">                A PyTurbSim input object.</span>
+<span class="sd">    fname :     str, optional</span>
+<span class="sd">                The filename to writeout (default obtained from `tsinput`)</span>
+
+<span class="sd">    This function determines which file-types to writeout (bladed or</span>
+<span class="sd">    TurbSim) from the `tsinput` object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">tsinput</span><span class="o">.</span><span class="n">fname</span>
+    <span class="k">if</span> <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;WrBLFF&#39;</span><span class="p">]:</span>
+        <span class="n">tsdat</span><span class="o">.</span><span class="n">write_bladed</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;WrADFF&#39;</span><span class="p">]:</span>
+        <span class="n">tsdat</span><span class="o">.</span><span class="n">write_turbsim</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">tsdat</span><span class="o">.</span><span class="n">write_sum</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="cfg2grid"><a class="viewcode-back" href="../../../api/pyts.runInput.html#pyts.runInput.main.cfg2grid">[docs]</a><span class="k">def</span> <span class="nf">cfg2grid</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    cfg2grid produces a TurbSim-grid object that matches the</span>
+<span class="sd">    specificitions in the *tsinput* object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`tscfg &lt;.base.tscfg&gt;`</span>
+<span class="sd">                A PyTurbSim input object.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tsgrid :    :class:`tsGrid &lt;pyts.base.tsGrid&gt;`</span>
+<span class="sd">                A PyTurbSim grid object.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">tsGrid</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;HubHt&#39;</span><span class="p">],</span>
+                  <span class="n">ny</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;NumGrid_Y&#39;</span><span class="p">],</span> <span class="n">nz</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;NumGrid_Z&#39;</span><span class="p">],</span>
+                  <span class="n">dt</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;TimeStep&#39;</span><span class="p">],</span>
+                  <span class="n">width</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;GridWidth&#39;</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;GridHeight&#39;</span><span class="p">],</span>
+                  <span class="n">time_sec</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;AnalysisTime&#39;</span><span class="p">],</span>
+                  <span class="n">time_sec_out</span><span class="o">=</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;UsableTime&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;GridWidth&#39;</span><span class="p">]</span>
+                                <span class="o">/</span> <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">]),</span>
+                  <span class="n">clockwise</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;Clockwise&#39;</span><span class="p">])</span>
+
+</div>
+<div class="viewcode-block" id="cfg2tsrun"><a class="viewcode-back" href="../../../api/pyts.runInput.html#pyts.runInput.main.cfg2tsrun">[docs]</a><span class="k">def</span> <span class="nf">cfg2tsrun</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Produce a `tsrun` object that matches the configuration options in</span>
+<span class="sd">    tsinput.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  str</span>
+<span class="sd">                A TurbSim input object.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tsrun :     str</span>
+<span class="sd">                A TurbSim run object with grid, profModel, specModel,</span>
+<span class="sd">                cohereModel and stressModel that match the input</span>
+<span class="sd">                `tsinput` object.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">tsr</span> <span class="o">=</span> <span class="n">tsrun</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;RandSeed&#39;</span><span class="p">])</span>
+
+    <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">cfg2grid</span><span class="p">(</span><span class="n">tsinput</span><span class="p">)</span>
+
+    <span class="n">tsr</span><span class="o">.</span><span class="n">profModel</span> <span class="o">=</span> <span class="n">pm_getModel</span><span class="p">(</span><span class="n">tsinput</span><span class="p">)</span>
+
+    <span class="n">tsr</span><span class="o">.</span><span class="n">specModel</span><span class="p">,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">cohereModel</span><span class="p">,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">stressModel</span> <span class="o">=</span> <span class="n">tm_getModel</span><span class="p">(</span><span class="n">tsinput</span><span class="p">)</span>
+
+    <span class="c"># Store this for use when writing sum files.</span>
+    <span class="n">tsr</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">tsinput</span>
+
+    <span class="k">return</span> <span class="n">tsr</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2014, National Renewable Energy Lab.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

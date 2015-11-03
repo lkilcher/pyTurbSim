@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.runInput.profModels &mdash; PyTurbSim 0.4.6 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.4.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="top" title="PyTurbSim 0.4.6 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyts.runInput.profModels</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains functions for producing the appropriate profile</span>
+<span class="sd">model for a specific TurbSim input object (derived from an input</span>
+<span class="sd">file).</span>
+
+<span class="sd">When a new model is added to the profModels package, it will need a</span>
+<span class="sd">wrapper function here in order to be accessible using input files.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">..profModels</span> <span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">pm</span>
+
+
+<div class="viewcode-block" id="getModel"><a class="viewcode-back" href="../../../api/pyts.runInput.html#pyts.runInput.profModels.getModel">[docs]</a><span class="k">def</span> <span class="nf">getModel</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the wrapper function for all profile models implemented in</span>
+<span class="sd">    the runInput package.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`.tsinput`</span>
+<span class="sd">                A TurbSim input object.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    profModel : A subclass of :class:`.profModelBase`</span>
+<span class="sd">                The appropriately initialized &#39;profile model&#39; object</span>
+<span class="sd">                specified in `tsinput`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># This executes the sub-wrapper function (defined below) specified</span>
+    <span class="c"># in the tsinput-object (input file WINDPROFILETYPE line)</span>
+    <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;WindProfileType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s">&#39;(tsinput)&#39;</span><span class="p">)</span>
+
+</div>
+<span class="k">def</span> <span class="nf">_h2l</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function parses the correct variables from the tsinput</span>
+<span class="sd">    object and supplies them to the &#39;H2O log&#39; profile model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`.tsinput`</span>
+<span class="sd">                A TurbSim input object (with WindProfileType &#39;h2l&#39;).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    profModel : :class:`pyts.profModels.log.H2O`</span>
+<span class="sd">                H2O-log mean profile model instance.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;RefHt&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;UStar&#39;</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">_log</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function parses the correct variables from the tsinput</span>
+<span class="sd">    object and supplies them to the wind &#39;log&#39; profile model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`.tsinput`</span>
+<span class="sd">                A TurbSim input object (with WindProfileType &#39;log&#39;).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    profModel : :class:`pyts.profModels.log.nwtc`</span>
+<span class="sd">                wind log mean profile model instance.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;RefHt&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;Z0&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;RICH_NO&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;TurbModel&#39;</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">_pl</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function parses the correct variables from the tsinput</span>
+<span class="sd">    object and supplies them to the wind &#39;power-law&#39; profile model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`.tsinput`</span>
+<span class="sd">                A TurbSim input object (with WindProfileType &#39;pl&#39;).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    profModel : :class:`pyts.profModels.power.nwtc`</span>
+<span class="sd">                power-law mean profile model instance.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">pl</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">],</span>
+                 <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;RefHt&#39;</span><span class="p">],</span>
+                 <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;PLExp&#39;</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">_iec</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function parses the correct variables from the tsinput</span>
+<span class="sd">    object and supplies them to the wind &#39;IEC&#39; profile model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`.tsinput`</span>
+<span class="sd">                A TurbSim input object (with WindProfileType &#39;IEC&#39;).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    profModel : :class:`pyts.profModels.iec.main`</span>
+<span class="sd">                IEC mean profile model instance.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">iec</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;RefHt&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;Z0&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;PLExp&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;TurbModel&#39;</span><span class="p">],)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2014, National Renewable Energy Lab.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

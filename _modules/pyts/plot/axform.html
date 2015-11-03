@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.plot.axform &mdash; PyTurbSim 0.4.2 documentation</title>
+    <title>pyts.plot.axform &mdash; PyTurbSim 0.4.6 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.4.2',
+        VERSION:     '0.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,13 +23,13 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.6 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -38,18 +38,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for pyts.plot.axform</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">..main</span> <span class="kn">import</span> <span class="n">tsdata</span><span class="p">,</span> <span class="n">tsrun</span>  <span class="c"># These are used only to identify object types.</span>
@@ -152,7 +149,7 @@
         <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
             <span class="n">comp</span> <span class="o">=</span> <span class="n">indx</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">cls</span><span class="p">,</span> <span class="n">meth</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_map</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">cls</span><span class="p">):</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meth</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
                 <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meth</span><span class="p">)(</span><span class="n">obj</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span>
@@ -205,19 +202,19 @@
     <span class="n">_title</span> <span class="o">=</span> <span class="s">&#39;Mean Velocity&#39;</span>
     <span class="n">_xlabel</span> <span class="o">=</span> <span class="s">&#39;$\mathrm{[m/s]}$&#39;</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdata</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The function that calculates x,y values for plotting</span>
 <span class="sd">        :class:`.tsdata` objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">z</span>
+        <span class="k">return</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">z</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The function that calculates x,y values for plotting</span>
-<span class="sd">        :class:`.tsdata` objects.</span>
+<span class="sd">        :class:`.tsrun` objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span>
+        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">prof</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span>
 
 </div>
 <div class="viewcode-block" id="tkeprof"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.tkeprof">[docs]</a><span class="k">class</span> <span class="nc">tkeprof</span><span class="p">(</span><span class="n">prof</span><span class="p">):</span>
@@ -232,11 +229,11 @@
     <span class="n">_title</span> <span class="o">=</span> <span class="s">&#39;tke&#39;</span>
     <span class="c">#_lin_x_scale = -2  # Units are 10^-2</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdata</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">z</span>
+    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">z</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span>
+    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span>
 
 </div>
 <div class="viewcode-block" id="Tiprof"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.Tiprof">[docs]</a><span class="k">class</span> <span class="nc">Tiprof</span><span class="p">(</span><span class="n">prof</span><span class="p">):</span>
@@ -252,15 +249,15 @@
     <span class="n">_lin_x_scale</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">_ylabel</span> <span class="o">=</span> <span class="s">&#39;%&#39;</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdata</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">tmp</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">tsdata</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-               <span class="o">/</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
-        <span class="k">return</span> <span class="n">tmp</span><span class="p">,</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">z</span>
+    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+               <span class="o">/</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="n">tmp</span><span class="p">,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">z</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
-                <span class="o">/</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">u</span><span class="p">[:,</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tsr</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+                <span class="o">/</span> <span class="n">tsr</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">u</span><span class="p">[:,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="stressprof"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.stressprof">[docs]</a><span class="k">class</span> <span class="nc">stressprof</span><span class="p">(</span><span class="n">tkeprof</span><span class="p">):</span>
@@ -279,13 +276,13 @@
                <span class="s">&#39;v&#39;</span><span class="p">:</span> <span class="s">r&quot;$\overline{u&#39;w&#39;}$&quot;</span><span class="p">,</span>
                <span class="s">&#39;w&#39;</span><span class="p">:</span> <span class="s">r&quot;$\overline{v&#39;w&#39;}$&quot;</span><span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdata</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span> <span class="ow">or</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">stress</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">igrid</span><span class="p">],</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">z</span>
+    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span> <span class="ow">or</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">stress</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">igrid</span><span class="p">],</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">z</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span> <span class="ow">or</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">igrid</span><span class="p">],</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span>
+    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span> <span class="ow">or</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">igrid</span><span class="p">],</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span>
 
 </div>
 <div class="viewcode-block" id="spec"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.spec">[docs]</a><span class="k">class</span> <span class="nc">spec</span><span class="p">(</span><span class="n">axesForm</span><span class="p">):</span>
@@ -322,19 +319,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">window_time</span> <span class="o">=</span> <span class="n">window_time_sec</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdata</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">nfft</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_time</span> <span class="o">/</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">nfft</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_time</span> <span class="o">/</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
         <span class="n">nfft</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">nfft</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid</span> <span class="ow">or</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">ihub</span>
-        <span class="n">tmp</span> <span class="o">=</span> <span class="n">psd</span><span class="o">.</span><span class="n">psd</span><span class="p">(</span><span class="n">tsdata</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">igrid</span><span class="p">],</span>
-                      <span class="mf">1.</span> <span class="o">/</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+        <span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid</span> <span class="ow">or</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">psd</span><span class="o">.</span><span class="n">psd</span><span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">igrid</span><span class="p">],</span>
+                      <span class="mf">1.</span> <span class="o">/</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
                       <span class="n">nfft</span><span class="p">)</span>
         <span class="c"># print tmp</span>
         <span class="k">return</span> <span class="n">tmp</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid</span> <span class="ow">or</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span>
-        <span class="k">return</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">spec</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">igrid</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid</span> <span class="ow">or</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span>
+        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">spec</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">igrid</span><span class="p">]</span>
 
 </div>
 <div class="viewcode-block" id="cohere"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.cohere">[docs]</a><span class="k">class</span> <span class="nc">cohere</span><span class="p">(</span><span class="n">axesForm</span><span class="p">):</span>
@@ -377,20 +374,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">igrid0</span> <span class="o">=</span> <span class="n">igrid0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">igrid1</span> <span class="o">=</span> <span class="n">igrid1</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdata</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid0</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">igrid1</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">nfft</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_time</span> <span class="o">/</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid0</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">igrid1</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">nfft</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_time</span> <span class="o">/</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
         <span class="n">nfft</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">nfft</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">igrid0</span> <span class="o">=</span> <span class="n">igrid0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid0</span> <span class="ow">or</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">ihub</span>
+        <span class="n">igrid0</span> <span class="o">=</span> <span class="n">igrid0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid0</span> <span class="ow">or</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span>
         <span class="n">igrid1</span> <span class="o">=</span> <span class="n">igrid1</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid1</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">psd</span><span class="o">.</span><span class="n">coh</span><span class="p">(</span><span class="n">tsdata</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">igrid0</span><span class="p">],</span>
-                       <span class="n">tsdata</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">igrid1</span><span class="p">],</span>
-                       <span class="mf">1.</span> <span class="o">/</span> <span class="n">tsdata</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="n">nfft</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">psd</span><span class="o">.</span><span class="n">coh</span><span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">igrid0</span><span class="p">],</span>
+                       <span class="n">tsdat</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">igrid1</span><span class="p">],</span>
+                       <span class="mf">1.</span> <span class="o">/</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="n">nfft</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid0</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">igrid1</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">igrid0</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">sub2ind</span><span class="p">(</span><span class="n">igrid0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid0</span> <span class="ow">or</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">)</span>
-        <span class="n">igrid1</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">sub2ind</span><span class="p">(</span><span class="n">igrid1</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid1</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">cohere</span><span class="o">.</span><span class="n">calcCoh</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span>
-                                                  <span class="n">comp</span><span class="p">,</span> <span class="n">igrid0</span><span class="p">,</span> <span class="n">igrid1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid0</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">igrid1</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">igrid0</span> <span class="o">=</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">sub2ind</span><span class="p">(</span><span class="n">igrid0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid0</span> <span class="ow">or</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">)</span>
+        <span class="n">igrid1</span> <span class="o">=</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">sub2ind</span><span class="p">(</span><span class="n">igrid1</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid1</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">cohere</span><span class="o">.</span><span class="n">calcCoh</span><span class="p">(</span><span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span>
+                                              <span class="n">comp</span><span class="p">,</span> <span class="n">igrid0</span><span class="p">,</span> <span class="n">igrid1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
 
 </div>
 <div class="viewcode-block" id="FigAxForm"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.FigAxForm">[docs]</a><span class="k">class</span> <span class="nc">FigAxForm</span><span class="p">(</span><span class="n">supax</span><span class="o">.</span><span class="n">sfig</span><span class="p">):</span>
@@ -502,9 +499,9 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
       <input type="text" name="q" />
@@ -521,7 +518,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -530,16 +527,13 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="../../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

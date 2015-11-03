@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.gui package &mdash; PyTurbSim 0.4.2 documentation</title>
+    <title>pyts.gui package &mdash; PyTurbSim 0.4.6 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.4.2',
+        VERSION:     '0.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,15 +23,15 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.6 documentation" href="../index.html" />
     <link rel="up" title="pyts package" href="pyts.html" />
     <link rel="next" title="pyts.io package" href="pyts.io.html" />
     <link rel="prev" title="pyts.cohereModels package" href="pyts.cohereModels.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,596 +41,46 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="pyts.io.html" title="pyts.io package"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="pyts.cohereModels.html" title="pyts.cohereModels package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
-          <li><a href="pyts.html" accesskey="U">pyts package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="pyts.html" accesskey="U">pyts package</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="pyts-gui-package">
 <h1>pyts.gui package<a class="headerlink" href="#pyts-gui-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-pyts.gui.base">
-<span id="pyts-gui-base-module"></span><h2>pyts.gui.base module<a class="headerlink" href="#module-pyts.gui.base" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="pyts.gui.base.ConfigFrame">
-<em class="property">class </em><tt class="descclassname">pyts.gui.base.</tt><tt class="descname">ConfigFrame</tt><big>(</big><em>parent</em>, <em>id</em>, <em>title</em>, <em>pos=wx.Point(-1</em>, <em>-1)</em>, <em>size=wx.Size(-1</em>, <em>-1)</em>, <em>style=536875008</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigFrame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">wx._windows.Frame</span></tt></p>
-<dl class="method">
-<dt id="pyts.gui.base.ConfigFrame.OnCloseWindow">
-<tt class="descname">OnCloseWindow</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigFrame.OnCloseWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigFrame.OnCloseWindow" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.base.ConfigFrame.OnOk">
-<tt class="descname">OnOk</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigFrame.OnOk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigFrame.OnOk" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.base.ConfigFrame.close">
-<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigFrame.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigFrame.close" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.base.ConfigFrame.config2inputs">
-<tt class="descname">config2inputs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigFrame.config2inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigFrame.config2inputs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.base.ConfigFrame.init_inputs">
-<tt class="descname">init_inputs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigFrame.init_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigFrame.init_inputs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assign the input fields to names on this object.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.base.ConfigFrame.inputs2config">
-<tt class="descname">inputs2config</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigFrame.inputs2config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigFrame.inputs2config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.base.ConfigFrame.refresh">
-<tt class="descname">refresh</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigFrame.refresh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigFrame.refresh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Refresh the drawing.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.base.ConfigFrame.update">
-<tt class="descname">update</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigFrame.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigFrame.update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.gui.base.ConfigSettings">
-<em class="property">class </em><tt class="descclassname">pyts.gui.base.</tt><tt class="descname">ConfigSettings</tt><big>(</big><em>parent</em>, <em>id</em>, <em>title</em>, <em>pos=wx.Point(-1</em>, <em>-1)</em>, <em>size=wx.Size(-1</em>, <em>-1)</em>, <em>style=536875008</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigSettings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.gui.base.ConfigFrame" title="pyts.gui.base.ConfigFrame"><tt class="xref py py-class docutils literal"><span class="pre">pyts.gui.base.ConfigFrame</span></tt></a></p>
-<dl class="method">
-<dt id="pyts.gui.base.ConfigSettings.close">
-<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigSettings.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigSettings.close" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.base.ConfigSettings.init_bindings">
-<tt class="descname">init_bindings</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigSettings.init_bindings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigSettings.init_bindings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.base.ConfigSettings.init_layout">
-<tt class="descname">init_layout</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigSettings.init_layout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigSettings.init_layout" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.base.ConfigSettings.save_vars">
-<tt class="descname">save_vars</tt><em class="property"> = {'cho_scaleiec': 'ScaleIEC', 'inp_wrfmtff': 'WrFMTFF', 'inp_turbsim_exec': 'TurbSim_exec', 'inp_clockwise': 'Clockwise', 'inp_wradff': 'WrADFF', 'inp_wrblff': 'WrBLFF', 'inp_wrfhhtp': 'WrFHHTP', 'inp_wrbhhtp': 'WrBHHTP', 'inp_wradtwr': 'WrADTWR', 'inp_randseed': 'RandSeed', 'inp_wradhh': 'WrADHH'}</em><a class="headerlink" href="#pyts.gui.base.ConfigSettings.save_vars" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.base.ConfigSettings.set_aliases">
-<tt class="descname">set_aliases</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base.html#ConfigSettings.set_aliases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base.ConfigSettings.set_aliases" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="pyts-gui-base-module">
+<h2>pyts.gui.base module<a class="headerlink" href="#pyts-gui-base-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-pyts.gui.base4wdr">
-<span id="pyts-gui-base4wdr-module"></span><h2>pyts.gui.base4wdr module<a class="headerlink" href="#module-pyts.gui.base4wdr" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="pyts.gui.base4wdr.mCheckBox">
-<em class="property">class </em><tt class="descclassname">pyts.gui.base4wdr.</tt><tt class="descname">mCheckBox</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base4wdr.html#mCheckBox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base4wdr.mCheckBox" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">wx._controls.CheckBox</span></tt></p>
-<dl class="attribute">
-<dt id="pyts.gui.base4wdr.mCheckBox.value">
-<tt class="descname">value</tt><a class="reference internal" href="../_modules/pyts/gui/base4wdr.html#mCheckBox.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base4wdr.mCheckBox.value" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.gui.base4wdr.mChoice">
-<em class="property">class </em><tt class="descclassname">pyts.gui.base4wdr.</tt><tt class="descname">mChoice</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base4wdr.html#mChoice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base4wdr.mChoice" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">wx._controls.Choice</span></tt></p>
-<dl class="attribute">
-<dt id="pyts.gui.base4wdr.mChoice.value">
-<tt class="descname">value</tt><a class="reference internal" href="../_modules/pyts/gui/base4wdr.html#mChoice.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base4wdr.mChoice.value" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.gui.base4wdr.mChoiceBin">
-<em class="property">class </em><tt class="descclassname">pyts.gui.base4wdr.</tt><tt class="descname">mChoiceBin</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base4wdr.html#mChoiceBin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base4wdr.mChoiceBin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">wx._controls.Choice</span></tt></p>
-<dl class="attribute">
-<dt id="pyts.gui.base4wdr.mChoiceBin.value">
-<tt class="descname">value</tt><a class="reference internal" href="../_modules/pyts/gui/base4wdr.html#mChoiceBin.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base4wdr.mChoiceBin.value" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.gui.base4wdr.mComboBox">
-<em class="property">class </em><tt class="descclassname">pyts.gui.base4wdr.</tt><tt class="descname">mComboBox</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base4wdr.html#mComboBox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base4wdr.mComboBox" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">wx._controls.ComboBox</span></tt>, <a class="reference internal" href="#pyts.gui.base4wdr.mTextCtrl" title="pyts.gui.base4wdr.mTextCtrl"><tt class="xref py py-class docutils literal"><span class="pre">pyts.gui.base4wdr.mTextCtrl</span></tt></a></p>
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.gui.base4wdr.mTextCtrl">
-<em class="property">class </em><tt class="descclassname">pyts.gui.base4wdr.</tt><tt class="descname">mTextCtrl</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/base4wdr.html#mTextCtrl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base4wdr.mTextCtrl" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">wx._controls.TextCtrl</span></tt></p>
-<dl class="attribute">
-<dt id="pyts.gui.base4wdr.mTextCtrl.default_value">
-<tt class="descname">default_value</tt><em class="property"> = 'default'</em><a class="headerlink" href="#pyts.gui.base4wdr.mTextCtrl.default_value" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.base4wdr.mTextCtrl.value">
-<tt class="descname">value</tt><a class="reference internal" href="../_modules/pyts/gui/base4wdr.html#mTextCtrl.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.base4wdr.mTextCtrl.value" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="pyts-gui-base4wdr-module">
+<h2>pyts.gui.base4wdr module<a class="headerlink" href="#pyts-gui-base4wdr-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-pyts.gui.gTurbSim_wdr">
-<span id="pyts-gui-gturbsim-wdr-module"></span><h2>pyts.gui.gTurbSim_wdr module<a class="headerlink" href="#module-pyts.gui.gTurbSim_wdr" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="pyts.gui.gTurbSim_wdr.GridSetup">
-<tt class="descclassname">pyts.gui.gTurbSim_wdr.</tt><tt class="descname">GridSetup</tt><big>(</big><em>parent</em>, <em>call_fit=True</em>, <em>set_sizer=True</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/gTurbSim_wdr.html#GridSetup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbSim_wdr.GridSetup" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="pyts.gui.gTurbSim_wdr.MyMenuBarFunc">
-<tt class="descclassname">pyts.gui.gTurbSim_wdr.</tt><tt class="descname">MyMenuBarFunc</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/gTurbSim_wdr.html#MyMenuBarFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbSim_wdr.MyMenuBarFunc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="pyts.gui.gTurbSim_wdr.MyToolBarFunc">
-<tt class="descclassname">pyts.gui.gTurbSim_wdr.</tt><tt class="descname">MyToolBarFunc</tt><big>(</big><em>parent</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/gTurbSim_wdr.html#MyToolBarFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbSim_wdr.MyToolBarFunc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="pyts.gui.gTurbSim_wdr.dlg_settings">
-<tt class="descclassname">pyts.gui.gTurbSim_wdr.</tt><tt class="descname">dlg_settings</tt><big>(</big><em>parent</em>, <em>call_fit=True</em>, <em>set_sizer=True</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/gTurbSim_wdr.html#dlg_settings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbSim_wdr.dlg_settings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="pyts.gui.gTurbSim_wdr.kh_billows">
-<tt class="descclassname">pyts.gui.gTurbSim_wdr.</tt><tt class="descname">kh_billows</tt><big>(</big><em>parent</em>, <em>call_fit=True</em>, <em>set_sizer=True</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/gTurbSim_wdr.html#kh_billows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbSim_wdr.kh_billows" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="pyts.gui.gTurbSim_wdr.main">
-<tt class="descclassname">pyts.gui.gTurbSim_wdr.</tt><tt class="descname">main</tt><big>(</big><em>parent</em>, <em>call_fit=True</em>, <em>set_sizer=True</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/gTurbSim_wdr.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbSim_wdr.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="pyts.gui.gTurbSim_wdr.profSetup">
-<tt class="descclassname">pyts.gui.gTurbSim_wdr.</tt><tt class="descname">profSetup</tt><big>(</big><em>parent</em>, <em>call_fit=True</em>, <em>set_sizer=True</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/gTurbSim_wdr.html#profSetup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbSim_wdr.profSetup" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="pyts.gui.gTurbSim_wdr.turbSetup">
-<tt class="descclassname">pyts.gui.gTurbSim_wdr.</tt><tt class="descname">turbSetup</tt><big>(</big><em>parent</em>, <em>call_fit=True</em>, <em>set_sizer=True</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/gTurbSim_wdr.html#turbSetup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbSim_wdr.turbSetup" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<div class="section" id="pyts-gui-gturbsim-wdr-module">
+<h2>pyts.gui.gTurbSim_wdr module<a class="headerlink" href="#pyts-gui-gturbsim-wdr-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-pyts.gui.grid">
-<span id="pyts-gui-grid-module"></span><h2>pyts.gui.grid module<a class="headerlink" href="#module-pyts.gui.grid" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="pyts.gui.grid.deltaTextCtrl">
-<em class="property">class </em><tt class="descclassname">pyts.gui.grid.</tt><tt class="descname">deltaTextCtrl</tt><big>(</big><em>parent</em>, <em>xCtrl</em>, <em>dxCtrl</em>, <em>nCtrl</em>, <em>x_dflt=1.0</em>, <em>dx_dflt=None</em>, <em>n_dflt=None</em>, <em>x_depends_on_dx=True</em>, <em>plus_one=True</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/grid.html#deltaTextCtrl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.grid.deltaTextCtrl" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<dl class="attribute">
-<dt id="pyts.gui.grid.deltaTextCtrl.dx">
-<tt class="descname">dx</tt><a class="reference internal" href="../_modules/pyts/gui/grid.html#deltaTextCtrl.dx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.grid.deltaTextCtrl.dx" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.grid.deltaTextCtrl.n">
-<tt class="descname">n</tt><a class="reference internal" href="../_modules/pyts/gui/grid.html#deltaTextCtrl.n"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.grid.deltaTextCtrl.n" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.grid.deltaTextCtrl.on_dx">
-<tt class="descname">on_dx</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/grid.html#deltaTextCtrl.on_dx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.grid.deltaTextCtrl.on_dx" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.grid.deltaTextCtrl.on_n">
-<tt class="descname">on_n</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/grid.html#deltaTextCtrl.on_n"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.grid.deltaTextCtrl.on_n" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.grid.deltaTextCtrl.on_x">
-<tt class="descname">on_x</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/grid.html#deltaTextCtrl.on_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.grid.deltaTextCtrl.on_x" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.grid.deltaTextCtrl.x">
-<tt class="descname">x</tt><a class="reference internal" href="../_modules/pyts/gui/grid.html#deltaTextCtrl.x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.grid.deltaTextCtrl.x" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.gui.grid.gridConfigFrame">
-<em class="property">class </em><tt class="descclassname">pyts.gui.grid.</tt><tt class="descname">gridConfigFrame</tt><big>(</big><em>parent</em>, <em>id</em>, <em>title</em>, <em>pos=wx.Point(-1</em>, <em>-1)</em>, <em>size=wx.Size(-1</em>, <em>-1)</em>, <em>style=536875008</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/grid.html#gridConfigFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.grid.gridConfigFrame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.gui.base.ConfigFrame" title="pyts.gui.base.ConfigFrame"><tt class="xref py py-class docutils literal"><span class="pre">pyts.gui.base.ConfigFrame</span></tt></a></p>
-<dl class="attribute">
-<dt id="pyts.gui.grid.gridConfigFrame.save_vars">
-<tt class="descname">save_vars</tt><em class="property"> = {'inp_dt': 'TimeStep', 'inp_time': 'UsableTime', 'inp_width': 'GridWidth', 'inp_hubheight': 'HubHt', 'inp_nz': 'NumGrid_Z', 'inp_height': 'GridHeight', 'inp_ny': 'NumGrid_Y'}</em><a class="headerlink" href="#pyts.gui.grid.gridConfigFrame.save_vars" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.gui.grid.gridFigure">
-<em class="property">class </em><tt class="descclassname">pyts.gui.grid.</tt><tt class="descname">gridFigure</tt><big>(</big><em>panel</em>, <em>dpi</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/grid.html#gridFigure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.grid.gridFigure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<dl class="method">
-<dt id="pyts.gui.grid.gridFigure.draw">
-<tt class="descname">draw</tt><big>(</big><em>parent</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/grid.html#gridFigure.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.grid.gridFigure.draw" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="pyts-gui-grid-module">
+<h2>pyts.gui.grid module<a class="headerlink" href="#pyts-gui-grid-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-pyts.gui.prof">
-<span id="pyts-gui-prof-module"></span><h2>pyts.gui.prof module<a class="headerlink" href="#module-pyts.gui.prof" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="pyts.gui.prof.profConfigFrame">
-<em class="property">class </em><tt class="descclassname">pyts.gui.prof.</tt><tt class="descname">profConfigFrame</tt><big>(</big><em>parent</em>, <em>id</em>, <em>title</em>, <em>pos=wx.Point(-1</em>, <em>-1)</em>, <em>size=wx.Size(-1</em>, <em>-1)</em>, <em>style=536875008</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/prof.html#profConfigFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.prof.profConfigFrame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.gui.base.ConfigFrame" title="pyts.gui.base.ConfigFrame"><tt class="xref py py-class docutils literal"><span class="pre">pyts.gui.base.ConfigFrame</span></tt></a></p>
-<dl class="attribute">
-<dt id="pyts.gui.prof.profConfigFrame.exclude_vars">
-<tt class="descname">exclude_vars</tt><em class="property"> = {'H2L': ['inp_plexp', 'inp_zjet'], 'IEC': ['inp_zjet'], 'JET': ['inp_plexp', 'inp_ustar'], 'LOG': ['inp_plexp', 'inp_zjet'], 'PL': ['inp_zjet', 'inp_ustar']}</em><a class="headerlink" href="#pyts.gui.prof.profConfigFrame.exclude_vars" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.prof.profConfigFrame.init_bindings">
-<tt class="descname">init_bindings</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/prof.html#profConfigFrame.init_bindings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.prof.profConfigFrame.init_bindings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.prof.profConfigFrame.init_fig">
-<tt class="descname">init_fig</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/prof.html#profConfigFrame.init_fig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.prof.profConfigFrame.init_fig" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.prof.profConfigFrame.init_layout">
-<tt class="descname">init_layout</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/prof.html#profConfigFrame.init_layout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.prof.profConfigFrame.init_layout" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.prof.profConfigFrame.model">
-<tt class="descname">model</tt><a class="reference internal" href="../_modules/pyts/gui/prof.html#profConfigFrame.model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.prof.profConfigFrame.model" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.prof.profConfigFrame.save_vars">
-<tt class="descname">save_vars</tt><em class="property"> = {'inp_zjet': 'ZJetMax', 'inp_refvel': 'URef', 'inp_refheight': 'RefHt', 'inp_ustar': 'UStar', 'inp_vflowang': 'VFlowAng', 'inp_hflowang': 'HFlowAng', 'cho_profmodel': 'WindProfileType', 'inp_plexp': 'PLExp'}</em><a class="headerlink" href="#pyts.gui.prof.profConfigFrame.save_vars" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.prof.profConfigFrame.set_aliases">
-<tt class="descname">set_aliases</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/prof.html#profConfigFrame.set_aliases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.prof.profConfigFrame.set_aliases" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.gui.prof.profFigure">
-<em class="property">class </em><tt class="descclassname">pyts.gui.prof.</tt><tt class="descname">profFigure</tt><big>(</big><em>panel</em>, <em>dpi</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/prof.html#profFigure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.prof.profFigure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<dl class="method">
-<dt id="pyts.gui.prof.profFigure.draw">
-<tt class="descname">draw</tt><big>(</big><em>parent</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/prof.html#profFigure.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.prof.profFigure.draw" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="pyts-gui-prof-module">
+<h2>pyts.gui.prof module<a class="headerlink" href="#pyts-gui-prof-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-pyts.gui.turb">
-<span id="pyts-gui-turb-module"></span><h2>pyts.gui.turb module<a class="headerlink" href="#module-pyts.gui.turb" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="pyts.gui.turb.KHBillowsConfigFrame">
-<em class="property">class </em><tt class="descclassname">pyts.gui.turb.</tt><tt class="descname">KHBillowsConfigFrame</tt><big>(</big><em>parent</em>, <em>id</em>, <em>title</em>, <em>pos=wx.Point(-1</em>, <em>-1)</em>, <em>size=wx.Size(-1</em>, <em>-1)</em>, <em>style=536875008</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#KHBillowsConfigFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.KHBillowsConfigFrame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.gui.base.ConfigFrame" title="pyts.gui.base.ConfigFrame"><tt class="xref py py-class docutils literal"><span class="pre">pyts.gui.base.ConfigFrame</span></tt></a></p>
-<dl class="attribute">
-<dt id="pyts.gui.turb.KHBillowsConfigFrame.exclude_vars">
-<tt class="descname">exclude_vars</tt><em class="property"> = {False: [], True: ['inp_distscl', 'inp_ctlz', 'inp_ctly']}</em><a class="headerlink" href="#pyts.gui.turb.KHBillowsConfigFrame.exclude_vars" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.turb.KHBillowsConfigFrame.init_bindings">
-<tt class="descname">init_bindings</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#KHBillowsConfigFrame.init_bindings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.KHBillowsConfigFrame.init_bindings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.turb.KHBillowsConfigFrame.init_layout">
-<tt class="descname">init_layout</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#KHBillowsConfigFrame.init_layout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.KHBillowsConfigFrame.init_layout" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.turb.KHBillowsConfigFrame.model">
-<tt class="descname">model</tt><a class="reference internal" href="../_modules/pyts/gui/turb.html#KHBillowsConfigFrame.model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.KHBillowsConfigFrame.model" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.turb.KHBillowsConfigFrame.save_vars">
-<tt class="descname">save_vars</tt><em class="property"> = {'inp_eventpath': 'CTEventPath', 'cho_eventfile': 'CTEventFile', 'inp_distscl': 'DistScl', 'inp_ctt': 'CTStartTime', 'inp_ctlz': 'CTLz', 'inp_ctly': 'CTLy', 'inp_randomize': 'Randomize'}</em><a class="headerlink" href="#pyts.gui.turb.KHBillowsConfigFrame.save_vars" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.gui.turb.cho_windtype_turbclass">
-<em class="property">class </em><tt class="descclassname">pyts.gui.turb.</tt><tt class="descname">cho_windtype_turbclass</tt><big>(</big><em>cho_type</em>, <em>cho_class</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#cho_windtype_turbclass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.cho_windtype_turbclass" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<dl class="method">
-<dt id="pyts.gui.turb.cho_windtype_turbclass.Disable">
-<tt class="descname">Disable</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#cho_windtype_turbclass.Disable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.cho_windtype_turbclass.Disable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.turb.cho_windtype_turbclass.Enable">
-<tt class="descname">Enable</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#cho_windtype_turbclass.Enable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.cho_windtype_turbclass.Enable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.turb.cho_windtype_turbclass.value">
-<tt class="descname">value</tt><a class="reference internal" href="../_modules/pyts/gui/turb.html#cho_windtype_turbclass.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.cho_windtype_turbclass.value" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.gui.turb.cohParam">
-<em class="property">class </em><tt class="descclassname">pyts.gui.turb.</tt><tt class="descname">cohParam</tt><big>(</big><em>inp_a</em>, <em>inp_b</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#cohParam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.cohParam" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<dl class="method">
-<dt id="pyts.gui.turb.cohParam.Disable">
-<tt class="descname">Disable</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#cohParam.Disable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.cohParam.Disable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.turb.cohParam.Enable">
-<tt class="descname">Enable</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#cohParam.Enable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.cohParam.Enable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.turb.cohParam.value">
-<tt class="descname">value</tt><a class="reference internal" href="../_modules/pyts/gui/turb.html#cohParam.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.cohParam.value" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.gui.turb.turbConfigFrame">
-<em class="property">class </em><tt class="descclassname">pyts.gui.turb.</tt><tt class="descname">turbConfigFrame</tt><big>(</big><em>parent</em>, <em>id</em>, <em>title</em>, <em>pos=wx.Point(-1</em>, <em>-1)</em>, <em>size=wx.Size(-1</em>, <em>-1)</em>, <em>style=536875008</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#turbConfigFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.turbConfigFrame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.gui.base.ConfigFrame" title="pyts.gui.base.ConfigFrame"><tt class="xref py py-class docutils literal"><span class="pre">pyts.gui.base.ConfigFrame</span></tt></a></p>
-<dl class="attribute">
-<dt id="pyts.gui.turb.turbConfigFrame.exclude_vars">
-<tt class="descname">exclude_vars</tt><em class="property"> = {'WF_07D': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc'], 'NWTCUP': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc'], 'GP_LLJ': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc'], 'WF_14D': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc'], 'TIDAL': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc', 'inp_Ri', 'inp_z0', 'inp_zi'], 'SMOOTH': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc'], 'RIVER': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc', 'inp_Ri', 'inp_z0', 'inp_zi'], 'IECKAI': ['inp_Ri', 'inp_zi', 'inp_ustar', 'inp_cohexp', 'inp_cohexp', 'inp_cohU', 'inp_cohV', 'inp_cohW', 'inp_upwp', 'inp_upvp', 'inp_vpwp'], 'WF_UPW': ['cho_iec_turbclass_windtype', 'inp_iecturbc', 'cho_iecstandard', 'inp_etmc'], 'IECVKM': ['inp_Ri', 'inp_zi', 'inp_ustar', 'inp_cohexp', 'inp_cohU', 'inp_cohV', 'inp_cohW', 'inp_upwp', 'inp_upvp', 'inp_vpwp']}</em><a class="headerlink" href="#pyts.gui.turb.turbConfigFrame.exclude_vars" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.turb.turbConfigFrame.init_bindings">
-<tt class="descname">init_bindings</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#turbConfigFrame.init_bindings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.turbConfigFrame.init_bindings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.turb.turbConfigFrame.init_layout">
-<tt class="descname">init_layout</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#turbConfigFrame.init_layout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.turbConfigFrame.init_layout" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.turb.turbConfigFrame.model">
-<tt class="descname">model</tt><a class="reference internal" href="../_modules/pyts/gui/turb.html#turbConfigFrame.model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.turbConfigFrame.model" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.turb.turbConfigFrame.onKHCheckBox">
-<tt class="descname">onKHCheckBox</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#turbConfigFrame.onKHCheckBox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.turbConfigFrame.onKHCheckBox" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.turb.turbConfigFrame.onKHConfig">
-<tt class="descname">onKHConfig</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#turbConfigFrame.onKHConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.turbConfigFrame.onKHConfig" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.turb.turbConfigFrame.save_vars">
-<tt class="descname">save_vars</tt><em class="property"> = {'cho_iec_turbclass_windtype': 'IEC_WindType', 'inp_Ri': 'RICH_NO', 'inp_cohV': 'IncDec2', 'inp_cohexp': 'CohExp', 'cho_turbmodel': 'TurbModel', 'inp_zi': 'ZI', 'inp_upwp': 'PC_UW', 'inp_vpwp': 'PC_VW', 'inp_upvp': 'PC_UV', 'inp_z0': 'Z0', 'cho_iecstandard': 'IECstandard', 'inp_etmc': 'ETMc', 'inp_ustar': 'UStar', 'inp_cohW': 'IncDec3', 'inp_addkh': 'WrACT', 'inp_iecturbc': 'IECturbc', 'inp_cohU': 'IncDec1'}</em><a class="headerlink" href="#pyts.gui.turb.turbConfigFrame.save_vars" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.turb.turbConfigFrame.set_aliases">
-<tt class="descname">set_aliases</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui/turb.html#turbConfigFrame.set_aliases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.turb.turbConfigFrame.set_aliases" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="pyts-gui-turb-module">
+<h2>pyts.gui.turb module<a class="headerlink" href="#pyts-gui-turb-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-pyts.gui">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyts.gui" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="pyts.gui.gTurbApp">
-<em class="property">class </em><tt class="descclassname">pyts.gui.</tt><tt class="descname">gTurbApp</tt><big>(</big><em>redirect=False</em>, <em>filename=None</em>, <em>useBestVisual=False</em>, <em>clearSigInt=True</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbApp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbApp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">wx._core.App</span></tt></p>
-<dl class="method">
-<dt id="pyts.gui.gTurbApp.OnInit">
-<tt class="descname">OnInit</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbApp.OnInit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbApp.OnInit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbApp.setfile">
-<tt class="descname">setfile</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbApp.setfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbApp.setfile" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.gui.gTurbFrame">
-<em class="property">class </em><tt class="descclassname">pyts.gui.</tt><tt class="descname">gTurbFrame</tt><big>(</big><em>parent</em>, <em>id</em>, <em>title</em>, <em>pos=wx.Point(-1</em>, <em>-1)</em>, <em>size=wx.Size(-1</em>, <em>-1)</em>, <em>style=541072960</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">wx._windows.Frame</span></tt></p>
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.CreateMyMenuBar">
-<tt class="descname">CreateMyMenuBar</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.CreateMyMenuBar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.CreateMyMenuBar" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.CreateMyToolBar">
-<tt class="descname">CreateMyToolBar</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.CreateMyToolBar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.CreateMyToolBar" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.OnAbout">
-<tt class="descname">OnAbout</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.OnAbout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.OnAbout" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.OnCloseWindow">
-<tt class="descname">OnCloseWindow</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.OnCloseWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.OnCloseWindow" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.OnQuit">
-<tt class="descname">OnQuit</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.OnQuit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.OnQuit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.bind_dialog">
-<tt class="descname">bind_dialog</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.bind_dialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.bind_dialog" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.bind_menu">
-<tt class="descname">bind_menu</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.bind_menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.bind_menu" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.gui.gTurbFrame.currentfile">
-<tt class="descname">currentfile</tt><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.currentfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.currentfile" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.find_turbsim_exec">
-<tt class="descname">find_turbsim_exec</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.find_turbsim_exec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.find_turbsim_exec" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.init_inputs">
-<tt class="descname">init_inputs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.init_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.init_inputs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.loadDefault">
-<tt class="descname">loadDefault</tt><big>(</big><em>strng</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.loadDefault"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.loadDefault" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.movefiles">
-<tt class="descname">movefiles</tt><big>(</big><em>itr</em>, <em>dtxt</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.movefiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.movefiles" title="Permalink to this definition">¶</a></dt>
-<dd><p>Move the output files to an &#8216;iteration&#8217; name.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.onConfigGrid">
-<tt class="descname">onConfigGrid</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.onConfigGrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.onConfigGrid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.onConfigProf">
-<tt class="descname">onConfigProf</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.onConfigProf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.onConfigProf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.onConfigSettings">
-<tt class="descname">onConfigSettings</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.onConfigSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.onConfigSettings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.onConfigTurb">
-<tt class="descname">onConfigTurb</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.onConfigTurb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.onConfigTurb" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.onLoad">
-<tt class="descname">onLoad</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.onLoad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.onLoad" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.onRun">
-<tt class="descname">onRun</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.onRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.onRun" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.onSave">
-<tt class="descname">onSave</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.onSave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.onSave" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.onSaveAs">
-<tt class="descname">onSaveAs</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.onSaveAs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.onSaveAs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.onSetFile">
-<tt class="descname">onSetFile</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.onSetFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.onSetFile" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.readConfig">
-<tt class="descname">readConfig</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.readConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.readConfig" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.set_turbsim_exec">
-<tt class="descname">set_turbsim_exec</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.set_turbsim_exec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.set_turbsim_exec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to set or find the TurbSim (original) executable.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.gui.gTurbFrame.writeConfig">
-<tt class="descname">writeConfig</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/pyts/gui.html#gTurbFrame.writeConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.gui.gTurbFrame.writeConfig" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -638,19 +88,19 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">pyts.gui package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-pyts.gui.base">pyts.gui.base module</a></li>
-<li><a class="reference internal" href="#module-pyts.gui.base4wdr">pyts.gui.base4wdr module</a></li>
-<li><a class="reference internal" href="#module-pyts.gui.gTurbSim_wdr">pyts.gui.gTurbSim_wdr module</a></li>
-<li><a class="reference internal" href="#module-pyts.gui.grid">pyts.gui.grid module</a></li>
-<li><a class="reference internal" href="#module-pyts.gui.prof">pyts.gui.prof module</a></li>
-<li><a class="reference internal" href="#module-pyts.gui.turb">pyts.gui.turb module</a></li>
-<li><a class="reference internal" href="#module-pyts.gui">Module contents</a></li>
+<li><a class="reference internal" href="#pyts-gui-base-module">pyts.gui.base module</a></li>
+<li><a class="reference internal" href="#pyts-gui-base4wdr-module">pyts.gui.base4wdr module</a></li>
+<li><a class="reference internal" href="#pyts-gui-gturbsim-wdr-module">pyts.gui.gTurbSim_wdr module</a></li>
+<li><a class="reference internal" href="#pyts-gui-grid-module">pyts.gui.grid module</a></li>
+<li><a class="reference internal" href="#pyts-gui-prof-module">pyts.gui.prof module</a></li>
+<li><a class="reference internal" href="#pyts-gui-turb-module">pyts.gui.turb module</a></li>
+<li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -661,12 +111,14 @@
   <h4>Next topic</h4>
   <p class="topless"><a href="pyts.io.html"
                         title="next chapter">pyts.io package</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/api/pyts.gui.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/pyts.gui.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -683,7 +135,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -693,21 +145,18 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="pyts.io.html" title="pyts.io package"
              >next</a> |</li>
         <li class="right" >
           <a href="pyts.cohereModels.html" title="pyts.cohereModels package"
              >previous</a> |</li>
-        <li><a href="../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
-          <li><a href="pyts.html" >pyts package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="pyts.html" >pyts package</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

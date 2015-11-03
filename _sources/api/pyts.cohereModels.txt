@@ -12,10 +12,10 @@ pyts.cohereModels.api module
     :undoc-members:
     :show-inheritance:
 
-pyts.cohereModels.mBase module
-------------------------------
+pyts.cohereModels.base module
+-----------------------------
 
-.. automodule:: pyts.cohereModels.mBase
+.. automodule:: pyts.cohereModels.base
     :members:
     :undoc-members:
     :show-inheritance:

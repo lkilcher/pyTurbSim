@@ -12,6 +12,14 @@ pyts.profModels.api module
     :undoc-members:
     :show-inheritance:
 
+pyts.profModels.base module
+---------------------------
+
+.. automodule:: pyts.profModels.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pyts.profModels.iec module
 --------------------------
 
@@ -32,14 +40,6 @@ pyts.profModels.log module
 --------------------------
 
 .. automodule:: pyts.profModels.log
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-pyts.profModels.mBase module
-----------------------------
-
-.. automodule:: pyts.profModels.mBase
     :members:
     :undoc-members:
     :show-inheritance:

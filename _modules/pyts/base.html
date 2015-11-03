@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pyts.base &mdash; PyTurbSim 0.4.2 documentation</title>
+    <title>pyts.base &mdash; PyTurbSim 0.4.6 documentation</title>
     
-    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.4.2',
+        VERSION:     '0.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,13 +23,13 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.2 documentation" href="../../index.html" />
+    <link rel="top" title="PyTurbSim 0.4.6 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -38,18 +38,15 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for pyts.base</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -71,7 +68,6 @@
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float32</span><span class="p">,</span> <span class="n">complex64</span>
 <span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">lowPrimeFact_near</span>
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
-<span class="kn">import</span> <span class="nn">time</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">.tslib</span> <span class="kn">import</span> <span class="n">tslib</span>  <span class="c"># The file tslib.so contains the module &#39;tslib&#39;.</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
@@ -100,9 +96,9 @@
         <span class="k">return</span> <span class="nb">float</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="statObj.mean"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.statObj.mean">[docs]</a>    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span>
-</div>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">ubar</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
@@ -163,38 +159,38 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridProps.z"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridProps.z">[docs]</a>    <span class="k">def</span> <span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridProps.y"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridProps.y">[docs]</a>    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">y</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridProps.f"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridProps.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridProps.n_p"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridProps.n_p">[docs]</a>    <span class="k">def</span> <span class="nf">n_p</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">n_p</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_p</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridProps.n_z"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridProps.n_z">[docs]</a>    <span class="k">def</span> <span class="nf">n_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">n_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridProps.n_y"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridProps.n_y">[docs]</a>    <span class="k">def</span> <span class="nf">n_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">n_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridProps.n_f"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridProps.n_f">[docs]</a>    <span class="k">def</span> <span class="nf">n_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">n_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridProps.dt"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridProps.dt">[docs]</a>    <span class="k">def</span> <span class="nf">dt</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">dt</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dt</span>
 
-</div></div>
+</div>
 <span class="k">def</span> <span class="nf">_parse_inputs</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">plus_one</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parse inputs that describe a grid dimension.</span>
@@ -248,7 +244,7 @@
            <span class="n">width</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
            <span class="n">nt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">time_sec</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">time_min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">time_sec_out</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
            <span class="n">findClose_nt_lowPrimeFactors</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">prime_max</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span>
-           <span class="n">RandSeed</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">clockwise</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+           <span class="n">clockwise</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a TurbSim grid.</span>
 
@@ -279,9 +275,6 @@
 <span class="sd">        Adjust nfft to be a multiple of low primes?</span>
 <span class="sd">    prime_max    : int, optional (31)</span>
 <span class="sd">        The maximum prime number allowed as a &#39;low prime&#39;.</span>
-<span class="sd">    RandSeed     : int, optional</span>
-<span class="sd">        Specify a random seed for the random number generator</span>
-<span class="sd">        (default: generate a random one).</span>
 <span class="sd">    clockwise    : bool, optional (True)</span>
 <span class="sd">        Should the simulation write a &#39;clockwise&#39; rotation output file.</span>
 <span class="sd">        This is only used when writing &#39;Bladed&#39; output files.</span>
@@ -378,67 +371,71 @@
                 <span class="s">&#39;, centered at </span><span class="si">%0.1f</span><span class="s">m.</span><span class="se">\n</span><span class="s">              </span><span class="si">%5.1f</span><span class="s">sec simulation, dt=</span><span class="si">%0.1f</span><span class="s">sec &#39;</span>
                 <span class="s">&#39;(</span><span class="si">%d</span><span class="s"> timesteps).&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
                                       <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span>
-                                      <span class="bp">self</span><span class="o">.</span><span class="n">zhub</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_sec</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_sec</span><span class="p">,</span>
                                       <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_t</span><span class="p">))</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.time_sec_out"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.time_sec_out">[docs]</a>    <span class="k">def</span> <span class="nf">time_sec_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">time_sec_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_t_out</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.width"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.width">[docs]</a>    <span class="k">def</span> <span class="nf">width</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">width</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.height"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.height">[docs]</a>    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.dz"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.dz">[docs]</a>    <span class="k">def</span> <span class="nf">dz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">dz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_z</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.dy"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.dy">[docs]</a>    <span class="k">def</span> <span class="nf">dy</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">dy</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.n_z"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.n_z">[docs]</a>    <span class="k">def</span> <span class="nf">n_z</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">n_z</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.n_y"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.n_y">[docs]</a>    <span class="k">def</span> <span class="nf">n_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">n_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.n_f"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.n_f">[docs]</a>    <span class="k">def</span> <span class="nf">n_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">n_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_t</span> <span class="o">/</span> <span class="mi">2</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.df"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.df">[docs]</a>    <span class="k">def</span> <span class="nf">df</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">df</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="mf">1.</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_sec</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.n_p"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.n_p">[docs]</a>    <span class="k">def</span> <span class="nf">n_p</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">n_p</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.ihub"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.ihub">[docs]</a>    <span class="k">def</span> <span class="nf">ihub</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">ihub</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_z</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.shape"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The grid shape: (n_z, n_y).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">]</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.shape_wf"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.shape_wf">[docs]</a>    <span class="k">def</span> <span class="nf">shape_wf</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">shape_wf</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The grid shape, including frequency (n_z, n_y, n_f).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">]</span>
-</div>
+
 <div class="viewcode-block" id="gridObj.dist"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.dist">[docs]</a>    <span class="k">def</span> <span class="nf">dist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the distance between the points `ii` and `jj`.</span>
@@ -467,14 +464,20 @@
                        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">ii</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">jj</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="o">**</span> <span class="n">ts_float</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.zhub"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.zhub">[docs]</a>    <span class="k">def</span> <span class="nf">zhub</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">zhub</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The height of the hub.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-</div>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_zhub&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_zhub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zhub</span>
+
+    <span class="nd">@zhub.setter</span>
+    <span class="k">def</span> <span class="nf">zhub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_zhub</span> <span class="o">=</span> <span class="n">val</span>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="gridObj.rotor_diam"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.rotor_diam">[docs]</a>    <span class="k">def</span> <span class="nf">rotor_diam</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">rotor_diam</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the min of the grid width and height.</span>
 
@@ -526,7 +529,7 @@
     <span class="c">##     else:</span>
     <span class="c">##         raise ValueError(&#39;The array shape does not match this grid.&#39;)</span>
     <span class="c">##     return arr.reshape(shp,order=&#39;F&#39;)</span>
-</div>
+
 <div class="viewcode-block" id="gridObj.ind2sub"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.ind2sub">[docs]</a>    <span class="k">def</span> <span class="nf">ind2sub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the subscripts (iz,iy) corresponding to the &#39;flattened&#39;</span>
@@ -588,17 +591,17 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="modelBase.model_name"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.modelBase.model_name">[docs]</a>    <span class="k">def</span> <span class="nf">model_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">model_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;The model name is the class definition name&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&quot;&#39;&gt;&quot;</span><span class="p">)</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="modelBase.model_desc"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.modelBase.model_desc">[docs]</a>    <span class="k">def</span> <span class="nf">model_desc</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">model_desc</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;The model description is the first line of the docstring.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="modelBase.parameters"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.modelBase.parameters">[docs]</a>    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This property stores information about the TurbSim model</span>
 <span class="sd">        initialization variables, for writing to summary files.</span>
@@ -607,7 +610,7 @@
 <span class="sd">        placeholder for now.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
-</div>
+
     <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;## No &#39;_sumfile_string&#39; defined for </span><span class="si">%s</span><span class="s"> ##</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span></div>
 </pre></div>
@@ -615,9 +618,9 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
       <input type="text" name="q" />
@@ -634,7 +637,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -643,16 +646,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="../../np-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../index.html">PyTurbSim 0.4.2 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, National Renewable Energy Lab.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

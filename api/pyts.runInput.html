@@ -1,0 +1,477 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.runInput package &mdash; PyTurbSim 0.4.6 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.4.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="top" title="PyTurbSim 0.4.6 documentation" href="../index.html" />
+    <link rel="up" title="pyts package" href="pyts.html" />
+    <link rel="next" title="pyts.specModels package" href="pyts.specModels.html" />
+    <link rel="prev" title="pyts.profModels package" href="pyts.profModels.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyts.specModels.html" title="pyts.specModels package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pyts.profModels.html" title="pyts.profModels package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="pyts.html" accesskey="U">pyts package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pyts-runinput-package">
+<h1>pyts.runInput package<a class="headerlink" href="#pyts-runinput-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyts.runInput.base">
+<span id="pyts-runinput-base-module"></span><h2>pyts.runInput.base module<a class="headerlink" href="#module-pyts.runInput.base" title="Permalink to this headline">¶</a></h2>
+<p>The base module for the runInput package. This module defines the
+TurbSim input class (tsinput). The tsinput class is a dictionary for
+storing data from a TurbSim input file. The class contains several
+methods that specify default values for several input variables. Those
+defaults documented in the Original-TurbSim documentation:
+<a class="reference external" href="https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf</a></p>
+<dl class="class">
+<dt id="pyts.runInput.base.tsinput">
+<em class="property">class </em><code class="descclassname">pyts.runInput.base.</code><code class="descname">tsinput</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/runInput/base.html#tsinput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runInput.base.tsinput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">dict</span></code></p>
+<p>The TurbSim input object and &#8216;global defaults&#8217; handler.</p>
+<p>This class works essentially as a dictionary, but with various
+functions and routines for providing default values in the event
+that &#8216;input&#8217; values are not specified explicitly by the user.</p>
+<p>Regarding global defaults:
+The &#8216;_dflt_...&#8217; functions define &#8216;global&#8217; default definitions
+(used by multiple profModels and/or turbModels).  Other, model
+specific, defaults are defined in the model itself.</p>
+<p>For further information on the &#8216;defaults&#8217; defined here, consult
+the O-TurbSim documentation:
+<a class="reference external" href="https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf</a></p>
+<dl class="attribute">
+<dt id="pyts.runInput.base.tsinput.incdec_a">
+<code class="descname">incdec_a</code><a class="headerlink" href="#pyts.runInput.base.tsinput.incdec_a" title="Permalink to this definition">¶</a></dt>
+<dd><p>The &#8216;a&#8217; coherence decrement.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.runInput.base.tsinput.incdec_b">
+<code class="descname">incdec_b</code><a class="headerlink" href="#pyts.runInput.base.tsinput.incdec_b" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyts.runInput.base.tsinput.isdefault">
+<code class="descname">isdefault</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/runInput/base.html#tsinput.isdefault"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runInput.base.tsinput.isdefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is the given variable a default?</p>
+<p>True : The value is not specified and there is no &#8216;_dflt_...&#8217; function.
+2    : The value is defined by a &#8216;_dflt_...&#8217; function.
+False: The value is specified explicitly in the configuration.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyts.runInput.base.tsinput.parse_IEC_standard">
+<code class="descname">parse_IEC_standard</code><span class="sig-paren">(</span><em>iecstd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/runInput/base.html#tsinput.parse_IEC_standard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runInput.base.tsinput.parse_IEC_standard" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.runInput.base.tsinput.psiM">
+<code class="descname">psiM</code><a class="headerlink" href="#pyts.runInput.base.tsinput.psiM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.runInput.base.tsinput.randseed">
+<code class="descname">randseed</code><a class="headerlink" href="#pyts.runInput.base.tsinput.randseed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.runInput.base.tsinput.turbmodel">
+<code class="descname">turbmodel</code><a class="headerlink" href="#pyts.runInput.base.tsinput.turbmodel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.runInput.base.tsinput.ustar0">
+<code class="descname">ustar0</code><a class="headerlink" href="#pyts.runInput.base.tsinput.ustar0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyts.runInput.base.tsinput.zL">
+<code class="descname">zL</code><a class="headerlink" href="#pyts.runInput.base.tsinput.zL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.runInput.main">
+<span id="pyts-runinput-main-module"></span><h2>pyts.runInput.main module<a class="headerlink" href="#module-pyts.runInput.main" title="Permalink to this headline">¶</a></h2>
+<p>The &#8216;main&#8217; module for the PyTurbSim runInput package defines the
+&#8216;run&#8217; and &#8216;write&#8217; routines for performing a TurbSim run and
+writing-out data.</p>
+<div class="section" id="example-usage">
+<h3>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h3>
+<p>First import the PyTurbSim api and runInput package.
+&gt;&gt;&gt; import pyts.api as pyts
+&gt;&gt;&gt; import pyts.runInput as runInput</p>
+<p>First create a tsinput object from an input file using the io.input.read function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tsinput</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&#39;MyInputFile.inp&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now run PyTurbSim using the runInput &#8216;run&#8217; function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tsdata</span><span class="o">=</span><span class="n">runInput</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tsinput</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This data can be written to the files specified in the input file
+(tsinput) using:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">runInput</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tsdata</span><span class="p">,</span><span class="n">tsinput</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="function">
+<dt id="pyts.runInput.main.cfg2grid">
+<code class="descclassname">pyts.runInput.main.</code><code class="descname">cfg2grid</code><span class="sig-paren">(</span><em>tsinput</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/runInput/main.html#cfg2grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runInput.main.cfg2grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>cfg2grid produces a TurbSim-grid object that matches the
+specificitions in the <em>tsinput</em> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsinput</strong> :  <code class="xref py py-class docutils literal"><span class="pre">tscfg</span></code></p>
+<blockquote>
+<div><p>A PyTurbSim input object.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>tsgrid</strong> :    <a class="reference internal" href="pyts.html#pyts.base.tsGrid" title="pyts.base.tsGrid"><code class="xref py py-class docutils literal"><span class="pre">tsGrid</span></code></a></p>
+<blockquote class="last">
+<div><p>A PyTurbSim grid object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.runInput.main.cfg2tsrun">
+<code class="descclassname">pyts.runInput.main.</code><code class="descname">cfg2tsrun</code><span class="sig-paren">(</span><em>tsinput</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/runInput/main.html#cfg2tsrun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runInput.main.cfg2tsrun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a <cite>tsrun</cite> object that matches the configuration options in
+tsinput.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsinput</strong> :  str</p>
+<blockquote>
+<div><p>A TurbSim input object.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>tsrun</strong> :     str</p>
+<blockquote class="last">
+<div><p>A TurbSim run object with grid, profModel, specModel,
+cohereModel and stressModel that match the input
+<cite>tsinput</cite> object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.runInput.main.run">
+<code class="descclassname">pyts.runInput.main.</code><code class="descname">run</code><span class="sig-paren">(</span><em>tsinput</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/runInput/main.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runInput.main.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a PyTurbSim run based on the input object <cite>tsinput</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsinput</strong> :  <a class="reference internal" href="#pyts.runInput.base.tsinput" title="pyts.runInput.base.tsinput"><code class="xref py py-class docutils literal"><span class="pre">tsinput</span></code></a></p>
+<blockquote>
+<div><p>A PyTurbSim input object.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>tsdata</strong> :    <a class="reference internal" href="pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><code class="xref py py-class docutils literal"><span class="pre">tsdata</span></code></a></p>
+<blockquote class="last">
+<div><p>A PyTurbSim data object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.runInput.main.run_fname">
+<code class="descclassname">pyts.runInput.main.</code><code class="descname">run_fname</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/runInput/main.html#run_fname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runInput.main.run_fname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a PyTurbSim run based on the input file <cite>fname</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fname</strong> :  str</p>
+<blockquote>
+<div><p>A TurbSim input file.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>tsdata</strong> :    <a class="reference internal" href="pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><code class="xref py py-class docutils literal"><span class="pre">tsdata</span></code></a></p>
+<blockquote class="last">
+<div><p>A PyTurbSim data object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyts.runInput.main.write">
+<code class="descclassname">pyts.runInput.main.</code><code class="descname">write</code><span class="sig-paren">(</span><em>tsdat</em>, <em>tsinput</em>, <em>fname=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/runInput/main.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runInput.main.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write TurbSim-output to a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsdat</strong> :     <a class="reference internal" href="pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><code class="xref py py-class docutils literal"><span class="pre">tsdata</span></code></a></p>
+<blockquote>
+<div><p>The PyTurbSim data object to write out.</p>
+</div></blockquote>
+<p><strong>tsinput</strong> :  <a class="reference internal" href="#pyts.runInput.base.tsinput" title="pyts.runInput.base.tsinput"><code class="xref py py-class docutils literal"><span class="pre">tsinput</span></code></a></p>
+<blockquote>
+<div><p>A PyTurbSim input object.</p>
+</div></blockquote>
+<p><strong>fname</strong> :     str, optional</p>
+<blockquote>
+<div><p>The filename to writeout (default obtained from <cite>tsinput</cite>)</p>
+</div></blockquote>
+<p><strong>This function determines which file-types to writeout (bladed or</strong></p>
+<p class="last"><strong>TurbSim) from the `tsinput` object</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-pyts.runInput.profModels">
+<span id="pyts-runinput-profmodels-module"></span><h2>pyts.runInput.profModels module<a class="headerlink" href="#module-pyts.runInput.profModels" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions for producing the appropriate profile
+model for a specific TurbSim input object (derived from an input
+file).</p>
+<p>When a new model is added to the profModels package, it will need a
+wrapper function here in order to be accessible using input files.</p>
+<dl class="function">
+<dt id="pyts.runInput.profModels.getModel">
+<code class="descclassname">pyts.runInput.profModels.</code><code class="descname">getModel</code><span class="sig-paren">(</span><em>tsinput</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/runInput/profModels.html#getModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runInput.profModels.getModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the wrapper function for all profile models implemented in
+the runInput package.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsinput</strong> :  <a class="reference internal" href="#pyts.runInput.base.tsinput" title="pyts.runInput.base.tsinput"><code class="xref py py-class docutils literal"><span class="pre">tsinput</span></code></a></p>
+<blockquote>
+<div><p>A TurbSim input object.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>profModel</strong> : A subclass of <a class="reference internal" href="pyts.profModels.html#pyts.profModels.base.profModelBase" title="pyts.profModels.base.profModelBase"><code class="xref py py-class docutils literal"><span class="pre">profModelBase</span></code></a></p>
+<blockquote class="last">
+<div><p>The appropriately initialized &#8216;profile model&#8217; object
+specified in <cite>tsinput</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.runInput.turbModels">
+<span id="pyts-runinput-turbmodels-module"></span><h2>pyts.runInput.turbModels module<a class="headerlink" href="#module-pyts.runInput.turbModels" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions for producing the appropriate turbulence
+model for a specific TurbSim input object (derived from an input
+file).</p>
+<p>The term &#8216;TurbModels&#8217; encompasses the &#8216;specModel&#8217;, &#8216;cohereModel&#8217; and
+&#8216;stressModel&#8217; functionalities of the PyTurbSim program.  Within the
+&#8216;runInput&#8217; package all three of these statistics are handled in this
+module.  Thus, each wrapper function for a &#8216;TurbModel&#8217; should should
+specify/define a model for each of these statistics.</p>
+<p>More information on the specific TurbModels can be found in the
+corresponding package for the statistic of interest.</p>
+<p>To make a new specModel, cohereModel, or stressModel available from
+input files add a wrapper function for it here.</p>
+<dl class="function">
+<dt id="pyts.runInput.turbModels.getModel">
+<code class="descclassname">pyts.runInput.turbModels.</code><code class="descname">getModel</code><span class="sig-paren">(</span><em>tsinput</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/runInput/turbModels.html#getModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runInput.turbModels.getModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the wrapper function for all turbulence models implemented
+in the runInput package.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsinput</strong> :  <code class="xref py py-class docutils literal"><span class="pre">tscfg</span></code></p>
+<blockquote>
+<div><p>A TurbSim input object.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>specModel</strong> :         A subclass of <a class="reference internal" href="pyts.specModels.html#pyts.specModels.base.specModelBase" title="pyts.specModels.base.specModelBase"><code class="xref py py-class docutils literal"><span class="pre">specModelBase</span></code></a></p>
+<blockquote>
+<div><p>The appropriately initialized &#8216;spectral model&#8217; object
+specified in <cite>tsinput</cite>.</p>
+</div></blockquote>
+<p><strong>cohereModel</strong> :       A subclass of <a class="reference internal" href="pyts.cohereModels.html#pyts.cohereModels.base.cohereModelBase" title="pyts.cohereModels.base.cohereModelBase"><code class="xref py py-class docutils literal"><span class="pre">cohereModelBase</span></code></a></p>
+<blockquote>
+<div><p>The appropriately initialized &#8216;coherence model&#8217; object
+specified in <cite>tsinput</cite>.</p>
+</div></blockquote>
+<p><strong>stressModel</strong> :       A subclass of <a class="reference internal" href="pyts.stressModels.html#pyts.stressModels.base.stressModelBase" title="pyts.stressModels.base.stressModelBase"><code class="xref py py-class docutils literal"><span class="pre">stressModelBase</span></code></a></p>
+<blockquote class="last">
+<div><p>The appropriately initialized &#8216;stress model&#8217; object
+specified in <cite>tsinput</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.runInput">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyts.runInput" title="Permalink to this headline">¶</a></h2>
+<p>This is the PyTurbSim package that provides tools for emulating
+O-TurbSim functionality. In particular it contains functions for
+taking a TurbSim &#8216;input&#8217; file (.inp) and performing a TurbSim run that
+matches that file.</p>
+<div class="section" id="id1">
+<h3>Example usage<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>See either:</dt>
+<dd><ol class="first last arabic simple">
+<li>the <cite>pyTurbSim.py</cite> executable script in the PyTurbSim root directory</li>
+<li>The <a class="reference internal" href="#module-pyts.runInput.main" title="pyts.runInput.main"><code class="xref py py-mod docutils literal"><span class="pre">pyts.runInput.main</span></code></a> docstring for example usage.</li>
+</ol>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pyts.runInput package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyts.runInput.base">pyts.runInput.base module</a></li>
+<li><a class="reference internal" href="#module-pyts.runInput.main">pyts.runInput.main module</a><ul>
+<li><a class="reference internal" href="#example-usage">Example usage</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyts.runInput.profModels">pyts.runInput.profModels module</a></li>
+<li><a class="reference internal" href="#module-pyts.runInput.turbModels">pyts.runInput.turbModels module</a></li>
+<li><a class="reference internal" href="#module-pyts.runInput">Module contents</a><ul>
+<li><a class="reference internal" href="#id1">Example usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyts.profModels.html"
+                        title="previous chapter">pyts.profModels package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyts.specModels.html"
+                        title="next chapter">pyts.specModels package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/pyts.runInput.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyts.specModels.html" title="pyts.specModels package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pyts.profModels.html" title="pyts.profModels package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PyTurbSim 0.4.6 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="pyts.html" >pyts package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2014, National Renewable Energy Lab.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

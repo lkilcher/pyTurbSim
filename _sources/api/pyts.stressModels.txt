@@ -12,18 +12,18 @@ pyts.stressModels.api module
     :undoc-members:
     :show-inheritance:
 
-pyts.stressModels.hydro module
-------------------------------
+pyts.stressModels.base module
+-----------------------------
 
-.. automodule:: pyts.stressModels.hydro
+.. automodule:: pyts.stressModels.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.stressModels.mBase module
+pyts.stressModels.hydro module
 ------------------------------
 
-.. automodule:: pyts.stressModels.mBase
+.. automodule:: pyts.stressModels.hydro
     :members:
     :undoc-members:
     :show-inheritance:

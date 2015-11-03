@@ -12,6 +12,14 @@ pyts.specModels.api module
     :undoc-members:
     :show-inheritance:
 
+pyts.specModels.base module
+---------------------------
+
+.. automodule:: pyts.specModels.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pyts.specModels.hydro module
 ----------------------------
 
@@ -32,14 +40,6 @@ pyts.specModels.kelley_coefs module
 -----------------------------------
 
 .. automodule:: pyts.specModels.kelley_coefs
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-pyts.specModels.mBase module
-----------------------------
-
-.. automodule:: pyts.specModels.mBase
     :members:
     :undoc-members:
     :show-inheritance:
