@@ -88,14 +88,14 @@ $ python setup.py install
 </div>
 <div class="section" id="windows-installation-issues">
 <h2>Windows Installation Issues<a class="headerlink" href="#windows-installation-issues" title="Permalink to this headline">¶</a></h2>
-<p>I have encountered various issues related to compiling the Fortran source code when installing on Windows. If you recieve the dreaded <cite>unable to find vcvarsall.bat</cite> message, there are widely recommended solutions summarized as answers to <a class="reference external" href="http://stackoverflow.com/questions/2817869/error-unable-to-find-vcvarsall-bat">this Stack Overflow Question</a>, but I&#8217;ve only gotten <a class="reference external" href="http://stackoverflow.com/a/2838827/2121597">the one that involves creating/editing the &#8216;distutils.cfg&#8217; file</a> to work for me. Note that I used <cite>pip</cite> to install this tool, rather than using <cite>easy_install</cite>, as suggested in that post.</p>
+<p>I have encountered various issues related to compiling the Fortran source code when installing on Windows. If you recieve the dreaded <code class="docutils literal"><span class="pre">unable</span> <span class="pre">to</span> <span class="pre">find</span> <span class="pre">vcvarsall.bat</span></code> message, there are widely recommended solutions summarized as answers to <a class="reference external" href="http://stackoverflow.com/questions/2817869/error-unable-to-find-vcvarsall-bat">this Stack Overflow Question</a>, but I&#8217;ve only gotten <a class="reference external" href="http://stackoverflow.com/a/2838827/2121597">the one that involves creating/editing the &#8216;distutils.cfg&#8217; file</a> to work for me. Note that I used <code class="docutils literal"><span class="pre">pip</span></code> to install this tool, rather than using <code class="docutils literal"><span class="pre">easy_install</span></code>, as suggested in that post.</p>
 <p>The other solution, which implicitly assumes you have <a class="reference external" href="https://www.visualstudio.com/">MS Visual Studio</a> installed, has led to other errors for me:</p>
 <div class="highlight-python"><div class="highlight"><pre>gfortran.lib(backtrace.o) : error LNK2019: unresolved external symbol __Unwind_GetIpInfo referenced in function _trace_function`
 
 gfortran.lib(backtrace.o) : error LNK2019: unresolved external symbol __Unwind_Backtrace referenced in function __gfortran_backtrace
 </pre></div>
 </div>
-<p>I think this is a result of the compile steps being completed by <cite>gfortran</cite>, and the linking step is being done by MSVS&#8217; <cite>link.exe</cite>.</p>
+<p>I think this is a result of the compile steps being completed by <code class="docutils literal"><span class="pre">gfortran</span></code>, and the linking step is being done by MSVS&#8217; <code class="docutils literal"><span class="pre">link.exe</span></code>.</p>
 <p>If you encounter other issues installing this tool on Windows, feel free to <a class="reference external" href="https://github.com/lkilcher/pyTurbSim/issues">create an issue</a>.</p>
 </div>
 </div>
