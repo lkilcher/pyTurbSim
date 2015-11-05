@@ -89,6 +89,8 @@ def write(tsdat, tsinput, fname=None):
         tsdat.write_bladed(fname)
     if tsinput['WrADFF']:
         tsdat.write_turbsim(fname)
+    if tsinput['WrFMTFF']:
+        tsdat.write_formatted(fname)
     tsdat.write_sum(fname)
 
 

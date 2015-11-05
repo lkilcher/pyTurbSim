@@ -811,7 +811,7 @@ class tsdata(gridProps):
         filename : string
                 '.u', '.v', and '.w' will be appended to the end of the filename.
         """
-        write.formatted(self, filename)
+        write.formatted(filename, self)
 
     def write_bladed(self, filename):
         """
@@ -840,3 +840,14 @@ class tsdata(gridProps):
         Currently PyTurbSim does not support writing summary (.sum) files.
         """
         write.sum(filename, self._sumdict)
+
+    if write.h5py is not None:
+        def write_hdf5(self, filename):
+            """Save the data in this tsdata object as an hdf5 file.
+
+            Parameters
+            ----------
+            filename : str
+                       The filename to which the data should be written.
+            """
+            write.hdf5(filename, self)

@@ -11,6 +11,10 @@ from .base import e
 from .. import _version as ver
 import time
 from .sum import write as sum  # Make sum.write available here.
+try:
+    import h5py
+except ImportError:
+    h5py = None
 
 
 def bladed(fname, tsdat):
@@ -106,18 +110,18 @@ def formatted(fname, tsdat):
                " {zcoords}\n"
                "\n"
                " Y Coordinates (m):\n"
-               " {ycoords}\n".format(n_y=tsdat.n_y,
-                                     n_z=tsdat.n_z,
+               " {ycoords}\n".format(n_y=tsdat.grid.n_y,
+                                     n_z=tsdat.grid.n_z,
                                      dy=tsdat.grid.dy,
                                      dz=tsdat.grid.dz,
                                      dt=tsdat.dt,
                                      zhub=tsdat.grid.zhub,
                                      uhub=tsdat.UHUB,
-                                     zcoords=(' {: 7.3f}' * tsdat.n_z).format(*tsdat.z),
-                                     ycoords=(' {: 7.3f}' * tsdat.n_y).format(*tsdat.y), ))
+                                     zcoords=(' {: 7.3f}' * tsdat.grid.n_z).format(*tsdat.z),
+                                     ycoords=(' {: 7.3f}' * tsdat.grid.n_y).format(*tsdat.y), ))
     outform = ("\n"
                "  {: 7.3f} {: 7.3f}\n")
-    outform += (' ' + (' {: 7.3f}' * tsdat.n_y) + '\n') * tsdat.n_z
+    outform += (' ' + (' {: 7.3f}' * tsdat.grid.n_y) + '\n') * tsdat.grid.n_z
 
     fname = fname.rstrip('.inp')
 
@@ -127,10 +131,10 @@ def formatted(fname, tsdat):
         print("{}-component, timestep:".format(comp))
         fl = open(fname + '.' + comp, 'w')
         fl.write(header % (comp))
-
-        for idt in range(tsdat.grid.n_t):
+        nt = tsdat.time.shape[0]
+        for idt in range(nt):
             if idt % 1000 == 0:
-                print('{}/{}'.format(idt, tsdat.grid.n_t))
+                print('{}/{}'.format(idt, nt))
             fl.write(outform.format(tsdat.time[idt],
                                     tsdat.uhub[idt],
                                     *tsdat.uturb[idc, :, :, idt].flatten()))
@@ -196,3 +200,40 @@ def turbsim(fname, tsdat):
     # component (fastest), y-index, z-index, time (slowest).
     fl.write(np.rollaxis(out, 2, 1).tostring(order='F'))
     fl.close()
+
+
+if h5py is not None:
+
+    def hdf5(fname, tsdat):
+        """Write the data to an hdf5 format file.
+
+        Parameters
+        ----------
+        fname : str
+                the filename to which the data should be written. `.inp`
+                will always be stripped, and `.h5` will be added if no
+                file extension exists.
+        tsdat : :class:`tsdata <pyts.main.tsdata>`
+                 The 'tsdata' object that contains the data.
+
+        """
+        fname = fname.rstrip('.inp')
+        if '.' not in (fname.split('/')[-1]).split('\\')[-1]:
+            fname += '.h5'
+        with h5py.File(fname, mode='w') as fl:
+            # The turbulence velocity:
+            ds_uturb = fl.create_dataset('uturb', data=tsdat.uturb)
+            ds_uturb.attrs.create('units', 'm/s')
+            ds_uturb.attrs.create('dims', ['u,v,w', 'z', 'y', 'time'])
+            # The mean velocity profile:
+            ds_uprof = fl.create_dataset('uprof', data=tsdat.uprof)
+            ds_uprof.attrs.create('units', 'm/s')
+            ds_uprof.attrs.create('dims', ['u,v,w', 'z', 'y'])
+            # The spatial grid:
+            ds_z = fl.create_dataset('z', data=tsdat.z)
+            ds_z.attrs.create('units', 'm')
+            ds_y = fl.create_dataset('y', data=tsdat.y)
+            ds_y.attrs.create('units', 'm')
+            # The time vector:
+            ds_time = fl.create_dataset('time', data=tsdat.time)
+            ds_time.attrs.create('units', 'sec')
