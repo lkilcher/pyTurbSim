@@ -1,4 +1,4 @@
-from ..main import tsdata, tsrun  # These are used only to identify object types.
+from ..main import tsdata, tsrun  # used to identify object types
 import superaxes as supax
 import psd
 from base import indx, mpl

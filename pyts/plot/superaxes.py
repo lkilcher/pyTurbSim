@@ -750,7 +750,6 @@ class saxes_szr(axgroup):
                                        sharex=self.sharex(iv, ih),
                                        sharey=self.sharey(iv, ih),
                                        **kwargs)
-                self.ax[iv, ih].hold(True)
         self._xlabel_ax = self.ax[-1, 0]
         self._ylabel_ax = self._xlabel_ax
         pylab.interactive(inter)
@@ -824,13 +823,13 @@ class saxes(saxes_szr):
 
     def axgrid(self):
         axg = np.ones((self.n[0], self.n[1], 4))
-        axg[:,:, 0], axg[:,:, 2] = bf.axvec2axpos(self.n[1],
-                                                  self.h,
-                                                  rel=self.hrel)
-        axg[:,:, 1], axg[:,:, 3] = bf.axvec2axpos(self.n[0],
-                                                  self.v,
-                                                  True,
-                                                  rel=self.vrel)
+        axg[:, :, 0], axg[:, :, 2] = bf.axvec2axpos(self.n[1],
+                                                    self.h,
+                                                    rel=self.hrel)
+        axg[:, :, 1], axg[:, :, 3] = bf.axvec2axpos(self.n[0],
+                                                    self.v,
+                                                    True,
+                                                    rel=self.vrel)
         return axg
 
     def drawall(self, **kwargs):
@@ -876,8 +875,7 @@ class saxes(saxes_szr):
                     kwargs.pop('sharey')
                 if self.drawax[iv, ih]:
                     # self.ax[iv,ih]=myaxes(axg[iv,ih,:],**kwargs)
-                    self.ax[iv, ih] = axes(axg[iv, ih,:], **kwargs)
-                    self.ax[iv, ih].hold(True)
+                    self.ax[iv, ih] = axes(axg[iv, ih, :], **kwargs)
                     if self.sharex[iv, ih] and not\
                        self._sharex_ax[self.sharex[iv, ih]]:
                         self._sharex_ax[self.sharex[iv, ih]] = self.ax[iv, ih]

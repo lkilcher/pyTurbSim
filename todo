@@ -1,0 +1,2 @@
+- Remove dependence on superaxes.py (use gridspec instead?)
+- Use pytest to run tests.
