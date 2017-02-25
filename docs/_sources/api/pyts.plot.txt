@@ -1,0 +1,54 @@
+pyts.plot package
+=================
+
+Submodules
+----------
+
+pyts.plot.api module
+--------------------
+
+.. automodule:: pyts.plot.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.plot.axform module
+-----------------------
+
+.. automodule:: pyts.plot.axform
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.plot.base module
+---------------------
+
+.. automodule:: pyts.plot.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.plot.psd module
+--------------------
+
+.. automodule:: pyts.plot.psd
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.plot.superaxes module
+--------------------------
+
+.. automodule:: pyts.plot.superaxes
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: pyts.plot
+    :members:
+    :undoc-members:
+    :show-inheritance:

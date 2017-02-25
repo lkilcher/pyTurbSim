@@ -1,12 +1,14 @@
-build/*
+build/
 
-dep/*
+doc-build/
 
-dist/*
+dep/
 
-pub/*
+dist/
 
-pyts/tslib/bld/*
+pub/
+
+pyts/tslib/bld/
 
 pyts/tslib/tslib*.so
 
@@ -40,7 +42,7 @@ test/*/*.sum
 
 test/*/*.bts
 
-tmp/*
+tmp/
 
 *.orig
 

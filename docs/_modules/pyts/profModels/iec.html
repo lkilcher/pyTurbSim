@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.profModels.iec &mdash; PyTurbSim 0.4.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.4.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyts.profModels.iec</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains the power-law mean-velocity profiles:</span>
+<span class="sd"> main   - The IEC mean wind speed profile.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">profObj</span>
+<span class="kn">from</span> <span class="nn">.log</span> <span class="kn">import</span> <span class="n">nwtc</span> <span class="k">as</span> <span class="n">logmain</span>
+<span class="kn">from</span> <span class="nn">.power</span> <span class="kn">import</span> <span class="n">nwtc</span> <span class="k">as</span> <span class="n">powmain</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">tile</span><span class="p">,</span> <span class="n">where</span>
+
+<span class="c"># !!!VERSION_INCONSISTENCY</span>
+<span class="c"># This model needs to account for the EWM50 and EWM1 turbulence models.</span>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.iec.main">[docs]</a><span class="k">class</span> <span class="nc">main</span><span class="p">(</span><span class="n">powmain</span><span class="p">,</span> <span class="n">logmain</span><span class="p">,</span> <span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;IEC wind profile model.</span>
+
+<span class="sd">    This profile is a power-law across the rotor disk and logarithmic</span>
+<span class="sd">    elsewhere.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    grid :      :class:`tsGrid &lt;pyts.base.tsGrid&gt;`</span>
+<span class="sd">                The TurbSim grid object for this simulation.</span>
+
+<span class="sd">    URef :      float</span>
+<span class="sd">                Reference velocity for the wind profile [m/s].</span>
+
+<span class="sd">    RefHt :     float</span>
+<span class="sd">                Reference height of the reference velocity [m].</span>
+
+<span class="sd">    PLexp :     float,optional (0.2)</span>
+<span class="sd">                The power-law exponent to be utilized for this</span>
+<span class="sd">                simulation [non-dimensional], default=0.2 (per</span>
+<span class="sd">                IEC specification).</span>
+
+<span class="sd">    Z0 :        float</span>
+<span class="sd">                Surface roughness length [m].</span>
+
+<span class="sd">    Ri :        float</span>
+<span class="sd">                The Richardon number [non-dimensional].</span>
+
+<span class="sd">    turbmodel : str</span>
+<span class="sd">                the name of the turbulence model in this simulationm, optional.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    .power.nwtc : The iec model is this law over the rotor disk</span>
+<span class="sd">    .log.nwtc   : The iec model is this law outside the rotor disk</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">URef</span><span class="p">,</span> <span class="n">RefHt</span><span class="p">,</span> <span class="n">Z0</span><span class="p">,</span> <span class="n">PLexp</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">turbmodel</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uref</span> <span class="o">=</span> <span class="n">URef</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span> <span class="o">=</span> <span class="n">RefHt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">PLexp</span> <span class="o">=</span> <span class="n">PLexp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Z0</span> <span class="o">=</span> <span class="n">Z0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ri</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TurbModel</span> <span class="o">=</span> <span class="n">turbmodel</span>
+
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">        Profile model used                               =  {dat.model_desc}</span>
+<span class="s">        Reference velocity (URef)                        =  {dat.Uref:0.4g} [m/s]</span>
+<span class="s">        Reference height (RefHt)                         =  {dat.Zref:0.4g} [m]</span>
+<span class="s">        Power-low exponent (PLexp)                       =  {dat.PLexp:0.4g}</span>
+<span class="s">        Surface roughness length (Z0)                    =  {dat.Z0:0.4g} [m]</span>
+<span class="s">        Turbulence Model                                 =  {dat.TurbModel}</span>
+<span class="s">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="main.__call__"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.iec.main.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and calculate the mean-profile object for a `tsrun`</span>
+<span class="sd">        instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tsrun :         :class:`.tsrun`</span>
+<span class="sd">                        A TurbSim run object.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out :           :class:`.profObj`</span>
+<span class="sd">                        A iec wind-speed profile for the grid in `tsrun`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">profObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span>  <span class="c"># A temporary, internal shortcut.</span>
+        <span class="n">zinds</span> <span class="o">=</span> <span class="p">(((</span><span class="o">-</span><span class="n">g</span><span class="o">.</span><span class="n">rotor_diam</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">g</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">g</span><span class="o">.</span><span class="n">zhub</span><span class="p">)</span>
+                 <span class="o">&amp;</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">g</span><span class="o">.</span><span class="n">zhub</span> <span class="o">&lt;=</span> <span class="n">g</span><span class="o">.</span><span class="n">rotor_diam</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))[:,</span> <span class="bp">None</span><span class="p">])</span>
+        <span class="n">yinds</span> <span class="o">=</span> <span class="p">((</span><span class="o">-</span><span class="n">g</span><span class="o">.</span><span class="n">rotor_diam</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">g</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+                 <span class="o">&amp;</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">g</span><span class="o">.</span><span class="n">rotor_diam</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))[</span><span class="bp">None</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">where</span><span class="p">(</span><span class="n">zinds</span> <span class="o">&amp;</span> <span class="n">yinds</span><span class="p">,</span>
+                             <span class="n">tile</span><span class="p">(</span><span class="n">powmain</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">z</span><span class="p">)[:,</span> <span class="bp">None</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">yinds</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>
+                             <span class="n">tile</span><span class="p">(</span><span class="n">logmain</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">z</span><span class="p">)[:,</span> <span class="bp">None</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">yinds</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

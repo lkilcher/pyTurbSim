@@ -1,0 +1,652 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.base &mdash; PyTurbSim 0.4.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.4.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyts.base</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is the &#39;base&#39; module for the PyTurbSim program.</span>
+
+<span class="sd">This module:</span>
+
+<span class="sd"> a) imports common numpy functions/methods (from pyts_numpy.py),</span>
+
+<span class="sd"> b) defines the :class:`gridObj` class (and the :func:`tsGrid` helper</span>
+<span class="sd">    function),</span>
+
+<span class="sd"> c) imports the tslib Fortran module (if it is available) and</span>
+
+<span class="sd"> d) Defines several abstract base classes.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">pyts_numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float32</span><span class="p">,</span> <span class="n">complex64</span>
+<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">lowPrimeFact_near</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.tslib</span> <span class="kn">import</span> <span class="n">tslib</span>  <span class="c"># The file tslib.so contains the module &#39;tslib&#39;.</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">    ***Warning***: &#39;tslib&#39; did not load correctly.  pyTurbSim</span>
+<span class="s">    will produce accurate results, but MUCH less efficiently.</span>
+<span class="s">    Consider compiling the tslib to improve performance.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+    <span class="n">tslib</span> <span class="o">=</span> <span class="bp">None</span>
+
+<span class="n">dbg</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="c">#import dbg</span>
+
+<span class="n">tsroot</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">&quot;</span><span class="p">,</span> <span class="s">&quot;/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span>
+<span class="n">userroot</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s">&#39;~&#39;</span><span class="p">)</span>
+
+<span class="n">ts_float</span> <span class="o">=</span> <span class="n">float32</span>
+<span class="n">ts_complex</span> <span class="o">=</span> <span class="n">complex64</span>
+<span class="c">#ts_float={&#39;dtype&#39;:np.float32,&#39;order&#39;:&#39;F&#39;}</span>
+<span class="c">#ts_complex={&#39;dtype&#39;:np.complex64,&#39;order&#39;:&#39;F&#39;}</span>
+
+
+<div class="viewcode-block" id="statObj"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.statObj">[docs]</a><span class="k">class</span> <span class="nc">statObj</span><span class="p">(</span><span class="nb">float</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">ubar</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">ubar</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ubar</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">ubar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ti</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">/</span> <span class="n">ubar</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;statObj mean: </span><span class="si">%0.2f</span><span class="s">, min: </span><span class="si">%0.2f</span><span class="s">, max: </span><span class="si">%0.2f</span><span class="s">&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="tsBaseObj"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.tsBaseObj">[docs]</a><span class="k">class</span> <span class="nc">tsBaseObj</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An abstract, base object, that contains the component (u,v,w)</span>
+<span class="sd">    information for derived classes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">comp_name</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;u&#39;</span><span class="p">,</span> <span class="s">&#39;v&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">]</span>
+    <span class="n">n_comp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">comp_name</span><span class="p">)</span>
+    <span class="n">comp</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_comp</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="calcObj"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.calcObj">[docs]</a><span class="k">class</span> <span class="nc">calcObj</span><span class="p">(</span><span class="n">tsBaseObj</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a base class for objects that are have .array properties.</span>
+<span class="sd">    It creates a shortcut for accessing the array through the getitem</span>
+<span class="sd">    method.</span>
+
+<span class="sd">    This is used in each of the model packages as a base-class for the</span>
+<span class="sd">    output &#39;statistics&#39; of that class. In other words: profObj,</span>
+<span class="sd">    specObj, stressObj, and cohereObj all derive from this class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_alias0</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;u&#39;</span><span class="p">,</span> <span class="s">&#39;v&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ind</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alias0</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alias0</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_alias1&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ind</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alias1</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alias1</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ind</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alias0</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alias0</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_alias1&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ind</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alias1</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alias1</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+</div>
+<div class="viewcode-block" id="gridProps"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridProps">[docs]</a><span class="k">class</span> <span class="nc">gridProps</span><span class="p">(</span><span class="n">tsBaseObj</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An abstract base class that provides shortcuts for objects that</span>
+<span class="sd">    have the grid as one of their attributes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">y</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_p</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_p</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dt</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dt</span>
+
+</div>
+<span class="k">def</span> <span class="nf">_parse_inputs</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">plus_one</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parse inputs that describe a grid dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        The number of points in that dimension.</span>
+<span class="sd">    l : float</span>
+<span class="sd">        The total length of that dimension.</span>
+<span class="sd">    d : float</span>
+<span class="sd">        The spacing between points.</span>
+<span class="sd">    plus_one : bool</span>
+<span class="sd">        Specifies whether or not the number of points</span>
+<span class="sd">        includes an endpoint, or not. This should be 1 for</span>
+<span class="sd">        spatial inputs, and 0 for time inputs.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        number of points</span>
+<span class="sd">    l : float</span>
+<span class="sd">        length of dimension</span>
+<span class="sd">    d : float</span>
+<span class="sd">        delta between points</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    Any one of `n`,`l`,`d` may be &#39;None&#39;, in which case it is</span>
+<span class="sd">    computed from the other two. If all three are specified the</span>
+<span class="sd">    value of `d` is disregaurded and computed from `n` and `l`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">l</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">d</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Invalid inputs to Grid Initialization.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">ts_float</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span> <span class="o">/</span> <span class="n">d</span><span class="p">)</span> <span class="o">+</span> <span class="n">plus_one</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">plus_one</span><span class="p">)</span> <span class="o">*</span> <span class="n">d</span>
+    <span class="k">elif</span> <span class="n">l</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">ts_float</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">plus_one</span><span class="p">)</span> <span class="o">*</span> <span class="n">d</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c"># Always override d if the other two are specified.</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">ts_float</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">l</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">plus_one</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">n</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">d</span>
+
+
+<div class="viewcode-block" id="tsGrid"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.tsGrid">[docs]</a><span class="k">def</span> <span class="nf">tsGrid</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ny</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">nz</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+           <span class="n">width</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+           <span class="n">nt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">time_sec</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">time_min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">time_sec_out</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+           <span class="n">findClose_nt_lowPrimeFactors</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">prime_max</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span>
+           <span class="n">clockwise</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a TurbSim grid.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    center       : float</span>
+<span class="sd">        height of the center of the grid.</span>
+<span class="sd">    ny, nz        : int, optional*</span>
+<span class="sd">        number of points in the y and z directions.</span>
+<span class="sd">    width,height : float, optional*</span>
+<span class="sd">        total width and height of grid.</span>
+<span class="sd">    dy, dz        : float, optional*</span>
+<span class="sd">        spacing between points in the y and z directions.</span>
+
+<span class="sd">    nt           : int, optional*</span>
+<span class="sd">        number of timesteps</span>
+<span class="sd">    time_sec     : float, optional*</span>
+<span class="sd">        length of run (seconds)</span>
+<span class="sd">    time_min     : float, optional*</span>
+<span class="sd">        length of run (minutes, subordinate to time_sec)</span>
+<span class="sd">    dt           : float, optional*</span>
+<span class="sd">        timestep (seconds, subordinate to nt and time_sec)</span>
+<span class="sd">    time_sec_out : float, optional (`time_sec`)</span>
+<span class="sd">        length of output timeseries in seconds, must be &gt;=`time_sec`</span>
+
+<span class="sd">    findClose_nt_lowPrimeFactors : bool, optional (True)</span>
+<span class="sd">        Adjust nfft to be a multiple of low primes?</span>
+<span class="sd">    prime_max    : int, optional (31)</span>
+<span class="sd">        The maximum prime number allowed as a &#39;low prime&#39;.</span>
+<span class="sd">    clockwise    : bool, optional (True)</span>
+<span class="sd">        Should the simulation write a &#39;clockwise&#39; rotation output file.</span>
+<span class="sd">        This is only used when writing &#39;Bladed&#39; output files.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    * Each grid dimension (z,y,time) can be specified by any</span>
+<span class="sd">      combination of 2 inputs. For the y-grid, for example, you</span>
+<span class="sd">      may specify: dy and ny, or width and dy, or width and ny. If</span>
+<span class="sd">      all three are specified, dy ignored and computed from ny and</span>
+<span class="sd">      width.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">gridObj</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">center</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s">&quot;tsGrid objects require that the height of the grid center </span><span class="se">\</span>
+<span class="s">            (input parameter &#39;center&#39;) be specified.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">time_sec</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">time_min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">time_sec</span> <span class="o">=</span> <span class="n">time_min</span> <span class="o">*</span> <span class="mf">60.</span>
+    <span class="k">if</span> <span class="n">time_sec_out</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">time_sec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">time_sec_out</span> <span class="o">=</span> <span class="n">time_sec</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">time_sec_out</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">time_sec</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="n">time_sec</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">time_sec_out</span><span class="p">,</span> <span class="n">time_sec</span><span class="p">)</span>
+    <span class="n">n_y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">_parse_inputs</span><span class="p">(</span><span class="n">ny</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+    <span class="n">n_z</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">dz</span> <span class="o">=</span> <span class="n">_parse_inputs</span><span class="p">(</span><span class="n">nz</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">dz</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">/</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">center</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                               <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">dz</span> <span class="o">/</span> <span class="mi">10</span><span class="p">,</span>
+                               <span class="n">dz</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
+
+    <span class="n">out</span><span class="o">.</span><span class="n">n_t</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">time_sec</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">_parse_inputs</span><span class="p">(</span><span class="n">nt</span><span class="p">,</span> <span class="n">time_sec</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">plus_one</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">time_sec_out</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">time_sec_out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">time_sec</span>
+    <span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_t_out</span><span class="p">,</span>
+     <span class="n">time_sec_out</span><span class="p">,</span>
+     <span class="n">junk</span><span class="p">)</span> <span class="o">=</span> <span class="n">_parse_inputs</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span>
+                           <span class="n">time_sec_out</span><span class="p">,</span>
+                           <span class="n">dt</span><span class="p">,</span> <span class="n">plus_one</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">findClose_nt_lowPrimeFactors</span><span class="p">:</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">n_t</span> <span class="o">=</span> <span class="n">lowPrimeFact_near</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_t</span><span class="p">,</span> <span class="n">nmin</span><span class="o">=</span><span class="n">out</span><span class="o">.</span><span class="n">n_t_out</span><span class="p">,</span> <span class="n">pmax</span><span class="o">=</span><span class="n">prime_max</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">n_t</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">time_sec</span><span class="p">,</span> <span class="n">junk</span> <span class="o">=</span> <span class="n">_parse_inputs</span><span class="p">(</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">n_t</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="n">plus_one</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span> <span class="o">*</span> <span class="n">out</span><span class="o">.</span><span class="n">df</span> <span class="o">+</span> <span class="n">out</span><span class="o">.</span><span class="n">df</span>  <span class="c"># !!!CHECKTHIS</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+</div>
+<div class="viewcode-block" id="gridObj"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj">[docs]</a><span class="k">class</span> <span class="nc">gridObj</span><span class="p">(</span><span class="n">tsBaseObj</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The base &#39;grid&#39; class.</span>
+
+<span class="sd">    In general, functions should be used to construct the grid.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    1) The grid is defined so that the first row is the bottom and the</span>
+<span class="sd">       last is the top.</span>
+
+<span class="sd">    2) Irregular grids are not yet supported.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">clockwise</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">n_tower</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c"># This is a placeholder.</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">iy</span> <span class="o">=</span> <span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">iz</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span> <span class="o">=</span> <span class="n">ind</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="s">&quot;Indices for accessing grids must have len==1 or 2.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">iy</span> <span class="o">=</span> <span class="n">ind</span>
+            <span class="n">iz</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)()</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">n_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_t</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">n_t_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_t_out</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">time_sec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_sec</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">iy</span><span class="p">]</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">iz</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s">&#39;&lt;TurbSim Grid:</span><span class="si">%5.1f</span><span class="s">m high x </span><span class="si">%0.1f</span><span class="s">m wide grid  (</span><span class="si">%d</span><span class="s"> x </span><span class="si">%d</span><span class="s"> points)&#39;</span>
+                <span class="s">&#39;, centered at </span><span class="si">%0.1f</span><span class="s">m.</span><span class="se">\n</span><span class="s">              </span><span class="si">%5.1f</span><span class="s">sec simulation, dt=</span><span class="si">%0.1f</span><span class="s">sec &#39;</span>
+                <span class="s">&#39;(</span><span class="si">%d</span><span class="s"> timesteps).&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_sec</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_t</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">time_sec_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_t_out</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">width</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dz</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_z</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dy</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_z</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_t</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">df</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="mf">1.</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_sec</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_p</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ihub</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_z</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The grid shape: (n_z, n_y).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">shape_wf</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The grid shape, including frequency (n_z, n_y, n_f).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">]</span>
+
+<div class="viewcode-block" id="gridObj.dist"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.dist">[docs]</a>    <span class="k">def</span> <span class="nf">dist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the distance between the points `ii` and `jj`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ii : Index of first grid-point.</span>
+<span class="sd">        jj : Index of second grid-point.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        r : The distance between the two grid points.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Each input index can either be a grid-point pair (e.g. a tuple,</span>
+<span class="sd">        indicating the grid-point, or a linear index such as would be</span>
+<span class="sd">        returned by :attr:`sub2ind`).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+            <span class="n">ii</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind2sub</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">jj</span><span class="p">,</span> <span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+            <span class="n">jj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind2sub</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">ii</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">jj</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> <span class="o">**</span> <span class="n">ts_float</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span>
+                       <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">ii</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">jj</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="o">**</span> <span class="n">ts_float</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">zhub</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The height of the hub.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_zhub&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_zhub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zhub</span>
+
+    <span class="nd">@zhub.setter</span>
+    <span class="k">def</span> <span class="nf">zhub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_zhub</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rotor_diam</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the min of the grid width and height.</span>
+
+<span class="sd">        This is how TurbSim quantifies rotor diameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+    <span class="c">## def ind2sub(self,ind):</span>
+    <span class="c">##     &quot;&quot;&quot;</span>
+    <span class="c">##     Return the subscripts (iz,iy) corresponding to the</span>
+    <span class="c">##     `flattened&#39; index *ind* (column-order) for this grid.</span>
+    <span class="c">##     &quot;&quot;&quot;</span>
+    <span class="c">##     iy=ind/self.n_z</span>
+    <span class="c">##     if iy&gt;=self.n_y:</span>
+    <span class="c">##         raise IndexError(&#39;Index beyond range of grid.&#39;)</span>
+    <span class="c">##     iz=np.mod(ind,self.n_z)</span>
+    <span class="c">##     return (iz,iy)</span>
+
+    <span class="c">## def sub2ind(self,subs):</span>
+    <span class="c">##     &quot;&quot;&quot;</span>
+    <span class="c">##     Return the `flattened&#39; index (column-order) corresponding</span>
+    <span class="c">##     to the subscript *subs* (iz,iy) for this grid.</span>
+    <span class="c">##     &quot;&quot;&quot;</span>
+    <span class="c">##     return subs[1]*self.n_z+subs[0]</span>
+
+    <span class="c">## def flatten(self,arr):</span>
+    <span class="c">##     &quot;&quot;&quot;</span>
+    <span class="c">##     Reshape an array so that the z-y grid points are</span>
+    <span class="c">##     one-dimension of the array (for Cholesky factorization).</span>
+    <span class="c">##     &quot;&quot;&quot;</span>
+    <span class="c">##     if arr.ndim&gt;2 and arr.shape[0]==3 and</span>
+    <span class="c">##     arr.shape[1]==self.n_z and arr.shape[2]==self.n_y:</span>
+    <span class="c">##         shp=[3,self.n_p]+list(arr.shape[3:])</span>
+    <span class="c">##     elif arr.shape[0]==self.n_z and arr.shape[1]==self.n_y:</span>
+    <span class="c">##         shp=[self.n_p]+list(arr.shape[2:])</span>
+    <span class="c">##     else:</span>
+    <span class="c">##         raise ValueError(&#39;The array shape does not match this grid.&#39;)</span>
+    <span class="c">##     return arr.reshape(shp,order=&#39;F&#39;)</span>
+
+    <span class="c">## def reshape(self,arr):</span>
+    <span class="c">##     &quot;&quot;&quot;</span>
+    <span class="c">##     Reshape the array *arr* so that its z-y grid points are</span>
+    <span class="c">##     two-dimensions of the array (after Cholesky factorization).</span>
+    <span class="c">##     &quot;&quot;&quot;</span>
+    <span class="c">##     if arr.shape[0]==3 and arr.shape[1]==self.n_p:</span>
+    <span class="c">##         shp=[3,self.n_z,self.n_y]+list(arr.shape[2:])</span>
+    <span class="c">##     elif arr.shape[0]==self.n_p:</span>
+    <span class="c">##         shp=[self.n_z,self.n_y]+list(arr.shape[1:])</span>
+    <span class="c">##     else:</span>
+    <span class="c">##         raise ValueError(&#39;The array shape does not match this grid.&#39;)</span>
+    <span class="c">##     return arr.reshape(shp,order=&#39;F&#39;)</span>
+
+<div class="viewcode-block" id="gridObj.ind2sub"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.ind2sub">[docs]</a>    <span class="k">def</span> <span class="nf">ind2sub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the subscripts (iz,iy) corresponding to the &#39;flattened&#39;</span>
+<span class="sd">        index `ind` (row/C-order) for this grid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">iz</span> <span class="o">=</span> <span class="n">ind</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span>
+        <span class="k">if</span> <span class="n">iz</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s">&#39;Index beyond range of grid.&#39;</span><span class="p">)</span>
+        <span class="n">iy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">iz</span><span class="p">,</span> <span class="n">iy</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="gridObj.sub2ind"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.sub2ind">[docs]</a>    <span class="k">def</span> <span class="nf">sub2ind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the &#39;flattened&#39; index (row/C-order) corresponding to</span>
+<span class="sd">        the subscript `subs` (iz,iy) for this grid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">subs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">subs</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_z</span> <span class="o">+</span> <span class="n">subs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">subs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">subs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">subs</span> <span class="o">=</span> <span class="p">(</span><span class="n">subs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span> <span class="o">+</span> <span class="n">subs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">subs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span> <span class="o">+</span> <span class="n">subs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="gridObj.flatten"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.flatten">[docs]</a>    <span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reshape `arr` so that the z-y grid points are one-dimension</span>
+<span class="sd">        of the array (e.g. prior to Cholesky factorization).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span>
+           <span class="n">arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">and</span>
+           <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span>
+           <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span> <span class="ow">and</span>
+           <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span>
+           <span class="p">):</span>
+            <span class="n">shp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>
+        <span class="k">elif</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span> <span class="ow">and</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">:</span>
+            <span class="n">shp</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;The array shape does not match this grid.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shp</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s">&#39;C&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="gridObj.reshape"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.gridObj.reshape">[docs]</a>    <span class="k">def</span> <span class="nf">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reshape `arr` so that its z-y grid points are two-dimensions</span>
+<span class="sd">        of the array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">:</span>
+            <span class="n">shp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+        <span class="k">elif</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">:</span>
+            <span class="n">shp</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;The array shape does not match this grid.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shp</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s">&#39;C&#39;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="modelBase"><a class="viewcode-back" href="../../api/pyts.html#pyts.base.modelBase">[docs]</a><span class="k">class</span> <span class="nc">modelBase</span><span class="p">(</span><span class="n">tsBaseObj</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An abstract base class for all TurbSim models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;The model name is the class definition name&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&quot;&#39;&gt;&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_desc</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;The model description is the first line of the docstring.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This property stores information about the TurbSim model</span>
+<span class="sd">        initialization variables, for writing to summary files.</span>
+
+<span class="sd">        This functionality is not yet implemented, and this is a</span>
+<span class="sd">        placeholder for now.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;## No &#39;_sumfile_string&#39; defined for </span><span class="si">%s</span><span class="s"> ##</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,62 @@
+pyts.specModels package
+=======================
+
+Submodules
+----------
+
+pyts.specModels.api module
+--------------------------
+
+.. automodule:: pyts.specModels.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.specModels.base module
+---------------------------
+
+.. automodule:: pyts.specModels.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.specModels.hydro module
+----------------------------
+
+.. automodule:: pyts.specModels.hydro
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.specModels.iec module
+--------------------------
+
+.. automodule:: pyts.specModels.iec
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.specModels.kelley_coefs module
+-----------------------------------
+
+.. automodule:: pyts.specModels.kelley_coefs
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyts.specModels.nwtc module
+---------------------------
+
+.. automodule:: pyts.specModels.nwtc
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: pyts.specModels
+    :members:
+    :undoc-members:
+    :show-inheritance:

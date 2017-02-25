@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Plotting Tools &mdash; PyTurbSim 0.4.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.4.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="index.html" />
+    <link rel="next" title="Code Framework" href="code-framework.html" />
+    <link rel="prev" title="Usage" href="usage.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="plotting-tools">
+<h1>Plotting Tools<a class="headerlink" href="#plotting-tools" title="Permalink to this headline">¶</a></h1>
+<p>PyTurbSim is equipped with a flexible set of plotting tools for plotting
+PyTurbSim output and comparing it to target (input) statistics. For
+example, the following code performs a PyTurbSim run and compares the
+mean profile and spectrum with the targets.</p>
+<p>Begin by importing PyTurbSim and its <a class="reference internal" href="api/pyts.plot.html#module-pyts.plot" title="pyts.plot"><code class="xref py py-mod docutils literal"><span class="pre">plot</span></code></a> package:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyts.api</span> <span class="kn">as</span> <span class="nn">pyts</span>
+<span class="kn">import</span> <span class="nn">pyts.plot.api</span> <span class="kn">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+<div class="section" id="generate-some-pyts-data">
+<h2>Generate some PyTurbSim data<a class="headerlink" href="#generate-some-pyts-data" title="Permalink to this headline">¶</a></h2>
+<p>Before we plot anything we need to create something to plot. To do
+this we begin by defining some parameters, and initialize the
+<a class="reference internal" href="api/pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a> object, including creating the <a class="reference internal" href="api/pyts.html#pyts.base.tsGrid" title="pyts.base.tsGrid"><code class="xref py py-func docutils literal"><span class="pre">tsGrid()</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">refht</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">ustar</span> <span class="o">=</span> <span class="mf">0.03</span>
+<span class="n">Uref</span> <span class="o">=</span> <span class="mf">3.</span>
+
+<span class="c"># This creates a PyTurbSim &#39;run object&#39;:</span>
+<span class="n">tsr</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">tsrun</span><span class="p">()</span>
+
+<span class="n">tsr</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">tsGrid</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">refht</span><span class="p">,</span>
+                       <span class="n">ny</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                       <span class="n">nz</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                       <span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                       <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                       <span class="n">time_sec</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+                       <span class="n">dt</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p>Now specify the profile, spectral, stress and coherence models that
+you wish to simulate, and run PyTurbSim (by calling <code class="docutils literal"><span class="pre">tsr</span></code>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tsr</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">profModels</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">Uref</span><span class="p">,</span> <span class="n">refht</span><span class="p">,</span> <span class="n">ustar</span><span class="p">)</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">specModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">cohere</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">cohereModels</span><span class="o">.</span><span class="n">nwtc</span><span class="p">()</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">stress</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">stressModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
+
+<span class="c"># Run PyTurbSim:</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">tsr</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">out</span></code> now contains a <a class="reference internal" href="api/pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><code class="xref py py-class docutils literal"><span class="pre">tsdata</span></code></a> object which holds
+the output of the PyTurbSim run <code class="docutils literal"><span class="pre">tsr</span></code>.</p>
+</div>
+<div class="section" id="basic-plotting">
+<h2>Basic plotting<a class="headerlink" href="#basic-plotting" title="Permalink to this headline">¶</a></h2>
+<p>Now that we have something to plot, we are ready to create a
+&#8216;PyTurbSim summary plotting figure&#8217;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">summfig</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Here <code class="xref py py-func docutils literal"><span class="pre">summfig()</span></code> is a wrapper function that returns a
+<a class="reference internal" href="api/pyts.plot.html#pyts.plot.axform.FigAxForm" title="pyts.plot.axform.FigAxForm"><code class="xref py py-class docutils literal"><span class="pre">FigAxForm</span></code></a> object. These <a class="reference internal" href="api/pyts.plot.html#pyts.plot.axform.FigAxForm" title="pyts.plot.axform.FigAxForm"><code class="xref py py-class docutils literal"><span class="pre">FigAxForm</span></code></a> objects are
+toolboxes for plotting several statistics of PyTurbSim and TurbSim
+output.  To plot our PyTurbSim output, <code class="docutils literal"><span class="pre">out</span></code>, we simply:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fig</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;k&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When the <a class="reference internal" href="api/pyts.plot.html#pyts.plot.axform.FigAxForm.plot" title="pyts.plot.axform.FigAxForm.plot"><code class="xref py py-func docutils literal"><span class="pre">plot</span></code></a> method receives a
+PyTurbSim &#8216;run&#8217; object it plots the target values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fig</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tsr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&#39;--&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that this plot method accepts all of the normal
+<code class="xref py py-func docutils literal"><span class="pre">matplotlib.pyplot.plot()</span></code> <code class="docutils literal"><span class="pre">**kwargs</span></code>.  We now clean-up
+(<code class="docutils literal"><span class="pre">finalize</span></code>) and save the figure:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fig</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;BasicExample.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./examples/plotting.py">Source code</a>, <a class="reference external" href="./examples/plotting.png">png</a>, <a class="reference external" href="./examples/plotting.hires.png">hires.png</a>, <a class="reference external" href="./examples/plotting.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/plotting.png" src="_images/plotting.png" />
+</div>
+</div>
+<div class="section" id="advanced-usage">
+<h2>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h2>
+<p>But what if you want to plot more than just the mean velocity profile and the spectrum?  <a class="reference internal" href="api/pyts.plot.html#module-pyts.plot" title="pyts.plot"><code class="xref py py-mod docutils literal"><span class="pre">pyts.plot</span></code></a> can do that too. You simply set-up your figure to plot whichever types of plots you want:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">summfig</span><span class="p">(</span><span class="n">axforms</span><span class="o">=</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">velprof</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">]),</span>
+                           <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">tkeprof</span><span class="p">(),</span>
+                           <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">stressprof</span><span class="p">(),</span>
+                           <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">spec</span><span class="p">(),</span>
+                           <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">cohere</span><span class="p">(),</span> <span class="p">],</span>
+                           <span class="n">nfft</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+                           <span class="p">)</span>
+</pre></div>
+</div>
+<p>Here we are selecting different &#8216;axes forms&#8217; types from the <a class="reference internal" href="api/pyts.plot.html#module-pyts.plot.axform" title="pyts.plot.axform"><code class="xref py py-mod docutils literal"><span class="pre">pyts.plot.axform</span></code></a> module.  Each of these <a class="reference internal" href="api/pyts.plot.html#pyts.plot.axform.axesForm" title="pyts.plot.axform.axesForm"><code class="xref py py-class docutils literal"><span class="pre">axesForm</span></code></a> objects can be customized to control various properties of the axes.</p>
+<p>In this case, we are seeking to plot the mean velocity profile, the turbulent energy profiles, the stress profiles, the spectra and the coherence. That&#8217;s a lot of information! Fortunately, all of these statistics can be computed for our PyTurbSim output, and run. You may also notice that we have also specified <code class="docutils literal"><span class="pre">nfft=1024</span></code>, which tells the plotter to use that number of points when computing <code class="docutils literal"><span class="pre">spec</span></code> and <code class="docutils literal"><span class="pre">cohere</span></code>.</p>
+<p>To plot all of these statistics, we simply follow the same steps above:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fig</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tsr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;AdvancedExample.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This gives a comparison of PyTurbSim output to targets for this list of variables, with just a few lines of code!</p>
+<p>(<a class="reference external" href="./examples/plotting2.py">Source code</a>, <a class="reference external" href="./examples/plotting2.png">png</a>, <a class="reference external" href="./examples/plotting2.hires.png">hires.png</a>, <a class="reference external" href="./examples/plotting2.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/plotting2.png" src="_images/plotting2.png" />
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Plotting Tools</a><ul>
+<li><a class="reference internal" href="#generate-some-pyts-data">Generate some PyTurbSim data</a></li>
+<li><a class="reference internal" href="#basic-plotting">Basic plotting</a></li>
+<li><a class="reference internal" href="#advanced-usage">Advanced Usage</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="usage.html" title="previous chapter">Usage</a></li>
+      <li>Next: <a href="code-framework.html" title="next chapter">Code Framework</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/plotting-tools.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/plotting-tools.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

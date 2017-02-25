@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Usage &mdash; PyTurbSim 0.4.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.4.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="index.html" />
+    <link rel="next" title="Plotting Tools" href="plotting-tools.html" />
+    <link rel="prev" title="Download and Install" href="install.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="usage">
+<span id="id1"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p>PyTurbSim was designed to meet the needs of several different user
+groups. To meet that objective it has three primary operational
+modes/interfaces. Those modes are described below.  Once PyTurbSim is
+properly <a class="reference internal" href="install.html"><em>installed</em></a>, all of these modes should work.</p>
+<div class="section" id="input-files">
+<h2>1) Input files<a class="headerlink" href="#input-files" title="Permalink to this headline">¶</a></h2>
+<p>This mode is designed to mimic the <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a> interface. It is
+designed for use by device developers and other users familiar with
+the <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a> program who want output that is consistent with
+predifined models built into TurbSim. In this mode pyTurbSim reads
+<a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a> input files and writes out binary data in the same format
+as <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a>. This mode can be run from a standard (i.e. DOS, UNIX)
+command line and is well suited for interfacing with FAST and other
+device simulation tools in the same way that <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a> does.  For
+more information on this mode, see the docstring in the
+<a class="reference internal" href="api/pyts.runInput.html#module-pyts.runInput" title="pyts.runInput"><code class="xref py py-mod docutils literal"><span class="pre">pyts.runInput</span></code></a> docstring.</p>
+<p>To run PyTurbSim in this mode on the file &#8216;TurbSim.inp&#8217; from the
+command line do:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ pyTurbSim.py TurbSim.inp
+</pre></div>
+</div>
+<p>Alternatively, this mode can be used from an interactive python shell
+by doing:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyts.runInput.main</span> <span class="kn">import</span> <span class="n">readConfig</span><span class="p">,</span> <span class="n">run</span><span class="p">,</span> <span class="n">write</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">readConfig</span><span class="p">(</span><span class="s">&#39;TurbSim.inp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tsdat</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">write</span><span class="p">(</span><span class="n">tsdat</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="s">&#39;TurbSim&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>These two approaches produce the same output. The first allows the
+user to run PyTurbSim without ever entering an interactive python
+shell, the latter provides the user with an opportunity to view the
+output data, <code class="docutils literal"><span class="pre">tsdat</span></code>, without reloading it from a file.</p>
+<p>The source code for this mode is contained in the <a class="reference internal" href="api/pyts.runInput.html#module-pyts.runInput" title="pyts.runInput"><code class="xref py py-mod docutils literal"><span class="pre">pyts.runInput</span></code></a> package.</p>
+</div>
+<div class="section" id="advanced-programming-interface-api">
+<h2>2) Advanced programming interface (API)<a class="headerlink" href="#advanced-programming-interface-api" title="Permalink to this headline">¶</a></h2>
+<p>This interface was designed for researchers who wish to develop new
+methods and models for simulating turbulence, and/or want to control
+the statistics of PyTurbSim output explicitly. This api is the core
+interface of PyTurbSim (the other two are wrappers).  As a starting point
+for using this interface checkout the <a class="reference internal" href="api/pyts.html"><em>API documentation</em></a>. Or start
+navigating the api interactively by importing it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyts.api</span> <span class="kn">as</span> <span class="nn">pyts</span>
+</pre></div>
+</div>
+<p>More specifically, the <code class="file docutils literal"><span class="pre">examples/api.py</span></code> file includes an
+overview of how to begin using PyTurbSim. The contents of that file is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script provides an example usage of the PyTurbSim API.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c"># Begin by importing the PyTurbSim API:</span>
+<span class="kn">import</span> <span class="nn">pyts.api</span> <span class="kn">as</span> <span class="nn">pyts</span>
+
+<span class="c"># Define some variables for the PyTurbSim run:</span>
+<span class="n">refht</span> <span class="o">=</span> <span class="mf">10.</span>
+<span class="n">ustar</span> <span class="o">=</span> <span class="mf">0.03</span>
+<span class="n">Uref</span> <span class="o">=</span> <span class="mf">3.</span>
+
+<span class="c"># First we initialize a PyTurbSim &#39;run&#39; object:</span>
+<span class="n">tsr</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">tsrun</span><span class="p">()</span>
+
+<span class="c"># Next we give this run object a grid:</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">tsGrid</span><span class="p">(</span>
+    <span class="n">center</span><span class="o">=</span><span class="n">refht</span><span class="p">,</span> <span class="n">ny</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">nz</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">time_sec</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c"># Now we define a mean &#39;profile model&#39;,</span>
+<span class="n">prof_model</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">profModels</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">Uref</span><span class="p">,</span> <span class="n">refht</span><span class="p">,</span> <span class="n">ustar</span><span class="p">)</span>
+<span class="c"># and assign it to the run object,</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">prof_model</span>
+<span class="c"># These two steps can be completed in one as:</span>
+<span class="c">#tsr.profModel=pyts.profModels.h2l(U,refht,ustar)</span>
+
+<span class="c"># Next we define and assign a &#39;spectral model&#39; to the run object,</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">specModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
+
+<span class="c"># ... and define/assign a &#39;coherence model&#39;,</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">cohere</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">cohereModels</span><span class="o">.</span><span class="n">nwtc</span><span class="p">()</span>
+
+<span class="c"># ... and define/assign a &#39;stress model&#39;,</span>
+<span class="n">tsr</span><span class="o">.</span><span class="n">stress</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">stressModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
+
+<span class="c"># Now simply &#39;call&#39; the run oject to produce the TurbSim output.</span>
+<span class="n">turbsim_output</span> <span class="o">=</span> <span class="n">tsr</span><span class="p">()</span>
+
+<span class="c"># We can save the output in &#39;bladed&#39; format,</span>
+<span class="n">turbsim_output</span><span class="o">.</span><span class="n">writeBladed</span><span class="p">(</span><span class="s">&#39;ExampleOutput.bl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="graphical-user-interface-gui">
+<h2>3) Graphical user interface (GUI)<a class="headerlink" href="#graphical-user-interface-gui" title="Permalink to this headline">¶</a></h2>
+<p>The GUI was developed for reading and writing TurbSim input files.
+The gui was designed to help new users of TurbSim in understanding
+and writing input files. The gui can be used to run PyTurbSim or
+<a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a> (if an <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a> executable can be found in path).
+&#8216;gTurbSim&#8217; can be run from a command line in the PyTurbSim
+directory:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python gTurbSim.py TurbSim.inp
+</pre></div>
+</div>
+<p>The source code for this mode is contained in the <code class="xref py py-mod docutils literal"><span class="pre">pyts.gui</span></code> package.</p>
+</div>
+<div class="section" id="reading-output-files">
+<h2>Reading output files<a class="headerlink" href="#reading-output-files" title="Permalink to this headline">¶</a></h2>
+<p>pyTurbSim comes with the ability to read (and write) TurbSim &#8216;.wnd&#8217;, &#8216;.bl&#8217; (Bladed format) and &#8216;.bts&#8217; (AeroDyn/TurbSim format) files.  To read these files:
+1) &#8216;import pyts.tsio&#8217;
+2) You can either use:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><code class="xref py py-mod docutils literal"><span class="pre">pyts.io.bladed</span></code> or <code class="xref py py-mod docutils literal"><span class="pre">pyts.io.aerodyn</span></code> to return an
+array of the turbulence timeseries, or</li>
+<li><code class="xref py py-func docutils literal"><span class="pre">pyts.tsio.readModel()</span></code> to read the appropriate data file, and
+also load information from the config (.inp) file to create a
+&#8216;tsdata&#8217; object that includes both the array and also the
+config and turbModel objects.</li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Usage</a><ul>
+<li><a class="reference internal" href="#input-files">1) Input files</a></li>
+<li><a class="reference internal" href="#advanced-programming-interface-api">2) Advanced programming interface (API)</a></li>
+<li><a class="reference internal" href="#graphical-user-interface-gui">3) Graphical user interface (GUI)</a></li>
+<li><a class="reference internal" href="#reading-output-files">Reading output files</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="install.html" title="previous chapter">Download and Install</a></li>
+      <li>Next: <a href="plotting-tools.html" title="next chapter">Plotting Tools</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/usage.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/usage.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

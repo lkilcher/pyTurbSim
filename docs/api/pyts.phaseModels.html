@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.phaseModels package &mdash; PyTurbSim 0.4.7 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.4.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../index.html" />
+    <link rel="up" title="pyts package" href="pyts.html" />
+    <link rel="next" title="pyts.plot package" href="pyts.plot.html" />
+    <link rel="prev" title="pyts.io package" href="pyts.io.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pyts-phasemodels-package">
+<h1>pyts.phaseModels package<a class="headerlink" href="#pyts-phasemodels-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyts.phaseModels.api">
+<span id="pyts-phasemodels-api-module"></span><h2>pyts.phaseModels.api module<a class="headerlink" href="#module-pyts.phaseModels.api" title="Permalink to this headline">¶</a></h2>
+<p>PyTurbSim turbulence &#8216;phase models&#8217; API.</p>
+<div class="section" id="available-phase-models">
+<h3>Available phase models<a class="headerlink" href="#available-phase-models" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>randPhase</dt>
+<dd>A uniform-distribution random-phase model.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="module-pyts.phaseModels.base">
+<span id="pyts-phasemodels-base-module"></span><h2>pyts.phaseModels.base module<a class="headerlink" href="#module-pyts.phaseModels.base" title="Permalink to this headline">¶</a></h2>
+<p>This is the base module for phase models.  Phase models produce the
+initial phase information that is then correlated in the stress and
+coherence models.</p>
+<p>The basic phase model simply returns a &#8216;random&#8217; array.</p>
+<dl class="class">
+<dt id="pyts.phaseModels.base.phaseModelBase">
+<em class="property">class </em><code class="descclassname">pyts.phaseModels.base.</code><code class="descname">phaseModelBase</code><a class="reference internal" href="../_modules/pyts/phaseModels/base.html#phaseModelBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.phaseModels.base.phaseModelBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.modelBase" title="pyts.base.modelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.modelBase</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.phaseModels.main">
+<span id="pyts-phasemodels-main-module"></span><h2>pyts.phaseModels.main module<a class="headerlink" href="#module-pyts.phaseModels.main" title="Permalink to this headline">¶</a></h2>
+<p>The main random phase models.</p>
+<dl class="class">
+<dt id="pyts.phaseModels.main.randPhase">
+<em class="property">class </em><code class="descclassname">pyts.phaseModels.main.</code><code class="descname">randPhase</code><a class="reference internal" href="../_modules/pyts/phaseModels/main.html#randPhase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.phaseModels.main.randPhase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.phaseModels.base.phaseModelBase" title="pyts.phaseModels.base.phaseModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.phaseModels.base.phaseModelBase</span></code></a></p>
+<p>This phase-model randomizes the phases uniformly and without any
+&#8216;phase coherence&#8217; (correlation as a function of frequency).</p>
+<p>Because it is so simple, it has no initialization parameters.</p>
+<dl class="method">
+<dt id="pyts.phaseModels.main.randPhase.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/phaseModels/main.html#randPhase.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.phaseModels.main.randPhase.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and calculate the phases for the <cite>tsrun</cite> instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsrun</strong> :         <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a></p>
+<blockquote>
+<div><p>A TurbSim run object.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> :           array_like(3,n_p,n_f)</p>
+<blockquote class="last">
+<div><p>An array of random phases.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyts.phaseModels">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyts.phaseModels" title="Permalink to this headline">¶</a></h2>
+<p>This package defines the methods used to generate &#8216;random phases&#8217; in PyTurbSim.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pyts.phaseModels package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyts.phaseModels.api">pyts.phaseModels.api module</a><ul>
+<li><a class="reference internal" href="#available-phase-models">Available phase models</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyts.phaseModels.base">pyts.phaseModels.base module</a></li>
+<li><a class="reference internal" href="#module-pyts.phaseModels.main">pyts.phaseModels.main module</a></li>
+<li><a class="reference internal" href="#module-pyts.phaseModels">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="pyts.html">pyts package</a><ul>
+      <li>Previous: <a href="pyts.io.html" title="previous chapter">pyts.io package</a></li>
+      <li>Next: <a href="pyts.plot.html" title="next chapter">pyts.plot package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/pyts.phaseModels.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="../_sources/api/pyts.phaseModels.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

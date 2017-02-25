@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyts.io.sum &mdash; PyTurbSim 0.4.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.4.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyts.io.sum</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pyts.io.formatter</span> <span class="kn">import</span> <span class="n">SuperFormatter</span>
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="kn">import</span> <span class="nn">pyts._version</span> <span class="kn">as</span> <span class="nn">ver</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">convname</span>
+
+
+<div class="viewcode-block" id="SumFormatter"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.sum.SumFormatter">[docs]</a><span class="k">class</span> <span class="nc">SumFormatter</span><span class="p">(</span><span class="n">SuperFormatter</span><span class="p">):</span>
+
+    <span class="n">default_format_prfx</span> <span class="o">=</span> <span class="s">&#39;&gt;10&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_format_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;10.3f&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_format_b</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="s">&#39;FT&#39;</span><span class="p">[</span><span class="n">value</span><span class="p">],</span> <span class="s">&#39;&gt;10s&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_format_ScaleIECtxt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">format</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="s">&#39;None&#39;</span><span class="p">,</span>
+                       <span class="mi">1</span><span class="p">:</span> <span class="s">&#39;HUB&#39;</span><span class="p">,</span>
+                       <span class="mi">2</span><span class="p">:</span> <span class="s">&#39;ALL&#39;</span><span class="p">}[</span><span class="n">value</span><span class="p">],</span> <span class="s">&#39;&gt;5s&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_format_TurbModelstr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;&gt;10s&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_format_WindProfilestr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;&gt;10s&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_format_stringlist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="n">v</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">_format_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_grid</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">form</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
+        <span class="c"># Extrapolate the last value to the last n points:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">form</span> <span class="o">+</span> <span class="p">[</span><span class="n">form</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">form</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">_format_tup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;( </span><span class="si">%8.3f</span><span class="s">, </span><span class="si">%8.3f</span><span class="s"> )&#39;</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="c"># This is the input-file template object:</span></div>
+<span class="n">template</span> <span class="o">=</span> <span class="n">SumFormatter</span><span class="p">(</span>
+    <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_string</span><span class="p">(</span><span class="n">ver</span><span class="o">.</span><span class="n">pkg_name</span><span class="p">,</span>
+                                  <span class="s">&#39;io/templates/sum&#39;</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.io.html#pyts.io.sum.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">in_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write a sum file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">convname</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;.sum&#39;</span><span class="p">),</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfl</span><span class="p">:</span>
+        <span class="n">outfl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">template</span><span class="p">(</span><span class="o">**</span><span class="n">in_dict</span><span class="p">))</span>
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="kn">from</span> <span class="nn">.input</span> <span class="kn">import</span> <span class="n">read</span> <span class="k">as</span> <span class="n">readInput</span>
+    <span class="kn">from</span> <span class="nn">..runInput</span> <span class="kn">import</span> <span class="n">run</span>
+
+    <span class="n">inp</span> <span class="o">=</span> <span class="n">readInput</span><span class="p">(</span><span class="s">&#39;tmp/TurbSim.inp&#39;</span><span class="p">)</span>
+    <span class="n">tsdat</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+    <span class="n">write</span><span class="p">(</span><span class="s">&#39;tmp/TurbSim.sum&#39;</span><span class="p">,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">_sumdict</span><span class="p">)</span>
+
+    <span class="n">tsdat</span><span class="o">.</span><span class="n">writeSum</span><span class="p">(</span><span class="s">&#39;tmp/TurbSim_alt.sum&#39;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
