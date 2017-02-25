@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.stats import nanmean
 import matplotlib as mpl
 transforms = mpl.transforms
 from string import lowercase
@@ -69,21 +68,21 @@ def cpcolor(*args, **kwargs):
 
     dfx = np.diff(x, 1, 0).astype('double')
     dx = dfx
-    gd = abs(dx) <= 3 * nanmean(abs(dx))
+    gd = abs(dx) <= 3 * np.nanmean(abs(dx))
     while not gd.all():
         dx = dx[gd]
-        gd = abs(dx) <= 3 * nanmean(abs(dx))
+        gd = abs(dx) <= 3 * np.nanmean(abs(dx))
 
-    dx = nanmean(dx).astype('double')
+    dx = np.nanmean(dx).astype('double')
 
     dfy = np.diff(y, 1, 0).astype('double')
     dy = dfy
-    gd = abs(dy) <= 3 * nanmean(abs(dy))
+    gd = abs(dy) <= 3 * np.nanmean(abs(dy))
     while not gd.all():
         dy = dy[gd]
-        gd = abs(dy) <= 3 * nanmean(abs(dy))
+        gd = abs(dy) <= 3 * np.nanmean(abs(dy))
 
-    dy = nanmean(dy).astype('double')
+    dy = np.nanmean(dy).astype('double')
 
     N = dat.shape[1] + sum(abs(dfx) > 3 * abs(dx)) * fixgaps
     datn = np.NaN * np.ones([dat.shape[0], N + 1])
