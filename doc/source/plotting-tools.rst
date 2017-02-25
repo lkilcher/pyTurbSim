@@ -44,7 +44,7 @@ you wish to simulate, and run PyTurbSim (by calling ``tsr``)::
   # Run PyTurbSim:
   out = tsr()
 
-That's it! ``out`` now contains a :class:`.tsdata` object which holds
+``out`` now contains a :class:`.tsdata` object which holds
 the output of the PyTurbSim run ``tsr``.
 
 Basic plotting
@@ -101,7 +101,7 @@ To plot all of these statistics, we simply follow the same steps above::
   fig.finalize()
   fig.savefig('AdvancedExample.png')
 
-And that's it! We get a comparison of PyTurbSim output to targets for this suite of variables, with just a few lines of code!
+This gives a comparison of PyTurbSim output to targets for this list of variables, with just a few lines of code!
 
 .. plot:: examples/plotting2.py
 

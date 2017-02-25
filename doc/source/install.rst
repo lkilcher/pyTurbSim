@@ -15,7 +15,7 @@ Once these tools have been successfully installed, |pyts| can be installed from 
 
     $ pip install PyTurbSim
 
-That should do it!  For information on how to use |pyts| consult the :doc:`usage` page.
+That should do it. For information on how to use |pyts| consult the :doc:`usage` page.
 
 Installing without pip
 ----------------------
