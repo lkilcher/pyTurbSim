@@ -46,7 +46,9 @@ class tidal(specModelBase):
     :attr:`coef` : The 'fit coefficients'
 
     """
-    coef = np.array([[1.21, 4.3], [0.33, 0.50], [0.23, 0.26]], dtype=ts_float)
+    coef = np.array([[1.21, 4.3],
+                     [0.33, 0.50],
+                     [0.23, 0.26]], dtype=ts_float)
 
     def __init__(self, Ustar, Zref):
         self.Ustar = Ustar

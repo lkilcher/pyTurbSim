@@ -9,3 +9,10 @@ For more information visit the `PyTurbSim home page <http://lkilcher.github.io/p
 
 PyTurbSim is released publically by the National Renewable Energy Lab under the Apache license (see LICENSE.txt).
 
+.. raw:: html
+
+   <embed>
+         <iframe id="ytplayer" type="text/html" width="640" height="360"
+  src="https://www.youtube.com/embed/jOZb7gvalOM?autoplay=1"
+  frameborder="0"></iframe>
+   </embed>
