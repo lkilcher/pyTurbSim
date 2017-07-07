@@ -52,8 +52,6 @@ tmp/
 
 .DS_Store
 
-pyts/tslib/tslibmodule.c
-
 MANIFEST
 
 \#*#
