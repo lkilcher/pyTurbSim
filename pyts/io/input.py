@@ -40,12 +40,14 @@ class InputFormatter(SuperFormatter):
         return format('"%0.2f %0.2f"' % value, self.format_prfx + 's')
 
 
-# This is the input-file template object:
+# This is the input-file template object
 template = InputFormatter(
     pkg_resources.resource_string(ver.pkg_name,
                                   'io/templates/inp'))
 
 
+# This creates the mapping of line-numbers to variables, based on the
+# input-file template. It is used in the read function.
 inputfile_form = dict()
 for idx, ln in enumerate(template.template.split('\n')):
     if ln.startswith('{'):
