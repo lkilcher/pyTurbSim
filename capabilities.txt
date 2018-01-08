@@ -27,7 +27,7 @@ profile  			 	|  value only   |	        |
 Supports 'points coherence' (i.e. frequency	|       N	    |  undocumented |
 dependence of Reynold's stress)    		|       	    |    	        |
 ------------------------------------------------|---------------|---------------|
-Writes sum files			|       Y	    |	N       |
+Writes sum files			|       Y	    |	Y       |
 ------------------------------------------------|---------------|---------------|
 
 ^: As specified in the Original TurbSim documentation (https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf).

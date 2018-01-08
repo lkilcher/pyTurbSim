@@ -1,5 +1,5 @@
 from pyts import api as pyts
-from pyts import plot as pt
+from pyts.plot import api as pt
 import pyts.io.write as write
 reload(write)
 
@@ -12,27 +12,24 @@ nz = 5
 
 tsr = pyts.tsrun()
 tsr.grid = pyts.tsGrid(center=10, ny=ny, nz=nz,
-                       height=10, width=10, time_sec=60, dt=0.003)
+                       height=10, width=10, time_sec=600, dt=0.1)
 
-#tsr.profModel = pyts.profModels.jet(U, 90, ustar, 0.1, 100, )
 tsr.prof = pyts.profModels.pl(U, 90)
 tsr.spec = pyts.specModels.tidal(ustar, 10)
-#tsr.specModel = pyts.specModels.smooth(ustar, 0.5)
 tsr.cohere = pyts.cohereModels.nwtc()
 tsr.stress = pyts.stressModels.uniform(0.0, 0.0, 0.0)
-# tsr.stressModel=pyts.stressModels.uniform(0,-.0001,0)
-
-# tsr.stress=np.zeros(tsr.grid.shape,dtype='float32')
 
 tsdat = tsr()
 
 write.formatted('tmp/testfile', tsdat)
 
-# tsdat.writeSum('tmp/testfile.sum')
+tsdat.write_sum('tmp/testfile.sum')
 
-# fg = pt.summfig()
-# fg.plot(tsdat)
-# fg.plot_theory(tsr, 'r--')
-# fg.finish()
+fg = pt.summfig()
+fg.plot(tsdat)
+fg.plot(tsr, color='r')
+fg.finalize()
+fg.ax[-1, -1].set_ylim([1e-4, 10])
+fg.ax[0, 0].set_xlim([-1, 15])
 
-# fg.savefig('pub/fig/PyTurbSim_SummFig.png')
+fg.savefig('pub/fig/PyTurbSim_SummFig.png')
