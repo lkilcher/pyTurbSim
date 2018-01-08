@@ -1,14 +1,17 @@
 """
 The main random phase models.
 """
-from .base import phaseModelBase, np, ts_complex
+from .base import phaseModelBase, phaseObj
+import numpy as np
 
 
-class randPhase(phaseModelBase):
+class Uniform(phaseModelBase):
 
-    """
-    This phase-model randomizes the phases uniformly and without any
-    'phase coherence' (correlation as a function of frequency).
+    """The uniform random phase model
+
+    This phase-model randomizes the phases uniformly between 0 and
+    2*pi. It has no 'phase/temporal coherence' (correlation as a
+    function of frequency).
 
     Because it is so simple, it has no initialization parameters.
 
@@ -29,10 +32,15 @@ class randPhase(phaseModelBase):
                         An array of random phases.
 
         """
-        phases = np.empty((tsrun.grid.n_comp, tsrun.grid.n_p, tsrun.grid.n_f),
-                          dtype=ts_complex, order='F')
+        phases = phaseObj(tsrun)
         phases[:] = np.exp(1j * 2 * np.pi *
                            tsrun.randgen.rand(tsrun.grid.n_comp,
                                               tsrun.grid.n_p,
                                               tsrun.grid.n_f))
         return phases
+
+    def _sumfile_string(self, tsrun, ):
+        sumstring_format = """
+        Profile model used                               =  {dat.model_desc}
+        """
+        return sumstring_format.format(dat=self,)
