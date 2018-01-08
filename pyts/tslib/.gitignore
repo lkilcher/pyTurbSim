@@ -4,6 +4,9 @@ tslib*.so
 
 tslib_*.f*
 
+tslibmodule.c
+tslib-f2pywrappers2.f90
+
 test*
 
 *.obj

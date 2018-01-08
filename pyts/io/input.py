@@ -9,6 +9,7 @@ from copy import deepcopy
 import numpy as np
 from pyts.base import ts_float
 from pyts.io.formatter import SuperFormatter
+from .._base import string_type
 
 
 class InputFormatter(SuperFormatter):
@@ -137,7 +138,7 @@ def read(fname):
                 break
         out['psd'] = readInPSD(fname.rpartition('/')[0] + '/' + fl)
     for ky, val in out.iteritems():
-        if val == 'default':
+        if isinstance(val, string_type) and val == 'default':
             out[ky] = None
     out.__original__ = deepcopy(out)
     return out

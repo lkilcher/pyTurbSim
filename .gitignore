@@ -8,6 +8,10 @@ dist/
 
 pub/
 
+*.egg-info/
+
+pyts/tslib.so.dSYM/
+
 doc/source/api/
 
 pyts/plot/movie/tmp/*
