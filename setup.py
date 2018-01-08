@@ -42,5 +42,6 @@ setup(name='PyTurbSim',
                                       'pyts/tslib/lapack/sspr.f',
                                       'pyts/tslib/lapack/stpsv.f',
                                       'pyts/tslib/lapack/xerbla.f', ],
-                             extra_link_args=['-lgomp'],)],
+                             extra_link_args=['-lgomp'],
+                             )],
       )

@@ -1,0 +1,54 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module tslib ! in 
+    interface  ! in :tslib
+        module tslib ! in :tslib:tslib.f95
+            function indx(ii,jj,np) ! in :tslib:tslib.f95:tslib
+                integer :: ii
+                integer :: jj
+                integer :: np
+                integer :: indx
+            end function indx
+            function r_arr(y,z,ny,nz) ! in :tslib:tslib.f95:tslib
+                real dimension(ny),intent(in) :: y
+                real dimension(nz),intent(in) :: z
+                integer, optional,intent(in),check(len(y)>=ny),depend(y) :: ny=len(y)
+                integer, optional,intent(in),check(len(z)>=nz),depend(z) :: nz=len(z)
+                real dimension(ny*nz*(ny*nz+1)/2) :: r_arr
+            end function r_arr
+            subroutine nonieccoh(phr,f,y,z,u,coef_a,coef_b,coefexp,ncore,nf,ny,nz) ! in :tslib:tslib.f95:tslib
+                use omp_lib
+                complex dimension(ny*nz,nf),intent(inout),depend(ny,nz) :: phr
+                real dimension(nf),intent(in),depend(nf) :: f
+                real dimension(ny),intent(in) :: y
+                real dimension(nz),intent(in) :: z
+                real dimension(ny*nz),intent(in),depend(ny,nz) :: u
+                real intent(in) :: coef_a
+                real intent(in) :: coef_b
+                real intent(in) :: coefexp
+                integer intent(in) :: ncore
+                integer, optional,intent(in),check(shape(phr,1)==nf),depend(phr) :: nf=shape(phr,1)
+                integer, optional,intent(in),check(len(y)>=ny),depend(y) :: ny=len(y)
+                integer, optional,intent(in),check(len(z)>=nz),depend(z) :: nz=len(z)
+            end subroutine nonieccoh
+            subroutine ieccoh(phr,f,y,z,uhub,a,lc,ncore,nf,ny,nz) ! in :tslib:tslib.f95:tslib
+                use omp_lib
+                complex dimension(ny*nz,nf),intent(inout),depend(ny,nz) :: phr
+                real dimension(nf),intent(in),depend(nf) :: f
+                real dimension(ny),intent(in) :: y
+                real dimension(nz),intent(in) :: z
+                real intent(in) :: uhub
+                real intent(in) :: a
+                real intent(in) :: lc
+                integer intent(in) :: ncore
+                integer, optional,intent(in),check(shape(phr,1)==nf),depend(phr) :: nf=shape(phr,1)
+                integer, optional,intent(in),check(len(y)>=ny),depend(y) :: ny=len(y)
+                integer, optional,intent(in),check(len(z)>=nz),depend(z) :: nz=len(z)
+            end subroutine ieccoh
+        end module tslib
+    end interface 
+end python module tslib
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

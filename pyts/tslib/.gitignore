@@ -1,2 +1,10 @@
 */
-*.pyf
+
+tslib*.so
+
+tslib_*.f*
+
+test*
+
+*.obj
+

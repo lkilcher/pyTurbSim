@@ -8,27 +8,13 @@ dist/
 
 pub/
 
-pyts/tslib/bld/
-
-pyts/tslib/tslib*.so
-
 doc/source/api/
-
-pyts/tslib/tslib_*.f*
-
-pyts/tslib/test*
-
-*.old
-
-pyts/tslib/*.obj
 
 pyts/plot/movie/tmp/*
 
 doc/output.txt
 
 doc/source/.DS_Store
-
-doc/source/api/.DS_Store
 
 pyts/tslib.so
 
@@ -41,6 +27,8 @@ test/*.sum
 test/*/*.sum
 
 test/*/*.bts
+
+*.old
 
 *.orig
 
