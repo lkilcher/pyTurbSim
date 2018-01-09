@@ -20,6 +20,12 @@ from numpy import random
 from numpy import ulonglong
 from numpy.fft import irfft
 import time
+from copy import deepcopy
+# This is where default models are defined
+from .cohereModels.api import default as default_cohereModel
+from .stressModels.api import default as default_stressModel
+from .phaseModels.api import default as default_phaseModel
+
 
 # !!!VERSION_INCONSISTENCY
 # inconsistency between this and older versions of TurbSim
@@ -145,6 +151,9 @@ class tsrun(object):
         """
         if hasattr(self, 'profModel') and not hasattr(self, '_prof'):
             self._prof = self.profModel(self)
+        if not hasattr(self, '_prof'):
+            raise Exception("You must set the mean profile "
+                            "by assigning to the .prof attribute.")
         return self._prof
 
     @prof.setter
@@ -219,6 +228,9 @@ class tsrun(object):
         """
         if hasattr(self, 'specModel') and not hasattr(self, '_spec'):
             self._spec = self.specModel(self)
+        if not hasattr(self, '_spec'):
+            raise Exception("You must set the tke spectrum "
+                            "by assigning to the .spec attribute.")
         return self._spec
 
     @spec.setter
@@ -304,15 +316,21 @@ class tsrun(object):
         See Also
         --------
         pyts.cohereModels.api : to see a list of available coherence models.
-        pyts.cohereModels.base.cohereUser : the 'user-defined' or 'array-input' coherence model.
+        pyts.cohereModels.base.cohereUser : the 'user-defined' or
+        'array-input' coherence model.
+
         tsrun.prof
         tsrun.spec
         tsrun.stress
         tsrun.phase
 
         """
-        if hasattr(self, 'cohereModel') and not hasattr(self, '_cohere'):
-            self._cohere = self.cohereModel(self)
+        if not hasattr(self, '_cohere'):
+            if hasattr(self, 'cohereModel'):
+                self._cohere = self.cohereModel(self)
+            elif not hasattr(self, 'cohereModel'):
+                self.cohereModel = deepcopy(default_cohereModel)
+                self._cohere = default_cohereModel(self)
         return self._cohere
 
     @cohere.setter
@@ -325,7 +343,8 @@ class tsrun(object):
             self.cohere = val
         else:
             raise Exception('The input must be a coherence model, '
-                            'coherence object or numpy array; it is none of these.')
+                            'coherence object or numpy array; '
+                            'it is none of these.')
 
     @cohere.deleter
     def cohere(self,):
@@ -383,8 +402,12 @@ class tsrun(object):
         tsrun.phase
 
         """
-        if hasattr(self, 'stressModel') and not hasattr(self, '_stress'):
-            self._stress = self.stressModel(self)
+        if not hasattr(self, '_stress'):
+            if hasattr(self, 'stressModel'):
+                self._stress = self.stressModel(self)
+            elif not hasattr(self, 'stressModel'):
+                self.stressModel = deepcopy(default_stressModel)
+                self._stress = default_stressModel(self)
         return self._stress
 
     @stress.setter
@@ -457,8 +480,12 @@ class tsrun(object):
         tsrun.stress
 
         """
-        if hasattr(self, 'phaseModel') and not hasattr(self, '_phase'):
-            self._phase = self.phaseModel(self)
+        if not hasattr(self, '_phase'):
+            if hasattr(self, 'phaseModel'):
+                self._phase = self.phaseModel(self)
+            elif not hasattr(self, 'phaseModel'):
+                self.phaseModel = deepcopy(default_phaseModel)
+                self._phase = default_phaseModel(self)
         return self._phase
 
     @phase.setter
@@ -595,7 +622,7 @@ class tsrun(object):
         if dbg:
             self.timer.start()
         # First calculate the 'base' set of random phases:
-        phases = self.phase(self)
+        phases = self.phase.array
         # Now correlate the phases at each point to set the Reynold's stress:
         phases = self.stress.calc_phases(phases)
         # Now correlate the phases between points to set the spatial coherence:

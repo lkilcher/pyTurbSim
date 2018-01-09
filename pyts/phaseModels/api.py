@@ -7,4 +7,7 @@ randPhase
   A uniform-distribution random-phase model.
 
 """
-from main import randPhase
+from main import Uniform
+
+# This sets the default model (used in pyts.main)
+default = Uniform()
