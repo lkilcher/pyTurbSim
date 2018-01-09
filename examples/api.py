@@ -36,4 +36,4 @@ tsr.stress = pyts.stressModels.tidal(ustar, refht)
 turbsim_output = tsr()
 
 # We can save the output in 'bladed' format,
-turbsim_output.writeBladed('ExampleOutput.bl')
+turbsim_output.write_bladed('ExampleOutput.bl')

@@ -13,7 +13,7 @@ import pyts.api as pyts
 # Define some variables:
 refht = 10.
 ustar = 0.03
-Uref = 3.
+U = 3.
 
 ##################################
 # Section 1) Using models only.
@@ -40,7 +40,7 @@ tsr.specModel = pyts.specModels.tidal(ustar, refht)
 tsr.cohereModel = pyts.cohereModels.nwtc()
 
 # ... and define/assign a 'stress model',
-tsr.stressModel = pyts.stressModels.tidal(refht)
+tsr.stressModel = pyts.stressModels.tidal(ustar, refht)
 
 # Now simply 'call' the run oject to produce the TurbSim output.
 turbsim_output = tsr()

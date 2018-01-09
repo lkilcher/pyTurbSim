@@ -23,16 +23,17 @@ class aNewModel(profModelBase):
     """
     An example class for defining the mean velocity profile.
 
-    This class must set the values of the '_u' property (memory allocated in
-    profModelBase.__init__). This is the 3 x Nz x Ny mean velocity vector-field.
+    This class must set the values of the '_u' property (memory
+    allocated in profModelBase.__init__). This is the 3 x Nz x Ny mean
+    velocity vector-field.
 
     The first index of '_u' is the velocity component.  The indexes are:
       0: u-component (out of y-z plane component)
       1: v-component (lateral horizontal component)
       2: w-component (vertical component)
 
-    The second index of '_u' is the z-direction, and the third is the y-direction
-    of the grid.
+    The second index of '_u' is the z-direction, and the third is the
+    y-direction of the grid.
 
     """
 
