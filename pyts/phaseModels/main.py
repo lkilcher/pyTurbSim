@@ -41,6 +41,6 @@ class Uniform(phaseModelBase):
 
     def _sumfile_string(self, tsrun, ):
         sumstring_format = """
-        Profile model used                               =  {dat.model_desc}
+        Phase model used                                 =  {dat.model_desc}
         """
         return sumstring_format.format(dat=self,)

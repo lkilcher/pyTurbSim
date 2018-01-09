@@ -37,7 +37,6 @@ class phaseObj(gridProps, calcObj):
     def __init__(self, tsrun):
         self.grid = tsrun.grid
         self.array = np.zeros((tsrun.grid.n_comp,
-                               tsrun.grid.n_z,
-                               tsrun.grid.n_y,
+                               tsrun.grid.n_p,
                                tsrun.grid.n_f),
                               dtype=ts_complex, order='F')
