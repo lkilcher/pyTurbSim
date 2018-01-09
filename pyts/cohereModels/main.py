@@ -3,7 +3,8 @@ This module defines two coherence models:
 nwtc - The NWTC 'non-IEC' coherence model.
 iec  - The IEC coherence model.
 """
-from .base import cohereModelBase, np, ts_float, tslib, dbg, cohereObj, ts_complex
+from .base import cohereModelBase, np, ts_float, cohereObj, ts_complex
+from ..base import tslib, dbg
 from ..misc import Lambda
 
 
@@ -91,10 +92,6 @@ class cohereObjNWTC(cohereObj):
         two = ts_float(2)
         zm = (self.grid.z[ii[0]] + self.grid.z[jj[0]]) / two
         um = (self.prof.u[ii] + self.prof.u[jj]) / two
-        #print zm
-        #print self.grid.z[1],self.grid.y[1],r,um,(r/zm)**self.CohExp,self.grid.f[9]
-        #print 'junk',self.a[comp],self.b[comp]
-        #print -self.a[0]*r*np.sqrt((self.grid.f[9]/um)**2+(self.b[comp])**2)
         return np.exp(-self.a[comp] * (r / zm) ** self.CohExp *
                       np.sqrt((f * r / um) ** two + (self.b[comp] * r) ** two))
 
@@ -178,9 +175,9 @@ class nwtc(cohereModelBase):
         Coherence model used                             =  {dat.model_desc}
         Coherence Exponent                               =  {dat.CohExp:0.2f}
         Coherence decrements (IncDec):
-           U (a, b)                                      =  ({coh.a[0]:0.2f}, {coh.b[0]:0.2f})
-           V (a, b)                                      =  ({coh.a[1]:0.2f}, {coh.b[1]:0.2f})
-           W (a, b)                                      =  ({coh.a[2]:0.2f}, {coh.b[2]:0.2f})
+           U (a, b)                                      =  ({coh.a[0]:0.2f}, {coh.b[0]:0.2f})  # noqa
+           V (a, b)                                      =  ({coh.a[1]:0.2f}, {coh.b[1]:0.2f})  # noqa
+           W (a, b)                                      =  ({coh.a[2]:0.2f}, {coh.b[2]:0.2f})  # noqa
         """
         return sumstring_format.format(dat=self, coh=tsrun.cohere, )
 
@@ -238,8 +235,8 @@ class cohereObjIEC(cohereObj):
         """
         if comp == 0:
             r = self.grid.dist(ii, jj)
-            return np.exp(-self.a * np.sqrt((f * r / self.prof.uhub) ** 2
-                                            + (0.12 * r / self.Lc) ** 2))
+            return np.exp(-self.a * np.sqrt((f * r / self.prof.uhub) ** 2 +
+                                            (0.12 * r / self.Lc) ** 2))
         else:
             return 0
 

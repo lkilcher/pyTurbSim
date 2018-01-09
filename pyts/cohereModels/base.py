@@ -15,7 +15,8 @@ coherence independent of the grid, while the 'object' is specific to
 the grid.
 
 """
-from ..base import gridProps, modelBase, np, ts_float, ts_complex, tslib, dbg, calcObj
+# tslib and dbg are needed externally
+from ..base import gridProps, modelBase, np, ts_float, ts_complex, calcObj
 from numpy.linalg import cholesky
 
 
@@ -66,7 +67,7 @@ class cohereObj(gridProps, calcObj):
             for icomp in range(3):
                 for ff in range(self.n_f):
                     for ii, jj in self._iter_inds():
-                        self._array[icomp, ii, jj] = self._array[icomp, jj, ii] = self.calcCoh(self.grid.f, icomp, ii, jj)
+                        self._array[icomp, ii, jj] = self._array[icomp, jj, ii] = self.calcCoh(self.grid.f, icomp, ii, jj)  # nopep8
         return self._array
 
     @array.setter
@@ -82,7 +83,7 @@ class cohereObj(gridProps, calcObj):
         self.prof = tsrun.prof
         self.spec = tsrun.spec
         self.stress = tsrun.stress
-        self.ncore = tsrun.ncore # This is used by tslib.
+        self.ncore = tsrun.ncore  # This is used by tslib.
 
     def _iter_inds(self,):
         """
@@ -125,41 +126,47 @@ class cohereObj(gridProps, calcObj):
         calcCoh : computes the coherence for individual grid-point pairs.
 
         """
-        out = np.zeros((self.n_comp, self.n_p, self.n_f), dtype=ts_complex, order='F')
-        tmp = np.empty((self.n_p, self.n_p), dtype=ts_float, order='F')
+        out = np.zeros((self.n_comp, self.n_p, self.n_f),
+                       dtype=ts_complex, order='F')
+        tmp = np.empty((self.n_p, self.n_p),
+                       dtype=ts_float, order='F')
         for icomp in range(3):
             for ff in range(self.n_f):
                 for ii, jj in self._iter_inds():
                     if ii == jj:
                         tmp[ii, ii] = 1
                     else:
-                        tmp[ii, jj] = tmp[jj, ii] = self.calcCoh(self.grid.f[ff], icomp, ii, jj)
+                        tmp[ii, jj] = tmp[jj, ii] = self.calcCoh(
+                            self.grid.f[ff],
+                            icomp, ii, jj)
                 tmp[:] = cholesky(tmp)
-                ## print tmp
-                ## print (tmp*phases[icomp,:,ff]).shape
-                out[icomp,:, ff] = (tmp*phases[icomp,:, ff]).sum(-1)
+                out[icomp, :, ff] = (tmp * phases[icomp, :, ff]).sum(-1)
         return out
 
     def calcCoh(self, f, comp, ii, jj):
         """
-        THIS IS A PLACEHOLDER METHOD WHICH SHOULD BE OVER-WRITTEN FOR ALL SUB-CLASSES
-        OF cohereModelBase. THIS METHOD ONLY RAISES AN ERROR.
+        THIS IS A PLACEHOLDER METHOD WHICH SHOULD BE OVER-WRITTEN FOR
+        ALL SUB-CLASSES OF cohereModelBase. THIS METHOD ONLY RAISES AN
+        ERROR.
 
-        A functioning version of this method (i.e. in a subclass of cohereModelBase)
-        should return the a length-n_f vector that is the coherence between point
-        `ii`=(iz,iy) and `jj`=(jz,jy) for velocity component `comp`.
+        A functioning version of this method (i.e. in a subclass of
+        cohereModelBase) should return the a length-n_f vector that is
+        the coherence between point `ii`=(iz,iy) and `jj`=(jz,jy) for
+        velocity component `comp`.
 
         Parameters
         ----------
         cohi : A 'coherence calculator' instance (for the given tsrun).
-        comp : an integer (0,1,2) indicating the velocity component for which to
-                    compute the coherence.
-        ii,jj : Two-integer elements indicating the grid-points between which to
-                    calculate the coherence. For example, ii=(1,3),jj=(2,3)
+        comp : an integer (0,1,2) indicating the velocity component
+                    for which to compute the coherence.
+        ii,jj : Two-integer elements indicating the grid-points
+                    between which to calculate the coherence. For
+                    example, ii=(1,3),jj=(2,3)
 
         """
         raise Exception(
-            'Subclasses of cohereObj must overwrite the calcCoh method or redfine the calc_phases method.')
+            'Subclasses of cohereObj must overwrite the '
+            'calcCoh method or redfine the calc_phases method.')
 
 
 class cohereUser(cohereObj):
@@ -201,9 +208,9 @@ class cohereUser(cohereObj):
         """
         tmp = np.empty((self.n_p, self.n_p), dtype=ts_float, order='F')
         for ff in np.range(self.n_f):
-            tmp[:] = cholesky(self.array[comp,:,:, ff])
+            tmp[:] = cholesky(self.array[comp, :, :, ff])
             for ii in range(self.n_p):
-                coh[ii, ff] = (tmp*phases[:, ff]).sum(-1)
+                coh[ii, ff] = (tmp * phases[:, ff]).sum(-1) 
 
 
 class cohereModelBase(modelBase, gridProps):
@@ -233,9 +240,10 @@ class cohereModelBase(modelBase, gridProps):
 
     def __call__(self, tsrun):
         """
-        Calculate the coherence matrix for TurbSim run `tsrun` according to this
-        coherence model. The grid, profile and spectrum (tsrun.grid, tsrun.prof,
-        tsrun.spec) must already be defined for the tsrun.
+        Calculate the coherence matrix for TurbSim run `tsrun`
+        according to this coherence model. The grid, profile and
+        spectrum (tsrun.grid, tsrun.prof, tsrun.spec) must already be
+        defined for the tsrun.
 
         Parameters
         ----------
@@ -248,9 +256,10 @@ class cohereModelBase(modelBase, gridProps):
         cohi=thisCohereModel(tsrun)
 
         The coherence instance is either an array of the full
-        cross-spectral matrix (3 x n_p x n_p x n_f), or a 'calculator' that returns
-        the components of that array. Either way, the components of the cross-spectral
-        matrix (csm) can be obtained from
+        cross-spectral matrix (3 x n_p x n_p x n_f), or a 'calculator'
+        that returns the components of that array. Either way, the
+        components of the cross-spectral matrix (csm) can be obtained
+        from
 
         csm_u=cohi[0]
         csm_v=cohi[1]
