@@ -21,6 +21,7 @@ from numpy import ulonglong
 from numpy.fft import irfft
 import time
 from copy import deepcopy
+import warnings
 # This is where default models are defined
 from .cohereModels.api import default as default_cohereModel
 from .stressModels.api import default as default_stressModel
@@ -329,8 +330,11 @@ class tsrun(object):
             if hasattr(self, 'cohereModel'):
                 self._cohere = self.cohereModel(self)
             elif not hasattr(self, 'cohereModel'):
+                warnings.warn("No input coherence model specified. "
+                              "Using default: {}"
+                              .format(default_cohereModel.model_name))
                 self.cohereModel = deepcopy(default_cohereModel)
-                self._cohere = default_cohereModel(self)
+                self._cohere = self.cohereModel(self)
         return self._cohere
 
     @cohere.setter
@@ -406,8 +410,11 @@ class tsrun(object):
             if hasattr(self, 'stressModel'):
                 self._stress = self.stressModel(self)
             elif not hasattr(self, 'stressModel'):
+                warnings.warn("No input stress model specified. "
+                              "Using default: {}"
+                              .format(default_stressModel.model_name))
                 self.stressModel = deepcopy(default_stressModel)
-                self._stress = default_stressModel(self)
+                self._stress = self.stressModel(self)
         return self._stress
 
     @stress.setter
@@ -484,8 +491,11 @@ class tsrun(object):
             if hasattr(self, 'phaseModel'):
                 self._phase = self.phaseModel(self)
             elif not hasattr(self, 'phaseModel'):
+                # warnings.warn("No input phase model specified. "
+                #               "Using default: {}"
+                #               .format(default_phaseModel.model_name))
                 self.phaseModel = deepcopy(default_phaseModel)
-                self._phase = default_phaseModel(self)
+                self._phase = self.phaseModel(self)
         return self._phase
 
     @phase.setter
@@ -499,7 +509,8 @@ class tsrun(object):
             self._phase = val
         else:
             raise Exception('The input must be a phase model, '
-                            'phase object or numpy array; it is none of these.')
+                            'phase object or numpy array; '
+                            'it is none of these.')
 
     @phase.deleter
     def phase(self,):
@@ -527,7 +538,9 @@ class tsrun(object):
         Model names and initialization parameters.
         """
         out = dict()
-        out['version'] = (ver.__prog_name__, ver.__version__, ver.__version_date__)
+        out['version'] = (ver.__prog_name__,
+                          ver.__version__,
+                          ver.__version_date__)
         out['RandSeed'] = self.RandSeed
         out['StartTime'] = self._starttime
         if hasattr(self, '_config'):
@@ -698,17 +711,25 @@ class tsdata(gridProps):
         out['GridBase'] = self.grid.z[0]
         out['HeightOffset'] = 0.0  # Is this correct?
         out['ydata'] = self.grid.y
-        out['z_ustd'] = np.concatenate((self.grid.z[:, None], self.uturb[0].std(-1)), axis=1)
-        out['z_vstd'] = np.concatenate((self.grid.z[:, None], self.uturb[1].std(-1)), axis=1)
-        out['z_wstd'] = np.concatenate((self.grid.z[:, None], self.uturb[2].std(-1)), axis=1)
+        out['z_ustd'] = np.concatenate((self.grid.z[:, None],
+                                        self.uturb[0].std(-1)),
+                                       axis=1)
+        out['z_vstd'] = np.concatenate((self.grid.z[:, None],
+                                        self.uturb[1].std(-1)),
+                                       axis=1)
+        out['z_wstd'] = np.concatenate((self.grid.z[:, None],
+                                        self.uturb[2].std(-1)),
+                                       axis=1)
         u, v, w = self.uprof.mean(-1)[:, :, None]
         out['WINDSPEEDPROFILE'] = np.concatenate((
             self.grid.z[:, None],
             np.sqrt(u ** 2 + v ** 2),
             np.angle(u + 1j * v) * 180 / np.pi,
             u, v, w, ), axis=1)
-        out['HFlowAng'] = np.angle(self.uprof[0][self.ihub] + 1j * self.uprof[1][self.ihub])
-        out['VFlowAng'] = np.angle(self.uprof[0][self.ihub] + 1j * self.uprof[2][self.ihub])
+        out['HFlowAng'] = np.angle(self.uprof[0][self.ihub] + 1j *
+                                   self.uprof[1][self.ihub])
+        out['VFlowAng'] = np.angle(self.uprof[0][self.ihub] + 1j *
+                                   self.uprof[2][self.ihub])
         out['TurbModel'] = self.info['specModel']['name']
         out['gridheader'] = '---------   ' * self.grid.n_y
         for nm in ['Zref', 'RefHt', 'ZRef', ]:
@@ -912,13 +933,15 @@ class tsdata(gridProps):
 
     def write_formatted(self, filename):
         """
-        Save the data in this tsdata object in 'formatted' format (.u, .v, .w files).
+        Save the data in this tsdata object in 'formatted' format (.u,
+        .v, .w files).
 
         Parameters
         ----------
 
         filename : string
-                '.u', '.v', and '.w' will be appended to the end of the filename.
+                '.u', '.v', and '.w' will be appended to the end of
+                the filename.
         """
         write.formatted(filename, self)
 
