@@ -18,6 +18,11 @@ tsr.prof = pyts.profModels.pl(U, 90)
 tsr.spec = pyts.specModels.tidal(ustar, 10)
 tsr.cohere = pyts.cohereModels.nwtc()
 tsr.stress = pyts.stressModels.uniform(0.0, 0.0, 0.0)
+# Right now only the 'uniform' random phase model works:
+tsr.phase = pyts.phaseModels.Uniform()
+# In the future we should be able to replace the above with something
+# like this:
+# tsr.phase = pyts.phaseModels.Rinker(rho=0.3, mu=np.pi / 2)
 
 tsdat = tsr()
 
