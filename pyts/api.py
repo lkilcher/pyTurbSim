@@ -25,6 +25,9 @@ define the TurbSim grid.
    d) :mod:`.cohereModels` (aliased here as 'cm'), contains the spatial
    coherence models.
 
+   e) :mod:`.phaseModels`, contains the phase coherence (a.k.a.,
+   temporal coherence) models.
+
 4) The :mod:`io` module, which supports reading and writing of TurbSim
 input (.inp) and output files (e.g. .bl, .wnd, etc.)
 
@@ -40,6 +43,7 @@ import profModels.api as profModels
 import specModels.api as specModels
 import cohereModels.api as cohereModels
 import stressModels.api as stressModels
+import phaseModels.api as phaseModels
 import io
 
 # Set aliases to the model modules:
