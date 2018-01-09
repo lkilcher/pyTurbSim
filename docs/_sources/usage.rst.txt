@@ -30,8 +30,8 @@ command line do::
 Alternatively, this mode can be used from an interactive python shell
 by doing::
 
-  >>> from pyts.runInput.main import readConfig, run, write
-  >>> config = readConfig('TurbSim.inp')
+  >>> from pyts.runInput.main import readInput, run, write
+  >>> config = readInput('TurbSim.inp')
   >>> tsdat = run(config)
   >>> write(tsdat, config, 'TurbSim')
 
@@ -51,26 +51,13 @@ the statistics of |pyts| output explicitly. This api is the core
 interface of |pyts| (the other two are wrappers).  As a starting point
 for using this interface checkout the :doc:`API documentation <api/pyts>`. Or start
 navigating the api interactively by importing it::
+
    import pyts.api as pyts
 
 More specifically, the :file:`examples/api.py` file includes an
 overview of how to begin using |pyts|. The contents of that file is:
 
 .. literalinclude:: ../../examples/api.py
-
-3) Graphical user interface (GUI)
----------------------------------
-
-The GUI was developed for reading and writing TurbSim input files.
-The gui was designed to help new users of TurbSim in understanding
-and writing input files. The gui can be used to run |pyts| or
-|ots| (if an |ots| executable can be found in path).
-'gTurbSim' can be run from a command line in the |pyts|
-directory::
-
-   $ python gTurbSim.py TurbSim.inp
-
-The source code for this mode is contained in the :mod:`.pyts.gui` package.
 
 
 Reading output files

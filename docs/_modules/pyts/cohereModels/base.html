@@ -1,38 +1,39 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>pyts.cohereModels.base &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>pyts.cohereModels.base &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
    
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -40,7 +41,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyts.cohereModels.base</h1><div class="highlight"><pre>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This is the coherence package&#39;s base module.</span>
 
 <span class="sd">The coherence models work somewhat different than other packages. In</span>
@@ -57,8 +58,9 @@
 <span class="sd">the grid.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">gridProps</span><span class="p">,</span> <span class="n">modelBase</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">ts_float</span><span class="p">,</span> <span class="n">ts_complex</span><span class="p">,</span> <span class="n">tslib</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">calcObj</span>
-<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">cholesky</span>
+<span class="c1"># tslib and dbg are needed externally</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="k">import</span> <span class="n">gridProps</span><span class="p">,</span> <span class="n">modelBase</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">ts_float</span><span class="p">,</span> <span class="n">ts_complex</span><span class="p">,</span> <span class="n">calcObj</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">cholesky</span>
 
 
 <div class="viewcode-block" id="cohereObj"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.base.cohereObj">[docs]</a><span class="k">class</span> <span class="nc">cohereObj</span><span class="p">(</span><span class="n">gridProps</span><span class="p">,</span> <span class="n">calcObj</span><span class="p">):</span>
@@ -98,24 +100,24 @@
 <span class="sd">        Avoid accessing this property on PyTurbSim runs involving many</span>
 <span class="sd">        grid-points or timesteps.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_array&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_array&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span>
                                     <span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span>
                                     <span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span>
                                     <span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">),</span>
-                                   <span class="n">dtype</span><span class="o">=</span><span class="n">ts_complex</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span>
+                                   <span class="n">dtype</span><span class="o">=</span><span class="n">ts_complex</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">icomp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">ff</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">):</span>
                     <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter_inds</span><span class="p">():</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[</span><span class="n">icomp</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[</span><span class="n">icomp</span><span class="p">,</span> <span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcCoh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">icomp</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[</span><span class="n">icomp</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[</span><span class="n">icomp</span><span class="p">,</span> <span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcCoh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">icomp</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span>  <span class="c1"># nopep8</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_array</span>
 
-    <span class="nd">@array.setter</span>
+    <span class="nd">@array</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_array</span> <span class="o">=</span> <span class="n">val</span>
 
-    <span class="nd">@array.deleter</span>
+    <span class="nd">@array</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">array</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_array</span>
 
@@ -124,7 +126,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">spec</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stress</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">stress</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ncore</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">ncore</span> <span class="c"># This is used by tslib.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ncore</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">ncore</span>  <span class="c1"># This is used by tslib.</span>
 
     <span class="k">def</span> <span class="nf">_iter_inds</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -167,43 +169,49 @@
 <span class="sd">        calcCoh : computes the coherence for individual grid-point pairs.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_complex</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span>
-        <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">),</span>
+                       <span class="n">dtype</span><span class="o">=</span><span class="n">ts_complex</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">),</span>
+                       <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">icomp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">ff</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter_inds</span><span class="p">():</span>
                     <span class="k">if</span> <span class="n">ii</span> <span class="o">==</span> <span class="n">jj</span><span class="p">:</span>
                         <span class="n">tmp</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">tmp</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcCoh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="n">ff</span><span class="p">],</span> <span class="n">icomp</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span>
+                        <span class="n">tmp</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcCoh</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="n">ff</span><span class="p">],</span>
+                            <span class="n">icomp</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span>
                 <span class="n">tmp</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">cholesky</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
-                <span class="c">## print tmp</span>
-                <span class="c">## print (tmp*phases[icomp,:,ff]).shape</span>
-                <span class="n">out</span><span class="p">[</span><span class="n">icomp</span><span class="p">,:,</span> <span class="n">ff</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="o">*</span><span class="n">phases</span><span class="p">[</span><span class="n">icomp</span><span class="p">,:,</span> <span class="n">ff</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">out</span>
-</div>
+                <span class="n">out</span><span class="p">[</span><span class="n">icomp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">ff</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span> <span class="o">*</span> <span class="n">phases</span><span class="p">[</span><span class="n">icomp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">ff</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
 <div class="viewcode-block" id="cohereObj.calcCoh"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.base.cohereObj.calcCoh">[docs]</a>    <span class="k">def</span> <span class="nf">calcCoh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        THIS IS A PLACEHOLDER METHOD WHICH SHOULD BE OVER-WRITTEN FOR ALL SUB-CLASSES</span>
-<span class="sd">        OF cohereModelBase. THIS METHOD ONLY RAISES AN ERROR.</span>
+<span class="sd">        THIS IS A PLACEHOLDER METHOD WHICH SHOULD BE OVER-WRITTEN FOR</span>
+<span class="sd">        ALL SUB-CLASSES OF cohereModelBase. THIS METHOD ONLY RAISES AN</span>
+<span class="sd">        ERROR.</span>
 
-<span class="sd">        A functioning version of this method (i.e. in a subclass of cohereModelBase)</span>
-<span class="sd">        should return the a length-n_f vector that is the coherence between point</span>
-<span class="sd">        `ii`=(iz,iy) and `jj`=(jz,jy) for velocity component `comp`.</span>
+<span class="sd">        A functioning version of this method (i.e. in a subclass of</span>
+<span class="sd">        cohereModelBase) should return the a length-n_f vector that is</span>
+<span class="sd">        the coherence between point `ii`=(iz,iy) and `jj`=(jz,jy) for</span>
+<span class="sd">        velocity component `comp`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        cohi : A &#39;coherence calculator&#39; instance (for the given tsrun).</span>
-<span class="sd">        comp : an integer (0,1,2) indicating the velocity component for which to</span>
-<span class="sd">                    compute the coherence.</span>
-<span class="sd">        ii,jj : Two-integer elements indicating the grid-points between which to</span>
-<span class="sd">                    calculate the coherence. For example, ii=(1,3),jj=(2,3)</span>
+<span class="sd">        comp : an integer (0,1,2) indicating the velocity component</span>
+<span class="sd">                    for which to compute the coherence.</span>
+<span class="sd">        ii,jj : Two-integer elements indicating the grid-points</span>
+<span class="sd">                    between which to calculate the coherence. For</span>
+<span class="sd">                    example, ii=(1,3),jj=(2,3)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-            <span class="s">&#39;Subclasses of cohereObj must overwrite the calcCoh method or redfine the calc_phases method.&#39;</span><span class="p">)</span>
+            <span class="s1">&#39;Subclasses of cohereObj must overwrite the &#39;</span>
+            <span class="s1">&#39;calcCoh method or redfine the calc_phases method.&#39;</span><span class="p">)</span></div></div>
 
-</div></div>
+
 <div class="viewcode-block" id="cohereUser"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.base.cohereUser">[docs]</a><span class="k">class</span> <span class="nc">cohereUser</span><span class="p">(</span><span class="n">cohereObj</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
@@ -241,13 +249,13 @@
 <span class="sd">        be defined explicitly for all sub-classes of cohereModelBase.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">ff</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">):</span>
-            <span class="n">tmp</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">cholesky</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">comp</span><span class="p">,:,:,</span> <span class="n">ff</span><span class="p">])</span>
+            <span class="n">tmp</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">cholesky</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="n">ff</span><span class="p">])</span>
             <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">):</span>
-                <span class="n">coh</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">ff</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="o">*</span><span class="n">phases</span><span class="p">[:,</span> <span class="n">ff</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">coh</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="n">ff</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span> <span class="o">*</span> <span class="n">phases</span><span class="p">[:,</span> <span class="n">ff</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> </div></div>
 
-</div></div>
+
 <div class="viewcode-block" id="cohereModelBase"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.base.cohereModelBase">[docs]</a><span class="k">class</span> <span class="nc">cohereModelBase</span><span class="p">(</span><span class="n">modelBase</span><span class="p">,</span> <span class="n">gridProps</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
@@ -270,14 +278,15 @@
 <span class="sd">    Where tsr is a &#39;tsrun&#39; object.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cohereObj</span> <span class="o">=</span> <span class="n">cohereObj</span>  <span class="c"># This needs to be set to the appropriate</span>
-                           <span class="c"># &#39;coherence object&#39; for each model.</span>
+    <span class="n">cohereObj</span> <span class="o">=</span> <span class="n">cohereObj</span>  <span class="c1"># This needs to be set to the appropriate</span>
+                           <span class="c1"># &#39;coherence object&#39; for each model.</span>
 
 <div class="viewcode-block" id="cohereModelBase.__call__"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.base.cohereModelBase.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the coherence matrix for TurbSim run `tsrun` according to this</span>
-<span class="sd">        coherence model. The grid, profile and spectrum (tsrun.grid, tsrun.prof,</span>
-<span class="sd">        tsrun.spec) must already be defined for the tsrun.</span>
+<span class="sd">        Calculate the coherence matrix for TurbSim run `tsrun`</span>
+<span class="sd">        according to this coherence model. The grid, profile and</span>
+<span class="sd">        spectrum (tsrun.grid, tsrun.prof, tsrun.spec) must already be</span>
+<span class="sd">        defined for the tsrun.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -290,9 +299,10 @@
 <span class="sd">        cohi=thisCohereModel(tsrun)</span>
 
 <span class="sd">        The coherence instance is either an array of the full</span>
-<span class="sd">        cross-spectral matrix (3 x n_p x n_p x n_f), or a &#39;calculator&#39; that returns</span>
-<span class="sd">        the components of that array. Either way, the components of the cross-spectral</span>
-<span class="sd">        matrix (csm) can be obtained from</span>
+<span class="sd">        cross-spectral matrix (3 x n_p x n_p x n_f), or a &#39;calculator&#39;</span>
+<span class="sd">        that returns the components of that array. Either way, the</span>
+<span class="sd">        components of the cross-spectral matrix (csm) can be obtained</span>
+<span class="sd">        from</span>
 
 <span class="sd">        csm_u=cohi[0]</span>
 <span class="sd">        csm_v=cohi[1]</span>
@@ -300,7 +310,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cohereObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;set_coefs&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;set_coefs&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_coefs</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span></div></div>
 </pre></div>
@@ -321,14 +331,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -336,11 +343,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

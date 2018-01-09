@@ -1,59 +1,59 @@
-pyts.io package
-===============
+pyts\.io package
+================
 
 Submodules
 ----------
 
-pyts.io.base module
--------------------
+pyts\.io\.base module
+---------------------
 
 .. automodule:: pyts.io.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.io.formatter module
-------------------------
+pyts\.io\.formatter module
+--------------------------
 
 .. automodule:: pyts.io.formatter
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.io.input module
---------------------
+pyts\.io\.input module
+----------------------
 
 .. automodule:: pyts.io.input
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.io.main module
--------------------
+pyts\.io\.main module
+---------------------
 
 .. automodule:: pyts.io.main
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.io.read module
--------------------
+pyts\.io\.read module
+---------------------
 
 .. automodule:: pyts.io.read
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.io.sum module
-------------------
+pyts\.io\.sum module
+--------------------
 
 .. automodule:: pyts.io.sum
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.io.write module
---------------------
+pyts\.io\.write module
+----------------------
 
 .. automodule:: pyts.io.write
     :members:

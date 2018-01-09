@@ -7,7 +7,6 @@ Subpackages
 .. toctree::
 
     pyts.cohereModels
-    pyts.gui
     pyts.io
     pyts.phaseModels
     pyts.plot
@@ -19,48 +18,48 @@ Subpackages
 Submodules
 ----------
 
-pyts.api module
----------------
+pyts\.api module
+----------------
 
 .. automodule:: pyts.api
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.base module
-----------------
+pyts\.base module
+-----------------
 
 .. automodule:: pyts.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.dbg module
----------------
+pyts\.dbg module
+----------------
 
 .. automodule:: pyts.dbg
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.main module
-----------------
+pyts\.main module
+-----------------
 
 .. automodule:: pyts.main
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.misc module
-----------------
+pyts\.misc module
+-----------------
 
 .. automodule:: pyts.misc
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.pyts_numpy module
-----------------------
+pyts\.pyts\_numpy module
+------------------------
 
 .. automodule:: pyts.pyts_numpy
     :members:

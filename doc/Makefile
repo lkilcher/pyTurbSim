@@ -47,7 +47,7 @@ help:
 
 
 api:
-	$(SPHINXBUILDAPI) -f -o source/api -T -H 'PyTurbSim API' ../pyts/
+	$(SPHINXBUILDAPI) -f  -T -H 'PyTurbSim API' -o source/api ../pyts/ ../pyts/gui
 #	$(SPHINXBUILDAPI) -f -o source/api -T -H 'PyTS Plot API' ../pyts_plot/
 
 clean:

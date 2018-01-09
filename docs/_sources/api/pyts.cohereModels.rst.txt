@@ -1,27 +1,27 @@
-pyts.cohereModels package
-=========================
+pyts\.cohereModels package
+==========================
 
 Submodules
 ----------
 
-pyts.cohereModels.api module
-----------------------------
+pyts\.cohereModels\.api module
+------------------------------
 
 .. automodule:: pyts.cohereModels.api
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.cohereModels.base module
------------------------------
+pyts\.cohereModels\.base module
+-------------------------------
 
 .. automodule:: pyts.cohereModels.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts.cohereModels.main module
------------------------------
+pyts\.cohereModels\.main module
+-------------------------------
 
 .. automodule:: pyts.cohereModels.main
     :members:

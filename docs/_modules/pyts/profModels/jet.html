@@ -1,38 +1,39 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>pyts.profModels.jet &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>pyts.profModels.jet &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
    
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -40,8 +41,8 @@
           <div class="body" role="main">
             
   <h1>Source code for pyts.profModels.jet</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">profModelBase</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">profObj</span>
-<span class="kn">from</span> <span class="nn">numpy.polynomial.chebyshev</span> <span class="kn">import</span> <span class="n">chebval</span>
+<span></span><span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">profModelBase</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">profObj</span>
+<span class="kn">from</span> <span class="nn">numpy.polynomial.chebyshev</span> <span class="k">import</span> <span class="n">chebval</span>
 
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.jet.main">[docs]</a><span class="k">class</span> <span class="nc">main</span><span class="p">(</span><span class="n">profModelBase</span><span class="p">):</span>
@@ -63,7 +64,7 @@
 <span class="sd">        the zjet_max property provides a default.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">URef</span><span class="p">,</span> <span class="n">ZRef</span><span class="p">,</span> <span class="n">UStar</span><span class="p">,</span> <span class="n">Ri</span><span class="p">,</span> <span class="n">zjet_max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">URef</span><span class="p">,</span> <span class="n">ZRef</span><span class="p">,</span> <span class="n">UStar</span><span class="p">,</span> <span class="n">Ri</span><span class="p">,</span> <span class="n">zjet_max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">URef</span> <span class="o">=</span> <span class="n">URef</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ZRef</span> <span class="o">=</span> <span class="n">ZRef</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">UStar</span> <span class="o">=</span> <span class="n">UStar</span>
@@ -71,13 +72,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">zjet_max</span> <span class="o">=</span> <span class="n">zjet_max</span>
 
     <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-<span class="s">        Profile model used                               =  {dat.model_desc}</span>
-<span class="s">        Reference velocity (URef)                        =  {dat.Uref:0.2f}</span>
-<span class="s">        Reference height (ZRef)                          =  {dat.ZRef:0.2f}</span>
-<span class="s">        Richardson Number (RICH_NO)                      =  {dat.Ri:0.2f}</span>
-<span class="s">        Jet Height (ZJet_Max)                            =  {dat.zjet_max:0.2f}</span>
-<span class="s">        &quot;&quot;&quot;</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Profile model used                               =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
+<span class="s2">        Reference velocity (URef)                        =  </span><span class="si">{dat.Uref:0.2f}</span><span class="s2"></span>
+<span class="s2">        Reference height (ZRef)                          =  </span><span class="si">{dat.ZRef:0.2f}</span><span class="s2"></span>
+<span class="s2">        Richardson Number (RICH_NO)                      =  </span><span class="si">{dat.Ri:0.2f}</span><span class="s2"></span>
+<span class="s2">        Jet Height (ZJet_Max)                            =  </span><span class="si">{dat.zjet_max:0.2f}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,)</span>
 
 <div class="viewcode-block" id="main.__call__"><a class="viewcode-back" href="../../../api/pyts.profModels.html#pyts.profModels.jet.main.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
@@ -98,9 +99,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">profObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
         <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">],</span> <span class="n">v</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">out</span>
-</div>
+        <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">v</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
     <span class="k">def</span> <span class="nf">_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="p">):</span>
         <span class="n">z</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span>
         <span class="n">HtIndx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zjet_max</span> <span class="o">-</span> <span class="mi">50</span><span class="p">)</span> <span class="o">/</span> <span class="mi">20</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">20</span><span class="p">)</span>
@@ -111,16 +112,16 @@
             <span class="n">prms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">URef</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">utmp1</span> <span class="o">=</span> <span class="n">chebval</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">ZRef</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">scoef</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">prms</span><span class="p">[</span><span class="mi">1</span><span class="p">:][:,</span> <span class="bp">None</span><span class="p">]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ZRef</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">scoef</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">prms</span><span class="p">[</span><span class="mi">1</span><span class="p">:][:,</span> <span class="kc">None</span><span class="p">]))</span>
             <span class="n">utmp2</span> <span class="o">=</span> <span class="n">chebval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ZRef</span><span class="p">,</span> <span class="n">scoef</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
             <span class="n">prms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">URef</span> <span class="o">-</span> <span class="n">utmp1</span><span class="p">)</span> <span class="o">/</span> <span class="n">utmp2</span>
-        <span class="n">scoef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">scoef</span><span class="p">,</span> <span class="n">prms</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">])</span>  <span class="c"># These are now vectors</span>
-        <span class="n">dcoef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dcoef</span><span class="p">,</span> <span class="n">prms</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">])</span>  <span class="c"># These are now vectors</span>
+        <span class="n">scoef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">scoef</span><span class="p">,</span> <span class="n">prms</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">])</span>  <span class="c1"># These are now vectors</span>
+        <span class="n">dcoef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dcoef</span><span class="p">,</span> <span class="n">prms</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">])</span>  <span class="c1"># These are now vectors</span>
         <span class="n">ang</span> <span class="o">=</span> <span class="n">chebval</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">dcoef</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
-        <span class="n">ang</span> <span class="o">-=</span> <span class="n">ang</span><span class="p">[</span><span class="n">out</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>  <span class="c"># The hub-height angle should be zero.</span>
+        <span class="n">ang</span> <span class="o">-=</span> <span class="n">ang</span><span class="p">[</span><span class="n">out</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>  <span class="c1"># The hub-height angle should be zero.</span>
         <span class="n">ang</span><span class="p">[</span><span class="n">ang</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">45.</span><span class="p">],</span> <span class="n">ang</span><span class="p">[</span><span class="n">ang</span> <span class="o">&gt;</span> <span class="mf">45.</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> \
-            <span class="mf">45.</span><span class="p">,</span> <span class="mf">45.</span>  <span class="c"># No angle should be more than 45 degrees.</span>
-        <span class="n">tmpdat</span> <span class="o">=</span> <span class="n">chebval</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">scoef</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.</span> <span class="o">*</span> <span class="n">ang</span><span class="p">)[:,</span> <span class="bp">None</span><span class="p">]</span>
+            <span class="mf">45.</span><span class="p">,</span> <span class="mf">45.</span>  <span class="c1"># No angle should be more than 45 degrees.</span>
+        <span class="n">tmpdat</span> <span class="o">=</span> <span class="n">chebval</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">scoef</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.</span> <span class="o">*</span> <span class="n">ang</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">tmpdat</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">tmpdat</span><span class="o">.</span><span class="n">imag</span>
 
     <span class="nd">@property</span>
@@ -130,34 +131,34 @@
 
 <span class="sd">        This property calculates a default value if one is not specified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val_zjet_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val_zjet_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val_zjet_max</span>
         <span class="n">val</span> <span class="o">=</span> <span class="mf">1.9326</span> <span class="o">*</span> \
             <span class="p">(</span><span class="o">-</span><span class="mf">14.820</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ri</span> <span class="o">+</span> <span class="mf">56.488123</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">zL</span> <span class="o">+</span>
              <span class="mf">166.499069</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">UStar</span> <span class="o">+</span> <span class="mf">188.253377</span><span class="p">)</span> <span class="o">-</span> <span class="mf">252.7267</span>
         <span class="n">rnd</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
             <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">randgen</span><span class="o">.</span><span class="n">standard_cauchy</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">-</span> <span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">160</span><span class="p">),</span> <span class="mi">120</span><span class="p">)</span>
-                  <span class="c"># !!!VERSION_INCONSISTENCY: I&#39;ve used the standard</span>
-                  <span class="c"># !!!Cuachy distribution, rather than &#39;PearsonIV&#39;</span>
-                  <span class="c"># !!!from indecipherable code.</span>
+                  <span class="c1"># !!!VERSION_INCONSISTENCY: I&#39;ve used the standard</span>
+                  <span class="c1"># !!!Cuachy distribution, rather than &#39;PearsonIV&#39;</span>
+                  <span class="c1"># !!!from indecipherable code.</span>
         <span class="n">val</span> <span class="o">+=</span> <span class="n">rnd</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_val_zjet_max</span> <span class="o">=</span> <span class="n">val</span>
         <span class="k">return</span> <span class="n">val</span>
 
-    <span class="nd">@zjet_max.setter</span>
+    <span class="nd">@zjet_max</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">zjet_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_val_zjet_max</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_val_zjet_max</span> <span class="o">=</span> <span class="n">val</span></div>
 
-<span class="c">### These are the &#39;Chebyshef&#39; coefficients, copied from the Modules.f90 file of TurbSim v1.x.</span>
-<span class="c">### The coefficients are:</span>
-    <span class="c">## Column  Definition</span>
-    <span class="c">## 1       Jet maximum wind speed coefficient</span>
-    <span class="c">## 2       Turbine Richardson number coefficient</span>
-    <span class="c">## 3       uStar over the rotor coefficient</span>
-    <span class="c">## 4       constant</span>
-    <span class="c">## The rows are each of the 0-10th Chebyshev basis functions.</span></div>
+<span class="c1">### These are the &#39;Chebyshef&#39; coefficients, copied from the Modules.f90 file of TurbSim v1.x.</span>
+<span class="c1">### The coefficients are:</span>
+    <span class="c1">## Column  Definition</span>
+    <span class="c1">## 1       Jet maximum wind speed coefficient</span>
+    <span class="c1">## 2       Turbine Richardson number coefficient</span>
+    <span class="c1">## 3       uStar over the rotor coefficient</span>
+    <span class="c1">## 4       constant</span>
+    <span class="c1">## The rows are each of the 0-10th Chebyshev basis functions.</span>
 <span class="n">spd_coefs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 1 )     ! 70-90 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 1 )     ! 70-90 m</span>
         <span class="p">[</span><span class="mf">0.856851</span><span class="p">,</span> <span class="mf">7.51E-02</span><span class="p">,</span> <span class="mf">1.39276</span><span class="p">,</span> <span class="mf">0.894127</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">4.88E-02</span><span class="p">,</span> <span class="mf">0.576344</span><span class="p">,</span> <span class="mf">1.23582</span><span class="p">,</span> <span class="mf">1.72687</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.39E-02</span><span class="p">,</span> <span class="mf">9.67E-02</span><span class="p">,</span> <span class="mf">1.36737</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.723851</span><span class="p">],</span>
@@ -169,7 +170,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">2.01E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.61E-02</span><span class="p">,</span> <span class="mf">0.220825</span><span class="p">,</span> <span class="mf">0.179622</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">8.11E-03</span><span class="p">,</span> <span class="mf">3.96E-02</span><span class="p">,</span> <span class="mf">0.109793</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.81E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">4.99E-03</span><span class="p">,</span> <span class="mf">5.00E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.124887</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.11035</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 2 )     ! 90-110 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 2 )     ! 90-110 m</span>
         <span class="p">[</span><span class="mf">0.741241</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.122521</span><span class="p">,</span> <span class="mf">0.875062</span><span class="p">,</span> <span class="mf">1.43294</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.264131</span><span class="p">,</span> <span class="mf">0.28827</span><span class="p">,</span> <span class="mf">0.717571</span><span class="p">,</span> <span class="mf">3.30541</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">5.92E-02</span><span class="p">,</span> <span class="mf">3.86E-02</span><span class="p">,</span> <span class="mf">1.09453</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.377399</span><span class="p">],</span>
@@ -181,7 +182,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">1.60E-02</span><span class="p">,</span> <span class="mf">8.88E-03</span><span class="p">,</span> <span class="mf">0.132523</span><span class="p">,</span> <span class="mf">9.58E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">5.29E-03</span><span class="p">,</span> <span class="mf">2.98E-02</span><span class="p">,</span> <span class="mf">0.205812</span><span class="p">,</span> <span class="mf">9.27E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">7.00E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.47E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.11E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.123083</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 3 )     ! 110-130 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 3 )     ! 110-130 m</span>
         <span class="p">[</span><span class="mf">0.809492</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.41752</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.817619</span><span class="p">,</span> <span class="mf">1.64159</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.121866</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.09012</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.60044</span><span class="p">,</span> <span class="mf">3.63875</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.105142</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.263657</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.60E-02</span><span class="p">,</span> <span class="mf">0.374811</span><span class="p">],</span>
@@ -193,7 +194,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">1.18E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.100754</span><span class="p">,</span> <span class="mf">0.170602</span><span class="p">,</span> <span class="mf">3.42E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">2.09E-02</span><span class="p">,</span> <span class="mf">3.36E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.104123</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.49E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">2.91E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.52E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.258115</span><span class="p">,</span> <span class="mf">4.81E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 4 )     ! 130-150 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 4 )     ! 130-150 m</span>
         <span class="p">[</span><span class="mf">0.694325</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.463252</span><span class="p">,</span> <span class="mf">2.11406</span><span class="p">,</span> <span class="mf">1.28643</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.269118</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.31381</span><span class="p">,</span> <span class="mf">2.13374</span><span class="p">,</span> <span class="mf">3.46187</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">8.40E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.97E-02</span><span class="p">,</span> <span class="mf">2.09803</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.592335</span><span class="p">],</span>
@@ -205,7 +206,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">3.26E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.239615</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.133893</span><span class="p">,</span> <span class="mf">0.29135</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.52E-02</span><span class="p">,</span> <span class="mf">7.15E-02</span><span class="p">,</span> <span class="mf">0.25228</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.113016</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">7.19E-03</span><span class="p">,</span> <span class="mf">9.79E-02</span><span class="p">,</span> <span class="mf">0.252125</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.173201</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 5 )     ! 150-170 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 5 )     ! 150-170 m</span>
         <span class="p">[</span><span class="mf">0.909534</span><span class="p">,</span> <span class="mf">0.581254</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.90539</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.581377</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.155834</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.836954</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.77075</span><span class="p">,</span> <span class="mf">0.627044</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">8.99E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.28E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0719</span><span class="p">,</span> <span class="mf">2.44E-02</span><span class="p">],</span>
@@ -217,7 +218,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">2.59E-02</span><span class="p">,</span> <span class="mf">0.174282</span><span class="p">,</span> <span class="mf">0.193868</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.81E-03</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">2.54E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.22E-02</span><span class="p">,</span> <span class="mf">1.84E-02</span><span class="p">,</span> <span class="mf">6.77E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">5.77E-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.43E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.69E-02</span><span class="p">,</span> <span class="mf">2.96E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 6 )     ! 170-190 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 6 )     ! 170-190 m</span>
         <span class="p">[</span><span class="mf">0.885753</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.15015</span><span class="p">,</span> <span class="mf">0.155218</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.707043</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">2.53E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.65126</span><span class="p">,</span> <span class="mf">0.850151</span><span class="p">,</span> <span class="mf">1.85279</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">7.23E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.399161</span><span class="p">,</span> <span class="mf">0.142486</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.917176</span><span class="p">],</span>
@@ -229,7 +230,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">3.95E-02</span><span class="p">,</span> <span class="mf">0.127418</span><span class="p">,</span> <span class="mf">0.158511</span><span class="p">,</span> <span class="mf">0.20932</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">2.53E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.32E-02</span><span class="p">,</span> <span class="mf">0.36536</span><span class="p">,</span> <span class="mf">0.214466</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">4.03E-03</span><span class="p">,</span> <span class="mf">1.02E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.01E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.32E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 7 )     ! 190-210 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 7 )     ! 190-210 m</span>
         <span class="p">[</span><span class="mf">0.735269</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.48574</span><span class="p">,</span> <span class="mf">0.983734</span><span class="p">,</span> <span class="mf">0.887351</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.233065</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.850536</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.17754</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.880493</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.172346</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.862128</span><span class="p">,</span> <span class="mf">1.20075</span><span class="p">,</span> <span class="mf">3.48E-02</span><span class="p">],</span>
@@ -241,7 +242,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">1.98E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.23E-02</span><span class="p">,</span> <span class="mf">6.66E-02</span><span class="p">,</span> <span class="mf">0.133182</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">5.57E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.31E-02</span><span class="p">,</span> <span class="mf">2.44E-02</span><span class="p">,</span> <span class="mf">5.60E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">3.71E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.63E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.44E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.40E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 8 )     ! 210-230 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 8 )     ! 210-230 m</span>
         <span class="p">[</span><span class="mf">0.723721</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.691359</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.147971</span><span class="p">,</span> <span class="mf">1.16041</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.18799</span><span class="p">,</span> <span class="mf">0.370199</span><span class="p">,</span> <span class="mf">0.354538</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.494962</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.204727</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.166723</span><span class="p">,</span> <span class="mf">0.682431</span><span class="p">,</span> <span class="mf">0.367566</span><span class="p">],</span>
@@ -253,7 +254,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">2.25E-02</span><span class="p">,</span> <span class="mf">2.20E-02</span><span class="p">,</span> <span class="mf">0.263227</span><span class="p">,</span> <span class="mf">0.123311</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">1.43E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.01E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.14E-02</span><span class="p">,</span> <span class="mf">0.159391</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">2.64E-03</span><span class="p">,</span> <span class="mf">3.46E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.12318</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.22E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 9 )     ! 230-250 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 9 )     ! 230-250 m</span>
         <span class="p">[</span><span class="mf">0.717665</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.294178</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.521541</span><span class="p">,</span> <span class="mf">0.876418</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.183182</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.52658</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.34668</span><span class="p">,</span> <span class="mf">0.414396</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.196162</span><span class="p">,</span> <span class="mf">9.84E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.83E-02</span><span class="p">,</span> <span class="mf">0.156018</span><span class="p">],</span>
@@ -265,7 +266,7 @@
         <span class="p">[</span><span class="mf">7.03E-03</span><span class="p">,</span> <span class="mf">2.49E-02</span><span class="p">,</span> <span class="mf">3.13E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.70E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">3.06E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.82E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.70E-02</span><span class="p">,</span> <span class="mf">5.82E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">9.57E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.93E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.125623</span><span class="p">,</span> <span class="mf">0.112639</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 10 )    ! 250-270 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 10 )    ! 250-270 m</span>
         <span class="p">[</span><span class="mf">0.786229</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.164848</span><span class="p">,</span> <span class="mf">0.244948</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.126263</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.15218</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.153233</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.558524</span><span class="p">,</span> <span class="mf">0.84425</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.130716</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.217411</span><span class="p">,</span> <span class="mf">0.13439</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.536893</span><span class="p">],</span>
@@ -277,7 +278,7 @@
         <span class="p">[</span><span class="mf">4.51E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.37E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.111911</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.20E-03</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">4.05E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.90E-03</span><span class="p">,</span> <span class="mf">0.14697</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.03E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">6.68E-03</span><span class="p">,</span> <span class="mf">1.53E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.55E-02</span><span class="p">,</span> <span class="mf">4.97E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 11 )    ! 270-290 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 11 )    ! 270-290 m</span>
         <span class="p">[</span><span class="mf">0.715734</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.772062</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.556396</span><span class="p">,</span> <span class="mf">1.02929</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.322509</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.465616</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.671711</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2413</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.166728</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.281268</span><span class="p">,</span> <span class="mf">0.924893</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.282907</span><span class="p">],</span>
@@ -289,7 +290,7 @@
         <span class="p">[</span><span class="mf">4.34E-03</span><span class="p">,</span> <span class="mf">8.12E-02</span><span class="p">,</span> <span class="mf">0.25764</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.148492</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.03E-02</span><span class="p">,</span> <span class="mf">3.24E-02</span><span class="p">,</span> <span class="mf">0.141971</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.105207</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">4.84E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.99E-02</span><span class="p">,</span> <span class="mf">7.33E-02</span><span class="p">,</span> <span class="mf">2.84E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 12 )    ! 290-310 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 12 )    ! 290-310 m</span>
         <span class="p">[</span><span class="mf">0.723348</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.289581</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.10618</span><span class="p">,</span> <span class="mf">0.970713</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.283383</span><span class="p">,</span> <span class="mf">1.12986</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.152861</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.653269</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.16513</span><span class="p">,</span> <span class="mf">0.295047</span><span class="p">,</span> <span class="mf">0.245326</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.06E-02</span><span class="p">],</span>
@@ -301,7 +302,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">6.35E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.19E-02</span><span class="p">,</span> <span class="mf">0.139396</span><span class="p">,</span> <span class="mf">2.77E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.14E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.67E-02</span><span class="p">,</span> <span class="mf">0.24201</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.127337</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.71E-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.37E-04</span><span class="p">,</span> <span class="mf">4.39E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.61E-03</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 13 )    ! 310-330 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 13 )    ! 310-330 m</span>
         <span class="p">[</span><span class="mf">0.736987</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.103727</span><span class="p">,</span> <span class="mf">9.95E-02</span><span class="p">,</span> <span class="mf">0.343208</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.28285</span><span class="p">,</span> <span class="mf">0.370583</span><span class="p">,</span> <span class="mf">1.17749</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.490259</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.130451</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.557928</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.272771</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.230816</span><span class="p">],</span>
@@ -313,7 +314,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">1.23E-02</span><span class="p">,</span> <span class="mf">4.75E-02</span><span class="p">,</span> <span class="mf">0.182118</span><span class="p">,</span> <span class="mf">1.78E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">4.63E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1309</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.130584</span><span class="p">,</span> <span class="mf">2.35E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">9.03E-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.18E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.85E-03</span><span class="p">,</span> <span class="mf">1.17E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 14 )    ! 330-350 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 14 )    ! 330-350 m</span>
         <span class="p">[</span><span class="mf">0.706488</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.21766</span><span class="p">,</span> <span class="mf">1.08617</span><span class="p">,</span> <span class="mf">0.674247</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.341777</span><span class="p">,</span> <span class="mf">2.27476</span><span class="p">,</span> <span class="mf">3.81434</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.32363</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.112822</span><span class="p">,</span> <span class="mf">7.53E-02</span><span class="p">,</span> <span class="mf">0.221349</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.700428</span><span class="p">],</span>
@@ -325,7 +326,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">2.30E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.63E-02</span><span class="p">,</span> <span class="mf">0.168561</span><span class="p">,</span> <span class="mf">0.159537</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">6.41E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.48E-02</span><span class="p">,</span> <span class="mf">0.135087</span><span class="p">,</span> <span class="mf">8.81E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.13E-03</span><span class="p">,</span> <span class="mf">2.07E-02</span><span class="p">,</span> <span class="mf">9.18E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.77E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 15 )    ! 350-370 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 15 )    ! 350-370 m</span>
         <span class="p">[</span><span class="mf">0.721629</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.941544</span><span class="p">,</span> <span class="mf">0.923908</span><span class="p">,</span> <span class="mf">0.543678</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.346956</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.281582</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.32358</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.244435</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.109484</span><span class="p">,</span> <span class="mf">0.275053</span><span class="p">,</span> <span class="mf">0.86928</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.771081</span><span class="p">],</span>
@@ -337,7 +338,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">1.10E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.116864</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.06E-02</span><span class="p">,</span> <span class="mf">6.09E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">2.93E-03</span><span class="p">,</span> <span class="mf">2.72E-02</span><span class="p">,</span> <span class="mf">5.08E-02</span><span class="p">,</span> <span class="mf">7.50E-03</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">2.04E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.07E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.07E-02</span><span class="p">,</span> <span class="mf">3.58E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 16 )    ! 370-390 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 16 )    ! 370-390 m</span>
         <span class="p">[</span><span class="mf">0.732127</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.66819</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.94E-02</span><span class="p">,</span> <span class="mf">0.676096</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.285167</span><span class="p">,</span> <span class="mf">3.89442</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.917426</span><span class="p">,</span> <span class="mf">0.104248</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">8.38E-02</span><span class="p">,</span> <span class="mf">0.235268</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.19E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.914663</span><span class="p">],</span>
@@ -349,7 +350,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">1.05E-02</span><span class="p">,</span> <span class="mf">9.92E-02</span><span class="p">,</span> <span class="mf">0.11293</span><span class="p">,</span> <span class="mf">2.26E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">2.99E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.106831</span><span class="p">,</span> <span class="mf">0.122628</span><span class="p">,</span> <span class="mf">1.83E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">7.32E-03</span><span class="p">,</span> <span class="mf">3.52E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.36E-02</span><span class="p">,</span> <span class="mf">8.59E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 17 )    ! 390-410 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 17 )    ! 390-410 m</span>
         <span class="p">[</span><span class="mf">0.707698</span><span class="p">,</span> <span class="mf">0.119876</span><span class="p">,</span> <span class="mf">0.427545</span><span class="p">,</span> <span class="mf">0.2468</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.307273</span><span class="p">,</span> <span class="mf">0.428003</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.09224</span><span class="p">,</span> <span class="mf">1.01117</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">7.33E-02</span><span class="p">,</span> <span class="mf">0.51572</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.229086</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.792402</span><span class="p">],</span>
@@ -361,7 +362,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">7.84E-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.50E-02</span><span class="p">,</span> <span class="mf">0.137171</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.77E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">2.91E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.84E-02</span><span class="p">,</span> <span class="mf">0.168698</span><span class="p">,</span> <span class="mf">8.22E-03</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">4.67E-03</span><span class="p">,</span> <span class="mf">1.75E-03</span><span class="p">,</span> <span class="mf">1.80E-02</span><span class="p">,</span> <span class="mf">4.41E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 18 )    ! 410-430 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 18 )    ! 410-430 m</span>
         <span class="p">[</span><span class="mf">0.688761</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7286</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.55711</span><span class="p">,</span> <span class="mf">1.27145</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.300421</span><span class="p">,</span> <span class="mf">0.633115</span><span class="p">,</span> <span class="mf">0.881706</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.38E-03</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">6.81E-02</span><span class="p">,</span> <span class="mf">0.210301</span><span class="p">,</span> <span class="mf">0.610772</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.714435</span><span class="p">],</span>
@@ -373,7 +374,7 @@
         <span class="p">[</span><span class="mf">6.30E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.50E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.57E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.10E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">2.19E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.59E-02</span><span class="p">,</span> <span class="mf">8.53E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.29E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">2.76E-03</span><span class="p">,</span> <span class="mf">1.68E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.77E-02</span><span class="p">,</span> <span class="mf">3.27E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 19 )    ! 430-450 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 19 )    ! 430-450 m</span>
         <span class="p">[</span><span class="mf">0.659495</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.22327</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.75403</span><span class="p">,</span> <span class="mf">1.65777</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.384097</span><span class="p">,</span> <span class="mf">1.06351</span><span class="p">,</span> <span class="mf">2.53779</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.63428</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">2.42E-02</span><span class="p">,</span> <span class="mf">0.113735</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.42805</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.690773</span><span class="p">],</span>
@@ -385,7 +386,7 @@
         <span class="p">[</span><span class="mf">2.11E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.45E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.94E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.00E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">3.06E-03</span><span class="p">,</span> <span class="mf">1.60E-02</span><span class="p">,</span> <span class="mf">7.45E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.77E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">1.84E-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.56E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.25E-02</span><span class="p">,</span> <span class="mf">1.57E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 20 )    ! 450-470 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 20 )    ! 450-470 m</span>
         <span class="p">[</span><span class="mf">0.64099</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.02496</span><span class="p">,</span> <span class="mf">0.427597</span><span class="p">,</span> <span class="mf">1.52166</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.391609</span><span class="p">,</span> <span class="mf">2.03441</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.122486</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.03579</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">8.28E-03</span><span class="p">,</span> <span class="mf">0.5942</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.42469</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.35655</span><span class="p">],</span>
@@ -397,7 +398,7 @@
         <span class="p">[</span><span class="mf">1.54E-03</span><span class="p">,</span> <span class="mf">5.82E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.72E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.37E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">5.11E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.11E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.04E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.64E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.97E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.09E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.18E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.03E-03</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 21 )    ! 470-490 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 21 )    ! 470-490 m</span>
         <span class="p">[</span><span class="mf">0.547127</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.327778</span><span class="p">,</span> <span class="mf">2.00666</span><span class="p">,</span> <span class="mf">2.67869</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.427112</span><span class="p">,</span> <span class="mf">8.56E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.61197</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.17989</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">6.23E-02</span><span class="p">,</span> <span class="mf">0.760714</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.659927</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.30882</span><span class="p">],</span>
@@ -413,7 +414,7 @@
 
 
 <span class="n">dir_coefs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 1 )     ! 70-90 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 1 )     ! 70-90 m</span>
         <span class="p">[</span><span class="mf">5.07735</span><span class="p">,</span> <span class="mf">96.4785</span><span class="p">,</span> <span class="mf">18.8465</span><span class="p">,</span> <span class="mf">110.986</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.75209</span><span class="p">,</span> <span class="o">-</span><span class="mf">16.5103</span><span class="p">,</span> <span class="o">-</span><span class="mf">25.9592</span><span class="p">,</span> <span class="mf">9.05636</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">1.50806</span><span class="p">,</span> <span class="mf">1.69319</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.7859</span><span class="p">,</span> <span class="mf">13.3041</span><span class="p">],</span>
@@ -425,7 +426,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">1.26E-02</span><span class="p">,</span> <span class="mf">0.19732</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.70454</span><span class="p">,</span> <span class="mf">0.179412</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">9.13E-04</span><span class="p">,</span> <span class="mf">9.65E-02</span><span class="p">,</span> <span class="mf">0.304467</span><span class="p">,</span> <span class="mf">4.79E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">7.71E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.11096</span><span class="p">,</span> <span class="mf">0.51028</span><span class="p">,</span> <span class="mf">0.585717</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 2 )     ! 90-110 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 2 )     ! 90-110 m</span>
         <span class="p">[</span><span class="mf">2.98622</span><span class="p">,</span> <span class="mf">87.1045</span><span class="p">,</span> <span class="mf">41.7453</span><span class="p">,</span> <span class="mf">124.301</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.241282</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.9238</span><span class="p">,</span> <span class="o">-</span><span class="mf">31.5696</span><span class="p">,</span> <span class="mf">11.0764</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.380786</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.71395</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.35561</span><span class="p">,</span> <span class="mf">3.68007</span><span class="p">],</span>
@@ -437,7 +438,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">0.113556</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.02575</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.54619</span><span class="p">,</span> <span class="mf">2.51668</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">3.87E-02</span><span class="p">,</span> <span class="mf">1.0794</span><span class="p">,</span> <span class="mf">0.98668</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.942351</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">7.37E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.284347</span><span class="p">,</span> <span class="mf">1.12315</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.04163</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 3 )     ! 110-130 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 3 )     ! 110-130 m</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">10.8064</span><span class="p">,</span> <span class="mf">63.1523</span><span class="p">,</span> <span class="mf">18.7751</span><span class="p">,</span> <span class="mf">255.252</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.89875</span><span class="p">,</span> <span class="o">-</span><span class="mf">15.7662</span><span class="p">,</span> <span class="o">-</span><span class="mf">27.2545</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.90699</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">1.81141</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.58E-03</span><span class="p">,</span> <span class="mf">4.49E-02</span><span class="p">,</span> <span class="mf">19.4007</span><span class="p">],</span>
@@ -449,7 +450,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">0.142081</span><span class="p">,</span> <span class="mf">0.690143</span><span class="p">,</span> <span class="mf">1.74256</span><span class="p">,</span> <span class="mf">0.963168</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.225792</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.215169</span><span class="p">,</span> <span class="mf">0.660299</span><span class="p">,</span> <span class="mf">1.89319</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.91E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.23</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.69222</span><span class="p">,</span> <span class="mf">0.190668</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 4 )     ! 130-150 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 4 )     ! 130-150 m</span>
         <span class="p">[</span><span class="mf">0.270461</span><span class="p">,</span> <span class="mf">107.786</span><span class="p">,</span> <span class="mf">140.705</span><span class="p">,</span> <span class="mf">143.549</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">2.46519</span><span class="p">,</span> <span class="mf">25.9261</span><span class="p">,</span> <span class="mf">54.6629</span><span class="p">,</span> <span class="o">-</span><span class="mf">43.2182</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">1.11746</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.09287</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.71316</span><span class="p">,</span> <span class="mf">16.4144</span><span class="p">],</span>
@@ -461,7 +462,7 @@
         <span class="p">[</span><span class="mf">0.398742</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.5049</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.97854</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.68531</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">7.72E-02</span><span class="p">,</span> <span class="mf">2.14124</span><span class="p">,</span> <span class="mf">3.42657</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.982025</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.120525</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.80518</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.44124</span><span class="p">,</span> <span class="mf">0.391772</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 5 )     ! 150-170 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 5 )     ! 150-170 m</span>
         <span class="p">[</span><span class="mf">10.3894</span><span class="p">,</span> <span class="mf">203.711</span><span class="p">,</span> <span class="mf">87.9736</span><span class="p">,</span> <span class="mf">0.818669</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">4.15105</span><span class="p">,</span> <span class="mf">37.734</span><span class="p">,</span> <span class="mf">56.1061</span><span class="p">,</span> <span class="o">-</span><span class="mf">72.0928</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">1.60031</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.42686</span><span class="p">,</span> <span class="mf">2.99983</span><span class="p">,</span> <span class="mf">21.7355</span><span class="p">],</span>
@@ -473,7 +474,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">0.294613</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.61282</span><span class="p">,</span> <span class="o">-</span><span class="mf">13.756</span><span class="p">,</span> <span class="mf">9.48747</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.180824</span><span class="p">,</span> <span class="mf">6.67558</span><span class="p">,</span> <span class="mf">8.1748</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.39538</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.168678</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.5973</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.92266</span><span class="p">,</span> <span class="mf">3.62255</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 6 )     ! 170-190 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 6 )     ! 170-190 m</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">3.05838</span><span class="p">,</span> <span class="mf">92.242</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.17694</span><span class="p">,</span> <span class="mf">218.678</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">1.19176</span><span class="p">,</span> <span class="mf">10.9436</span><span class="p">,</span> <span class="mf">5.33317</span><span class="p">,</span> <span class="mf">23.6574</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.396791</span><span class="p">,</span> <span class="mf">5.36609</span><span class="p">,</span> <span class="mf">14.86</span><span class="p">,</span> <span class="o">-</span><span class="mf">12.1807</span><span class="p">],</span>
@@ -485,7 +486,7 @@
         <span class="p">[</span><span class="mf">0.111959</span><span class="p">,</span> <span class="mf">0.768005</span><span class="p">,</span> <span class="mf">1.09164</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.84864</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">5.32E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.753046</span><span class="p">,</span> <span class="mf">0.517477</span><span class="p">,</span> <span class="mf">0.77376</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">2.36E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.255733</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.765475</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.183366</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 7 )     ! 190-210 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 7 )     ! 190-210 m</span>
         <span class="p">[</span><span class="mf">2.63747</span><span class="p">,</span> <span class="mf">48.8574</span><span class="p">,</span> <span class="o">-</span><span class="mf">148.839</span><span class="p">,</span> <span class="mf">198.635</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.276349</span><span class="p">,</span> <span class="mf">8.15568</span><span class="p">,</span> <span class="mf">11.5466</span><span class="p">,</span> <span class="mf">4.89475</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.161153</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.92434</span><span class="p">,</span> <span class="mf">15.2465</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.75263</span><span class="p">],</span>
@@ -497,7 +498,7 @@
         <span class="p">[</span><span class="mf">6.88E-03</span><span class="p">,</span> <span class="mf">0.618011</span><span class="p">,</span> <span class="mf">0.600728</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.312735</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">2.96E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.102388</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.423526</span><span class="p">,</span> <span class="mf">0.526055</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">3.77E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.79762</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.48591</span><span class="p">,</span> <span class="mf">0.487559</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 8 )     ! 210-230 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 8 )     ! 210-230 m</span>
         <span class="p">[</span><span class="mf">1.25931</span><span class="p">,</span> <span class="mf">81.7121</span><span class="p">,</span> <span class="o">-</span><span class="mf">72.2497</span><span class="p">,</span> <span class="mf">192.288</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.421425</span><span class="p">,</span> <span class="mf">0.812039</span><span class="p">,</span> <span class="mf">26.4136</span><span class="p">,</span> <span class="mf">12.7087</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.477334</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.804493</span><span class="p">,</span> <span class="mf">10.2938</span><span class="p">,</span> <span class="mf">2.63738</span><span class="p">],</span>
@@ -509,7 +510,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">5.13E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.157795</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.596316</span><span class="p">,</span> <span class="mf">0.747777</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">5.03E-02</span><span class="p">,</span> <span class="mf">6.23E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.821348</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.411198</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">2.45E-02</span><span class="p">,</span> <span class="mf">3.66E-03</span><span class="p">,</span> <span class="mf">0.61934</span><span class="p">,</span> <span class="mf">0.147334</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 9 )     ! 230-250 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 9 )     ! 230-250 m</span>
         <span class="p">[</span><span class="mf">4.99773</span><span class="p">,</span> <span class="mf">45.439</span><span class="p">,</span> <span class="o">-</span><span class="mf">22.9981</span><span class="p">,</span> <span class="mf">142.166</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.34923</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.690733</span><span class="p">,</span> <span class="mf">1.11037</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.00256</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">4.58E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.48399</span><span class="p">,</span> <span class="mf">3.15438</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.20619</span><span class="p">],</span>
@@ -521,7 +522,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">6.54E-04</span><span class="p">,</span> <span class="mf">0.514329</span><span class="p">,</span> <span class="mf">0.38488</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.221416</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">2.40E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.307029</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.455799</span><span class="p">,</span> <span class="mf">0.167602</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">5.79E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3575</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.82E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.79E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 10 )    ! 250-270 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 10 )    ! 250-270 m</span>
         <span class="p">[</span><span class="mf">2.87491</span><span class="p">,</span> <span class="mf">81.7603</span><span class="p">,</span> <span class="o">-</span><span class="mf">14.221</span><span class="p">,</span> <span class="mf">143.973</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.176626</span><span class="p">,</span> <span class="mf">0.711168</span><span class="p">,</span> <span class="mf">14.3778</span><span class="p">,</span> <span class="mf">3.41781</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.112353</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.44334</span><span class="p">,</span> <span class="mf">5.01439</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.539061</span><span class="p">],</span>
@@ -533,7 +534,7 @@
         <span class="p">[</span><span class="mf">6.84E-04</span><span class="p">,</span> <span class="mf">0.398542</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.227958</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.195655</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">1.33E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.148014</span><span class="p">,</span> <span class="mf">0.112677</span><span class="p">,</span> <span class="mf">0.28039</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">4.56E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4372</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.05259</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.39506</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 11 )    ! 270-290 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 11 )    ! 270-290 m</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">3.74E-02</span><span class="p">,</span> <span class="mf">5.72313</span><span class="p">,</span> <span class="o">-</span><span class="mf">25.8459</span><span class="p">,</span> <span class="mf">204.708</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.387587</span><span class="p">,</span> <span class="mf">5.70337</span><span class="p">,</span> <span class="mf">37.0722</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.10619</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.130067</span><span class="p">,</span> <span class="mf">8.86213</span><span class="p">,</span> <span class="mf">7.6219</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.77984</span><span class="p">],</span>
@@ -545,7 +546,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">2.75E-02</span><span class="p">,</span> <span class="mf">0.875895</span><span class="p">,</span> <span class="mf">8.29E-02</span><span class="p">,</span> <span class="mf">1.47E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">4.90E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.26505</span><span class="p">,</span> <span class="mf">0.684299</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.101304</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">2.46E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.03E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.25124</span><span class="p">,</span> <span class="mf">0.130552</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 12 )    ! 290-310 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 12 )    ! 290-310 m</span>
         <span class="p">[</span><span class="mf">4.48806</span><span class="p">,</span> <span class="mf">101.681</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.2152</span><span class="p">,</span> <span class="mf">108.849</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.12228</span><span class="p">,</span> <span class="o">-</span><span class="mf">11.8153</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.83094</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.59506</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.152934</span><span class="p">,</span> <span class="mf">0.610899</span><span class="p">,</span> <span class="mf">10.1148</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.59595</span><span class="p">],</span>
@@ -557,7 +558,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">5.96E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.645</span><span class="p">,</span> <span class="mf">1.0105</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.256849</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">1.79E-02</span><span class="p">,</span> <span class="mf">0.137457</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.45E-03</span><span class="p">,</span> <span class="mf">0.232805</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">5.07E-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.20E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.280138</span><span class="p">,</span> <span class="mf">9.13E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 13 )    ! 310-330 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 13 )    ! 310-330 m</span>
         <span class="p">[</span><span class="mf">0.253568</span><span class="p">,</span> <span class="mf">43.3822</span><span class="p">,</span> <span class="mf">42.3741</span><span class="p">,</span> <span class="mf">166.917</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.210713</span><span class="p">,</span> <span class="mf">14.3161</span><span class="p">,</span> <span class="mf">12.187</span><span class="p">,</span> <span class="mf">9.66539</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.176871</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.28688</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.78059</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.64384</span><span class="p">],</span>
@@ -569,7 +570,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">2.17E-02</span><span class="p">,</span> <span class="mf">0.198171</span><span class="p">,</span> <span class="mf">0.911532</span><span class="p">,</span> <span class="mf">2.31E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">5.64E-03</span><span class="p">,</span> <span class="mf">0.278658</span><span class="p">,</span> <span class="mf">0.250055</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.16E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">7.21E-03</span><span class="p">,</span> <span class="mf">2.24E-02</span><span class="p">,</span> <span class="mf">6.76E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1011</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 14 )    ! 330-350 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 14 )    ! 330-350 m</span>
         <span class="p">[</span><span class="mf">1.4365</span><span class="p">,</span> <span class="mf">104.113</span><span class="p">,</span> <span class="mf">86.7884</span><span class="p">,</span> <span class="mf">138.082</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.01951</span><span class="p">,</span> <span class="o">-</span><span class="mf">22.4231</span><span class="p">,</span> <span class="mf">8.14651</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.0374</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.14238</span><span class="p">,</span> <span class="mf">5.5217</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.37098</span><span class="p">,</span> <span class="mf">1.9052</span><span class="p">],</span>
@@ -581,7 +582,7 @@
         <span class="p">[</span><span class="mf">0.127996</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.88696</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.49795</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.24336</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">6.71E-02</span><span class="p">,</span> <span class="mf">1.70388</span><span class="p">,</span> <span class="mf">0.935254</span><span class="p">,</span> <span class="mf">0.748082</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">8.19E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.50E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.263839</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.18E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 15 )    ! 350-370 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 15 )    ! 350-370 m</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.675054</span><span class="p">,</span> <span class="mf">121.016</span><span class="p">,</span> <span class="mf">0.173435</span><span class="p">,</span> <span class="mf">199.751</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.52795</span><span class="p">,</span> <span class="mf">26.7663</span><span class="p">,</span> <span class="mf">36.6465</span><span class="p">,</span> <span class="mf">8.14164</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.686068</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.58652</span><span class="p">,</span> <span class="mf">1.37125</span><span class="p">,</span> <span class="o">-</span><span class="mf">12.8021</span><span class="p">],</span>
@@ -593,7 +594,7 @@
         <span class="p">[</span><span class="mf">3.15E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.48E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.882842</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.404645</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">9.69E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.486174</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.284323</span><span class="p">,</span> <span class="mf">0.336898</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">1.04E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.144399</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.10E-02</span><span class="p">,</span> <span class="mf">6.62E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 16 )    ! 370-390 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 16 )    ! 370-390 m</span>
         <span class="p">[</span><span class="mf">0.610558</span><span class="p">,</span> <span class="o">-</span><span class="mf">90.3161</span><span class="p">,</span> <span class="o">-</span><span class="mf">86.1311</span><span class="p">,</span> <span class="mf">221.346</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.878196</span><span class="p">,</span> <span class="mf">0.234356</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.96802</span><span class="p">,</span> <span class="mf">30.3835</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.536954</span><span class="p">,</span> <span class="mf">2.31986</span><span class="p">,</span> <span class="mf">0.611791</span><span class="p">,</span> <span class="o">-</span><span class="mf">11.624</span><span class="p">],</span>
@@ -605,7 +606,7 @@
         <span class="p">[</span><span class="mf">0.105906</span><span class="p">,</span> <span class="mf">2.60251</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.805126</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.35033</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">3.95E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.866726</span><span class="p">,</span> <span class="mf">0.244709</span><span class="p">,</span> <span class="mf">0.996069</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">5.34E-02</span><span class="p">,</span> <span class="mf">0.423689</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.910358</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.888237</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 17 )    ! 390-410 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 17 )    ! 390-410 m</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.256694</span><span class="p">,</span> <span class="o">-</span><span class="mf">53.0924</span><span class="p">,</span> <span class="o">-</span><span class="mf">28.899</span><span class="p">,</span> <span class="mf">212.286</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.368178</span><span class="p">,</span> <span class="mf">0.200188</span><span class="p">,</span> <span class="o">-</span><span class="mf">15.1321</span><span class="p">,</span> <span class="mf">9.40209</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.102825</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.83546</span><span class="p">,</span> <span class="mf">9.24228</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.64019</span><span class="p">],</span>
@@ -617,7 +618,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">2.97E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.626331</span><span class="p">,</span> <span class="mf">1.32958</span><span class="p">,</span> <span class="mf">0.161941</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">4.73E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.639604</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.50062</span><span class="p">,</span> <span class="mf">0.398523</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">7.78E-04</span><span class="p">,</span> <span class="mf">0.203885</span><span class="p">,</span> <span class="mf">0.111938</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.66E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 18 )    ! 410-430 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 18 )    ! 410-430 m</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">1.05454</span><span class="p">,</span> <span class="mf">19.3432</span><span class="p">,</span> <span class="mf">14.3866</span><span class="p">,</span> <span class="mf">209.914</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">5.37E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.69143</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.48868</span><span class="p">,</span> <span class="mf">13.8188</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.130461</span><span class="p">,</span> <span class="mf">1.84379</span><span class="p">,</span> <span class="mf">10.2975</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.85151</span><span class="p">],</span>
@@ -629,7 +630,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">3.19E-02</span><span class="p">,</span> <span class="mf">0.159054</span><span class="p">,</span> <span class="mf">1.11463</span><span class="p">,</span> <span class="mf">9.91E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">9.31E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.514427</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.486658</span><span class="p">,</span> <span class="mf">0.472324</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">5.84E-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.98E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.53E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.68E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 19 )    ! 430-450 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 19 )    ! 430-450 m</span>
         <span class="p">[</span><span class="mf">0.624689</span><span class="p">,</span> <span class="mf">63.9533</span><span class="p">,</span> <span class="o">-</span><span class="mf">115.139</span><span class="p">,</span> <span class="mf">203.718</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.249911</span><span class="p">,</span> <span class="mf">8.56489</span><span class="p">,</span> <span class="mf">12.0426</span><span class="p">,</span> <span class="mf">11.2274</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.208499</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.38494</span><span class="p">,</span> <span class="mf">8.76157</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.17681</span><span class="p">],</span>
@@ -641,7 +642,7 @@
         <span class="p">[</span><span class="mf">1.45E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.29998</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.491218</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.91E-02</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">6.95E-04</span><span class="p">,</span> <span class="mf">0.830442</span><span class="p">,</span> <span class="mf">1.25591</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.451134</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">6.90E-04</span><span class="p">,</span> <span class="mf">1.30E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.16423</span><span class="p">,</span> <span class="mf">7.65E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 20 )    ! 450-470 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 20 )    ! 450-470 m</span>
         <span class="p">[</span><span class="mf">4.30205</span><span class="p">,</span> <span class="mf">83.823</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.8869</span><span class="p">,</span> <span class="mf">120.115</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.11147</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.13123</span><span class="p">,</span> <span class="o">-</span><span class="mf">13.0305</span><span class="p">,</span> <span class="mf">11.4506</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">5.36E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.82942</span><span class="p">,</span> <span class="mf">3.21203</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.14437</span><span class="p">],</span>
@@ -653,7 +654,7 @@
         <span class="p">[</span><span class="o">-</span><span class="mf">3.25E-02</span><span class="p">,</span> <span class="mf">0.187007</span><span class="p">,</span> <span class="mf">0.351131</span><span class="p">,</span> <span class="mf">0.374602</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">1.79E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.651232</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.437205</span><span class="p">,</span> <span class="mf">0.653204</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">5.74E-03</span><span class="p">,</span> <span class="mf">0.210108</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.185616</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.91E-02</span><span class="p">],</span> <span class="p">],</span>
-    <span class="p">[</span>  <span class="c"># CASE ( 21 )    ! 470-490 m</span>
+    <span class="p">[</span>  <span class="c1"># CASE ( 21 )    ! 470-490 m</span>
         <span class="p">[</span><span class="mf">0.685959</span><span class="p">,</span> <span class="mf">76.5757</span><span class="p">,</span> <span class="o">-</span><span class="mf">26.8137</span><span class="p">,</span> <span class="mf">187.31</span><span class="p">],</span>
         <span class="p">[</span><span class="o">-</span><span class="mf">0.229648</span><span class="p">,</span> <span class="mf">3.36903</span><span class="p">,</span> <span class="o">-</span><span class="mf">12.3466</span><span class="p">,</span> <span class="mf">19.5787</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">5.56E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.33886</span><span class="p">,</span> <span class="mf">2.64958</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.35925</span><span class="p">],</span>
@@ -684,14 +685,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -699,11 +697,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

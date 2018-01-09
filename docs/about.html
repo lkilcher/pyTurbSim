@@ -1,39 +1,41 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>About &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>About &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="#" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Download and Install" href="install.html" />
     <link rel="prev" title="Welcome to PyTurbSim’s home page" href="index.html" />
    
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -50,7 +52,7 @@ of any velocity dataset:</p>
 <ol class="arabic simple">
 <li>the mean velocity profile,</li>
 <li>the turbulent kinetic energy spectrum (and therefore the turbulence intensity),</li>
-<li>the Reynold&#8217;s stress profile, and</li>
+<li>the Reynold’s stress profile, and</li>
 <li>the spatial coherence.</li>
 </ol>
 <p>These statistics have been found to be critical predictors of
@@ -65,9 +67,9 @@ reasonably with measurements of loads on real wind turbines <a class="footnote-r
 <div class="section" id="history">
 <span id="about-history"></span><h2>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h2>
 <p>pyTurbSim is a python-implementation of the National Wind Technology
-Center&#8217;s (NWTC) &#8216;TurbSim&#8217; program <a class="footnote-reference" href="#id5" id="id3">[2]</a>. Throughout the documentation,
-the term &#8216;TurbSim&#8217; is used to refer to both PyTurbSim and the original
-TurbSim tool (hereafter &#8216;<a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a>&#8216;).  <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a> is still actively
+Center’s (NWTC) ‘TurbSim’ program <a class="footnote-reference" href="#id5" id="id3">[2]</a>. Throughout the documentation,
+the term ‘TurbSim’ is used to refer to both PyTurbSim and the original
+TurbSim tool (hereafter ‘<a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a>’).  <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a> is still actively
 maintained and available from the <a class="reference external" href="https://wind.nrel.gov/designcodes/preprocessors/turbsim/">NWTC design codes site</a>.</p>
 <p>PyTurbSim was originally written as a script for developing and
 testing new profile and turbulence models that would later be
@@ -76,26 +78,26 @@ quickly modified and executed to produce new output that could be
 compared to measured datasets (for validating new models) or <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a>
 output (for validating the script). Once a new model had been
 developed it could then be incorporated into <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a> and released as
-part of <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a>.  As the &#8216;PyTurbSim script&#8217; was developed to
+part of <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a>.  As the ‘PyTurbSim script’ was developed to
 simplify its use it became a full-fledged program of its own with some
 capabilities that exceed <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a>. <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a> has capabilities that
 are not included in PyTurbSim as well; see the capabilities.txt file for
 a comparison of capabilities of these two tools.</p>
 <p>PyTurbSim does supports some, but not all spectral models of the
 original (atmospheric) TurbSim program.  Furthermore, PyTurbSim does
-not support the &#8216;coherent structures&#8217; functionality that Neil Kelley
+not support the ‘coherent structures’ functionality that Neil Kelley
 developed.  For producing simulations of atmospheric turbulence, I
 highly recommend using the original TurbSim program, developed by
 Bonnie Jonkman and Neil Kelley (based on the original SNLWIND tool
 developed by Paul Veers).  That having been said, I believe the
-&#8216;SMOOTH&#8217; and &#8216;IEC&#8217; spectral models are accurately represented by this
+‘SMOOTH’ and ‘IEC’ spectral models are accurately represented by this
 tool.  All other spectral models have not been verified or are not
 included in this tool.  PyTurbSim would not be possible without the
 work of Niel Kelley, Paul Veers and especially Bonnie Jonkman.  Thank
 you to all of these people for their excellent work and support in
 creating this tool.</p>
-<p>The PyTurbSim documentation is based on <a class="reference external" href="https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">O-TurbSim&#8217;s documentation</a>. For
-additional information, especially regarding the &#8216;config&#8217;/&#8217;input&#8217; file
+<p>The PyTurbSim documentation is based on <a class="reference external" href="https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">O-TurbSim’s documentation</a>. For
+additional information, especially regarding the ‘config’/’input’ file
 operational mode, take a look at that document.</p>
 </div>
 <div class="section" id="license">
@@ -117,7 +119,7 @@ of Solar Energy Engineering, AMERICAN SOCIETY MECHANICAL ENGINEERS,
 <table class="docutils footnote" frame="void" id="id5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>The NWTC is a center at the Department of Energy&#8217;s (DOE) National
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>The NWTC is a center at the Department of Energy’s (DOE) National
 Renewable Energy Lab (<a class="reference internal" href="glossary.html#term-nrel"><span class="xref std std-term">NREL</span></a>).  The DOE provided funding for development
 of these tools.</td></tr>
 </tbody>
@@ -143,7 +145,7 @@ of these tools.</td></tr>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to PyTurbSim&#8217;s home page</a></li>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to PyTurbSim’s home page</a></li>
       <li>Next: <a href="install.html" title="next chapter">Download and Install</a></li>
   </ul></li>
 </ul>
@@ -151,21 +153,18 @@ of these tools.</td></tr>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/about.txt"
+      <li><a href="_sources/about.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -173,14 +172,14 @@ of these tools.</td></tr>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/about.txt"
+      <a href="_sources/about.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

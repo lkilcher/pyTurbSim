@@ -1,40 +1,41 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>pyts.profModels package &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>pyts.profModels package &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../index.html" />
-    <link rel="up" title="pyts package" href="pyts.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pyts.runInput package" href="pyts.runInput.html" />
     <link rel="prev" title="pyts.plot package" href="pyts.plot.html" />
    
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -48,7 +49,7 @@
 </div>
 <div class="section" id="module-pyts.profModels.api">
 <span id="pyts-profmodels-api-module"></span><h2>pyts.profModels.api module<a class="headerlink" href="#module-pyts.profModels.api" title="Permalink to this headline">¶</a></h2>
-<p>PyTurbSim mean velocity &#8216;profile models&#8217; package.</p>
+<p>PyTurbSim mean velocity ‘profile models’ package.</p>
 <div class="section" id="available-profile-models">
 <h3>Available profile models<a class="headerlink" href="#available-profile-models" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
@@ -65,23 +66,23 @@
 model, subclass this class or subclass and modify an existing
 profile model.</dd>
 <dt><a class="reference internal" href="#pyts.profModels.base.profObj" title="pyts.profModels.base.profObj"><code class="xref py py-class docutils literal"><span class="pre">profObj</span></code></a></dt>
-<dd>This is the &#8216;profile object&#8217; class.  All profile model <cite>__call__</cite>
+<dd>This is the ‘profile object’ class.  All profile model <cite>__call__</cite>
 methods must take a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a> as input and
 return this class.</dd>
 </dl>
 </div>
 <div class="section" id="example-usage">
 <h3>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyts.profModels.api</span> <span class="kn">as</span> <span class="nn">pm</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyts.profModels.api</span> <span class="k">as</span> <span class="nn">pm</span>
 </pre></div>
 </div>
-<p>Create a logarithmic mean wind-speed &#8216;profile model&#8217; with 18m/s wind
+<p>Create a logarithmic mean wind-speed ‘profile model’ with 18m/s wind
 at 80m, and surface roughness length of 1m:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">my_prof_model</span><span class="o">=</span><span class="n">pm</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_prof_model</span><span class="o">=</span><span class="n">pm</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
-<p># Now set &#8216;tsrun&#8217; to use this profile model:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">=</span><span class="n">my_prof_model</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+<p># Now set ‘tsrun’ to use this profile model:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">=</span><span class="n">my_prof_model</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -97,8 +98,8 @@ other statistics of the flow), and</p>
 as input and returns a <a class="reference internal" href="#pyts.profModels.base.profObj" title="pyts.profModels.base.profObj"><code class="xref py py-class docutils literal"><span class="pre">profObj</span></code></a>, which</p>
 </div></blockquote>
 <p>For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyts.profModels.api</span> <span class="kn">as</span> <span class="nn">pm</span> <span class="c"># import the profModels api</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">polyval</span> <span class="c"># Import helper functions.</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyts.profModels.api</span> <span class="k">as</span> <span class="nn">pm</span> <span class="c1"># import the profModels api</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">polyval</span> <span class="c1"># Import helper functions.</span>
 
 <span class="k">class</span> <span class="nc">my_new_model</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">profModelBase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -107,41 +108,41 @@ as input and returns a <a class="reference internal" href="#pyts.profModels.base
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Uref</span><span class="p">,</span><span class="n">Zref</span><span class="p">,</span><span class="n">poly_coefs</span><span class="o">=</span><span class="p">[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">]):</span>
-        <span class="c"># All units should be in meters and seconds.</span>
+        <span class="c1"># All units should be in meters and seconds.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Uref</span><span class="o">=</span><span class="n">Uref</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="o">=</span><span class="n">Zref</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">poly_coefs</span><span class="o">=</span><span class="n">poly_coefs</span>
 
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tsrun</span><span class="p">):</span>
         <span class="n">out</span><span class="o">=</span><span class="n">pm</span><span class="o">.</span><span class="n">profObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
-        <span class="c"># Note here that tsrun contains the &#39;grid information&#39;, and</span>
-        <span class="c"># we can use that information to construct the profObj.</span>
+        <span class="c1"># Note here that tsrun contains the &#39;grid information&#39;, and</span>
+        <span class="c1"># we can use that information to construct the profObj.</span>
         <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Uref</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">poly_coefs</span><span class="p">,</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="o">/</span><span class="n">Zref</span><span class="p">)</span>
-        <span class="c"># Here we have set the u-component (index 0) to follow the</span>
-        <span class="c"># polynomial, and we leave the other components to be zero.</span>
+        <span class="c1"># Here we have set the u-component (index 0) to follow the</span>
+        <span class="c1"># polynomial, and we leave the other components to be zero.</span>
         <span class="k">return</span> <span class="n">out</span>
 </pre></div>
 </div>
-<p>That&#8217;s all that is required to define a new profile model!  Now,
+<p>That’s all that is required to define a new profile model!  Now,
 assuming you have already created a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a>
 instance (e.g. <cite>tsr</cite>) you set that <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a> to
 use your new model by simply doing, for example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tsr</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">my_new_model</span><span class="p">(</span><span class="mf">3.</span><span class="p">,</span><span class="mi">20</span><span class="p">,[</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tsr</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">my_new_model</span><span class="p">(</span><span class="mf">3.</span><span class="p">,</span><span class="mi">20</span><span class="p">,[</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Now your PyTurbSim run will utilize your newly defined model!</p>
 </div>
 <div class="section" id="notes">
 <h3>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h3>
-<p>For a description of the difference between &#8216;profile models&#8217;
-(e.g. &#8216;my_prof_model&#8217; in example above) and the profile they output
-(tsrun.prof), see the <a class="reference internal" href="../code-framework.html"><em>Code Framework</em></a> section of the PyTurbSim
+<p>For a description of the difference between ‘profile models’
+(e.g. ‘my_prof_model’ in example above) and the profile they output
+(tsrun.prof), see the <a class="reference internal" href="../code-framework.html"><span class="doc">Code Framework</span></a> section of the PyTurbSim
 documentation.</p>
 </div>
 </div>
 <div class="section" id="module-pyts.profModels.base">
 <span id="pyts-profmodels-base-module"></span><h2>pyts.profModels.base module<a class="headerlink" href="#module-pyts.profModels.base" title="Permalink to this headline">¶</a></h2>
-<p>This is the velocity profile package&#8217;s base module.</p>
+<p>This is the velocity profile package’s base module.</p>
 <dl class="class">
 <dt id="pyts.profModels.base.profModelBase">
 <em class="property">class </em><code class="descclassname">pyts.profModels.base.</code><code class="descname">profModelBase</code><a class="reference internal" href="../_modules/pyts/profModels/base.html#profModelBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.base.profModelBase" title="Permalink to this definition">¶</a></dt>
@@ -621,7 +622,7 @@ uniform  - A uniform mean wind speed.</dd>
 <dt id="pyts.profModels.simple.linear">
 <em class="property">class </em><code class="descclassname">pyts.profModels.simple.</code><code class="descname">linear</code><span class="sig-paren">(</span><em>URef</em>, <em>ZRef</em>, <em>URef2=0.0</em>, <em>ZRef2=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/profModels/simple.html#linear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.simple.linear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.profModels.base.profModelBase" title="pyts.profModels.base.profModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.profModels.base.profModelBase</span></code></a></p>
-<p>A &#8216;linear&#8217; mean wind-speed &#8216;profile&#8217;.</p>
+<p>A ‘linear’ mean wind-speed ‘profile’.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -680,7 +681,7 @@ instance.</p>
 <dt id="pyts.profModels.simple.uniform">
 <em class="property">class </em><code class="descclassname">pyts.profModels.simple.</code><code class="descname">uniform</code><span class="sig-paren">(</span><em>URef</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/profModels/simple.html#uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.profModels.simple.uniform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.profModels.base.profModelBase" title="pyts.profModels.base.profModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.profModels.base.profModelBase</span></code></a></p>
-<p>Uniform wind-speed &#8216;profile&#8217; model.</p>
+<p>Uniform wind-speed ‘profile’ model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -690,7 +691,7 @@ instance.</p>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>This wind-speed &#8216;profile&#8217; actually just sets the mean u-component
+<p>This wind-speed ‘profile’ actually just sets the mean u-component
 wind-speed to be spatially uniform. The v- and w-components are
 zero.</p>
 <dl class="method">
@@ -723,12 +724,12 @@ instance.</p>
 </div>
 <div class="section" id="module-pyts.profModels">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyts.profModels" title="Permalink to this headline">¶</a></h2>
-<p>This is the PyTurbSim mean velocity &#8216;profile models&#8217; package.  This
+<p>This is the PyTurbSim mean velocity ‘profile models’ package.  This
 package contains pre-defined profile models that can be implemented in
 a PyTurbSim run.</p>
 <p>For more information and to use this module import the <a class="reference internal" href="#module-pyts.profModels.api" title="pyts.profModels.api"><code class="xref py py-mod docutils literal"><span class="pre">profModels.api</span></code></a>
 package, e.g.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span>   <span class="kn">import</span> <span class="nn">pyts.profModels.api</span> <span class="kn">as</span> <span class="nn">pm</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span>   <span class="kn">import</span> <span class="nn">pyts.profModels.api</span> <span class="k">as</span> <span class="nn">pm</span>
 </pre></div>
 </div>
 </div>
@@ -775,21 +776,18 @@ package, e.g.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/api/pyts.profModels.txt"
+      <li><a href="../_sources/api/pyts.profModels.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -797,14 +795,14 @@ package, e.g.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="../_sources/api/pyts.profModels.txt"
+      <a href="../_sources/api/pyts.profModels.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

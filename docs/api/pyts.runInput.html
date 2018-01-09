@@ -1,40 +1,41 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>pyts.runInput package &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>pyts.runInput package &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../index.html" />
-    <link rel="up" title="pyts package" href="pyts.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pyts.specModels package" href="pyts.specModels.html" />
     <link rel="prev" title="pyts.profModels package" href="pyts.profModels.html" />
    
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -58,21 +59,21 @@ defaults documented in the Original-TurbSim documentation:
 <dt id="pyts.runInput.base.tsinput">
 <em class="property">class </em><code class="descclassname">pyts.runInput.base.</code><code class="descname">tsinput</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/runInput/base.html#tsinput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runInput.base.tsinput" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">dict</span></code></p>
-<p>The TurbSim input object and &#8216;global defaults&#8217; handler.</p>
+<p>The TurbSim input object and ‘global defaults’ handler.</p>
 <p>This class works essentially as a dictionary, but with various
 functions and routines for providing default values in the event
-that &#8216;input&#8217; values are not specified explicitly by the user.</p>
+that ‘input’ values are not specified explicitly by the user.</p>
 <p>Regarding global defaults:
-The &#8216;_dflt_...&#8217; functions define &#8216;global&#8217; default definitions
+The ‘_dflt_…’ functions define ‘global’ default definitions
 (used by multiple profModels and/or turbModels).  Other, model
 specific, defaults are defined in the model itself.</p>
-<p>For further information on the &#8216;defaults&#8217; defined here, consult
+<p>For further information on the ‘defaults’ defined here, consult
 the O-TurbSim documentation:
 <a class="reference external" href="https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf</a></p>
 <dl class="attribute">
 <dt id="pyts.runInput.base.tsinput.incdec_a">
 <code class="descname">incdec_a</code><a class="headerlink" href="#pyts.runInput.base.tsinput.incdec_a" title="Permalink to this definition">¶</a></dt>
-<dd><p>The &#8216;a&#8217; coherence decrement.</p>
+<dd><p>The ‘a’ coherence decrement.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -84,8 +85,8 @@ the O-TurbSim documentation:
 <dt id="pyts.runInput.base.tsinput.isdefault">
 <code class="descname">isdefault</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/runInput/base.html#tsinput.isdefault"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.runInput.base.tsinput.isdefault" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is the given variable a default?</p>
-<p>True : The value is not specified and there is no &#8216;_dflt_...&#8217; function.
-2    : The value is defined by a &#8216;_dflt_...&#8217; function.
+<p>True : The value is not specified and there is no ‘_dflt_…’ function.
+2    : The value is defined by a ‘_dflt_…’ function.
 False: The value is specified explicitly in the configuration.</p>
 </dd></dl>
 
@@ -124,8 +125,8 @@ False: The value is specified explicitly in the configuration.</p>
 </div>
 <div class="section" id="module-pyts.runInput.main">
 <span id="pyts-runinput-main-module"></span><h2>pyts.runInput.main module<a class="headerlink" href="#module-pyts.runInput.main" title="Permalink to this headline">¶</a></h2>
-<p>The &#8216;main&#8217; module for the PyTurbSim runInput package defines the
-&#8216;run&#8217; and &#8216;write&#8217; routines for performing a TurbSim run and
+<p>The ‘main’ module for the PyTurbSim runInput package defines the
+‘run’ and ‘write’ routines for performing a TurbSim run and
 writing-out data.</p>
 <div class="section" id="example-usage">
 <h3>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h3>
@@ -133,16 +134,16 @@ writing-out data.</p>
 &gt;&gt;&gt; import pyts.api as pyts
 &gt;&gt;&gt; import pyts.runInput as runInput</p>
 <p>First create a tsinput object from an input file using the io.input.read function:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tsinput</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&#39;MyInputFile.inp&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tsinput</span><span class="o">=</span><span class="n">pyts</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;MyInputFile.inp&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Now run PyTurbSim using the runInput &#8216;run&#8217; function:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tsdata</span><span class="o">=</span><span class="n">runInput</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tsinput</span><span class="p">)</span>
+<p>Now run PyTurbSim using the runInput ‘run’ function:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tsdata</span><span class="o">=</span><span class="n">runInput</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tsinput</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This data can be written to the files specified in the input file
 (tsinput) using:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">runInput</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tsdata</span><span class="p">,</span><span class="n">tsinput</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runInput</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tsdata</span><span class="p">,</span><span class="n">tsinput</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="function">
@@ -299,7 +300,7 @@ the runInput package.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>profModel</strong> : A subclass of <a class="reference internal" href="pyts.profModels.html#pyts.profModels.base.profModelBase" title="pyts.profModels.base.profModelBase"><code class="xref py py-class docutils literal"><span class="pre">profModelBase</span></code></a></p>
 <blockquote class="last">
-<div><p>The appropriately initialized &#8216;profile model&#8217; object
+<div><p>The appropriately initialized ‘profile model’ object
 specified in <cite>tsinput</cite>.</p>
 </div></blockquote>
 </td>
@@ -314,10 +315,10 @@ specified in <cite>tsinput</cite>.</p>
 <p>This module contains functions for producing the appropriate turbulence
 model for a specific TurbSim input object (derived from an input
 file).</p>
-<p>The term &#8216;TurbModels&#8217; encompasses the &#8216;specModel&#8217;, &#8216;cohereModel&#8217; and
-&#8216;stressModel&#8217; functionalities of the PyTurbSim program.  Within the
-&#8216;runInput&#8217; package all three of these statistics are handled in this
-module.  Thus, each wrapper function for a &#8216;TurbModel&#8217; should should
+<p>The term ‘TurbModels’ encompasses the ‘specModel’, ‘cohereModel’ and
+‘stressModel’ functionalities of the PyTurbSim program.  Within the
+‘runInput’ package all three of these statistics are handled in this
+module.  Thus, each wrapper function for a ‘TurbModel’ should should
 specify/define a model for each of these statistics.</p>
 <p>More information on the specific TurbModels can be found in the
 corresponding package for the statistic of interest.</p>
@@ -340,17 +341,17 @@ in the runInput package.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>specModel</strong> :         A subclass of <a class="reference internal" href="pyts.specModels.html#pyts.specModels.base.specModelBase" title="pyts.specModels.base.specModelBase"><code class="xref py py-class docutils literal"><span class="pre">specModelBase</span></code></a></p>
 <blockquote>
-<div><p>The appropriately initialized &#8216;spectral model&#8217; object
+<div><p>The appropriately initialized ‘spectral model’ object
 specified in <cite>tsinput</cite>.</p>
 </div></blockquote>
 <p><strong>cohereModel</strong> :       A subclass of <a class="reference internal" href="pyts.cohereModels.html#pyts.cohereModels.base.cohereModelBase" title="pyts.cohereModels.base.cohereModelBase"><code class="xref py py-class docutils literal"><span class="pre">cohereModelBase</span></code></a></p>
 <blockquote>
-<div><p>The appropriately initialized &#8216;coherence model&#8217; object
+<div><p>The appropriately initialized ‘coherence model’ object
 specified in <cite>tsinput</cite>.</p>
 </div></blockquote>
 <p><strong>stressModel</strong> :       A subclass of <a class="reference internal" href="pyts.stressModels.html#pyts.stressModels.base.stressModelBase" title="pyts.stressModels.base.stressModelBase"><code class="xref py py-class docutils literal"><span class="pre">stressModelBase</span></code></a></p>
 <blockquote class="last">
-<div><p>The appropriately initialized &#8216;stress model&#8217; object
+<div><p>The appropriately initialized ‘stress model’ object
 specified in <cite>tsinput</cite>.</p>
 </div></blockquote>
 </td>
@@ -364,7 +365,7 @@ specified in <cite>tsinput</cite>.</p>
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyts.runInput" title="Permalink to this headline">¶</a></h2>
 <p>This is the PyTurbSim package that provides tools for emulating
 O-TurbSim functionality. In particular it contains functions for
-taking a TurbSim &#8216;input&#8217; file (.inp) and performing a TurbSim run that
+taking a TurbSim ‘input’ file (.inp) and performing a TurbSim run that
 matches that file.</p>
 <div class="section" id="id1">
 <h3>Example usage<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
@@ -418,21 +419,18 @@ matches that file.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/api/pyts.runInput.txt"
+      <li><a href="../_sources/api/pyts.runInput.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -440,14 +438,14 @@ matches that file.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="../_sources/api/pyts.runInput.txt"
+      <a href="../_sources/api/pyts.runInput.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

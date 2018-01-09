@@ -1,38 +1,39 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>pyts.main &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>pyts.main &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -40,7 +41,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyts.main</h1><div class="highlight"><pre>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module brings together the main components of the TurbSim program</span>
 <span class="sd">and defines the primary high-level objects that users of the Python</span>
 <span class="sd">interface will utilize.</span>
@@ -50,51 +51,51 @@
 <span class="sd">PyTurbSim interface import the ./api.py package.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">ts_complex</span><span class="p">,</span> <span class="n">gridProps</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">statObj</span>
-<span class="kn">from</span> <span class="nn">.profModels.base</span> <span class="kn">import</span> <span class="n">profModelBase</span><span class="p">,</span> <span class="n">profObj</span>
-<span class="kn">from</span> <span class="nn">.specModels.base</span> <span class="kn">import</span> <span class="n">specModelBase</span><span class="p">,</span> <span class="n">specObj</span>
-<span class="kn">from</span> <span class="nn">.cohereModels.base</span> <span class="kn">import</span> <span class="n">cohereModelBase</span><span class="p">,</span> <span class="n">cohereObj</span><span class="p">,</span> <span class="n">cohereUser</span>
-<span class="kn">from</span> <span class="nn">.stressModels.base</span> <span class="kn">import</span> <span class="n">stressModelBase</span><span class="p">,</span> <span class="n">stressObj</span>
-<span class="kn">from</span> <span class="nn">.phaseModels.api</span> <span class="kn">import</span> <span class="n">randPhase</span>
-<span class="kn">import</span> <span class="nn">_version</span> <span class="kn">as</span> <span class="nn">ver</span>
-<span class="kn">from</span> <span class="nn">.io</span> <span class="kn">import</span> <span class="n">write</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">random</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ulonglong</span>
-<span class="kn">from</span> <span class="nn">numpy.fft</span> <span class="kn">import</span> <span class="n">irfft</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">ts_complex</span><span class="p">,</span> <span class="n">gridProps</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">statObj</span>
+<span class="kn">from</span> <span class="nn">.profModels.base</span> <span class="k">import</span> <span class="n">profModelBase</span><span class="p">,</span> <span class="n">profObj</span>
+<span class="kn">from</span> <span class="nn">.specModels.base</span> <span class="k">import</span> <span class="n">specModelBase</span><span class="p">,</span> <span class="n">specObj</span>
+<span class="kn">from</span> <span class="nn">.cohereModels.base</span> <span class="k">import</span> <span class="n">cohereModelBase</span><span class="p">,</span> <span class="n">cohereObj</span><span class="p">,</span> <span class="n">cohereUser</span>
+<span class="kn">from</span> <span class="nn">.stressModels.base</span> <span class="k">import</span> <span class="n">stressModelBase</span><span class="p">,</span> <span class="n">stressObj</span>
+<span class="kn">from</span> <span class="nn">.phaseModels.api</span> <span class="k">import</span> <span class="n">randPhase</span>
+<span class="kn">import</span> <span class="nn">_version</span> <span class="k">as</span> <span class="nn">ver</span>
+<span class="kn">from</span> <span class="nn">.io</span> <span class="k">import</span> <span class="n">write</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">random</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">ulonglong</span>
+<span class="kn">from</span> <span class="nn">numpy.fft</span> <span class="k">import</span> <span class="n">irfft</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
-<span class="c"># !!!VERSION_INCONSISTENCY</span>
-<span class="c"># inconsistency between this and older versions of TurbSim</span>
-<span class="c"># !!!CHECKTHIS</span>
-<span class="c"># means I need to ensure that something is right.</span>
-<span class="c"># !!!FIXTHIS</span>
-<span class="c"># means I know I am doing something wrong.</span>
-<span class="c"># !!!ADDDOC</span>
-<span class="c"># Means add documentation here</span>
+<span class="c1"># !!!VERSION_INCONSISTENCY</span>
+<span class="c1"># inconsistency between this and older versions of TurbSim</span>
+<span class="c1"># !!!CHECKTHIS</span>
+<span class="c1"># means I need to ensure that something is right.</span>
+<span class="c1"># !!!FIXTHIS</span>
+<span class="c1"># means I know I am doing something wrong.</span>
+<span class="c1"># !!!ADDDOC</span>
+<span class="c1"># Means add documentation here</span>
 
-<span class="c"># TODO:</span>
-<span class="c">#  - Testing:</span>
-<span class="c">#     . Test &#39;user-defined&#39; models</span>
-<span class="c">#  - Documentation</span>
-<span class="c">#     . Document plotting tools.</span>
-<span class="c">################</span>
-<span class="c">## These require branches</span>
-<span class="c">#  - Fix Reynold&#39;s stress!</span>
-<span class="c">#  - Break Cholesky from coherence models/objects and into &#39;main&#39;, or tslib.</span>
-<span class="c">#     . How do callbacks work fortran-&gt;python?</span>
-<span class="c">#     . Can we implement this so that &#39;models/objects&#39; are separated from tslib?</span>
-<span class="c">#  - Add &#39;mods&#39;:</span>
-<span class="c">#      . Add ability to rotate mean velocity field (for a prof instance and a profModel).</span>
-<span class="c">#      . Add ability to add veer to mean velocity field (prof instance and profModel).</span>
-<span class="c">#  - Write .sum summary files (io package), (so they are fully self-contained).</span>
-<span class="c">#     . Add parameter logging, so that we can write summary files that</span>
-<span class="c">#       track all parameters that were input.</span>
-<span class="c">################</span>
-<span class="c">## Low priority</span>
-<span class="c">#  - Write FF files (tsio.py).</span>
-<span class="c">#  - Write HubHeight files (tsio.py).</span>
-<span class="c">#  - Add KHtest functionality? (rgrep for &#39;#KHTEST&#39;)</span>
-<span class="c">#  - Write &#39;events&#39; (includes adding &#39;coherent events&#39; to TS)</span>
+<span class="c1"># TODO:</span>
+<span class="c1">#  - Testing:</span>
+<span class="c1">#     . Test &#39;user-defined&#39; models</span>
+<span class="c1">#  - Documentation</span>
+<span class="c1">#     . Document plotting tools.</span>
+<span class="c1">################</span>
+<span class="c1">## These require branches</span>
+<span class="c1">#  - Fix Reynold&#39;s stress!</span>
+<span class="c1">#  - Break Cholesky from coherence models/objects and into &#39;main&#39;, or tslib.</span>
+<span class="c1">#     . How do callbacks work fortran-&gt;python?</span>
+<span class="c1">#     . Can we implement this so that &#39;models/objects&#39; are separated from tslib?</span>
+<span class="c1">#  - Add &#39;mods&#39;:</span>
+<span class="c1">#      . Add ability to rotate mean velocity field (for a prof instance and a profModel).</span>
+<span class="c1">#      . Add ability to add veer to mean velocity field (prof instance and profModel).</span>
+<span class="c1">#  - Write .sum summary files (io package), (so they are fully self-contained).</span>
+<span class="c1">#     . Add parameter logging, so that we can write summary files that</span>
+<span class="c1">#       track all parameters that were input.</span>
+<span class="c1">################</span>
+<span class="c1">## Low priority</span>
+<span class="c1">#  - Write FF files (tsio.py).</span>
+<span class="c1">#  - Write HubHeight files (tsio.py).</span>
+<span class="c1">#  - Add KHtest functionality? (rgrep for &#39;#KHTEST&#39;)</span>
+<span class="c1">#  - Write &#39;events&#39; (includes adding &#39;coherent events&#39; to TS)</span>
 
 
 <div class="viewcode-block" id="tsrun"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsrun">[docs]</a><span class="k">class</span> <span class="nc">tsrun</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -114,27 +115,27 @@
 <span class="sd">            Number of cores (processors) to use for the pyTurbSim run</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">RandSeed</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ncore</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">RandSeed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ncore</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        PyTurbSim &#39;run&#39; objects can be initialized with a specific</span>
 <span class="sd">        random seed, `RandSeed`, and number of cores, `ncore`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># Initialize the random number generator before doing anything else.</span>
-        <span class="k">if</span> <span class="n">RandSeed</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># Initialize the random number generator before doing anything else.</span>
+        <span class="k">if</span> <span class="n">RandSeed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">2147483647</span><span class="p">,</span> <span class="mi">2147483647</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span> <span class="o">=</span> <span class="n">RandSeed</span>
-        <span class="c"># Seeds for numpy must be positive, but original-TurbSim had</span>
-        <span class="c"># negative seeds.  In order to attempt to be consistent, we</span>
-        <span class="c"># use the values in the files but make them positive for the</span>
-        <span class="c"># numpy random generator.</span>
+        <span class="c1"># Seeds for numpy must be positive, but original-TurbSim had</span>
+        <span class="c1"># negative seeds.  In order to attempt to be consistent, we</span>
+        <span class="c1"># use the values in the files but make them positive for the</span>
+        <span class="c1"># numpy random generator.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">randgen</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span>
             <span class="n">ulonglong</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span> <span class="o">+</span> <span class="mi">2147483648</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ncore</span> <span class="o">=</span> <span class="n">ncore</span>
         <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">dbg</span><span class="o">.</span><span class="n">timer</span><span class="p">(</span><span class="s">&#39;Veers84&#39;</span><span class="p">)</span>
-    <span class="c"># For now this is a place-holder, I may want to make this an</span>
-    <span class="c"># &#39;input property&#39; eventually.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">dbg</span><span class="o">.</span><span class="n">timer</span><span class="p">(</span><span class="s1">&#39;Veers84&#39;</span><span class="p">)</span>
+    <span class="c1"># For now this is a place-holder, I may want to make this an</span>
+    <span class="c1"># &#39;input property&#39; eventually.</span>
     <span class="n">phase</span> <span class="o">=</span> <span class="n">randPhase</span><span class="p">()</span>
 
     <span class="nd">@property</span>
@@ -187,26 +188,26 @@
 <span class="sd">        tsrun.stress</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;profModel&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_prof&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;profModel&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_prof&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_prof</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profModel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prof</span>
 
-    <span class="nd">@prof.setter</span>
+    <span class="nd">@prof</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">prof</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">profModelBase</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">profModelBase</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">profModel</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_prof</span> <span class="o">=</span> <span class="n">profObj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_prof</span><span class="o">.</span><span class="n">array</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">elif</span> <span class="n">profObj</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">profObj</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_prof</span> <span class="o">=</span> <span class="n">val</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;The input must be a profile model, &#39;</span>
-                            <span class="s">&#39;profile object or numpy array; it is none of these.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;The input must be a profile model, &#39;</span>
+                            <span class="s1">&#39;profile object or numpy array; it is none of these.&#39;</span><span class="p">)</span>
 
-    <span class="nd">@prof.deleter</span>
+    <span class="nd">@prof</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">prof</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;profModel&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;profModel&#39;</span><span class="p">):</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prof</span>
 
     <span class="nd">@property</span>
@@ -259,26 +260,26 @@
 <span class="sd">        tsrun.stress</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;specModel&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_spec&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;specModel&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_spec&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">specModel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span>
 
-    <span class="nd">@spec.setter</span>
+    <span class="nd">@spec</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">specModelBase</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">specModelBase</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">specModel</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span> <span class="o">=</span> <span class="n">specObj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">array</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">elif</span> <span class="n">specObj</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">specObj</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span> <span class="o">=</span> <span class="n">val</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;The input must be a spectral model, &#39;</span>
-                            <span class="s">&#39;spectra object or numpy array; it is none of these.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;The input must be a spectral model, &#39;</span>
+                            <span class="s1">&#39;spectra object or numpy array; it is none of these.&#39;</span><span class="p">)</span>
 
-    <span class="nd">@spec.deleter</span>
+    <span class="nd">@spec</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;specModel&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;specModel&#39;</span><span class="p">):</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span>
 
     <span class="nd">@property</span>
@@ -286,7 +287,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This is the &#39;coherence&#39; input property.</span>
 
-<span class="sd">        This property always returns a :class:`.cohereObj`.</span>
+<span class="sd">        This property always returns a :class:`~.cohereModels.base.cohereObj`.</span>
 
 <span class="sd">        Because the bulk of PyTurbSim&#39;s computational requirements</span>
 <span class="sd">        (memory and processor time) are consumed by dealing with this</span>
@@ -352,25 +353,25 @@
 <span class="sd">        tsrun.stress</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;cohereModel&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_cohere&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;cohereModel&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_cohere&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cohere</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cohereModel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cohere</span>
 
-    <span class="nd">@cohere.setter</span>
+    <span class="nd">@cohere</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">cohere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">cohereModelBase</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cohereModelBase</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cohereModel</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cohereModel</span> <span class="o">=</span> <span class="n">cohereUser</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">cohereObj</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cohereObj</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cohere</span> <span class="o">=</span> <span class="n">val</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;The input must be a coherence model, &#39;</span>
-                            <span class="s">&#39;coherence object or numpy array; it is none of these.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;The input must be a coherence model, &#39;</span>
+                            <span class="s1">&#39;coherence object or numpy array; it is none of these.&#39;</span><span class="p">)</span>
 
-    <span class="nd">@cohere.deleter</span>
+    <span class="nd">@cohere</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">cohere</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;cohereModel&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;cohereModel&#39;</span><span class="p">):</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cohere</span>
 
     <span class="nd">@property</span>
@@ -423,29 +424,29 @@
 <span class="sd">        tsrun.cohere</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;stressModel&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_stress&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;stressModel&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_stress&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_stress</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stressModel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stress</span>
 
-    <span class="nd">@stress.setter</span>
+    <span class="nd">@stress</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">stress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">stressModelBase</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">stressModelBase</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">stressModel</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_stress</span> <span class="o">=</span> <span class="n">stressObj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_stress</span><span class="o">.</span><span class="n">array</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">elif</span> <span class="n">stressObj</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__mro__</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">stressObj</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_stress</span> <span class="o">=</span> <span class="n">val</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;The input must be a stress model, &#39;</span>
-                            <span class="s">&#39;stress object or numpy array; it is none of these.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;The input must be a stress model, &#39;</span>
+                            <span class="s1">&#39;stress object or numpy array; it is none of these.&#39;</span><span class="p">)</span>
 
-    <span class="nd">@stress.deleter</span>
+    <span class="nd">@stress</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">stress</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;stressModel&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;stressModel&#39;</span><span class="p">):</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stress</span>
 
-<div class="viewcode-block" id="tsrun.reset"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsrun.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="tsrun.reset"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsrun.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clear the input statistics and reset the Random Number</span>
 <span class="sd">        generator to its initial state.</span>
@@ -454,23 +455,23 @@
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">spec</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">cohere</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">stress</span>
-        <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">randgen</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">randgen</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-</div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">randgen</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span></div>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Model names and initialization parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ver</span><span class="o">.</span><span class="n">__prog_name__</span><span class="p">,</span> <span class="n">ver</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span> <span class="n">ver</span><span class="o">.</span><span class="n">__version_date__</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;RandSeed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;StartTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_starttime</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_config&#39;</span><span class="p">):</span>
-            <span class="n">out</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span>
-        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;profModel&#39;</span><span class="p">,</span> <span class="s">&#39;specModel&#39;</span><span class="p">,</span> <span class="s">&#39;cohereModel&#39;</span><span class="p">,</span> <span class="s">&#39;stressModel&#39;</span><span class="p">]:</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ver</span><span class="o">.</span><span class="n">__prog_name__</span><span class="p">,</span> <span class="n">ver</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span> <span class="n">ver</span><span class="o">.</span><span class="n">__version_date__</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;RandSeed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;StartTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_starttime</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_config&#39;</span><span class="p">):</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;profModel&#39;</span><span class="p">,</span> <span class="s1">&#39;specModel&#39;</span><span class="p">,</span> <span class="s1">&#39;cohereModel&#39;</span><span class="p">,</span> <span class="s1">&#39;stressModel&#39;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nm</span><span class="p">):</span>
                 <span class="n">mdl</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nm</span><span class="p">)</span>
                 <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">mdl</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span>
@@ -479,9 +480,9 @@
                                <span class="n">sumstring</span><span class="o">=</span><span class="n">mdl</span><span class="o">.</span><span class="n">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
                                <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;RandSeed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;RunTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_starttime</span><span class="p">)</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;RandSeed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RandSeed</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;RunTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_starttime</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span>
 
 <div class="viewcode-block" id="tsrun.run"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsrun.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
@@ -504,9 +505,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_starttime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeseries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calcTimeSeries</span><span class="p">()</span>
         <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_outdata</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">out</span>
-</div>
-    <span class="n">__call__</span> <span class="o">=</span> <span class="n">run</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+    <span class="fm">__call__</span> <span class="o">=</span> <span class="n">run</span>
 
     <span class="k">def</span> <span class="nf">_build_outdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -556,26 +557,26 @@
                        <span class="n">dtype</span><span class="o">=</span><span class="n">ts_complex</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-        <span class="c"># First calculate the &#39;base&#39; set of random phases:</span>
+        <span class="c1"># First calculate the &#39;base&#39; set of random phases:</span>
         <span class="n">phases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="c"># Now correlate the phases at each point to set the Reynold&#39;s stress:</span>
+        <span class="c1"># Now correlate the phases at each point to set the Reynold&#39;s stress:</span>
         <span class="n">phases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">calc_phases</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
-        <span class="c"># Now correlate the phases between points to set the spatial coherence:</span>
+        <span class="c1"># Now correlate the phases between points to set the spatial coherence:</span>
         <span class="n">phases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cohere</span><span class="o">.</span><span class="n">calc_phases</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
-        <span class="c"># Now multiply the phases by the spectrum...</span>
+        <span class="c1"># Now multiply the phases by the spectrum...</span>
         <span class="n">tmp</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">*</span> <span class="n">grid</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
-        <span class="c"># and compute the inverse fft to produce the timeseries:</span>
+        <span class="c1"># and compute the inverse fft to produce the timeseries:</span>
         <span class="n">ts</span> <span class="o">=</span> <span class="n">irfft</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-        <span class="c"># Select only the time period requested:</span>
-        <span class="c"># Grab a random number of where to cut the timeseries.</span>
+        <span class="c1"># Select only the time period requested:</span>
+        <span class="c1"># Grab a random number of where to cut the timeseries.</span>
         <span class="n">i0_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randgen</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">n_t</span> <span class="o">-</span> <span class="n">grid</span><span class="o">.</span><span class="n">n_t_out</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">i0_out</span><span class="p">:</span><span class="n">i0_out</span> <span class="o">+</span> <span class="n">grid</span><span class="o">.</span><span class="n">n_t_out</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">dt</span> <span class="o">/</span> <span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
-        <span class="n">ts</span> <span class="o">-=</span> <span class="n">ts</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span>  <span class="c"># Make sure the turbulence has zero mean.</span>
-        <span class="k">return</span> <span class="n">ts</span>
+        <span class="n">ts</span> <span class="o">-=</span> <span class="n">ts</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>  <span class="c1"># Make sure the turbulence has zero mean.</span>
+        <span class="k">return</span> <span class="n">ts</span></div>
 
-</div>
+
 <div class="viewcode-block" id="tsdata"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata">[docs]</a><span class="k">class</span> <span class="nc">tsdata</span><span class="p">(</span><span class="n">gridProps</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    TurbSim output data object.  In addition to the output of a</span>
@@ -592,78 +593,78 @@
     <span class="k">def</span> <span class="nf">_sumdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">out</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
-        <span class="c"># Start by pulling values from the config file</span>
-        <span class="c"># if there was one.</span>
-        <span class="k">if</span> <span class="s">&#39;config&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">])</span>
+        <span class="c1"># Start by pulling values from the config file</span>
+        <span class="c1"># if there was one.</span>
+        <span class="k">if</span> <span class="s1">&#39;config&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;config&#39;</span><span class="p">])</span>
 
-        <span class="n">uhub</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="s">&#39;uhub&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;vhub&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vhub</span><span class="p">,</span> <span class="n">uhub</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;whub&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">whub</span><span class="p">,</span> <span class="n">uhub</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;hhub&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uhub</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vhub</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;grid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;upvp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uhub</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vhub</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;upwp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vhub</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">whub</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;vpwp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vhub</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">whub</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;upvp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;upwp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;vpwp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;tke&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;tke&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;ctke&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+        <span class="n">uhub</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="s1">&#39;uhub&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;vhub&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vhub</span><span class="p">,</span> <span class="n">uhub</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;whub&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">whub</span><span class="p">,</span> <span class="n">uhub</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;hhub&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uhub</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vhub</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;upvp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uhub</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vhub</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;upwp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vhub</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">whub</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;vpwp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vhub</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">whub</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;upvp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;upwp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;vpwp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;tke&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;tke&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;ctke&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statObj</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span>
             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span>
             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;u_sigma&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;v_sigma&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;w_sigma&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;TurbModel_desc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;specModel&#39;</span><span class="p">][</span><span class="s">&#39;description&#39;</span><span class="p">]</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;RandSeed1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;RandSeed&#39;</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;u_sigma&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;v_sigma&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;w_sigma&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;TurbModel_desc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;specModel&#39;</span><span class="p">][</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;RandSeed1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;RandSeed&#39;</span><span class="p">]</span>
 
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;profModel_sumstring&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;profModel&#39;</span><span class="p">][</span><span class="s">&#39;sumstring&#39;</span><span class="p">]</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;specModel_sumstring&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;specModel&#39;</span><span class="p">][</span><span class="s">&#39;sumstring&#39;</span><span class="p">]</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;stressModel_sumstring&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;stressModel&#39;</span><span class="p">][</span><span class="s">&#39;sumstring&#39;</span><span class="p">]</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;cohereModel_sumstring&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;cohereModel&#39;</span><span class="p">][</span><span class="s">&#39;sumstring&#39;</span><span class="p">]</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;ver&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ver</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;NowDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%a %b </span><span class="si">%d</span><span class="s">, %Y&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;StartTime&#39;</span><span class="p">])</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;NowTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;StartTime&#39;</span><span class="p">])</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;RunTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;RunTime&#39;</span><span class="p">]</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;FreqNyquist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;GridBase&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;HeightOffset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c"># Is this correct?</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;ydata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">y</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;z_ustd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;z_vstd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;z_wstd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="bp">None</span><span class="p">]</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;WINDSPEEDPROFILE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">],</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;profModel_sumstring&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;profModel&#39;</span><span class="p">][</span><span class="s1">&#39;sumstring&#39;</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;specModel_sumstring&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;specModel&#39;</span><span class="p">][</span><span class="s1">&#39;sumstring&#39;</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;stressModel_sumstring&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;stressModel&#39;</span><span class="p">][</span><span class="s1">&#39;sumstring&#39;</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;cohereModel_sumstring&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;cohereModel&#39;</span><span class="p">][</span><span class="s1">&#39;sumstring&#39;</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;ver&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ver</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;NowDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%a %b </span><span class="si">%d</span><span class="s1">, %Y&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;StartTime&#39;</span><span class="p">])</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;NowTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;StartTime&#39;</span><span class="p">])</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;RunTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;RunTime&#39;</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;FreqNyquist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;GridBase&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;HeightOffset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># Is this correct?</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;ydata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;z_ustd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;z_vstd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;z_wstd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;WINDSPEEDPROFILE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span>
             <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">u</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">v</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">u</span> <span class="o">+</span> <span class="mi">1j</span> <span class="o">*</span> <span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">u</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
             <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;HFlowAng&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1j</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">])</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;VFlowAng&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1j</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">])</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;TurbModel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;specModel&#39;</span><span class="p">][</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;gridheader&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;---------   &#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span>
-        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;Zref&#39;</span><span class="p">,</span> <span class="s">&#39;RefHt&#39;</span><span class="p">,</span> <span class="s">&#39;ZRef&#39;</span><span class="p">,</span> <span class="p">]:</span>
-            <span class="k">if</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;profModel&#39;</span><span class="p">][</span><span class="s">&#39;params&#39;</span><span class="p">]:</span>
-                <span class="n">out</span><span class="p">[</span><span class="s">&#39;RefHt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;profModel&#39;</span><span class="p">][</span><span class="s">&#39;params&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">,</span> <span class="s">&#39;Uref&#39;</span><span class="p">,</span> <span class="p">]:</span>
-            <span class="k">if</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;profModel&#39;</span><span class="p">][</span><span class="s">&#39;params&#39;</span><span class="p">]:</span>
-                <span class="n">out</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;profModel&#39;</span><span class="p">][</span><span class="s">&#39;params&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
-        <span class="n">out</span><span class="p">[</span><span class="s">&#39;PLExp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;profModel&#39;</span><span class="p">][</span><span class="s">&#39;params&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;PLexp&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;HFlowAng&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">])</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;VFlowAng&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">])</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;TurbModel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;specModel&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;gridheader&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;---------   &#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Zref&#39;</span><span class="p">,</span> <span class="s1">&#39;RefHt&#39;</span><span class="p">,</span> <span class="s1">&#39;ZRef&#39;</span><span class="p">,</span> <span class="p">]:</span>
+            <span class="k">if</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;profModel&#39;</span><span class="p">][</span><span class="s1">&#39;params&#39;</span><span class="p">]:</span>
+                <span class="n">out</span><span class="p">[</span><span class="s1">&#39;RefHt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;profModel&#39;</span><span class="p">][</span><span class="s1">&#39;params&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;URef&#39;</span><span class="p">,</span> <span class="s1">&#39;Uref&#39;</span><span class="p">,</span> <span class="p">]:</span>
+            <span class="k">if</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;profModel&#39;</span><span class="p">][</span><span class="s1">&#39;params&#39;</span><span class="p">]:</span>
+                <span class="n">out</span><span class="p">[</span><span class="s1">&#39;URef&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;profModel&#39;</span><span class="p">][</span><span class="s1">&#39;params&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;PLExp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;profModel&#39;</span><span class="p">][</span><span class="s1">&#39;params&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PLexp&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span>
 
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">):</span>
             <span class="n">ind</span> <span class="o">=</span> <span class="p">[</span><span class="n">ind</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">list</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ind</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">slice</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">slice</span><span class="p">:</span>
                 <span class="n">ind</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">val</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
-        <span class="n">ind</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
         <span class="n">out</span><span class="o">.</span><span class="n">uturb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
         <span class="n">out</span><span class="o">.</span><span class="n">uprof</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">out</span>
@@ -671,11 +672,11 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;info&#39;</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;profModel_params&#39;</span><span class="p">,</span>
-                       <span class="s">&#39;specModel_params&#39;</span><span class="p">,</span>
-                       <span class="s">&#39;cohereModel_params&#39;</span><span class="p">,</span>
-                       <span class="s">&#39;stressModel_params&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;profModel_params&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;specModel_params&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;cohereModel_params&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;stressModel_params&#39;</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">:</span>
                     <span class="n">out</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="n">nm</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">out</span>
@@ -705,13 +706,13 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The time vector, in seconds, starting at zero.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_time&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_time&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="s">&#39;&lt;TurbSim data object:</span><span class="se">\n</span><span class="s">&#39;</span>
-                <span class="s">&#39;</span><span class="si">%d</span><span class="s"> </span><span class="si">%4.2f</span><span class="s">s-timesteps, </span><span class="si">%0.2f</span><span class="s">x</span><span class="si">%0.2f</span><span class="s">m (</span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">) z-y grid (hubheight=</span><span class="si">%0.2f</span><span class="s">m).&gt;&#39;</span> <span class="o">%</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;&lt;TurbSim data object:</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> </span><span class="si">%4.2f</span><span class="s1">s-timesteps, </span><span class="si">%0.2f</span><span class="s1">x</span><span class="si">%0.2f</span><span class="s1">m (</span><span class="si">%d</span><span class="s1">x</span><span class="si">%d</span><span class="s1">) z-y grid (hubheight=</span><span class="si">%0.2f</span><span class="s1">m).&gt;&#39;</span> <span class="o">%</span>
                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                  <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
                  <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
@@ -725,28 +726,28 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The total (mean + turbulent), 3-d velocity array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="bp">None</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">u</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The total (mean + turbulent), u-component of velocity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="bp">None</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">v</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The total (mean + turbulent), v-component of velocity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="bp">None</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">w</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The total (mean + turbulent), w-component of velocity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="bp">None</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">UHUB</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
@@ -799,11 +800,11 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The Reynold&#39;s stress tensor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_dat_stress&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_dat_stress&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_stress_dat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[</span><span class="bp">None</span><span class="p">],</span>
-                 <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[</span><span class="bp">None</span><span class="p">],</span>
-                 <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[</span><span class="bp">None</span><span class="p">]),</span>
+                <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[</span><span class="kc">None</span><span class="p">],</span>
+                 <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[</span><span class="kc">None</span><span class="p">],</span>
+                 <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[</span><span class="kc">None</span><span class="p">]),</span>
                 <span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stress_dat</span>
 
@@ -838,9 +839,9 @@
 <span class="sd">        stats : dict</span>
 <span class="sd">                A dictionary containing various statistics of interest.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">slc</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">)</span>
+        <span class="n">slc</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ihub</span><span class="p">)</span>
         <span class="n">stats</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">stats</span><span class="p">[</span><span class="s">&#39;Ti&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">UHUB</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;Ti&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">UHUB</span>
         <span class="k">return</span> <span class="n">stats</span>
 
 <div class="viewcode-block" id="tsdata.write_formatted"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.write_formatted">[docs]</a>    <span class="k">def</span> <span class="nf">write_formatted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
@@ -853,8 +854,8 @@
 <span class="sd">        filename : string</span>
 <span class="sd">                &#39;.u&#39;, &#39;.v&#39;, and &#39;.w&#39; will be appended to the end of the filename.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">write</span><span class="o">.</span><span class="n">formatted</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-</div>
+        <span class="n">write</span><span class="o">.</span><span class="n">formatted</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="tsdata.write_bladed"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.write_bladed">[docs]</a>    <span class="k">def</span> <span class="nf">write_bladed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save the data in this tsdata object in &#39;bladed&#39; format (.wnd).</span>
@@ -865,8 +866,8 @@
 <span class="sd">                   The filename to which the data should be written.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">write</span><span class="o">.</span><span class="n">bladed</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-</div>
+        <span class="n">write</span><span class="o">.</span><span class="n">bladed</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="tsdata.write_turbsim"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.write_turbsim">[docs]</a>    <span class="k">def</span> <span class="nf">write_turbsim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Save the data in this tsdata object in &#39;TurbSim&#39; format.</span>
 
@@ -875,16 +876,16 @@
 <span class="sd">        filename : str</span>
 <span class="sd">                   The filename to which the data should be written.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">write</span><span class="o">.</span><span class="n">turbsim</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-</div>
+        <span class="n">write</span><span class="o">.</span><span class="n">turbsim</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="tsdata.write_sum"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.write_sum">[docs]</a>    <span class="k">def</span> <span class="nf">write_sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Currently PyTurbSim does not support writing summary (.sum) files.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">write</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sumdict</span><span class="p">)</span>
-</div>
-    <span class="k">if</span> <span class="n">write</span><span class="o">.</span><span class="n">h5py</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-<div class="viewcode-block" id="tsdata.write_hdf5"><a class="viewcode-back" href="../../api/pyts.html#pyts.main.tsdata.write_hdf5">[docs]</a>        <span class="k">def</span> <span class="nf">write_hdf5</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="n">write</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sumdict</span><span class="p">)</span></div>
+
+    <span class="k">if</span> <span class="n">write</span><span class="o">.</span><span class="n">h5py</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">write_hdf5</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Save the data in this tsdata object as an hdf5 file.</span>
 
 <span class="sd">            Parameters</span>
@@ -892,7 +893,7 @@
 <span class="sd">            filename : str</span>
 <span class="sd">                       The filename to which the data should be written.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
-            <span class="n">write</span><span class="o">.</span><span class="n">hdf5</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span></div></div>
+            <span class="n">write</span><span class="o">.</span><span class="n">hdf5</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
@@ -911,14 +912,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -926,11 +924,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

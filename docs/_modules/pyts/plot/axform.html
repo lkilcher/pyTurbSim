@@ -1,38 +1,39 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>pyts.plot.axform &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>pyts.plot.axform &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
    
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -40,11 +41,11 @@
           <div class="body" role="main">
             
   <h1>Source code for pyts.plot.axform</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">..main</span> <span class="kn">import</span> <span class="n">tsdata</span><span class="p">,</span> <span class="n">tsrun</span>  <span class="c"># used to identify object types</span>
-<span class="kn">import</span> <span class="nn">superaxes</span> <span class="kn">as</span> <span class="nn">supax</span>
+<span></span><span class="kn">from</span> <span class="nn">..main</span> <span class="k">import</span> <span class="n">tsdata</span><span class="p">,</span> <span class="n">tsrun</span>  <span class="c1"># used to identify object types</span>
+<span class="kn">import</span> <span class="nn">superaxes</span> <span class="k">as</span> <span class="nn">supax</span>
 <span class="kn">import</span> <span class="nn">psd</span>
-<span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="n">indx</span><span class="p">,</span> <span class="n">mpl</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">base</span> <span class="k">import</span> <span class="n">indx</span><span class="p">,</span> <span class="n">mpl</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
 <div class="viewcode-block" id="axesForm"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.axesForm">[docs]</a><span class="k">class</span> <span class="nc">axesForm</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -63,13 +64,13 @@
 <span class="sd">    yscale : (&#39;log&#39; or &#39;linear&#39;)</span>
 <span class="sd">        specify whether the y-scale should be logarithmic or linear.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">method_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">tsdata</span><span class="p">:</span> <span class="s">&#39;_calc_tsdata&#39;</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">:</span> <span class="s">&#39;_calc_tsrun&#39;</span><span class="p">}</span>
-    <span class="n">hide_ylabels</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">method_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">tsdata</span><span class="p">:</span> <span class="s1">&#39;_calc_tsdata&#39;</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">:</span> <span class="s1">&#39;_calc_tsrun&#39;</span><span class="p">}</span>
+    <span class="n">hide_ylabels</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">_lin_x_scale</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">],</span>
-                 <span class="n">xscale</span><span class="o">=</span><span class="s">&#39;linear&#39;</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s">&#39;linear&#39;</span><span class="p">,):</span>
+                 <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+                 <span class="n">xscale</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xlim</span> <span class="o">=</span> <span class="n">xlim</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ylim</span> <span class="o">=</span> <span class="n">ylim</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xscale</span> <span class="o">=</span> <span class="n">xscale</span>
@@ -84,32 +85,32 @@
 <span class="sd">        ----------</span>
 <span class="sd">        axes : A :class:`superaxes.axgroup` instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">axes</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="s">&#39;xticklabels&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="s1">&#39;xticklabels&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hide_ylabels</span><span class="p">:</span>
-            <span class="n">axes</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="s">&#39;yticklabels&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">hide_ylabels</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_ylabel&#39;</span><span class="p">):</span>
+            <span class="n">axes</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="s1">&#39;yticklabels&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">hide_ylabels</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_ylabel&#39;</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ylabel</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_xlabel&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_xlabel&#39;</span><span class="p">):</span>
             <span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_xlabel</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_title&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_title&#39;</span><span class="p">):</span>
             <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_grid_x&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_grid_x&#39;</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grid_x</span><span class="p">:</span>
-                    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;k&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">10</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_labels&#39;</span><span class="p">):</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">10</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_labels&#39;</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">annoteCorner</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_labels</span><span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">comp</span><span class="p">],</span> <span class="n">pos</span><span class="o">=</span><span class="s">&#39;ul&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;xtick_n&#39;</span><span class="p">):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">annoteCorner</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_labels</span><span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">comp</span><span class="p">],</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;ul&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;xtick_n&#39;</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span>
                     <span class="n">mpl</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xtick_n</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xlim</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ylim</span><span class="p">)</span>
-</div>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ylim</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="nf">_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">comp</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call the appropriate &#39;calc&#39; method depending on the object</span>
@@ -137,15 +138,15 @@
 <span class="sd">        method should be called for each `obj` object type.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
             <span class="n">comp</span> <span class="o">=</span> <span class="n">indx</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">cls</span><span class="p">,</span> <span class="n">meth</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_map</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">cls</span><span class="p">):</span>
+        <span class="k">for</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">meth</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_map</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meth</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
                 <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meth</span><span class="p">)(</span><span class="n">obj</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Object type </span><span class="si">%s</span><span class="s"> not recognized for </span><span class="si">%s</span><span class="s"> axes-type&#39;</span> <span class="o">%</span>
-                        <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Object type </span><span class="si">%s</span><span class="s1"> not recognized for </span><span class="si">%s</span><span class="s1"> axes-type&#39;</span> <span class="o">%</span>
+                        <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span>
 
 <div class="viewcode-block" id="axesForm.plot"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.axesForm.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -160,27 +161,27 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">comp</span><span class="p">)</span>
-            <span class="c"># print x, y, self._lin_x_scale</span>
+            <span class="c1"># print x, y, self._lin_x_scale</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lin_x_scale</span><span class="p">),</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xscale</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yscale</span><span class="p">)</span>
-</div>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yscale</span><span class="p">)</span></div>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_xlabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lin_x_scale</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s">&#39;$\mathrm{[m^2s^{-2}]}$&#39;</span>
+            <span class="k">return</span> <span class="s1">&#39;$\mathrm{[m^2s^{-2}]}$&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s">&#39;$\mathrm{[10^{</span><span class="si">%d</span><span class="s">}m^2s^{-2}]}$&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lin_x_scale</span>
+            <span class="k">return</span> <span class="s1">&#39;$\mathrm{[10^{</span><span class="si">%d</span><span class="s1">}m^2s^{-2}]}$&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lin_x_scale</span></div>
 
-</div>
+
 <div class="viewcode-block" id="prof"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.prof">[docs]</a><span class="k">class</span> <span class="nc">prof</span><span class="p">(</span><span class="n">axesForm</span><span class="p">):</span>
-    <span class="s">&quot;A base axesForm for plotting vertical profiles.&quot;</span>
-    <span class="n">yax</span> <span class="o">=</span> <span class="s">&#39;z&#39;</span>
-    <span class="n">_ylabel</span> <span class="o">=</span> <span class="s">&#39;$z\,\mathrm{[m]}$&#39;</span>
+    <span class="s2">&quot;A base axesForm for plotting vertical profiles.&quot;</span>
+    <span class="n">yax</span> <span class="o">=</span> <span class="s1">&#39;z&#39;</span>
+    <span class="n">_ylabel</span> <span class="o">=</span> <span class="s1">&#39;$z\,\mathrm{[m]}$&#39;</span>
     <span class="n">hrel</span> <span class="o">=</span> <span class="mf">0.6</span>
-    <span class="n">xtick_n</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">xtick_n</span> <span class="o">=</span> <span class="mi">3</span></div>
 
-</div>
+
 <div class="viewcode-block" id="velprof"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.velprof">[docs]</a><span class="k">class</span> <span class="nc">velprof</span><span class="p">(</span><span class="n">prof</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A &#39;mean velocity profile&#39; axesForm format.</span>
 
@@ -189,25 +190,25 @@
 <span class="sd">    :class:`prof`</span>
 <span class="sd">    :class:`axesForm`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">xax</span> <span class="o">=</span> <span class="s">&#39;vel&#39;</span>
-    <span class="n">_title</span> <span class="o">=</span> <span class="s">&#39;Mean Velocity&#39;</span>
-    <span class="n">_xlabel</span> <span class="o">=</span> <span class="s">&#39;$\mathrm{[m/s]}$&#39;</span>
+    <span class="n">xax</span> <span class="o">=</span> <span class="s1">&#39;vel&#39;</span>
+    <span class="n">_title</span> <span class="o">=</span> <span class="s1">&#39;Mean Velocity&#39;</span>
+    <span class="n">_xlabel</span> <span class="o">=</span> <span class="s1">&#39;$\mathrm{[m/s]}$&#39;</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The function that calculates x,y values for plotting</span>
 <span class="sd">        :class:`.tsdata` objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">z</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The function that calculates x,y values for plotting</span>
 <span class="sd">        :class:`.tsrun` objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">prof</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span>
+        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">prof</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span></div>
 
-</div>
+
 <div class="viewcode-block" id="tkeprof"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.tkeprof">[docs]</a><span class="k">class</span> <span class="nc">tkeprof</span><span class="p">(</span><span class="n">prof</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A &#39;tke profile&#39; axesForm.</span>
 
@@ -216,17 +217,17 @@
 <span class="sd">    :class:`prof`</span>
 <span class="sd">    :class:`axesForm`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">xax</span> <span class="o">=</span> <span class="s">&#39;tke&#39;</span>
-    <span class="n">_title</span> <span class="o">=</span> <span class="s">&#39;tke&#39;</span>
-    <span class="c">#_lin_x_scale = -2  # Units are 10^-2</span>
+    <span class="n">xax</span> <span class="o">=</span> <span class="s1">&#39;tke&#39;</span>
+    <span class="n">_title</span> <span class="o">=</span> <span class="s1">&#39;tke&#39;</span>
+    <span class="c1">#_lin_x_scale = -2  # Units are 10^-2</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">z</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span>
+    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span></div>
 
-</div>
+
 <div class="viewcode-block" id="Tiprof"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.Tiprof">[docs]</a><span class="k">class</span> <span class="nc">Tiprof</span><span class="p">(</span><span class="n">prof</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A Turbulence intensity axesForm</span>
 
@@ -235,22 +236,22 @@
 <span class="sd">    :class:`prof`</span>
 <span class="sd">    :class:`axesForm`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">xax</span> <span class="o">=</span> <span class="s">&#39;Ti&#39;</span>
-    <span class="n">_title</span> <span class="o">=</span> <span class="s">&#39;Ti&#39;</span>
+    <span class="n">xax</span> <span class="o">=</span> <span class="s1">&#39;Ti&#39;</span>
+    <span class="n">_title</span> <span class="o">=</span> <span class="s1">&#39;Ti&#39;</span>
     <span class="n">_lin_x_scale</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">_ylabel</span> <span class="o">=</span> <span class="s">&#39;%&#39;</span>
+    <span class="n">_ylabel</span> <span class="o">=</span> <span class="s1">&#39;%&#39;</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
                <span class="o">/</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">uprof</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
         <span class="k">return</span> <span class="n">tmp</span><span class="p">,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">z</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tsr</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">tke</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
                 <span class="o">/</span> <span class="n">tsr</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">u</span><span class="p">[:,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+                <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="stressprof"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.stressprof">[docs]</a><span class="k">class</span> <span class="nc">stressprof</span><span class="p">(</span><span class="n">tkeprof</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A &#39;Reynold&#39;s stress profile&#39; axesForm.</span>
 
@@ -259,23 +260,23 @@
 <span class="sd">    :class:`prof`</span>
 <span class="sd">    :class:`axesForm`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">xax</span> <span class="o">=</span> <span class="s">&#39;tke&#39;</span>
-    <span class="n">_title</span> <span class="o">=</span> <span class="s">&#39;stress&#39;</span>
-    <span class="n">_lin_x_scale</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>  <span class="c"># Units are 10^-2</span>
+    <span class="n">xax</span> <span class="o">=</span> <span class="s1">&#39;tke&#39;</span>
+    <span class="n">_title</span> <span class="o">=</span> <span class="s1">&#39;stress&#39;</span>
+    <span class="n">_lin_x_scale</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>  <span class="c1"># Units are 10^-2</span>
     <span class="n">_grid_x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;u&#39;</span><span class="p">:</span> <span class="s">r&quot;$\overline{u&#39;v&#39;}$&quot;</span><span class="p">,</span>
-               <span class="s">&#39;v&#39;</span><span class="p">:</span> <span class="s">r&quot;$\overline{u&#39;w&#39;}$&quot;</span><span class="p">,</span>
-               <span class="s">&#39;w&#39;</span><span class="p">:</span> <span class="s">r&quot;$\overline{v&#39;w&#39;}$&quot;</span><span class="p">}</span>
+    <span class="n">_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;u&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\overline{u&#39;v&#39;}$&quot;</span><span class="p">,</span>
+               <span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\overline{u&#39;w&#39;}$&quot;</span><span class="p">,</span>
+               <span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\overline{v&#39;w&#39;}$&quot;</span><span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span> <span class="ow">or</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">stress</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">igrid</span><span class="p">],</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">z</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span> <span class="ow">or</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">igrid</span><span class="p">],</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span>
+        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span> <span class="p">:,</span> <span class="n">igrid</span><span class="p">],</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span></div>
 
-</div>
+
 <div class="viewcode-block" id="spec"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.spec">[docs]</a><span class="k">class</span> <span class="nc">spec</span><span class="p">(</span><span class="n">axesForm</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A &#39;spectral&#39; axesForm.</span>
 
@@ -297,34 +298,34 @@
 <span class="sd">    :class:`axesForm`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">hrel</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">_title</span> <span class="o">=</span> <span class="s">&#39;spectrum&#39;</span>
-    <span class="n">yax</span> <span class="o">=</span> <span class="s">&#39;spec&#39;</span>
-    <span class="n">xax</span> <span class="o">=</span> <span class="s">&#39;freq&#39;</span>
-    <span class="n">_xlabel</span> <span class="o">=</span> <span class="s">&#39;$f\,\mathrm{[Hz]}$&#39;</span>
-    <span class="n">_ylabel</span> <span class="o">=</span> <span class="s">&#39;$\mathrm{[m^2s^{-2}/Hz]}$&#39;</span>
+    <span class="n">_title</span> <span class="o">=</span> <span class="s1">&#39;spectrum&#39;</span>
+    <span class="n">yax</span> <span class="o">=</span> <span class="s1">&#39;spec&#39;</span>
+    <span class="n">xax</span> <span class="o">=</span> <span class="s1">&#39;freq&#39;</span>
+    <span class="n">_xlabel</span> <span class="o">=</span> <span class="s1">&#39;$f\,\mathrm{[Hz]}$&#39;</span>
+    <span class="n">_ylabel</span> <span class="o">=</span> <span class="s1">&#39;$\mathrm{[m^2s^{-2}/Hz]}$&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_time_sec</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                 <span class="n">xscale</span><span class="o">=</span><span class="s">&#39;log&#39;</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s">&#39;log&#39;</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_time_sec</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">xscale</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">axesForm</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="n">xscale</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="n">yscale</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">axesForm</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="n">xscale</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="n">yscale</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window_time</span> <span class="o">=</span> <span class="n">window_time_sec</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">nfft</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_time</span> <span class="o">/</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
         <span class="n">nfft</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">nfft</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid</span> <span class="ow">or</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">psd</span><span class="o">.</span><span class="n">psd</span><span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">igrid</span><span class="p">],</span>
                       <span class="mf">1.</span> <span class="o">/</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
                       <span class="n">nfft</span><span class="p">)</span>
-        <span class="c"># print tmp</span>
+        <span class="c1"># print tmp</span>
         <span class="k">return</span> <span class="n">tmp</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">igrid</span> <span class="o">=</span> <span class="n">igrid</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid</span> <span class="ow">or</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span>
-        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">spec</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">igrid</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">spec</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">igrid</span><span class="p">]</span></div>
 
-</div>
+
 <div class="viewcode-block" id="cohere"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.cohere">[docs]</a><span class="k">class</span> <span class="nc">cohere</span><span class="p">(</span><span class="n">axesForm</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A &#39;coherence&#39; plotting format for showing coherence between two</span>
@@ -352,20 +353,20 @@
 <span class="sd">    :class:`axesForm`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">hrel</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">_title</span> <span class="o">=</span> <span class="s">&#39;coherence&#39;</span>
-    <span class="n">xax</span> <span class="o">=</span> <span class="s">&#39;freq&#39;</span>
-    <span class="n">yax</span> <span class="o">=</span> <span class="s">&#39;coh&#39;</span>
-    <span class="n">_xlabel</span> <span class="o">=</span> <span class="s">&#39;$f\,\mathrm{[Hz]}$&#39;</span>
+    <span class="n">_title</span> <span class="o">=</span> <span class="s1">&#39;coherence&#39;</span>
+    <span class="n">xax</span> <span class="o">=</span> <span class="s1">&#39;freq&#39;</span>
+    <span class="n">yax</span> <span class="o">=</span> <span class="s1">&#39;coh&#39;</span>
+    <span class="n">_xlabel</span> <span class="o">=</span> <span class="s1">&#39;$f\,\mathrm{[Hz]}$&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_time_sec</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">igrid0</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">igrid1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                 <span class="n">xscale</span><span class="o">=</span><span class="s">&#39;log&#39;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_time_sec</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">igrid0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">igrid1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">xscale</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">axesForm</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="n">xscale</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">axesForm</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="n">xscale</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window_time</span> <span class="o">=</span> <span class="mi">600</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">igrid0</span> <span class="o">=</span> <span class="n">igrid0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">igrid1</span> <span class="o">=</span> <span class="n">igrid1</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid0</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">igrid1</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">igrid1</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">nfft</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_time</span> <span class="o">/</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
         <span class="n">nfft</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">nfft</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">igrid0</span> <span class="o">=</span> <span class="n">igrid0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid0</span> <span class="ow">or</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span>
@@ -374,15 +375,15 @@
                        <span class="n">tsdat</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">igrid1</span><span class="p">],</span>
                        <span class="mf">1.</span> <span class="o">/</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="n">nfft</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid0</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">igrid1</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_calc_tsrun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">igrid0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">igrid1</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">igrid0</span> <span class="o">=</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">sub2ind</span><span class="p">(</span><span class="n">igrid0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid0</span> <span class="ow">or</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ihub</span><span class="p">)</span>
         <span class="n">igrid1</span> <span class="o">=</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">sub2ind</span><span class="p">(</span><span class="n">igrid1</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">igrid1</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">cohere</span><span class="o">.</span><span class="n">calcCoh</span><span class="p">(</span><span class="n">tsr</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span>
-                                              <span class="n">comp</span><span class="p">,</span> <span class="n">igrid0</span><span class="p">,</span> <span class="n">igrid1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+                                              <span class="n">comp</span><span class="p">,</span> <span class="n">igrid0</span><span class="p">,</span> <span class="n">igrid1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span></div>
 
-</div>
+
 <div class="viewcode-block" id="FigAxForm"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.FigAxForm">[docs]</a><span class="k">class</span> <span class="nc">FigAxForm</span><span class="p">(</span><span class="n">supax</span><span class="o">.</span><span class="n">sfig</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The &#39;figure&#39; class that uses and handles :class:`axesForm`s.</span>
+    <span class="sd">&quot;&quot;&quot;The &#39;figure&#39; class that uses and handles :class:`axesForm`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -421,7 +422,7 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">fignum</span><span class="p">,</span>
                  <span class="n">axforms</span><span class="o">=</span><span class="p">[],</span>
-                 <span class="n">comp</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;u&#39;</span><span class="p">,</span> <span class="s">&#39;v&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">],</span>
+                 <span class="n">comp</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">],</span>
                  <span class="n">axsize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                  <span class="n">frame</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">3</span><span class="p">],</span>
                  <span class="n">gap</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
@@ -429,8 +430,8 @@
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">axforms</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;At least one axes-type </span><span class="se">\</span>
-<span class="s">            instance must be provided.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;At least one axes-type </span><span class="se">\</span>
+<span class="s1">            instance must be provided.&#39;</span><span class="p">)</span>
 
         <span class="n">sharex</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">axforms</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                          <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">comp</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
@@ -439,19 +440,19 @@
 
         <span class="n">hspacer</span> <span class="o">=</span> <span class="n">supax</span><span class="o">.</span><span class="n">simpleAxSpacer</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">axforms</span><span class="p">),</span> <span class="n">axsize</span><span class="p">,</span> <span class="n">gap</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">frame</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
         <span class="n">vspacer</span> <span class="o">=</span> <span class="n">supax</span><span class="o">.</span><span class="n">simpleAxSpacer</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">comp</span><span class="p">),</span> <span class="n">axsize</span><span class="p">,</span> <span class="n">gap</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">frame</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span>
-                                       <span class="n">vertical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                       <span class="n">vertical</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="n">last_yax</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">last_yax</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">axt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axforms</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">axt</span><span class="o">.</span><span class="n">yax</span> <span class="o">==</span> <span class="n">last_yax</span><span class="p">:</span>
                 <span class="n">sharey</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">sharey</span><span class="p">[:,</span> <span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
                 <span class="n">hspacer</span><span class="o">.</span><span class="n">gap</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">tightgap</span>
-                <span class="n">axt</span><span class="o">.</span><span class="n">hide_ylabels</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">axt</span><span class="o">.</span><span class="n">hide_ylabels</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="n">last_yax</span> <span class="o">=</span> <span class="n">axt</span><span class="o">.</span><span class="n">yax</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">axt</span><span class="p">,</span> <span class="s">&#39;hrel&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">axt</span><span class="p">,</span> <span class="s1">&#39;hrel&#39;</span><span class="p">):</span>
                 <span class="n">hspacer</span><span class="o">.</span><span class="n">axsize</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">*=</span> <span class="n">axt</span><span class="o">.</span><span class="n">hrel</span>
         <span class="n">axp</span> <span class="o">=</span> <span class="n">supax</span><span class="o">.</span><span class="n">axPlacer</span><span class="p">(</span><span class="n">vspacer</span><span class="p">,</span> <span class="n">hspacer</span><span class="p">)</span>
-        <span class="n">supax</span><span class="o">.</span><span class="n">sfig</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fignum</span><span class="p">,</span> <span class="n">axp</span><span class="p">,</span>
+        <span class="n">supax</span><span class="o">.</span><span class="n">sfig</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fignum</span><span class="p">,</span> <span class="n">axp</span><span class="p">,</span>
                             <span class="n">sharex</span><span class="o">=</span><span class="n">sharex</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">sharey</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comp</span> <span class="o">=</span> <span class="n">comp</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">axt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axforms</span><span class="p">):</span>
@@ -469,8 +470,8 @@
 <span class="sd">              A data or turbsim object to plot.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">axt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axforms</span><span class="p">):</span>
-            <span class="n">axt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sax</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</div>
+            <span class="n">axt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sax</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="FigAxForm.finalize"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.FigAxForm.finalize">[docs]</a>    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Finalize the figure according to the plotting formats.</span>
@@ -479,10 +480,10 @@
             <span class="n">axt</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sax</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]):</span>
             <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span><span class="o">.</span><span class="n">ymax</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="s">&#39;$&#39;</span> <span class="o">+</span> <span class="n">c</span> <span class="o">+</span> <span class="s">&#39;$&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">&#39;top&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s">&#39;left&#39;</span><span class="p">,</span>
-                          <span class="n">size</span><span class="o">=</span><span class="s">&#39;x-large&#39;</span><span class="p">,</span> <span class="n">backgroundcolor</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="s1">&#39;$&#39;</span> <span class="o">+</span> <span class="n">c</span> <span class="o">+</span> <span class="s1">&#39;$&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span>
+                          <span class="n">size</span><span class="o">=</span><span class="s1">&#39;x-large&#39;</span><span class="p">,</span> <span class="n">backgroundcolor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span></div></div>
 
-</div></div>
+
 <div class="viewcode-block" id="summfig"><a class="viewcode-back" href="../../../api/pyts.plot.html#pyts.plot.axform.summfig">[docs]</a><span class="k">def</span> <span class="nf">summfig</span><span class="p">(</span><span class="n">fignum</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">axforms</span><span class="o">=</span><span class="p">[</span><span class="n">velprof</span><span class="p">(),</span> <span class="n">spec</span><span class="p">(</span><span class="mi">600</span><span class="p">)],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">FigAxForm</span><span class="p">(</span><span class="n">fignum</span><span class="p">,</span> <span class="n">axforms</span><span class="o">=</span><span class="n">axforms</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </pre></div>
@@ -503,14 +504,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -518,11 +516,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

@@ -1,39 +1,41 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Code Framework &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>Code Framework &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pyts package" href="api/pyts.html" />
     <link rel="prev" title="Plotting Tools" href="plotting-tools.html" />
    
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -42,16 +44,15 @@
             
   <div class="section" id="code-framework">
 <h1>Code Framework<a class="headerlink" href="#code-framework" title="Permalink to this headline">¶</a></h1>
-<p>PyTurbSim is a Python &#8216;package&#8217; organized into &#8216;modules&#8217; and
-&#8216;sub-packages&#8217; that provide a logical and functional framework for the
+<p>PyTurbSim is a Python ‘package’ organized into ‘modules’ and
+‘sub-packages’ that provide a logical and functional framework for the
 code and its use.  The primary components of this framework are:</p>
-<ol class="arabic">
-<li><p class="first">The modules in the <a class="reference internal" href="api/pyts.html#module-pyts" title="pyts"><code class="xref py py-mod docutils literal"><span class="pre">pyts</span></code></a> root folder, especially:</p>
-<ol class="loweralpha simple">
+<ol class="arabic simple">
+<li>The modules in the <a class="reference internal" href="api/pyts.html#module-pyts" title="pyts"><code class="xref py py-mod docutils literal"><span class="pre">pyts</span></code></a> root folder, especially:<ol class="loweralpha">
 <li><a class="reference internal" href="api/pyts.html#module-pyts.main" title="pyts.main"><code class="xref py py-mod docutils literal"><span class="pre">pyts.main</span></code></a>, which contains the high-level classes and
 functions that control the flow of PyTurbSim simulations.  Most
 importantly, this module defines:<ul>
-<li><a class="reference internal" href="api/pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">pyts.main.tsrun</span></code></a>, this is the primary &#8216;run&#8217; class of
+<li><a class="reference internal" href="api/pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">pyts.main.tsrun</span></code></a>, this is the primary ‘run’ class of
 PyTurbSim, which controls and directs.</li>
 <li><a class="reference internal" href="api/pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><code class="xref py py-class docutils literal"><span class="pre">pyts.main.tsdata</span></code></a>, this is the PyTurbSim output-data
 class returned by <a class="reference internal" href="api/pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">pyts.main.tsrun</span></code></a> after execution.</li>
@@ -62,19 +63,21 @@ components of the code (this is the foundation of the code
 structure).</li>
 </ol>
 </li>
-<li><p class="first">The model packages, which contain predefined models of the statistics PyTurbSim is capable of simulating.</p>
-<ol class="loweralpha simple">
+<li>The model packages, which contain predefined models of the statistics PyTurbSim is capable of simulating.<ol class="loweralpha">
 <li><a class="reference internal" href="api/pyts.profModels.html#module-pyts.profModels" title="pyts.profModels"><code class="xref py py-mod docutils literal"><span class="pre">pyts.profModels</span></code></a>, contains the mean velocity profile
 models.</li>
 <li><a class="reference internal" href="api/pyts.specModels.html#module-pyts.specModels" title="pyts.specModels"><code class="xref py py-mod docutils literal"><span class="pre">pyts.specModels</span></code></a>, contains the TKE spectral
 models.</li>
-<li><a class="reference internal" href="api/pyts.stressModels.html#module-pyts.stressModels" title="pyts.stressModels"><code class="xref py py-mod docutils literal"><span class="pre">pyts.stressModels</span></code></a>, contains the Reynold&#8217;s
+<li><a class="reference internal" href="api/pyts.stressModels.html#module-pyts.stressModels" title="pyts.stressModels"><code class="xref py py-mod docutils literal"><span class="pre">pyts.stressModels</span></code></a>, contains the Reynold’s
 stress profile models.</li>
 <li><a class="reference internal" href="api/pyts.cohereModels.html#module-pyts.cohereModels" title="pyts.cohereModels"><code class="xref py py-mod docutils literal"><span class="pre">pyts.cohereModels</span></code></a>, contains the spatial
 coherence models.</li>
 </ol>
-<p>More details on model packages can be found in the <a class="reference internal" href="#model-info"><span>Models vs. run-specific &#8216;statistics&#8217;</span></a> section.</p>
 </li>
+</ol>
+<blockquote>
+<div>More details on model packages can be found in the <a class="reference internal" href="#model-info"><span class="std std-ref">Models vs. run-specific ‘statistics’</span></a> section.</div></blockquote>
+<ol class="arabic" start="3">
 <li><p class="first">The <a class="reference internal" href="api/pyts.io.html#module-pyts.io" title="pyts.io"><code class="xref py py-mod docutils literal"><span class="pre">pyts.io</span></code></a> package supports reading and writing of TurbSim
 input (.inp) and output files (e.g. .bl, .wnd, etc.).</p>
 </li>
@@ -86,19 +89,19 @@ PyTurbSim using <a class="reference internal" href="glossary.html#term-input-fil
 <li><code class="xref py py-mod docutils literal"><span class="pre">pyts.gui</span></code> contains the graphical user interface.</li>
 </ol>
 <p>For further information on how to use these interface see
-<a class="reference internal" href="usage.html"><em>Usage</em></a>.</p>
+<a class="reference internal" href="usage.html"><span class="doc">Usage</span></a>.</p>
 </li>
-<li><p class="first">The &#8216;tslib&#8217; folder and library.  This folder contains the Fortran
+<li><p class="first">The ‘tslib’ folder and library.  This folder contains the Fortran
 code that implements the processor-intensive pieces of
 PyTurbSim. Having this library compiled for your system significantly
 speeds up PyTurbSim.  For information on properly installing this
-library, consult the <a class="reference internal" href="install.html"><em>Download and Install</em></a> page.</p>
+library, consult the <a class="reference internal" href="install.html"><span class="doc">Download and Install</span></a> page.</p>
 </li>
 </ol>
 <div class="section" id="models-vs-run-specific-statistics">
-<span id="model-info"></span><h2>Models vs. run-specific &#8216;statistics&#8217;<a class="headerlink" href="#models-vs-run-specific-statistics" title="Permalink to this headline">¶</a></h2>
-<p>PyTurbSim makes a distinction between &#8216;models&#8217; (PyTurbSim objects that
-partially define a statistic) and run-specific &#8216;stat-objects&#8217; which are the output
+<span id="model-info"></span><h2>Models vs. run-specific ‘statistics’<a class="headerlink" href="#models-vs-run-specific-statistics" title="Permalink to this headline">¶</a></h2>
+<p>PyTurbSim makes a distinction between ‘models’ (PyTurbSim objects that
+partially define a statistic) and run-specific ‘stat-objects’ which are the output
 of these model objects (these are numpy array wrappers). Models are
 independent of the spatial grid and other models in a PyTurbSim
 run. The statistics are the values of the statistic that will be
@@ -109,11 +112,11 @@ statistics for each component of velocity (u,v,w):</p>
 <li>The mean velocity profile (prof),</li>
 <li>The turbulence energy spectrum (spec),</li>
 <li>The spatial coherence (cohere), and</li>
-<li>The Reynold&#8217;s stresses (stress).</li>
+<li>The Reynold’s stresses (stress).</li>
 </ol>
 <p>Within PyTurbSim each of these statistics may be defined in two
-distinct ways. They may be defined using &#8216;models&#8217; or using
-&#8216;stat-objects&#8217; (essentially array wrappers). Models define a statistic
+distinct ways. They may be defined using ‘models’ or using
+‘stat-objects’ (essentially array wrappers). Models define a statistic
 in terms of input parameters to a model and other variables of other
 models.  For more information on specifying a statistic, see the four
 statistic properties (prof, spec, cohere, and stress) of a tsrun
@@ -128,7 +131,7 @@ on the mean velocity profile, but not the coherence or
 stress. Likewise the coherence can depend on the mean velocity and
 turbulence spectrum, but not the stress, and so on.  (Even though
 models cannot depend on the values of an array defined later, they can
-depend on &#8216;parameters&#8217; of that model.)</p>
+depend on ‘parameters’ of that model.)</p>
 </div>
 <div class="section" id="stat-objects-arrays">
 <h3>Stat-objects/arrays<a class="headerlink" href="#stat-objects-arrays" title="Permalink to this headline">¶</a></h3>
@@ -141,7 +144,7 @@ the values of other statistics.</p>
 </div>
 <div class="section" id="customizing-pyturbsim">
 <h2>Customizing PyTurbSim<a class="headerlink" href="#customizing-pyturbsim" title="Permalink to this headline">¶</a></h2>
-<p>Need to add some examples here...</p>
+<p>Need to add some examples here…</p>
 </div>
 </div>
 
@@ -154,7 +157,7 @@ the values of other statistics.</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Code Framework</a><ul>
-<li><a class="reference internal" href="#models-vs-run-specific-statistics">Models vs. run-specific &#8216;statistics&#8217;</a><ul>
+<li><a class="reference internal" href="#models-vs-run-specific-statistics">Models vs. run-specific ‘statistics’</a><ul>
 <li><a class="reference internal" href="#models">Models</a></li>
 <li><a class="reference internal" href="#stat-objects-arrays">Stat-objects/arrays</a></li>
 </ul>
@@ -175,21 +178,18 @@ the values of other statistics.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/code-framework.txt"
+      <li><a href="_sources/code-framework.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -197,14 +197,14 @@ the values of other statistics.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/code-framework.txt"
+      <a href="_sources/code-framework.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

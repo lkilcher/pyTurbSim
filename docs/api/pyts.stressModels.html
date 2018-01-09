@@ -1,40 +1,41 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>pyts.stressModels package &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>pyts.stressModels package &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../index.html" />
-    <link rel="up" title="pyts package" href="pyts.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Glossary" href="../glossary.html" />
     <link rel="prev" title="pyts.specModels package" href="pyts.specModels.html" />
    
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -48,25 +49,25 @@
 </div>
 <div class="section" id="module-pyts.stressModels.api">
 <span id="pyts-stressmodels-api-module"></span><h2>pyts.stressModels.api module<a class="headerlink" href="#module-pyts.stressModels.api" title="Permalink to this headline">¶</a></h2>
-<p>PyTurbSim &#8216;Reynold&#8217;s stress models&#8217; package.</p>
-<p>The Reynold&#8217;s stress quantifies correlations betweens turbulent
-velocity components. It has three components: &lt;u&#8217;v&#8217;&gt;, &lt;u&#8217;w&#8217;&gt; and
-&lt;v&#8217;w&#8217;&gt; (&#8216;&lt;x&gt;&#8217; denotes an &#8216;appropriate&#8217; time average of the quantity
-&#8216;x&#8217;).</p>
+<p>PyTurbSim ‘Reynold’s stress models’ package.</p>
+<p>The Reynold’s stress quantifies correlations betweens turbulent
+velocity components. It has three components: &lt;u’v’&gt;, &lt;u’w’&gt; and
+&lt;v’w’&gt; (‘&lt;x&gt;’ denotes an ‘appropriate’ time average of the quantity
+‘x’).</p>
 <div class="section" id="available-stress-models">
 <h3>Available stress models:<a class="headerlink" href="#available-stress-models" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><a class="reference internal" href="#pyts.stressModels.main.uniform" title="pyts.stressModels.main.uniform"><code class="xref py py-class docutils literal"><span class="pre">main.uniform</span></code></a> (alias: uniform)</dt>
-<dd>A uniform Reynold&#8217;s stress over the spatial domain.</dd>
+<dd>A uniform Reynold’s stress over the spatial domain.</dd>
 <dt><a class="reference internal" href="#pyts.stressModels.hydro.tidal" title="pyts.stressModels.hydro.tidal"><code class="xref py py-class docutils literal"><span class="pre">hydro.tidal</span></code></a> (alias: tidal)</dt>
-<dd>The &#8216;tidal` Reynold&#8217;s stress model (increases linearly toward the
+<dd>The ‘tidal` Reynold’s stress model (increases linearly toward the
 seafloor/ground).</dd>
 <dt><a class="reference internal" href="#pyts.stressModels.base.stressModelBase" title="pyts.stressModels.base.stressModelBase"><code class="xref py py-class docutils literal"><span class="pre">stressModelBase</span></code></a></dt>
 <dd>This is the base class for stress models. To create a new one,
 subclass this class or subclass and modify an existing stress
 model.</dd>
 <dt><a class="reference internal" href="#pyts.stressModels.base.stressObj" title="pyts.stressModels.base.stressObj"><code class="xref py py-class docutils literal"><span class="pre">stressObj</span></code></a></dt>
-<dd>This is the &#8216;stress object&#8217; class.  All stress model <cite>__call__</cite>
+<dd>This is the ‘stress object’ class.  All stress model <cite>__call__</cite>
 methods must take a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a> as input and
 return this class.</dd>
 </dl>
@@ -74,28 +75,28 @@ return this class.</dd>
 <div class="section" id="example-usage">
 <h3>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h3>
 <p>import pyts.stressmodels.api as rm</p>
-<p>Create a uniform Reynold&#8217;s stress model where each component is
+<p>Create a uniform Reynold’s stress model where each component is
 specified explicitly:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">my_stress_model</span><span class="o">=</span><span class="n">rm</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">upvp_</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">upwp_</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">vpwp_</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_stress_model</span><span class="o">=</span><span class="n">rm</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">upvp_</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">upwp_</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">vpwp_</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This stress model can then be applied to a tsrun (see
 pyts.main.tsrun):</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tsrun</span><span class="o">.</span><span class="n">stress</span><span class="o">=</span><span class="n">my_stress_model</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tsrun</span><span class="o">.</span><span class="n">stress</span><span class="o">=</span><span class="n">my_stress_model</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="see-also">
 <h3>See also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h3>
-<p>For a description of the difference between &#8216;stress models&#8217;
-(e.g. &#8216;my_stress_model&#8217; in example above) and the stress they output
-(tsrun.prof), see the &#8216;models_and_stats_example.py&#8217; file.</p>
+<p>For a description of the difference between ‘stress models’
+(e.g. ‘my_stress_model’ in example above) and the stress they output
+(tsrun.prof), see the ‘models_and_stats_example.py’ file.</p>
 </div>
 </div>
 <div class="section" id="module-pyts.stressModels.base">
 <span id="pyts-stressmodels-base-module"></span><h2>pyts.stressModels.base module<a class="headerlink" href="#module-pyts.stressModels.base" title="Permalink to this headline">¶</a></h2>
-<p>This is the stress package&#8217;s base module.</p>
-<p>produce estimates of Reynold&#8217;s
+<p>This is the stress package’s base module.</p>
+<p>produce estimates of Reynold’s
 stress</p>
 <dl class="class">
 <dt id="pyts.stressModels.base.stressModelBase">
@@ -110,7 +111,7 @@ stress</p>
 <dl class="method">
 <dt id="pyts.stressModels.base.stressObj.calc_phases">
 <code class="descname">calc_phases</code><span class="sig-paren">(</span><em>phases</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/stressModels/base.html#stressObj.calc_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.stressModels.base.stressObj.calc_phases" title="Permalink to this definition">¶</a></dt>
-<dd><p>Here we control the Reynold&#8217;s stress by setting the phases
+<dd><p>Here we control the Reynold’s stress by setting the phases
 between components to be the same for a fraction of the
 frequencies.</p>
 </dd></dl>
@@ -118,7 +119,7 @@ frequencies.</p>
 <dl class="method">
 <dt id="pyts.stressModels.base.stressObj.check_validity">
 <code class="descname">check_validity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/stressModels/base.html#stressObj.check_validity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.stressModels.base.stressObj.check_validity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check that the Reynold&#8217;s stress magnitudes are valid.</p>
+<dd><p>Check that the Reynold’s stress magnitudes are valid.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -129,26 +130,26 @@ frequencies.</p>
 <dl class="attribute">
 <dt id="pyts.stressModels.base.stressObj.upvp_">
 <code class="descname">upvp_</code><a class="headerlink" href="#pyts.stressModels.base.stressObj.upvp_" title="Permalink to this definition">¶</a></dt>
-<dd><p>The u&#8217;v&#8217; Reynolds stress for this model.</p>
+<dd><p>The u’v’ Reynolds stress for this model.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyts.stressModels.base.stressObj.upvp_max">
 <code class="descname">upvp_max</code><a class="headerlink" href="#pyts.stressModels.base.stressObj.upvp_max" title="Permalink to this definition">¶</a></dt>
-<dd><p>The product of the standard deviations of u&#8217; and v&#8217; (i.e. the
+<dd><p>The product of the standard deviations of u’ and v’ (i.e. the
 maximum stress for the given turbulence model).</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyts.stressModels.base.stressObj.upwp_">
 <code class="descname">upwp_</code><a class="headerlink" href="#pyts.stressModels.base.stressObj.upwp_" title="Permalink to this definition">¶</a></dt>
-<dd><p>The u&#8217;w&#8217; Reynolds stress for this model.</p>
+<dd><p>The u’w’ Reynolds stress for this model.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyts.stressModels.base.stressObj.upwp_max">
 <code class="descname">upwp_max</code><a class="headerlink" href="#pyts.stressModels.base.stressObj.upwp_max" title="Permalink to this definition">¶</a></dt>
-<dd><p>The product of the standard deviations of u&#8217; and w&#8217; (i.e. the
+<dd><p>The product of the standard deviations of u’ and w’ (i.e. the
 maximum stress for the given turbulence model).</p>
 </dd></dl>
 
@@ -167,11 +168,11 @@ maximum stress for the given turbulence model).</p>
 <div><ol class="arabic simple" start="0">
 <li>The magnitude criteria: no stress can exceed the maximum
 stress (correlation between components cannot exceed 1).</li>
-<li>The &#8216;overlap&#8217; criteria: The sum of the magnitude of the
+<li>The ‘overlap’ criteria: The sum of the magnitude of the
 correlations can exceed one if they overlap. However,
 their are limits to the overlap. This criteria indicates
 that limit has been exceeded.</li>
-<li>The &#8216;sign&#8217; criteria. If only one component is negative
+<li>The ‘sign’ criteria. If only one component is negative
 than they can not overlap. In this case the sum of
 magnitude of the correlations must be less than 1.</li>
 </ol>
@@ -187,13 +188,13 @@ magnitude of the correlations must be less than 1.</li>
 <dl class="attribute">
 <dt id="pyts.stressModels.base.stressObj.vpwp_">
 <code class="descname">vpwp_</code><a class="headerlink" href="#pyts.stressModels.base.stressObj.vpwp_" title="Permalink to this definition">¶</a></dt>
-<dd><p>The v&#8217;w&#8217; Reynolds stress for this model.</p>
+<dd><p>The v’w’ Reynolds stress for this model.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pyts.stressModels.base.stressObj.vpwp_max">
 <code class="descname">vpwp_max</code><a class="headerlink" href="#pyts.stressModels.base.stressObj.vpwp_max" title="Permalink to this definition">¶</a></dt>
-<dd><p>The product of the standard deviations of v&#8217; and w&#8217; (i.e. the
+<dd><p>The product of the standard deviations of v’ and w’ (i.e. the
 maximum stress for the given turbulence model).</p>
 </dd></dl>
 
@@ -206,7 +207,7 @@ maximum stress for the given turbulence model).</p>
 <dt id="pyts.stressModels.hydro.tidal">
 <em class="property">class </em><code class="descclassname">pyts.stressModels.hydro.</code><code class="descname">tidal</code><span class="sig-paren">(</span><em>Ustar</em>, <em>Zref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/stressModels/hydro.html#tidal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.stressModels.hydro.tidal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.stressModels.base.stressModelBase" title="pyts.stressModels.base.stressModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.stressModels.base.stressModelBase</span></code></a></p>
-<p>The &#8216;tidal&#8217; model Reynold&#8217;s stress model.</p>
+<p>The ‘tidal’ model Reynold’s stress model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -217,14 +218,14 @@ maximum stress for the given turbulence model).</p>
 </div></blockquote>
 <p><strong>Zref</strong> : float</p>
 <blockquote class="last">
-<div><p>The height of the &#8216;no-stress&#8217; level in the water-column.</p>
+<div><p>The height of the ‘no-stress’ level in the water-column.</p>
 </div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>The v&#8217;w&#8217; and u&#8217;v&#8217; components are zero. The u&#8217;w&#8217; component is:</p>
+<p>The v’w’ and u’v’ components are zero. The u’w’ component is:</p>
 <div class="math">
 \[\overline{u'w'} = -U_*^2 (1-z/Z_{\mathrm{ref}})\]</div>
 <p>for 0&lt;z&lt;Zref, and 0 elsewhere.</p>
@@ -262,8 +263,8 @@ instance.</p>
 <dt id="pyts.stressModels.main.uniform">
 <em class="property">class </em><code class="descclassname">pyts.stressModels.main.</code><code class="descname">uniform</code><span class="sig-paren">(</span><em>upvp_=0.0</em>, <em>upwp_=0.0</em>, <em>vpwp_=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/stressModels/main.html#uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.stressModels.main.uniform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.stressModels.base.stressModelBase" title="pyts.stressModels.base.stressModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.stressModels.base.stressModelBase</span></code></a></p>
-<p>Uniform Reynold&#8217;s stress model.</p>
-<p>In this model each component of the Reynold&#8217;s stress can be
+<p>Uniform Reynold’s stress model.</p>
+<p>In this model each component of the Reynold’s stress can be
 specified explicitly, but the values are uniform in space.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -271,15 +272,15 @@ specified explicitly, but the values are uniform in space.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>upvp_</strong> : float</p>
 <blockquote>
-<div><p>The u&#8217;v&#8217; component of Reynold&#8217;s stress.</p>
+<div><p>The u’v’ component of Reynold’s stress.</p>
 </div></blockquote>
 <p><strong>upwp_</strong> : float</p>
 <blockquote>
-<div><p>The u&#8217;w&#8217; component of Reynold&#8217;s stress.</p>
+<div><p>The u’w’ component of Reynold’s stress.</p>
 </div></blockquote>
 <p><strong>vpwp_</strong> : float</p>
 <blockquote class="last">
-<div><p>The v&#8217;w&#8217; component of Reynold&#8217;s stress.</p>
+<div><p>The v’w’ component of Reynold’s stress.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -327,10 +328,10 @@ components.</p>
 </div>
 <div class="section" id="module-pyts.stressModels">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyts.stressModels" title="Permalink to this headline">¶</a></h2>
-<p>This is the PyTurbSim &#8216;stress models&#8217; package.</p>
+<p>This is the PyTurbSim ‘stress models’ package.</p>
 <p>For more information or to use this package import the stressModels.api
 package, e.g.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyts.stressModels.api</span> <span class="kn">as</span> <span class="nn">rm</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyts.stressModels.api</span> <span class="k">as</span> <span class="nn">rm</span>
 </pre></div>
 </div>
 <p><strong>Currently the stress package does not function properly, unless no coherence is used.  Fixing this is near the top of the list of things to repair in PyTurbSim.</strong></p>
@@ -375,21 +376,18 @@ package, e.g.:</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/api/pyts.stressModels.txt"
+      <li><a href="../_sources/api/pyts.stressModels.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -397,14 +395,14 @@ package, e.g.:</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="../_sources/api/pyts.stressModels.txt"
+      <a href="../_sources/api/pyts.stressModels.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

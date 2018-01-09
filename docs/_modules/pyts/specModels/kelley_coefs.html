@@ -1,38 +1,39 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>pyts.specModels.kelley_coefs &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>pyts.specModels.kelley_coefs &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
    
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -40,99 +41,99 @@
           <div class="body" role="main">
             
   <h1>Source code for pyts.specModels.kelley_coefs</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ts_float</span><span class="p">,</span><span class="n">np</span>
+<span></span><span class="kn">from</span> <span class="nn">..base</span> <span class="k">import</span> <span class="n">ts_float</span><span class="p">,</span><span class="n">np</span>
 
 <span class="n">p_coefs_unstable</span><span class="o">=</span><span class="p">[</span>
-    <span class="c"># u-coefs</span>
+    <span class="c1"># u-coefs</span>
     <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">105.</span><span class="p">],</span>
-    <span class="c"># v-coefs</span>
+    <span class="c1"># v-coefs</span>
     <span class="p">[</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">17.</span><span class="p">],</span>
-    <span class="c"># w-coefs</span>
+    <span class="c1"># w-coefs</span>
     <span class="p">[</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">2.</span><span class="p">],]</span>
 <span class="n">f_coefs_unstable</span><span class="o">=</span><span class="p">[</span>
-    <span class="c"># u-coefs</span>
+    <span class="c1"># u-coefs</span>
     <span class="p">[</span><span class="n">ts_float</span><span class="p">(</span><span class="mf">2.2</span><span class="o">**</span><span class="p">(</span><span class="mf">3.</span><span class="o">/</span><span class="mf">5.</span><span class="p">)),</span><span class="mi">33</span><span class="p">],</span>
-    <span class="c"># v-coefs</span>
+    <span class="c1"># v-coefs</span>
     <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mf">9.5</span><span class="p">],</span>
-    <span class="c"># w-coefs</span>
+    <span class="c1"># w-coefs</span>
     <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mf">5.3</span><span class="p">],]</span>
 
-<span class="c"># These coefficients are copied from TSsubs.f90.</span>
-<span class="c"># They were calculated by Neil Kelley based on data from the NWTC.</span>
-<span class="n">nwtcup_coefs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;stable&#39;</span><span class="p">:{},</span><span class="s">&#39;unstable&#39;</span><span class="p">:{}}</span>
-<span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s">&#39;stable&#39;</span><span class="p">][</span><span class="s">&#39;terms&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;fr_il&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0964</span><span class="p">,</span><span class="o">-</span><span class="mf">0.316</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.386</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+<span class="c1"># These coefficients are copied from TSsubs.f90.</span>
+<span class="c1"># They were calculated by Neil Kelley based on data from the NWTC.</span>
+<span class="n">nwtcup_coefs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;stable&#39;</span><span class="p">:{},</span><span class="s1">&#39;unstable&#39;</span><span class="p">:{}}</span>
+<span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s1">&#39;stable&#39;</span><span class="p">][</span><span class="s1">&#39;terms&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fr_il&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0964</span><span class="p">,</span><span class="o">-</span><span class="mf">0.316</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.386</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                                              <span class="p">[</span><span class="mf">0.0323</span><span class="p">,</span><span class="o">-</span><span class="mf">0.388</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.389</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                                              <span class="p">[</span><span class="mf">0.0972</span><span class="p">,</span><span class="o">-</span><span class="mf">0.0964</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.616</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">),</span>
-                           <span class="s">&#39;fr_ih&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.69</span><span class="p">,</span><span class="o">-.</span><span class="mi">340</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-.</span><span class="mi">133</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                           <span class="s1">&#39;fr_ih&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.69</span><span class="p">,</span><span class="o">-.</span><span class="mi">340</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-.</span><span class="mi">133</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                                              <span class="p">[</span><span class="mf">0.473</span><span class="p">,</span><span class="o">-</span><span class="mf">0.441</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.291</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                                              <span class="p">[</span><span class="mf">0.470</span><span class="p">,</span><span class="o">-</span><span class="mf">0.218</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.158</span><span class="p">,</span><span class="mi">0</span><span class="p">],],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">),</span>
-                           <span class="s">&#39;Pr_il&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.21</span><span class="p">,</span><span class="mf">0.0523</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.189</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                           <span class="s1">&#39;Pr_il&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.21</span><span class="p">,</span><span class="mf">0.0523</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.189</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                                              <span class="p">[</span><span class="mf">1.29</span><span class="p">,</span><span class="mf">0.00664</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.354</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                                              <span class="p">[</span><span class="mf">0.368</span><span class="p">,</span><span class="mf">0.0938</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.109</span><span class="p">,</span><span class="mi">0</span><span class="p">],],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">),</span>
-                           <span class="s">&#39;Pr_ih&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.224</span><span class="p">,</span><span class="mf">0.170</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.223</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                           <span class="s1">&#39;Pr_ih&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.224</span><span class="p">,</span><span class="mf">0.170</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.223</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                                              <span class="p">[</span><span class="mf">0.991</span><span class="p">,</span><span class="mf">0.344</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.605</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                                              <span class="p">[</span><span class="mf">0.639</span><span class="p">,</span><span class="mf">0.0354</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.0319</span><span class="p">,</span><span class="mi">0</span><span class="p">],],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
                            <span class="p">}</span>
-<span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s">&#39;stable&#39;</span><span class="p">][</span><span class="s">&#39;min&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;fr_il&#39;</span><span class="p">:(</span><span class="mf">0.015</span><span class="p">,</span><span class="mf">0.003</span><span class="p">,</span><span class="mf">0.006</span><span class="p">),</span>
-                         <span class="s">&#39;fr_ih&#39;</span><span class="p">:(</span><span class="mf">0.35</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.2</span><span class="p">),</span>
-                         <span class="s">&#39;Pr_il&#39;</span><span class="p">:(</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.2</span><span class="p">),</span>
-                         <span class="s">&#39;Pr_ih&#39;</span><span class="p">:(</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.25</span><span class="p">),</span>
+<span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s1">&#39;stable&#39;</span><span class="p">][</span><span class="s1">&#39;min&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fr_il&#39;</span><span class="p">:(</span><span class="mf">0.015</span><span class="p">,</span><span class="mf">0.003</span><span class="p">,</span><span class="mf">0.006</span><span class="p">),</span>
+                         <span class="s1">&#39;fr_ih&#39;</span><span class="p">:(</span><span class="mf">0.35</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.2</span><span class="p">),</span>
+                         <span class="s1">&#39;Pr_il&#39;</span><span class="p">:(</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.2</span><span class="p">),</span>
+                         <span class="s1">&#39;Pr_ih&#39;</span><span class="p">:(</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.25</span><span class="p">),</span>
                          <span class="p">}</span>
-<span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s">&#39;stable&#39;</span><span class="p">][</span><span class="s">&#39;max&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;fr_il&#39;</span><span class="p">:(</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.23</span><span class="p">,</span><span class="mf">0.175</span><span class="p">),</span>
-                         <span class="s">&#39;fr_ih&#39;</span><span class="p">:(</span><span class="mf">10.</span><span class="p">,</span><span class="mf">3.</span><span class="p">,</span><span class="mf">1.25</span><span class="p">),</span>
-                         <span class="s">&#39;Pr_il&#39;</span><span class="p">:(</span><span class="mf">2.25</span><span class="p">,</span><span class="mf">2.25</span><span class="p">,</span><span class="mf">0.75</span><span class="p">),</span>
-                         <span class="s">&#39;Pr_ih&#39;</span><span class="p">:(</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span>
+<span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s1">&#39;stable&#39;</span><span class="p">][</span><span class="s1">&#39;max&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fr_il&#39;</span><span class="p">:(</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.23</span><span class="p">,</span><span class="mf">0.175</span><span class="p">),</span>
+                         <span class="s1">&#39;fr_ih&#39;</span><span class="p">:(</span><span class="mf">10.</span><span class="p">,</span><span class="mf">3.</span><span class="p">,</span><span class="mf">1.25</span><span class="p">),</span>
+                         <span class="s1">&#39;Pr_il&#39;</span><span class="p">:(</span><span class="mf">2.25</span><span class="p">,</span><span class="mf">2.25</span><span class="p">,</span><span class="mf">0.75</span><span class="p">),</span>
+                         <span class="s1">&#39;Pr_ih&#39;</span><span class="p">:(</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span>
                          <span class="p">}</span>
-<span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s">&#39;unstable&#39;</span><span class="p">][</span><span class="s">&#39;terms&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span>
-    <span class="s">&#39;fr_il&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+<span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s1">&#39;unstable&#39;</span><span class="p">][</span><span class="s1">&#39;terms&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;fr_il&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
         <span class="p">[</span>  <span class="mf">0.08825035</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.08806865</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.26295052</span><span class="p">,</span>  <span class="mf">1.74135233</span><span class="p">,</span> <span class="mf">1.86785832</span> <span class="p">],</span>
         <span class="p">[</span>  <span class="mf">0.58374913</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.53220033</span><span class="p">,</span>  <span class="mf">1.49509302</span><span class="p">,</span>  <span class="mf">3.61867635</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.98540722</span> <span class="p">],</span>
         <span class="p">[</span>  <span class="mf">0.81092087</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.03483105</span><span class="p">,</span>  <span class="mf">0.58332966</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.10731274</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.16463702</span> <span class="p">],],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">),</span>
-    <span class="s">&#39;fr_ih&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="s1">&#39;fr_ih&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
         <span class="p">[</span>  <span class="mf">1.34307411</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.55126969</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.07034031</span><span class="p">,</span>  <span class="mf">0.40185202</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.55083463</span> <span class="p">],</span>
         <span class="p">[</span>  <span class="mf">4.30596626</span><span class="p">,</span>  <span class="mf">0.31302745</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.26457011</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.41513284</span><span class="p">,</span> <span class="mf">0.91503248</span> <span class="p">],</span>
         <span class="p">[</span>  <span class="mf">1.05515450</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.25002535</span><span class="p">,</span>  <span class="mf">0.14528047</span><span class="p">,</span>  <span class="mf">1.00641958</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.67569359</span> <span class="p">],],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">),</span>
-    <span class="s">&#39;Pr_il&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="s1">&#39;Pr_il&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
         <span class="p">[</span> <span class="mf">57.51578485</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.89080610</span><span class="p">,</span>  <span class="mf">4.03260796</span><span class="p">,</span>  <span class="mf">6.09158000</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.47414385</span> <span class="p">],</span>
         <span class="p">[</span> <span class="mf">32.06436225</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.43676866</span><span class="p">,</span>  <span class="mf">3.57797045</span><span class="p">,</span>  <span class="mf">5.31617813</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.76800891</span> <span class="p">],</span>
         <span class="p">[</span>  <span class="mf">6.60003543</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.45005503</span><span class="p">,</span>  <span class="mf">1.35937877</span><span class="p">,</span>  <span class="mf">2.45632937</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.98267575</span> <span class="p">],],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">),</span>
-    <span class="s">&#39;Pr_ih&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="s1">&#39;Pr_ih&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
         <span class="p">[</span>  <span class="mf">4.52702491</span><span class="p">,</span>  <span class="mf">0.72447070</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.10602646</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.73265876</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.49429015</span> <span class="p">],</span>
         <span class="p">[</span>  <span class="mf">3.93109762</span><span class="p">,</span>  <span class="mf">0.57974534</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.20510478</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.85367443</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.61610914</span> <span class="p">],</span>
         <span class="p">[</span> <span class="mf">16.56290180</span><span class="p">,</span>  <span class="mf">0.40464339</span><span class="p">,</span>  <span class="mf">0.82276250</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.92300971</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.82957067</span> <span class="p">],],</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">),</span>
     <span class="p">}</span>
-<span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s">&#39;unstable&#39;</span><span class="p">][</span><span class="s">&#39;min&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;fr_il&#39;</span><span class="p">:(</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.12</span><span class="p">,</span><span class="mf">0.2</span><span class="p">),</span>
-                           <span class="s">&#39;fr_ih&#39;</span><span class="p">:(</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">1.8</span><span class="p">,</span><span class="o">.</span><span class="mi">95</span><span class="p">),</span>
-                           <span class="s">&#39;Pr_il&#39;</span><span class="p">:(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span>
-                           <span class="s">&#39;Pr_ih&#39;</span><span class="p">:(</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.3</span><span class="p">),</span>
+<span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s1">&#39;unstable&#39;</span><span class="p">][</span><span class="s1">&#39;min&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fr_il&#39;</span><span class="p">:(</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.12</span><span class="p">,</span><span class="mf">0.2</span><span class="p">),</span>
+                           <span class="s1">&#39;fr_ih&#39;</span><span class="p">:(</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">1.8</span><span class="p">,</span><span class="o">.</span><span class="mi">95</span><span class="p">),</span>
+                           <span class="s1">&#39;Pr_il&#39;</span><span class="p">:(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span>
+                           <span class="s1">&#39;Pr_ih&#39;</span><span class="p">:(</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.3</span><span class="p">),</span>
                            <span class="p">}</span>
-<span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s">&#39;unstable&#39;</span><span class="p">][</span><span class="s">&#39;max&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;fr_il&#39;</span><span class="p">:(</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">2.3</span><span class="p">,</span><span class="mf">1.4</span><span class="p">),</span>
-                           <span class="s">&#39;fr_ih&#39;</span><span class="p">:(</span><span class="mf">8.0</span><span class="p">,</span><span class="mf">7.5</span><span class="p">,</span><span class="mf">1.75</span><span class="p">),</span>
-                           <span class="s">&#39;Pr_il&#39;</span><span class="p">:(</span><span class="mf">8.</span><span class="p">,</span><span class="mf">8.</span><span class="p">,</span><span class="mf">7.</span><span class="p">),</span>
-                           <span class="s">&#39;Pr_ih&#39;</span><span class="p">:(</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span>
+<span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s1">&#39;unstable&#39;</span><span class="p">][</span><span class="s1">&#39;max&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fr_il&#39;</span><span class="p">:(</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">2.3</span><span class="p">,</span><span class="mf">1.4</span><span class="p">),</span>
+                           <span class="s1">&#39;fr_ih&#39;</span><span class="p">:(</span><span class="mf">8.0</span><span class="p">,</span><span class="mf">7.5</span><span class="p">,</span><span class="mf">1.75</span><span class="p">),</span>
+                           <span class="s1">&#39;Pr_il&#39;</span><span class="p">:(</span><span class="mf">8.</span><span class="p">,</span><span class="mf">8.</span><span class="p">,</span><span class="mf">7.</span><span class="p">),</span>
+                           <span class="s1">&#39;Pr_ih&#39;</span><span class="p">:(</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span>
                            <span class="p">}</span>
 
 <div class="viewcode-block" id="calc_nwtcup_coefs"><a class="viewcode-back" href="../../../api/pyts.specModels.html#pyts.specModels.kelley_coefs.calc_nwtcup_coefs">[docs]</a><span class="k">def</span> <span class="nf">calc_nwtcup_coefs</span><span class="p">(</span><span class="n">zL</span><span class="p">):</span>
     <span class="n">p_coefs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
     <span class="n">f_coefs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">zL</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-        <span class="n">dat</span><span class="o">=</span><span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s">&#39;stable&#39;</span><span class="p">]</span>
+        <span class="n">dat</span><span class="o">=</span><span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s1">&#39;stable&#39;</span><span class="p">]</span>
         <span class="n">loc_zL</span><span class="o">=</span><span class="n">fix2range</span><span class="p">(</span><span class="n">zL</span><span class="p">,</span><span class="mf">0.005</span><span class="p">,</span><span class="mf">3.5</span><span class="p">)</span>
         <span class="n">ustar_tmp</span><span class="o">=</span><span class="mf">0.</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">dat</span><span class="o">=</span><span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s">&#39;unstable&#39;</span><span class="p">]</span>
+        <span class="n">dat</span><span class="o">=</span><span class="n">nwtcup_coefs</span><span class="p">[</span><span class="s1">&#39;unstable&#39;</span><span class="p">]</span>
         <span class="n">loc_zL</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fix2range</span><span class="p">(</span><span class="n">zL</span><span class="p">,</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="o">-</span><span class="mf">0.025</span><span class="p">))</span>
         <span class="n">ustar_tmp</span><span class="o">=</span><span class="n">fix2range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">UStar</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">1.4</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i0</span><span class="p">,</span><span class="n">sfx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s">&#39;il&#39;</span><span class="p">,</span><span class="s">&#39;ih&#39;</span><span class="p">]):</span>
-        <span class="n">nm</span><span class="o">=</span><span class="s">&#39;Pr_&#39;</span><span class="o">+</span><span class="n">sfx</span>
-        <span class="n">arr</span><span class="o">=</span><span class="n">dat</span><span class="p">[</span><span class="s">&#39;terms&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
-        <span class="n">p_coefs</span><span class="p">[:,</span><span class="n">i0</span><span class="p">]</span><span class="o">=</span><span class="n">fix2range</span><span class="p">(</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">loc_zL</span><span class="o">**</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">ustar_tmp</span><span class="o">**</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">loc_zL</span><span class="o">+</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">ustar_tmp</span><span class="p">),</span><span class="n">dat</span><span class="p">[</span><span class="s">&#39;min&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">],</span><span class="n">dat</span><span class="p">[</span><span class="s">&#39;max&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">])</span>
-        <span class="n">nm</span><span class="o">=</span><span class="s">&#39;fr_&#39;</span><span class="o">+</span><span class="n">sfx</span>
-        <span class="n">arr</span><span class="o">=</span><span class="n">dat</span><span class="p">[</span><span class="s">&#39;terms&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
-        <span class="n">f_coefs</span><span class="p">[:,</span><span class="n">i0</span><span class="p">]</span><span class="o">=</span><span class="n">fix2range</span><span class="p">(</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">loc_zL</span><span class="o">**</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">ustar_tmp</span><span class="o">**</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">loc_zL</span><span class="o">+</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">ustar_tmp</span><span class="p">),</span><span class="n">dat</span><span class="p">[</span><span class="s">&#39;min&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">],</span><span class="n">dat</span><span class="p">[</span><span class="s">&#39;max&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">])</span>
-    <span class="n">f_coefs</span><span class="o">**=-</span><span class="mi">1</span> <span class="c"># Invert the second (fr) coefficient.</span>
-    <span class="n">p_coefs</span><span class="o">*=</span><span class="n">f_coefs</span> <span class="c"># All of the first coefficients are the product of the first and the second (inverse included).</span>
-    <span class="c"># The factors in unstable_coefs are included in the fits that N. Kelley did.</span>
+    <span class="k">for</span> <span class="n">i0</span><span class="p">,</span><span class="n">sfx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;il&#39;</span><span class="p">,</span><span class="s1">&#39;ih&#39;</span><span class="p">]):</span>
+        <span class="n">nm</span><span class="o">=</span><span class="s1">&#39;Pr_&#39;</span><span class="o">+</span><span class="n">sfx</span>
+        <span class="n">arr</span><span class="o">=</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;terms&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
+        <span class="n">p_coefs</span><span class="p">[:,</span><span class="n">i0</span><span class="p">]</span><span class="o">=</span><span class="n">fix2range</span><span class="p">(</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">loc_zL</span><span class="o">**</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">ustar_tmp</span><span class="o">**</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">loc_zL</span><span class="o">+</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">ustar_tmp</span><span class="p">),</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">],</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">])</span>
+        <span class="n">nm</span><span class="o">=</span><span class="s1">&#39;fr_&#39;</span><span class="o">+</span><span class="n">sfx</span>
+        <span class="n">arr</span><span class="o">=</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;terms&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
+        <span class="n">f_coefs</span><span class="p">[:,</span><span class="n">i0</span><span class="p">]</span><span class="o">=</span><span class="n">fix2range</span><span class="p">(</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">loc_zL</span><span class="o">**</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">ustar_tmp</span><span class="o">**</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">loc_zL</span><span class="o">+</span><span class="n">arr</span><span class="p">[:,</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">ustar_tmp</span><span class="p">),</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">],</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">])</span>
+    <span class="n">f_coefs</span><span class="o">**=-</span><span class="mi">1</span> <span class="c1"># Invert the second (fr) coefficient.</span>
+    <span class="n">p_coefs</span><span class="o">*=</span><span class="n">f_coefs</span> <span class="c1"># All of the first coefficients are the product of the first and the second (inverse included).</span>
+    <span class="c1"># The factors in unstable_coefs are included in the fits that N. Kelley did.</span>
     <span class="n">p_coefs</span><span class="o">*=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">p_coefs_unstable</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
     <span class="n">f_coefs</span><span class="o">*=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f_coefs_unstable</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span></div>
 </pre></div>
@@ -153,14 +154,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -168,11 +166,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

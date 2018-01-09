@@ -1,38 +1,40 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Welcome to PyTurbSim’s home page &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>Welcome to PyTurbSim’s home page &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="About" href="about.html" />
    
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -40,19 +42,19 @@
           <div class="body" role="main">
             
   <div class="section" id="welcome-to-pyturbsim-s-home-page">
-<h1>Welcome to PyTurbSim&#8217;s home page<a class="headerlink" href="#welcome-to-pyturbsim-s-home-page" title="Permalink to this headline">¶</a></h1>
+<h1>Welcome to PyTurbSim’s home page<a class="headerlink" href="#welcome-to-pyturbsim-s-home-page" title="Permalink to this headline">¶</a></h1>
 <p>PyTurbSim is a program for producing simulations of turbulent velocity
 time-series for input to device simulation tools that estimate water-
 and wind-turbine performance and loads.  PyTurbSim outputs spatial
 time-series (a sequence of 2-D, y-z, planes) of 3-component velocity
 (u,v,w) that match statistics of real oceanic, riverine and wind
 turbulence <a class="footnote-reference" href="#id2" id="id1">[1]</a>.  In other words, PyTurbSim  provides the inflow
-information that &#8216;drives&#8217; device simulations.  See the <a class="reference internal" href="about.html#about"><span>About</span></a>
+information that ‘drives’ device simulations.  See the <a class="reference internal" href="about.html#about"><span class="std std-ref">About</span></a>
 page for more information.</p>
 <p>PyTurbSim is the official water-turbulence simulation tool for
 hydrokinetic turbine device simulation (a.k.a. HydroTurbSim), and is
-also a valuable development and testing platform for NREL&#8217;s &#8216;TurbSim&#8217;
-tool (see <a class="reference internal" href="about.html#about-history"><span>History</span></a>).  New mean-profile, spectral and
+also a valuable development and testing platform for NREL’s ‘TurbSim’
+tool (see <a class="reference internal" href="about.html#about-history"><span class="std std-ref">History</span></a>).  New mean-profile, spectral and
 coherence models can be implemented easily in a pythonic,
 object-oriented manner, and plotting routines for comparing output
 to targets and/or data are included.</p>
@@ -74,7 +76,6 @@ to targets and/or data are included.</p>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="usage.html#input-files">1) Input files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="usage.html#advanced-programming-interface-api">2) Advanced programming interface (API)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#graphical-user-interface-gui">3) Graphical user interface (GUI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="usage.html#reading-output-files">Reading output files</a></li>
 </ul>
 </li>
@@ -85,7 +86,7 @@ to targets and/or data are included.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="code-framework.html">Code Framework</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="code-framework.html#models-vs-run-specific-statistics">Models vs. run-specific &#8216;statistics&#8217;</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code-framework.html#models-vs-run-specific-statistics">Models vs. run-specific ‘statistics’</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="code-framework.html#models">Models</a></li>
 <li class="toctree-l3"><a class="reference internal" href="code-framework.html#stat-objects-arrays">Stat-objects/arrays</a></li>
 </ul>
@@ -96,7 +97,6 @@ to targets and/or data are included.</p>
 <li class="toctree-l1"><a class="reference internal" href="api/pyts.html">pyts package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/pyts.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/pyts.cohereModels.html">pyts.cohereModels package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/pyts.gui.html">pyts.gui package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/pyts.io.html">pyts.io package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/pyts.phaseModels.html">pyts.phaseModels package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/pyts.plot.html">pyts.plot package</a></li>
@@ -123,10 +123,10 @@ to targets and/or data are included.</p>
 <div class="section" id="indices-tables-and-notes">
 <h1>Indices, tables and notes<a class="headerlink" href="#indices-tables-and-notes" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
-<li><a class="reference internal" href="glossary.html"><em>Glossary</em></a></li>
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><a class="reference internal" href="glossary.html"><span class="doc">Glossary</span></a></li>
 </ul>
 <table class="docutils footnote" frame="void" id="id2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -139,7 +139,7 @@ array.  The dimensions are:</p>
 <li>y spatial dimension (size n_y = number of y-points)</li>
 <li>time dimension (size n_t = number of timesteps)</li>
 </ol>
-<p class="last">TurbSim implicitly makes the &#8216;frozen flow hypothesis&#8217; and so the
+<p class="last">TurbSim implicitly makes the ‘frozen flow hypothesis’ and so the
 time-dimension can also, roughly, be considered the x spatial
 dimension.</p>
 </td></tr>
@@ -155,7 +155,7 @@ dimension.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Welcome to PyTurbSim&#8217;s home page</a></li>
+<li><a class="reference internal" href="#">Welcome to PyTurbSim’s home page</a></li>
 <li><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
 <li><a class="reference internal" href="#indices-tables-and-notes">Indices, tables and notes</a></li>
 </ul>
@@ -170,21 +170,18 @@ dimension.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/index.txt"
+      <li><a href="_sources/index.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -192,14 +189,14 @@ dimension.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/index.txt"
+      <a href="_sources/index.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

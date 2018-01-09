@@ -340,7 +340,7 @@ class cohere(axesForm):
 
 
 class FigAxForm(supax.sfig):
-    """The 'figure' class that uses and handles :class:`axesForm`s.
+    """The 'figure' class that uses and handles :class:`axesForm`.
 
     Parameters
     ----------

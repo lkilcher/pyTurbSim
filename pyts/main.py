@@ -244,7 +244,7 @@ class tsrun(object):
         """
         This is the 'coherence' input property.
 
-        This property always returns a :class:`.cohereObj`.
+        This property always returns a :class:`~.cohereModels.base.cohereObj`.
 
         Because the bulk of PyTurbSim's computational requirements
         (memory and processor time) are consumed by dealing with this

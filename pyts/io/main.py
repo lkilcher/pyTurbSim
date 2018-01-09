@@ -19,10 +19,12 @@ def readModel(fname, ):
     Parameters
     ----------
     fname : str
-            The filename to load.
-            If the file ends in:
-              .bl or .wnd,  the file is assumed to be a bladed-format file.
-              .bts, the file is assumed to be a TurbSim-format file.
+            The filename to load. If the file ends in:
+
+            - .bl or .wnd,  the file is assumed to be a bladed-format file.
+
+            - .bts, the file is assumed to be a TurbSim-format file.
+
     Returns
     -------
     tsdata : :class:`tsdata <pyts.main.tsdata>`

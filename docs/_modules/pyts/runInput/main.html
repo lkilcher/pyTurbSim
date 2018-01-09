@@ -1,38 +1,39 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>pyts.runInput.main &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>pyts.runInput.main &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
    
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -40,7 +41,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyts.runInput.main</h1><div class="highlight"><pre>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The &#39;main&#39; module for the PyTurbSim runInput package defines the</span>
 <span class="sd">&#39;run&#39; and &#39;write&#39; routines for performing a TurbSim run and</span>
 <span class="sd">writing-out data.</span>
@@ -66,11 +67,11 @@
 <span class="sd">&gt;&gt;&gt; runInput.write(tsdata,tsinput)</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">tsGrid</span>
-<span class="kn">from</span> <span class="nn">..main</span> <span class="kn">import</span> <span class="n">tsrun</span>
-<span class="kn">from</span> <span class="nn">..io.input</span> <span class="kn">import</span> <span class="n">read</span> <span class="k">as</span> <span class="n">readInput</span>
-<span class="kn">from</span> <span class="nn">turbModels</span> <span class="kn">import</span> <span class="n">getModel</span> <span class="k">as</span> <span class="n">tm_getModel</span>
-<span class="kn">from</span> <span class="nn">profModels</span> <span class="kn">import</span> <span class="n">getModel</span> <span class="k">as</span> <span class="n">pm_getModel</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="k">import</span> <span class="n">tsGrid</span>
+<span class="kn">from</span> <span class="nn">..main</span> <span class="k">import</span> <span class="n">tsrun</span>
+<span class="kn">from</span> <span class="nn">..io.input</span> <span class="k">import</span> <span class="n">read</span> <span class="k">as</span> <span class="n">readInput</span>
+<span class="kn">from</span> <span class="nn">turbModels</span> <span class="k">import</span> <span class="n">getModel</span> <span class="k">as</span> <span class="n">tm_getModel</span>
+<span class="kn">from</span> <span class="nn">profModels</span> <span class="k">import</span> <span class="n">getModel</span> <span class="k">as</span> <span class="n">pm_getModel</span>
 
 
 <div class="viewcode-block" id="run_fname"><a class="viewcode-back" href="../../../api/pyts.runInput.html#pyts.runInput.main.run_fname">[docs]</a><span class="k">def</span> <span class="nf">run_fname</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
@@ -88,9 +89,9 @@
 <span class="sd">                A PyTurbSim data object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">inp</span> <span class="o">=</span> <span class="n">readInput</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">run</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">run</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../api/pyts.runInput.html#pyts.runInput.main.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Perform a PyTurbSim run based on the input object `tsinput`.</span>
 
@@ -106,10 +107,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tsr</span> <span class="o">=</span> <span class="n">cfg2tsrun</span><span class="p">(</span><span class="n">tsinput</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">tsr</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">tsr</span><span class="p">()</span></div>
 
-</div>
-<div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.runInput.html#pyts.runInput.main.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">tsdat</span><span class="p">,</span> <span class="n">tsinput</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="write"><a class="viewcode-back" href="../../../api/pyts.runInput.html#pyts.runInput.main.write">[docs]</a><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">tsdat</span><span class="p">,</span> <span class="n">tsinput</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write TurbSim-output to a file.</span>
 
@@ -125,17 +126,17 @@
 <span class="sd">    This function determines which file-types to writeout (bladed or</span>
 <span class="sd">    TurbSim) from the `tsinput` object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">tsinput</span><span class="o">.</span><span class="n">fname</span>
-    <span class="k">if</span> <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;WrBLFF&#39;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;WrBLFF&#39;</span><span class="p">]:</span>
         <span class="n">tsdat</span><span class="o">.</span><span class="n">write_bladed</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;WrADFF&#39;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;WrADFF&#39;</span><span class="p">]:</span>
         <span class="n">tsdat</span><span class="o">.</span><span class="n">write_turbsim</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;WrFMTFF&#39;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;WrFMTFF&#39;</span><span class="p">]:</span>
         <span class="n">tsdat</span><span class="o">.</span><span class="n">write_formatted</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-    <span class="n">tsdat</span><span class="o">.</span><span class="n">write_sum</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">tsdat</span><span class="o">.</span><span class="n">write_sum</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="cfg2grid"><a class="viewcode-back" href="../../../api/pyts.runInput.html#pyts.runInput.main.cfg2grid">[docs]</a><span class="k">def</span> <span class="nf">cfg2grid</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    cfg2grid produces a TurbSim-grid object that matches the</span>
@@ -152,16 +153,16 @@
 <span class="sd">                A PyTurbSim grid object.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">tsGrid</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;HubHt&#39;</span><span class="p">],</span>
-                  <span class="n">ny</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;NumGrid_Y&#39;</span><span class="p">],</span> <span class="n">nz</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;NumGrid_Z&#39;</span><span class="p">],</span>
-                  <span class="n">dt</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;TimeStep&#39;</span><span class="p">],</span>
-                  <span class="n">width</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;GridWidth&#39;</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;GridHeight&#39;</span><span class="p">],</span>
-                  <span class="n">time_sec</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;AnalysisTime&#39;</span><span class="p">],</span>
-                  <span class="n">time_sec_out</span><span class="o">=</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;UsableTime&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;GridWidth&#39;</span><span class="p">]</span>
-                                <span class="o">/</span> <span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;URef&#39;</span><span class="p">]),</span>
-                  <span class="n">clockwise</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;Clockwise&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">tsGrid</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;HubHt&#39;</span><span class="p">],</span>
+                  <span class="n">ny</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;NumGrid_Y&#39;</span><span class="p">],</span> <span class="n">nz</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;NumGrid_Z&#39;</span><span class="p">],</span>
+                  <span class="n">dt</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;TimeStep&#39;</span><span class="p">],</span>
+                  <span class="n">width</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;GridWidth&#39;</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;GridHeight&#39;</span><span class="p">],</span>
+                  <span class="n">time_sec</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;AnalysisTime&#39;</span><span class="p">],</span>
+                  <span class="n">time_sec_out</span><span class="o">=</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;UsableTime&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;GridWidth&#39;</span><span class="p">]</span>
+                                <span class="o">/</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;URef&#39;</span><span class="p">]),</span>
+                  <span class="n">clockwise</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;Clockwise&#39;</span><span class="p">])</span></div>
 
-</div>
+
 <div class="viewcode-block" id="cfg2tsrun"><a class="viewcode-back" href="../../../api/pyts.runInput.html#pyts.runInput.main.cfg2tsrun">[docs]</a><span class="k">def</span> <span class="nf">cfg2tsrun</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Produce a `tsrun` object that matches the configuration options in</span>
@@ -181,7 +182,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">tsr</span> <span class="o">=</span> <span class="n">tsrun</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s">&#39;RandSeed&#39;</span><span class="p">])</span>
+    <span class="n">tsr</span> <span class="o">=</span> <span class="n">tsrun</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;RandSeed&#39;</span><span class="p">])</span>
 
     <span class="n">tsr</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">cfg2grid</span><span class="p">(</span><span class="n">tsinput</span><span class="p">)</span>
 
@@ -189,7 +190,7 @@
 
     <span class="n">tsr</span><span class="o">.</span><span class="n">specModel</span><span class="p">,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">cohereModel</span><span class="p">,</span> <span class="n">tsr</span><span class="o">.</span><span class="n">stressModel</span> <span class="o">=</span> <span class="n">tm_getModel</span><span class="p">(</span><span class="n">tsinput</span><span class="p">)</span>
 
-    <span class="c"># Store this for use when writing sum files.</span>
+    <span class="c1"># Store this for use when writing sum files.</span>
     <span class="n">tsr</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">tsinput</span>
 
     <span class="k">return</span> <span class="n">tsr</span></div>
@@ -211,14 +212,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -226,11 +224,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

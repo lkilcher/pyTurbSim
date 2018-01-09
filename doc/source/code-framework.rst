@@ -30,7 +30,8 @@ code and its use.  The primary components of this framework are:
       stress profile models.
    d) :mod:`pyts.cohereModels`, contains the spatial
       coherence models.
-   More details on model packages can be found in the :ref:`model-info` section.
+
+  More details on model packages can be found in the :ref:`model-info` section.
 
 3) The :mod:`pyts.io` package supports reading and writing of TurbSim
    input (.inp) and output files (e.g. .bl, .wnd, etc.).

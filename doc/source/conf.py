@@ -63,7 +63,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = ver.__prog_name__
-copyright = u'2014, National Renewable Energy Lab'
+copyright = u'2018, National Renewable Energy Lab'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -91,7 +91,7 @@ rst_prolog = """
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = []
+exclude_patterns = ['pyts/gui/']
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None

@@ -1,38 +1,39 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>pyts.plot._basefuncs &mdash; PyTurbSim 0.4.7 documentation</title>
-    
+    <title>pyts.plot._basefuncs &#8212; PyTurbSim 0.4.8 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.4.7',
+        VERSION:     '0.4.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../../../about.html" />
-    <link rel="top" title="PyTurbSim 0.4.7 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
    
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -40,10 +41,10 @@
           <div class="body" role="main">
             
   <h1>Source code for pyts.plot._basefuncs</h1><div class="highlight"><pre>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="kn">as</span> <span class="nn">mpl</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
 <span class="n">transforms</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">transforms</span>
-<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">lowercase</span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="k">import</span> <span class="n">lowercase</span>
 
 
 <span class="k">def</span> <span class="nf">pair</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
@@ -71,33 +72,33 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">threshx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
     <span class="n">threshy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-    <span class="n">fixgaps</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">fixgaps</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">argind</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mpl</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">):</span>
-        <span class="c"># Data is the second (1) element of args... (see below)</span>
+        <span class="c1"># Data is the second (1) element of args... (see below)</span>
         <span class="n">argind</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="p">(</span><span class="s">&#39;ax&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">or</span> \
-            <span class="p">(</span><span class="s">&#39;axes&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">or</span> <span class="p">(</span><span class="s">&#39;parent&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-        <span class="k">if</span> <span class="s">&#39;parent&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">ax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;parent&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="s">&#39;ax&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">ax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;ax&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="s1">&#39;ax&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">or</span> \
+            <span class="p">(</span><span class="s1">&#39;axes&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">or</span> <span class="p">(</span><span class="s1">&#39;parent&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="s1">&#39;parent&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;parent&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s1">&#39;ax&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;ax&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;axes&#39;</span><span class="p">)</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;axes&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">pylab</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="s">&#39;fixgaps&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">fixgaps</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;fixgaps&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s">&#39;threshx&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">threshx</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;threshx&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s">&#39;threshy&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">threshy</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;threshy&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s">&#39;clim&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">clm</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;clim&#39;</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;vmin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;vmax&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clm</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s1">&#39;fixgaps&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">fixgaps</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;fixgaps&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;threshx&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">threshx</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;threshx&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;threshy&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">threshy</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;threshy&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;clim&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">clm</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;clim&#39;</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;vmin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;vmax&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clm</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">-</span> <span class="n">argind</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">dat</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span> <span class="o">+</span> <span class="n">argind</span><span class="p">]</span>
@@ -108,23 +109,23 @@
         <span class="n">y</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span> <span class="o">+</span> <span class="n">argind</span><span class="p">]</span>
         <span class="n">dat</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span> <span class="o">+</span> <span class="n">argind</span><span class="p">]</span>
 
-    <span class="n">dfx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;double&#39;</span><span class="p">)</span>
+    <span class="n">dfx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span>
     <span class="n">dx</span> <span class="o">=</span> <span class="n">dfx</span>
     <span class="n">gd</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">dx</span><span class="p">))</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">gd</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
         <span class="n">dx</span> <span class="o">=</span> <span class="n">dx</span><span class="p">[</span><span class="n">gd</span><span class="p">]</span>
         <span class="n">gd</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">dx</span><span class="p">))</span>
 
-    <span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;double&#39;</span><span class="p">)</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span>
 
-    <span class="n">dfy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;double&#39;</span><span class="p">)</span>
+    <span class="n">dfy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span>
     <span class="n">dy</span> <span class="o">=</span> <span class="n">dfy</span>
     <span class="n">gd</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dy</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">dy</span><span class="p">))</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">gd</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
         <span class="n">dy</span> <span class="o">=</span> <span class="n">dy</span><span class="p">[</span><span class="n">gd</span><span class="p">]</span>
         <span class="n">gd</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dy</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">dy</span><span class="p">))</span>
 
-    <span class="n">dy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">dy</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;double&#39;</span><span class="p">)</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">dy</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span>
 
     <span class="n">N</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">dfx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dx</span><span class="p">))</span> <span class="o">*</span> <span class="n">fixgaps</span>
     <span class="n">datn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
@@ -191,22 +192,22 @@
     <span class="n">mx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">mx</span><span class="p">))</span>
     <span class="n">my</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">my</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">my</span><span class="p">))</span>
 
-    <span class="c"># mx=xn</span>
-    <span class="c"># my=yn</span>
+    <span class="c1"># mx=xn</span>
+    <span class="c1"># my=yn</span>
 
-    <span class="n">hndl</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span> <span class="n">my</span><span class="p">,</span> <span class="n">datm</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s">&#39;flat&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">hndl</span><span class="o">.</span><span class="n">set_rasterized</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">hndl</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span> <span class="n">my</span><span class="p">,</span> <span class="n">datm</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;flat&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">hndl</span><span class="o">.</span><span class="n">set_rasterized</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">mpl</span><span class="o">.</span><span class="n">pylab</span><span class="o">.</span><span class="n">draw_if_interactive</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">hndl</span>
 
 
-<span class="k">def</span> <span class="nf">labelax</span><span class="p">(</span><span class="n">peer</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="s">&#39;right&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">place</span> <span class="o">==</span> <span class="s">&#39;right&#39;</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">labelax</span><span class="p">(</span><span class="n">peer</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">place</span> <span class="o">==</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span>
         <span class="n">place</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.025</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">place</span> <span class="o">==</span> <span class="s">&#39;over&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">place</span> <span class="o">==</span> <span class="s1">&#39;over&#39;</span><span class="p">:</span>
         <span class="n">place</span> <span class="o">=</span> <span class="p">(</span><span class="o">.</span><span class="mi">48</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s">&#39;horizontalalignment&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;horizontalalignment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;right&#39;</span>
+        <span class="k">if</span> <span class="s1">&#39;horizontalalignment&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;horizontalalignment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span>
 
     <span class="n">hndl</span> <span class="o">=</span> <span class="n">peer</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
         <span class="n">place</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">place</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">str</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">peer</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -214,19 +215,19 @@
     <span class="k">return</span> <span class="n">hndl</span>
 
 
-<span class="k">def</span> <span class="nf">errorshadex</span><span class="p">(</span><span class="n">peer</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xerr</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                <span class="n">ealpha</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">errorshadex</span><span class="p">(</span><span class="n">peer</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xerr</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">ealpha</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot a line with a shaded region for error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">ecolor</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">ecolor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ecolor</span> <span class="o">=</span> <span class="n">color</span>
     <span class="n">peer</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">peer</span><span class="o">.</span><span class="n">fill_betweenx</span><span class="p">(</span>
         <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="n">xerr</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">xerr</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">ealpha</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">ecolor</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">vecs2fillvec</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">meanstd</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">vecs2fillvec</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">meanstd</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    *y1* and *y2* should be the ranges.</span>
 <span class="sd">    This function will then flip y2 and tack it onto y1.</span>
@@ -239,14 +240,14 @@
     <span class="k">if</span> <span class="n">meanstd</span><span class="p">:</span>
         <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y1</span> <span class="o">-</span> <span class="n">y2</span>
 
-    <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">y1</span><span class="p">[[</span><span class="mi">0</span><span class="p">]]),</span> <span class="n">axis</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">y1</span><span class="p">[[</span><span class="mi">0</span><span class="p">]]),</span> <span class="n">axis</span><span class="p">),</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[[</span><span class="mi">0</span><span class="p">]]),</span> <span class="n">axis</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">calcFigSize</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">frm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">]),</span> <span class="n">norm</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">calcFigSize</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">frm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">]),</span> <span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    sz,vec = calcFigSize(n,ax,frame) calculates the width (or height)</span>
 <span class="sd">    of a figure with *n* subplots.  Specify the width (height) of each</span>
@@ -259,13 +260,13 @@
 
 <span class="sd">    See also: saxes, axes, calcAxesSize</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s">&#39;__iter__&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="n">sz</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">frm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">frm</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">frm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">frm</span><span class="p">)</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">norm</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="bp">False</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">norm</span><span class="p">):</span>
-        <span class="c"># This checks that it is not the default.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">norm</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="kc">False</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">norm</span><span class="p">):</span>
+        <span class="c1"># This checks that it is not the default.</span>
         <span class="n">frm</span> <span class="o">=</span> <span class="n">frm</span> <span class="o">/</span> <span class="n">sz</span> <span class="o">*</span> <span class="n">norm</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span> <span class="o">/</span> <span class="n">sz</span> <span class="o">*</span> <span class="n">norm</span>
         <span class="n">sz</span> <span class="o">=</span> <span class="n">norm</span>
@@ -284,12 +285,12 @@
 
 <span class="sd">    See also: saxes, axes, calcFigSize</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">gap</span><span class="p">,</span> <span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">gap</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">):</span>
         <span class="n">gtot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">gap</span><span class="p">[:</span><span class="n">n</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">gtot</span> <span class="o">=</span> <span class="n">gap</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">axsz</span> <span class="o">=</span> <span class="p">(</span><span class="n">totsize</span> <span class="o">-</span> <span class="n">frame</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">frame</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">gtot</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span>
-    <span class="n">sz</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">calcFigSize</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">[</span><span class="n">axsz</span><span class="p">,</span> <span class="n">gap</span><span class="p">],</span> <span class="n">frame</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+    <span class="n">sz</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">calcFigSize</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">[</span><span class="n">axsz</span><span class="p">,</span> <span class="n">gap</span><span class="p">],</span> <span class="n">frame</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">axsz</span><span class="p">,</span> <span class="n">v</span>
 
 
@@ -304,16 +305,16 @@
 
 <span class="sd">    See also: saxes, axes, calcFigSize</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">gap</span><span class="p">,</span> <span class="s">&#39;__len__&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">gap</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">):</span>
         <span class="n">gtot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">gap</span><span class="p">[:</span><span class="n">n</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">gtot</span> <span class="o">=</span> <span class="n">gap</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">axsz</span> <span class="o">=</span> <span class="p">(</span><span class="n">totsize</span> <span class="o">-</span> <span class="n">frame</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">frame</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">gtot</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span>
-    <span class="n">sz</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">calcFigSize</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">[</span><span class="n">axsz</span><span class="p">,</span> <span class="n">gap</span><span class="p">],</span> <span class="n">frame</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+    <span class="n">sz</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">calcFigSize</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">[</span><span class="n">axsz</span><span class="p">,</span> <span class="n">gap</span><span class="p">],</span> <span class="n">frame</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">axsz</span><span class="p">,</span> <span class="n">v</span>
 
 
-<span class="k">def</span> <span class="nf">axvec2axpos</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">vertflag</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">axvec2axpos</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">vertflag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    calculates the positions for the `n` axes, based on the axes</span>
 <span class="sd">    vector `vec`.</span>
@@ -347,8 +348,8 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">rel</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="bp">False</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">rel</span><span class="p">:</span>
-        <span class="c"># Default value.</span>
+    <span class="k">if</span> <span class="n">rel</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="kc">False</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">rel</span><span class="p">:</span>
+        <span class="c1"># Default value.</span>
         <span class="n">rel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="n">wd</span> <span class="o">=</span> <span class="p">(((</span><span class="n">vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">vec</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">vec</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">n</span> <span class="o">-</span> <span class="n">vec</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">*</span> <span class="n">rel</span> <span class="o">/</span> <span class="n">rel</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">vertflag</span><span class="p">:</span>
@@ -361,14 +362,14 @@
 
 
 <span class="k">def</span> <span class="nf">get_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">trans</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">trans</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">trans</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">trans</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">trans</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">trans</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">&#39;trans&#39;</span> <span class="o">+</span> <span class="n">trans</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s1">&#39;trans&#39;</span> <span class="o">+</span> <span class="n">trans</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">offset_text</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">transform</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">offset_text</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add text to an axes offset from a location.</span>
 
@@ -382,11 +383,11 @@
 <span class="sd">    a different &#39;transform&#39; to change this.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">transform</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">transform</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">transform</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">transData</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">transform</span> <span class="o">=</span> <span class="n">get_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">):</span>
         <span class="n">osx</span> <span class="o">=</span> <span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">72.</span>
         <span class="n">osy</span> <span class="o">=</span> <span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mf">72.</span>
     <span class="k">else</span><span class="p">:</span>
@@ -398,7 +399,7 @@
     <span class="k">return</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">trfrm</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">annoteCorner</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s">&#39;ll&#39;</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">annoteCorner</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;ll&#39;</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    annotate a corner of an axes with a string.</span>
 
@@ -431,29 +432,29 @@
     <span class="n">prm</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">yp</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">xp</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">prm</span><span class="p">[</span><span class="s">&#39;va&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;baseline&#39;</span>
-    <span class="n">prm</span><span class="p">[</span><span class="s">&#39;ha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;left&#39;</span>
-    <span class="c"># prm[&#39;fontsize&#39;]=&#39;medium&#39;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">):</span>
+    <span class="n">prm</span><span class="p">[</span><span class="s1">&#39;va&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;baseline&#39;</span>
+    <span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span>
+    <span class="c1"># prm[&#39;fontsize&#39;]=&#39;medium&#39;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">):</span>
         <span class="n">osx</span> <span class="o">=</span> <span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">osy</span> <span class="o">=</span> <span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">osx</span> <span class="o">=</span> <span class="n">offset</span>
         <span class="n">osy</span> <span class="o">=</span> <span class="n">offset</span>
-    <span class="k">if</span> <span class="n">pos</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;u&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">pos</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;u&#39;</span><span class="p">:</span>
             <span class="n">osy</span> <span class="o">=</span> <span class="o">-</span><span class="n">osy</span>
             <span class="n">yp</span> <span class="o">=</span> <span class="mf">1.</span>
-            <span class="n">prm</span><span class="p">[</span><span class="s">&#39;va&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;top&#39;</span>
-        <span class="k">if</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;r&#39;</span><span class="p">:</span>
+            <span class="n">prm</span><span class="p">[</span><span class="s1">&#39;va&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;top&#39;</span>
+        <span class="k">if</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span>
             <span class="n">osx</span> <span class="o">=</span> <span class="o">-</span><span class="n">osx</span>
             <span class="n">xp</span> <span class="o">=</span> <span class="mf">1.</span>
-            <span class="n">prm</span><span class="p">[</span><span class="s">&#39;ha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;right&#39;</span>
+            <span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">xp</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">yp</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">prm</span><span class="p">[</span><span class="s">&#39;offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">osx</span><span class="p">,</span> <span class="n">osy</span><span class="p">)</span>
-    <span class="n">prm</span><span class="p">[</span><span class="s">&#39;transform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span>
+    <span class="n">prm</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">osx</span><span class="p">,</span> <span class="n">osy</span><span class="p">)</span>
+    <span class="n">prm</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span>
 
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">prm</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -462,16 +463,16 @@
     <span class="k">return</span> <span class="n">ax</span><span class="o">.</span><span class="n">corner_label</span>
 
 
-<span class="k">def</span> <span class="nf">shadex</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="s">&#39;DataXAxesY&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&#39;_nolegend_&#39;</span><span class="p">,</span>
-           <span class="n">zorder</span><span class="o">=-</span><span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">shadex</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="s1">&#39;DataXAxesY&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;_nolegend_&#39;</span><span class="p">,</span>
+           <span class="n">zorder</span><span class="o">=-</span><span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">transform</span> <span class="o">=</span> <span class="n">get_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span>
                     <span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
                     <span class="n">edgecolor</span><span class="o">=</span><span class="n">edgecolor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">shadey</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="s">&#39;AxesXDataY&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&#39;_nolegend_&#39;</span><span class="p">,</span>
-           <span class="n">zorder</span><span class="o">=-</span><span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">shadey</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="s1">&#39;AxesXDataY&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;_nolegend_&#39;</span><span class="p">,</span>
+           <span class="n">zorder</span><span class="o">=-</span><span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">transform</span> <span class="o">=</span> <span class="n">get_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">fill_betweenx</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span>
                      <span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
@@ -480,49 +481,49 @@
 
 <span class="k">def</span> <span class="nf">_setaxesframe</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
     <span class="nb">str</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
-    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s">&#39;t&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s">&#39;b&#39;</span><span class="p">):</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;both&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s">&#39;t&#39;</span><span class="p">):</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;top&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s">&#39;top&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s">&#39;b&#39;</span><span class="p">):</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;bottom&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s">&#39;bottom&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s1">&#39;b&#39;</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s1">&#39;b&#39;</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s">&#39;l&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s">&#39;r&#39;</span><span class="p">):</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;both&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s">&#39;l&#39;</span><span class="p">):</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;left&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s">&#39;left&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s">&#39;r&#39;</span><span class="p">):</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;right&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s">&#39;right&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s1">&#39;l&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s1">&#39;l&#39;</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="c"># for tk in ax.yaxis.get_ticklabels</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="c1"># for tk in ax.yaxis.get_ticklabels</span>
 
 
-<span class="k">def</span> <span class="nf">alphNumAxes</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">vals</span><span class="o">=</span><span class="n">lowercase</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s">&#39;)&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">alphNumAxes</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">vals</span><span class="o">=</span><span class="n">lowercase</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Label the axes with alphanumeric characters.</span>
 
@@ -544,11 +545,11 @@
 
 <span class="sd">    :func:`annoteCorner`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">suffix</span> <span class="o">=</span> <span class="s">&#39;)&#39;</span>
-    <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-    <span class="n">corner_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">axs</span><span class="p">),</span> <span class="s">&#39;O&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;)&#39;</span>
+    <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">corner_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">axs</span><span class="p">),</span> <span class="s1">&#39;O&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axs</span><span class="p">):</span>
         <span class="n">corner_labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">annoteCorner</span><span class="p">(</span>
             <span class="n">prefix</span> <span class="o">+</span> <span class="n">vals</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -570,14 +571,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -585,11 +583,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2014, National Renewable Energy Lab.
+      &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

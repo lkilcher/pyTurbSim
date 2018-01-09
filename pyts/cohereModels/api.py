@@ -38,7 +38,7 @@ Available coherence models
   subclass this class or subclass and modify an existing coherence
   model.
 
-:class:`.cohereObj`
+:class:`~.base.cohereObj`
   This is the 'coherence object' class.  All coherence model `__call__`
   methods must take a :class:`tsrun <pyts.main.tsrun>` as input and
   return this class.
