@@ -51,3 +51,6 @@ For a description of the difference between 'stress models'
 from .base import stressModelBase, stressObj
 from .main import uniform
 from .hydro import tidal
+
+# This sets the default model (used in pyts.main)
+default = uniform()  # all stresses zero

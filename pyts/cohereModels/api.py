@@ -53,3 +53,6 @@ import main
 iec = main.iec
 nwtc = main.nwtc
 none = main.none
+
+# This sets the default model (used in pyts.main)
+default = main.nwtc()

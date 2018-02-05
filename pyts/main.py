@@ -13,13 +13,20 @@ from .profModels.base import profModelBase, profObj
 from .specModels.base import specModelBase, specObj
 from .cohereModels.base import cohereModelBase, cohereObj, cohereUser
 from .stressModels.base import stressModelBase, stressObj
-from .phaseModels.api import randPhase
+from .phaseModels.base import phaseModelBase, phaseObj
 import _version as ver
 from .io import write
 from numpy import random
 from numpy import ulonglong
 from numpy.fft import irfft
 import time
+from copy import deepcopy
+import warnings
+# This is where default models are defined
+from .cohereModels.api import default as default_cohereModel
+from .stressModels.api import default as default_stressModel
+from .phaseModels.api import default as default_phaseModel
+
 
 # !!!VERSION_INCONSISTENCY
 # inconsistency between this and older versions of TurbSim
@@ -91,9 +98,6 @@ class tsrun(object):
         self.ncore = ncore
         if dbg:
             self.timer = dbg.timer('Veers84')
-    # For now this is a place-holder, I may want to make this an
-    # 'input property' eventually.
-    phase = randPhase()
 
     @property
     def prof(self):
@@ -143,24 +147,29 @@ class tsrun(object):
         tsrun.spec
         tsrun.cohere
         tsrun.stress
+        tsrun.phase
 
         """
         if hasattr(self, 'profModel') and not hasattr(self, '_prof'):
             self._prof = self.profModel(self)
+        if not hasattr(self, '_prof'):
+            raise Exception("You must set the mean profile "
+                            "by assigning to the .prof attribute.")
         return self._prof
 
     @prof.setter
     def prof(self, val):
-        if profModelBase in val.__class__.__mro__:
+        if isinstance(val, profModelBase):
             self.profModel = val
-        elif np.ndarray in val.__class__.__mro__:
+        elif isinstance(val, np.ndarray):
             self._prof = profObj(self)
             self._prof.array[:] = val
-        elif profObj in val.__class__.__mro__:
+        elif isinstance(val, profObj):
             self._prof = val
         else:
             raise Exception('The input must be a profile model, '
-                            'profile object or numpy array; it is none of these.')
+                            'profile object or numpy array; '
+                            'it is none of these.')
 
     @prof.deleter
     def prof(self,):
@@ -215,20 +224,24 @@ class tsrun(object):
         tsrun.prof
         tsrun.cohere
         tsrun.stress
+        tsrun.phase
 
         """
         if hasattr(self, 'specModel') and not hasattr(self, '_spec'):
             self._spec = self.specModel(self)
+        if not hasattr(self, '_spec'):
+            raise Exception("You must set the tke spectrum "
+                            "by assigning to the .spec attribute.")
         return self._spec
 
     @spec.setter
     def spec(self, val):
-        if specModelBase in val.__class__.__mro__:
+        if isinstance(val, specModelBase):
             self.specModel = val
-        elif np.ndarray in val.__class__.__mro__:
+        elif isinstance(val, np.ndarray):
             self._spec = specObj(self)
             self._spec.array[:] = val
-        elif specObj in val.__class__.__mro__:
+        elif isinstance(val, specObj):
             self._spec = val
         else:
             raise Exception('The input must be a spectral model, '
@@ -304,27 +317,38 @@ class tsrun(object):
         See Also
         --------
         pyts.cohereModels.api : to see a list of available coherence models.
-        pyts.cohereModels.base.cohereUser : the 'user-defined' or 'array-input' coherence model.
+        pyts.cohereModels.base.cohereUser : the 'user-defined' or
+        'array-input' coherence model.
+
         tsrun.prof
         tsrun.spec
         tsrun.stress
+        tsrun.phase
 
         """
-        if hasattr(self, 'cohereModel') and not hasattr(self, '_cohere'):
-            self._cohere = self.cohereModel(self)
+        if not hasattr(self, '_cohere'):
+            if hasattr(self, 'cohereModel'):
+                self._cohere = self.cohereModel(self)
+            elif not hasattr(self, 'cohereModel'):
+                warnings.warn("No input coherence model specified. "
+                              "Using default: {}"
+                              .format(default_cohereModel.model_name))
+                self.cohereModel = deepcopy(default_cohereModel)
+                self._cohere = self.cohereModel(self)
         return self._cohere
 
     @cohere.setter
     def cohere(self, val):
-        if cohereModelBase in val.__class__.__mro__:
+        if isinstance(val, cohereModelBase):
             self.cohereModel = val
-        elif np.ndarray in val.__class__.__mro__:
+        elif isinstance(val, np.ndarray):
             self.cohereModel = cohereUser(val)
-        elif cohereObj in val.__class__.__mro__:
+        elif isinstance(val, cohereObj):
             self.cohere = val
         else:
             raise Exception('The input must be a coherence model, '
-                            'coherence object or numpy array; it is none of these.')
+                            'coherence object or numpy array; '
+                            'it is none of these.')
 
     @cohere.deleter
     def cohere(self,):
@@ -379,29 +403,119 @@ class tsrun(object):
         tsrun.prof
         tsrun.spec
         tsrun.cohere
+        tsrun.phase
 
         """
-        if hasattr(self, 'stressModel') and not hasattr(self, '_stress'):
-            self._stress = self.stressModel(self)
+        if not hasattr(self, '_stress'):
+            if hasattr(self, 'stressModel'):
+                self._stress = self.stressModel(self)
+            elif not hasattr(self, 'stressModel'):
+                warnings.warn("No input stress model specified. "
+                              "Using default: {}"
+                              .format(default_stressModel.model_name))
+                self.stressModel = deepcopy(default_stressModel)
+                self._stress = self.stressModel(self)
         return self._stress
 
     @stress.setter
     def stress(self, val):
-        if stressModelBase in val.__class__.__mro__:
+        if isinstance(val, stressModelBase):
             self.stressModel = val
-        elif np.ndarray in val.__class__.__mro__:
+        elif isinstance(val, np.ndarray):
             self._stress = stressObj(self)
             self._stress.array[:] = val
-        elif stressObj in val.__class__.__mro__:
+        elif isinstance(val, stressObj):
             self._stress = val
         else:
             raise Exception('The input must be a stress model, '
-                            'stress object or numpy array; it is none of these.')
+                            'stress object or numpy array; '
+                            'it is none of these.')
 
     @stress.deleter
     def stress(self,):
         if hasattr(self, 'stressModel'):
             del self._stress
+
+    @property
+    def phase(self):
+        """
+        This is the 'random phase' input property.
+
+        This property returns a 'phaseObj'.
+
+        This property can be defined with three types of objects:
+
+        1) define it with a 'phase model' (recommended):
+
+                  ts_run.phase=a_phase_model
+
+           In this case the model is set to my_ts_run.phaseModel, and
+           this model is called to produce a phaseObj AS NEEDED.  At
+           the end of the ts_run call that phaseObj is cleared so
+           that subsequent runs do not use a fixed phaseObj (i.e. in
+           the case that the model is modified or another
+           model/object that the phase model depends on is
+           changed between runs).
+
+        2) define it with a phaseObj directly (phase
+           statistic-object)::
+
+              ts_run.phase=a_phase_model(ts_run)
+
+           In this case the phaseObj is FIXED. That is, all
+           subsequent PyTurbSim runs will utilize this phase,
+           which is based on the state of the a_phase_model and
+           ts_run at the time of the phaseObj creation.
+
+        3) define it with an array directly::
+
+               ts_run.phase=a_numpy_array   [units: m/s]
+
+           In this case the phaseObj is again fixed and defined by
+           the input array.  The numpy array dimensions must match
+           those of the gridObj.  That is, the dimensions of the
+           array should be (3 x grid.n_z x grid.n_y).  The first
+           dimension is for each component of the phase (u,v,w),
+           the next two are for each point (z,y) in the grid.
+
+        See Also
+        --------
+        pyts.phaseModels.api : to see available phase models.
+        tsrun.prof
+        tsrun.spec
+        tsrun.cohere
+        tsrun.stress
+
+        """
+        if not hasattr(self, '_phase'):
+            if hasattr(self, 'phaseModel'):
+                self._phase = self.phaseModel(self)
+            elif not hasattr(self, 'phaseModel'):
+                # warnings.warn("No input phase model specified. "
+                #               "Using default: {}"
+                #               .format(default_phaseModel.model_name))
+                self.phaseModel = deepcopy(default_phaseModel)
+                self._phase = self.phaseModel(self)
+        return self._phase
+
+    @phase.setter
+    def phase(self, val):
+        if isinstance(val, phaseModelBase):
+            self.phaseModel = val
+        elif isinstance(val, np.ndarray):
+            self._phase = phaseObj(self)
+            self._phase.array[:] = val
+        elif isinstance(val, phaseObj):
+            self._phase = val
+        else:
+            raise Exception('The input must be a phase model, '
+                            'phase object or numpy array; '
+                            'it is none of these.')
+
+    @phase.deleter
+    def phase(self,):
+        if hasattr(self, 'phaseModel'):
+            del self._phase
 
     def reset(self, seed=None):
         """
@@ -412,6 +526,7 @@ class tsrun(object):
         del self.spec
         del self.cohere
         del self.stress
+        del self.phase
         if seed is None:
             self.randgen.seed(self.RandSeed)
         else:
@@ -423,12 +538,16 @@ class tsrun(object):
         Model names and initialization parameters.
         """
         out = dict()
-        out['version'] = (ver.__prog_name__, ver.__version__, ver.__version_date__)
+        out['version'] = (ver.__prog_name__,
+                          ver.__version__,
+                          ver.__version_date__)
         out['RandSeed'] = self.RandSeed
         out['StartTime'] = self._starttime
         if hasattr(self, '_config'):
             out['config'] = self._config
-        for nm in ['profModel', 'specModel', 'cohereModel', 'stressModel']:
+        for nm in ['profModel', 'specModel',
+                   'cohereModel', 'stressModel',
+                   'phaseModel']:
             if hasattr(self, nm):
                 mdl = getattr(self, nm)
                 out[nm] = dict(name=mdl.model_name,
@@ -453,6 +572,7 @@ class tsrun(object):
         - :attr:`tsrun.spec`: The tke spectrum model, object or array.
         - :attr:`tsrun.cohere`: The coherence model, object or array.
         - :attr:`tsrun.stress`: The Reynold's stress model, object or array.
+        - :attr:`tsrun.phase`: The random phase model, object or array.
 
         Returns
         -------
@@ -515,7 +635,7 @@ class tsrun(object):
         if dbg:
             self.timer.start()
         # First calculate the 'base' set of random phases:
-        phases = self.phase(self)
+        phases = self.phase.array
         # Now correlate the phases at each point to set the Reynold's stress:
         phases = self.stress.calc_phases(phases)
         # Now correlate the phases between points to set the spatial coherence:
@@ -582,6 +702,7 @@ class tsdata(gridProps):
         out['specModel_sumstring'] = self.info['specModel']['sumstring']
         out['stressModel_sumstring'] = self.info['stressModel']['sumstring']
         out['cohereModel_sumstring'] = self.info['cohereModel']['sumstring']
+        out['phaseModel_sumstring'] = self.info['phaseModel']['sumstring']
         out['ver'] = ver
         out['NowDate'] = time.strftime('%a %b %d, %Y', self.info['StartTime'])
         out['NowTime'] = time.strftime('%H:%M:%S', self.info['StartTime'])
@@ -590,17 +711,25 @@ class tsdata(gridProps):
         out['GridBase'] = self.grid.z[0]
         out['HeightOffset'] = 0.0  # Is this correct?
         out['ydata'] = self.grid.y
-        out['z_ustd'] = np.concatenate((self.grid.z[:, None], self.uturb[0].std(-1)), axis=1)
-        out['z_vstd'] = np.concatenate((self.grid.z[:, None], self.uturb[1].std(-1)), axis=1)
-        out['z_wstd'] = np.concatenate((self.grid.z[:, None], self.uturb[2].std(-1)), axis=1)
+        out['z_ustd'] = np.concatenate((self.grid.z[:, None],
+                                        self.uturb[0].std(-1)),
+                                       axis=1)
+        out['z_vstd'] = np.concatenate((self.grid.z[:, None],
+                                        self.uturb[1].std(-1)),
+                                       axis=1)
+        out['z_wstd'] = np.concatenate((self.grid.z[:, None],
+                                        self.uturb[2].std(-1)),
+                                       axis=1)
         u, v, w = self.uprof.mean(-1)[:, :, None]
         out['WINDSPEEDPROFILE'] = np.concatenate((
             self.grid.z[:, None],
             np.sqrt(u ** 2 + v ** 2),
             np.angle(u + 1j * v) * 180 / np.pi,
             u, v, w, ), axis=1)
-        out['HFlowAng'] = np.angle(self.uprof[0][self.ihub] + 1j * self.uprof[1][self.ihub])
-        out['VFlowAng'] = np.angle(self.uprof[0][self.ihub] + 1j * self.uprof[2][self.ihub])
+        out['HFlowAng'] = np.angle(self.uprof[0][self.ihub] + 1j *
+                                   self.uprof[1][self.ihub])
+        out['VFlowAng'] = np.angle(self.uprof[0][self.ihub] + 1j *
+                                   self.uprof[2][self.ihub])
         out['TurbModel'] = self.info['specModel']['name']
         out['gridheader'] = '---------   ' * self.grid.n_y
         for nm in ['Zref', 'RefHt', 'ZRef', ]:
@@ -633,7 +762,8 @@ class tsdata(gridProps):
             for nm in ['profModel_params',
                        'specModel_params',
                        'cohereModel_params',
-                       'stressModel_params']:
+                       'stressModel_params',
+                       'phaseModel_params']:
                 if nm in self.info:
                     out.update(self.info[nm])
         return out
@@ -803,13 +933,15 @@ class tsdata(gridProps):
 
     def write_formatted(self, filename):
         """
-        Save the data in this tsdata object in 'formatted' format (.u, .v, .w files).
+        Save the data in this tsdata object in 'formatted' format (.u,
+        .v, .w files).
 
         Parameters
         ----------
 
         filename : string
-                '.u', '.v', and '.w' will be appended to the end of the filename.
+                '.u', '.v', and '.w' will be appended to the end of
+                the filename.
         """
         write.formatted(filename, self)
 
