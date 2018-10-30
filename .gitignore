@@ -14,17 +14,17 @@ tmp/
 
 *.egg-info/
 
-pyts/tslib.so.dSYM/
+TurbGen/tslib.so.dSYM/
 
 doc/source/api/
 
-pyts/plot/movie/tmp/*
+TurbGen/plot/movie/tmp/*
 
 doc/output.txt
 
 doc/source/.DS_Store
 
-pyts/tslib.so
+TurbGen/tslib.so
 
 test/*.wnd
 

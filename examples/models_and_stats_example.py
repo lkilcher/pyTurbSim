@@ -2,8 +2,8 @@
 
 """
 
-# Begin by importing the PyTurbSim API:
-import pyts.api as pyts
+# Begin by importing the TurbGen API:
+import TurbGen.api as tg
 
 # In the 'example_usage.py' file we simply set a 'model' for each
 # model type. Then when the run-object (tsr) is called, it implicitly
@@ -19,31 +19,31 @@ U = 3.
 # Section 1) Using models only.
 ###
 # Initialize a 'run' object:
-tsr = pyts.tsrun()
+tsr = tg.tsrun()
 
 # Define the grid,
-tsr.grid = pyts.tsGrid(
+tsr.grid = tg.tsGrid(
     center=refht, ny=5, nz=5, height=5, width=9, time_sec=1000, dt=0.5)
 
 # Define a mean 'profile model',
-prof_model = pyts.profModels.h2l(U, refht, ustar)
+prof_model = tg.profModels.h2l(U, refht, ustar)
 
 # and assign it to the run object,
 tsr.profModel = prof_model
 # These two steps can be completed in one as:
-#tsr.profModel=pyts.profModels.h2l(U,refht,ustar)
+#tsr.profModel=tg.profModels.h2l(U,refht,ustar)
 
 # Next we define and assign a 'spectral model' to the run object,
-tsr.specModel = pyts.specModels.tidal(ustar, refht)
+tsr.specModel = tg.specModels.tidal(ustar, refht)
 
 # ... and define/assign a 'coherence model',
-tsr.cohereModel = pyts.cohereModels.nwtc()
+tsr.cohereModel = tg.cohereModels.nwtc()
 
 # ... and define/assign a 'stress model',
-tsr.stressModel = pyts.stressModels.tidal(ustar, refht)
+tsr.stressModel = tg.stressModels.tidal(ustar, refht)
 
-# Now simply 'call' the run oject to produce the TurbSim output.
-turbsim_output = tsr()
+# Now simply 'call' the run oject to produce the output.
+out = tsr()
 
 ##################################
 # Section 2) Using models only.

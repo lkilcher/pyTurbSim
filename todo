@@ -1,3 +1,13 @@
+Rebranding
+==========
+
+- Continue replacing 'TurbSim' (where appropriate) and 'PyTurbSim' with 'TurbGen'
+- remove all instances of 'tsr'/'tsrun'/etc.
+
+
+Misc
+====
+
 - movie to YouTube (integrate into website)
 - create movie-making tool
 - create conda

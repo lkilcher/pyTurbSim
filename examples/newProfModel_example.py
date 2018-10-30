@@ -15,7 +15,7 @@ the __init__.py file.  The model can then be specified simply as
 
 """
 
-from pyts.profModels.base import profModelBase
+from TurbGen.profModels.base import profModelBase
 
 
 class aNewModel(profModelBase):
