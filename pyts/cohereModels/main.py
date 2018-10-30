@@ -98,7 +98,7 @@ class cohereObjNWTC(cohereObj):
 
 class nwtc(cohereModelBase):
 
-    """NWTC coherence model.
+    r"""NWTC coherence model.
 
     This is also known as the 'non-IEC' coherence model.
 
@@ -120,7 +120,7 @@ class nwtc(cohereModelBase):
 
     .. math::
 
-       Coh_k=exp(-a_k (r/z_m)^CohExp ((f r / u_m)^2 + (b_k r)^2)  k=u,v,w
+       Coh_k = exp \left (-a_k ( r/z_m)^{CohExp} ((f r / u_m)^2 + (b_k r)^2 \right ) \quad  k=u, v, w
 
     Where,
 

@@ -70,20 +70,70 @@ coherence models.</p>
 <dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.modelBase" title="pyts.base.modelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.modelBase</span></code></a></p>
 </dd></dl>
 
+<dl class="class">
+<dt id="pyts.phaseModels.base.phaseObj">
+<em class="property">class </em><code class="descclassname">pyts.phaseModels.base.</code><code class="descname">phaseObj</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/phaseModels/base.html#phaseObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.phaseModels.base.phaseObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.gridProps" title="pyts.base.gridProps"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.gridProps</span></code></a>, <a class="reference internal" href="pyts.html#pyts.base.calcObj" title="pyts.base.calcObj"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.calcObj</span></code></a></p>
+<p>Profile objects contain the array (self.array) of mean-velocity
+values for a specific PyTurbSim run.</p>
+<p>Profile objects are created with/for a specific PyTurbSim run.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsrun</strong> :     <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a></p>
+<blockquote class="last">
+<div><p>The PyTurbSim run object in which the profile will be
+used.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal"><span class="pre">profModelBase</span></code></dt>
+<dd>The abstract base class for classes that create this class.</dd>
+</dl>
+</div>
+</dd></dl>
+
 </div>
 <div class="section" id="module-pyts.phaseModels.main">
 <span id="pyts-phasemodels-main-module"></span><h2>pyts.phaseModels.main module<a class="headerlink" href="#module-pyts.phaseModels.main" title="Permalink to this headline">¶</a></h2>
 <p>The main random phase models.</p>
 <dl class="class">
-<dt id="pyts.phaseModels.main.randPhase">
-<em class="property">class </em><code class="descclassname">pyts.phaseModels.main.</code><code class="descname">randPhase</code><a class="reference internal" href="../_modules/pyts/phaseModels/main.html#randPhase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.phaseModels.main.randPhase" title="Permalink to this definition">¶</a></dt>
+<dt id="pyts.phaseModels.main.Rinker">
+<em class="property">class </em><code class="descclassname">pyts.phaseModels.main.</code><code class="descname">Rinker</code><span class="sig-paren">(</span><em>rho</em>, <em>mu=3.141592653589793</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/phaseModels/main.html#Rinker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.phaseModels.main.Rinker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyts.phaseModels.base.phaseModelBase" title="pyts.phaseModels.base.phaseModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.phaseModels.base.phaseModelBase</span></code></a></p>
-<p>This phase-model randomizes the phases uniformly and without any
-‘phase coherence’ (correlation as a function of frequency).</p>
+<p>The temporal-coherence phase model</p>
+<p>This is based on the work of Jenni Rinker:
+<a class="reference external" href="http://dx.doi.org/10.1007/s10546-015-0121-x">http://dx.doi.org/10.1007/s10546-015-0121-x</a></p>
+<dl class="method">
+<dt id="pyts.phaseModels.main.Rinker.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/phaseModels/main.html#Rinker.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.phaseModels.main.Rinker.__call__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyts.phaseModels.main.Rinker.sample_delta_phis">
+<code class="descname">sample_delta_phis</code><span class="sig-paren">(</span><em>shape</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/phaseModels/main.html#Rinker.sample_delta_phis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.phaseModels.main.Rinker.sample_delta_phis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyts.phaseModels.main.Uniform">
+<em class="property">class </em><code class="descclassname">pyts.phaseModels.main.</code><code class="descname">Uniform</code><a class="reference internal" href="../_modules/pyts/phaseModels/main.html#Uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.phaseModels.main.Uniform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyts.phaseModels.base.phaseModelBase" title="pyts.phaseModels.base.phaseModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.phaseModels.base.phaseModelBase</span></code></a></p>
+<p>The uniform random phase model</p>
+<p>This phase-model randomizes the phases uniformly between 0 and
+2*pi. It has no ‘phase/temporal coherence’ (correlation as a
+function of frequency).</p>
 <p>Because it is so simple, it has no initialization parameters.</p>
 <dl class="method">
-<dt id="pyts.phaseModels.main.randPhase.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/phaseModels/main.html#randPhase.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.phaseModels.main.randPhase.__call__" title="Permalink to this definition">¶</a></dt>
+<dt id="pyts.phaseModels.main.Uniform.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/phaseModels/main.html#Uniform.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.phaseModels.main.Uniform.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and calculate the phases for the <cite>tsrun</cite> instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

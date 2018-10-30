@@ -135,17 +135,13 @@
         <span class="n">two</span> <span class="o">=</span> <span class="n">ts_float</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">zm</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">ii</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">jj</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="o">/</span> <span class="n">two</span>
         <span class="n">um</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span> <span class="o">/</span> <span class="n">two</span>
-        <span class="c1">#print zm</span>
-        <span class="c1">#print self.grid.z[1],self.grid.y[1],r,um,(r/zm)**self.CohExp,self.grid.f[9]</span>
-        <span class="c1">#print &#39;junk&#39;,self.a[comp],self.b[comp]</span>
-        <span class="c1">#print -self.a[0]*r*np.sqrt((self.grid.f[9]/um)**2+(self.b[comp])**2)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">/</span> <span class="n">zm</span><span class="p">)</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">CohExp</span> <span class="o">*</span>
                       <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">f</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="n">um</span><span class="p">)</span> <span class="o">**</span> <span class="n">two</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="n">two</span><span class="p">))</span></div></div>
 
 
 <div class="viewcode-block" id="nwtc"><a class="viewcode-back" href="../../../api/pyts.cohereModels.html#pyts.cohereModels.main.nwtc">[docs]</a><span class="k">class</span> <span class="nc">nwtc</span><span class="p">(</span><span class="n">cohereModelBase</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;NWTC coherence model.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;NWTC coherence model.</span>
 
 <span class="sd">    This is also known as the &#39;non-IEC&#39; coherence model.</span>
 
@@ -167,7 +163,7 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">       Coh_k=exp(-a_k (r/z_m)^CohExp ((f r / u_m)^2 + (b_k r)^2)  k=u,v,w</span>
+<span class="sd">       Coh_k = exp \left (-a_k ( r/z_m)^{CohExp} ((f r / u_m)^2 + (b_k r)^2 \right ) \quad  k=u, v, w</span>
 
 <span class="sd">    Where,</span>
 
@@ -222,9 +218,9 @@
 <span class="s2">        Coherence model used                             =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
 <span class="s2">        Coherence Exponent                               =  </span><span class="si">{dat.CohExp:0.2f}</span><span class="s2"></span>
 <span class="s2">        Coherence decrements (IncDec):</span>
-<span class="s2">           U (a, b)                                      =  (</span><span class="si">{coh.a[0]:0.2f}</span><span class="s2">, </span><span class="si">{coh.b[0]:0.2f}</span><span class="s2">)</span>
-<span class="s2">           V (a, b)                                      =  (</span><span class="si">{coh.a[1]:0.2f}</span><span class="s2">, </span><span class="si">{coh.b[1]:0.2f}</span><span class="s2">)</span>
-<span class="s2">           W (a, b)                                      =  (</span><span class="si">{coh.a[2]:0.2f}</span><span class="s2">, </span><span class="si">{coh.b[2]:0.2f}</span><span class="s2">)</span>
+<span class="s2">           U (a, b)                                      =  (</span><span class="si">{coh.a[0]:0.2f}</span><span class="s2">, </span><span class="si">{coh.b[0]:0.2f}</span><span class="s2">)  # noqa</span>
+<span class="s2">           V (a, b)                                      =  (</span><span class="si">{coh.a[1]:0.2f}</span><span class="s2">, </span><span class="si">{coh.b[1]:0.2f}</span><span class="s2">)  # noqa</span>
+<span class="s2">           W (a, b)                                      =  (</span><span class="si">{coh.a[2]:0.2f}</span><span class="s2">, </span><span class="si">{coh.b[2]:0.2f}</span><span class="s2">)  # noqa</span>
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">coh</span><span class="o">=</span><span class="n">tsrun</span><span class="o">.</span><span class="n">cohere</span><span class="p">,</span> <span class="p">)</span>
 
@@ -282,8 +278,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">comp</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">f</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-                                            <span class="o">+</span> <span class="p">(</span><span class="mf">0.12</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">f</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span>
+                                            <span class="p">(</span><span class="mf">0.12</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span></div>
 

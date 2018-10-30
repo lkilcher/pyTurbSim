@@ -44,20 +44,23 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The main random phase models.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">phaseModelBase</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">ts_complex</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">phaseModelBase</span><span class="p">,</span> <span class="n">phaseObj</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="randPhase"><a class="viewcode-back" href="../../../api/pyts.phaseModels.html#pyts.main.randPhase">[docs]</a><span class="k">class</span> <span class="nc">randPhase</span><span class="p">(</span><span class="n">phaseModelBase</span><span class="p">):</span>
+<div class="viewcode-block" id="Uniform"><a class="viewcode-back" href="../../../api/pyts.phaseModels.html#pyts.phaseModels.main.Uniform">[docs]</a><span class="k">class</span> <span class="nc">Uniform</span><span class="p">(</span><span class="n">phaseModelBase</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This phase-model randomizes the phases uniformly and without any</span>
-<span class="sd">    &#39;phase coherence&#39; (correlation as a function of frequency).</span>
+    <span class="sd">&quot;&quot;&quot;The uniform random phase model</span>
+
+<span class="sd">    This phase-model randomizes the phases uniformly between 0 and</span>
+<span class="sd">    2*pi. It has no &#39;phase/temporal coherence&#39; (correlation as a</span>
+<span class="sd">    function of frequency).</span>
 
 <span class="sd">    Because it is so simple, it has no initialization parameters.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="randPhase.__call__"><a class="viewcode-back" href="../../../api/pyts.phaseModels.html#pyts.main.randPhase.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+<div class="viewcode-block" id="Uniform.__call__"><a class="viewcode-back" href="../../../api/pyts.phaseModels.html#pyts.phaseModels.main.Uniform.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create and calculate the phases for the `tsrun` instance.</span>
 
@@ -72,13 +75,70 @@
 <span class="sd">                        An array of random phases.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">phases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">),</span>
-                          <span class="n">dtype</span><span class="o">=</span><span class="n">ts_complex</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="s2">&quot;building Uniform phases&quot;</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="n">phaseObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
         <span class="n">phases</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span>
                            <span class="n">tsrun</span><span class="o">.</span><span class="n">randgen</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span>
                                               <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span>
                                               <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">phases</span></div></div>
+        <span class="k">return</span> <span class="n">phases</span></div>
+
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Phase model used                                 =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,)</span></div>
+
+
+<div class="viewcode-block" id="Rinker"><a class="viewcode-back" href="../../../api/pyts.phaseModels.html#pyts.phaseModels.main.Rinker">[docs]</a><span class="k">class</span> <span class="nc">Rinker</span><span class="p">(</span><span class="n">phaseModelBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The temporal-coherence phase model</span>
+
+<span class="sd">    This is based on the work of Jenni Rinker:</span>
+<span class="sd">    http://dx.doi.org/10.1007/s10546-015-0121-x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">rho</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">mu</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta_phi</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="nb">print</span> <span class="s2">&quot;initialized Rinker rho=</span><span class="si">%e</span><span class="s2">, mu=</span><span class="si">%e</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Rinker.sample_delta_phis"><a class="viewcode-back" href="../../../api/pyts.phaseModels.html#pyts.phaseModels.main.Rinker.sample_delta_phis">[docs]</a>    <span class="k">def</span> <span class="nf">sample_delta_phis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">delta_phis</span> <span class="o">=</span> <span class="p">((</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">A</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span>
+                      <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">((</span><span class="n">B</span> <span class="o">+</span> <span class="n">d</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">d</span> <span class="o">*</span> <span class="n">B</span><span class="p">))</span> <span class="o">+</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">delta_phis</span></div>
+
+<div class="viewcode-block" id="Rinker.__call__"><a class="viewcode-back" href="../../../api/pyts.phaseModels.html#pyts.phaseModels.main.Rinker.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="n">phaseObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+
+<span class="c1">#        print &quot;building Rinker model phases&quot;</span>
+        <span class="c1"># phases.array[:] = ...</span>
+        <span class="c1"># This is where we need to define phases.array (equivalently,</span>
+        <span class="c1"># phases[:]). Note that it is a n_comp=3, by n_p</span>
+        <span class="c1"># (number of z,y points) by n_f (num frequencies) array.</span>
+
+        <span class="n">delta_phi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_delta_phis</span><span class="p">((</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span>
+                                <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span>
+                                <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">))</span>
+<span class="c1">#        print &quot;shape &quot;, delta_phi.shape</span>
+        <span class="n">phases</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">delta_phi</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">phases</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span>  <span class="n">phases</span><span class="p">[:])</span>
+        <span class="n">phases</span><span class="o">.</span><span class="n">delta_phi</span> <span class="o">=</span> <span class="n">delta_phi</span>
+        <span class="c1"># Then return it...</span>
+        <span class="k">return</span> <span class="n">phases</span></div>
+
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Phase model used                                 =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
+<span class="s2">        rho                                              =  </span><span class="si">{dat.rho:0.4g}</span><span class="s2"></span>
+<span class="s2">        mu                                               =  </span><span class="si">{dat.mu:0.4g}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,)</span></div>
 </pre></div>
 
           </div>

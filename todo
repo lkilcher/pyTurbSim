@@ -1,2 +1,5 @@
+- movie to YouTube (integrate into website)
+- create movie-making tool
+- create conda
 - Remove dependence on superaxes.py (use gridspec instead?)
 - Use pytest to run tests.

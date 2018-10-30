@@ -254,7 +254,7 @@ class tsrun(object):
 
     @property
     def cohere(self):
-        """
+        r"""
         This is the 'coherence' input property.
 
         This property always returns a :class:`~.cohereModels.base.cohereObj`.
@@ -268,7 +268,7 @@ class tsrun(object):
         PyTurbSim without increasing.  See the cohereModels package
         documentation for further details.  Fortunately, at this
         level, coherence is specified identically to other
-        statistics...
+        statistics.
 
         This property can be defined with three types of objects:
 
@@ -284,7 +284,7 @@ class tsrun(object):
            model is modified or another model/object that the
            coherence model depends on is changed between runs).
 
-        2) define it with a cohereObj directly ::
+        2) define it with a cohereObj directly::
 
               ts_run.spec=a_coherence_model(ts_run)
 
@@ -316,9 +316,8 @@ class tsrun(object):
 
         See Also
         --------
+
         pyts.cohereModels.api : to see a list of available coherence models.
-        pyts.cohereModels.base.cohereUser : the 'user-defined' or
-        'array-input' coherence model.
 
         tsrun.prof
         tsrun.spec

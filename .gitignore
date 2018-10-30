@@ -1,3 +1,5 @@
+.ipynb_checkpoints/
+
 build/
 
 doc-build/
@@ -7,6 +9,8 @@ dep/
 dist/
 
 pub/
+
+tmp/
 
 *.egg-info/
 

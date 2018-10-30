@@ -182,6 +182,8 @@ models.</p>
 stress profile models.</p>
 <p>d) <a class="reference internal" href="pyts.cohereModels.html#module-pyts.cohereModels" title="pyts.cohereModels"><code class="xref py py-mod docutils literal"><span class="pre">cohereModels</span></code></a> (aliased here as ‘cm’), contains the spatial
 coherence models.</p>
+<p>e) <a class="reference internal" href="pyts.phaseModels.html#module-pyts.phaseModels" title="pyts.phaseModels"><code class="xref py py-mod docutils literal"><span class="pre">phaseModels</span></code></a>, contains the phase coherence (a.k.a.,
+temporal coherence) models.</p>
 </li>
 </ol>
 <p>4) The <code class="xref py py-mod docutils literal"><span class="pre">io</span></code> module, which supports reading and writing of TurbSim
@@ -225,7 +227,7 @@ input (.inp) and output files (e.g. .bl, .wnd, etc.)</p>
 <span class="n">turbsim_output</span> <span class="o">=</span> <span class="n">tsr</span><span class="p">()</span>
 
 <span class="c1"># We can save the output in &#39;bladed&#39; format,</span>
-<span class="n">turbsim_output</span><span class="o">.</span><span class="n">writeBladed</span><span class="p">(</span><span class="s1">&#39;ExampleOutput.bl&#39;</span><span class="p">)</span>
+<span class="n">turbsim_output</span><span class="o">.</span><span class="n">write_bladed</span><span class="p">(</span><span class="s1">&#39;ExampleOutput.bl&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -801,14 +803,16 @@ information for reproducing the simulation.</p>
 <dl class="method">
 <dt id="pyts.main.tsdata.write_formatted">
 <code class="descname">write_formatted</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/main.html#tsdata.write_formatted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.main.tsdata.write_formatted" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save the data in this tsdata object in ‘formatted’ format (.u, .v, .w files).</p>
+<dd><p>Save the data in this tsdata object in ‘formatted’ format (.u,
+.v, .w files).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : string</p>
 <blockquote class="last">
-<div><p>‘.u’, ‘.v’, and ‘.w’ will be appended to the end of the filename.</p>
+<div><p>‘.u’, ‘.v’, and ‘.w’ will be appended to the end of
+the filename.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -877,6 +881,7 @@ attributes to their desired values:</p>
 <li><a class="reference internal" href="#pyts.main.tsrun.spec" title="pyts.main.tsrun.spec"><code class="xref py py-attr docutils literal"><span class="pre">tsrun.spec</span></code></a>: The tke spectrum model, object or array.</li>
 <li><a class="reference internal" href="#pyts.main.tsrun.cohere" title="pyts.main.tsrun.cohere"><code class="xref py py-attr docutils literal"><span class="pre">tsrun.cohere</span></code></a>: The coherence model, object or array.</li>
 <li><a class="reference internal" href="#pyts.main.tsrun.stress" title="pyts.main.tsrun.stress"><code class="xref py py-attr docutils literal"><span class="pre">tsrun.stress</span></code></a>: The Reynold’s stress model, object or array.</li>
+<li><a class="reference internal" href="#pyts.main.tsrun.phase" title="pyts.main.tsrun.phase"><code class="xref py py-attr docutils literal"><span class="pre">tsrun.phase</span></code></a>: The random phase model, object or array.</li>
 </ul>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -902,7 +907,7 @@ needed.  This dramatically reduces the memory requirements of
 PyTurbSim without increasing.  See the cohereModels package
 documentation for further details.  Fortunately, at this
 level, coherence is specified identically to other
-statistics…</p>
+statistics.</p>
 <p>This property can be defined with three types of objects:</p>
 <ol class="arabic">
 <li><p class="first">define it with a ‘coherence model’ (recommended):</p>
@@ -917,7 +922,7 @@ phase information (i.e. in the case that the coherence
 model is modified or another model/object that the
 coherence model depends on is changed between runs).</p>
 </li>
-<li><p class="first">define it with a cohereObj directly</p>
+<li><p class="first">define it with a cohereObj directly:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">spec</span><span class="o">=</span><span class="n">a_coherence_model</span><span class="p">(</span><span class="n">ts_run</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -952,10 +957,8 @@ cohereUser coherence model for more information).</p>
 <dl class="docutils">
 <dt><a class="reference internal" href="pyts.cohereModels.html#module-pyts.cohereModels.api" title="pyts.cohereModels.api"><code class="xref py py-obj docutils literal"><span class="pre">pyts.cohereModels.api</span></code></a></dt>
 <dd>to see a list of available coherence models.</dd>
-<dt><a class="reference internal" href="pyts.cohereModels.html#pyts.cohereModels.base.cohereUser" title="pyts.cohereModels.base.cohereUser"><code class="xref py py-obj docutils literal"><span class="pre">pyts.cohereModels.base.cohereUser</span></code></a></dt>
-<dd>the ‘user-defined’ or ‘array-input’ coherence model.</dd>
 </dl>
-<p class="last"><a class="reference internal" href="#pyts.main.tsrun.prof" title="pyts.main.tsrun.prof"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.prof</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.spec" title="pyts.main.tsrun.spec"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.spec</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.stress" title="pyts.main.tsrun.stress"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.stress</span></code></a></p>
+<p class="last"><a class="reference internal" href="#pyts.main.tsrun.prof" title="pyts.main.tsrun.prof"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.prof</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.spec" title="pyts.main.tsrun.spec"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.spec</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.stress" title="pyts.main.tsrun.stress"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.stress</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.phase" title="pyts.main.tsrun.phase"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.phase</span></code></a></p>
 </div>
 </dd></dl>
 
@@ -967,8 +970,54 @@ cohereUser coherence model for more information).</p>
 
 <dl class="attribute">
 <dt id="pyts.main.tsrun.phase">
-<code class="descname">phase</code><em class="property"> = &lt;pyts.phaseModels.main.randPhase object&gt;</em><a class="headerlink" href="#pyts.main.tsrun.phase" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">phase</code><a class="headerlink" href="#pyts.main.tsrun.phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the ‘random phase’ input property.</p>
+<p>This property returns a ‘phaseObj’.</p>
+<p>This property can be defined with three types of objects:</p>
+<ol class="arabic">
+<li><p class="first">define it with a ‘phase model’ (recommended):</p>
+<blockquote>
+<div><p>ts_run.phase=a_phase_model</p>
+</div></blockquote>
+<p>In this case the model is set to my_ts_run.phaseModel, and
+this model is called to produce a phaseObj AS NEEDED.  At
+the end of the ts_run call that phaseObj is cleared so
+that subsequent runs do not use a fixed phaseObj (i.e. in
+the case that the model is modified or another
+model/object that the phase model depends on is
+changed between runs).</p>
+</li>
+<li><p class="first">define it with a phaseObj directly (phase
+statistic-object):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">phase</span><span class="o">=</span><span class="n">a_phase_model</span><span class="p">(</span><span class="n">ts_run</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case the phaseObj is FIXED. That is, all
+subsequent PyTurbSim runs will utilize this phase,
+which is based on the state of the a_phase_model and
+ts_run at the time of the phaseObj creation.</p>
+</li>
+<li><p class="first">define it with an array directly:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">phase</span><span class="o">=</span><span class="n">a_numpy_array</span>   <span class="p">[</span><span class="n">units</span><span class="p">:</span> <span class="n">m</span><span class="o">/</span><span class="n">s</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In this case the phaseObj is again fixed and defined by
+the input array.  The numpy array dimensions must match
+those of the gridObj.  That is, the dimensions of the
+array should be (3 x grid.n_z x grid.n_y).  The first
+dimension is for each component of the phase (u,v,w),
+the next two are for each point (z,y) in the grid.</p>
+</li>
+</ol>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="pyts.phaseModels.html#module-pyts.phaseModels.api" title="pyts.phaseModels.api"><code class="xref py py-obj docutils literal"><span class="pre">pyts.phaseModels.api</span></code></a></dt>
+<dd>to see available phase models.</dd>
+</dl>
+<p class="last"><a class="reference internal" href="#pyts.main.tsrun.prof" title="pyts.main.tsrun.prof"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.prof</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.spec" title="pyts.main.tsrun.spec"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.spec</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.cohere" title="pyts.main.tsrun.cohere"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.cohere</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.stress" title="pyts.main.tsrun.stress"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.stress</span></code></a></p>
+</div>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="pyts.main.tsrun.prof">
@@ -1017,7 +1066,7 @@ the next two are for each point (z,y) in the grid.</p>
 <dt><a class="reference internal" href="pyts.profModels.html#module-pyts.profModels.api" title="pyts.profModels.api"><code class="xref py py-obj docutils literal"><span class="pre">pyts.profModels.api</span></code></a></dt>
 <dd>to see available profile models.</dd>
 </dl>
-<p class="last"><a class="reference internal" href="#pyts.main.tsrun.spec" title="pyts.main.tsrun.spec"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.spec</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.cohere" title="pyts.main.tsrun.cohere"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.cohere</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.stress" title="pyts.main.tsrun.stress"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.stress</span></code></a></p>
+<p class="last"><a class="reference internal" href="#pyts.main.tsrun.spec" title="pyts.main.tsrun.spec"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.spec</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.cohere" title="pyts.main.tsrun.cohere"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.cohere</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.stress" title="pyts.main.tsrun.stress"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.stress</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.phase" title="pyts.main.tsrun.phase"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.phase</span></code></a></p>
 </div>
 </dd></dl>
 
@@ -1039,6 +1088,7 @@ attributes to their desired values:</p>
 <li><a class="reference internal" href="#pyts.main.tsrun.spec" title="pyts.main.tsrun.spec"><code class="xref py py-attr docutils literal"><span class="pre">tsrun.spec</span></code></a>: The tke spectrum model, object or array.</li>
 <li><a class="reference internal" href="#pyts.main.tsrun.cohere" title="pyts.main.tsrun.cohere"><code class="xref py py-attr docutils literal"><span class="pre">tsrun.cohere</span></code></a>: The coherence model, object or array.</li>
 <li><a class="reference internal" href="#pyts.main.tsrun.stress" title="pyts.main.tsrun.stress"><code class="xref py py-attr docutils literal"><span class="pre">tsrun.stress</span></code></a>: The Reynold’s stress model, object or array.</li>
+<li><a class="reference internal" href="#pyts.main.tsrun.phase" title="pyts.main.tsrun.phase"><code class="xref py py-attr docutils literal"><span class="pre">tsrun.phase</span></code></a>: The random phase model, object or array.</li>
 </ul>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1097,7 +1147,7 @@ of the spectrum.</p>
 <dt><a class="reference internal" href="pyts.specModels.html#module-pyts.specModels.api" title="pyts.specModels.api"><code class="xref py py-obj docutils literal"><span class="pre">pyts.specModels.api</span></code></a></dt>
 <dd>to see available spectral models.</dd>
 </dl>
-<p class="last"><a class="reference internal" href="#pyts.main.tsrun.prof" title="pyts.main.tsrun.prof"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.prof</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.cohere" title="pyts.main.tsrun.cohere"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.cohere</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.stress" title="pyts.main.tsrun.stress"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.stress</span></code></a></p>
+<p class="last"><a class="reference internal" href="#pyts.main.tsrun.prof" title="pyts.main.tsrun.prof"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.prof</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.cohere" title="pyts.main.tsrun.cohere"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.cohere</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.stress" title="pyts.main.tsrun.stress"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.stress</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.phase" title="pyts.main.tsrun.phase"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.phase</span></code></a></p>
 </div>
 </dd></dl>
 
@@ -1147,7 +1197,7 @@ grid.</p>
 <dt><a class="reference internal" href="pyts.stressModels.html#module-pyts.stressModels.api" title="pyts.stressModels.api"><code class="xref py py-obj docutils literal"><span class="pre">pyts.stressModels.api</span></code></a></dt>
 <dd>To see available stress models.</dd>
 </dl>
-<p class="last"><a class="reference internal" href="#pyts.main.tsrun.prof" title="pyts.main.tsrun.prof"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.prof</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.spec" title="pyts.main.tsrun.spec"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.spec</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.cohere" title="pyts.main.tsrun.cohere"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.cohere</span></code></a></p>
+<p class="last"><a class="reference internal" href="#pyts.main.tsrun.prof" title="pyts.main.tsrun.prof"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.prof</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.spec" title="pyts.main.tsrun.spec"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.spec</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.cohere" title="pyts.main.tsrun.cohere"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.cohere</span></code></a>, <a class="reference internal" href="#pyts.main.tsrun.phase" title="pyts.main.tsrun.phase"><code class="xref py py-obj docutils literal"><span class="pre">tsrun.phase</span></code></a></p>
 </div>
 </dd></dl>
 
