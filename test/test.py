@@ -1,7 +1,7 @@
 from TurbGen import api as tg
 from TurbGen.plot import api as pt
 import TurbGen.io.write as write
-reload(write)
+#reload(write)
 
 
 ustar = .8
