@@ -5,15 +5,15 @@ object-oriented interface to the TurbGen program.
 
 The four components of this API are:
 
-1) The :class:`<~main.TGrun>` class, which is the
+1) The :py:class:`~TurbGen.main.TGrun` class, which is the
 controller/run object for TurbGen simulations.
 
-2) The :func:`<~.base.RectGrid>` function, which is used to
+2) The :func:`~.RectGrid` function, which is used to
 define the TurbGen grid.
 
 3) The 'model' classes, which include:
 
-   a) :mod:`profModels <TurbGen.profModels>` (aliased here as 'pm'), contains the mean velocity
+   a) :mod:`~TurbGen.profModels` (aliased here as 'pm'), contains the mean velocity
    profile models.
 
    b) :mod:`.specModels` (aliased here as 'sm'), contains the TKE spectral

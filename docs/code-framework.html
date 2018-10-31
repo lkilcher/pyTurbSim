@@ -45,10 +45,10 @@ code and its use.  The primary components of this framework are:</p>
 <li><a class="reference internal" href="api/TurbGen.html#module-TurbGen.main" title="TurbGen.main"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.main</span></code></a>, which contains the high-level classes and
 functions that control the flow of TurbGen simulations.  Most
 importantly, this module defines:<ul>
-<li><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.main.tsrun</span></code>, this is the primary ‘run’ class of
-PyTurbSim, which controls and directs.</li>
+<li><a class="reference internal" href="api/TurbGen.html#TurbGen.main.TGrun" title="TurbGen.main.TGrun"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.main.TGrun</span></code></a>, this is the primary ‘run’ class of
+TurbGen, which controls and directs.</li>
 <li><a class="reference internal" href="api/TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.main.tsdata</span></code></a>, this is the TurbGen output-data
-class returned by <code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.main.tsrun</span></code> after execution.</li>
+class returned by <a class="reference internal" href="api/TurbGen.html#TurbGen.main.TGrun" title="TurbGen.main.TGrun"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.main.TGrun</span></code></a> after execution.</li>
 </ul>
 </li>
 <li><a class="reference internal" href="api/TurbGen.html#module-TurbGen.base" title="TurbGen.base"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.base</span></code></a>, which contains abstract base classes for other
@@ -93,13 +93,13 @@ library, consult the <a class="reference internal" href="install.html"><span cla
 </ol>
 <div class="section" id="models-vs-run-specific-statistics">
 <span id="model-info"></span><h2>Models vs. run-specific ‘statistics’<a class="headerlink" href="#models-vs-run-specific-statistics" title="Permalink to this headline">¶</a></h2>
-<p>PyTurbSim makes a distinction between ‘models’ (PyTurbSim objects that
+<p>TurbGen makes a distinction between ‘models’ (TurbGen objects that
 partially define a statistic) and run-specific ‘stat-objects’ which are the output
 of these model objects (these are numpy array wrappers). Models are
-independent of the spatial grid and other models in a PyTurbSim
+independent of the spatial grid and other models in a TurbGen
 run. The statistics are the values of the statistic that will be
-reproduced in the PyTurbSim output.</p>
-<p>PyTurbSim is primarily designed to produce output that matches four
+reproduced in the TurbGen output.</p>
+<p>TurbGen is primarily designed to produce output that matches four
 statistics for each component of velocity (u,v,w):</p>
 <ol class="arabic simple">
 <li>The mean velocity profile (prof),</li>
@@ -107,7 +107,7 @@ statistics for each component of velocity (u,v,w):</p>
 <li>The spatial coherence (cohere), and</li>
 <li>The Reynold’s stresses (stress).</li>
 </ol>
-<p>Within PyTurbSim each of these statistics may be defined in two
+<p>Within TurbGen each of these statistics may be defined in two
 distinct ways. They may be defined using ‘models’ or using
 ‘stat-objects’ (essentially array wrappers). Models define a statistic
 in terms of input parameters to a model and other variables of other
@@ -129,14 +129,14 @@ depend on ‘parameters’ of that model.)</p>
 <div class="section" id="stat-objects-arrays">
 <h3>Stat-objects/arrays<a class="headerlink" href="#stat-objects-arrays" title="Permalink to this headline">¶</a></h3>
 <p>Stat-objects, on the other hand, contain the values of the statistic
-(an array) that will be reproduced in the PyTurbSim output. However,
+(an array) that will be reproduced in the TurbGen output. However,
 because stat-objects are essentially wrappers for an array of the
 values of the statistic, they do not have the flexibility to depend on
 the values of other statistics.</p>
 </div>
 </div>
-<div class="section" id="customizing-pyturbsim">
-<h2>Customizing PyTurbSim<a class="headerlink" href="#customizing-pyturbsim" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="customizing-turbgen">
+<h2>Customizing TurbGen<a class="headerlink" href="#customizing-turbgen" title="Permalink to this headline">¶</a></h2>
 <p>Need to add some examples here…</p>
 </div>
 </div>
@@ -169,7 +169,7 @@ the values of other statistics.</p>
 <li class="toctree-l3"><a class="reference internal" href="#stat-objects-arrays">Stat-objects/arrays</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#customizing-pyturbsim">Customizing PyTurbSim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#customizing-turbgen">Customizing TurbGen</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/TurbGen.html">TurbGen package</a></li>
