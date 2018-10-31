@@ -9,7 +9,7 @@ import os
 tsread = TurbGen.tsio
 
 ###################################################
-# A script for creating movies of TurbSim output.
+# A script for creating movies of TurbGen/TurbSim output.
 # The script has 3 steps:
 #   1) Load the data,
 #   2) Use matplotlib to create a sequence of images,
@@ -30,7 +30,7 @@ if 'tsdat' not in vars():
     try:
         tsdat = tsread.readModel('./%s.inp' % dat_file_name)
     except IOError:
-        print 'Warning: running TurbSim to create data.  It may save time to create the TurbSim output separately (run `TurbGen.run(%s.inp)`), and then run this movie script.' % dat_file_name
+        print 'Warning: running TurbGen to create data.  It may save time to create the TurbGen output separately (run `TurbGen.run(%s.inp)`), and then run this movie script.' % dat_file_name
         tsdat = TurbGen.run_out('./%s.inp' % dat_file_name)
 
 

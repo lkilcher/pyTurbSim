@@ -1,3 +1,3 @@
 """
-This package defines the methods used to generate 'random phases' in PyTurbSim.
+This package defines the methods used to generate 'random phases' in TurbGen.
 """

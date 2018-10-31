@@ -1,44 +1,12 @@
-.ipynb_checkpoints/
-
 build/
 
 doc-build/
 
-dep/
-
 dist/
-
-pub/
-
-tmp/
 
 *.egg-info/
 
-TurbGen/tslib.so.dSYM/
-
-doc/source/api/
-
-TurbGen/plot/movie/tmp/*
-
-doc/output.txt
-
-doc/source/.DS_Store
-
 TurbGen/tslib.so
-
-test/*.wnd
-
-test/*/*.wnd
-
-test/*.sum
-
-test/*/*.sum
-
-test/*/*.bts
-
-*.old
-
-*.orig
 
 *.pyc
 

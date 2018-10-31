@@ -3,7 +3,7 @@ The base module for the runInput package. This module defines the
 TurbSim input class (tsinput). The tsinput class is a dictionary for
 storing data from a TurbSim input file. The class contains several
 methods that specify default values for several input variables. Those
-defaults documented in the Original-TurbSim documentation:
+defaults documented in the TurbSim documentation:
 https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf
 
 """
@@ -27,7 +27,7 @@ class tsinput(dict):
     specific, defaults are defined in the model itself.
 
     For further information on the 'defaults' defined here, consult
-    the O-TurbSim documentation:
+    the TurbSim documentation:
     https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf
 
     """

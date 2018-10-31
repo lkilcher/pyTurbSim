@@ -1,12 +1,12 @@
 """
-This is the PyTurbSim python advanced programming interface
+This is the TurbGen python advanced programming interface
 (API). This module provides a fully-customizable high-level
-object-oriented interface to the PyTurbSim program.
+object-oriented interface to the TurbGen program.
 
 The four components of this API are:
 
 1) The :class:`tsrun <TurbGen.main.tsrun>` class, which is the
-controller/run object for PyTurbSim simulations.
+controller/run object for TurbGen simulations.
 
 2) The :class:`tsGrid <TurbGen.base.tsGrid>` class, which is used to
 define the TurbSim grid.

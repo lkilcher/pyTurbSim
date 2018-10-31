@@ -1,5 +1,5 @@
 """
-This is the PyTurbSim package. For more information visit the `PyTurbSim home page <http://lkilcher.github.io/pyTurbSim/>`_.
+This is the TurbGen package. For more information visit the `TurbGen home page <http://lkilcher.github.io/TurbGen/>`_.
 
 """
 #from api import *

@@ -1,5 +1,5 @@
 """
-This module contains PyTurbSim version information.
+This module contains TurbGen version information.
 """
 __prog_name__ = 'TurbGen'
 __version__ = '0.5'

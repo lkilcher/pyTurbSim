@@ -42,7 +42,7 @@ class uniform(stressModelBase):
         Parameters
         ----------
         tsrun :         :class:`.tsrun`
-                        A TurbSim run object.
+                        A TurbGen run object.
 
         Returns
         -------

@@ -1,5 +1,5 @@
 """
-PyTurbSim 'Reynold's stress models' package.
+TurbGen 'Reynold's stress models' package.
 
 The Reynold's stress quantifies correlations betweens turbulent
 velocity components. It has three components: <u'v'>, <u'w'> and

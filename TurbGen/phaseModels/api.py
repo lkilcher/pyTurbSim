@@ -1,5 +1,5 @@
 """
-PyTurbSim turbulence 'phase models' API.
+TurbGen turbulence 'phase models' API.
 
 Available phase models
 ----------------------

@@ -10,13 +10,13 @@ class specObj(gridProps, calcObj):
 
     """
     Spectral objects contain the array (self.array) of turbulence
-    spectra values for a specific PyTurbSim run. This class defines
+    spectra values for a specific TurbGen run. This class defines
     various shortcuts to the data.
 
     Parameters
     ----------
     tsrun : `tsrun` type
-        The PyTurbSim run object in which the spectra will be used.
+        The TurbGen run object in which the spectra will be used.
 
     """
 
@@ -80,7 +80,7 @@ class specObj(gridProps, calcObj):
 class specModelBase(modelBase):
 
     """
-    A base class for TurbSim spectral models.
+    A base class for TurbGen spectral models.
     """
     pow5_3 = ts_float(5. / 3.)
     pow2_3 = ts_float(2. / 3.)

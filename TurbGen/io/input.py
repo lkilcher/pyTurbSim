@@ -80,7 +80,7 @@ def read(fname):
     Returns
     -------
     tsinput  :   :class:`.tsinput`, dict
-                A PyTurbSim input dictionary.
+                An dictionary containing TurbSim input data.
 
     """
     # TurbSim input files are static:

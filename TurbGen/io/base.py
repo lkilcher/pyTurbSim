@@ -2,7 +2,7 @@
 A base module for the io package.
 """
 
-# This defines the 'endianness' for reading/writing binary files in PyTurbSim.
+# This defines the 'endianness' for reading/writing binary files.
 e = '<'
 from os.path import isfile
 

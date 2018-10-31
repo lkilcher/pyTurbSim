@@ -22,7 +22,7 @@ class main(powmain, logmain, ):
     Parameters
     ----------
     grid :      :class:`tsGrid <TurbGen.base.tsGrid>`
-                The TurbSim grid object for this simulation.
+                The TurbGen grid object for this simulation.
 
     URef :      float
                 Reference velocity for the wind profile [m/s].
@@ -78,7 +78,7 @@ class main(powmain, logmain, ):
         Parameters
         ----------
         tsrun :         :class:`.tsrun`
-                        A TurbSim run object.
+                        A TurbGen run object.
 
         Returns
         -------

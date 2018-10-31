@@ -18,7 +18,7 @@ def bladed(fname,):
     Returns
     -------
     data : :class:`tsdata <TurbGen.main.tsdata>`
-           The TurbSim data contained in the binary data file.
+           The turbulence data contained in the binary data file.
 
     """
     fname = checkname(fname, ['.wnd', '.bl'])
@@ -88,7 +88,7 @@ def turbsim(fname):
     Returns
     -------
     tsdata : :class:`tsdata <TurbGen.main.tsdata>`
-             The TurbSim data contained in the binary data file.
+             The turbulence data contained in the binary data file.
 
     """
     fname = checkname(fname, ['.bts'])

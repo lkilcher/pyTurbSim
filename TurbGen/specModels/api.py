@@ -1,5 +1,5 @@
 """
-PyTurbSim turbulence 'spectra models' API.
+TurbGen turbulence 'spectra models' API.
 
 Available spectral models
 -------------------------
@@ -50,7 +50,7 @@ Notes
 
 For a description of the difference between 'spectral models'
 (e.g. 'my_spec_model' in example above) and the spectral array they
-output (tsrun.spec), see the :doc:`../code-framework` section of the PyTurbSim
+output (tsrun.spec), see the :doc:`../code-framework` section of the TurbGen
 documentation.
 
 """

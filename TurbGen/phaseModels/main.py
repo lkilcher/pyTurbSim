@@ -24,7 +24,7 @@ class Uniform(phaseModelBase):
         Parameters
         ----------
         tsrun :         :class:`tsrun <TurbGen.main.tsrun>`
-                        A TurbSim run object.
+                        A TurbGen run object.
 
         Returns
         -------

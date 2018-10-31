@@ -21,7 +21,7 @@ class genNWTC(specModelBase):
         Parameters
         ----------
         tsrun :         :class:`.tsrun`
-                        A TurbSim run object.
+                        A TurbGen run object.
 
         Returns
         -------
@@ -31,7 +31,7 @@ class genNWTC(specModelBase):
         """
         out = specObj(tsrun)
         # !!!FIXTHIS: The following lines bind calculation to the
-        # !!!MODEL. This goes against the PyTurbSim philosophy of
+        # !!!MODEL. This goes against the TurbGen philosophy of
         # !!!keeping calculations separated from models.
         self.f = out.f
         self._work = np.zeros(out.n_f, dtype=ts_float)

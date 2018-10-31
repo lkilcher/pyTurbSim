@@ -9,7 +9,7 @@ and timesteps (np^2 x nf).
 
 Because of this, when creating new coherence 'models', the cohereModel
 and cohereObj must be defined. While it would be possible to merge
-these classes, they have been kept separate to maintain the PyTurbSim
+these classes, they have been kept separate to maintain the TurbGen
 'model' vs. 'object' framework.  That is: a 'model' defines the
 coherence independent of the grid, while the 'object' is specific to
 the grid.
@@ -33,14 +33,14 @@ class cohereObj(gridProps, calcObj):
     It is possible to compute the full array of coherence, by
     accessing this objects 'array' property.  This recursively calls
     the functions for computing the coherence and returns the
-    result. However, be warned that for PyTurbSim runs involving large
+    result. However, be warned that for TurbGen runs involving large
     numbers of grid-points and time-steps, this will utilize large
     amounts of memory.
 
     Parameters
     ----------
     tsrun : `tsrun` type
-        The PyTurbSim run object in which the coherence will be used.
+        The TurbGen run object in which the coherence will be used.
 
     """
 
@@ -50,11 +50,11 @@ class cohereObj(gridProps, calcObj):
         This property computes and returns the full coherence array.
 
         This array utilizes significant memory (3 x np x np x nf) and
-        should be avoided unless needed.  By default PyTurbSim
+        should be avoided unless needed.  By default TurbGen
         avoids holding the entire array in memory and instead computes
         small pieces of it as needed.
 
-        Avoid accessing this property on PyTurbSim runs involving many
+        Avoid accessing this property on TurbGen runs involving many
         grid-points or timesteps.
         """
         if not hasattr(self, '_array'):
@@ -185,7 +185,7 @@ class cohereUser(cohereObj):
     3) frequency.
 
     The ordering of the spatial points (dims 1,2) must match the
-    ordering of the TurbSim grid.  See the tsGrid classes
+    ordering of the TurbGen grid.  See the tsGrid classes
     'sub2ind', 'ind2sub', 'flatten' and 'reshape' methods for more
     details on this.
 
@@ -223,7 +223,7 @@ class cohereModelBase(modelBase, gridProps):
     cm = myCohereModel(inarg1,inarg2,...)
 
     A 'coherence model instance' is an instance of a specific
-    coherence model that is independent of a turbsim run (i.e. the
+    coherence model that is independent of a TurbGen run (i.e. the
     coherence model instance holds parameters that are specific the
     grid, mean profile model, or spectral model).
 
@@ -240,14 +240,14 @@ class cohereModelBase(modelBase, gridProps):
 
     def __call__(self, tsrun):
         """
-        Calculate the coherence matrix for TurbSim run `tsrun`
+        Calculate the coherence matrix for TurbGen run `tsrun`
         according to this coherence model. The grid, profile and
         spectrum (tsrun.grid, tsrun.prof, tsrun.spec) must already be
         defined for the tsrun.
 
         Parameters
         ----------
-        tsrun - A 'TurbSim run' object that contains the grid, prof and spec
+        tsrun - A 'TurbGen run' object that contains the grid, prof and spec
                 attributes.
 
         Returns

@@ -1,12 +1,12 @@
 """
-The 'main' module for the PyTurbSim runInput package defines the
+The 'main' module for the TurbGen runInput package defines the
 'run' and 'write' routines for performing a TurbSim run and
 writing-out data.
 
 Example usage
 -------------
 
-First import the PyTurbSim api and runInput package.
+First import the TurbGen api and runInput package.
 >>> import TurbGen.api as tg
 >>> import TurbGen.runInput as runInput
 
@@ -14,7 +14,7 @@ First create a tsinput object from an input file using the io.input.read functio
 
 >>> tsinput=tg.io.input.read('MyInputFile.inp')
 
-Now run PyTurbSim using the runInput 'run' function:
+Now run TurbGen using the runInput 'run' function:
 
 >>> tsdata=runInput.run(tsinput)
 
@@ -33,7 +33,7 @@ from profModels import getModel as pm_getModel
 
 def run_fname(fname):
     """
-    Perform a PyTurbSim run based on the input file `fname`.
+    Perform a TurbGen run based on the input file `fname`.
 
     Parameters
     ----------
@@ -43,24 +43,24 @@ def run_fname(fname):
     Returns
     -------
     tsdata :    :class:`tsdata <TurbGen.main.tsdata>`
-                A PyTurbSim data object.
+                A TurbGen data object.
     """
     inp = readInput(fname)
     return run(inp)
 
 
 def run(tsinput):
-    """Perform a PyTurbSim run based on the input object `tsinput`.
+    """Perform a TurbGen run based on the input object `tsinput`.
 
     Parameters
     ----------
     tsinput :  :class:`.tsinput`
-                A PyTurbSim input object.
+                A TurbGen input object.
 
     Returns
     -------
     tsdata :    :class:`.tsdata`
-                A PyTurbSim data object.
+                A TurbGen data object.
     """
     tsr = cfg2tsrun(tsinput)
 
@@ -74,9 +74,9 @@ def write(tsdat, tsinput, fname=None):
     Parameters
     ----------
     tsdat :     :class:`.tsdata`
-                The PyTurbSim data object to write out.
+                The TurbGen data object to write out.
     tsinput :  :class:`.tsinput`
-                A PyTurbSim input object.
+                A TurbGen input object.
     fname :     str, optional
                 The filename to writeout (default obtained from `tsinput`)
 
@@ -102,12 +102,12 @@ def cfg2grid(tsinput):
     Parameters
     ----------
     tsinput :  :class:`tscfg <.base.tscfg>`
-                A PyTurbSim input object.
+                A TurbGen input object.
 
     Returns
     -------
     tsgrid :    :class:`tsGrid <TurbGen.base.tsGrid>`
-                A PyTurbSim grid object.
+                A TurbGen grid object.
 
     """
     return tsGrid(tsinput['HubHt'],

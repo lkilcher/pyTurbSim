@@ -9,10 +9,10 @@ refht = 10.
 ustar = 0.03
 Uref = 3.
 
-# First we initialize a TurbGen 'run' object:
+# Initialize a TurbGen run object:
 tgr = tg.tgrun()
 
-# Next we give this run object a grid:
+# And give the run object a grid:
 tgr.grid = tg.tsGrid(
     center=refht, ny=5, nz=5, height=5, width=9, time_sec=1000, dt=0.5)
 

@@ -6,7 +6,7 @@ import numpy as np
 
 
 class axesForm(object):
-    """A base 'axesForm' class for for quickly plotting TurbSim data.
+    """A base 'axesForm' class for for quickly plotting TurbGen data.
 
     Parameters
     ----------
@@ -424,7 +424,7 @@ class FigAxForm(supax.sfig):
         Parameters
         ----------
         obj : tsdata, tsrun, turbdata
-              A data or turbsim object to plot.
+              A data or run object to plot.
         """
         for idx, axt in enumerate(self.axforms):
             axt.plot(obj, self.sax[:, idx], **kwargs)

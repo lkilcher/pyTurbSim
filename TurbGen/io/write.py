@@ -1,5 +1,5 @@
 """
-This module is for writing PyTurbSim data objects to various formats.
+This module is for writing data to various formats.
 
 The functions in this module were translated directly from the
 original TSsubs.f90 file.
@@ -18,14 +18,14 @@ except ImportError:
 
 
 def bladed(fname, tsdat):
-    """Write TurbSim output to a Bladed-format (.wnd) binary file.
+    """Write tsdat to a Bladed-format (.wnd) binary file.
 
     Parameters
     ----------
     fname : str
             The filename to which the data should be written.
     tsdat : :class:`tsdata <TurbGen.main.tsdata>`
-            A TurbSim data object.
+            A TurbGen data object.
 
     Notes
     -----

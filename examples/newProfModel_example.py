@@ -6,7 +6,7 @@ this folder's __init__.py script.
 
 This profile model can then be specified by writing
 'newModel_example.aNewModel' on the 'WindProfileType' line of the
-TurbSim input (config) file.
+TurbSim input ('config') file.
 
 You can also create a shortcut to this model by adding:
 'mymodel':newModel_example.aNewModel, to the model_alias dictionary in

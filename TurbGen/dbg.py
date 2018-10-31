@@ -1,6 +1,6 @@
 """
-This is the PyTurbSim debug package. It contains debugging tools
-specifically valuable to PyTurbSim.
+This is the TurbGen debug package. It contains debugging tools
+specifically valuable to TurbGen.
 """
 
 import time

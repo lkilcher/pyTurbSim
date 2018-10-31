@@ -2,7 +2,7 @@
 This module contains the IEC turbulence models.
 
 See the
-`Original-TurbSim user manual
+`TurbSim user manual
 <http://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf>`_
 for more info on IEC spectral models.
 
@@ -44,7 +44,7 @@ class iecbase(specModelBase):
     -----
 
     For further details on the IEC spectral models see the
-    `Original-TurbSim user manual
+    `TurbSim user manual
     <http://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf>`_.
     """
 
@@ -238,10 +238,10 @@ class iecbase(specModelBase):
                         raise InvalidConfig("Invalid 'IEC_WindType' specified in the input file.")
             elif iecver == 2:  # Small wind.
                 raise InvalidConfig("The 'small wind' spectral model (IEC version 2) is not "
-                                    "implemented in PyTurbSim")
+                                    "implemented in TurbGen")
             elif iecver == 3:  # Offshore wind.
                 raise InvalidConfig("The offshore wind IEC spectral model (IEC version 3) is "
-                                    "not implemented in PyTurbSim")
+                                    "not implemented in TurbGen")
         else:  # The IECturbc is numeric.
             if wndtp != 'ntm':
                 raise InvalidConfig("If the 'IECturbc' input option is a number (specifying "
@@ -282,7 +282,7 @@ class IECKai(iecbase):
         Parameters
         ----------
         tsrun :         :class:`.tsrun`
-                        A TurbSim run object.
+                        A TurbGen run object.
 
         Returns
         -------
@@ -336,7 +336,7 @@ class IECVKm(iecbase):
         Parameters
         ----------
         tsrun :         :class:`.tsrun`
-                        A TurbSim run object.
+                        A TurbGen run object.
 
         Returns
         -------

@@ -1,6 +1,6 @@
 """
 This module contains functions for producing the appropriate profile
-model for a specific TurbSim input object (derived from an input
+model for a specific TurbGen input object (derived from an input
 file).
 
 When a new model is added to the profModels package, it will need a
@@ -18,7 +18,7 @@ def getModel(tsinput):
     Parameters
     ----------
     tsinput :  :class:`.tsinput`
-                A TurbSim input object.
+                A TurbGen input object.
 
     Returns
     -------
@@ -40,7 +40,7 @@ def _h2l(tsinput):
     Parameters
     ----------
     tsinput :  :class:`.tsinput`
-                A TurbSim input object (with WindProfileType 'h2l').
+                A TurbGen input object (with WindProfileType 'h2l').
 
     Returns
     -------
@@ -61,7 +61,7 @@ def _log(tsinput):
     Parameters
     ----------
     tsinput :  :class:`.tsinput`
-                A TurbSim input object (with WindProfileType 'log').
+                A TurbGen input object (with WindProfileType 'log').
 
     Returns
     -------
@@ -84,7 +84,7 @@ def _pl(tsinput):
     Parameters
     ----------
     tsinput :  :class:`.tsinput`
-                A TurbSim input object (with WindProfileType 'pl').
+                A TurbGen input object (with WindProfileType 'pl').
 
     Returns
     -------
@@ -105,7 +105,7 @@ def _iec(tsinput):
     Parameters
     ----------
     tsinput :  :class:`.tsinput`
-                A TurbSim input object (with WindProfileType 'IEC').
+                A TurbGen input object (with WindProfileType 'IEC').
 
     Returns
     -------

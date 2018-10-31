@@ -1,7 +1,7 @@
 r"""
-A central purpose of TurbSim is to produce time-series of velocity
+A central purpose of TurbGen is to produce time-series of velocity
 that are correlated spatially and in a way that is consistent with
-observations.  In particular, TurbSim produces time-series with
+observations.  In particular, TurbGen produces time-series with
 specific frequency-dependent correlations between all pairs of points;
 this is the 'coherence'.
 

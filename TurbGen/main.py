@@ -1,11 +1,11 @@
 """
-This module brings together the main components of the TurbSim program
+This module brings together the main components of the TurbGen program
 and defines the primary high-level objects that users of the Python
 interface will utilize.
 
 This module, however, contains more functions and objects than the
 typical user will want access to. For a more compact version of the
-PyTurbSim interface import the ./api.py package.
+TurbGen interface import the ./api.py package.
 
 """
 from .base import ts_complex, gridProps, dbg, np, statObj
@@ -29,7 +29,7 @@ from .phaseModels.api import default as default_phaseModel
 
 
 # !!!VERSION_INCONSISTENCY
-# inconsistency between this and older versions of TurbSim
+# inconsistency between TurbGen and TurbSim
 # !!!CHECKTHIS
 # means I need to ensure that something is right.
 # !!!FIXTHIS
@@ -64,11 +64,11 @@ from .phaseModels.api import default as default_phaseModel
 
 class tsrun(object):
     """
-    This is the PyTurbSim 'run' class. This class provides the
-    interface for controlling PyTurbSim simulations and output.
+    This is the TurbGen 'run' class. This class provides the
+    interface for controlling TurbGen simulations and output.
 
-    Examples of how to use this class, and the PyTurbSim interface in
-    general can be found in the PyTurbSim /examples directory.
+    Examples of how to use this class, and the TurbGen interface in
+    general can be found in the TurbGen /examples directory.
 
     Parameters
     ----------
@@ -76,12 +76,12 @@ class tsrun(object):
     RandSeed : int,optional ('random value')
                Initialize the run-object with a RandSeed.
     ncore : int,optional (1)
-            Number of cores (processors) to use for the pyTurbSim run
+            Number of cores (processors) to use for the TurbGen run
 
     """
     def __init__(self, RandSeed=None, ncore=1):
         """
-        PyTurbSim 'run' objects can be initialized with a specific
+        TurbGen 'run' objects can be initialized with a specific
         random seed, `RandSeed`, and number of cores, `ncore`.
         """
         # Initialize the random number generator before doing anything else.
@@ -89,7 +89,7 @@ class tsrun(object):
             self.RandSeed = random.randint(-2147483647, 2147483647)
         else:
             self.RandSeed = RandSeed
-        # Seeds for numpy must be positive, but original-TurbSim had
+        # Seeds for numpy must be positive, but TurbSim had
         # negative seeds.  In order to attempt to be consistent, we
         # use the values in the files but make them positive for the
         # numpy random generator.
@@ -126,7 +126,7 @@ class tsrun(object):
               ts_run.prof=a_prof_model(ts_run)
 
            In this case the profObj is FIXED. That is, all
-           subsequent PyTurbSim runs will utilize this profile,
+           subsequent TurbGen runs will utilize this profile,
            which is based on the state of the a_prof_model and
            ts_run at the time of the profObj creation.
 
@@ -201,7 +201,7 @@ class tsrun(object):
               ts_run.spec=a_spec_model(ts_run)
 
            In this case the specObj is FIXED. That is, all
-           subsequent PyTurbSim runs will utilize this spectral
+           subsequent TurbGen runs will utilize this spectral
            model, which is based on the state of ts_run at the time
            of the specObj creation.
 
@@ -259,13 +259,13 @@ class tsrun(object):
 
         This property always returns a :class:`~.cohereModels.base.cohereObj`.
 
-        Because the bulk of PyTurbSim's computational requirements
+        Because the bulk of TurbGen's computational requirements
         (memory and processor time) are consumed by dealing with this
         statistic, it behaves somewhat differently from the others. In
         particular, rather than relying on arrays for holding data
         'coherence objects' define functions that are called as
         needed.  This dramatically reduces the memory requirements of
-        PyTurbSim without increasing.  See the cohereModels package
+        TurbGen without increasing.  See the cohereModels package
         documentation for further details.  Fortunately, at this
         level, coherence is specified identically to other
         statistics.
@@ -289,7 +289,7 @@ class tsrun(object):
               ts_run.spec=a_coherence_model(ts_run)
 
            In this case the cohereObj is FIXED. That is, all
-           subsequent PyTurbSim runs will utilize this coherence
+           subsequent TurbGen runs will utilize this coherence
            model, which is based on the state of ts_run at the time
            of execution of this command.
 
@@ -379,7 +379,7 @@ class tsrun(object):
               ts_run.stress=a_stress_model(ts_run)
 
            In this case the stressObj is FIXED. That is, all
-           subsequent PyTurbSim runs will utilize this stress
+           subsequent TurbGen runs will utilize this stress
            model, which is based on the state of ts_run at the time
            of the stressObj creation.
 
@@ -462,7 +462,7 @@ class tsrun(object):
               ts_run.phase=a_phase_model(ts_run)
 
            In this case the phaseObj is FIXED. That is, all
-           subsequent PyTurbSim runs will utilize this phase,
+           subsequent TurbGen runs will utilize this phase,
            which is based on the state of the a_phase_model and
            ts_run at the time of the phaseObj creation.
 
@@ -562,7 +562,7 @@ class tsrun(object):
 
     def run(self,):
         """
-        Run PyTurbSim.
+        Run TurbGen.
 
         Before calling this method be sure to set the following
         attributes to their desired values:
@@ -608,7 +608,7 @@ class tsrun(object):
         Returns
         -------
         turb : the turbulent velocity timeseries array (3 x nz x ny x
-               nt) for this PyTurbSim run.
+               nt) for this TurbGen run.
 
         Notes
         -----
@@ -655,14 +655,14 @@ class tsrun(object):
 
 class tsdata(gridProps):
     """
-    TurbSim output data object.  In addition to the output of a
+    TurbGen output data object.  In addition to the output of a
     simulation (velocity timeseries array) it also includes all
     information for reproducing the simulation.
 
     Parameters
     ----------
     grid : :class:`gridObj`
-           TurbSim data objects are initialized with a TurbSim grid.
+           TurbGen data objects are initialized with a TurbGen grid.
     """
 
     @property
@@ -797,7 +797,7 @@ class tsdata(gridProps):
         return self._time
 
     def __repr__(self,):
-        return ('<TurbSim data object:\n'
+        return ('<TurbGen data object:\n'
                 '%d %4.2fs-timesteps, %0.2fx%0.2fm (%dx%d) z-y grid (hubheight=%0.2fm).>' %
                 (self.uturb.shape[-1],
                  self.dt,
@@ -918,7 +918,7 @@ class tsdata(gridProps):
     @property
     def stats(self,):
         """
-        Compute and return relevant statistics for this turbsim time-series.
+        Compute and return relevant statistics for this TurbGen time-series.
 
         Returns
         -------
@@ -968,7 +968,7 @@ class tsdata(gridProps):
 
     def write_sum(self, filename):
         """
-        Currently PyTurbSim does not support writing summary (.sum) files.
+        Currently TurbGen does not support writing summary (.sum) files.
         """
         write.sum(filename, self._sumdict)
 

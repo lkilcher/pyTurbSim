@@ -1,6 +1,6 @@
 ## \namespace cohereModels
 """
-This is the PyTurbSim 'coherence models' package.
+This is the TurbGen 'coherence models' package.
 
 For more information or to use this module import the cohereModels.api
 package, e.g.:

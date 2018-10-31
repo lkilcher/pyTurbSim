@@ -9,14 +9,14 @@ class profObj(gridProps, calcObj):
 
     """
     Profile objects contain the array (self.array) of mean-velocity
-    values for a specific PyTurbSim run.
+    values for a specific TurbGen run.
 
-    Profile objects are created with/for a specific PyTurbSim run.
+    Profile objects are created with/for a specific TurbGen run.
 
     Parameters
     ----------
     tsrun :     :class:`tsrun <TurbGen.main.tsrun>`
-                The PyTurbSim run object in which the profile will be
+                The TurbGen run object in which the profile will be
                 used.
 
     See also
@@ -99,6 +99,6 @@ class profObj(gridProps, calcObj):
 class profModelBase(modelBase):
 
     """
-    A base class for TurbSim profile models.
+    A base class for TurbGen profile models.
     """
     pass

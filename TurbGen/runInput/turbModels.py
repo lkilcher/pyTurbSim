@@ -1,10 +1,10 @@
 """
 This module contains functions for producing the appropriate turbulence
-model for a specific TurbSim input object (derived from an input
+model for a specific TurbGen input object (derived from an input
 file).
 
 The term 'TurbModels' encompasses the 'specModel', 'cohereModel' and
-'stressModel' functionalities of the PyTurbSim program.  Within the
+'stressModel' functionalities of the TurbGen program.  Within the
 'runInput' package all three of these statistics are handled in this
 module.  Thus, each wrapper function for a 'TurbModel' should should
 specify/define a model for each of these statistics.
@@ -29,7 +29,7 @@ def getModel(tsinput):
     Parameters
     ----------
     tsinput :  :class:`tscfg <.base.tscfg>`
-                A TurbSim input object.
+                A TurbGen input object.
 
     Returns
     -------

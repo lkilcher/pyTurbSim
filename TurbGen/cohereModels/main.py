@@ -81,7 +81,7 @@ class cohereObjNWTC(cohereObj):
         The base function for calculating coherence for non-IEC
         spectral models.
 
-        See the TurbSim documentation for further information.
+        See the TurbGen documentation for further information.
 
         This function is only used if the TSlib fortran library is not
         available.

@@ -1,5 +1,5 @@
 """
-PyTurbSim mean velocity 'profile models' package.
+TurbGen mean velocity 'profile models' package.
 
 Available profile models
 ------------------------
@@ -44,7 +44,7 @@ at 80m, and surface roughness length of 1m:
 Creating a new profile model
 ----------------------------
 
-Creating new profile models in PyTurbSim is simple. Simply subclass
+Creating new profile models in TurbGen is simple. Simply subclass
 :class:`.profModelBase`, then:
 
   1) write an `__init__` method that takes inputs that define the
@@ -87,14 +87,14 @@ use your new model by simply doing, for example:
 
 >>> tsr.prof = my_new_model(3.,20,[.5,0])
 
-Now your PyTurbSim run will utilize your newly defined model!
+Now your TurbGen run will utilize your newly defined model!
 
 Notes
 -----
 
 For a description of the difference between 'profile models'
 (e.g. 'my_prof_model' in example above) and the profile they output
-(tsrun.prof), see the :doc:`../code-framework` section of the PyTurbSim
+(tsrun.prof), see the :doc:`../code-framework` section of the TurbGen
 documentation.
 
 
