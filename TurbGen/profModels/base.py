@@ -15,7 +15,7 @@ class profObj(gridProps, calcObj):
 
     Parameters
     ----------
-    tsrun :     :class:`tsrun <TurbGen.main.tsrun>`
+    tgrun :     :class:`TGrun <TurbGen.main.TGrun>`
                 The TurbGen run object in which the profile will be
                 used.
 
@@ -25,8 +25,8 @@ class profObj(gridProps, calcObj):
 
     """
 
-    def __init__(self, tsrun):
-        self.grid = tsrun.grid
+    def __init__(self, tgrun):
+        self.grid = tgrun.grid
         self.array = np.zeros(
             [3] + list(self.grid.shape), dtype=ts_float, order='F')
 

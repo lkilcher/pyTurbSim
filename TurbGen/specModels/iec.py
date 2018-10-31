@@ -56,7 +56,7 @@ class iecbase(specModelBase):
         self.IECturbc = IECturbc
         self.ETMc = ETMc
 
-    def _sumfile_string(self, tsrun):
+    def _sumfile_string(self, tgrun):
         windtype_desc = {'NTM': 'Normal Turbulence Model',
                          'ETM': 'Extreme Turbulence Model',
                          '1EWM1': 'Extreme 1-Year Wind Speed Model (Class 1)',
@@ -88,8 +88,8 @@ class iecbase(specModelBase):
             IECwindtype_desc=windtype_desc[self.IECwindtype],
             IECstandard_desc=edition_desc[(self.IECstandard, self.IECedition)],
             etmc='N/A' if self.ETMc is None else '{0:0.4g} [m/s]'.format(self.ETMc),
-            Lambda=self.Lambda(tsrun.grid.zhub),
-            Sigma=self.IEC_Sigma(tsrun.prof.uhub),
+            Lambda=self.Lambda(tgrun.grid.zhub),
+            Sigma=self.IEC_Sigma(tgrun.prof.uhub),
         )
         return sumstring_format.format(**data)
 
@@ -276,25 +276,25 @@ class IECKai(iecbase):
 
     """
 
-    def __call__(self, tsrun):
-        """Create the spectral object for a `tsrun` instance.
+    def __call__(self, tgrun):
+        """Create the spectral object for a `TGrun` instance.
 
         Parameters
         ----------
-        tsrun :         :class:`.tsrun`
+        tgrun :         :class:`.TGrun`
                         A TurbGen run object.
 
         Returns
         -------
         out :           :class:`.specObj`
-                        An IEC spectral object for the grid in `tsrun`.
+                        An IEC spectral object for the grid in `tgrun`.
 
         """
-        self._check_ewm(tsrun.grid)
-        out = specObj(tsrun)
-        sig2 = 4 * self.IEC_Sigma(tsrun.prof.uhub) ** 2
+        self._check_ewm(tgrun.grid)
+        out = specObj(tgrun)
+        sig2 = 4 * self.IEC_Sigma(tgrun.prof.uhub) ** 2
         fctr = np.array([1, 0.64, 0.25], dtype=ts_float)
-        L_u = self.Lambda(tsrun.grid.zhub) / tsrun.prof.uhub * \
+        L_u = self.Lambda(tgrun.grid.zhub) / tgrun.prof.uhub * \
             np.array([8.10, 2.70, 0.66], dtype=ts_float)
         for comp in self.comp:
             out[comp] = (sig2 * fctr[comp] * L_u[comp] / (
@@ -328,26 +328,26 @@ class IECVKm(iecbase):
 
     """
 
-    def __call__(self, tsrun):
+    def __call__(self, tgrun):
         """
-        Create and calculate the spectral object for a `tsrun`
+        Create and calculate the spectral object for a `TGrun`
         instance.
 
         Parameters
         ----------
-        tsrun :         :class:`.tsrun`
+        tgrun :         :class:`.TGrun`
                         A TurbGen run object.
 
         Returns
         -------
         out :           :class:`.specObj`
-                        An IEC spectral object for the grid in `tsrun`.
+                        An IEC spectral object for the grid in `tgrun`.
 
         """
-        self._check_ewm(tsrun.grid)
-        out = specObj(tsrun)
-        sig2 = 4 * self.IEC_Sigma(tsrun.prof.uhub) ** 2
-        L_u = 3.5 * self.Lambda(tsrun.grid.zhub) / tsrun.prof.uhub
+        self._check_ewm(tgrun.grid)
+        out = specObj(tgrun)
+        sig2 = 4 * self.IEC_Sigma(tgrun.prof.uhub) ** 2
+        L_u = 3.5 * self.Lambda(tgrun.grid.zhub) / tgrun.prof.uhub
         dnm = 1 + 71 * (out.f * L_u) ** 2
         out[0] = (sig2 * L_u / (dnm) ** 0.8333333)[None, None, :]
         out[2] = out[1] = (sig2 / 2 * L_u / (dnm) ** 1.8333333 *

@@ -23,7 +23,7 @@ Available stress models:
 
 :class:`.stressObj`
   This is the 'stress object' class.  All stress model `__call__`
-  methods must take a :class:`tsrun <TurbGen.main.tsrun>` as input and
+  methods must take a :class:`TGrun <TurbGen.main.TGrun>` as input and
   return this class.
 
 
@@ -36,16 +36,16 @@ specified explicitly:
 
 >>> my_stress_model=rm.uniform(upvp_=0.01,upwp_=0.1,vpwp_=0.0)
 
-This stress model can then be applied to a tsrun (see
-TurbGen.main.tsrun):
+This stress model can then be applied to a tgrun (see
+TurbGen.main.TGrun):
 
->>> tsrun.stress=my_stress_model(tsrun)
+>>> tgrun.stress=my_stress_model(tgrun)
 
 See also
 --------
 For a description of the difference between 'stress models'
 (e.g. 'my_stress_model' in example above) and the stress they output
-(tsrun.prof), see the 'models_and_stats_example.py' file.
+(tgrun.prof), see the 'models_and_stats_example.py' file.
 
 """
 from .base import stressModelBase, stressObj

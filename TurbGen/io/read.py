@@ -2,7 +2,7 @@ from struct import unpack
 from .base import e, checkname, convname
 import numpy as np
 from ..main import tsdata
-from ..base import tsGrid
+from ..base import RectGrid
 from warnings import warn
 
 
@@ -64,11 +64,11 @@ def bladed(fname,):
         # flip the data back
         dat = dat[:, :, ::-1, :]
     # Create the tsdata object.
-    grid = tsGrid(center=center,
-                  ny=n_y, nz=n_z,
-                  dy=dy, dz=dz,
-                  dt=dt, nt=n_t,
-                  clockwise=clockwise)
+    grid = RectGrid(center=center,
+                    ny=n_y, nz=n_z,
+                    dy=dy, dz=dz,
+                    dt=dt, nt=n_t,
+                    clockwise=clockwise)
     out = tsdata(grid)
     out.uprof = dat.mean(-1)
     out.uturb = dat - out.uprof[:, :, :, None]
@@ -122,10 +122,10 @@ def turbsim(fname):
     dat -= u_off[:, None, None, None]
     dat /= u_scl[:, None, None, None]
     # Create the tsdata object.
-    grid = tsGrid(center=center,
-                  ny=n_y, nz=n_z,
-                  dy=dy, dz=dz,
-                  dt=dt, nt=n_t, )
+    grid = RectGrid(center=center,
+                    ny=n_y, nz=n_z,
+                    dy=dy, dz=dz,
+                    dt=dt, nt=n_t, )
     out = tsdata(grid)
     out.uprof = dat.mean(-1)
     out.uturb = dat - out.uprof[:, :, :, None]

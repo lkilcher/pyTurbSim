@@ -17,7 +17,7 @@ Uref = 3.
 # This creates a TurbGen 'run object':
 tgr = tg.TGrun()
 
-tgr.grid = tg.tsGrid(center=refht,
+tgr.grid = tg.RectGrid(center=refht,
                        ny=3,
                        nz=5,
                        height=5,

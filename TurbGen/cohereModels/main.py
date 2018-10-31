@@ -170,7 +170,7 @@ class nwtc(cohereModelBase):
             #self.timer=dbg.timer('tslib-cohNWTC')
             self.timer = dbg.timer('roll')
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Coherence model used                             =  {dat.model_desc}
         Coherence Exponent                               =  {dat.CohExp:0.2f}
@@ -179,7 +179,7 @@ class nwtc(cohereModelBase):
            V (a, b)                                      =  ({coh.a[1]:0.2f}, {coh.b[1]:0.2f})  # noqa
            W (a, b)                                      =  ({coh.a[2]:0.2f}, {coh.b[2]:0.2f})  # noqa
         """
-        return sumstring_format.format(dat=self, coh=tsrun.cohere, )
+        return sumstring_format.format(dat=self, coh=tgrun.cohere, )
 
     def set_coefs(self, cohereObj):
         """
@@ -324,13 +324,13 @@ class iec(cohereModelBase):
         if dbg:
             self.timer = dbg.timer('tslib-cohIEC')
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Coherence model used                             =  {dat.model_desc}
         IEC Edition                                      =  {dat.IECedition:d}
         Coherence length scale parameter                 =  {L:0.2f} [m]
         """
-        return sumstring_format.format(dat=self, L=self._L(tsrun.grid.zhub))
+        return sumstring_format.format(dat=self, L=self._L(tgrun.grid.zhub))
 
     def set_coefs(self, cohereObj):
         """

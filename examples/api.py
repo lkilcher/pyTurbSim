@@ -13,7 +13,7 @@ Uref = 3.
 tgr = tg.tgrun()
 
 # And give the run object a grid:
-tgr.grid = tg.tsGrid(
+tgr.grid = tg.RectGrid(
     center=refht, ny=5, nz=5, height=5, width=9, time_sec=1000, dt=0.5)
 
 # Now we define a mean 'profile model',

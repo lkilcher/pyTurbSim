@@ -24,7 +24,7 @@ class phaseObj(gridProps, calcObj):
 
     Parameters
     ----------
-    tsrun :     :class:`tsrun <TurbGen.main.tsrun>`
+    tgrun :     :class:`tgrun <TurbGen.main.tgrun>`
                 The TurbGen run object in which the profile will be
                 used.
 
@@ -34,9 +34,9 @@ class phaseObj(gridProps, calcObj):
 
     """
 
-    def __init__(self, tsrun):
-        self.grid = tsrun.grid
-        self.array = np.zeros((tsrun.grid.n_comp,
-                               tsrun.grid.n_p,
-                               tsrun.grid.n_f),
+    def __init__(self, tgrun):
+        self.grid = tgrun.grid
+        self.array = np.zeros((tgrun.grid.n_comp,
+                               tgrun.grid.n_p,
+                               tgrun.grid.n_f),
                               dtype=ts_complex, order='F')

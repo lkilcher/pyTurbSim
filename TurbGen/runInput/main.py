@@ -24,8 +24,8 @@ This data can be written to the files specified in the input file
 >>> runInput.write(tsdata,tsinput)
 
 """
-from ..base import tsGrid
-from ..main import tsrun
+from ..base import RectGrid
+from ..main import TGrun
 from ..io.input import read as readInput
 from turbModels import getModel as tm_getModel
 from profModels import getModel as pm_getModel
@@ -106,23 +106,23 @@ def cfg2grid(tsinput):
 
     Returns
     -------
-    tsgrid :    :class:`tsGrid <TurbGen.base.tsGrid>`
+    grid :    :class:`gridObj <TurbGen.base.gridObj>`
                 A TurbGen grid object.
 
     """
-    return tsGrid(tsinput['HubHt'],
-                  ny=tsinput['NumGrid_Y'], nz=tsinput['NumGrid_Z'],
-                  dt=tsinput['TimeStep'],
-                  width=tsinput['GridWidth'], height=tsinput['GridHeight'],
-                  time_sec=tsinput['AnalysisTime'],
-                  time_sec_out=(tsinput['UsableTime'] + tsinput['GridWidth']
-                                / tsinput['URef']),
-                  clockwise=tsinput['Clockwise'])
+    return RectGrid(tsinput['HubHt'],
+                    ny=tsinput['NumGrid_Y'], nz=tsinput['NumGrid_Z'],
+                    dt=tsinput['TimeStep'],
+                    width=tsinput['GridWidth'], height=tsinput['GridHeight'],
+                    time_sec=tsinput['AnalysisTime'],
+                    time_sec_out=(tsinput['UsableTime'] + tsinput['GridWidth']
+                                  / tsinput['URef']),
+                    clockwise=tsinput['Clockwise'])
 
 
 def cfg2tsrun(tsinput):
     """
-    Produce a `tsrun` object that matches the configuration options in
+    Produce a `tgrun` object that matches the configuration options in
     tsinput.
 
     Parameters
@@ -132,22 +132,22 @@ def cfg2tsrun(tsinput):
 
     Returns
     -------
-    tsrun :     str
+    tgrun :     str
                 A TurbSim run object with grid, profModel, specModel,
                 cohereModel and stressModel that match the input
                 `tsinput` object.
 
     """
 
-    tsr = tsrun(tsinput['RandSeed'])
+    tgr = TGrun(tsinput['RandSeed'])
 
-    tsr.grid = cfg2grid(tsinput)
+    tgr.grid = cfg2grid(tsinput)
 
-    tsr.profModel = pm_getModel(tsinput)
+    tgr.profModel = pm_getModel(tsinput)
 
-    tsr.specModel, tsr.cohereModel, tsr.stressModel = tm_getModel(tsinput)
+    tgr.specModel, tgr.cohereModel, tgr.stressModel = tm_getModel(tsinput)
 
     # Store this for use when writing sum files.
-    tsr._config = tsinput
+    tgr._config = tsinput
 
-    return tsr
+    return tgr

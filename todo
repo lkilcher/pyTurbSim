@@ -1,8 +1,10 @@
 Rebranding
 ==========
-- remove all instances of 'tsrun', 'tsdata', 'tsr', tsgrid, etc.
-- Change HomePage to lkilcher.github.io/TurbGen
+- remove all instances of 'tsrun', 'tsdata', 'tsr', tsGrid (RectGrid), etc.
 - Go through docs
+- Change `|pyts|` in docs to `|tg|`?
+- Change HomePage to lkilcher.github.io/TurbGen
+- Move pip package to 'TurbGen'
 
 Misc
 ====

@@ -12,8 +12,8 @@ nz = 15
 center = 10
 # ny=17;nz=17
 
-tsr = tg.tsrun()
-tsr.grid = tg.tsGrid(center=center, ny=ny, nz=nz,
+tsr = tg.TGrun()
+tsr.grid = tg.RectGrid(center=center, ny=ny, nz=nz,
                        height=10, width=10, time_sec=60, dt=0.003)
 
 tsr.profModel = tg.profModels.pl(U, center)

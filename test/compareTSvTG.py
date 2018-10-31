@@ -99,9 +99,9 @@ if flag.get('plot', False):
 
         ## Create a TurbGen 'run' object based on the input file.
         ## First load the data from the input file into a 'tscfg' object:
-        tscfg = TurbGen.readInput('./inp_files/' + nm + '.inp')
+        tscfg = tg.readInput('./inp_files/' + nm + '.inp')
         # Now create a 'tsrun' object.
-        tsr = TurbGen.cfg2tsrun(tscfg)
+        tsr = tg.cfg2tsrun(tscfg)
         ## If you want to, you can 'run' this by uncommenting:
         #ptsdat2 = tsr()
         ## This should be identical to `ptsdat`.
@@ -130,7 +130,7 @@ if flag.get('plot', False):
         ## After supplying the data object these plot calls can take
         ## all of the arguments as defined in matplotlib.pyplot.plot
         fg.plot(ptsdat, color='b', linestyle='-', marker='.', label='TG')
-        ## When calling fg.plot on a tsrun object, these axform
+        ## When calling fg.plot on a tgrun object, these axform
         ## objects plot the theoretical line:
         fg.plot(tsr, color='g', label='Target')
         ## Add a legend to the upper-right axes:

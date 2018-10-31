@@ -17,13 +17,13 @@ class Uniform(phaseModelBase):
 
     """
 
-    def __call__(self, tsrun):
+    def __call__(self, tgrun):
         """
-        Create and calculate the phases for the `tsrun` instance.
+        Create and calculate the phases for the `tgrun` instance.
 
         Parameters
         ----------
-        tsrun :         :class:`tsrun <TurbGen.main.tsrun>`
+        tgrun :         :class:`TGrun <TurbGen.main.TGrun>`
                         A TurbGen run object.
 
         Returns
@@ -33,14 +33,14 @@ class Uniform(phaseModelBase):
 
         """
         print "building Uniform phases"
-        phases = phaseObj(tsrun)
+        phases = phaseObj(tgrun)
         phases[:] = np.exp(1j * 2 * np.pi *
-                           tsrun.randgen.rand(tsrun.grid.n_comp,
-                                              tsrun.grid.n_p,
-                                              tsrun.grid.n_f))
+                           tgrun.randgen.rand(tgrun.grid.n_comp,
+                                              tgrun.grid.n_p,
+                                              tgrun.grid.n_f))
         return phases
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Phase model used                                 =  {dat.model_desc}
         """
@@ -70,8 +70,8 @@ class Rinker(phaseModelBase):
                       self.mu)
         return delta_phis
 
-    def __call__(self, tsrun):
-        phases = phaseObj(tsrun)
+    def __call__(self, tgrun):
+        phases = phaseObj(tgrun)
 
 #        print "building Rinker model phases"
         # phases.array[:] = ...
@@ -79,9 +79,9 @@ class Rinker(phaseModelBase):
         # phases[:]). Note that it is a n_comp=3, by n_p
         # (number of z,y points) by n_f (num frequencies) array.
 
-        delta_phi = self.sample_delta_phis((tsrun.grid.n_comp,
-                                tsrun.grid.n_p,
-                                tsrun.grid.n_f))
+        delta_phi = self.sample_delta_phis((tgrun.grid.n_comp,
+                                tgrun.grid.n_p,
+                                tgrun.grid.n_f))
 #        print "shape ", delta_phi.shape
         phases[:] = delta_phi.cumsum(axis=-1)
         phases[:] = np.exp(1j *  phases[:])
@@ -89,7 +89,7 @@ class Rinker(phaseModelBase):
         # Then return it...
         return phases
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Phase model used                                 =  {dat.model_desc}
         rho                                              =  {dat.rho:0.4g}

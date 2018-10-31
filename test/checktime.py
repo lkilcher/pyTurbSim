@@ -23,12 +23,12 @@ sm = tg.specModels.tidal(ustar, refht)
 cm = tg.cohereModels.nwtc()
 rm = tg.stressModels.tidal(refht)
 
-## seq=tg.tsrun(ncore=1)
+## seq=tg.TGrun(ncore=1)
 ## for idx,n in enumerate(nvals):
 ##     tm0=time.time()
 ##     seq.timer.total=0
 ##     cm.timer.total=0
-##     seq.grid=tg.tsGrid(center=refht,ny=n,nz=n,height=5,width=9,time_sec=6000,dt=0.5)
+##     seq.grid=tg.RectGrid(center=refht,ny=n,nz=n,height=5,width=9,time_sec=6000,dt=0.5)
 ##     seq.profModel=pm
 ##     seq.specModel=sm
 ##     seq.cohereModel=cm
@@ -43,12 +43,12 @@ rm = tg.stressModels.tidal(refht)
 ##     del output
 ##     seq.clear()
 
-par = tg.tsrun(ncore=1)
+par = tg.TGrun(ncore=1)
 for idx, n in enumerate(nvals):
     tm0 = time.time()
     par.timer.total = 0
     cm.timer.total = 0
-    par.grid = tg.tsGrid(
+    par.grid = tg.RectGrid(
         center=refht, ny=n, nz=n, height=5, width=9, time_sec=6000, dt=0.5)
     par.profModel = pm
     par.specModel = sm

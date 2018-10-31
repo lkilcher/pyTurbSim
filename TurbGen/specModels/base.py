@@ -15,17 +15,17 @@ class specObj(gridProps, calcObj):
 
     Parameters
     ----------
-    tsrun : `tsrun` type
+    tgrun : `tgrun` type
         The TurbGen run object in which the spectra will be used.
 
     """
 
-    def __init__(self, tsrun):
-        self.grid = tsrun.grid
-        self.array = np.zeros((tsrun.grid.n_comp,
-                               tsrun.grid.n_z,
-                               tsrun.grid.n_y,
-                               tsrun.grid.n_f),
+    def __init__(self, tgrun):
+        self.grid = tgrun.grid
+        self.array = np.zeros((tgrun.grid.n_comp,
+                               tgrun.grid.n_z,
+                               tgrun.grid.n_y,
+                               tgrun.grid.n_f),
                               dtype=ts_float, order='F')
 
     @property

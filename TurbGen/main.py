@@ -62,7 +62,7 @@ from .phaseModels.api import default as default_phaseModel
 #  - Write 'events' (includes adding 'coherent events' to TS)
 
 
-class tsrun(object):
+class TGrun(object):
     """
     This is the TurbGen 'run' class. This class provides the
     interface for controlling TurbGen simulations and output.
@@ -144,10 +144,10 @@ class tsrun(object):
         See Also
         --------
         TurbGen.profModels.api : to see available profile models.
-        tsrun.spec
-        tsrun.cohere
-        tsrun.stress
-        tsrun.phase
+        TGrun.spec
+        TGrun.cohere
+        TGrun.stress
+        TGrun.phase
 
         """
         if hasattr(self, 'profModel') and not hasattr(self, '_prof'):
@@ -221,10 +221,10 @@ class tsrun(object):
         See Also
         --------
         TurbGen.specModels.api : to see available spectral models.
-        tsrun.prof
-        tsrun.cohere
-        tsrun.stress
-        tsrun.phase
+        TGrun.prof
+        TGrun.cohere
+        TGrun.stress
+        TGrun.phase
 
         """
         if hasattr(self, 'specModel') and not hasattr(self, '_spec'):
@@ -319,10 +319,10 @@ class tsrun(object):
 
         TurbGen.cohereModels.api : to see a list of available coherence models.
 
-        tsrun.prof
-        tsrun.spec
-        tsrun.stress
-        tsrun.phase
+        TGrun.prof
+        TGrun.spec
+        TGrun.stress
+        TGrun.phase
 
         """
         if not hasattr(self, '_cohere'):
@@ -399,10 +399,10 @@ class tsrun(object):
         --------
         TurbGen.stressModels.api : To see available stress models.
 
-        tsrun.prof
-        tsrun.spec
-        tsrun.cohere
-        tsrun.phase
+        TGrun.prof
+        TGrun.spec
+        TGrun.cohere
+        TGrun.phase
 
         """
         if not hasattr(self, '_stress'):
@@ -480,10 +480,10 @@ class tsrun(object):
         See Also
         --------
         TurbGen.phaseModels.api : to see available phase models.
-        tsrun.prof
-        tsrun.spec
-        tsrun.cohere
-        tsrun.stress
+        TGrun.prof
+        TGrun.spec
+        TGrun.cohere
+        TGrun.stress
 
         """
         if not hasattr(self, '_phase'):
@@ -567,11 +567,11 @@ class tsrun(object):
         Before calling this method be sure to set the following
         attributes to their desired values:
 
-        - :attr:`tsrun.prof`: The mean profile model, object or array.
-        - :attr:`tsrun.spec`: The tke spectrum model, object or array.
-        - :attr:`tsrun.cohere`: The coherence model, object or array.
-        - :attr:`tsrun.stress`: The Reynold's stress model, object or array.
-        - :attr:`tsrun.phase`: The random phase model, object or array.
+        - :attr:`TGrun.prof`: The mean profile model, object or array.
+        - :attr:`TGrun.spec`: The tke spectrum model, object or array.
+        - :attr:`TGrun.cohere`: The coherence model, object or array.
+        - :attr:`TGrun.stress`: The Reynold's stress model, object or array.
+        - :attr:`TGrun.phase`: The random phase model, object or array.
 
         Returns
         -------

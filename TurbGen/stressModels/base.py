@@ -16,12 +16,12 @@ class stressModelBase(base.modelBase):
 
 class stressObj(base.calcObj, base.gridProps):
 
-    def __init__(self, tsrun):
-        self.grid = tsrun.grid
-        self.randgen = tsrun.randgen
+    def __init__(self, tgrun):
+        self.grid = tgrun.grid
+        self.randgen = tgrun.randgen
         self.array = np.zeros(
             [3] + self.grid.shape, dtype=base.ts_float, order='F')
-        self.spec = tsrun.spec
+        self.spec = tgrun.spec
         std_u = np.sqrt(self.spec.tke)
         self.stress_max = np.empty_like(self.array)
         self.stress_max[0] = std_u[0] * std_u[1]  # u'v'

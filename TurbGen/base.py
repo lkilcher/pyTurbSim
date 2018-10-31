@@ -5,7 +5,7 @@ This module:
 
  a) imports common numpy functions/methods (from tg_numpy.py),
 
- b) defines the :class:`gridObj` class (and the :func:`tsGrid` helper
+ b) defines the :class:`gridObj` class (and the :func:`Grid` helper
     function),
 
  c) imports the tslib Fortran module (if it is available) and
@@ -189,11 +189,11 @@ def _parse_inputs(n, l, d, plus_one=1):
     return n, l, d
 
 
-def tsGrid(center=None, ny=None, nz=None,
-           width=None, height=None, dy=None, dz=None,
-           nt=None, time_sec=None, time_min=None, dt=None, time_sec_out=None,
-           findClose_nt_lowPrimeFactors=True, prime_max=31,
-           clockwise=True):
+def RectGrid(center=None, ny=None, nz=None,
+             width=None, height=None, dy=None, dz=None,
+             nt=None, time_sec=None, time_min=None, dt=None, time_sec_out=None,
+             findClose_nt_lowPrimeFactors=True, prime_max=31,
+             clockwise=True):
     """
     Create a TurbGen grid.
 
@@ -241,7 +241,7 @@ def tsGrid(center=None, ny=None, nz=None,
     out = gridObj()
     if center is None:
         raise TypeError(
-            "tsGrid objects require that the height of the grid center \
+            "Grid objects require that the height of the grid center \
             (input parameter 'center') be specified.")
     if time_sec is None and time_min is not None:
         time_sec = time_min * 60.
@@ -434,51 +434,6 @@ class gridObj(tsBaseObj):
         """
         return min(self.width, self.height)
 
-    ## def ind2sub(self,ind):
-    ##     """
-    ##     Return the subscripts (iz,iy) corresponding to the
-    ##     `flattened' index *ind* (column-order) for this grid.
-    ##     """
-    ##     iy=ind/self.n_z
-    ##     if iy>=self.n_y:
-    ##         raise IndexError('Index beyond range of grid.')
-    ##     iz=np.mod(ind,self.n_z)
-    ##     return (iz,iy)
-
-    ## def sub2ind(self,subs):
-    ##     """
-    ##     Return the `flattened' index (column-order) corresponding
-    ##     to the subscript *subs* (iz,iy) for this grid.
-    ##     """
-    ##     return subs[1]*self.n_z+subs[0]
-
-    ## def flatten(self,arr):
-    ##     """
-    ##     Reshape an array so that the z-y grid points are
-    ##     one-dimension of the array (for Cholesky factorization).
-    ##     """
-    ##     if arr.ndim>2 and arr.shape[0]==3 and
-    ##     arr.shape[1]==self.n_z and arr.shape[2]==self.n_y:
-    ##         shp=[3,self.n_p]+list(arr.shape[3:])
-    ##     elif arr.shape[0]==self.n_z and arr.shape[1]==self.n_y:
-    ##         shp=[self.n_p]+list(arr.shape[2:])
-    ##     else:
-    ##         raise ValueError('The array shape does not match this grid.')
-    ##     return arr.reshape(shp,order='F')
-
-    ## def reshape(self,arr):
-    ##     """
-    ##     Reshape the array *arr* so that its z-y grid points are
-    ##     two-dimensions of the array (after Cholesky factorization).
-    ##     """
-    ##     if arr.shape[0]==3 and arr.shape[1]==self.n_p:
-    ##         shp=[3,self.n_z,self.n_y]+list(arr.shape[2:])
-    ##     elif arr.shape[0]==self.n_p:
-    ##         shp=[self.n_z,self.n_y]+list(arr.shape[1:])
-    ##     else:
-    ##         raise ValueError('The array shape does not match this grid.')
-    ##     return arr.reshape(shp,order='F')
-
     def ind2sub(self, ind):
         """
         Return the subscripts (iz,iy) corresponding to the 'flattened'
@@ -560,5 +515,5 @@ class modelBase(tsBaseObj):
         """
         return dict(self.__dict__)
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, TGrun, ):
         return "## No '_sumfile_string' defined for %s ##\n" % (str(self.__class__))

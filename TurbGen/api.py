@@ -1,15 +1,15 @@
 """
-This is the TurbGen python advanced programming interface
+This is the TurbGen advanced programming interface
 (API). This module provides a fully-customizable high-level
 object-oriented interface to the TurbGen program.
 
 The four components of this API are:
 
-1) The :class:`tsrun <TurbGen.main.tsrun>` class, which is the
+1) The :class:`<~main.TGrun>` class, which is the
 controller/run object for TurbGen simulations.
 
-2) The :class:`tsGrid <TurbGen.base.tsGrid>` class, which is used to
-define the TurbSim grid.
+2) The :func:`<~.base.RectGrid>` function, which is used to
+define the TurbGen grid.
 
 3) The 'model' classes, which include:
 
@@ -37,8 +37,8 @@ Example usage of this API can be found in the <tg_root>/Examples/api.py file.
 
 
 """
-from main import tsrun
-from base import tsGrid
+from main import TGrun
+from base import RectGrid
 import profModels.api as profModels
 import specModels.api as specModels
 import cohereModels.api as cohereModels

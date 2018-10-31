@@ -45,7 +45,7 @@ class nwtc(profModelBase,):
         self.Ri = Ri
         self.TurbModel = turbmodel
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Profile model used                               =  {dat.model_desc}
         Reference velocity (URef)                        =  {dat.Uref:0.4g} [m/s]
@@ -56,23 +56,23 @@ class nwtc(profModelBase,):
         """
         return sumstring_format.format(dat=self)
 
-    def __call__(self, tsrun):
+    def __call__(self, tgrun):
         """
-        Create and calculate the mean-profile object for a `tsrun`
+        Create and calculate the mean-profile object for a `tgrun`
         instance.
 
         Parameters
         ----------
-        tsrun :         :class:`.tsrun`
+        tgrun :         :class:`.TGrun`
                         A TurbGen run object.
 
         Returns
         -------
         out :           :class:`.profObj`
-                        A logarithmic wind-speed profile for the grid in `tsrun`.
+                        A logarithmic wind-speed profile for the grid in `tgrun`.
 
         """
-        out = profObj(tsrun)
+        out = profObj(tgrun)
         out[0] = self.model(out.grid.z)[:, None]
         return out
 
@@ -135,7 +135,7 @@ class H2O(profModelBase,):
         self.Zref = Zref
         self.Ustar = ustar
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Profile model used                               =  {dat.model_desc}
         Reference velocity (URef)                        =  {dat.Uref:0.4g} [m/s]
@@ -143,22 +143,22 @@ class H2O(profModelBase,):
         """
         return sumstring_format.format(dat=self)
 
-    def __call__(self, tsrun):
+    def __call__(self, tgrun):
         """
-        Create and calculate the mean-profile object for a `tsrun`
+        Create and calculate the mean-profile object for a `tgrun`
         instance.
 
         Parameters
         ----------
-        tsrun : :class:`.tsrun`
+        tgrun : :class:`.TGrun`
                 A TurbGen run object.
 
         Returns
         -------
         out :   :class:`.profObj`
                 A logarithmic mean-velocity profile object for the
-                spatial grid in tsrun.
+                spatial grid in `tgrun`.
         """
-        out = profObj(tsrun)
+        out = profObj(tgrun)
         out[0] = (self.Ustar / kappa * np.log(out.grid.z / self.Zref) + self.Uref)[:, None]
         return out

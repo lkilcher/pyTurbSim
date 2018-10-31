@@ -29,7 +29,7 @@ class nwtc(profModelBase):
         self.Zref = Zref
         self.PLexp = PLexp
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Profile model used                               =  {dat.model_desc}
         Reference velocity (URef)                        =  {dat.Uref:0.2f} [m/s]
@@ -46,22 +46,22 @@ class nwtc(profModelBase):
         # can be utilized by other modules
         return self.Uref * (z / self.Zref) ** self.PLexp
 
-    def __call__(self, tsrun):
+    def __call__(self, tgrun):
         """
-        Create and calculate the mean-profile object for a `tsrun`
+        Create and calculate the mean-profile object for a `tgrun`
         instance.
 
         Parameters
         ----------
-        tsrun :         :class:`.tsrun`
+        tgrun :         :class:`.TGrun`
                         A TurbGen run object.
 
         Returns
         -------
         out :           :class:`.profObj`
-                        A power-law wind-speed profile for the grid in `tsrun`.
+                        A power-law wind-speed profile for the grid in `tgrun`.
 
         """
-        out = profObj(tsrun)
+        out = profObj(tgrun)
         out[0] = self.model(out.grid.z)[:, None]
         return out

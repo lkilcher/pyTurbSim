@@ -29,7 +29,7 @@ Available spectral models
 
 :class:`.specObj`
   This is the 'spectral object' class.  All spectral model `__call__`
-  methods must take a :class:`tsrun <TurbGen.main.tsrun>` as input and
+  methods must take a :class:`TGrun <TurbGen.main.TGrun>` as input and
   return this class.
 
 Example usage
@@ -41,16 +41,16 @@ Create a `smooth` spectral model with friction velocity Ustar=1m/s and Richardso
 
 >>> my_spec_model=sm.smooth(1.0,0.6)
 
-Now set a :class:`TurbGen.main.tsrun` instance to use this spectral model:
+Now set a :class:`TurbGen.main.TGrun` instance to use this spectral model:
 
->>> tsrun.spec=my_spec_model(tsrun)
+>>> tgrun.spec=my_spec_model(tgrun)
 
 Notes
 -----
 
 For a description of the difference between 'spectral models'
 (e.g. 'my_spec_model' in example above) and the spectral array they
-output (tsrun.spec), see the :doc:`../code-framework` section of the TurbGen
+output (tgrun.spec), see the :doc:`../code-framework` section of the TurbGen
 documentation.
 
 """

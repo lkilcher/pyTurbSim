@@ -23,7 +23,7 @@ Available profile models
 
 :class:`profObj <.profObj>`
   This is the 'profile object' class.  All profile model `__call__`
-  methods must take a :class:`tsrun <TurbGen.main.tsrun>` as input and
+  methods must take a :class:`TGrun <TurbGen.main.TGrun>` as input and
   return this class.
 
 Example usage
@@ -36,9 +36,9 @@ at 80m, and surface roughness length of 1m:
 
 >>> my_prof_model=pm.log(18,80,1)
 
-# Now set 'tsrun' to use this profile model:
+# Now set 'tgrun' to use this profile model:
 
->>> tsrun.prof=my_prof_model(tsrun)
+>>> tgrun.prof=my_prof_model(tgrun)
 
 
 Creating a new profile model
@@ -51,7 +51,7 @@ Creating new profile models in TurbGen is simple. Simply subclass
   profile model *in general* (i.e. irrespective of the spatial grid or
   other statistics of the flow), and
 
-  2) write a `__call__` method that takes :class:`.tsrun`
+  2) write a `__call__` method that takes :class:`.TGrun`
   as input and returns a :class:`.profObj`, which
 
 For example::
@@ -71,21 +71,21 @@ For example::
           self.Zref=Zref
           self.poly_coefs=poly_coefs
 
-      def __call__(self,tsrun):
-          out=pm.profObj(tsrun)
-          # Note here that tsrun contains the 'grid information', and
+      def __call__(self, tgrun):
+          out=pm.profObj(tgrun)
+          # Note here that tgrun contains the 'grid information', and
           # we can use that information to construct the profObj.
-          out[0]=self.Uref*numpy.polyval(self.poly_coefs,tsrun.grid.z/Zref)
+          out[0]=self.Uref*numpy.polyval(self.poly_coefs,tgrun.grid.z/Zref)
           # Here we have set the u-component (index 0) to follow the
           # polynomial, and we leave the other components to be zero.
           return out
 
 That's all that is required to define a new profile model!  Now,
-assuming you have already created a :class:`.tsrun`
-instance (e.g. `tsr`) you set that :class:`.tsrun` to
+assuming you have already created a :class:`.TGrun`
+instance (e.g. `tsr`) you set that :class:`.TGrun` to
 use your new model by simply doing, for example:
 
->>> tsr.prof = my_new_model(3.,20,[.5,0])
+>>> tgr.prof = my_new_model(3.,20,[.5,0])
 
 Now your TurbGen run will utilize your newly defined model!
 
@@ -94,7 +94,7 @@ Notes
 
 For a description of the difference between 'profile models'
 (e.g. 'my_prof_model' in example above) and the profile they output
-(tsrun.prof), see the :doc:`../code-framework` section of the TurbGen
+(tgrun.prof), see the :doc:`../code-framework` section of the TurbGen
 documentation.
 
 

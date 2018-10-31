@@ -54,7 +54,7 @@ class tidal(specModelBase):
         self.Ustar = Ustar
         self.Zref = Zref
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Turbulence model used                            =  {dat.model_desc}
         Turbulence velocity (UStar)                      =  {dat.Ustar:0.4g} [m/s]
@@ -62,28 +62,28 @@ class tidal(specModelBase):
         """
         return sumstring_format.format(dat=self)
 
-    def __call__(self, tsrun):
-        """Create the spectral object for :class:`.tsrun`.
+    def __call__(self, tgrun):
+        """Create the spectral object for :class:`.TGrun`.
 
         Parameters
         ----------
-        tsrun :         :class:`.tsrun`
+        tgrun :         :class:`.TGrun`
                         A TurbGen run object.
 
         Returns
         -------
         out :           :class:`.specObj`
-                        An IEC spectral object for the grid in :class:`.tsrun`.
+                        An IEC spectral object for the grid in :class:`.TGrun`.
 
         """
-        out = specObj(tsrun)
-        dudz = np.abs(tsrun.prof.dudz[None, :, :, None])
+        out = specObj(tgrun)
+        dudz = np.abs(tgrun.prof.dudz[None, :, :, None])
         out.sigma2 = self.Ustar ** 2 * np.array([4.5, 2.25, 0.9])[:, None] \
-            * np.exp(-2 * tsrun.grid.z[None, :] / self.Zref)
+            * np.exp(-2 * tgrun.grid.z[None, :] / self.Zref)
         out[:] = (out.sigma2[:, :, None, None]
                   * self.coef[:, 0][:, None, None, None] / dudz
                   ) / (1 + self.coef[:, 1][:, None, None, None]
-                       * (tsrun.grid.f[None, None, None, :] / dudz) ** self.pow5_3)
+                       * (tgrun.grid.f[None, None, None, :] / dudz) ** self.pow5_3)
         return out
 
 

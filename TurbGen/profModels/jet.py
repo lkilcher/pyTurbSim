@@ -38,23 +38,23 @@ class main(profModelBase):
         """
         return sumstring_format.format(dat=self,)
 
-    def __call__(self, tsrun):
+    def __call__(self, tgrun):
         """
-        Create and calculate the mean-profile object for a `tsrun`
+        Create and calculate the mean-profile object for a `tgrun`
         instance.
 
         Parameters
         ----------
-        tsrun :         :class:`.tsrun`
+        tgrun :         :class:`.TGrun`
                         A TurbGen run object.
 
         Returns
         -------
         out :           :class:`.profObj`
-                        A jet wind-speed profile for the grid in `tsrun`.
+                        A jet wind-speed profile for the grid in `tgrun`.
 
         """
-        out = profObj(tsrun)
+        out = profObj(tgrun)
         u, v = self._model(out)
         out[0], out[1] = u[:, None], v[:, None]
         return out

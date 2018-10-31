@@ -13,29 +13,29 @@ class genNWTC(specModelBase):
 
     """
 
-    def __call__(self, tsrun):
+    def __call__(self, tgrun):
         """
-        Create and calculate the spectral object for a `tsrun`
+        Create and calculate the spectral object for a `tgrun`
         instance.
 
         Parameters
         ----------
-        tsrun :         :class:`.tsrun`
+        tgrun :         :class:`.TGrun`
                         A TurbGen run object.
 
         Returns
         -------
         out :           :class:`.specObj`
-                        An NWTC spectral object for the grid in `tsrun`.
+                        An NWTC spectral object for the grid in `tgrun`.
 
         """
-        out = specObj(tsrun)
+        out = specObj(tgrun)
         # !!!FIXTHIS: The following lines bind calculation to the
         # !!!MODEL. This goes against the TurbGen philosophy of
         # !!!keeping calculations separated from models.
         self.f = out.f
         self._work = np.zeros(out.n_f, dtype=ts_float)
-        self.zhub = tsrun.grid.zhub
+        self.zhub = tgrun.grid.zhub
         # Fixing this will require something like changing:
         #   out[comp][iz, iy] = model(z, u, comp)
         # to:
@@ -45,12 +45,12 @@ class genNWTC(specModelBase):
         # This would also require:
         # 1) deleting the self._work variable
         # 2) changing ``def L(self,)`` from a property to ``def
-        #    L(self, tsrun)`` and using tsrun.grid.zhub their.
+        #    L(self, tgrun)`` and using tgrun.grid.zhub their.
         # 3) changing all calls to ``self.L`` accordingly.
         for iz in range(out.n_z):
             for iy in range(out.n_y):
                 z = out.grid.z[iz]
-                u = tsrun.prof.u[iz, iy]
+                u = tgrun.prof.u[iz, iy]
                 for comp in out.grid.comp:
                     self._work[:] = 0.0
                     out[comp][iz, iy] = self.model(z, u, comp)
@@ -115,7 +115,7 @@ class NWTC_stable(genNWTC):
         else:
             self.coefs = coef
 
-    def _sumfile_string(self, tsrun):
+    def _sumfile_string(self, tgrun):
         sumstring_format = """
         Turbulence model used                            =  {dat.model_desc}
         Turbulence velocity (UStar)                      =  {dat.Ustar:0.2f} [m/s]
@@ -190,7 +190,7 @@ class NWTC_unstable(genNWTC):
         if f_coefs is None:
             self.f_coefs = f_coefs_unstable
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Turbulence model used                            =  {dat.model_desc}
         Turbulence velocity (UStar)                      =  {dat.Ustar:0.4g} [m/s]

@@ -39,7 +39,7 @@ class cohereObj(gridProps, calcObj):
 
     Parameters
     ----------
-    tsrun : `tsrun` type
+    run : `TGrun` type
         The TurbGen run object in which the coherence will be used.
 
     """
@@ -78,12 +78,12 @@ class cohereObj(gridProps, calcObj):
     def array(self,):
         del self._array
 
-    def __init__(self, tsrun):
-        self.grid = tsrun.grid
-        self.prof = tsrun.prof
-        self.spec = tsrun.spec
-        self.stress = tsrun.stress
-        self.ncore = tsrun.ncore  # This is used by tslib.
+    def __init__(self, tgrun):
+        self.grid = tgrun.grid
+        self.prof = tgrun.prof
+        self.spec = tgrun.spec
+        self.stress = tgrun.stress
+        self.ncore = tgrun.ncore  # This is used by tslib.
 
     def _iter_inds(self,):
         """
@@ -156,7 +156,7 @@ class cohereObj(gridProps, calcObj):
 
         Parameters
         ----------
-        cohi : A 'coherence calculator' instance (for the given tsrun).
+        cohi : A 'coherence calculator' instance (for the given tgrun).
         comp : an integer (0,1,2) indicating the velocity component
                     for which to compute the coherence.
         ii,jj : Two-integer elements indicating the grid-points
@@ -185,7 +185,7 @@ class cohereUser(cohereObj):
     3) frequency.
 
     The ordering of the spatial points (dims 1,2) must match the
-    ordering of the TurbGen grid.  See the tsGrid classes
+    ordering of the TurbGen grid.  See the :class:`<TurbGen.base.gridObj>` classes
     'sub2ind', 'ind2sub', 'flatten' and 'reshape' methods for more
     details on this.
 
@@ -230,30 +230,30 @@ class cohereModelBase(modelBase, gridProps):
     When a 'coherence model instance' is called, it returns a
     'coherence object' instance,
     e.g.
-    coh=cm(tsr)
+    coh=cm(tgr)
 
-    Where tsr is a 'tsrun' object.
+    Where tgr is a 'TGrun' object.
 
     """
     cohereObj = cohereObj  # This needs to be set to the appropriate
                            # 'coherence object' for each model.
 
-    def __call__(self, tsrun):
+    def __call__(self, tgrun):
         """
-        Calculate the coherence matrix for TurbGen run `tsrun`
+        Calculate the coherence matrix for TurbGen run `tgrun`
         according to this coherence model. The grid, profile and
-        spectrum (tsrun.grid, tsrun.prof, tsrun.spec) must already be
-        defined for the tsrun.
+        spectrum (tgrun.grid, tgrun.prof, tgrun.spec) must already be
+        defined for the tgrun.
 
         Parameters
         ----------
-        tsrun - A 'TurbGen run' object that contains the grid, prof and spec
+        tgrun - A 'TurbGen run' object that contains the grid, prof and spec
                 attributes.
 
         Returns
         -------
         A coherence instance (array or 'calculator'), e.g.
-        cohi=thisCohereModel(tsrun)
+        cohi=thisCohereModel(tgrun)
 
         The coherence instance is either an array of the full
         cross-spectral matrix (3 x n_p x n_p x n_f), or a 'calculator'
@@ -266,7 +266,7 @@ class cohereModelBase(modelBase, gridProps):
         csm_w=cohi[2]
 
         """
-        out = self.cohereObj(tsrun)
+        out = self.cohereObj(tgrun)
         if hasattr(self, 'set_coefs'):
             self.set_coefs(out)
         return out

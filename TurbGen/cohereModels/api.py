@@ -40,7 +40,7 @@ Available coherence models
 
 :class:`~.base.cohereObj`
   This is the 'coherence object' class.  All coherence model `__call__`
-  methods must take a :class:`tsrun <TurbGen.main.tsrun>` as input and
+  methods must take a :class:`<~.main.TGrun>` as input and
   return this class.
 
 Further details on creating your own coherence model, can be found in

@@ -21,7 +21,7 @@ class main(powmain, logmain, ):
 
     Parameters
     ----------
-    grid :      :class:`tsGrid <TurbGen.base.tsGrid>`
+    grid :      :class:`RectGrid <TurbGen.base.RectGrid>`
                 The TurbGen grid object for this simulation.
 
     URef :      float
@@ -59,7 +59,7 @@ class main(powmain, logmain, ):
         self.Ri = 0.0
         self.TurbModel = turbmodel
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Profile model used                               =  {dat.model_desc}
         Reference velocity (URef)                        =  {dat.Uref:0.4g} [m/s]
@@ -70,24 +70,24 @@ class main(powmain, logmain, ):
         """
         return sumstring_format.format(dat=self)
 
-    def __call__(self, tsrun):
+    def __call__(self, tgrun):
         """
-        Create and calculate the mean-profile object for a `tsrun`
+        Create and calculate the mean-profile object for a `tgrun`
         instance.
 
         Parameters
         ----------
-        tsrun :         :class:`.tsrun`
+        tgrun :         :class:`.TGrun`
                         A TurbGen run object.
 
         Returns
         -------
         out :           :class:`.profObj`
-                        A iec wind-speed profile for the grid in `tsrun`.
+                        A iec wind-speed profile for the grid in `tgrun`.
 
         """
-        out = profObj(tsrun)
-        g = tsrun.grid  # A temporary, internal shortcut.
+        out = profObj(tgrun)
+        g = tgrun.grid  # A temporary, internal shortcut.
         zinds = (((-g.rotor_diam / 2 <= g.z - g.zhub)
                  & (g.z - g.zhub <= g.rotor_diam / 2))[:, None])
         yinds = ((-g.rotor_diam / 2 <= g.y)

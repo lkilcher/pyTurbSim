@@ -27,30 +27,30 @@ class uniform(profModelBase,):
     def __init__(self, URef):
         self.Uref = URef
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Profile model used                               =  {dat.model_desc}
         Reference velocity (URef)                        =  {dat.Uref:0.2f} [m/s]
         """
         return sumstring_format.format(dat=self, )
 
-    def __call__(self, tsrun):
+    def __call__(self, tgrun):
         """
-        Create and calculate the mean-profile object for a `tsrun`
+        Create and calculate the mean-profile object for a `tgrun`
         instance.
 
         Parameters
         ----------
-        tsrun :         :class:`.tsrun`
+        tgrun :         :class:`.TGrun`
                         A TurbGen run object.
 
         Returns
         -------
         out :           :class:`.profObj`
-                        A uniform wind-speed profile for the grid in `tsrun`.
+                        A uniform wind-speed profile for the grid in `tgrun`.
 
         """
-        out = profObj(tsrun)
+        out = profObj(tgrun)
         out[0][:] = self.Uref  # Set the velocity.
         return out
 
@@ -85,7 +85,7 @@ class linear(profModelBase,):
         self.Uref2 = URef2
         self.Zref2 = ZRef2
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Profile model used                               =  {dat.model_desc}
         Reference velocity (URef)                        =  {dat.Uref:0.2f} [m/s]
@@ -95,23 +95,23 @@ class linear(profModelBase,):
         """
         return sumstring_format.format(dat=self,)
 
-    def __call__(self, tsrun):
+    def __call__(self, tgrun):
         """
-        Create and calculate the mean-profile object for a `tsrun`
+        Create and calculate the mean-profile object for a `tgrun`
         instance.
 
         Parameters
         ----------
-        tsrun :         :class:`.tsrun`
+        tgrun :         :class:`.TGrun`
                         A TurbGen run object.
 
         Returns
         -------
         out :           :class:`.profObj`
-                        A uniform wind-speed profile for the grid in `tsrun`.
+                        A uniform wind-speed profile for the grid in `tgrun`.
 
         """
-        out = profObj(tsrun)
+        out = profObj(tgrun)
         out[0][:] = out.grid.z * \
             (self.Uref - self.Uref2) / (self.Zref - self.Zref2)
         return out

@@ -25,7 +25,7 @@ class uniform(stressModelBase):
         """
         self.vals = [upvp_, upwp_, vpwp_]
 
-    def _sumfile_string(self, tsrun, ):
+    def _sumfile_string(self, tgrun, ):
         sumstring_format = """
         Stress model used                                =  {dat.model_desc}
         u'v'                                             =  {dat.vals[0]:0.4g} [m^2/s^2]
@@ -34,23 +34,23 @@ class uniform(stressModelBase):
         """
         return sumstring_format.format(dat=self, )
 
-    def __call__(self, tsrun):
+    def __call__(self, tgrun):
         """
-        Create and calculate the stress object for a `tsrun`
+        Create and calculate the stress object for a `tgrun`
         instance.
 
         Parameters
         ----------
-        tsrun :         :class:`.tsrun`
+        tgrun :         :class:`.TGrun`
                         A TurbGen run object.
 
         Returns
         -------
         out :           :class:`.stressObj`
-                        A stress object for the grid in `tsrun`.
+                        A stress object for the grid in `tgrun`.
 
         """
-        out = stressObj(tsrun)
+        out = stressObj(tgrun)
         out.upvp_[:] = self.vals[0]
         out.upwp_[:] = self.vals[1]
         out.vpwp_[:] = self.vals[2]
