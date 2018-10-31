@@ -1,0 +1,38 @@
+TurbGen.phaseModels package
+===========================
+
+Submodules
+----------
+
+TurbGen.phaseModels.api module
+------------------------------
+
+.. automodule:: TurbGen.phaseModels.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.phaseModels.base module
+-------------------------------
+
+.. automodule:: TurbGen.phaseModels.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.phaseModels.main module
+-------------------------------
+
+.. automodule:: TurbGen.phaseModels.main
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: TurbGen.phaseModels
+    :members:
+    :undoc-members:
+    :show-inheritance:

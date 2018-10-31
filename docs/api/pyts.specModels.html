@@ -4,24 +4,16 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pyts.specModels package &#8212; PyTurbSim 0.4.8 documentation</title>
+    <title>pyts.specModels package &#8212; TurbGen 0.5 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.4.8',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -33,13 +25,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="pyts-specmodels-package">
@@ -47,742 +40,77 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-pyts.specModels.api">
-<span id="pyts-specmodels-api-module"></span><h2>pyts.specModels.api module<a class="headerlink" href="#module-pyts.specModels.api" title="Permalink to this headline">¶</a></h2>
-<p>PyTurbSim turbulence ‘spectra models’ API.</p>
-<div class="section" id="available-spectral-models">
-<h3>Available spectral models<a class="headerlink" href="#available-spectral-models" title="Permalink to this headline">¶</a></h3>
-<dl class="docutils">
-<dt><a class="reference internal" href="#pyts.specModels.nwtc.smooth" title="pyts.specModels.nwtc.smooth"><code class="xref py py-func docutils literal"><span class="pre">nwtc.smooth()</span></code></a> (alias: smooth)</dt>
-<dd>The nwtc ‘smooth’ spectral model.</dd>
-<dt><a class="reference internal" href="#pyts.specModels.nwtc.nwtcup" title="pyts.specModels.nwtc.nwtcup"><code class="xref py py-func docutils literal"><span class="pre">nwtc.nwtcup()</span></code></a> (alias: nwtcup)</dt>
-<dd>The nwtc ‘upwind’ spectral model.</dd>
-<dt><a class="reference internal" href="#pyts.specModels.hydro.tidal" title="pyts.specModels.hydro.tidal"><code class="xref py py-class docutils literal"><span class="pre">hydro.tidal</span></code></a> (alias: tidal)</dt>
-<dd>The hydro ‘tidal’ spectral model.</dd>
-<dt><a class="reference internal" href="#pyts.specModels.hydro.river" title="pyts.specModels.hydro.river"><code class="xref py py-class docutils literal"><span class="pre">hydro.river</span></code></a> (alias: river)</dt>
-<dd>The hydro ‘river’ spectral model.</dd>
-<dt><code class="xref py py-class docutils literal"><span class="pre">iec.ieckai</span></code>  (alias: ieckai)</dt>
-<dd>The IEC ‘Kaimal’ spectral model.</dd>
-<dt><code class="xref py py-class docutils literal"><span class="pre">iec.iecvkm</span></code>  (alias: iecvkm)</dt>
-<dd>The IEC ‘Von-Karman’ spectral model.</dd>
-<dt><a class="reference internal" href="#pyts.specModels.base.specModelBase" title="pyts.specModels.base.specModelBase"><code class="xref py py-class docutils literal"><span class="pre">specModelBase</span></code></a></dt>
-<dd>This is the base class for spectral models. To create a new spectral
-model, subclass this class or subclass and modify an existing
-spectal model.</dd>
-<dt><a class="reference internal" href="#pyts.specModels.base.specObj" title="pyts.specModels.base.specObj"><code class="xref py py-class docutils literal"><span class="pre">specObj</span></code></a></dt>
-<dd>This is the ‘spectral object’ class.  All spectral model <cite>__call__</cite>
-methods must take a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a> as input and
-return this class.</dd>
-</dl>
+<div class="section" id="pyts-specmodels-api-module">
+<h2>pyts.specModels.api module<a class="headerlink" href="#pyts-specmodels-api-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="example-usage">
-<h3>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyts.specModels.api</span> <span class="k">as</span> <span class="nn">sm</span>
-</pre></div>
+<div class="section" id="pyts-specmodels-base-module">
+<h2>pyts.specModels.base module<a class="headerlink" href="#pyts-specmodels-base-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<p>Create a <cite>smooth</cite> spectral model with friction velocity Ustar=1m/s and Richardson number Ri=0.6:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_spec_model</span><span class="o">=</span><span class="n">sm</span><span class="o">.</span><span class="n">smooth</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.6</span><span class="p">)</span>
-</pre></div>
+<div class="section" id="pyts-specmodels-hydro-module">
+<h2>pyts.specModels.hydro module<a class="headerlink" href="#pyts-specmodels-hydro-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<p>Now set a <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">pyts.main.tsrun</span></code></a> instance to use this spectral model:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tsrun</span><span class="o">.</span><span class="n">spec</span><span class="o">=</span><span class="n">my_spec_model</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
-</pre></div>
+<div class="section" id="pyts-specmodels-iec-module">
+<h2>pyts.specModels.iec module<a class="headerlink" href="#pyts-specmodels-iec-module" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="pyts-specmodels-kelley-coefs-module">
+<h2>pyts.specModels.kelley_coefs module<a class="headerlink" href="#pyts-specmodels-kelley-coefs-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="notes">
-<h3>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h3>
-<p>For a description of the difference between ‘spectral models’
-(e.g. ‘my_spec_model’ in example above) and the spectral array they
-output (tsrun.spec), see the <a class="reference internal" href="../code-framework.html"><span class="doc">Code Framework</span></a> section of the PyTurbSim
-documentation.</p>
+<div class="section" id="pyts-specmodels-nwtc-module">
+<h2>pyts.specModels.nwtc module<a class="headerlink" href="#pyts-specmodels-nwtc-module" title="Permalink to this headline">¶</a></h2>
 </div>
-</div>
-<div class="section" id="module-pyts.specModels.base">
-<span id="pyts-specmodels-base-module"></span><h2>pyts.specModels.base module<a class="headerlink" href="#module-pyts.specModels.base" title="Permalink to this headline">¶</a></h2>
-<p>This is the turbulence spectrum package’s base module.</p>
-<dl class="class">
-<dt id="pyts.specModels.base.specModelBase">
-<em class="property">class </em><code class="descclassname">pyts.specModels.base.</code><code class="descname">specModelBase</code><a class="reference internal" href="../_modules/pyts/specModels/base.html#specModelBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.base.specModelBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.modelBase" title="pyts.base.modelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.modelBase</span></code></a></p>
-<p>A base class for TurbSim spectral models.</p>
-<dl class="attribute">
-<dt id="pyts.specModels.base.specModelBase.pow2_3">
-<code class="descname">pow2_3</code><em class="property"> = 0.6666667</em><a class="headerlink" href="#pyts.specModels.base.specModelBase.pow2_3" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.specModels.base.specModelBase.pow5_3">
-<code class="descname">pow5_3</code><em class="property"> = 1.6666666</em><a class="headerlink" href="#pyts.specModels.base.specModelBase.pow5_3" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.specModels.base.specObj">
-<em class="property">class </em><code class="descclassname">pyts.specModels.base.</code><code class="descname">specObj</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/base.html#specObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.base.specObj" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="pyts.html#pyts.base.gridProps" title="pyts.base.gridProps"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.gridProps</span></code></a>, <a class="reference internal" href="pyts.html#pyts.base.calcObj" title="pyts.base.calcObj"><code class="xref py py-class docutils literal"><span class="pre">pyts.base.calcObj</span></code></a></p>
-<p>Spectral objects contain the array (self.array) of turbulence
-spectra values for a specific PyTurbSim run. This class defines
-various shortcuts to the data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsrun</strong> : <cite>tsrun</cite> type</p>
-<blockquote class="last">
-<div><p>The PyTurbSim run object in which the spectra will be used.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="pyts.specModels.base.specObj.Suu">
-<code class="descname">Suu</code><a class="headerlink" href="#pyts.specModels.base.specObj.Suu" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is the u-component of the TKE spectrum.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.specModels.base.specObj.Svv">
-<code class="descname">Svv</code><a class="headerlink" href="#pyts.specModels.base.specObj.Svv" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is the v-component of the TKE spectrum.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.specModels.base.specObj.Sww">
-<code class="descname">Sww</code><a class="headerlink" href="#pyts.specModels.base.specObj.Sww" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is the w-component of the TKE spectrum.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.specModels.base.specObj.flat">
-<code class="descname">flat</code><a class="headerlink" href="#pyts.specModels.base.specObj.flat" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the partially-flattened spectral array.  This flattens
-the spatial dimensions of the spectral array (component and
-frequency dimensions are retained).</p>
-<p>For example, for a 5 x 4 spatial grid (nz=5,ny=4) with 1000
-frequency values, the size of the array in this spectral
-object will be 3 x 5 x 4 x 1000.  Performing this flatten
-operation will return a 3 x 20 x 1000 shaped spectral
-array. The ordering (row-major or column-major) is defined in
-the spatial grid class.</p>
-<p>This is used for input into the functions that calculate the
-coherence.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.specModels.base.specObj.tke">
-<code class="descname">tke</code><a class="headerlink" href="#pyts.specModels.base.specObj.tke" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is the component-wise turbulent kinetic energy.</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-pyts.specModels.hydro">
-<span id="pyts-specmodels-hydro-module"></span><h2>pyts.specModels.hydro module<a class="headerlink" href="#module-pyts.specModels.hydro" title="Permalink to this headline">¶</a></h2>
-<p>This module contains the turbulence models for the aquatic environment.</p>
-<dl class="class">
-<dt id="pyts.specModels.hydro.river">
-<em class="property">class </em><code class="descclassname">pyts.specModels.hydro.</code><code class="descname">river</code><span class="sig-paren">(</span><em>Ustar</em>, <em>Zref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/hydro.html#river"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.hydro.river" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.specModels.hydro.tidal" title="pyts.specModels.hydro.tidal"><code class="xref py py-class docutils literal"><span class="pre">pyts.specModels.hydro.tidal</span></code></a></p>
-<p>River turbulence spectral model.</p>
-<p>This model is based on measurements from the East River, in New
-York City. It is identical to the <a class="reference internal" href="#pyts.specModels.hydro.tidal" title="pyts.specModels.hydro.tidal"><code class="xref py py-class docutils literal"><span class="pre">tidal</span></code></a> model, but uses
-different values for <a class="reference internal" href="#pyts.specModels.hydro.river.coef" title="pyts.specModels.hydro.river.coef"><code class="xref py py-attr docutils literal"><span class="pre">coef</span></code></a>.</p>
-<dl class="attribute">
-<dt id="pyts.specModels.hydro.river.coef">
-<code class="descname">coef</code><em class="property"> = array([[1.057, 3.432],        [0.351, 0.546],        [0.265, 0.341]], dtype=float32)</em><a class="headerlink" href="#pyts.specModels.hydro.river.coef" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.specModels.hydro.tidal">
-<em class="property">class </em><code class="descclassname">pyts.specModels.hydro.</code><code class="descname">tidal</code><span class="sig-paren">(</span><em>Ustar</em>, <em>Zref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/hydro.html#tidal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.hydro.tidal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.specModels.base.specModelBase" title="pyts.specModels.base.specModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.specModels.base.specModelBase</span></code></a></p>
-<p>Tidal Channel spectral model.</p>
-<p>The tidal spectral model is based on measurements from Admiralty
-Inlet, in Puget Sound, WA.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Ustar</strong> :     float</p>
-<blockquote>
-<div><p>bottom boundary friction velocity [m/s].</p>
-</div></blockquote>
-<p><strong>Zref</strong> :      float</p>
-<blockquote class="last">
-<div><p>Reference height at which u’w’ stress nears zero [m].</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<dl class="last docutils">
-<dt><a class="reference internal" href="#pyts.specModels.hydro.tidal.coef" title="pyts.specModels.hydro.tidal.coef"><code class="xref py py-attr docutils literal"><span class="pre">coef</span></code></a></dt>
-<dd>The ‘fit coefficients’</dd>
-</dl>
-</div>
-<p class="rubric">Notes</p>
-<p>This model is similar to <a class="reference internal" href="#pyts.specModels.nwtc.NWTC_stable" title="pyts.specModels.nwtc.NWTC_stable"><code class="xref py py-class docutils literal"><span class="pre">NWTC_stable</span></code></a>, but uses
-different values for <a class="reference internal" href="#pyts.specModels.hydro.tidal.coef" title="pyts.specModels.hydro.tidal.coef"><code class="xref py py-attr docutils literal"><span class="pre">coef</span></code></a>, and does not support new
-fit-coefficients. The form of this model is:</p>
-<div class="math">
-\[S_k(f) = \frac{\sigma_k^2 \mathrm{coef}[k,0]}{1+\mathrm{coef}[k,1](f/\hat{f})^{5/3}}
-\qquad k=0,1,2\ (u,v,w)\]</div>
-<p>Where,</p>
-<blockquote>
-<div><p><span class="math">\(\hat{f}=\frac{\partial \bar{u}}{\partial z}\)</span></p>
-<p><span class="math">\(\bar{u}\)</span> is the mean velocity from the <a class="reference internal" href="pyts.profModels.html#pyts.profModels.base.profObj" title="pyts.profModels.base.profObj"><code class="xref py py-class docutils literal"><span class="pre">profObj</span></code></a>.</p>
-<p><span class="math">\(\sigma_k^2 = U_{*}^2 \alpha_k exp(-2 z/Zref)\)</span></p>
-<p><span class="math">\(\alpha_k = (4.4,2.25,0.9)\)</span></p>
-</div></blockquote>
-<dl class="method">
-<dt id="pyts.specModels.hydro.tidal.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/hydro.html#tidal.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.hydro.tidal.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create the spectral object for <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsrun</strong> :         <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a></p>
-<blockquote>
-<div><p>A TurbSim run object.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> :           <a class="reference internal" href="#pyts.specModels.base.specObj" title="pyts.specModels.base.specObj"><code class="xref py py-class docutils literal"><span class="pre">specObj</span></code></a></p>
-<blockquote class="last">
-<div><p>An IEC spectral object for the grid in <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.specModels.hydro.tidal.coef">
-<code class="descname">coef</code><em class="property"> = array([[1.21, 4.3 ],        [0.33, 0.5 ],        [0.23, 0.26]], dtype=float32)</em><a class="headerlink" href="#pyts.specModels.hydro.tidal.coef" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-pyts.specModels.iec">
-<span id="pyts-specmodels-iec-module"></span><h2>pyts.specModels.iec module<a class="headerlink" href="#module-pyts.specModels.iec" title="Permalink to this headline">¶</a></h2>
-<p>This module contains the IEC turbulence models.</p>
-<p>See the
-<a class="reference external" href="http://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">Original-TurbSim user manual</a>
-for more info on IEC spectral models.</p>
-<dl class="class">
-<dt id="pyts.specModels.iec.IECKai">
-<em class="property">class </em><code class="descclassname">pyts.specModels.iec.</code><code class="descname">IECKai</code><span class="sig-paren">(</span><em>IECwindtype</em>, <em>IECstandard</em>, <em>IECedition</em>, <em>IECturbc</em>, <em>ETMc=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/iec.html#IECKai"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.iec.IECKai" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.specModels.iec.iecbase" title="pyts.specModels.iec.iecbase"><code class="xref py py-class docutils literal"><span class="pre">pyts.specModels.iec.iecbase</span></code></a></p>
-<p>IEC Kaimal spectral model.</p>
-<p class="rubric">Notes</p>
-<p>The form of this model is,</p>
-<div class="math">
-\[S_k(f) = \frac{4 \sigma_k^2/\hat{f}_k}{(1+6 f/\hat{f}_k
-)^{5/3}} \qquad \mathrm{for}\ k=u,v,w\]</div>
-<p>Where,</p>
-<blockquote>
-<div><p><span class="math">\(\hat{f}_k = \alpha_k \bar{u}_{hub}/\Lambda\)</span></p>
-<p><span class="math">\(\alpha_k =\)</span> (8.1,2.7,0.66) for k= (u,v,w)</p>
-<p><span class="math">\(\sigma_u\)</span> is defined in <a class="reference internal" href="#pyts.specModels.iec.iecbase.IEC_Sigma" title="pyts.specModels.iec.iecbase.IEC_Sigma"><code class="xref py py-attr docutils literal"><span class="pre">IEC_Sigma</span></code></a></p>
-<p><span class="math">\(\sigma_v=0.8\sigma_u\)</span> and <span class="math">\(\sigma_w=0.5\sigma_u\)</span></p>
-<p><span class="math">\(\Lambda\)</span> is defined in <a class="reference internal" href="#pyts.specModels.iec.iecbase.Lambda" title="pyts.specModels.iec.iecbase.Lambda"><code class="xref py py-attr docutils literal"><span class="pre">Lambda</span></code></a></p>
-</div></blockquote>
-<dl class="method">
-<dt id="pyts.specModels.iec.IECKai.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/iec.html#IECKai.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.iec.IECKai.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create the spectral object for a <cite>tsrun</cite> instance.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsrun</strong> :         <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a></p>
-<blockquote>
-<div><p>A TurbSim run object.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> :           <a class="reference internal" href="#pyts.specModels.base.specObj" title="pyts.specModels.base.specObj"><code class="xref py py-class docutils literal"><span class="pre">specObj</span></code></a></p>
-<blockquote class="last">
-<div><p>An IEC spectral object for the grid in <cite>tsrun</cite>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.specModels.iec.IECVKm">
-<em class="property">class </em><code class="descclassname">pyts.specModels.iec.</code><code class="descname">IECVKm</code><span class="sig-paren">(</span><em>IECwindtype</em>, <em>IECstandard</em>, <em>IECedition</em>, <em>IECturbc</em>, <em>ETMc=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/iec.html#IECVKm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.iec.IECVKm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.specModels.iec.iecbase" title="pyts.specModels.iec.iecbase"><code class="xref py py-class docutils literal"><span class="pre">pyts.specModels.iec.iecbase</span></code></a></p>
-<p>IEC Von-Karman spectral model</p>
-<p class="rubric">Notes</p>
-<p>The form of this model is,</p>
-<div class="math">
-\[ \begin{align}\begin{aligned}S_u(f) = \frac{4 \sigma^2/\hat{f}}{(1+71(f/\hat{f})^2)^{5/6}}\\S_v(f) = S_w(f) = (1+189(f/\hat{f})^2\frac{2\sigma^2/\hat{f}}
-{(1+71 (f/\hat{f})^2)^{11/6}}\end{aligned}\end{align} \]</div>
-<p>Where,</p>
-<blockquote>
-<div><p><span class="math">\(\hat{f} = \bar{u}_{hub}/\Lambda\)</span></p>
-<p><span class="math">\(\sigma\)</span> is defined in <a class="reference internal" href="#pyts.specModels.iec.iecbase.IEC_Sigma" title="pyts.specModels.iec.iecbase.IEC_Sigma"><code class="xref py py-attr docutils literal"><span class="pre">IEC_Sigma</span></code></a></p>
-<p><span class="math">\(\Lambda\)</span> is defined in <a class="reference internal" href="#pyts.specModels.iec.iecbase.Lambda" title="pyts.specModels.iec.iecbase.Lambda"><code class="xref py py-attr docutils literal"><span class="pre">Lambda</span></code></a></p>
-</div></blockquote>
-<dl class="method">
-<dt id="pyts.specModels.iec.IECVKm.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/iec.html#IECVKm.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.iec.IECVKm.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create and calculate the spectral object for a <cite>tsrun</cite>
-instance.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsrun</strong> :         <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a></p>
-<blockquote>
-<div><p>A TurbSim run object.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> :           <a class="reference internal" href="#pyts.specModels.base.specObj" title="pyts.specModels.base.specObj"><code class="xref py py-class docutils literal"><span class="pre">specObj</span></code></a></p>
-<blockquote class="last">
-<div><p>An IEC spectral object for the grid in <cite>tsrun</cite>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.specModels.iec.iecbase">
-<em class="property">class </em><code class="descclassname">pyts.specModels.iec.</code><code class="descname">iecbase</code><span class="sig-paren">(</span><em>IECwindtype</em>, <em>IECstandard</em>, <em>IECedition</em>, <em>IECturbc</em>, <em>ETMc=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/iec.html#iecbase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.iec.iecbase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.specModels.base.specModelBase" title="pyts.specModels.base.specModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.specModels.base.specModelBase</span></code></a></p>
-<p>This is a base class for the IEC spectral models (IECKAI and IECVKM).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>IECwindtype</strong> : str {‘NTM’=normal,</p>
-<blockquote>
-<div><p>‘xETM’=extreme turbulence,
-‘xEWM1’=extreme 1-year wind,
-‘xEWM50’=extreme 50-year wind,
-where x=wind turbine class 1, 2, or 3}</p>
-</div></blockquote>
-<p><strong>IECstandard</strong> : int {1}</p>
-<blockquote>
-<div><p>Currently this only supports IECstandard==1.
-IECstandard == 2 and 3 correspond to small and
-offshore wind, respectively, and have not yet been
-implemented here.</p>
-</div></blockquote>
-<p><strong>IECedition</strong> : int {2,3}</p>
-<blockquote>
-<div><p>This is the ‘edition’ number of the -1 standard.</p>
-</div></blockquote>
-<p><strong>IECturbc</strong> : str | float {‘A’,’B’,’C’}</p>
-<blockquote>
-<div><p>The string form correspodes to the IEC turbulence
-‘categories’. If a float is provided, it specifies a
-specific value of Turbulence Intensity.</p>
-</div></blockquote>
-<p><strong>ETMc</strong> : float, optional (2.0)</p>
-<blockquote class="last">
-<div><p>ETMc specifies the value of the ‘c’ parameter in the
-equation for <span class="math">\(\sigma_u\)</span>. It is only used when
-<cite>IECwindtype`=`xETM</cite>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>For further details on the IEC spectral models see the
-<a class="reference external" href="http://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">Original-TurbSim user manual</a>.</p>
-<dl class="method">
-<dt id="pyts.specModels.iec.iecbase.IEC_Sigma">
-<code class="descname">IEC_Sigma</code><span class="sig-paren">(</span><em>uhub</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/iec.html#iecbase.IEC_Sigma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.iec.iecbase.IEC_Sigma" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the default value of the standard deviation of
-u-component wind speed, <span class="math">\(\sigma\)</span> or <span class="math">\(\sigma_u\)</span>.</p>
-<p class="rubric">Notes</p>
-<p>For input <a class="reference internal" href="#pyts.specModels.iec.iecbase" title="pyts.specModels.iec.iecbase"><code class="xref py py-class docutils literal"><span class="pre">IECturbc</span></code></a> a numeric value, it
-simply specifies the turbulence intensity. That is,</p>
-<blockquote>
-<div><div class="math">
-\[\sigma = \mathrm{IECturbc}\times u_{hub}\]</div>
-</div></blockquote>
-<p>Otherwise only IECversion == 1 is supported.  In that case:</p>
-<ul>
-<li><p class="first">For IECedition == 2 the windtype must be ‘NTM’, in that case:</p>
-<div class="math">
-\[\sigma = Ti (\frac{15+\beta u_{hub}}{\beta + 1})\]</div>
-<p>Where,</p>
-<blockquote>
-<div><p>Ti = (0.18,0.16) for input variable <a class="reference internal" href="#pyts.specModels.iec.iecbase" title="pyts.specModels.iec.iecbase"><code class="xref py py-class docutils literal"><span class="pre">IECturbc</span></code></a> = (‘a’,’b’), respectively.</p>
-<p><span class="math">\(\beta\)</span> = (2.0,3.0) for input variable
-<a class="reference internal" href="#pyts.specModels.iec.iecbase" title="pyts.specModels.iec.iecbase"><code class="xref py py-class docutils literal"><span class="pre">IECturbc</span></code></a> = (‘a’,’b’), respectively.</p>
-</div></blockquote>
-</li>
-<li><p class="first">For IECedition == 3, Ti=(0.16,0.14,0.12) for
-IECturbc=(a,b,c), respectively. In this case, different
-formulations are used for different <a class="reference internal" href="#pyts.specModels.iec.iecbase" title="pyts.specModels.iec.iecbase"><code class="xref py py-class docutils literal"><span class="pre">IECwindtype</span></code></a>.</p>
-<blockquote>
-<div><ul>
-<li><p class="first">For IECwindtype == ‘NTM’:</p>
-<div class="math">
-\[\sigma = Ti(0.75u_{hub} + 5.6)\]</div>
-</li>
-<li><p class="first">For IECwindtype == ‘xETM’, the value of ‘x’ in that
-string provides another input variable,
-Vref=(50,42.5,37.5) for x=1,2,3.</p>
-<div class="math">
-\[\sigma = \mathrm{ETMc} \times Ti (0.072(0.2
-V_{ref}/\mathrm{ETMc}+3)(u_{hub}/\mathrm{ETMc}-4)+10)\]</div>
-</li>
-<li><p class="first">For IECwindtype == ‘xEWM1’ | ‘xEWM50’, the same value of
-Vref apply and</p>
-<div class="math">
-\[\sigma = 0.11 V_{ref}\]</div>
-</li>
-</ul>
-</div></blockquote>
-</li>
-</ul>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.specModels.iec.iecbase.Lambda">
-<code class="descname">Lambda</code><span class="sig-paren">(</span><em>zhub</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/iec.html#iecbase.Lambda"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.iec.iecbase.Lambda" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the value of Lambda for height <cite>zhub</cite>.</p>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="pyts.html#pyts.misc.Lambda" title="pyts.misc.Lambda"><code class="xref py py-func docutils literal"><span class="pre">pyts.misc.Lambda()</span></code></a></p>
-</div>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-pyts.specModels.kelley_coefs">
-<span id="pyts-specmodels-kelley-coefs-module"></span><h2>pyts.specModels.kelley_coefs module<a class="headerlink" href="#module-pyts.specModels.kelley_coefs" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="pyts.specModels.kelley_coefs.calc_nwtcup_coefs">
-<code class="descclassname">pyts.specModels.kelley_coefs.</code><code class="descname">calc_nwtcup_coefs</code><span class="sig-paren">(</span><em>zL</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/kelley_coefs.html#calc_nwtcup_coefs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.kelley_coefs.calc_nwtcup_coefs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-<div class="section" id="module-pyts.specModels.nwtc">
-<span id="pyts-specmodels-nwtc-module"></span><h2>pyts.specModels.nwtc module<a class="headerlink" href="#module-pyts.specModels.nwtc" title="Permalink to this headline">¶</a></h2>
-<p>This module contains the nwtc spectral models.</p>
-<dl class="class">
-<dt id="pyts.specModels.nwtc.NWTC_stable">
-<em class="property">class </em><code class="descclassname">pyts.specModels.nwtc.</code><code class="descname">NWTC_stable</code><span class="sig-paren">(</span><em>Ustar</em>, <em>zL</em>, <em>coef=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/nwtc.html#NWTC_stable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.nwtc.NWTC_stable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.specModels.nwtc.genNWTC" title="pyts.specModels.nwtc.genNWTC"><code class="xref py py-class docutils literal"><span class="pre">pyts.specModels.nwtc.genNWTC</span></code></a></p>
-<p>The NWTC ‘stable’ spectral model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Ustar</strong> :     float</p>
-<blockquote>
-<div><p>friction velocity [m/s].</p>
-</div></blockquote>
-<p><strong>zL</strong> :        float</p>
-<blockquote>
-<div><p>The z/L stability parameter [non-dimensional]</p>
-</div></blockquote>
-<p><strong>coef</strong> :      array_like((3,2),dtype=float)</p>
-<blockquote class="last">
-<div><p>spectral coefficients for this model.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<dl class="last docutils">
-<dt><a class="reference internal" href="#pyts.specModels.nwtc.NWTC_stable.s_coef" title="pyts.specModels.nwtc.NWTC_stable.s_coef"><code class="xref py py-attr docutils literal"><span class="pre">s_coef</span></code></a></dt>
-<dd>These are the hard-wired <span class="math">\(\mathrm{scoef}\)</span> coefficients.</dd>
-</dl>
-</div>
-<p class="rubric">Notes</p>
-<p>The specific form of this model is,</p>
-<div class="math">
-\[S_k(f) = \frac{U_{*}^2 A_k
-\hat{f}^{-1}\gamma}{1+B_k(f/\hat{f})^{5/3}} \qquad k=0,1,2\
-(u,v,w)\]</div>
-<p>Where,</p>
-<blockquote>
-<div><p><span class="math">\(\gamma=(\phi_E/\phi_M)^{2/3}\)</span></p>
-<p><span class="math">\(\hat{f}=\frac{\bar{u}\phi_M}{z}\)</span></p>
-<p><span class="math">\(\phi_E=(1+2.5 (z/L)^{0.6})^{1.5}\)</span></p>
-<p><span class="math">\(\phi_M=1+4.7*z/L\)</span></p>
-<p><span class="math">\(\bar{u}\)</span>, is the mean velocity at each grid-point, (taken from the profile model)</p>
-<p><span class="math">\(A_k=\mathrm{scoef}[k,0] \mathrm{coef}[k,0]\)</span></p>
-<p><span class="math">\(B_k=\mathrm{scoef}[k,1] \mathrm{coef}[k,1]^{5/3}\)</span></p>
-</div></blockquote>
-<dl class="method">
-<dt id="pyts.specModels.nwtc.NWTC_stable.model">
-<code class="descname">model</code><span class="sig-paren">(</span><em>z</em>, <em>u</em>, <em>comp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/nwtc.html#NWTC_stable.model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.nwtc.NWTC_stable.model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the spectral model for height <cite>z</cite>, velocity <cite>u</cite>, and
-velocity component <cite>comp</cite>.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.specModels.nwtc.NWTC_stable.s_coef">
-<code class="descname">s_coef</code><em class="property"> = array([[ 79. , 263. ],        [ 13. ,  32. ],        [  3.5,   8.6]])</em><a class="headerlink" href="#pyts.specModels.nwtc.NWTC_stable.s_coef" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.specModels.nwtc.NWTC_unstable">
-<em class="property">class </em><code class="descclassname">pyts.specModels.nwtc.</code><code class="descname">NWTC_unstable</code><span class="sig-paren">(</span><em>Ustar</em>, <em>zL</em>, <em>ZI</em>, <em>p_coefs=None</em>, <em>f_coefs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/nwtc.html#NWTC_unstable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.nwtc.NWTC_unstable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.specModels.nwtc.genNWTC" title="pyts.specModels.nwtc.genNWTC"><code class="xref py py-class docutils literal"><span class="pre">pyts.specModels.nwtc.genNWTC</span></code></a></p>
-<p>The NWTC ‘unstable’ spectral model.</p>
-<div class="math">
-\[S_k(f) = U_\mathrm{star}^2 G_k(f,\bar{u},z,ZI) \qquad k = u, v, w\]</div>
-<p>Where <span class="math">\(G_k\)</span> is a function that depends on the frequency,
-<span class="math">\(f\)</span>, the mean velocity <span class="math">\(\bar{u}\)</span>, the height
-<span class="math">\(z\)</span>, and the mixing layer depth <span class="math">\(ZI\)</span>. The exact form
-of <span class="math">\(G_k\)</span> can be found in this class’s ‘model’ method.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Ustar</strong> : float</p>
-<blockquote>
-<div><p>The friction velocity (at the bottom boundary).</p>
-</div></blockquote>
-<p><strong>zL</strong> : float</p>
-<blockquote>
-<div><p>The ratio of the HubHt to the Monin-Obhukov length.</p>
-</div></blockquote>
-<p><strong>ZI</strong> : float</p>
-<blockquote>
-<div><p>The friction boundary layer height.</p>
-</div></blockquote>
-<p><strong>p_coefs</strong> : array_like(3,2), optional</p>
-<blockquote>
-<div><p>Fit coefficients for this model.</p>
-</div></blockquote>
-<p><strong>f_coefs</strong> : array_like(3,2), optional</p>
-<blockquote class="last">
-<div><p>Fit coefficients for this model.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="pyts.specModels.nwtc.NWTC_unstable.L">
-<code class="descname">L</code><a class="headerlink" href="#pyts.specModels.nwtc.NWTC_unstable.L" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.specModels.nwtc.NWTC_unstable.model">
-<code class="descname">model</code><span class="sig-paren">(</span><em>z</em>, <em>u</em>, <em>comp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/nwtc.html#NWTC_unstable.model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.nwtc.NWTC_unstable.model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the spectrum for this ‘unstable’ spectral model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>z</strong> : array_like (nz)</p>
-<blockquote>
-<div><p>Height above the surface [m].</p>
-</div></blockquote>
-<p><strong>u</strong> : array_like (nz,ny)</p>
-<blockquote>
-<div><p>Mean velocity [m/s].</p>
-</div></blockquote>
-<p><strong>comp</strong> : int {0,1,2}</p>
-<blockquote>
-<div><p>Index (u,v,w) of the spectrum to compute.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>spec</strong> : <a class="reference internal" href="#pyts.specModels.base.specObj" title="pyts.specModels.base.specObj"><code class="xref py py-class docutils literal"><span class="pre">specObj</span></code></a></p>
-<blockquote class="last">
-<div><p>The spectral object which contains the ‘array’
-(property) of spectra at each point in the grid.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>The form of the u-compenent spectrum is:</p>
-<div class="math">
-\[S_u(f) = U_\mathrm{star}^2 \left( p_{u,1}\frac{\alpha}{1+( F_{u,1} \hat{f})^{5/3}} +
-p_{u,2}\frac{\beta}{( \delta_u + F_{u,2} f' )^{5/3} } \right )\]</div>
-<p>The form of the v-compenent spectrum is</p>
-<div class="math">
-\[S_v(f) = U_\mathrm{star}^2 \left( p_{v,1}\frac{\alpha}{(1 + F_{v,1} \hat{f})^{5/3}} +
-p_{v,2}\frac{\beta}{( \delta_v + F_{v,2} f' )^{5/3} } \right )\]</div>
-<p>The form of the w-compenent spectrum is:</p>
-<div class="math">
-\[S_w(f) = U_\mathrm{star}^2 \left( p_{w,1}\frac{\alpha}{(1 +
-F_{w,1} \hat{f})^{5/3}} \gamma + p_{w,2}\frac{\beta}{ 1 +
-F_{w,2} {f'} ^{5/3} } \right )\]</div>
-<p>Where,</p>
-<blockquote>
-<div><p><span class="math">\(\hat{f} = f ZI/\bar{u}\)</span></p>
-<p><span class="math">\(f' = f z/ \bar{u}\)</span></p>
-<p><span class="math">\(\alpha = ZI^{5/3}/(-\bar{u}L^{2/3})\)</span></p>
-<p><span class="math">\(\beta = z(1-z/ZI)^2/\bar{u}\)</span></p>
-<p><span class="math">\(\delta_u = 1+15 z/ZI\)</span></p>
-<p><span class="math">\(\delta_v = 1+2.8 z/ZI\)</span></p>
-<p><span class="math">\(\gamma  = \frac{f'^2+0.09(z/ZI)^2}{f'^2+0.0225}\)</span></p>
-</div></blockquote>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.specModels.nwtc.genNWTC">
-<em class="property">class </em><code class="descclassname">pyts.specModels.nwtc.</code><code class="descname">genNWTC</code><a class="reference internal" href="../_modules/pyts/specModels/nwtc.html#genNWTC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.nwtc.genNWTC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.specModels.base.specModelBase" title="pyts.specModels.base.specModelBase"><code class="xref py py-class docutils literal"><span class="pre">pyts.specModels.base.specModelBase</span></code></a></p>
-<p>An abstract base class for NWTC spectral models.</p>
-<dl class="method">
-<dt id="pyts.specModels.nwtc.genNWTC.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/nwtc.html#genNWTC.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.nwtc.genNWTC.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create and calculate the spectral object for a <cite>tsrun</cite>
-instance.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tsrun</strong> :         <a class="reference internal" href="pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">tsrun</span></code></a></p>
-<blockquote>
-<div><p>A TurbSim run object.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> :           <a class="reference internal" href="#pyts.specModels.base.specObj" title="pyts.specModels.base.specObj"><code class="xref py py-class docutils literal"><span class="pre">specObj</span></code></a></p>
-<blockquote class="last">
-<div><p>An NWTC spectral object for the grid in <cite>tsrun</cite>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="pyts.specModels.nwtc.nwtcup">
-<code class="descclassname">pyts.specModels.nwtc.</code><code class="descname">nwtcup</code><span class="sig-paren">(</span><em>Ustar</em>, <em>Ri</em>, <em>ZI=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/nwtc.html#nwtcup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.nwtc.nwtcup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the ‘nwtcup’ spectral model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Ustar</strong> :     float</p>
-<blockquote>
-<div><p>The bottom-boundary friction velocity [m/s].</p>
-</div></blockquote>
-<p><strong>Ri</strong> :        float</p>
-<blockquote>
-<div><p>The Richardson number stability parameter.</p>
-</div></blockquote>
-<p><strong>ZI</strong> :        float, optional</p>
-<blockquote>
-<div><p>mixing layer depth [m].  Only needed for Ri&lt;0.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>specModel</strong> : <a class="reference internal" href="#pyts.specModels.nwtc.NWTC_stable" title="pyts.specModels.nwtc.NWTC_stable"><code class="xref py py-class docutils literal"><span class="pre">NWTC_stable</span></code></a> (Ri&gt;0), or <a class="reference internal" href="#pyts.specModels.nwtc.NWTC_unstable" title="pyts.specModels.nwtc.NWTC_unstable"><code class="xref py py-class docutils literal"><span class="pre">NWTC_unstable</span></code></a> (Ri&lt;0)</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="pyts.specModels.nwtc.smooth">
-<code class="descclassname">pyts.specModels.nwtc.</code><code class="descname">smooth</code><span class="sig-paren">(</span><em>Ustar</em>, <em>Ri</em>, <em>ZI=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/specModels/nwtc.html#smooth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.specModels.nwtc.smooth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the ‘smooth’ spectral model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Ustar</strong> :     float</p>
-<blockquote>
-<div><p>The bottom-boundary friction velocity [m/s].</p>
-</div></blockquote>
-<p><strong>Ri</strong> :        float</p>
-<blockquote>
-<div><p>The Richardson number stability parameter.</p>
-</div></blockquote>
-<p><strong>ZI</strong> :        float, optional</p>
-<blockquote>
-<div><p>mixing layer depth [m].  Only needed for Ri&lt;0.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>specModel</strong> : <a class="reference internal" href="#pyts.specModels.nwtc.NWTC_stable" title="pyts.specModels.nwtc.NWTC_stable"><code class="xref py py-class docutils literal"><span class="pre">NWTC_stable</span></code></a> (Ri&gt;0), or <a class="reference internal" href="#pyts.specModels.nwtc.NWTC_unstable" title="pyts.specModels.nwtc.NWTC_unstable"><code class="xref py py-class docutils literal"><span class="pre">NWTC_unstable</span></code></a> (Ri&lt;0)</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
-<div class="section" id="module-pyts.specModels">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyts.specModels" title="Permalink to this headline">¶</a></h2>
-<p>This is the PyTurbSim ‘spectral models’ package.  This
-package contains pre-defined spectral models that can be implemented in
-a PyTurbSim run.</p>
-<p>The wind spectral models are more fully described in the 
-<a class="reference external" href="http://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">Original-TurbSim user manual</a>.</p>
-<p>For more information and to use this module import the api
-package, e.g.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyts.specModels.api</span> <span class="k">as</span> <span class="nn">sm</span>
-</pre></div>
-</div>
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">pyts.specModels package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-pyts.specModels.api">pyts.specModels.api module</a><ul>
-<li><a class="reference internal" href="#available-spectral-models">Available spectral models</a></li>
-<li><a class="reference internal" href="#example-usage">Example usage</a></li>
-<li><a class="reference internal" href="#notes">Notes</a></li>
+<h1 class="logo"><a href="../index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyts.html">pyts package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pyts.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pyts.cohereModels.html">pyts.cohereModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.io.html">pyts.io package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.phaseModels.html">pyts.phaseModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.plot.html">pyts.plot package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.profModels.html">pyts.profModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.runInput.html">pyts.runInput package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pyts.specModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.stressModels.html">pyts.stressModels package</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyts.specModels.base">pyts.specModels.base module</a></li>
-<li><a class="reference internal" href="#module-pyts.specModels.hydro">pyts.specModels.hydro module</a></li>
-<li><a class="reference internal" href="#module-pyts.specModels.iec">pyts.specModels.iec module</a></li>
-<li><a class="reference internal" href="#module-pyts.specModels.kelley_coefs">pyts.specModels.kelley_coefs module</a></li>
-<li><a class="reference internal" href="#module-pyts.specModels.nwtc">pyts.specModels.nwtc module</a></li>
-<li><a class="reference internal" href="#module-pyts.specModels">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#pyts-api-module">pyts.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#pyts-base-module">pyts.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#pyts-dbg-module">pyts.dbg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#pyts-main-module">pyts.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#pyts-misc-module">pyts.misc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#pyts-pyts-numpy-module">pyts.pyts_numpy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#module-contents">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -794,23 +122,26 @@ package, e.g.</p>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/api/pyts.specModels.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -819,8 +150,8 @@ package, e.g.</p>
       &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/api/pyts.specModels.rst.txt"

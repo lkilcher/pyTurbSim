@@ -1,0 +1,70 @@
+TurbGen.profModels package
+==========================
+
+Submodules
+----------
+
+TurbGen.profModels.api module
+-----------------------------
+
+.. automodule:: TurbGen.profModels.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.profModels.base module
+------------------------------
+
+.. automodule:: TurbGen.profModels.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.profModels.iec module
+-----------------------------
+
+.. automodule:: TurbGen.profModels.iec
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.profModels.jet module
+-----------------------------
+
+.. automodule:: TurbGen.profModels.jet
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.profModels.log module
+-----------------------------
+
+.. automodule:: TurbGen.profModels.log
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.profModels.power module
+-------------------------------
+
+.. automodule:: TurbGen.profModels.power
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.profModels.simple module
+--------------------------------
+
+.. automodule:: TurbGen.profModels.simple
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: TurbGen.profModels
+    :members:
+    :undoc-members:
+    :show-inheritance:

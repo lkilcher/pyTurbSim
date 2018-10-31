@@ -1,0 +1,235 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TurbGen.phaseModels package &#8212; TurbGen 0.5 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="turbgen-phasemodels-package">
+<h1>TurbGen.phaseModels package<a class="headerlink" href="#turbgen-phasemodels-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-TurbGen.phaseModels.api">
+<span id="turbgen-phasemodels-api-module"></span><h2>TurbGen.phaseModels.api module<a class="headerlink" href="#module-TurbGen.phaseModels.api" title="Permalink to this headline">¶</a></h2>
+<p>TurbGen turbulence ‘phase models’ API.</p>
+<div class="section" id="available-phase-models">
+<h3>Available phase models<a class="headerlink" href="#available-phase-models" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>randPhase</dt>
+<dd>A uniform-distribution random-phase model.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="module-TurbGen.phaseModels.base">
+<span id="turbgen-phasemodels-base-module"></span><h2>TurbGen.phaseModels.base module<a class="headerlink" href="#module-TurbGen.phaseModels.base" title="Permalink to this headline">¶</a></h2>
+<p>This is the base module for phase models.  Phase models produce the
+initial phase information that is then correlated in the stress and
+coherence models.</p>
+<p>The basic phase model simply returns a ‘random’ array.</p>
+<dl class="class">
+<dt id="TurbGen.phaseModels.base.phaseModelBase">
+<em class="property">class </em><code class="descclassname">TurbGen.phaseModels.base.</code><code class="descname">phaseModelBase</code><a class="reference internal" href="../_modules/TurbGen/phaseModels/base.html#phaseModelBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.phaseModels.base.phaseModelBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="TurbGen.html#TurbGen.base.modelBase" title="TurbGen.base.modelBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.modelBase</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.phaseModels.base.phaseObj">
+<em class="property">class </em><code class="descclassname">TurbGen.phaseModels.base.</code><code class="descname">phaseObj</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/phaseModels/base.html#phaseObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.phaseModels.base.phaseObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="TurbGen.html#TurbGen.base.gridProps" title="TurbGen.base.gridProps"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.gridProps</span></code></a>, <a class="reference internal" href="TurbGen.html#TurbGen.base.calcObj" title="TurbGen.base.calcObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.calcObj</span></code></a></p>
+<p>Profile objects contain the array (self.array) of mean-velocity
+values for a specific TurbGen run.</p>
+<p>Profile objects are created with/for a specific TurbGen run.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tsrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code></span></dt>
+<dd><p class="first last">The TurbGen run object in which the profile will be
+used.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">profModelBase</span></code></dt>
+<dd>The abstract base class for classes that create this class.</dd>
+</dl>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-TurbGen.phaseModels.main">
+<span id="turbgen-phasemodels-main-module"></span><h2>TurbGen.phaseModels.main module<a class="headerlink" href="#module-TurbGen.phaseModels.main" title="Permalink to this headline">¶</a></h2>
+<p>The main random phase models.</p>
+<dl class="class">
+<dt id="TurbGen.phaseModels.main.Rinker">
+<em class="property">class </em><code class="descclassname">TurbGen.phaseModels.main.</code><code class="descname">Rinker</code><span class="sig-paren">(</span><em>rho</em>, <em>mu=3.141592653589793</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/phaseModels/main.html#Rinker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.phaseModels.main.Rinker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.phaseModels.base.phaseModelBase" title="TurbGen.phaseModels.base.phaseModelBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.phaseModels.base.phaseModelBase</span></code></a></p>
+<p>The temporal-coherence phase model</p>
+<p>This is based on the work of Jenni Rinker:
+<a class="reference external" href="http://dx.doi.org/10.1007/s10546-015-0121-x">http://dx.doi.org/10.1007/s10546-015-0121-x</a></p>
+<dl class="method">
+<dt id="TurbGen.phaseModels.main.Rinker.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>...) &lt;==&gt; x(...</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/phaseModels/main.html#Rinker.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.phaseModels.main.Rinker.__call__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.phaseModels.main.Rinker.sample_delta_phis">
+<code class="descname">sample_delta_phis</code><span class="sig-paren">(</span><em>shape</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/phaseModels/main.html#Rinker.sample_delta_phis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.phaseModels.main.Rinker.sample_delta_phis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.phaseModels.main.Uniform">
+<em class="property">class </em><code class="descclassname">TurbGen.phaseModels.main.</code><code class="descname">Uniform</code><a class="reference internal" href="../_modules/TurbGen/phaseModels/main.html#Uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.phaseModels.main.Uniform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.phaseModels.base.phaseModelBase" title="TurbGen.phaseModels.base.phaseModelBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.phaseModels.base.phaseModelBase</span></code></a></p>
+<p>The uniform random phase model</p>
+<p>This phase-model randomizes the phases uniformly between 0 and
+2*pi. It has no ‘phase/temporal coherence’ (correlation as a
+function of frequency).</p>
+<p>Because it is so simple, it has no initialization parameters.</p>
+<dl class="method">
+<dt id="TurbGen.phaseModels.main.Uniform.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/phaseModels/main.html#Uniform.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.phaseModels.main.Uniform.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and calculate the phases for the <cite>tsrun</cite> instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>tsrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code></span></dt>
+<dd><p class="first last">A TurbGen run object.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like(3,n_p,n_f)</span></dt>
+<dd><p class="first last">An array of random phases.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-TurbGen.phaseModels">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TurbGen.phaseModels" title="Permalink to this headline">¶</a></h2>
+<p>This package defines the methods used to generate ‘random phases’ in TurbGen.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/TurbGen.phaseModels.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

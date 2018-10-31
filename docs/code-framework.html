@@ -4,24 +4,16 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Code Framework &#8212; PyTurbSim 0.4.8 documentation</title>
+    <title>Code Framework &#8212; TurbGen 0.5 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.4.8',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -33,44 +25,45 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="code-framework">
 <h1>Code Framework<a class="headerlink" href="#code-framework" title="Permalink to this headline">¶</a></h1>
-<p>PyTurbSim is a Python ‘package’ organized into ‘modules’ and
+<p>TurbGen is a Python ‘package’ organized into ‘modules’ and
 ‘sub-packages’ that provide a logical and functional framework for the
 code and its use.  The primary components of this framework are:</p>
 <ol class="arabic simple">
-<li>The modules in the <a class="reference internal" href="api/pyts.html#module-pyts" title="pyts"><code class="xref py py-mod docutils literal"><span class="pre">pyts</span></code></a> root folder, especially:<ol class="loweralpha">
-<li><a class="reference internal" href="api/pyts.html#module-pyts.main" title="pyts.main"><code class="xref py py-mod docutils literal"><span class="pre">pyts.main</span></code></a>, which contains the high-level classes and
-functions that control the flow of PyTurbSim simulations.  Most
+<li>The modules in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts</span></code> root folder, especially:<ol class="loweralpha">
+<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.main</span></code>, which contains the high-level classes and
+functions that control the flow of TurbGen simulations.  Most
 importantly, this module defines:<ul>
-<li><a class="reference internal" href="api/pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">pyts.main.tsrun</span></code></a>, this is the primary ‘run’ class of
+<li><code class="xref py py-class docutils literal notranslate"><span class="pre">pyts.main.tsrun</span></code>, this is the primary ‘run’ class of
 PyTurbSim, which controls and directs.</li>
-<li><a class="reference internal" href="api/pyts.html#pyts.main.tsdata" title="pyts.main.tsdata"><code class="xref py py-class docutils literal"><span class="pre">pyts.main.tsdata</span></code></a>, this is the PyTurbSim output-data
-class returned by <a class="reference internal" href="api/pyts.html#pyts.main.tsrun" title="pyts.main.tsrun"><code class="xref py py-class docutils literal"><span class="pre">pyts.main.tsrun</span></code></a> after execution.</li>
+<li><code class="xref py py-class docutils literal notranslate"><span class="pre">pyts.main.tsdata</span></code>, this is the TurbGen output-data
+class returned by <code class="xref py py-class docutils literal notranslate"><span class="pre">pyts.main.tsrun</span></code> after execution.</li>
 </ul>
 </li>
-<li><a class="reference internal" href="api/pyts.html#module-pyts.base" title="pyts.base"><code class="xref py py-mod docutils literal"><span class="pre">pyts.base</span></code></a>, which contains abstract base classes for other
+<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.base</span></code>, which contains abstract base classes for other
 components of the code (this is the foundation of the code
 structure).</li>
 </ol>
 </li>
-<li>The model packages, which contain predefined models of the statistics PyTurbSim is capable of simulating.<ol class="loweralpha">
-<li><a class="reference internal" href="api/pyts.profModels.html#module-pyts.profModels" title="pyts.profModels"><code class="xref py py-mod docutils literal"><span class="pre">pyts.profModels</span></code></a>, contains the mean velocity profile
+<li>The model packages, which contain predefined models of the statistics TurbGen is capable of simulating.<ol class="loweralpha">
+<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.profModels</span></code>, contains the mean velocity profile
 models.</li>
-<li><a class="reference internal" href="api/pyts.specModels.html#module-pyts.specModels" title="pyts.specModels"><code class="xref py py-mod docutils literal"><span class="pre">pyts.specModels</span></code></a>, contains the TKE spectral
+<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.specModels</span></code>, contains the TKE spectral
 models.</li>
-<li><a class="reference internal" href="api/pyts.stressModels.html#module-pyts.stressModels" title="pyts.stressModels"><code class="xref py py-mod docutils literal"><span class="pre">pyts.stressModels</span></code></a>, contains the Reynold’s
+<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.stressModels</span></code>, contains the Reynold’s
 stress profile models.</li>
-<li><a class="reference internal" href="api/pyts.cohereModels.html#module-pyts.cohereModels" title="pyts.cohereModels"><code class="xref py py-mod docutils literal"><span class="pre">pyts.cohereModels</span></code></a>, contains the spatial
+<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.cohereModels</span></code>, contains the spatial
 coherence models.</li>
 </ol>
 </li>
@@ -78,23 +71,23 @@ coherence models.</li>
 <blockquote>
 <div>More details on model packages can be found in the <a class="reference internal" href="#model-info"><span class="std std-ref">Models vs. run-specific ‘statistics’</span></a> section.</div></blockquote>
 <ol class="arabic" start="3">
-<li><p class="first">The <a class="reference internal" href="api/pyts.io.html#module-pyts.io" title="pyts.io"><code class="xref py py-mod docutils literal"><span class="pre">pyts.io</span></code></a> package supports reading and writing of TurbSim
+<li><p class="first">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.io</span></code> package supports reading and writing of TurbSim
 input (.inp) and output files (e.g. .bl, .wnd, etc.).</p>
 </li>
 <li><p class="first">Wrapper packages that implement different user interfaces of
-PyTurbSim:</p>
+TurbGen:</p>
 <ol class="loweralpha simple">
-<li><code class="xref py py-mod docutils literal"><span class="pre">pyts.runConfig</span></code> contains all the software for running
-PyTurbSim using <a class="reference internal" href="glossary.html#term-input-file"><span class="xref std std-term">input file</span></a>s (to mimic <a class="reference internal" href="glossary.html#term-o-turbsim"><span class="xref std std-term">O-TurbSim</span></a>).</li>
-<li><code class="xref py py-mod docutils literal"><span class="pre">pyts.gui</span></code> contains the graphical user interface.</li>
+<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.runConfig</span></code> contains all the software for running
+TurbGen using <a class="reference internal" href="glossary.html#term-input-file"><span class="xref std std-term">input file</span></a>s (to mimic <span class="xref std std-term">TurbSim</span>).</li>
+<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.gui</span></code> contains the graphical user interface.</li>
 </ol>
 <p>For further information on how to use these interface see
 <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a>.</p>
 </li>
 <li><p class="first">The ‘tslib’ folder and library.  This folder contains the Fortran
 code that implements the processor-intensive pieces of
-PyTurbSim. Having this library compiled for your system significantly
-speeds up PyTurbSim.  For information on properly installing this
+TurbGen. Having this library compiled for your system significantly
+speeds up TurbGen.  For information on properly installing this
 library, consult the <a class="reference internal" href="install.html"><span class="doc">Download and Install</span></a> page.</p>
 </li>
 </ol>
@@ -150,22 +143,39 @@ the values of other statistics.</p>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Code Framework</a><ul>
-<li><a class="reference internal" href="#models-vs-run-specific-statistics">Models vs. run-specific ‘statistics’</a><ul>
-<li><a class="reference internal" href="#models">Models</a></li>
-<li><a class="reference internal" href="#stat-objects-arrays">Stat-objects/arrays</a></li>
+<h1 class="logo"><a href="index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Code Framework</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#models-vs-run-specific-statistics">Models vs. run-specific ‘statistics’</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#models">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stat-objects-arrays">Stat-objects/arrays</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#customizing-pyturbsim">Customizing PyTurbSim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#customizing-pyturbsim">Customizing PyTurbSim</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -175,23 +185,26 @@ the values of other statistics.</p>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/code-framework.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -200,8 +213,8 @@ the values of other statistics.</p>
       &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/code-framework.rst.txt"

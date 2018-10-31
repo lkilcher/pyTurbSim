@@ -1,0 +1,228 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TurbGen.profModels.simple &#8212; TurbGen 0.5 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for TurbGen.profModels.simple</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains the log-law mean-velocity profiles:</span>
+<span class="sd"> linear   - A linear wind speed profile</span>
+<span class="sd"> uniform  - A uniform mean wind speed.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">profModelBase</span><span class="p">,</span> <span class="n">profObj</span>
+
+
+<div class="viewcode-block" id="uniform"><a class="viewcode-back" href="../../../api/TurbGen.profModels.html#TurbGen.profModels.simple.uniform">[docs]</a><span class="k">class</span> <span class="nc">uniform</span><span class="p">(</span><span class="n">profModelBase</span><span class="p">,):</span>
+
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Uniform wind-speed &#39;profile&#39; model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    URef :    The mean velocity you wish to produce.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This wind-speed &#39;profile&#39; actually just sets the mean u-component</span>
+<span class="sd">    wind-speed to be spatially uniform. The v- and w-components are</span>
+<span class="sd">    zero.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">URef</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uref</span> <span class="o">=</span> <span class="n">URef</span>
+
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Profile model used                               =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
+<span class="s2">        Reference velocity (URef)                        =  </span><span class="si">{dat.Uref:0.2f}</span><span class="s2"> [m/s]</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="p">)</span>
+
+<div class="viewcode-block" id="uniform.__call__"><a class="viewcode-back" href="../../../api/TurbGen.profModels.html#TurbGen.profModels.simple.uniform.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and calculate the mean-profile object for a `tsrun`</span>
+<span class="sd">        instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tsrun :         :class:`.tsrun`</span>
+<span class="sd">                        A TurbGen run object.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out :           :class:`.profObj`</span>
+<span class="sd">                        A uniform wind-speed profile for the grid in `tsrun`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">profObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">][:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uref</span>  <span class="c1"># Set the velocity.</span>
+        <span class="k">return</span> <span class="n">out</span></div></div>
+
+
+<div class="viewcode-block" id="linear"><a class="viewcode-back" href="../../../api/TurbGen.profModels.html#TurbGen.profModels.simple.linear">[docs]</a><span class="k">class</span> <span class="nc">linear</span><span class="p">(</span><span class="n">profModelBase</span><span class="p">,):</span>
+
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A &#39;linear&#39; mean wind-speed &#39;profile&#39;.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    URef  :  float</span>
+<span class="sd">        The mean velocity you wish to produce [m/s].</span>
+<span class="sd">    ZRef  :  float</span>
+<span class="sd">        Reference height of URef [m].</span>
+<span class="sd">    URef2 :  float (default = 0)</span>
+<span class="sd">        Second velocity point [m/s].</span>
+<span class="sd">    ZRef2 :  float (default = 0)</span>
+<span class="sd">        Reference height of second velocity point [m]</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The u-component is set to a linear profile through the points</span>
+<span class="sd">    (URef,Zref) and (URef2,ZRef2). v- and w-components are zero.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">URef</span><span class="p">,</span> <span class="n">ZRef</span><span class="p">,</span> <span class="n">URef2</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ZRef2</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uref</span> <span class="o">=</span> <span class="n">URef</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span> <span class="o">=</span> <span class="n">ZRef</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uref2</span> <span class="o">=</span> <span class="n">URef2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Zref2</span> <span class="o">=</span> <span class="n">ZRef2</span>
+
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Profile model used                               =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
+<span class="s2">        Reference velocity (URef)                        =  </span><span class="si">{dat.Uref:0.2f}</span><span class="s2"> [m/s]</span>
+<span class="s2">        Reference height (ZRef)                          =  </span><span class="si">{dat.Zref:0.2f}</span><span class="s2"> [m]</span>
+<span class="s2">        Reference velocity 2 (URef)                      =  </span><span class="si">{dat.Uref2:0.2f}</span><span class="s2"> [m/s]</span>
+<span class="s2">        Reference height 2 (ZRef)                        =  </span><span class="si">{dat.Zref2:0.2f}</span><span class="s2"> [m]</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,)</span>
+
+<div class="viewcode-block" id="linear.__call__"><a class="viewcode-back" href="../../../api/TurbGen.profModels.html#TurbGen.profModels.simple.linear.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and calculate the mean-profile object for a `tsrun`</span>
+<span class="sd">        instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tsrun :         :class:`.tsrun`</span>
+<span class="sd">                        A TurbGen run object.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out :           :class:`.profObj`</span>
+<span class="sd">                        A uniform wind-speed profile for the grid in `tsrun`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">profObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> \
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Uref</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uref2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Zref</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zref2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code-framework.html">Code Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,1400 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TurbGen package &#8212; TurbGen 0.5 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="turbgen-package">
+<h1>TurbGen package<a class="headerlink" href="#turbgen-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="TurbGen.cohereModels.html">TurbGen.cohereModels package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.cohereModels.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.cohereModels.html#module-TurbGen.cohereModels.api">TurbGen.cohereModels.api module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.cohereModels.html#available-coherence-models">Available coherence models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.cohereModels.html#module-TurbGen.cohereModels.base">TurbGen.cohereModels.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.cohereModels.html#module-TurbGen.cohereModels.main">TurbGen.cohereModels.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.cohereModels.html#module-TurbGen.cohereModels">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TurbGen.io.html">TurbGen.io package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io.base">TurbGen.io.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io.formatter">TurbGen.io.formatter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io.input">TurbGen.io.input module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#turbgen-io-main-module">TurbGen.io.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#turbgen-io-read-module">TurbGen.io.read module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io.sum">TurbGen.io.sum module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io.write">TurbGen.io.write module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TurbGen.phaseModels.html">TurbGen.phaseModels package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.phaseModels.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.phaseModels.html#module-TurbGen.phaseModels.api">TurbGen.phaseModels.api module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.phaseModels.html#available-phase-models">Available phase models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.phaseModels.html#module-TurbGen.phaseModels.base">TurbGen.phaseModels.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.phaseModels.html#module-TurbGen.phaseModels.main">TurbGen.phaseModels.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.phaseModels.html#module-TurbGen.phaseModels">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TurbGen.plot.html">TurbGen.plot package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#turbgen-plot-api-module">TurbGen.plot.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#turbgen-plot-axform-module">TurbGen.plot.axform module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#module-TurbGen.plot.base">TurbGen.plot.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#module-TurbGen.plot.psd">TurbGen.plot.psd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#module-TurbGen.plot.superaxes">TurbGen.plot.superaxes module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#module-TurbGen.plot">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TurbGen.profModels.html">TurbGen.profModels package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.profModels.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.profModels.html#module-TurbGen.profModels.api">TurbGen.profModels.api module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.profModels.html#available-profile-models">Available profile models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.profModels.html#example-usage">Example usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.profModels.html#creating-a-new-profile-model">Creating a new profile model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.profModels.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.profModels.html#module-TurbGen.profModels.base">TurbGen.profModels.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.profModels.html#module-TurbGen.profModels.iec">TurbGen.profModels.iec module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.profModels.html#module-TurbGen.profModels.jet">TurbGen.profModels.jet module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.profModels.html#module-TurbGen.profModels.log">TurbGen.profModels.log module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.profModels.html#module-TurbGen.profModels.power">TurbGen.profModels.power module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.profModels.html#module-TurbGen.profModels.simple">TurbGen.profModels.simple module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.profModels.html#module-TurbGen.profModels">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TurbGen.runInput.html">TurbGen.runInput package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#module-TurbGen.runInput.base">TurbGen.runInput.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#turbgen-runinput-main-module">TurbGen.runInput.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#module-TurbGen.runInput.profModels">TurbGen.runInput.profModels module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#module-TurbGen.runInput.turbModels">TurbGen.runInput.turbModels module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#module-TurbGen.runInput">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.runInput.html#example-usage">Example usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TurbGen.specModels.html">TurbGen.specModels package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.specModels.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.specModels.html#module-TurbGen.specModels.api">TurbGen.specModels.api module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.specModels.html#available-spectral-models">Available spectral models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.specModels.html#example-usage">Example usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.specModels.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.specModels.html#module-TurbGen.specModels.base">TurbGen.specModels.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.specModels.html#module-TurbGen.specModels.hydro">TurbGen.specModels.hydro module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.specModels.html#module-TurbGen.specModels.iec">TurbGen.specModels.iec module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.specModels.html#module-TurbGen.specModels.kelley_coefs">TurbGen.specModels.kelley_coefs module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.specModels.html#module-TurbGen.specModels.nwtc">TurbGen.specModels.nwtc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.specModels.html#module-TurbGen.specModels">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TurbGen.stressModels.html">TurbGen.stressModels package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.stressModels.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.stressModels.html#module-TurbGen.stressModels.api">TurbGen.stressModels.api module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.stressModels.html#available-stress-models">Available stress models:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.stressModels.html#example-usage">Example usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.stressModels.html#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.stressModels.html#module-TurbGen.stressModels.base">TurbGen.stressModels.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.stressModels.html#module-TurbGen.stressModels.hydro">TurbGen.stressModels.hydro module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.stressModels.html#module-TurbGen.stressModels.main">TurbGen.stressModels.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.stressModels.html#module-TurbGen.stressModels.stress_freq">TurbGen.stressModels.stress_freq module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.stressModels.html#module-TurbGen.stressModels">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="turbgen-api-module">
+<h2>TurbGen.api module<a class="headerlink" href="#turbgen-api-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-TurbGen.base">
+<span id="turbgen-base-module"></span><h2>TurbGen.base module<a class="headerlink" href="#module-TurbGen.base" title="Permalink to this headline">¶</a></h2>
+<p>This is the ‘base’ module for the TurbGen program.</p>
+<p>This module:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>imports common numpy functions/methods (from tg_numpy.py),</li>
+<li>defines the <a class="reference internal" href="#TurbGen.base.gridObj" title="TurbGen.base.gridObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">gridObj</span></code></a> class (and the <code class="xref py py-func docutils literal notranslate"><span class="pre">Grid()</span></code> helper
+function),</li>
+<li>imports the tslib Fortran module (if it is available) and</li>
+<li>Defines several abstract base classes.</li>
+</ol>
+</div></blockquote>
+<dl class="function">
+<dt id="TurbGen.base.RectGrid">
+<code class="descclassname">TurbGen.base.</code><code class="descname">RectGrid</code><span class="sig-paren">(</span><em>center=None</em>, <em>ny=None</em>, <em>nz=None</em>, <em>width=None</em>, <em>height=None</em>, <em>dy=None</em>, <em>dz=None</em>, <em>nt=None</em>, <em>time_sec=None</em>, <em>time_min=None</em>, <em>dt=None</em>, <em>time_sec_out=None</em>, <em>findClose_nt_lowPrimeFactors=True</em>, <em>prime_max=31</em>, <em>clockwise=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/base.html#RectGrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.base.RectGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a TurbGen grid.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>center</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">height of the center of the grid.</p>
+</dd>
+<dt><strong>ny, nz</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional*</span></dt>
+<dd><p class="first last">number of points in the y and z directions.</p>
+</dd>
+<dt><strong>width,height</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional*</span></dt>
+<dd><p class="first last">total width and height of grid.</p>
+</dd>
+<dt><strong>dy, dz</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional*</span></dt>
+<dd><p class="first last">spacing between points in the y and z directions.</p>
+</dd>
+<dt><strong>nt</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional*</span></dt>
+<dd><p class="first last">number of timesteps</p>
+</dd>
+<dt><strong>time_sec</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional*</span></dt>
+<dd><p class="first last">length of run (seconds)</p>
+</dd>
+<dt><strong>time_min</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional*</span></dt>
+<dd><p class="first last">length of run (minutes, subordinate to time_sec)</p>
+</dd>
+<dt><strong>dt</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional*</span></dt>
+<dd><p class="first last">timestep (seconds, subordinate to nt and time_sec)</p>
+</dd>
+<dt><strong>time_sec_out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (<cite>time_sec</cite>)</span></dt>
+<dd><p class="first last">length of output timeseries in seconds, must be &gt;=`time_sec`</p>
+</dd>
+<dt><strong>findClose_nt_lowPrimeFactors</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional (True)</span></dt>
+<dd><p class="first last">Adjust nfft to be a multiple of low primes?</p>
+</dd>
+<dt><strong>prime_max</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional (31)</span></dt>
+<dd><p class="first last">The maximum prime number allowed as a ‘low prime’.</p>
+</dd>
+<dt><strong>clockwise</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional (True)</span></dt>
+<dd><p class="first last">Should the simulation write a ‘clockwise’ rotation output file.
+This is only used when writing ‘Bladed’ output files.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>Each grid dimension (z,y,time) can be specified by any
+combination of 2 inputs. For the y-grid, for example, you
+may specify: dy and ny, or width and dy, or width and ny. If
+all three are specified, dy ignored and computed from ny and
+width.</li>
+</ul>
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.base.calcObj">
+<em class="property">class </em><code class="descclassname">TurbGen.base.</code><code class="descname">calcObj</code><a class="reference internal" href="../_modules/TurbGen/base.html#calcObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.base.calcObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.base.tsBaseObj" title="TurbGen.base.tsBaseObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.tsBaseObj</span></code></a></p>
+<p>This is a base class for objects that are have .array properties.
+It creates a shortcut for accessing the array through the getitem
+method.</p>
+<p>This is used in each of the model packages as a base-class for the
+output ‘statistics’ of that class. In other words: profObj,
+specObj, stressObj, and cohereObj all derive from this class.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.base.gridObj">
+<em class="property">class </em><code class="descclassname">TurbGen.base.</code><code class="descname">gridObj</code><a class="reference internal" href="../_modules/TurbGen/base.html#gridObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.base.gridObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.base.tsBaseObj" title="TurbGen.base.tsBaseObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.tsBaseObj</span></code></a></p>
+<p>The base ‘grid’ class.</p>
+<p>In general, functions should be used to construct the grid.</p>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>The grid is defined so that the first row is the bottom and the
+last is the top.</li>
+<li>Irregular grids are not yet supported.</li>
+</ol>
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.center">
+<code class="descname">center</code><a class="headerlink" href="#TurbGen.base.gridObj.center" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.clockwise">
+<code class="descname">clockwise</code><em class="property"> = True</em><a class="headerlink" href="#TurbGen.base.gridObj.clockwise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.df">
+<code class="descname">df</code><a class="headerlink" href="#TurbGen.base.gridObj.df" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.base.gridObj.dist">
+<code class="descname">dist</code><span class="sig-paren">(</span><em>ii</em>, <em>jj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/base.html#gridObj.dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.base.gridObj.dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the distance between the points <cite>ii</cite> and <cite>jj</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>ii</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Index of first grid-point.</span></dt>
+<dd></dd>
+<dt><strong>jj</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Index of second grid-point.</span></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>r</strong> <span class="classifier-delimiter">:</span> <span class="classifier">The distance between the two grid points.</span></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Each input index can either be a grid-point pair (e.g. a tuple,
+indicating the grid-point, or a linear index such as would be
+returned by <a class="reference internal" href="#TurbGen.base.gridObj.sub2ind" title="TurbGen.base.gridObj.sub2ind"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sub2ind</span></code></a>).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.dy">
+<code class="descname">dy</code><a class="headerlink" href="#TurbGen.base.gridObj.dy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.dz">
+<code class="descname">dz</code><a class="headerlink" href="#TurbGen.base.gridObj.dz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.base.gridObj.flatten">
+<code class="descname">flatten</code><span class="sig-paren">(</span><em>arr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/base.html#gridObj.flatten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.base.gridObj.flatten" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reshape <cite>arr</cite> so that the z-y grid points are one-dimension
+of the array (e.g. prior to Cholesky factorization).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.height">
+<code class="descname">height</code><a class="headerlink" href="#TurbGen.base.gridObj.height" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.ihub">
+<code class="descname">ihub</code><a class="headerlink" href="#TurbGen.base.gridObj.ihub" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.base.gridObj.ind2sub">
+<code class="descname">ind2sub</code><span class="sig-paren">(</span><em>ind</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/base.html#gridObj.ind2sub"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.base.gridObj.ind2sub" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the subscripts (iz,iy) corresponding to the ‘flattened’
+index <cite>ind</cite> (row/C-order) for this grid.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.n_f">
+<code class="descname">n_f</code><a class="headerlink" href="#TurbGen.base.gridObj.n_f" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.n_p">
+<code class="descname">n_p</code><a class="headerlink" href="#TurbGen.base.gridObj.n_p" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.n_tower">
+<code class="descname">n_tower</code><em class="property"> = 0</em><a class="headerlink" href="#TurbGen.base.gridObj.n_tower" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.n_y">
+<code class="descname">n_y</code><a class="headerlink" href="#TurbGen.base.gridObj.n_y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.n_z">
+<code class="descname">n_z</code><a class="headerlink" href="#TurbGen.base.gridObj.n_z" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.base.gridObj.reshape">
+<code class="descname">reshape</code><span class="sig-paren">(</span><em>arr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/base.html#gridObj.reshape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.base.gridObj.reshape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reshape <cite>arr</cite> so that its z-y grid points are two-dimensions
+of the array.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.rotor_diam">
+<code class="descname">rotor_diam</code><a class="headerlink" href="#TurbGen.base.gridObj.rotor_diam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the min of the grid width and height.</p>
+<p>This is how TurbGen quantifies rotor diameter.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.shape">
+<code class="descname">shape</code><a class="headerlink" href="#TurbGen.base.gridObj.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>The grid shape: (n_z, n_y).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.shape_wf">
+<code class="descname">shape_wf</code><a class="headerlink" href="#TurbGen.base.gridObj.shape_wf" title="Permalink to this definition">¶</a></dt>
+<dd><p>The grid shape, including frequency (n_z, n_y, n_f).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.base.gridObj.sub2ind">
+<code class="descname">sub2ind</code><span class="sig-paren">(</span><em>subs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/base.html#gridObj.sub2ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.base.gridObj.sub2ind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the ‘flattened’ index (row/C-order) corresponding to
+the subscript <cite>subs</cite> (iz,iy) for this grid.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.time_sec_out">
+<code class="descname">time_sec_out</code><a class="headerlink" href="#TurbGen.base.gridObj.time_sec_out" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.width">
+<code class="descname">width</code><a class="headerlink" href="#TurbGen.base.gridObj.width" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridObj.zhub">
+<code class="descname">zhub</code><a class="headerlink" href="#TurbGen.base.gridObj.zhub" title="Permalink to this definition">¶</a></dt>
+<dd><p>The height of the hub.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.base.gridProps">
+<em class="property">class </em><code class="descclassname">TurbGen.base.</code><code class="descname">gridProps</code><a class="reference internal" href="../_modules/TurbGen/base.html#gridProps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.base.gridProps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.base.tsBaseObj" title="TurbGen.base.tsBaseObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.tsBaseObj</span></code></a></p>
+<p>An abstract base class that provides shortcuts for objects that
+have the grid as one of their attributes.</p>
+<dl class="attribute">
+<dt id="TurbGen.base.gridProps.dt">
+<code class="descname">dt</code><a class="headerlink" href="#TurbGen.base.gridProps.dt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridProps.f">
+<code class="descname">f</code><a class="headerlink" href="#TurbGen.base.gridProps.f" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridProps.n_f">
+<code class="descname">n_f</code><a class="headerlink" href="#TurbGen.base.gridProps.n_f" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridProps.n_p">
+<code class="descname">n_p</code><a class="headerlink" href="#TurbGen.base.gridProps.n_p" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridProps.n_y">
+<code class="descname">n_y</code><a class="headerlink" href="#TurbGen.base.gridProps.n_y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridProps.n_z">
+<code class="descname">n_z</code><a class="headerlink" href="#TurbGen.base.gridProps.n_z" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridProps.y">
+<code class="descname">y</code><a class="headerlink" href="#TurbGen.base.gridProps.y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.gridProps.z">
+<code class="descname">z</code><a class="headerlink" href="#TurbGen.base.gridProps.z" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.base.modelBase">
+<em class="property">class </em><code class="descclassname">TurbGen.base.</code><code class="descname">modelBase</code><a class="reference internal" href="../_modules/TurbGen/base.html#modelBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.base.modelBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.base.tsBaseObj" title="TurbGen.base.tsBaseObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.tsBaseObj</span></code></a></p>
+<p>An abstract base class for all TurbGen models.</p>
+<dl class="attribute">
+<dt id="TurbGen.base.modelBase.model_desc">
+<code class="descname">model_desc</code><a class="headerlink" href="#TurbGen.base.modelBase.model_desc" title="Permalink to this definition">¶</a></dt>
+<dd><p>The model description is the first line of the docstring.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.modelBase.model_name">
+<code class="descname">model_name</code><a class="headerlink" href="#TurbGen.base.modelBase.model_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The model name is the class definition name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.modelBase.parameters">
+<code class="descname">parameters</code><a class="headerlink" href="#TurbGen.base.modelBase.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property stores information about the TurbGen model
+initialization variables, for writing to summary files.</p>
+<p>This functionality is not yet implemented, and this is a
+placeholder for now.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.base.statObj">
+<em class="property">class </em><code class="descclassname">TurbGen.base.</code><code class="descname">statObj</code><span class="sig-paren">(</span><em>dat</em>, <em>ubar=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/base.html#statObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.base.statObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+<dl class="attribute">
+<dt id="TurbGen.base.statObj.mean">
+<code class="descname">mean</code><a class="headerlink" href="#TurbGen.base.statObj.mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.base.tsBaseObj">
+<em class="property">class </em><code class="descclassname">TurbGen.base.</code><code class="descname">tsBaseObj</code><a class="reference internal" href="../_modules/TurbGen/base.html#tsBaseObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.base.tsBaseObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An abstract, base object, that contains the component (u,v,w)
+information for derived classes.</p>
+<dl class="attribute">
+<dt id="TurbGen.base.tsBaseObj.comp">
+<code class="descname">comp</code><em class="property"> = [0, 1, 2]</em><a class="headerlink" href="#TurbGen.base.tsBaseObj.comp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.tsBaseObj.comp_name">
+<code class="descname">comp_name</code><em class="property"> = ['u', 'v', 'w']</em><a class="headerlink" href="#TurbGen.base.tsBaseObj.comp_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.base.tsBaseObj.n_comp">
+<code class="descname">n_comp</code><em class="property"> = 3</em><a class="headerlink" href="#TurbGen.base.tsBaseObj.n_comp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-TurbGen.dbg">
+<span id="turbgen-dbg-module"></span><h2>TurbGen.dbg module<a class="headerlink" href="#module-TurbGen.dbg" title="Permalink to this headline">¶</a></h2>
+<p>This is the TurbGen debug package. It contains debugging tools
+specifically valuable to TurbGen.</p>
+<dl class="class">
+<dt id="TurbGen.dbg.timer">
+<em class="property">class </em><code class="descclassname">TurbGen.dbg.</code><code class="descname">timer</code><span class="sig-paren">(</span><em>label='NONE'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/dbg.html#timer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.dbg.timer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A timer class for tracking ‘real’ time (rather than CPU time).</p>
+<dl class="method">
+<dt id="TurbGen.dbg.timer.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/dbg.html#timer.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.dbg.timer.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.dbg.timer.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/dbg.html#timer.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.dbg.timer.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.dbg.timer.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/dbg.html#timer.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.dbg.timer.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-TurbGen.main">
+<span id="turbgen-main-module"></span><h2>TurbGen.main module<a class="headerlink" href="#module-TurbGen.main" title="Permalink to this headline">¶</a></h2>
+<p>This module brings together the main components of the TurbGen program
+and defines the primary high-level objects that users of the Python
+interface will utilize.</p>
+<p>This module, however, contains more functions and objects than the
+typical user will want access to. For a more compact version of the
+TurbGen interface import the ./api.py package.</p>
+<dl class="class">
+<dt id="TurbGen.main.TGrun">
+<em class="property">class </em><code class="descclassname">TurbGen.main.</code><code class="descname">TGrun</code><span class="sig-paren">(</span><em>RandSeed=None</em>, <em>ncore=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/main.html#TGrun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.main.TGrun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is the TurbGen ‘run’ class. This class provides the
+interface for controlling TurbGen simulations and output.</p>
+<p>Examples of how to use this class, and the TurbGen interface in
+general can be found in the TurbGen /examples directory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>RandSeed</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int,optional (‘random value’)</span></dt>
+<dd><p class="first last">Initialize the run-object with a RandSeed.</p>
+</dd>
+<dt><strong>ncore</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int,optional (1)</span></dt>
+<dd><p class="first last">Number of cores (processors) to use for the TurbGen run</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="TurbGen.main.TGrun.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TurbGen.main.TGrun.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run TurbGen.</p>
+<p>Before calling this method be sure to set the following
+attributes to their desired values:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#TurbGen.main.TGrun.prof" title="TurbGen.main.TGrun.prof"><code class="xref py py-attr docutils literal notranslate"><span class="pre">TGrun.prof</span></code></a>: The mean profile model, object or array.</li>
+<li><a class="reference internal" href="#TurbGen.main.TGrun.spec" title="TurbGen.main.TGrun.spec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">TGrun.spec</span></code></a>: The tke spectrum model, object or array.</li>
+<li><a class="reference internal" href="#TurbGen.main.TGrun.cohere" title="TurbGen.main.TGrun.cohere"><code class="xref py py-attr docutils literal notranslate"><span class="pre">TGrun.cohere</span></code></a>: The coherence model, object or array.</li>
+<li><a class="reference internal" href="#TurbGen.main.TGrun.stress" title="TurbGen.main.TGrun.stress"><code class="xref py py-attr docutils literal notranslate"><span class="pre">TGrun.stress</span></code></a>: The Reynold’s stress model, object or array.</li>
+<li><a class="reference internal" href="#TurbGen.main.TGrun.phase" title="TurbGen.main.TGrun.phase"><code class="xref py py-attr docutils literal notranslate"><span class="pre">TGrun.phase</span></code></a>: The random phase model, object or array.</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tsdata</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a></span></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.TGrun.cohere">
+<code class="descname">cohere</code><a class="headerlink" href="#TurbGen.main.TGrun.cohere" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the ‘coherence’ input property.</p>
+<p>This property always returns a <a class="reference internal" href="TurbGen.cohereModels.html#TurbGen.cohereModels.base.cohereObj" title="TurbGen.cohereModels.base.cohereObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">cohereObj</span></code></a>.</p>
+<p>Because the bulk of TurbGen’s computational requirements
+(memory and processor time) are consumed by dealing with this
+statistic, it behaves somewhat differently from the others. In
+particular, rather than relying on arrays for holding data
+‘coherence objects’ define functions that are called as
+needed.  This dramatically reduces the memory requirements of
+TurbGen without increasing.  See the cohereModels package
+documentation for further details.  Fortunately, at this
+level, coherence is specified identically to other
+statistics.</p>
+<p>This property can be defined with three types of objects:</p>
+<ol class="arabic">
+<li><p class="first">define it with a ‘coherence model’ (recommended):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">cohere</span><span class="o">=</span><span class="n">a_coherence_model</span>
+</pre></div>
+</div>
+<p>In this case the model is set to my_ts_run.cohereModel,
+and this model sets the is called at runtime to produce the phase
+array. At the end of the ts_run call that phase array is
+cleared so that subsequent runs do not use a fixed
+phase information (i.e. in the case that the coherence
+model is modified or another model/object that the
+coherence model depends on is changed between runs).</p>
+</li>
+<li><p class="first">define it with a cohereObj directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">spec</span><span class="o">=</span><span class="n">a_coherence_model</span><span class="p">(</span><span class="n">ts_run</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case the cohereObj is FIXED. That is, all
+subsequent TurbGen runs will utilize this coherence
+model, which is based on the state of ts_run at the time
+of execution of this command.</p>
+</li>
+<li><p class="first">define it with an array directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">cohere</span><span class="o">=</span><span class="n">a_numpy_array</span>  <span class="o">-</span> <span class="p">[</span><span class="n">units</span><span class="p">:</span> <span class="n">non</span><span class="o">-</span><span class="n">dimensional</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In this case the coherence will be fixed and defined by
+this input array.  The numpy array dimensions must match
+those of the gridObj.  That is, the dimensions of the
+array should be (3 x grid.n_p x grid.n_p x grid.n_f).
+The first dimension is for each component of the spectrum
+(u,v,w), the next two are for each point-pair (z,y) in the
+grid, and the last dimension is the frequency dependence
+of the spectrum.</p>
+<p>This approach for specifying the coherence - while
+explicit and flexible - requires considerably more memory
+than the ‘coherence model’ approach.  Furthermore using
+this approach one must be careful to make sure that the
+ordering of the array agrees with that of the ‘flattened
+grid’ (see the gridObj.flatten method, and/or the
+cohereUser coherence model for more information).</p>
+</li>
+</ol>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="TurbGen.cohereModels.html#module-TurbGen.cohereModels.api" title="TurbGen.cohereModels.api"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TurbGen.cohereModels.api</span></code></a></dt>
+<dd>to see a list of available coherence models.</dd>
+</dl>
+<p class="last"><a class="reference internal" href="#TurbGen.main.TGrun.prof" title="TurbGen.main.TGrun.prof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.prof</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.spec" title="TurbGen.main.TGrun.spec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.spec</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.stress" title="TurbGen.main.TGrun.stress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.stress</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.phase" title="TurbGen.main.TGrun.phase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.phase</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.TGrun.info">
+<code class="descname">info</code><a class="headerlink" href="#TurbGen.main.TGrun.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model names and initialization parameters.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.TGrun.phase">
+<code class="descname">phase</code><a class="headerlink" href="#TurbGen.main.TGrun.phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the ‘random phase’ input property.</p>
+<p>This property returns a ‘phaseObj’.</p>
+<p>This property can be defined with three types of objects:</p>
+<ol class="arabic">
+<li><p class="first">define it with a ‘phase model’ (recommended):</p>
+<blockquote>
+<div><p>ts_run.phase=a_phase_model</p>
+</div></blockquote>
+<p>In this case the model is set to my_ts_run.phaseModel, and
+this model is called to produce a phaseObj AS NEEDED.  At
+the end of the ts_run call that phaseObj is cleared so
+that subsequent runs do not use a fixed phaseObj (i.e. in
+the case that the model is modified or another
+model/object that the phase model depends on is
+changed between runs).</p>
+</li>
+<li><p class="first">define it with a phaseObj directly (phase
+statistic-object):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">phase</span><span class="o">=</span><span class="n">a_phase_model</span><span class="p">(</span><span class="n">ts_run</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case the phaseObj is FIXED. That is, all
+subsequent TurbGen runs will utilize this phase,
+which is based on the state of the a_phase_model and
+ts_run at the time of the phaseObj creation.</p>
+</li>
+<li><p class="first">define it with an array directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">phase</span><span class="o">=</span><span class="n">a_numpy_array</span>   <span class="p">[</span><span class="n">units</span><span class="p">:</span> <span class="n">m</span><span class="o">/</span><span class="n">s</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In this case the phaseObj is again fixed and defined by
+the input array.  The numpy array dimensions must match
+those of the gridObj.  That is, the dimensions of the
+array should be (3 x grid.n_z x grid.n_y).  The first
+dimension is for each component of the phase (u,v,w),
+the next two are for each point (z,y) in the grid.</p>
+</li>
+</ol>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="TurbGen.phaseModels.html#module-TurbGen.phaseModels.api" title="TurbGen.phaseModels.api"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TurbGen.phaseModels.api</span></code></a></dt>
+<dd>to see available phase models.</dd>
+</dl>
+<p class="last"><a class="reference internal" href="#TurbGen.main.TGrun.prof" title="TurbGen.main.TGrun.prof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.prof</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.spec" title="TurbGen.main.TGrun.spec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.spec</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.cohere" title="TurbGen.main.TGrun.cohere"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.cohere</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.stress" title="TurbGen.main.TGrun.stress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.stress</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.TGrun.prof">
+<code class="descname">prof</code><a class="headerlink" href="#TurbGen.main.TGrun.prof" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the ‘mean velocity profile’ input property.</p>
+<p>This property returns a ‘profObj’.</p>
+<p>This property can be defined with three types of objects:</p>
+<ol class="arabic">
+<li><p class="first">define it with a ‘profile model’ (recommended):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">prof</span><span class="o">=</span><span class="n">a_prof_model</span>
+</pre></div>
+</div>
+<p>In this case the model is set to my_ts_run.profModel, and
+this model is called to produce a profObj AS NEEDED.  At
+the end of the ts_run call that profObj is cleared so
+that subsequent runs do not use a fixed profObj (i.e. in
+the case that the model is modified or another
+model/object that the profile model depends on is
+changed between runs).</p>
+</li>
+<li><p class="first">define it with a profObj directly (profile
+statistic-object):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">prof</span><span class="o">=</span><span class="n">a_prof_model</span><span class="p">(</span><span class="n">ts_run</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case the profObj is FIXED. That is, all
+subsequent TurbGen runs will utilize this profile,
+which is based on the state of the a_prof_model and
+ts_run at the time of the profObj creation.</p>
+</li>
+<li><p class="first">define it with an array directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">prof</span><span class="o">=</span><span class="n">a_numpy_array</span>   <span class="p">[</span><span class="n">units</span><span class="p">:</span> <span class="n">m</span><span class="o">/</span><span class="n">s</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In this case the profObj is again fixed and defined by
+the input array.  The numpy array dimensions must match
+those of the gridObj.  That is, the dimensions of the
+array should be (3 x grid.n_z x grid.n_y).  The first
+dimension is for each component of the profile (u,v,w),
+the next two are for each point (z,y) in the grid.</p>
+</li>
+</ol>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="TurbGen.profModels.html#module-TurbGen.profModels.api" title="TurbGen.profModels.api"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TurbGen.profModels.api</span></code></a></dt>
+<dd>to see available profile models.</dd>
+</dl>
+<p class="last"><a class="reference internal" href="#TurbGen.main.TGrun.spec" title="TurbGen.main.TGrun.spec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.spec</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.cohere" title="TurbGen.main.TGrun.cohere"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.cohere</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.stress" title="TurbGen.main.TGrun.stress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.stress</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.phase" title="TurbGen.main.TGrun.phase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.phase</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.main.TGrun.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><em>seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/main.html#TGrun.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.main.TGrun.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the input statistics and reset the Random Number
+generator to its initial state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.main.TGrun.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/main.html#TGrun.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.main.TGrun.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run TurbGen.</p>
+<p>Before calling this method be sure to set the following
+attributes to their desired values:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#TurbGen.main.TGrun.prof" title="TurbGen.main.TGrun.prof"><code class="xref py py-attr docutils literal notranslate"><span class="pre">TGrun.prof</span></code></a>: The mean profile model, object or array.</li>
+<li><a class="reference internal" href="#TurbGen.main.TGrun.spec" title="TurbGen.main.TGrun.spec"><code class="xref py py-attr docutils literal notranslate"><span class="pre">TGrun.spec</span></code></a>: The tke spectrum model, object or array.</li>
+<li><a class="reference internal" href="#TurbGen.main.TGrun.cohere" title="TurbGen.main.TGrun.cohere"><code class="xref py py-attr docutils literal notranslate"><span class="pre">TGrun.cohere</span></code></a>: The coherence model, object or array.</li>
+<li><a class="reference internal" href="#TurbGen.main.TGrun.stress" title="TurbGen.main.TGrun.stress"><code class="xref py py-attr docutils literal notranslate"><span class="pre">TGrun.stress</span></code></a>: The Reynold’s stress model, object or array.</li>
+<li><a class="reference internal" href="#TurbGen.main.TGrun.phase" title="TurbGen.main.TGrun.phase"><code class="xref py py-attr docutils literal notranslate"><span class="pre">TGrun.phase</span></code></a>: The random phase model, object or array.</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tsdata</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a></span></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.TGrun.spec">
+<code class="descname">spec</code><a class="headerlink" href="#TurbGen.main.TGrun.spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the ‘tke spectrum’ input property.</p>
+<p>This property always returns a <cite>.specObj</cite>.</p>
+<p>This property can be defined with three types of objects:</p>
+<ol class="arabic">
+<li><p class="first">define it with a ‘spectral model’ (recommended):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">spec</span><span class="o">=</span><span class="n">a_spec_model</span>
+</pre></div>
+</div>
+<p>In this case the model is set to my_ts_run.specModel, and
+this model is called to produce a specObj AS NEEDED.  At
+the end of the ts_run call that specObj is cleared so
+that subsequent runs do not use a fixed specObj (i.e. in
+the case that another model/object that the spectral model
+depends on is changed between runs).</p>
+</li>
+<li><p class="first">define it with a specObj directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">spec</span><span class="o">=</span><span class="n">a_spec_model</span><span class="p">(</span><span class="n">ts_run</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case the specObj is FIXED. That is, all
+subsequent TurbGen runs will utilize this spectral
+model, which is based on the state of ts_run at the time
+of the specObj creation.</p>
+</li>
+<li><p class="first">define it with an array directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">spec</span><span class="o">=</span><span class="n">a_numpy_array</span>  <span class="o">-</span> <span class="p">[</span><span class="n">units</span><span class="p">:</span> <span class="n">m</span><span class="o">^</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">s</span><span class="o">^</span><span class="mf">2.</span><span class="n">Hz</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>In this case the specObj is again fixed and defined by
+the input array.  The numpy array dimensions must match
+those of the gridObj.  That is, the dimensions of the
+array should be (3 x grid.n_z x grid.n_y x grid.n_f).
+The first dimension is for each component of the spectrum
+(u,v,w), the next two are for each point (z,y) in the
+grid, and the last dimension is the frequency dependence
+of the spectrum.</p>
+</li>
+</ol>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="TurbGen.specModels.html#module-TurbGen.specModels.api" title="TurbGen.specModels.api"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TurbGen.specModels.api</span></code></a></dt>
+<dd>to see available spectral models.</dd>
+</dl>
+<p class="last"><a class="reference internal" href="#TurbGen.main.TGrun.prof" title="TurbGen.main.TGrun.prof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.prof</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.cohere" title="TurbGen.main.TGrun.cohere"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.cohere</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.stress" title="TurbGen.main.TGrun.stress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.stress</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.phase" title="TurbGen.main.TGrun.phase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.phase</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.TGrun.stress">
+<code class="descname">stress</code><a class="headerlink" href="#TurbGen.main.TGrun.stress" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the Reynold’s stress input property.</p>
+<p>This property always returns a <a class="reference internal" href="TurbGen.stressModels.html#TurbGen.stressModels.base.stressObj" title="TurbGen.stressModels.base.stressObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">stressObj</span></code></a>.</p>
+<p>This property can be defined with three types of objects:</p>
+<ol class="arabic">
+<li><p class="first">define it with a <cite>specModel</cite> (recommended):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">stress</span><span class="o">=</span><span class="n">a_stress_model</span>
+</pre></div>
+</div>
+<p>In this case the model is set to my_ts_run.stressModel, and
+this model is called to produce a stressObj AS NEEDED.  At
+the end of the ts_run call that stressObj is cleared so
+that subsequent runs do not use a fixed stressObj (i.e. in
+the case that another model/object that the stress model
+depends on is changed between runs).</p>
+</li>
+<li><p class="first">define it with a <cite>stressObj</cite> directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">stress</span><span class="o">=</span><span class="n">a_stress_model</span><span class="p">(</span><span class="n">ts_run</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case the stressObj is FIXED. That is, all
+subsequent TurbGen runs will utilize this stress
+model, which is based on the state of ts_run at the time
+of the stressObj creation.</p>
+</li>
+<li><p class="first">define it with an array directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts_run</span><span class="o">.</span><span class="n">stress</span><span class="o">=</span><span class="n">a_numpy_array</span>  <span class="o">-</span> <span class="p">[</span><span class="n">units</span><span class="p">:</span> <span class="n">m</span><span class="o">^</span><span class="mi">2</span><span class="o">/</span><span class="n">s</span><span class="o">^</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In this case the stressObj is again fixed and defined by
+the input array.  The numpy array dimensions must match
+those of the gridObj.  That is, the dimensions of the
+array should be (3 x grid.n_z x grid.n_y).
+The first dimension is for each component of the stress
+(u,v,w), the next two are for each point (z,y) in the
+grid.</p>
+</li>
+</ol>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="TurbGen.stressModels.html#module-TurbGen.stressModels.api" title="TurbGen.stressModels.api"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TurbGen.stressModels.api</span></code></a></dt>
+<dd>To see available stress models.</dd>
+</dl>
+<p class="last"><a class="reference internal" href="#TurbGen.main.TGrun.prof" title="TurbGen.main.TGrun.prof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.prof</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.spec" title="TurbGen.main.TGrun.spec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.spec</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.cohere" title="TurbGen.main.TGrun.cohere"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.cohere</span></code></a>, <a class="reference internal" href="#TurbGen.main.TGrun.phase" title="TurbGen.main.TGrun.phase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TGrun.phase</span></code></a></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.main.tsdata">
+<em class="property">class </em><code class="descclassname">TurbGen.main.</code><code class="descname">tsdata</code><span class="sig-paren">(</span><em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/main.html#tsdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.main.tsdata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.base.gridProps" title="TurbGen.base.gridProps"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.gridProps</span></code></a></p>
+<p>TurbGen output data object.  In addition to the output of a
+simulation (velocity timeseries array) it also includes all
+information for reproducing the simulation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>grid</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">gridObj</span></code></span></dt>
+<dd><p class="first last">TurbGen data objects are initialized with a TurbGen grid.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.Ti">
+<code class="descname">Ti</code><a class="headerlink" href="#TurbGen.main.tsdata.Ti" title="Permalink to this definition">¶</a></dt>
+<dd><p>The turbulence intensity, std(u’)/U, at each point in the grid.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.UHUB">
+<code class="descname">UHUB</code><a class="headerlink" href="#TurbGen.main.tsdata.UHUB" title="Permalink to this definition">¶</a></dt>
+<dd><p>The hub-height mean velocity.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.ctke">
+<code class="descname">ctke</code><a class="headerlink" href="#TurbGen.main.tsdata.ctke" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.ihub">
+<code class="descname">ihub</code><a class="headerlink" href="#TurbGen.main.tsdata.ihub" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the hub.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.parameters">
+<code class="descname">parameters</code><a class="headerlink" href="#TurbGen.main.tsdata.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.shape">
+<code class="descname">shape</code><a class="headerlink" href="#TurbGen.main.tsdata.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>The shape of the turbulence time-series (output) array.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.stats">
+<code class="descname">stats</code><a class="headerlink" href="#TurbGen.main.tsdata.stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute and return relevant statistics for this TurbGen time-series.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>stats</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">A dictionary containing various statistics of interest.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.stress">
+<code class="descname">stress</code><a class="headerlink" href="#TurbGen.main.tsdata.stress" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Reynold’s stress tensor.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.time">
+<code class="descname">time</code><a class="headerlink" href="#TurbGen.main.tsdata.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>The time vector, in seconds, starting at zero.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.tke">
+<code class="descname">tke</code><a class="headerlink" href="#TurbGen.main.tsdata.tke" title="Permalink to this definition">¶</a></dt>
+<dd><p>The turbulence kinetic energy.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.u">
+<code class="descname">u</code><a class="headerlink" href="#TurbGen.main.tsdata.u" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total (mean + turbulent), u-component of velocity.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.uhub">
+<code class="descname">uhub</code><a class="headerlink" href="#TurbGen.main.tsdata.uhub" title="Permalink to this definition">¶</a></dt>
+<dd><p>The hub-height u-component time-series.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.upvp_">
+<code class="descname">upvp_</code><a class="headerlink" href="#TurbGen.main.tsdata.upvp_" title="Permalink to this definition">¶</a></dt>
+<dd><p>The u’v’ component of the Reynold’s stress.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.upwp_">
+<code class="descname">upwp_</code><a class="headerlink" href="#TurbGen.main.tsdata.upwp_" title="Permalink to this definition">¶</a></dt>
+<dd><p>The u’w’ component of the Reynold’s stress.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.utotal">
+<code class="descname">utotal</code><a class="headerlink" href="#TurbGen.main.tsdata.utotal" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total (mean + turbulent), 3-d velocity array</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.v">
+<code class="descname">v</code><a class="headerlink" href="#TurbGen.main.tsdata.v" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total (mean + turbulent), v-component of velocity.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.vhub">
+<code class="descname">vhub</code><a class="headerlink" href="#TurbGen.main.tsdata.vhub" title="Permalink to this definition">¶</a></dt>
+<dd><p>The hub-height v-component time-series.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.vpwp_">
+<code class="descname">vpwp_</code><a class="headerlink" href="#TurbGen.main.tsdata.vpwp_" title="Permalink to this definition">¶</a></dt>
+<dd><p>The v’w’ component of the Reynold’s stress.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.w">
+<code class="descname">w</code><a class="headerlink" href="#TurbGen.main.tsdata.w" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total (mean + turbulent), w-component of velocity.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.main.tsdata.whub">
+<code class="descname">whub</code><a class="headerlink" href="#TurbGen.main.tsdata.whub" title="Permalink to this definition">¶</a></dt>
+<dd><p>The hub-height w-component time-series.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.main.tsdata.write_bladed">
+<code class="descname">write_bladed</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/main.html#tsdata.write_bladed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.main.tsdata.write_bladed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the data in this tsdata object in ‘bladed’ format (.wnd).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The filename to which the data should be written.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.main.tsdata.write_formatted">
+<code class="descname">write_formatted</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/main.html#tsdata.write_formatted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.main.tsdata.write_formatted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the data in this tsdata object in ‘formatted’ format (.u,
+.v, .w files).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">‘.u’, ‘.v’, and ‘.w’ will be appended to the end of
+the filename.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.main.tsdata.write_sum">
+<code class="descname">write_sum</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/main.html#tsdata.write_sum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.main.tsdata.write_sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Currently TurbGen does not support writing summary (.sum) files.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.main.tsdata.write_turbsim">
+<code class="descname">write_turbsim</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/main.html#tsdata.write_turbsim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.main.tsdata.write_turbsim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the data in this tsdata object in ‘TurbSim’ format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The filename to which the data should be written.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-TurbGen.misc">
+<span id="turbgen-misc-module"></span><h2>TurbGen.misc module<a class="headerlink" href="#module-TurbGen.misc" title="Permalink to this headline">¶</a></h2>
+<p>This module contains a few random helper functions that are used
+throughout the code.</p>
+<dl class="exception">
+<dt id="TurbGen.misc.InvalidConfig">
+<em class="property">exception </em><code class="descclassname">TurbGen.misc.</code><code class="descname">InvalidConfig</code><span class="sig-paren">(</span><em>msg='Invalid option specified in config file.'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/misc.html#InvalidConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.misc.InvalidConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.Exception</span></code></p>
+<p>Exception raised by the baseModel classes.  Used to indicate that
+a model has not defined a necessary attribute.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.misc.Lambda">
+<code class="descclassname">TurbGen.misc.</code><code class="descname">Lambda</code><span class="sig-paren">(</span><em>zhub</em>, <em>IECedition</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/misc.html#Lambda"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.misc.Lambda" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the IEC length scale.</p>
+<p>Lambda = 0.7*min(Zhat,zhub)</p>
+<p>Where: Zhat = 30,60 for IECedition = 2,3, respectively.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.misc.fix2range">
+<code class="descclassname">TurbGen.misc.</code><code class="descname">fix2range</code><span class="sig-paren">(</span><em>vals</em>, <em>minval</em>, <em>maxval</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/misc.html#fix2range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.misc.fix2range" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper function that sets the value of the array or number <cite>vals</cite> to
+fall within the range <cite>minval</cite> &lt;= <cite>vals</cite> &lt;= <cite>maxval</cite>.</p>
+<p>Values of <cite>vals</cite> that are greater than <cite>maxval</cite> are set to
+<cite>maxval</cite> (and similar for <cite>minval</cite>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>vals</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or array_like</span></dt>
+<dd><p class="first last">The value(s) to ‘fix’.</p>
+</dd>
+<dt><strong>minval</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">The minimum value.</p>
+</dd>
+<dt><strong>maxval</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">The maximum value.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>fixed_vals</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or array_like (matches <cite>vals</cite>)</span></dt>
+<dd><p class="first last">The fixed values.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.misc.lowPrimeFact_near">
+<code class="descclassname">TurbGen.misc.</code><code class="descname">lowPrimeFact_near</code><span class="sig-paren">(</span><em>n</em>, <em>pmax=31</em>, <em>nmin=None</em>, <em>evens_only=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/misc.html#lowPrimeFact_near"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.misc.lowPrimeFact_near" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the nearest integer to <cite>n</cite> with prime factors all less than
+<cite>pmax</cite>.</p>
+<p>This routine is used to change the length of arrays to speed-up
+Fast Fourier Transforms.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>n</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The starting integer.</p>
+</dd>
+<dt><strong>pmax</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The maximum prime to be found.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>qp_near</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The nearest integer to n that has prime factors less than <cite>pmax</cite>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.misc.pfactor">
+<code class="descclassname">TurbGen.misc.</code><code class="descname">pfactor</code><span class="sig-paren">(</span><em>n</em>, <em>pmax=31</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/misc.html#pfactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.misc.pfactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the prime factors of the integer <em>n</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>n</strong> <span class="classifier-delimiter">:</span> <span class="classifier">The integer for which to calculate prime-factors.</span></dt>
+<dd></dd>
+<dt><strong>pmax</strong> <span class="classifier-delimiter">:</span> <span class="classifier">The maximum prime to use (default 31, can be up to 71).</span></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>primes</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">A of the primes.</p>
+</dd>
+<dt><strong>The first 20 primes (up to 71) are hard-coded into this</strong></dt>
+<dd></dd>
+<dt><strong>routine. You’ll need to add more primes to the list if you want</strong></dt>
+<dd></dd>
+<dt><strong>them.</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.misc.psiM">
+<code class="descclassname">TurbGen.misc.</code><code class="descname">psiM</code><span class="sig-paren">(</span><em>Ri</em>, <em>TurbModel=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/misc.html#psiM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.misc.psiM" title="Permalink to this definition">¶</a></dt>
+<dd><p>The psi_M stability parameter is used for various mean wind-speed
+profiles and turbulence models.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Ri</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">The Richardson number.</p>
+</dd>
+<dt><strong>TurbModel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The turbulence model that is being used (optional).
+In some cases z/L depends on the Turbulence model.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>psiM</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">The psi_M stability parameter.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.misc.zL">
+<code class="descclassname">TurbGen.misc.</code><code class="descname">zL</code><span class="sig-paren">(</span><em>Ri</em>, <em>TurbModel=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/misc.html#zL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.misc.zL" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>zL</em> is the Monin-Obhukov (M-O) stability parameter z/L,
+where L is the M-O length.</p>
+<p>zL &gt; 0 means stable conditions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Ri</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">The Richardson number.</p>
+</dd>
+<dt><strong>TurbModel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The turbulence model that is being used (optional).
+In some cases z/L depends on the Turbulence model.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-TurbGen.tg_numpy">
+<span id="turbgen-tg-numpy-module"></span><h2>TurbGen.tg_numpy module<a class="headerlink" href="#module-TurbGen.tg_numpy" title="Permalink to this headline">¶</a></h2>
+<p>This module imports the pieces of numpy that are used by TurbGen.</p>
+</div>
+<div class="section" id="module-TurbGen">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TurbGen" title="Permalink to this headline">¶</a></h2>
+<p>This is the TurbGen package. For more information visit the <a class="reference external" href="http://lkilcher.github.io/TurbGen/">TurbGen home page</a>.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/TurbGen.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

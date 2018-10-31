@@ -1,0 +1,350 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TurbGen.io.write &#8212; TurbGen 0.5 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for TurbGen.io.write</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module is for writing data to various formats.</span>
+
+<span class="sd">The functions in this module were translated directly from the</span>
+<span class="sd">original TSsubs.f90 file.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">convname</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">struct</span> <span class="k">import</span> <span class="n">pack</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">e</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">_version</span> <span class="k">as</span> <span class="n">ver</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">.sum</span> <span class="k">import</span> <span class="n">write</span> <span class="k">as</span> <span class="nb">sum</span>  <span class="c1"># Make sum.write available here.</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">h5py</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">h5py</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="bladed"><a class="viewcode-back" href="../../../api/TurbGen.io.html#TurbGen.io.write.bladed">[docs]</a><span class="k">def</span> <span class="nf">bladed</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Write tsdat to a Bladed-format (.wnd) binary file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname : str</span>
+<span class="sd">            The filename to which the data should be written.</span>
+<span class="sd">    tsdat : :class:`tsdata &lt;TurbGen.main.tsdata&gt;`</span>
+<span class="sd">            A TurbGen data object.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    Bladed is a Trademark of GL Garrad-Hassan.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prms</span> <span class="o">=</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">parameters</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">prms</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Latitude&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">Z0</span> <span class="o">=</span> <span class="n">prms</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Z0&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">utotal</span>
+    <span class="n">ti</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">tke</span><span class="p">[:,</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">ihub</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> <span class="o">/</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">UHUB</span>
+    <span class="n">ti</span><span class="p">[</span><span class="n">ti</span> <span class="o">&lt;</span> <span class="mf">1e-5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="mf">1000.</span> <span class="o">/</span> <span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">UHUB</span> <span class="o">*</span> <span class="n">ti</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+    <span class="n">off</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1000.</span> <span class="o">/</span> <span class="p">(</span><span class="n">ti</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">fl</span> <span class="o">=</span> <span class="n">file</span><span class="p">(</span><span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;.wnd&#39;</span><span class="p">),</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
+    <span class="c1"># First write some setup data:</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pack</span><span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="s1">&#39;2hl3f&#39;</span><span class="p">,</span>
+                  <span class="o">-</span><span class="mi">99</span><span class="p">,</span>
+                  <span class="mi">4</span><span class="p">,</span>
+                  <span class="mi">3</span><span class="p">,</span>
+                  <span class="n">lat</span><span class="p">,</span>
+                  <span class="n">Z0</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">))</span>
+    <span class="c1"># Now write the turbulence intensity, grid spacing, numsteps, and hub mean wind speed</span>
+    <span class="c1"># For some reason this takes half the number of timesteps...</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pack</span><span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="s1">&#39;3f&#39;</span><span class="p">,</span> <span class="o">*</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">ti</span><span class="p">)))</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pack</span><span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="s1">&#39;3flf&#39;</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dz</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">UHUB</span> <span class="o">*</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">UHUB</span><span class="p">))</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pack</span><span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="s1">&#39;3f&#39;</span><span class="p">,</span> <span class="o">*</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)))</span>  <span class="c1"># Unused bytes</span>
+    <span class="c1"># Previously this was unused. Now I am using it to store the clockwise flag.</span>
+    <span class="c1"># 0 is reserved for TurbSim (no specification), 1 is False, 2 is True.</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pack</span><span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">clockwise</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pack</span><span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="s1">&#39;3l&#39;</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;RandSeed&#39;</span><span class="p">],</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span><span class="p">))</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pack</span><span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="s1">&#39;6l&#39;</span><span class="p">,</span> <span class="o">*</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">6</span><span class="p">)))</span>  <span class="c1"># Unused bytes</span>
+    <span class="k">if</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">clockwise</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">ts</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">scale</span> <span class="o">-</span> <span class="n">off</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">ts</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">scale</span> <span class="o">-</span> <span class="n">off</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+    <span class="c1"># Swap the y and z indices so that fortran-order writing agrees with the</span>
+    <span class="c1"># file format.</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># Write the data so that the first index varies fastest (F order).</span>
+    <span class="c1"># With the swap of y and z indices above, the indexes vary in the following</span>
+    <span class="c1"># (decreasing) order:</span>
+    <span class="c1"># component (fastest), y-index, z-index, time (slowest).</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">))</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="formatted"><a class="viewcode-back" href="../../../api/TurbGen.io.html#TurbGen.io.write.formatted">[docs]</a><span class="k">def</span> <span class="nf">formatted</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Write the data to a set of TurbSim &#39;formatted&#39; (readable) files (.u, .v, .w).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname : str</span>
+<span class="sd">            the base-filename to which the data should be written.</span>
+<span class="sd">            &#39;.u&#39;, &#39;.v&#39;, &#39;.w&#39; will be appended to fname for each file.</span>
+<span class="sd">    tsdat : :class:`tsdata &lt;TurbGen.main.tsdata&gt;`</span>
+<span class="sd">             The &#39;tsdata&#39; object that contains the data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">header</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">This full-field turbulence file was generated by </span><span class="si">{ver.__prog_name__}</span><span class="s2"> &quot;</span>
+              <span class="s2">&quot;(v</span><span class="si">{ver.__version__}</span><span class="s2">, </span><span class="si">{ver.__version_date__}</span><span class="s2">) on </span><span class="si">{date}</span><span class="s2"> at </span><span class="si">{time}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                  <span class="n">ver</span><span class="o">=</span><span class="n">ver</span><span class="p">,</span>
+                  <span class="n">date</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">-%b-%Y&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">()),</span>
+                  <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S (%Z)&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">())))</span>
+    <span class="n">header</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+               <span class="s2">&quot; | </span><span class="si">%s</span><span class="s2">-comp |  Y  x  Z  | Grid Resolution (Y x Z) | &quot;</span>
+               <span class="s2">&quot;Time-step | Hub Elev | Mean U |</span><span class="se">\n</span><span class="s2">&quot;</span>
+               <span class="s2">&quot;          </span><span class="si">{n_y: 4d}</span><span class="s2">  </span><span class="si">{n_z: 4d}</span><span class="s2">  </span><span class="si">{dy: 9.3f}</span><span class="s2">  </span><span class="si">{dz: 9.3f}</span><span class="s2">   &quot;</span>
+               <span class="s2">&quot;   </span><span class="si">{dt:9.3f}</span><span class="s2">  </span><span class="si">{zhub:9.2f}</span><span class="s2"> </span><span class="si">{uhub:9.2f}</span><span class="se">\n</span><span class="s2">&quot;</span>
+               <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+               <span class="s2">&quot; Z Coordinates (m):</span><span class="se">\n</span><span class="s2">&quot;</span>
+               <span class="s2">&quot; </span><span class="si">{zcoords}</span><span class="se">\n</span><span class="s2">&quot;</span>
+               <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+               <span class="s2">&quot; Y Coordinates (m):</span><span class="se">\n</span><span class="s2">&quot;</span>
+               <span class="s2">&quot; </span><span class="si">{ycoords}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_y</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span>
+                                     <span class="n">n_z</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span>
+                                     <span class="n">dy</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span>
+                                     <span class="n">dz</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dz</span><span class="p">,</span>
+                                     <span class="n">dt</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+                                     <span class="n">zhub</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">,</span>
+                                     <span class="n">uhub</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">UHUB</span><span class="p">,</span>
+                                     <span class="n">zcoords</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39; </span><span class="si">{: 7.3f}</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">tsdat</span><span class="o">.</span><span class="n">z</span><span class="p">),</span>
+                                     <span class="n">ycoords</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39; </span><span class="si">{: 7.3f}</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">tsdat</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="p">))</span>
+    <span class="n">outform</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+               <span class="s2">&quot;  </span><span class="si">{: 7.3f}</span><span class="s2"> </span><span class="si">{: 7.3f}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">outform</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39; </span><span class="si">{: 7.3f}</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span>
+
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;.inp&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Writing formatted files...&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">n_comp</span><span class="p">):</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">comp_name</span><span class="p">[</span><span class="n">idc</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-component, timestep:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">comp</span><span class="p">))</span>
+        <span class="n">fl</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">comp</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header</span> <span class="o">%</span> <span class="p">(</span><span class="n">comp</span><span class="p">))</span>
+        <span class="n">nt</span> <span class="o">=</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">idt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nt</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">idt</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idt</span><span class="p">,</span> <span class="n">nt</span><span class="p">))</span>
+            <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">outform</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">idt</span><span class="p">],</span>
+                                    <span class="n">tsdat</span><span class="o">.</span><span class="n">uhub</span><span class="p">[</span><span class="n">idt</span><span class="p">],</span>
+                                    <span class="o">*</span><span class="n">tsdat</span><span class="o">.</span><span class="n">uturb</span><span class="p">[</span><span class="n">idc</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="n">idt</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span>
+        <span class="n">fl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="turbsim"><a class="viewcode-back" href="../../../api/TurbGen.io.html#TurbGen.io.write.turbsim">[docs]</a><span class="k">def</span> <span class="nf">turbsim</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Write the data to a TurbSim-format binary file (.bts).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname : str</span>
+<span class="sd">            the filename to which the data should be written.</span>
+<span class="sd">    tsdat : :class:`tsdata &lt;TurbGen.main.tsdata&gt;`</span>
+<span class="sd">             The &#39;tsdata&#39; object that contains the data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">tsdat</span><span class="o">.</span><span class="n">utotal</span>
+    <span class="n">intmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32768</span>
+    <span class="n">intrng</span> <span class="o">=</span> <span class="mi">65536</span>
+    <span class="n">u_minmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">u_off</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">u_scl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">desc_str</span> <span class="o">=</span> <span class="s1">&#39;generated by </span><span class="si">%s</span><span class="s1"> v</span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">ver</span><span class="o">.</span><span class="n">__prog_name__</span><span class="p">,</span>
+        <span class="n">ver</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%b </span><span class="si">%d</span><span class="s1">, %Y, %H:%M (%Z)&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">()))</span>
+    <span class="c1"># Calculate the ranges:</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">tsdat</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">ts</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">u_scl</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">u_scl</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">intrng</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
+        <span class="n">u_off</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">intmin</span> <span class="o">-</span> <span class="n">u_scl</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">*</span> <span class="n">u_minmax</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ts</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">*</span> <span class="n">u_scl</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">+</span> <span class="n">u_off</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+    <span class="n">fl</span> <span class="o">=</span> <span class="n">file</span><span class="p">(</span><span class="n">convname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;.bts&#39;</span><span class="p">),</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pack</span><span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="s1">&#39;h4l12fl&#39;</span><span class="p">,</span>
+                  <span class="mi">7</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_tower</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dz</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">UHUB</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">,</span>
+                  <span class="n">tsdat</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">u_scl</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">u_off</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">u_scl</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                  <span class="n">u_off</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                  <span class="n">u_scl</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                  <span class="n">u_off</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                  <span class="nb">len</span><span class="p">(</span><span class="n">desc_str</span><span class="p">)))</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">desc_str</span><span class="p">)</span>
+    <span class="c1"># Swap the y and z indices so that fortran-order writing agrees with the file format.</span>
+    <span class="c1"># Also, we swap the order of z-axis to agree with the file format.</span>
+    <span class="c1"># Write the data so that the first index varies fastest (F order).</span>
+    <span class="c1"># The indexes vary in the following order:</span>
+    <span class="c1"># component (fastest), y-index, z-index, time (slowest).</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">))</span>
+    <span class="n">fl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<span class="k">if</span> <span class="n">h5py</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">hdf5</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">tsdat</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write the data to an hdf5 format file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fname : str</span>
+<span class="sd">                the filename to which the data should be written. `.inp`</span>
+<span class="sd">                will always be stripped, and `.h5` will be added if no</span>
+<span class="sd">                file extension exists.</span>
+<span class="sd">        tsdat : :class:`tsdata &lt;TurbGen.main.tsdata&gt;`</span>
+<span class="sd">                 The &#39;tsdata&#39; object that contains the data.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;.inp&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;.&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">fname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">fname</span> <span class="o">+=</span> <span class="s1">&#39;.h5&#39;</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fl</span><span class="p">:</span>
+            <span class="c1"># The turbulence velocity:</span>
+            <span class="n">ds_uturb</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s1">&#39;uturb&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">uturb</span><span class="p">)</span>
+            <span class="n">ds_uturb</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;units&#39;</span><span class="p">,</span> <span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
+            <span class="n">ds_uturb</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;dims&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;u,v,w&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">])</span>
+            <span class="c1"># The mean velocity profile:</span>
+            <span class="n">ds_uprof</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s1">&#39;uprof&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">uprof</span><span class="p">)</span>
+            <span class="n">ds_uprof</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;units&#39;</span><span class="p">,</span> <span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
+            <span class="n">ds_uprof</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;dims&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;u,v,w&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span>
+            <span class="c1"># The spatial grid:</span>
+            <span class="n">ds_z</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+            <span class="n">ds_z</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;units&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">)</span>
+            <span class="n">ds_y</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">ds_y</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;units&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">)</span>
+            <span class="c1"># The time vector:</span>
+            <span class="n">ds_time</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">tsdat</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+            <span class="n">ds_time</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;units&#39;</span><span class="p">,</span> <span class="s1">&#39;sec&#39;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code-framework.html">Code Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

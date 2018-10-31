@@ -1,0 +1,452 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TurbGen.cohereModels.main &#8212; TurbGen 0.5 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for TurbGen.cohereModels.main</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module defines two coherence models:</span>
+<span class="sd">nwtc - The NWTC &#39;non-IEC&#39; coherence model.</span>
+<span class="sd">iec  - The IEC coherence model.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">cohereModelBase</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">ts_float</span><span class="p">,</span> <span class="n">cohereObj</span><span class="p">,</span> <span class="n">ts_complex</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="k">import</span> <span class="n">tslib</span><span class="p">,</span> <span class="n">dbg</span>
+<span class="kn">from</span> <span class="nn">..misc</span> <span class="k">import</span> <span class="n">Lambda</span>
+
+
+<div class="viewcode-block" id="cohereObjNone"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.cohereObjNone">[docs]</a><span class="k">class</span> <span class="nc">cohereObjNone</span><span class="p">(</span><span class="n">cohereObj</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a &#39;dummy&#39; coherence object that forces the coherence to</span>
+<span class="sd">    zero.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="cohereObjNone.calc_phases"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.cohereObjNone.calc_phases">[docs]</a>    <span class="k">def</span> <span class="nf">calc_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phases</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">phases</span></div>
+
+<div class="viewcode-block" id="cohereObjNone.calcCoh"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.cohereObjNone.calcCoh">[docs]</a>    <span class="k">def</span> <span class="nf">calcCoh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">f</span></div></div>
+
+
+<div class="viewcode-block" id="none"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.none">[docs]</a><span class="k">class</span> <span class="nc">none</span><span class="p">(</span><span class="n">cohereModelBase</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a &#39;dummy&#39; coherence model that forces the coherence to</span>
+<span class="sd">    zero.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cohereObj</span> <span class="o">=</span> <span class="n">cohereObjNone</span></div>
+
+
+<div class="viewcode-block" id="cohereObjNWTC"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.cohereObjNWTC">[docs]</a><span class="k">class</span> <span class="nc">cohereObjNWTC</span><span class="p">(</span><span class="n">cohereObj</span><span class="p">):</span>
+
+<div class="viewcode-block" id="cohereObjNWTC.calc_phases"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.cohereObjNWTC.calc_phases">[docs]</a>    <span class="k">def</span> <span class="nf">calc_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phases</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the `correlated phases` for each grid-point from the</span>
+<span class="sd">        input `phases` based on the coherence NWTC &#39;non-IEC coherence</span>
+<span class="sd">        model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        phases : array_like(np, nf)</span>
+<span class="sd">                 The input (generally randomized) phases for each</span>
+<span class="sd">                 point for each frequency.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        phases : array_like(np, nf)</span>
+<span class="sd">                 The correlated phases according to this cohereObj&#39;s</span>
+<span class="sd">                 coherence model (see :meth:`calcCoh`).</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+
+<span class="sd">        This method should not be called explicitly.  It is called by</span>
+<span class="sd">        a cohereObj instance&#39;s __call__ method.</span>
+
+<span class="sd">        See also</span>
+<span class="sd">        --------</span>
+<span class="sd">        calcCoh : computes the coherence for individual grid-point pairs.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">tslib</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_complex</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">u</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">icomp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+                <span class="n">tmp</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">phases</span><span class="p">[</span><span class="n">icomp</span><span class="p">]</span>
+                <span class="n">tslib</span><span class="o">.</span><span class="n">nonieccoh</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">icomp</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="n">icomp</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">CohExp</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">ncore</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">)</span>
+                <span class="n">phases</span><span class="p">[</span><span class="n">icomp</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">phases</span> <span class="o">=</span> <span class="n">cohereObj</span><span class="o">.</span><span class="n">calc_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phases</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">phases</span></div>
+
+<div class="viewcode-block" id="cohereObjNWTC.calcCoh"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.cohereObjNWTC.calcCoh">[docs]</a>    <span class="k">def</span> <span class="nf">calcCoh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The base function for calculating coherence for non-IEC</span>
+<span class="sd">        spectral models.</span>
+
+<span class="sd">        See the TurbGen documentation for further information.</span>
+
+<span class="sd">        This function is only used if the TSlib fortran library is not</span>
+<span class="sd">        available.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ii</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ind2sub</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+        <span class="n">jj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ind2sub</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span>
+        <span class="n">two</span> <span class="o">=</span> <span class="n">ts_float</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">zm</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">ii</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">jj</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="o">/</span> <span class="n">two</span>
+        <span class="n">um</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">jj</span><span class="p">])</span> <span class="o">/</span> <span class="n">two</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">/</span> <span class="n">zm</span><span class="p">)</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">CohExp</span> <span class="o">*</span>
+                      <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">f</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="n">um</span><span class="p">)</span> <span class="o">**</span> <span class="n">two</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="n">two</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="nwtc"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.nwtc">[docs]</a><span class="k">class</span> <span class="nc">nwtc</span><span class="p">(</span><span class="n">cohereModelBase</span><span class="p">):</span>
+
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;NWTC coherence model.</span>
+
+<span class="sd">    This is also known as the &#39;non-IEC&#39; coherence model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array_like(3)</span>
+<span class="sd">        The &#39;a&#39; exponential &#39;coherence decrement&#39; coefficients of the</span>
+<span class="sd">        coherence function for each velocity component.</span>
+<span class="sd">    b : a</span>
+<span class="sd">        The &#39;b&#39; exponential &#39;coherence decrement&#39; coefficients of the</span>
+<span class="sd">        coherence function for each velocity component.</span>
+<span class="sd">    CohExp : float</span>
+<span class="sd">             The &#39;Coherence Exponent&#39; parameter for the coherence function.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The NWTC &#39;non-IEC&#39; coherence model for velocity component &#39;k&#39; between two</span>
+<span class="sd">    points (z_i,y_i) and (z_j,y_j) is</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       Coh_k = exp \left (-a_k ( r/z_m)^{CohExp} ((f r / u_m)^2 + (b_k r)^2 \right ) \quad  k=u, v, w</span>
+
+<span class="sd">    Where,</span>
+
+<span class="sd">    f is frequency.</span>
+
+<span class="sd">    r is the distance between the two points.</span>
+
+<span class="sd">    a_k and b_k are &#39;coherence decrement&#39; input parameters for each of</span>
+<span class="sd">    the velocity components.</span>
+
+<span class="sd">    u_m is the average velocity of the two points.</span>
+
+<span class="sd">    z_m is the average height of the two points.</span>
+
+<span class="sd">    CohExp is the &#39;coherence exponent&#39; input parameter (default is 0).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="vm">__doc__</span> <span class="o">+=</span> <span class="n">cohereModelBase</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="n">cohereObj</span> <span class="o">=</span> <span class="n">cohereObjNWTC</span>  <span class="c1"># This must be defined for each coherence model.</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">b</span><span class="o">=</span><span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="n">CohExp</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a NWTC &#39;non-IEC&#39; coherence model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        a : 3-element array-like of floats (or None for default), optional.</span>
+<span class="sd">            The first coherence decrement input parameter for each of the</span>
+<span class="sd">            three velocity components. If an element is None, a default value</span>
+<span class="sd">            is used. The defaults are:</span>
+<span class="sd">                 a[0] = uhub</span>
+<span class="sd">                 a[1] = 0.75*a[0]</span>
+<span class="sd">                 a[2] = 0.75*a[0]</span>
+<span class="sd">        b : 3-element array-like of floats, optional.</span>
+<span class="sd">            The second coherence decrement input parameter for each</span>
+<span class="sd">            velocity component.  Each element defaults to 0.</span>
+<span class="sd">        CohExp :  float, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">CohExp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CohExp</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CohExp</span> <span class="o">=</span> <span class="n">CohExp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
+            <span class="c1">#self.timer=dbg.timer(&#39;tslib-cohNWTC&#39;)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">dbg</span><span class="o">.</span><span class="n">timer</span><span class="p">(</span><span class="s1">&#39;roll&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Coherence model used                             =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
+<span class="s2">        Coherence Exponent                               =  </span><span class="si">{dat.CohExp:0.2f}</span><span class="s2"></span>
+<span class="s2">        Coherence decrements (IncDec):</span>
+<span class="s2">           U (a, b)                                      =  (</span><span class="si">{coh.a[0]:0.2f}</span><span class="s2">, </span><span class="si">{coh.b[0]:0.2f}</span><span class="s2">)  # noqa</span>
+<span class="s2">           V (a, b)                                      =  (</span><span class="si">{coh.a[1]:0.2f}</span><span class="s2">, </span><span class="si">{coh.b[1]:0.2f}</span><span class="s2">)  # noqa</span>
+<span class="s2">           W (a, b)                                      =  (</span><span class="si">{coh.a[2]:0.2f}</span><span class="s2">, </span><span class="si">{coh.b[2]:0.2f}</span><span class="s2">)  # noqa</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">coh</span><span class="o">=</span><span class="n">tsrun</span><span class="o">.</span><span class="n">cohere</span><span class="p">,</span> <span class="p">)</span>
+
+<div class="viewcode-block" id="nwtc.set_coefs"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.nwtc.set_coefs">[docs]</a>    <span class="k">def</span> <span class="nf">set_coefs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cohereObj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method is called by the coherence model __call__ method</span>
+<span class="sd">        just before returning the coherence instance *cohi*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cohereObj</span><span class="o">.</span><span class="n">CohExp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CohExp</span>
+        <span class="n">cohereObj</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span>
+        <span class="n">cohereObj</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cohereObj</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">cohereObj</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cohereObj</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cohereObj</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="n">cohereObj</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cohereObj</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cohereObj</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="n">cohereObj</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cohereObj</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="cohereObjIEC"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.cohereObjIEC">[docs]</a><span class="k">class</span> <span class="nc">cohereObjIEC</span><span class="p">(</span><span class="n">cohereObj</span><span class="p">):</span>
+
+<div class="viewcode-block" id="cohereObjIEC.calcCoh"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.cohereObjIEC.calcCoh">[docs]</a>    <span class="k">def</span> <span class="nf">calcCoh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the coherence for a velocity component, between two points.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        f : array_like(nf,dtype=float)</span>
+
+<span class="sd">        comp : int {0,1,2}</span>
+<span class="sd">               indicating the velocity component for which to compute</span>
+<span class="sd">               the coherence.</span>
+
+<span class="sd">        ii,jj : array_like(int,2)</span>
+<span class="sd">                indicating the grid-points between which to calculate</span>
+<span class="sd">                the coherence.  for example: ii=(1,3),jj=(2,3)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        coh : array_like(nf,dtype=float)</span>
+<span class="sd">              The coherence between the two points as a function of frequency.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+
+<span class="sd">        This method is only used if tslib is not available.</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">comp</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">f</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span>
+                                            <span class="p">(</span><span class="mf">0.12</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="cohereObjIEC.calc_phases"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.cohereObjIEC.calc_phases">[docs]</a>    <span class="k">def</span> <span class="nf">calc_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phases</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute and set the full cross-coherence matrix for component</span>
+<span class="sd">        *comp* for &#39;coherence calculator&#39; instance *cohi*.</span>
+
+<span class="sd">        Compute the coherence array for coherence instance cohi for</span>
+<span class="sd">        the IEC model.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">tslib</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">phases</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+            <span class="n">tslib</span><span class="o">.</span><span class="n">ieccoh</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">f</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">ncore</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">)</span>
+            <span class="n">phases</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span>
+            <span class="k">return</span> <span class="n">phases</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cohereObj</span><span class="o">.</span><span class="n">calc_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phases</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="iec"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.iec">[docs]</a><span class="k">class</span> <span class="nc">iec</span><span class="p">(</span><span class="n">cohereModelBase</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;IEC coherence model.</span>
+
+<span class="sd">    This coherence model only include u-component coherence.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    IECedition : int {2, 3},</span>
+<span class="sd">                 Different IEC editions have slightly different</span>
+<span class="sd">                 coefficients to the spectral model.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The IEC coherence is zero for the v- and w-components (coherence matrix</span>
+<span class="sd">    is the identity matrix so that auto-spectra are retained).</span>
+
+<span class="sd">    The form of this model is for the u-component is,</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       Coh=exp(-a*((f*r/uhub)^2+(0.12*r/Lc)^2)^0.5)</span>
+
+<span class="sd">    Where,</span>
+
+<span class="sd">    f is frequency.</span>
+
+<span class="sd">    r is the distance between the two points.</span>
+
+<span class="sd">    uhub is the hub-height mean velocity.</span>
+
+<span class="sd">    If IECedition&lt;=2:</span>
+<span class="sd">    a  = 8.8,</span>
+<span class="sd">    Lc = 2.45*min(30m,HubHt)</span>
+
+<span class="sd">    If IECedition&gt;=3:</span>
+<span class="sd">    a  = 12,</span>
+<span class="sd">    Lc = 5.67*min(60m,HubHt)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="vm">__doc__</span> <span class="o">+=</span> <span class="n">cohereModelBase</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="n">cohereObj</span> <span class="o">=</span> <span class="n">cohereObjIEC</span>
+
+    <span class="k">def</span> <span class="nf">_L</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zhub</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the &#39;coherence scale parameter&#39; for hub-height *zhub*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Lfactor</span> <span class="o">*</span> <span class="n">Lambda</span><span class="p">(</span><span class="n">zhub</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">IECedition</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IECedition</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">IECedition</span> <span class="o">=</span> <span class="n">IECedition</span>
+        <span class="k">if</span> <span class="n">IECedition</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># The Lambda function includes a factor of 0.7 (_Lfactor*0.7=2.45).</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_Lfactor</span> <span class="o">=</span> <span class="mf">3.5</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mf">8.8</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># 3rd edition IEC standard:</span>
+            <span class="c1"># The Lambda function includes a factor of 0.7 (_Lfactor*0.7=5.67)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_Lfactor</span> <span class="o">=</span> <span class="mf">8.1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mf">12.</span>
+        <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">dbg</span><span class="o">.</span><span class="n">timer</span><span class="p">(</span><span class="s1">&#39;tslib-cohIEC&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+        <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Coherence model used                             =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
+<span class="s2">        IEC Edition                                      =  </span><span class="si">{dat.IECedition:d}</span><span class="s2"></span>
+<span class="s2">        Coherence length scale parameter                 =  </span><span class="si">{L:0.2f}</span><span class="s2"> [m]</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">))</span>
+
+<div class="viewcode-block" id="iec.set_coefs"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.iec.set_coefs">[docs]</a>    <span class="k">def</span> <span class="nf">set_coefs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cohereObj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a coherence instance for the IEC coherence model.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cohereObj</span><span class="o">.</span><span class="n">Lc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="p">(</span><span class="n">cohereObj</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">)</span>
+        <span class="n">cohereObj</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code-framework.html">Code Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,62 @@
+TurbGen.specModels package
+==========================
+
+Submodules
+----------
+
+TurbGen.specModels.api module
+-----------------------------
+
+.. automodule:: TurbGen.specModels.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.specModels.base module
+------------------------------
+
+.. automodule:: TurbGen.specModels.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.specModels.hydro module
+-------------------------------
+
+.. automodule:: TurbGen.specModels.hydro
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.specModels.iec module
+-----------------------------
+
+.. automodule:: TurbGen.specModels.iec
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.specModels.kelley\_coefs module
+---------------------------------------
+
+.. automodule:: TurbGen.specModels.kelley_coefs
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.specModels.nwtc module
+------------------------------
+
+.. automodule:: TurbGen.specModels.nwtc
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: TurbGen.specModels
+    :members:
+    :undoc-members:
+    :show-inheritance:

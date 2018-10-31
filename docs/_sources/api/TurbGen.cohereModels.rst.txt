@@ -1,0 +1,38 @@
+TurbGen.cohereModels package
+============================
+
+Submodules
+----------
+
+TurbGen.cohereModels.api module
+-------------------------------
+
+.. automodule:: TurbGen.cohereModels.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.cohereModels.base module
+--------------------------------
+
+.. automodule:: TurbGen.cohereModels.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.cohereModels.main module
+--------------------------------
+
+.. automodule:: TurbGen.cohereModels.main
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: TurbGen.cohereModels
+    :members:
+    :undoc-members:
+    :show-inheritance:

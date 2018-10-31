@@ -1,0 +1,231 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TurbGen.runInput.profModels &#8212; TurbGen 0.5 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for TurbGen.runInput.profModels</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains functions for producing the appropriate profile</span>
+<span class="sd">model for a specific TurbGen input object (derived from an input</span>
+<span class="sd">file).</span>
+
+<span class="sd">When a new model is added to the profModels package, it will need a</span>
+<span class="sd">wrapper function here in order to be accessible using input files.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">..profModels</span> <span class="k">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">pm</span>
+
+
+<div class="viewcode-block" id="getModel"><a class="viewcode-back" href="../../../api/TurbGen.runInput.html#TurbGen.runInput.profModels.getModel">[docs]</a><span class="k">def</span> <span class="nf">getModel</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the wrapper function for all profile models implemented in</span>
+<span class="sd">    the runInput package.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`.tsinput`</span>
+<span class="sd">                A TurbGen input object.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    profModel : A subclass of :class:`.profModelBase`</span>
+<span class="sd">                The appropriately initialized &#39;profile model&#39; object</span>
+<span class="sd">                specified in `tsinput`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This executes the sub-wrapper function (defined below) specified</span>
+    <span class="c1"># in the tsinput-object (input file WINDPROFILETYPE line)</span>
+    <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;WindProfileType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;(tsinput)&#39;</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_h2l</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function parses the correct variables from the tsinput</span>
+<span class="sd">    object and supplies them to the &#39;H2O log&#39; profile model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`.tsinput`</span>
+<span class="sd">                A TurbGen input object (with WindProfileType &#39;h2l&#39;).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    profModel : :class:`TurbGen.profModels.log.H2O`</span>
+<span class="sd">                H2O-log mean profile model instance.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;URef&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;RefHt&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;UStar&#39;</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">_log</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function parses the correct variables from the tsinput</span>
+<span class="sd">    object and supplies them to the wind &#39;log&#39; profile model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`.tsinput`</span>
+<span class="sd">                A TurbGen input object (with WindProfileType &#39;log&#39;).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    profModel : :class:`TurbGen.profModels.log.nwtc`</span>
+<span class="sd">                wind log mean profile model instance.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;URef&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;RefHt&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;Z0&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;RICH_NO&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;TurbModel&#39;</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">_pl</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function parses the correct variables from the tsinput</span>
+<span class="sd">    object and supplies them to the wind &#39;power-law&#39; profile model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`.tsinput`</span>
+<span class="sd">                A TurbGen input object (with WindProfileType &#39;pl&#39;).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    profModel : :class:`TurbGen.profModels.power.nwtc`</span>
+<span class="sd">                power-law mean profile model instance.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">pl</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;URef&#39;</span><span class="p">],</span>
+                 <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;RefHt&#39;</span><span class="p">],</span>
+                 <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;PLExp&#39;</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">_iec</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function parses the correct variables from the tsinput</span>
+<span class="sd">    object and supplies them to the wind &#39;IEC&#39; profile model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`.tsinput`</span>
+<span class="sd">                A TurbGen input object (with WindProfileType &#39;IEC&#39;).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    profModel : :class:`TurbGen.profModels.iec.main`</span>
+<span class="sd">                IEC mean profile model instance.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">iec</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;URef&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;RefHt&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;Z0&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;PLExp&#39;</span><span class="p">],</span>
+                  <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;TurbModel&#39;</span><span class="p">],)</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code-framework.html">Code Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

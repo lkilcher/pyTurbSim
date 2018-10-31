@@ -4,24 +4,16 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Download and Install &#8212; PyTurbSim 0.4.8 documentation</title>
+    <title>Download and Install &#8212; TurbGen 0.5 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.4.8',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -33,39 +25,40 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="download-and-install">
 <span id="install"></span><h1>Download and Install<a class="headerlink" href="#download-and-install" title="Permalink to this headline">¶</a></h1>
-<p>PyTurbSim is built primarily in Python, makes heavy use of the NumPy Python package, and has a small set of Fortran libraries. Therefore, prior to installing PyTurbSim you will first need to install,</p>
+<p>TurbGen is built primarily in Python, makes heavy use of the NumPy Python package, and has a small set of Fortran libraries. Therefore, prior to installing TurbGen you will first need to install,</p>
 <ol class="arabic simple">
 <li>A functioning Python 2.7 installation (with pip),</li>
 <li>A Fortran compiler,</li>
 <li><a class="reference external" href="http://www.numpy.org">Numpy</a> &gt;=1.6.</li>
 </ol>
-<p>If you have not already installed these tools, doing so may be the difficult part of installing PyTurbSim. Most Linux/Unix/posix distributions provide binary packages that make it relatively easy to installing these tools. For Microsoft windows I recommend installing a Python package that includes all three of these tools (e.g. <a class="reference external" href="http://code.google.com/p/pythonxy/">Python(X,Y)</a>) because they will <em>hopefully</em> be configured to function together seamlessly. On OSX (Mavericks) I have successfully installed these tools using <a class="reference external" href="http://brew.sh">Homebrew</a>.</p>
-<p>Once these tools have been successfully installed, PyTurbSim can be installed from a command line using pip:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install PyTurbSim
+<p>If you have not already installed these tools, doing so may be the difficult part of installing TurbGen. Most Linux/Unix/posix distributions provide binary packages that make it relatively easy to installing these tools. For Microsoft windows I recommend installing a Python package that includes all three of these tools (e.g. <a class="reference external" href="http://code.google.com/p/pythonxy/">Python(X,Y)</a>) because they will <em>hopefully</em> be configured to function together seamlessly. On OSX (Mavericks) I have successfully installed these tools using <a class="reference external" href="http://brew.sh">Homebrew</a>.</p>
+<p>Once these tools have been successfully installed, TurbGen can be installed from a command line using pip:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install PyTurbSim
 </pre></div>
 </div>
-<p>That should do it. For information on how to use PyTurbSim consult the <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a> page.</p>
+<p>That should do it. For information on how to use TurbGen consult the <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a> page.</p>
 <div class="section" id="installing-without-pip">
 <h2>Installing without pip<a class="headerlink" href="#installing-without-pip" title="Permalink to this headline">¶</a></h2>
-<p>If the above-mentioned one-liner does not work (e.g. because your version of Python does not include pip), you can also simply download and install PyTurbSim from the source repository (<a class="reference external" href="http://github.com/lkilcher/pyTurbSim">http://github.com/lkilcher/pyTurbSim</a>). For example, if git is installed, you can:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git clone http://github.com/lkilcher/pyTurbSim &lt;download_location&gt;
+<p>If the above-mentioned one-liner does not work (e.g. because your version of Python does not include pip), you can also simply download and install TurbGen from the source repository (<a class="reference external" href="http://github.com/lkilcher/pyTurbSim">http://github.com/lkilcher/pyTurbSim</a>). For example, if git is installed, you can:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone http://github.com/lkilcher/pyTurbSim &lt;download_location&gt;
 </pre></div>
 </div>
-<p>If <cite>&lt;download_location&gt;</cite> is not specified, the repository will be created in the current directory in a new <cite>pyTurbSim</cite> folder. Once you have downloaded PyTurbSim, you may either:</p>
+<p>If <cite>&lt;download_location&gt;</cite> is not specified, the repository will be created in the current directory in a new <cite>pyTurbSim</cite> folder. Once you have downloaded TurbGen, you may either:</p>
 <ol class="loweralpha">
 <li><p class="first">install it into your Python packages repository by executing the setup.py script:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd &lt;download_location&gt;
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd &lt;download_location&gt;
 $ python setup.py install
 </pre></div>
 </div>
@@ -76,32 +69,49 @@ $ python setup.py install
 </div>
 <div class="section" id="windows-installation-issues">
 <h2>Windows Installation Issues<a class="headerlink" href="#windows-installation-issues" title="Permalink to this headline">¶</a></h2>
-<p>I have encountered various issues related to compiling the Fortran source code when installing on Windows. If you recieve the dreaded <code class="docutils literal"><span class="pre">unable</span> <span class="pre">to</span> <span class="pre">find</span> <span class="pre">vcvarsall.bat</span></code> message, there are widely recommended solutions summarized as answers to <a class="reference external" href="http://stackoverflow.com/questions/2817869/error-unable-to-find-vcvarsall-bat">this Stack Overflow Question</a>, but I’ve only gotten <a class="reference external" href="http://stackoverflow.com/a/2838827/2121597">the one that involves creating/editing the ‘distutils.cfg’ file</a> to work for me. Note that I used <code class="docutils literal"><span class="pre">pip</span></code> to install this tool, rather than using <code class="docutils literal"><span class="pre">easy_install</span></code>, as suggested in that post.</p>
+<p>I have encountered various issues related to compiling the Fortran source code when installing on Windows. If you recieve the dreaded <code class="docutils literal notranslate"><span class="pre">unable</span> <span class="pre">to</span> <span class="pre">find</span> <span class="pre">vcvarsall.bat</span></code> message, there are widely recommended solutions summarized as answers to <a class="reference external" href="http://stackoverflow.com/questions/2817869/error-unable-to-find-vcvarsall-bat">this Stack Overflow Question</a>, but I’ve only gotten <a class="reference external" href="http://stackoverflow.com/a/2838827/2121597">the one that involves creating/editing the ‘distutils.cfg’ file</a> to work for me. Note that I used <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install this tool, rather than using <code class="docutils literal notranslate"><span class="pre">easy_install</span></code>, as suggested in that post.</p>
 <p>The other solution, which implicitly assumes you have <a class="reference external" href="https://www.visualstudio.com/">MS Visual Studio</a> installed, has led to other errors for me:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>gfortran.lib(backtrace.o) : error LNK2019: unresolved external symbol __Unwind_GetIpInfo referenced in function _trace_function`
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>gfortran.lib(backtrace.o) : error LNK2019: unresolved external symbol __Unwind_GetIpInfo referenced in function _trace_function`
 
 gfortran.lib(backtrace.o) : error LNK2019: unresolved external symbol __Unwind_Backtrace referenced in function __gfortran_backtrace
 </pre></div>
 </div>
-<p>I think this is a result of the compile steps being completed by <code class="docutils literal"><span class="pre">gfortran</span></code>, and the linking step is being done by MSVS’ <code class="docutils literal"><span class="pre">link.exe</span></code>.</p>
+<p>I think this is a result of the compile steps being completed by <code class="docutils literal notranslate"><span class="pre">gfortran</span></code>, and the linking step is being done by MSVS’ <code class="docutils literal notranslate"><span class="pre">link.exe</span></code>.</p>
 <p>If you encounter other issues installing this tool on Windows, feel free to <a class="reference external" href="https://github.com/lkilcher/pyTurbSim/issues">create an issue</a>.</p>
 </div>
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Download and Install</a><ul>
-<li><a class="reference internal" href="#installing-without-pip">Installing without pip</a></li>
-<li><a class="reference internal" href="#windows-installation-issues">Windows Installation Issues</a></li>
+<h1 class="logo"><a href="index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Download and Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-without-pip">Installing without pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#windows-installation-issues">Windows Installation Issues</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code-framework.html">Code Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -111,23 +121,26 @@ gfortran.lib(backtrace.o) : error LNK2019: unresolved external symbol __Unwind_B
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/install.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -136,8 +149,8 @@ gfortran.lib(backtrace.o) : error LNK2019: unresolved external symbol __Unwind_B
       &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/install.rst.txt"

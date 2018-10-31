@@ -1,0 +1,76 @@
+TurbGen package
+===============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    TurbGen.cohereModels
+    TurbGen.io
+    TurbGen.phaseModels
+    TurbGen.plot
+    TurbGen.profModels
+    TurbGen.runInput
+    TurbGen.specModels
+    TurbGen.stressModels
+
+Submodules
+----------
+
+TurbGen.api module
+------------------
+
+.. automodule:: TurbGen.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.base module
+-------------------
+
+.. automodule:: TurbGen.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.dbg module
+------------------
+
+.. automodule:: TurbGen.dbg
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.main module
+-------------------
+
+.. automodule:: TurbGen.main
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.misc module
+-------------------
+
+.. automodule:: TurbGen.misc
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.tg\_numpy module
+------------------------
+
+.. automodule:: TurbGen.tg_numpy
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: TurbGen
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,43 +1,43 @@
-pyts\.stressModels package
-==========================
+pyts.stressModels package
+=========================
 
 Submodules
 ----------
 
-pyts\.stressModels\.api module
-------------------------------
+pyts.stressModels.api module
+----------------------------
 
 .. automodule:: pyts.stressModels.api
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.stressModels\.base module
--------------------------------
+pyts.stressModels.base module
+-----------------------------
 
 .. automodule:: pyts.stressModels.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.stressModels\.hydro module
---------------------------------
+pyts.stressModels.hydro module
+------------------------------
 
 .. automodule:: pyts.stressModels.hydro
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.stressModels\.main module
--------------------------------
+pyts.stressModels.main module
+-----------------------------
 
 .. automodule:: pyts.stressModels.main
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.stressModels\.stress\_freq module
----------------------------------------
+pyts.stressModels.stress\_freq module
+-------------------------------------
 
 .. automodule:: pyts.stressModels.stress_freq
     :members:

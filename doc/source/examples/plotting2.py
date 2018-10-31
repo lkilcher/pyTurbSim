@@ -15,21 +15,21 @@ ustar = 0.03
 Uref = 3.
 
 # Now create the TurbGen run, and specify input statistics.
-tsr = tg.tsrun()
-tsr.grid = tg.tsGrid(center=refht,
-                     ny=3,
-                     nz=5,
-                     height=5,
-                     width=5,
-                     time_sec=30000,
-                     dt=0.5)
-tsr.prof = tg.profModels.h2l(Uref, refht, ustar)
-tsr.spec = tg.specModels.tidal(ustar, refht)
-tsr.cohere = tg.cohereModels.nwtc()
-tsr.stress = tg.stressModels.tidal(ustar, refht)
+tgr = tg.TGrun()
+tgr.grid = tg.RectGrid(center=refht,
+                       ny=3,
+                       nz=5,
+                       height=5,
+                       width=5,
+                       time_sec=30000,
+                       dt=0.5)
+tgr.prof = tg.profModels.h2l(Uref, refht, ustar)
+tgr.spec = tg.specModels.tidal(ustar, refht)
+tgr.cohere = tg.cohereModels.nwtc()
+tgr.stress = tg.stressModels.tidal(ustar, refht)
 
 # Run TurbGen:
-out = tsr()
+out = tgr()
 
 # Create a 'TurbGen plotting figure' (plotting object):
 fig = plt.summfig(axforms=[plt.axform.velprof([0, 3.5]),
@@ -46,7 +46,7 @@ fig.plot(out, color='k')
 
 # These plotting objects are smart; when the same 'plot' method
 # is given a TurbGen 'run' object it plots the target values:
-fig.plot(tsr, color='r', linestyle='--')
+fig.plot(tgr, color='r', linestyle='--')
 
 fig.finalize()
 

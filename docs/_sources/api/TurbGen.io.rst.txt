@@ -1,0 +1,70 @@
+TurbGen.io package
+==================
+
+Submodules
+----------
+
+TurbGen.io.base module
+----------------------
+
+.. automodule:: TurbGen.io.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.io.formatter module
+---------------------------
+
+.. automodule:: TurbGen.io.formatter
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.io.input module
+-----------------------
+
+.. automodule:: TurbGen.io.input
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.io.main module
+----------------------
+
+.. automodule:: TurbGen.io.main
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.io.read module
+----------------------
+
+.. automodule:: TurbGen.io.read
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.io.sum module
+---------------------
+
+.. automodule:: TurbGen.io.sum
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.io.write module
+-----------------------
+
+.. automodule:: TurbGen.io.write
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: TurbGen.io
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,301 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TurbGen.runInput package &#8212; TurbGen 0.5 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="turbgen-runinput-package">
+<h1>TurbGen.runInput package<a class="headerlink" href="#turbgen-runinput-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-TurbGen.runInput.base">
+<span id="turbgen-runinput-base-module"></span><h2>TurbGen.runInput.base module<a class="headerlink" href="#module-TurbGen.runInput.base" title="Permalink to this headline">¶</a></h2>
+<p>The base module for the runInput package. This module defines the
+TurbSim input class (tsinput). The tsinput class is a dictionary for
+storing data from a TurbSim input file. The class contains several
+methods that specify default values for several input variables. Those
+defaults documented in the TurbSim documentation:
+<a class="reference external" href="https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf</a></p>
+<dl class="class">
+<dt id="TurbGen.runInput.base.tsinput">
+<em class="property">class </em><code class="descclassname">TurbGen.runInput.base.</code><code class="descname">tsinput</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/runInput/base.html#tsinput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.runInput.base.tsinput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
+<p>The TurbSim input object and ‘global defaults’ handler.</p>
+<p>This class works essentially as a dictionary, but with various
+functions and routines for providing default values in the event
+that ‘input’ values are not specified explicitly by the user.</p>
+<p>Regarding global defaults:
+The ‘_dflt_…’ functions define ‘global’ default definitions
+(used by multiple profModels and/or turbModels).  Other, model
+specific, defaults are defined in the model itself.</p>
+<p>For further information on the ‘defaults’ defined here, consult
+the TurbSim documentation:
+<a class="reference external" href="https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf">https://wind.nrel.gov/designcodes/preprocessors/turbsim/TurbSim.pdf</a></p>
+<dl class="attribute">
+<dt id="TurbGen.runInput.base.tsinput.incdec_a">
+<code class="descname">incdec_a</code><a class="headerlink" href="#TurbGen.runInput.base.tsinput.incdec_a" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ‘a’ coherence decrement.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.runInput.base.tsinput.incdec_b">
+<code class="descname">incdec_b</code><a class="headerlink" href="#TurbGen.runInput.base.tsinput.incdec_b" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.runInput.base.tsinput.isdefault">
+<code class="descname">isdefault</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/runInput/base.html#tsinput.isdefault"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.runInput.base.tsinput.isdefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is the given variable a default?</p>
+<p>True : The value is not specified and there is no ‘_dflt_…’ function.
+2    : The value is defined by a ‘_dflt_…’ function.
+False: The value is specified explicitly in the configuration.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.runInput.base.tsinput.parse_IEC_standard">
+<code class="descname">parse_IEC_standard</code><span class="sig-paren">(</span><em>iecstd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/runInput/base.html#tsinput.parse_IEC_standard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.runInput.base.tsinput.parse_IEC_standard" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.runInput.base.tsinput.psiM">
+<code class="descname">psiM</code><a class="headerlink" href="#TurbGen.runInput.base.tsinput.psiM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.runInput.base.tsinput.randseed">
+<code class="descname">randseed</code><a class="headerlink" href="#TurbGen.runInput.base.tsinput.randseed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.runInput.base.tsinput.turbmodel">
+<code class="descname">turbmodel</code><a class="headerlink" href="#TurbGen.runInput.base.tsinput.turbmodel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.runInput.base.tsinput.ustar0">
+<code class="descname">ustar0</code><a class="headerlink" href="#TurbGen.runInput.base.tsinput.ustar0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.runInput.base.tsinput.zL">
+<code class="descname">zL</code><a class="headerlink" href="#TurbGen.runInput.base.tsinput.zL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="turbgen-runinput-main-module">
+<h2>TurbGen.runInput.main module<a class="headerlink" href="#turbgen-runinput-main-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-TurbGen.runInput.profModels">
+<span id="turbgen-runinput-profmodels-module"></span><h2>TurbGen.runInput.profModels module<a class="headerlink" href="#module-TurbGen.runInput.profModels" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions for producing the appropriate profile
+model for a specific TurbGen input object (derived from an input
+file).</p>
+<p>When a new model is added to the profModels package, it will need a
+wrapper function here in order to be accessible using input files.</p>
+<dl class="function">
+<dt id="TurbGen.runInput.profModels.getModel">
+<code class="descclassname">TurbGen.runInput.profModels.</code><code class="descname">getModel</code><span class="sig-paren">(</span><em>tsinput</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/runInput/profModels.html#getModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.runInput.profModels.getModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the wrapper function for all profile models implemented in
+the runInput package.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>tsinput</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="#TurbGen.runInput.base.tsinput" title="TurbGen.runInput.base.tsinput"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsinput</span></code></a></span></dt>
+<dd><p class="first last">A TurbGen input object.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>profModel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">A subclass of <a class="reference internal" href="TurbGen.profModels.html#TurbGen.profModels.base.profModelBase" title="TurbGen.profModels.base.profModelBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">profModelBase</span></code></a></span></dt>
+<dd><p class="first last">The appropriately initialized ‘profile model’ object
+specified in <cite>tsinput</cite>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-TurbGen.runInput.turbModels">
+<span id="turbgen-runinput-turbmodels-module"></span><h2>TurbGen.runInput.turbModels module<a class="headerlink" href="#module-TurbGen.runInput.turbModels" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions for producing the appropriate turbulence
+model for a specific TurbGen input object (derived from an input
+file).</p>
+<p>The term ‘TurbModels’ encompasses the ‘specModel’, ‘cohereModel’ and
+‘stressModel’ functionalities of the TurbGen program.  Within the
+‘runInput’ package all three of these statistics are handled in this
+module.  Thus, each wrapper function for a ‘TurbModel’ should should
+specify/define a model for each of these statistics.</p>
+<p>More information on the specific TurbModels can be found in the
+corresponding package for the statistic of interest.</p>
+<p>To make a new specModel, cohereModel, or stressModel available from
+input files add a wrapper function for it here.</p>
+<dl class="function">
+<dt id="TurbGen.runInput.turbModels.getModel">
+<code class="descclassname">TurbGen.runInput.turbModels.</code><code class="descname">getModel</code><span class="sig-paren">(</span><em>tsinput</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/runInput/turbModels.html#getModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.runInput.turbModels.getModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the wrapper function for all turbulence models implemented
+in the runInput package.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>tsinput</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">tscfg</span></code></span></dt>
+<dd><p class="first last">A TurbGen input object.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>specModel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">A subclass of <a class="reference internal" href="TurbGen.specModels.html#TurbGen.specModels.base.specModelBase" title="TurbGen.specModels.base.specModelBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">specModelBase</span></code></a></span></dt>
+<dd><p class="first last">The appropriately initialized ‘spectral model’ object
+specified in <cite>tsinput</cite>.</p>
+</dd>
+<dt><strong>cohereModel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">A subclass of <a class="reference internal" href="TurbGen.cohereModels.html#TurbGen.cohereModels.base.cohereModelBase" title="TurbGen.cohereModels.base.cohereModelBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cohereModelBase</span></code></a></span></dt>
+<dd><p class="first last">The appropriately initialized ‘coherence model’ object
+specified in <cite>tsinput</cite>.</p>
+</dd>
+<dt><strong>stressModel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">A subclass of <a class="reference internal" href="TurbGen.stressModels.html#TurbGen.stressModels.base.stressModelBase" title="TurbGen.stressModels.base.stressModelBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">stressModelBase</span></code></a></span></dt>
+<dd><p class="first last">The appropriately initialized ‘stress model’ object
+specified in <cite>tsinput</cite>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-TurbGen.runInput">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TurbGen.runInput" title="Permalink to this headline">¶</a></h2>
+<p>This is the TurbGen package that provides tools for emulating
+TurbSim functionality. In particular it contains functions for
+taking a TurbSim ‘input’ file (.inp) and performing a TurbSim run that
+matches that file.</p>
+<div class="section" id="example-usage">
+<h3>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>See either:</dt>
+<dd><ol class="first last arabic simple">
+<li>the <cite>TurbGen.py</cite> executable script in the TurbGen root directory</li>
+<li>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.runInput.main</span></code> docstring for example usage.</li>
+</ol>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/TurbGen.runInput.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

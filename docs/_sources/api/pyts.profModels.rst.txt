@@ -1,59 +1,59 @@
-pyts\.profModels package
-========================
+pyts.profModels package
+=======================
 
 Submodules
 ----------
 
-pyts\.profModels\.api module
-----------------------------
+pyts.profModels.api module
+--------------------------
 
 .. automodule:: pyts.profModels.api
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.profModels\.base module
------------------------------
+pyts.profModels.base module
+---------------------------
 
 .. automodule:: pyts.profModels.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.profModels\.iec module
-----------------------------
+pyts.profModels.iec module
+--------------------------
 
 .. automodule:: pyts.profModels.iec
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.profModels\.jet module
-----------------------------
+pyts.profModels.jet module
+--------------------------
 
 .. automodule:: pyts.profModels.jet
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.profModels\.log module
-----------------------------
+pyts.profModels.log module
+--------------------------
 
 .. automodule:: pyts.profModels.log
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.profModels\.power module
-------------------------------
+pyts.profModels.power module
+----------------------------
 
 .. automodule:: pyts.profModels.power
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.profModels\.simple module
--------------------------------
+pyts.profModels.simple module
+-----------------------------
 
 .. automodule:: pyts.profModels.simple
     :members:

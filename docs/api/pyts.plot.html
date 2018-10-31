@@ -4,24 +4,16 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pyts.plot package &#8212; PyTurbSim 0.4.8 documentation</title>
+    <title>pyts.plot package &#8212; TurbGen 0.5 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.4.8',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -33,13 +25,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="pyts-plot-package">
@@ -47,1277 +40,74 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-pyts.plot.api">
-<span id="pyts-plot-api-module"></span><h2>pyts.plot.api module<a class="headerlink" href="#module-pyts.plot.api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pyts-plot-api-module">
+<h2>pyts.plot.api module<a class="headerlink" href="#pyts-plot-api-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-pyts.plot.axform">
-<span id="pyts-plot-axform-module"></span><h2>pyts.plot.axform module<a class="headerlink" href="#module-pyts.plot.axform" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="pyts.plot.axform.FigAxForm">
-<em class="property">class </em><code class="descclassname">pyts.plot.axform.</code><code class="descname">FigAxForm</code><span class="sig-paren">(</span><em>fignum, axforms=[], comp=['u', 'v', 'w'], axsize=2, frame=[0.6, 0.3, 1, 0.3], gap=[0.2, 1], tightgap=0.2, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#FigAxForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.FigAxForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.plot.superaxes.sfig" title="pyts.plot.superaxes.sfig"><code class="xref py py-class docutils literal"><span class="pre">pyts.plot.superaxes.sfig</span></code></a></p>
-<p>The ‘figure’ class that uses and handles <a class="reference internal" href="#pyts.plot.axform.axesForm" title="pyts.plot.axform.axesForm"><code class="xref py py-class docutils literal"><span class="pre">axesForm</span></code></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fignum</strong> : integer,string</p>
-<blockquote>
-<div><p>The figure number, or string, into which the data will be
-plotted.</p>
-</div></blockquote>
-<p><strong>axforms</strong> : list of axForms (e.g. <a class="reference internal" href="#pyts.plot.axform.velprof" title="pyts.plot.axform.velprof"><code class="xref py py-class docutils literal"><span class="pre">velprof</span></code></a>, <a class="reference internal" href="#pyts.plot.axform.tkeprof" title="pyts.plot.axform.tkeprof"><code class="xref py py-class docutils literal"><span class="pre">tkeprof</span></code></a>)</p>
-<blockquote>
-<div><p>These are the axes formats that will be plotted.</p>
-</div></blockquote>
-<p><strong>comp</strong> : list of velocity components (0,1,2 or ‘u’,’v’,’w’)</p>
-<p><strong>axsize</strong> : float, tuple, list (2)</p>
-<blockquote>
-<div><p>The size of the axes. If 2 parameters are specified this
-sets they set the horizontal and vertical size of the
-axes.</p>
-</div></blockquote>
-<p><strong>frame</strong> : tuple(4) ,list(4)</p>
-<blockquote>
-<div><p>This specifies the border around the axes (left, right,
-bottom, top)</p>
-</div></blockquote>
-<p><strong>gap</strong> : tuple(2), list(2)</p>
-<blockquote>
-<div><p>This specifies the gap between axes in the horizontal and
-vertical directions.</p>
-</div></blockquote>
-<p><strong>tightgap</strong> : float</p>
-<blockquote>
-<div><p>This specifies the horizontal spacing between axes that
-have the same type of y-axis (specified in the formats
-‘yax’ attribute).</p>
-</div></blockquote>
-<p class="last"><strong>Other inputs are passed directly to :meth:`superaxes.sfig.__init__`.</strong></p>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>This will create an NxM axes-grid, where N=len(comp), and
-M=len(axforms).</p>
-<p>The width of each axes is scaled by the ‘hrel’ attribute of each
-axform.</p>
-<dl class="method">
-<dt id="pyts.plot.axform.FigAxForm.finalize">
-<code class="descname">finalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#FigAxForm.finalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.FigAxForm.finalize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finalize the figure according to the plotting formats.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.axform.FigAxForm.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>obj</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#FigAxForm.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.FigAxForm.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the data in <cite>obj</cite> to the figure according to the plotting formats.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> : tsdata, tsrun, turbdata</p>
-<blockquote class="last">
-<div><p>A data or turbsim object to plot.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.axform.Tiprof">
-<em class="property">class </em><code class="descclassname">pyts.plot.axform.</code><code class="descname">Tiprof</code><span class="sig-paren">(</span><em>xlim=[None, None], ylim=[None, None], xscale='linear', yscale='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#Tiprof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.Tiprof" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.plot.axform.prof" title="pyts.plot.axform.prof"><code class="xref py py-class docutils literal"><span class="pre">pyts.plot.axform.prof</span></code></a></p>
-<p>A Turbulence intensity axesForm</p>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#pyts.plot.axform.prof" title="pyts.plot.axform.prof"><code class="xref py py-class docutils literal"><span class="pre">prof</span></code></a>, <a class="reference internal" href="#pyts.plot.axform.axesForm" title="pyts.plot.axform.axesForm"><code class="xref py py-class docutils literal"><span class="pre">axesForm</span></code></a></p>
+<div class="section" id="pyts-plot-axform-module">
+<h2>pyts.plot.axform module<a class="headerlink" href="#pyts-plot-axform-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<dl class="attribute">
-<dt id="pyts.plot.axform.Tiprof.xax">
-<code class="descname">xax</code><em class="property"> = 'Ti'</em><a class="headerlink" href="#pyts.plot.axform.Tiprof.xax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.axform.axesForm">
-<em class="property">class </em><code class="descclassname">pyts.plot.axform.</code><code class="descname">axesForm</code><span class="sig-paren">(</span><em>xlim=[None, None], ylim=[None, None], xscale='linear', yscale='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#axesForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.axesForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>A base ‘axesForm’ class for for quickly plotting TurbSim data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xlim</strong> : iterable(2) (default: [None, None])</p>
-<blockquote>
-<div><p>Specify the xlims of the axes of these plots.  The default
-will simply select the limits automatically.</p>
-</div></blockquote>
-<p><strong>ylim</strong> : iterable(2) (default: [None, None])</p>
-<blockquote>
-<div><p>Specify the ylims of the axes of these plots.  The default
-will simply select the limits automatically.</p>
-</div></blockquote>
-<p><strong>xscale</strong> : (‘log’ or ‘linear’)</p>
-<blockquote>
-<div><p>specify whether the x-scale should be logarithmic or linear.</p>
-</div></blockquote>
-<p><strong>yscale</strong> : (‘log’ or ‘linear’)</p>
-<blockquote class="last">
-<div><p>specify whether the y-scale should be logarithmic or linear.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="pyts.plot.axform.axesForm.finalize">
-<code class="descname">finalize</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#axesForm.finalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.axesForm.finalize" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function ‘finishes’ the <cite>axes</cite> according to the
-specifications in this axesForm.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>axes</strong> : A <code class="xref py py-class docutils literal"><span class="pre">superaxes.axgroup</span></code> instance.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.axform.axesForm.hide_ylabels">
-<code class="descname">hide_ylabels</code><em class="property"> = False</em><a class="headerlink" href="#pyts.plot.axform.axesForm.hide_ylabels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.axform.axesForm.method_map">
-<code class="descname">method_map</code><em class="property"> = {&lt;class 'pyts.main.tsrun'&gt;: '_calc_tsrun', &lt;class 'pyts.main.tsdata'&gt;: '_calc_tsdata'}</em><a class="headerlink" href="#pyts.plot.axform.axesForm.method_map" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.axform.axesForm.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>obj</em>, <em>axes</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#axesForm.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.axesForm.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the data in <cite>obj</cite> to <cite>axes</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> : object</p>
-<blockquote>
-<div><p>An object containing data to be plotted.</p>
-</div></blockquote>
-<p><strong>axes</strong> : <code class="xref py py-class docutils literal"><span class="pre">superaxes.axgroup</span></code> instance</p>
-<blockquote class="last">
-<div><p>The axes into which that data should be plotted.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.axform.cohere">
-<em class="property">class </em><code class="descclassname">pyts.plot.axform.</code><code class="descname">cohere</code><span class="sig-paren">(</span><em>window_time_sec=600, igrid0=None, igrid1=None, xscale='log', ylim=[0, 1], **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#cohere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.cohere" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.plot.axform.axesForm" title="pyts.plot.axform.axesForm"><code class="xref py py-class docutils literal"><span class="pre">pyts.plot.axform.axesForm</span></code></a></p>
-<p>A ‘coherence’ plotting format for showing coherence between two
-points.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>window_time_sec</strong> : float</p>
-<blockquote>
-<div><p>the length of the fft window (seconds).</p>
-</div></blockquote>
-<p><strong>igrid0</strong> : tuple,list (2), <em>optional</em> (default: i_hub)</p>
-<blockquote>
-<div><p>The first spatial-index from which to estimate+plot
-coherence.</p>
-</div></blockquote>
-<p><strong>igrid1</strong> : tuple,list (2), <em>optional</em> (default: (0,0))</p>
-<blockquote class="last">
-<div><p>The second spatial-index from which to estimate+plot
-coherence.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#pyts.plot.axform.axesForm" title="pyts.plot.axform.axesForm"><code class="xref py py-class docutils literal"><span class="pre">axesForm</span></code></a></p>
+<div class="section" id="pyts-plot-base-module">
+<h2>pyts.plot.base module<a class="headerlink" href="#pyts-plot-base-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<p class="rubric">Notes</p>
-<p>This axesForm defaults to have a ‘log’ x-scale, and to have a
-linear y-axis with ylim=[0, 1].</p>
-<dl class="attribute">
-<dt id="pyts.plot.axform.cohere.hrel">
-<code class="descname">hrel</code><em class="property"> = 1</em><a class="headerlink" href="#pyts.plot.axform.cohere.hrel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.axform.cohere.xax">
-<code class="descname">xax</code><em class="property"> = 'freq'</em><a class="headerlink" href="#pyts.plot.axform.cohere.xax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.axform.cohere.yax">
-<code class="descname">yax</code><em class="property"> = 'coh'</em><a class="headerlink" href="#pyts.plot.axform.cohere.yax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.axform.prof">
-<em class="property">class </em><code class="descclassname">pyts.plot.axform.</code><code class="descname">prof</code><span class="sig-paren">(</span><em>xlim=[None, None], ylim=[None, None], xscale='linear', yscale='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#prof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.prof" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.plot.axform.axesForm" title="pyts.plot.axform.axesForm"><code class="xref py py-class docutils literal"><span class="pre">pyts.plot.axform.axesForm</span></code></a></p>
-<p>A base axesForm for plotting vertical profiles.</p>
-<dl class="attribute">
-<dt id="pyts.plot.axform.prof.hrel">
-<code class="descname">hrel</code><em class="property"> = 0.6</em><a class="headerlink" href="#pyts.plot.axform.prof.hrel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.axform.prof.xtick_n">
-<code class="descname">xtick_n</code><em class="property"> = 3</em><a class="headerlink" href="#pyts.plot.axform.prof.xtick_n" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.axform.prof.yax">
-<code class="descname">yax</code><em class="property"> = 'z'</em><a class="headerlink" href="#pyts.plot.axform.prof.yax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.axform.spec">
-<em class="property">class </em><code class="descclassname">pyts.plot.axform.</code><code class="descname">spec</code><span class="sig-paren">(</span><em>window_time_sec=600</em>, <em>igrid=None</em>, <em>xscale='log'</em>, <em>yscale='log'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#spec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.plot.axform.axesForm" title="pyts.plot.axform.axesForm"><code class="xref py py-class docutils literal"><span class="pre">pyts.plot.axform.axesForm</span></code></a></p>
-<p>A ‘spectral’ axesForm.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>window_time_sec</strong> : float</p>
-<blockquote>
-<div><p>the length of the fft window (seconds).</p>
-</div></blockquote>
-<p><strong>igrid</strong> : tuple,list (2), <em>optional</em> (default: i_hub)</p>
-<blockquote class="last">
-<div><p>The spatial-index of the grid-point that should be
-plotted.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#pyts.plot.axform.axesForm" title="pyts.plot.axform.axesForm"><code class="xref py py-class docutils literal"><span class="pre">axesForm</span></code></a></p>
+<div class="section" id="pyts-plot-psd-module">
+<h2>pyts.plot.psd module<a class="headerlink" href="#pyts-plot-psd-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<p class="rubric">Notes</p>
-<p>This axesForm defaults to have ‘log’ x- and y-scales.</p>
-<dl class="attribute">
-<dt id="pyts.plot.axform.spec.hrel">
-<code class="descname">hrel</code><em class="property"> = 1</em><a class="headerlink" href="#pyts.plot.axform.spec.hrel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.axform.spec.xax">
-<code class="descname">xax</code><em class="property"> = 'freq'</em><a class="headerlink" href="#pyts.plot.axform.spec.xax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.axform.spec.yax">
-<code class="descname">yax</code><em class="property"> = 'spec'</em><a class="headerlink" href="#pyts.plot.axform.spec.yax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.axform.stressprof">
-<em class="property">class </em><code class="descclassname">pyts.plot.axform.</code><code class="descname">stressprof</code><span class="sig-paren">(</span><em>xlim=[None, None], ylim=[None, None], xscale='linear', yscale='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#stressprof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.stressprof" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.plot.axform.tkeprof" title="pyts.plot.axform.tkeprof"><code class="xref py py-class docutils literal"><span class="pre">pyts.plot.axform.tkeprof</span></code></a></p>
-<p>A ‘Reynold’s stress profile’ axesForm.</p>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#pyts.plot.axform.prof" title="pyts.plot.axform.prof"><code class="xref py py-class docutils literal"><span class="pre">prof</span></code></a>, <a class="reference internal" href="#pyts.plot.axform.axesForm" title="pyts.plot.axform.axesForm"><code class="xref py py-class docutils literal"><span class="pre">axesForm</span></code></a></p>
+<div class="section" id="pyts-plot-superaxes-module">
+<h2>pyts.plot.superaxes module<a class="headerlink" href="#pyts-plot-superaxes-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<dl class="attribute">
-<dt id="pyts.plot.axform.stressprof.xax">
-<code class="descname">xax</code><em class="property"> = 'tke'</em><a class="headerlink" href="#pyts.plot.axform.stressprof.xax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="pyts.plot.axform.summfig">
-<code class="descclassname">pyts.plot.axform.</code><code class="descname">summfig</code><span class="sig-paren">(</span><em>fignum=400, axforms=[&lt;pyts.plot.axform.velprof object&gt;, &lt;pyts.plot.axform.spec object&gt;], **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#summfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.summfig" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.axform.tkeprof">
-<em class="property">class </em><code class="descclassname">pyts.plot.axform.</code><code class="descname">tkeprof</code><span class="sig-paren">(</span><em>xlim=[None, None], ylim=[None, None], xscale='linear', yscale='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#tkeprof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.tkeprof" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.plot.axform.prof" title="pyts.plot.axform.prof"><code class="xref py py-class docutils literal"><span class="pre">pyts.plot.axform.prof</span></code></a></p>
-<p>A ‘tke profile’ axesForm.</p>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#pyts.plot.axform.prof" title="pyts.plot.axform.prof"><code class="xref py py-class docutils literal"><span class="pre">prof</span></code></a>, <a class="reference internal" href="#pyts.plot.axform.axesForm" title="pyts.plot.axform.axesForm"><code class="xref py py-class docutils literal"><span class="pre">axesForm</span></code></a></p>
-</div>
-<dl class="attribute">
-<dt id="pyts.plot.axform.tkeprof.xax">
-<code class="descname">xax</code><em class="property"> = 'tke'</em><a class="headerlink" href="#pyts.plot.axform.tkeprof.xax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.axform.velprof">
-<em class="property">class </em><code class="descclassname">pyts.plot.axform.</code><code class="descname">velprof</code><span class="sig-paren">(</span><em>xlim=[None, None], ylim=[None, None], xscale='linear', yscale='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/axform.html#velprof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.axform.velprof" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.plot.axform.prof" title="pyts.plot.axform.prof"><code class="xref py py-class docutils literal"><span class="pre">pyts.plot.axform.prof</span></code></a></p>
-<p>A ‘mean velocity profile’ axesForm format.</p>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#pyts.plot.axform.prof" title="pyts.plot.axform.prof"><code class="xref py py-class docutils literal"><span class="pre">prof</span></code></a>, <a class="reference internal" href="#pyts.plot.axform.axesForm" title="pyts.plot.axform.axesForm"><code class="xref py py-class docutils literal"><span class="pre">axesForm</span></code></a></p>
-</div>
-<dl class="attribute">
-<dt id="pyts.plot.axform.velprof.xax">
-<code class="descname">xax</code><em class="property"> = 'vel'</em><a class="headerlink" href="#pyts.plot.axform.velprof.xax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-pyts.plot.base">
-<span id="pyts-plot-base-module"></span><h2>pyts.plot.base module<a class="headerlink" href="#module-pyts.plot.base" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-pyts.plot.psd">
-<span id="pyts-plot-psd-module"></span><h2>pyts.plot.psd module<a class="headerlink" href="#module-pyts.plot.psd" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="pyts.plot.psd.coh">
-<code class="descclassname">pyts.plot.psd.</code><code class="descname">coh</code><span class="sig-paren">(</span><em>u1</em>, <em>u2</em>, <em>sr</em>, <em>nfft</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/psd.html#coh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.psd.coh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Helper function to compute the coherence between two signals.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>u1</strong> : array_like</p>
-<blockquote>
-<div><p>Signal 1.</p>
-</div></blockquote>
-<p><strong>u2</strong> : array_like</p>
-<blockquote>
-<div><p>Signal 2.</p>
-</div></blockquote>
-<p><strong>sr</strong> : float</p>
-<blockquote>
-<div><p>The sample rate of <cite>u</cite>.</p>
-</div></blockquote>
-<p><strong>nfft</strong> : The number of points to use in computing the fft.</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>p</strong> : array_like</p>
-<blockquote>
-<div><p>The coherence between the two signal (no units) as a function
-of frequency.</p>
-</div></blockquote>
-<p><strong>f</strong> : array_like</p>
-<blockquote class="last">
-<div><p>Frequency (same units as sr).</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="pyts.plot.psd.psd">
-<code class="descclassname">pyts.plot.psd.</code><code class="descname">psd</code><span class="sig-paren">(</span><em>u</em>, <em>sr</em>, <em>nfft</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/psd.html#psd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.psd.psd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Helper function to compute the power spectral density (PSD) of a signal.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>u</strong> : array_like</p>
-<blockquote>
-<div><p>The signal to compute the PSD of.</p>
-</div></blockquote>
-<p><strong>sr</strong> : float</p>
-<blockquote>
-<div><p>The sample rate of <cite>u</cite>.</p>
-</div></blockquote>
-<p><strong>nfft</strong> : The number of points to use in computing the fft.</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>p</strong> : array_like</p>
-<blockquote>
-<div><p>The power in the signal <cite>u</cite> as a function of frequency (units
-of u squared/units of sr)</p>
-</div></blockquote>
-<p><strong>f</strong> : array_like</p>
-<blockquote class="last">
-<div><p>Frequency (same units as sr).</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
-<div class="section" id="module-pyts.plot.superaxes">
-<span id="pyts-plot-superaxes-module"></span><h2>pyts.plot.superaxes module<a class="headerlink" href="#module-pyts.plot.superaxes" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="pyts.plot.superaxes.axPlacer">
-<em class="property">class </em><code class="descclassname">pyts.plot.superaxes.</code><code class="descname">axPlacer</code><span class="sig-paren">(</span><em>vSpacer</em>, <em>hSpacer</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axPlacer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axPlacer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Axes placers contain the information on where axes objects should
-be placed in a figure object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>vSpacer</strong> : <a class="reference internal" href="#pyts.plot.superaxes.axSpacer" title="pyts.plot.superaxes.axSpacer"><code class="xref py py-class docutils literal"><span class="pre">axSpacer</span></code></a></p>
-<blockquote>
-<div><p>The vertical axes spacer object.</p>
-</div></blockquote>
-<p><strong>hSpacer</strong> : <a class="reference internal" href="#pyts.plot.superaxes.axSpacer" title="pyts.plot.superaxes.axSpacer"><code class="xref py py-class docutils literal"><span class="pre">axSpacer</span></code></a></p>
-<blockquote class="last">
-<div><p>The horizontal axes spacer object.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="pyts.plot.superaxes.axPlacer.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>iv</em>, <em>ih</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axPlacer.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axPlacer.__call__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axPlacer.axes_positions">
-<code class="descname">axes_positions</code><a class="headerlink" href="#pyts.plot.superaxes.axPlacer.axes_positions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of location tuples (left, bottom, width,
-height) for axes objects.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axPlacer.figSize">
-<code class="descname">figSize</code><a class="headerlink" href="#pyts.plot.superaxes.axPlacer.figSize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Width x Height in inches.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axPlacer.n">
-<code class="descname">n</code><a class="headerlink" href="#pyts.plot.superaxes.axPlacer.n" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.superaxes.axSharer">
-<em class="property">class </em><code class="descclassname">pyts.plot.superaxes.</code><code class="descname">axSharer</code><span class="sig-paren">(</span><em>saxes</em>, <em>share_map=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axSharer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axSharer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<dl class="method">
-<dt id="pyts.plot.superaxes.axSharer.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>iv</em>, <em>ih</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axSharer.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axSharer.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the ‘prime’ axes to be shared for the axes at
-grid-point (iv,ih).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>(iv,ih)</strong> : The index of the axgrid for which you want the shareax.</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>shareax</strong> : <a class="reference internal" href="#pyts.plot.superaxes.axes" title="pyts.plot.superaxes.axes"><code class="xref py py-class docutils literal"><span class="pre">axes</span></code></a>, or <code class="xref py py-class docutils literal"><span class="pre">None</span></code>.</p>
-<blockquote class="last">
-<div><p><cite>None</cite> if the axis does not share an axes, or one
-has not yet been created that it matches.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axSharer.map_vals">
-<code class="descname">map_vals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axSharer.map_vals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axSharer.map_vals" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.superaxes.axSpacer">
-<em class="property">class </em><code class="descclassname">pyts.plot.superaxes.</code><code class="descname">axSpacer</code><span class="sig-paren">(</span><em>axsize=[1, 1], gap=[0.7, 0.2, 0.2], vertical=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axSpacer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axSpacer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Defines the position and size of axes in either the horizontal or
-vertical direction.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>axsize</strong> : array_like(n,float)</p>
-<blockquote>
-<div><p>An array specifying the size of each axes in inches.</p>
-</div></blockquote>
-<p><strong>gap</strong> : array_like(n+1,float)</p>
-<blockquote>
-<div><p>An array specifying the spacing in inches between
-axes. The first element is the distance from the
-left/bottom of the figure to the first axes, the last
-element is the distrance from the right/top of the figure
-to the last axes.</p>
-</div></blockquote>
-<p><strong>vertical</strong> : bool (default: False)</p>
-<blockquote class="last">
-<div><p>A flag specifying that this is a ‘vertical’ axSpacer
-(flips ordering of axes positions so that the first
-axes is at the top of the figure).</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axSpacer.axsize">
-<code class="descname">axsize</code><a class="headerlink" href="#pyts.plot.superaxes.axSpacer.axsize" title="Permalink to this definition">¶</a></dt>
-<dd><p>The axes size, in inches.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axSpacer.axsize_">
-<code class="descname">axsize_</code><a class="headerlink" href="#pyts.plot.superaxes.axSpacer.axsize_" title="Permalink to this definition">¶</a></dt>
-<dd><p>The figure-units axes sizes, array_like.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axSpacer.frame">
-<code class="descname">frame</code><a class="headerlink" href="#pyts.plot.superaxes.axSpacer.frame" title="Permalink to this definition">¶</a></dt>
-<dd><p>The bounding ‘frame’ around the axes, in inches.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axSpacer.gap">
-<code class="descname">gap</code><a class="headerlink" href="#pyts.plot.superaxes.axSpacer.gap" title="Permalink to this definition">¶</a></dt>
-<dd><p>The gap between axes, in inches.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axSpacer.gap_">
-<code class="descname">gap_</code><a class="headerlink" href="#pyts.plot.superaxes.axSpacer.gap_" title="Permalink to this definition">¶</a></dt>
-<dd><p>The figure-units gap between axes, array_like.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axSpacer.n">
-<code class="descname">n</code><a class="headerlink" href="#pyts.plot.superaxes.axSpacer.n" title="Permalink to this definition">¶</a></dt>
-<dd><p>The number of axes described by this axSpacer.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axSpacer.pos">
-<code class="descname">pos</code><a class="headerlink" href="#pyts.plot.superaxes.axSpacer.pos" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axSpacer.pos_">
-<code class="descname">pos_</code><a class="headerlink" href="#pyts.plot.superaxes.axSpacer.pos_" title="Permalink to this definition">¶</a></dt>
-<dd><p>The figure-units position of the axes, array_like.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axSpacer.totsize">
-<code class="descname">totsize</code><a class="headerlink" href="#pyts.plot.superaxes.axSpacer.totsize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="pyts.plot.superaxes.axes">
-<code class="descclassname">pyts.plot.superaxes.</code><code class="descname">axes</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add an axes at position rect specified by:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">axes()</span></code> by itself creates a default full <code class="docutils literal"><span class="pre">subplot(111)</span></code> window axis.</li>
-<li><code class="docutils literal"><span class="pre">axes(rect,</span> <span class="pre">axisbg='w')</span></code> where <em>rect</em> = [left, bottom, width,
-height] in normalized (0, 1) units.  <em>axisbg</em> is the background
-color for the axis, default white.</li>
-<li><code class="docutils literal"><span class="pre">axes(h)</span></code> where <em>h</em> is an axes instance makes <em>h</em> the current
-axis.  An <code class="xref py py-class docutils literal"><span class="pre">Axes</span></code> instance is returned.</li>
-</ul>
-<table border="1" class="docutils">
-<colgroup>
-<col width="10%" />
-<col width="18%" />
-<col width="72%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">kwarg</th>
-<th class="head">Accepts</th>
-<th class="head">Desctiption</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>axisbg</td>
-<td>color</td>
-<td>the axes background color</td>
-</tr>
-<tr class="row-odd"><td>frameon</td>
-<td>[True|False]</td>
-<td>display the frame?</td>
-</tr>
-<tr class="row-even"><td>sharex</td>
-<td>otherax</td>
-<td>current axes shares xaxis attribute with otherax</td>
-</tr>
-<tr class="row-odd"><td>sharey</td>
-<td>otherax</td>
-<td>current axes shares yaxis attribute with otherax</td>
-</tr>
-<tr class="row-even"><td>polar</td>
-<td>[True|False]</td>
-<td>use a polar axes?</td>
-</tr>
-</tbody>
-</table>
-<p>Examples:</p>
-<ul class="simple">
-<li><code class="file docutils literal"><span class="pre">examples/pylab_examples/axes_demo.py</span></code> places custom axes.</li>
-<li><code class="file docutils literal"><span class="pre">examples/pylab_examples/shared_axis_demo.py</span></code> uses
-<em>sharex</em> and <em>sharey</em>.</li>
-</ul>
-<p>This was copied from the pyplot axes function. Several methods
-have been added to the axes.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.superaxes.axgroup">
-<em class="property">class </em><code class="descclassname">pyts.plot.superaxes.</code><code class="descname">axgroup</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.alphNumAxes">
-<code class="descname">alphNumAxes</code><span class="sig-paren">(</span><em>axs</em>, <em>vals='abcdefghijklmnopqrstuvwxyz'</em>, <em>prefix=''</em>, <em>suffix=')'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyts.plot.superaxes.axgroup.alphNumAxes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Label the axes with alphanumeric characters.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>axs</strong> : iterable of axes objects</p>
-<blockquote>
-<div><p>The axes over which to add labels.</p>
-</div></blockquote>
-<p><strong>vals</strong> : iterable of strings to annotate axes (default: ‘abcdefg…’)</p>
-<p><strong>prefix</strong> : string (default ‘’)</p>
-<blockquote>
-<div><p>The string to prefix to the label.</p>
-</div></blockquote>
-<p><strong>suffix</strong> : string (default ‘)’)</p>
-<blockquote class="last">
-<div><p>The string to add to the end of the label.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><code class="xref py py-func docutils literal"><span class="pre">annoteCorner()</span></code></p>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.annotate">
-<code class="descname">annotate</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.annotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.annotate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.antiset">
-<code class="descname">antiset</code><span class="sig-paren">(</span><em>ax</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.antiset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.antiset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axgroup.ax">
-<code class="descname">ax</code><a class="headerlink" href="#pyts.plot.superaxes.axgroup.ax" title="Permalink to this definition">¶</a></dt>
-<dd><p>A shortcut to ‘self.axes’</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.fill_between">
-<code class="descname">fill_between</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.fill_between"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.fill_between" title="Permalink to this definition">¶</a></dt>
-<dd><p>Iterates a fill_between call over all axes in the group.
-See fill_between</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.fill_betweenx">
-<code class="descname">fill_betweenx</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.fill_betweenx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.fill_betweenx" title="Permalink to this definition">¶</a></dt>
-<dd><p>Iterates a fill_betweenx call over all axes in the group.
-See fill_betweenx</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.hide">
-<code class="descname">hide</code><span class="sig-paren">(</span><em>objs='xticklabels'</em>, <em>ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.hide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.hide" title="Permalink to this definition">¶</a></dt>
-<dd><p>Hide <cite>objs</cite> on all axes of this group <em>except</em> for those
-specified in <cite>ax</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>objs</strong> : str {‘xticklabels’, ‘yticklabels’, ‘minorxticks’, ‘minoryticks’}</p>
-<blockquote>
-<div><p>or a list of these.</p>
-</div></blockquote>
-<p><strong>ax</strong> : axes, optional (default: hide all)</p>
-<blockquote class="last">
-<div><p>The axes (or list of axes) on which these items should <strong>not</strong> be hidden.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#pyts.plot.superaxes.axgroup.antiset" title="pyts.plot.superaxes.axgroup.antiset"><code class="xref py py-obj docutils literal"><span class="pre">antiset</span></code></a></p>
-</div>
-<p class="rubric">Examples</p>
-<dl class="docutils">
-<dt>Hide the xticklabels on all axes except ax0::</dt>
-<dd>hide(‘xticklabels’,self.ax0)</dd>
-<dt>To hide all xticklabels, simply do:</dt>
-<dd>hide(‘xticklabels’)</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.hln">
-<code class="descname">hln</code><span class="sig-paren">(</span><em>y=0</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.hln"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.hln" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.iterplot">
-<code class="descname">iterplot</code><span class="sig-paren">(</span><em>iter</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.iterplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.iterplot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.offset_text">
-<code class="descname">offset_text</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>s</em>, <em>offset=(0</em>, <em>0)</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.offset_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.offset_text" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.plot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.set">
-<code class="descname">set</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.set" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.set_xlabel">
-<code class="descname">set_xlabel</code><span class="sig-paren">(</span><em>lbls</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.set_xlabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.set_xlabel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.set_xlim">
-<code class="descname">set_xlim</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.set_xlim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.set_xlim" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.set_xscale">
-<code class="descname">set_xscale</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.set_xscale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.set_xscale" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.set_xticks">
-<code class="descname">set_xticks</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.set_xticks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.set_xticks" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.set_ylabel">
-<code class="descname">set_ylabel</code><span class="sig-paren">(</span><em>lbls</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.set_ylabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.set_ylabel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.set_ylim">
-<code class="descname">set_ylim</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.set_ylim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.set_ylim" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.set_yscale">
-<code class="descname">set_yscale</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.set_yscale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.set_yscale" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.set_yticks">
-<code class="descname">set_yticks</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.set_yticks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.set_yticks" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.shadex">
-<code class="descname">shadex</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.shadex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.shadex" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.shadey">
-<code class="descname">shadey</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.shadey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.shadey" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.axgroup.size">
-<code class="descname">size</code><a class="headerlink" href="#pyts.plot.superaxes.axgroup.size" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.vln">
-<code class="descname">vln</code><span class="sig-paren">(</span><em>x=0</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.vln"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.vln" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.xgrid">
-<code class="descname">xgrid</code><span class="sig-paren">(</span><em>b=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.xgrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.xgrid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.axgroup.ygrid">
-<code class="descname">ygrid</code><span class="sig-paren">(</span><em>b=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axgroup.ygrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axgroup.ygrid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="pyts.plot.superaxes.axvec2axSpacer">
-<code class="descclassname">pyts.plot.superaxes.</code><code class="descname">axvec2axSpacer</code><span class="sig-paren">(</span><em>n</em>, <em>vec</em>, <em>vertflag</em>, <em>rel=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#axvec2axSpacer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.axvec2axSpacer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns an <a class="reference internal" href="#pyts.plot.superaxes.axSpacer" title="pyts.plot.superaxes.axSpacer"><code class="xref py py-class docutils literal"><span class="pre">axSpacer</span></code></a> corresponding to the <cite>n</cite> axes based
-on the axes vector <cite>vec</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n</strong> : int</p>
-<blockquote>
-<div><p>The number of axes.</p>
-</div></blockquote>
-<p><strong>vec</strong> : iterable(3)</p>
-<blockquote>
-<div><p>The (left/bottom,right/top,gap) surrounding and between
-the axes.</p>
-</div></blockquote>
-<p><strong>vertflag</strong> : bool, optional (default: False)</p>
-<blockquote>
-<div><p>Specifies this is for vertical (True) or horizontal
-spacing.</p>
-</div></blockquote>
-<p><strong>rel</strong> : iterable(<cite>n</cite>), optional</p>
-<blockquote>
-<div><p>This specifies the relative width of each of the axes. By
-default all axes are the same width.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>axSpacer</strong> : <a class="reference internal" href="#pyts.plot.superaxes.axSpacer" title="pyts.plot.superaxes.axSpacer"><code class="xref py py-class docutils literal"><span class="pre">axSpacer</span></code></a></p>
-<blockquote class="last">
-<div><p>The axes spacer object corresponding to the specified
-inputs.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>The units of the returned axSpacer match that of the input <cite>vec</cite>.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.superaxes.fig_meta">
-<em class="property">class </em><code class="descclassname">pyts.plot.superaxes.</code><code class="descname">fig_meta</code><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#fig_meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.fig_meta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.fig_meta.author">
-<code class="descname">author</code><em class="property"> = u'Levi Kilcher'</em><a class="headerlink" href="#pyts.plot.superaxes.fig_meta.author" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.fig_meta.description">
-<code class="descname">description</code><em class="property"> = None</em><a class="headerlink" href="#pyts.plot.superaxes.fig_meta.description" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.fig_meta.keywords">
-<code class="descname">keywords</code><em class="property"> = None</em><a class="headerlink" href="#pyts.plot.superaxes.fig_meta.keywords" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.fig_meta.producer">
-<code class="descname">producer</code><em class="property"> = u'matplotlib 2.1.1, http://matplotlib.sf.net'</em><a class="headerlink" href="#pyts.plot.superaxes.fig_meta.producer" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.fig_meta.script">
-<code class="descname">script</code><em class="property"> = None</em><a class="headerlink" href="#pyts.plot.superaxes.fig_meta.script" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.fig_meta.title">
-<code class="descname">title</code><em class="property"> = None</em><a class="headerlink" href="#pyts.plot.superaxes.fig_meta.title" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.fig_meta.write">
-<code class="descname">write</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#fig_meta.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.fig_meta.write" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.fig_meta.write_pdf">
-<code class="descname">write_pdf</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#fig_meta.write_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.fig_meta.write_pdf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.superaxes.figobj">
-<em class="property">class </em><code class="descclassname">pyts.plot.superaxes.</code><code class="descname">figobj</code><span class="sig-paren">(</span><em>fignum, nax=None, axsize=None, frame=[0.6, 0.3, 1, 0.3], gap=0.4, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#figobj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.figobj" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.plot.superaxes.axgroup" title="pyts.plot.superaxes.axgroup"><code class="xref py py-class docutils literal"><span class="pre">pyts.plot.superaxes.axgroup</span></code></a></p>
-<p>A base class for axes-grid figures.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fignum</strong> : int</p>
-<blockquote>
-<div><p>Figure number</p>
-</div></blockquote>
-<p><strong>nax</strong> : tuple(2 ints)</p>
-<blockquote>
-<div><p>Shape of the axes grid.</p>
-</div></blockquote>
-<p><strong>saxparams</strong> : dict</p>
-<blockquote>
-<div><p>input arguments to saxes.</p>
-</div></blockquote>
-<p><strong>axsize</strong> : tuple(2 floats)</p>
-<blockquote>
-<div><p>specifies the size of the axes [vertical,horizontal] in
-inches.</p>
-</div></blockquote>
-<p><strong>frame</strong> : iterable(4)</p>
-<blockquote>
-<div><p>specifies the frame around the axes [bottom,top,left,right],
-in inches (default: [.6,.3,1,.3]).</p>
-</div></blockquote>
-<p><strong>gap</strong> : tuple(2 floats) or float</p>
-<blockquote>
-<div><p>specifies the gap between axes [vertical,horizontal], in
-inches (default: [.2,.2]).</p>
-</div></blockquote>
-<p><strong>hrel</strong> : iterable</p>
-<blockquote>
-<div><p>specifies the relative horizontal size of each axes.</p>
-</div></blockquote>
-<p><strong>vrel</strong> : iterable</p>
-<blockquote class="last">
-<div><p>specifies the relative vertical size of each axes.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="pyts.plot.superaxes.figobj.initFig">
-<code class="descname">initFig</code><span class="sig-paren">(</span><em>fignum</em>, <em>nax=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#figobj.initFig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.figobj.initFig" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.figobj.nax">
-<code class="descname">nax</code><em class="property"> = (1, 1)</em><a class="headerlink" href="#pyts.plot.superaxes.figobj.nax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.figobj.savefig">
-<code class="descname">savefig</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#figobj.savefig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.figobj.savefig" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.figobj.sax_params">
-<code class="descname">sax_params</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#figobj.sax_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.figobj.sax_params" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.figobj.saxes">
-<code class="descname">saxes</code><span class="sig-paren">(</span><em>nax=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#figobj.saxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.figobj.saxes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.superaxes.myaxes">
-<em class="property">class </em><code class="descclassname">pyts.plot.superaxes.</code><code class="descname">myaxes</code><span class="sig-paren">(</span><em>fig=None</em>, <em>rect=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#myaxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.myaxes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">matplotlib.axes._axes.Axes</span></code></p>
-<p>My own axes class.</p>
-<dl class="method">
-<dt id="pyts.plot.superaxes.myaxes.annoteCorner">
-<code class="descname">annoteCorner</code><span class="sig-paren">(</span><em>ax</em>, <em>s</em>, <em>pos='ll'</em>, <em>offset=10</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyts.plot.superaxes.myaxes.annoteCorner" title="Permalink to this definition">¶</a></dt>
-<dd><p>annotate a corner of an axes with a string.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*ax*</strong> : axes</p>
-<blockquote>
-<div><p>is the axes into which to place the annotation.</p>
-</div></blockquote>
-<p><strong>*s*</strong> : str</p>
-<blockquote>
-<div><p>is the text to place in the corner.</p>
-</div></blockquote>
-<p><strong>*pos*</strong> : str {‘ll’,’ul’,’lr’,’ur’}, tuple(2)</p>
-<blockquote>
-<div><p>The tuple form specifies the text locaiton in axes coordinates.</p>
-</div></blockquote>
-<p><strong>*offset*</strong> : tuple(1 or 2)</p>
-<blockquote>
-<div><p>Specifies the offset from the selected <em>pos</em> (in points).</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>t</strong> : text artist.</p>
-<blockquote class="last">
-<div><p>Also, it creates a ‘corner_label’ attribute in the axes, with
-this text artist.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>If the string form of <em>pos</em> is used then the sign of <em>offset</em> is
-always such that it shifts the string toward the center.If it is a
-two element tuple or string, it specifies a different offset in
-the x and y directions.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.myaxes.cpcolor">
-<code class="descname">cpcolor</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#pyts.plot.superaxes.myaxes.cpcolor" title="Permalink to this definition">¶</a></dt>
-<dd><p>makes a pseudocolor plot of the data in c</p>
-<p>Optional keyword arguments:
-fixgaps=True
-threshx=inf
-threshy=inf</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.myaxes.errorshadex">
-<code class="descname">errorshadex</code><span class="sig-paren">(</span><em>peer</em>, <em>x</em>, <em>y</em>, <em>xerr</em>, <em>ecolor=None</em>, <em>ealpha=0.5</em>, <em>color='b'</em>, <em>zorder=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyts.plot.superaxes.myaxes.errorshadex" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot a line with a shaded region for error.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.myaxes.labelax">
-<code class="descname">labelax</code><span class="sig-paren">(</span><em>peer</em>, <em>str</em>, <em>place='right'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyts.plot.superaxes.myaxes.labelax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.myaxes.offset_text">
-<code class="descname">offset_text</code><span class="sig-paren">(</span><em>ax</em>, <em>x</em>, <em>y</em>, <em>s</em>, <em>offset=(0</em>, <em>0)</em>, <em>transform=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyts.plot.superaxes.myaxes.offset_text" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add text to an axes offset from a location.</p>
-<p><em>offset</em> specifies the offset (in points) from the selected <em>pos</em>.
-If <em>offset</em> is a two element list or tuple, it specifies a
-different offset in the x and y directions.</p>
-<p>Returns the text object.</p>
-<p>By default the <em>x</em>,*y* positions are in data coordinates.  Specify
-a different ‘transform’ to change this.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.myaxes.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#myaxes.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.myaxes.plot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.myaxes.setaxesframe">
-<code class="descname">setaxesframe</code><span class="sig-paren">(</span><em>ax</em>, <em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#pyts.plot.superaxes.myaxes.setaxesframe" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.myaxes.skip_ticklabels">
-<code class="descname">skip_ticklabels</code><span class="sig-paren">(</span><em>ax</em>, <em>rep=2</em>, <em>offset=0</em>, <em>axis='x'</em>, <em>force=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyts.plot.superaxes.myaxes.skip_ticklabels" title="Permalink to this definition">¶</a></dt>
-<dd><p>hide the ticklabels on ticks except for every <em>rep</em>’th tick.
-<em>offset</em> specifies an offset, of tick to start on.
-<em>axis</em> specifies the x (default) or y axis.
-when <em>force</em> is True (default) this function turns on every <em>rep</em>’th tick.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.myaxes.transAxesXDataY">
-<code class="descname">transAxesXDataY</code><a class="headerlink" href="#pyts.plot.superaxes.myaxes.transAxesXDataY" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.myaxes.transDataXAxesY">
-<code class="descname">transDataXAxesY</code><a class="headerlink" href="#pyts.plot.superaxes.myaxes.transDataXAxesY" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.superaxes.saxes">
-<em class="property">class </em><code class="descclassname">pyts.plot.superaxes.</code><code class="descname">saxes</code><span class="sig-paren">(</span><em>n=(1, 1), h=[0.1, 0.9, 0.05], v=[0.1, 0.9, 0.05], **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#saxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.saxes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.plot.superaxes.saxes_szr" title="pyts.plot.superaxes.saxes_szr"><code class="xref py py-class docutils literal"><span class="pre">pyts.plot.superaxes.saxes_szr</span></code></a></p>
-<p>Create an axes object using S(uper)AXES.</p>
-<p>Use keyword argument fig=&lt;figure object&gt; to specify the figure in
-which to create the axes.</p>
-<p class="rubric">Notes</p>
-<p>n=(3,4) to set up a 3x4 array of axes.</p>
-<p>n=(3,[1,1,1,.5]) to set up a 3x4 array of axes with the last
-column half the width of the others.</p>
-<p>n=([1,1,1.5],[1,1,1,.5]) to set up a 3x4 array of axes with the
-last row 1.5 times as tall and the last column half as wide.</p>
-<p>h=(.1,.9,.05) to create the horizontal frame box at .1 and .9, with
-gaps of .05 between each axes.</p>
-<p>v=(.1,.9,.05) similarly for the vertical frame/gap.</p>
-<p>drawax=L, where L is a logical array of the axes you actually want to
-draw (default is all of them).</p>
-<p>sharex=True, chooses whether the axes share an xaxis.
-sharey=True, chooses whether the axes share a yaxis.</p>
-<dl class="method">
-<dt id="pyts.plot.superaxes.saxes.axgrid">
-<code class="descname">axgrid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#saxes.axgrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.saxes.axgrid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.saxes.drawall">
-<code class="descname">drawall</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#saxes.drawall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.saxes.drawall" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.saxes.n">
-<code class="descname">n</code><em class="property"> = None</em><a class="headerlink" href="#pyts.plot.superaxes.saxes.n" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.superaxes.saxes_szr">
-<em class="property">class </em><code class="descclassname">pyts.plot.superaxes.</code><code class="descname">saxes_szr</code><span class="sig-paren">(</span><em>axPlacer</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#saxes_szr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.saxes_szr" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.plot.superaxes.axgroup" title="pyts.plot.superaxes.axgroup"><code class="xref py py-class docutils literal"><span class="pre">pyts.plot.superaxes.axgroup</span></code></a></p>
-<dl class="method">
-<dt id="pyts.plot.superaxes.saxes_szr.drawall">
-<code class="descname">drawall</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#saxes_szr.drawall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.saxes_szr.drawall" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.saxes_szr.n">
-<code class="descname">n</code><a class="headerlink" href="#pyts.plot.superaxes.saxes_szr.n" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.saxes_szr.set_ylabel_pos">
-<code class="descname">set_ylabel_pos</code><span class="sig-paren">(</span><em>pos</em>, <em>axs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#saxes_szr.set_ylabel_pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.saxes_szr.set_ylabel_pos" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.saxes_szr.xlabel">
-<code class="descname">xlabel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#saxes_szr.xlabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.saxes_szr.xlabel" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is different than ‘set_xlabel’ because it sets the xlabel
-only for the ‘self._xlabel_ax’.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.saxes_szr.ylabel">
-<code class="descname">ylabel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#saxes_szr.ylabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.saxes_szr.ylabel" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is different than ‘set_ylabel’ because it sets the ylabel
-only for the ‘self._ylabel_ax’.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pyts.plot.superaxes.sfig">
-<em class="property">class </em><code class="descclassname">pyts.plot.superaxes.</code><code class="descname">sfig</code><span class="sig-paren">(</span><em>fignum</em>, <em>axPlacer</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#sfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.sfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyts.plot.superaxes.axgroup" title="pyts.plot.superaxes.axgroup"><code class="xref py py-class docutils literal"><span class="pre">pyts.plot.superaxes.axgroup</span></code></a></p>
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.sfig.ax">
-<code class="descname">ax</code><a class="headerlink" href="#pyts.plot.superaxes.sfig.ax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyts.plot.superaxes.sfig.axes">
-<code class="descname">axes</code><a class="headerlink" href="#pyts.plot.superaxes.sfig.axes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pyts.plot.superaxes.sfig.clf">
-<code class="descname">clf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#sfig.clf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.sfig.clf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="pyts.plot.superaxes.simpleAxSpacer">
-<code class="descclassname">pyts.plot.superaxes.</code><code class="descname">simpleAxSpacer</code><span class="sig-paren">(</span><em>n</em>, <em>axsize</em>, <em>gap</em>, <em>frm=array([0.5</em>, <em>0.5])</em>, <em>vertical=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#simpleAxSpacer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.simpleAxSpacer" title="Permalink to this definition">¶</a></dt>
-<dd><p>calculates the width (or height) of a figure with <em>n</em> subplots.
-Specify the width (height) of each subplot with <em>ax[0]</em>, the space
-between subplots with <em>ax[1]</em>, and the left/right (bottom/top)
-spacing with <em>frame[0]</em>/<em>frame[1]</em>.</p>
-<p>See also: saxes, axes, calcAxesSize</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="pyts.plot.superaxes.skip_ticklabels">
-<code class="descclassname">pyts.plot.superaxes.</code><code class="descname">skip_ticklabels</code><span class="sig-paren">(</span><em>ax</em>, <em>rep=2</em>, <em>offset=0</em>, <em>axis='x'</em>, <em>force=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyts/plot/superaxes.html#skip_ticklabels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyts.plot.superaxes.skip_ticklabels" title="Permalink to this definition">¶</a></dt>
-<dd><p>hide the ticklabels on ticks except for every <em>rep</em>’th tick.
-<em>offset</em> specifies an offset, of tick to start on.
-<em>axis</em> specifies the x (default) or y axis.
-when <em>force</em> is True (default) this function turns on every <em>rep</em>’th tick.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-pyts.plot">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyts.plot" title="Permalink to this headline">¶</a></h2>
-<p>This is the PyTurbSim plotting package. It contains various functions
-and tools for plotting data that is created by PyTurbSim (and, by
-extension, TurbSim).</p>
-<p>For more information and to use this package import the api
-module, e.g.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyts.plot.api</span> <span class="k">as</span> <span class="nn">pt</span>
-</pre></div>
-</div>
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">pyts.plot package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-pyts.plot.api">pyts.plot.api module</a></li>
-<li><a class="reference internal" href="#module-pyts.plot.axform">pyts.plot.axform module</a></li>
-<li><a class="reference internal" href="#module-pyts.plot.base">pyts.plot.base module</a></li>
-<li><a class="reference internal" href="#module-pyts.plot.psd">pyts.plot.psd module</a></li>
-<li><a class="reference internal" href="#module-pyts.plot.superaxes">pyts.plot.superaxes module</a></li>
-<li><a class="reference internal" href="#module-pyts.plot">Module contents</a></li>
+<h1 class="logo"><a href="../index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyts.html">pyts package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pyts.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pyts.cohereModels.html">pyts.cohereModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.io.html">pyts.io package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.phaseModels.html">pyts.phaseModels package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pyts.plot package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.profModels.html">pyts.profModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.runInput.html">pyts.runInput package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.specModels.html">pyts.specModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyts.stressModels.html">pyts.stressModels package</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#pyts-api-module">pyts.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#pyts-base-module">pyts.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#pyts-dbg-module">pyts.dbg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#pyts-main-module">pyts.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#pyts-misc-module">pyts.misc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#pyts-pyts-numpy-module">pyts.pyts_numpy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyts.html#module-contents">Module contents</a></li>
 </ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -1329,23 +119,26 @@ module, e.g.</p>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/api/pyts.plot.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -1354,8 +147,8 @@ module, e.g.</p>
       &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/api/pyts.plot.rst.txt"

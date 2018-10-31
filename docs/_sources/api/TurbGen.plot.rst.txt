@@ -1,0 +1,54 @@
+TurbGen.plot package
+====================
+
+Submodules
+----------
+
+TurbGen.plot.api module
+-----------------------
+
+.. automodule:: TurbGen.plot.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.plot.axform module
+--------------------------
+
+.. automodule:: TurbGen.plot.axform
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.plot.base module
+------------------------
+
+.. automodule:: TurbGen.plot.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.plot.psd module
+-----------------------
+
+.. automodule:: TurbGen.plot.psd
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+TurbGen.plot.superaxes module
+-----------------------------
+
+.. automodule:: TurbGen.plot.superaxes
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: TurbGen.plot
+    :members:
+    :undoc-members:
+    :show-inheritance:

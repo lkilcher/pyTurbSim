@@ -4,24 +4,16 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Welcome to PyTurbSim’s home page &#8212; PyTurbSim 0.4.8 documentation</title>
+    <title>Welcome to PyTurbSim’s home page &#8212; TurbGen 0.5 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.4.8',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -32,26 +24,27 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="welcome-to-pyturbsim-s-home-page">
 <h1>Welcome to PyTurbSim’s home page<a class="headerlink" href="#welcome-to-pyturbsim-s-home-page" title="Permalink to this headline">¶</a></h1>
-<p>PyTurbSim is a program for producing simulations of turbulent velocity
+<p>TurbGen is a program for producing simulations of turbulent velocity
 time-series for input to device simulation tools that estimate water-
-and wind-turbine performance and loads.  PyTurbSim outputs spatial
+and wind-turbine performance and loads.  TurbGen outputs spatial
 time-series (a sequence of 2-D, y-z, planes) of 3-component velocity
 (u,v,w) that match statistics of real oceanic, riverine and wind
-turbulence <a class="footnote-reference" href="#id2" id="id1">[1]</a>.  In other words, PyTurbSim  provides the inflow
+turbulence <a class="footnote-reference" href="#id2" id="id1">[1]</a>.  In other words, TurbGen  provides the inflow
 information that ‘drives’ device simulations.  See the <a class="reference internal" href="about.html#about"><span class="std std-ref">About</span></a>
 page for more information.</p>
-<p>PyTurbSim is the official water-turbulence simulation tool for
+<p>TurbGen is the official water-turbulence simulation tool for
 hydrokinetic turbine device simulation (a.k.a. HydroTurbSim), and is
 also a valuable development and testing platform for NREL’s ‘TurbSim’
 tool (see <a class="reference internal" href="about.html#about-history"><span class="std std-ref">History</span></a>).  New mean-profile, spectral and
@@ -80,7 +73,7 @@ to targets and/or data are included.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="plotting-tools.html">Plotting Tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="plotting-tools.html#generate-some-pyts-data">Generate some PyTurbSim data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting-tools.html#generate-some-pyts-data">Generate some TurbGen data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plotting-tools.html#basic-plotting">Basic plotting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plotting-tools.html#advanced-usage">Advanced Usage</a></li>
 </ul>
@@ -107,13 +100,13 @@ to targets and/or data are included.</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyts.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.api">pyts.api module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.base">pyts.base module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.dbg">pyts.dbg module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.main">pyts.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.misc">pyts.misc module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts.pyts_numpy">pyts.pyts_numpy module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-pyts">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#pyts-api-module">pyts.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#pyts-base-module">pyts.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#pyts-dbg-module">pyts.dbg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#pyts-main-module">pyts.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#pyts-misc-module">pyts.misc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#pyts-pyts-numpy-module">pyts.pyts_numpy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyts.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
@@ -131,7 +124,7 @@ to targets and/or data are included.</p>
 <table class="docutils footnote" frame="void" id="id2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><p class="first">At the most basic level PyTurbSim output is a four-dimensional
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><p class="first">At the most basic level TurbGen output is a four-dimensional
 array.  The dimensions are:</p>
 <ol class="arabic simple">
 <li>velocity component (size 3, corresponding to u,v,w),</li>
@@ -149,16 +142,31 @@ dimension.</p>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to PyTurbSim’s home page</a></li>
-<li><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
-<li><a class="reference internal" href="#indices-tables-and-notes">Indices, tables and notes</a></li>
+<h1 class="logo"><a href="#">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code-framework.html">Code Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -167,23 +175,26 @@ dimension.</p>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -192,8 +203,8 @@ dimension.</p>
       &copy;2018, National Renewable Energy Lab.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/index.rst.txt"

@@ -1,0 +1,225 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TurbGen.runInput.turbModels &#8212; TurbGen 0.5 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for TurbGen.runInput.turbModels</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains functions for producing the appropriate turbulence</span>
+<span class="sd">model for a specific TurbGen input object (derived from an input</span>
+<span class="sd">file).</span>
+
+<span class="sd">The term &#39;TurbModels&#39; encompasses the &#39;specModel&#39;, &#39;cohereModel&#39; and</span>
+<span class="sd">&#39;stressModel&#39; functionalities of the TurbGen program.  Within the</span>
+<span class="sd">&#39;runInput&#39; package all three of these statistics are handled in this</span>
+<span class="sd">module.  Thus, each wrapper function for a &#39;TurbModel&#39; should should</span>
+<span class="sd">specify/define a model for each of these statistics.</span>
+
+<span class="sd">More information on the specific TurbModels can be found in the</span>
+<span class="sd">corresponding package for the statistic of interest.</span>
+
+<span class="sd">To make a new specModel, cohereModel, or stressModel available from</span>
+<span class="sd">input files add a wrapper function for it here.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">..specModels</span> <span class="k">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">sm</span>
+<span class="kn">from</span> <span class="nn">..cohereModels</span> <span class="k">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">cm</span>
+<span class="kn">from</span> <span class="nn">..stressModels</span> <span class="k">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">rm</span>
+
+
+<div class="viewcode-block" id="getModel"><a class="viewcode-back" href="../../../api/TurbGen.runInput.html#TurbGen.runInput.turbModels.getModel">[docs]</a><span class="k">def</span> <span class="nf">getModel</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the wrapper function for all turbulence models implemented</span>
+<span class="sd">    in the runInput package.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tsinput :  :class:`tscfg &lt;.base.tscfg&gt;`</span>
+<span class="sd">                A TurbGen input object.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    specModel :         A subclass of :class:`.specModelBase`</span>
+<span class="sd">                        The appropriately initialized &#39;spectral model&#39; object</span>
+<span class="sd">                        specified in `tsinput`.</span>
+<span class="sd">    cohereModel :       A subclass of :class:`.cohereModelBase`</span>
+<span class="sd">                        The appropriately initialized &#39;coherence model&#39; object</span>
+<span class="sd">                        specified in `tsinput`.</span>
+<span class="sd">    stressModel :       A subclass of :class:`.stressModelBase`</span>
+<span class="sd">                        The appropriately initialized &#39;stress model&#39; object</span>
+<span class="sd">                        specified in `tsinput`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This executes the sub-wrapper function (defined below) specified</span>
+    <span class="c1"># in the tsinput-object (input file TurbModel line)</span>
+    <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;TurbModel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;(tsinput)&#39;</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_tidal</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="n">smodel</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;UStar&#39;</span><span class="p">],</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;RefHt&#39;</span><span class="p">])</span>
+    <span class="n">cmodel</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">nwtc</span><span class="p">(</span><span class="n">tsinput</span><span class="o">.</span><span class="n">incdec_a</span><span class="p">,</span> <span class="n">tsinput</span><span class="o">.</span><span class="n">incdec_b</span><span class="p">,</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;CohExp&#39;</span><span class="p">])</span>
+    <span class="n">rmodel</span> <span class="o">=</span> <span class="n">rm</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;UStar&#39;</span><span class="p">],</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;RefHt&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">smodel</span><span class="p">,</span> <span class="n">cmodel</span><span class="p">,</span> <span class="n">rmodel</span>
+
+
+<span class="k">def</span> <span class="nf">_river</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="n">smodel</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">river</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;UStar&#39;</span><span class="p">],</span>
+                      <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;RefHt&#39;</span><span class="p">])</span>
+    <span class="n">cmodel</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">nwtc</span><span class="p">(</span><span class="n">tsinput</span><span class="o">.</span><span class="n">incdec_a</span><span class="p">,</span>
+                     <span class="n">tsinput</span><span class="o">.</span><span class="n">incdec_b</span><span class="p">,</span>
+                     <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;CohExp&#39;</span><span class="p">])</span>
+    <span class="n">rmodel</span> <span class="o">=</span> <span class="n">rm</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;UStar&#39;</span><span class="p">],</span>
+                      <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;RefHt&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">smodel</span><span class="p">,</span> <span class="n">cmodel</span><span class="p">,</span> <span class="n">rmodel</span>
+
+
+<span class="k">def</span> <span class="nf">_ieckai</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="n">smodel</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ieckai</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;IEC_WindType&#39;</span><span class="p">],</span>
+                       <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;IECstandard&#39;</span><span class="p">],</span>
+                       <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;IECedition&#39;</span><span class="p">],</span>
+                       <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;IECturbc&#39;</span><span class="p">],</span>
+                       <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;ETMc&#39;</span><span class="p">])</span>
+    <span class="n">cmodel</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">iec</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;IECedition&#39;</span><span class="p">])</span>
+    <span class="c1"># The IEC models do not look at Reynold&#39;s Stress.</span>
+    <span class="n">rmodel</span> <span class="o">=</span> <span class="n">rm</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">upvp_</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                        <span class="n">upwp_</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                        <span class="n">vpwp_</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">smodel</span><span class="p">,</span> <span class="n">cmodel</span><span class="p">,</span> <span class="n">rmodel</span>
+
+
+<span class="k">def</span> <span class="nf">_iecvkm</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="n">smodel</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">iecvkm</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;IEC_WindType&#39;</span><span class="p">],</span>
+                       <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;IECstandard&#39;</span><span class="p">],</span>
+                       <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;IECedition&#39;</span><span class="p">],</span>
+                       <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;IECturbc&#39;</span><span class="p">],</span>
+                       <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;ETMc&#39;</span><span class="p">])</span>
+    <span class="n">cmodel</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">iec</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;IECedition&#39;</span><span class="p">])</span>
+    <span class="c1"># The IEC models do not look at Reynold&#39;s Stress.</span>
+    <span class="n">rmodel</span> <span class="o">=</span> <span class="n">rm</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">upvp_</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                        <span class="n">upwp_</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                        <span class="n">vpwp_</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">smodel</span><span class="p">,</span> <span class="n">cmodel</span><span class="p">,</span> <span class="n">rmodel</span>
+
+
+<span class="k">def</span> <span class="nf">_nwtcup</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="n">smodel</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">nwtcup</span><span class="p">(</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;UStar&#39;</span><span class="p">],</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;RICH_NO&#39;</span><span class="p">],</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;ZI&#39;</span><span class="p">])</span>
+    <span class="n">cmodel</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">nwtc</span><span class="p">(</span><span class="n">tsinput</span><span class="o">.</span><span class="n">incdec_a</span><span class="p">,</span> <span class="n">tsinput</span><span class="o">.</span><span class="n">incdec_b</span><span class="p">,</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;CohExp&#39;</span><span class="p">])</span>
+    <span class="n">rmodel</span> <span class="o">=</span> <span class="n">rm</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">upvp_</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;PC_UV&#39;</span><span class="p">],</span>
+                        <span class="n">upwp_</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;PC_UW&#39;</span><span class="p">],</span>
+                        <span class="n">vpwp_</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;PC_VW&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">smodel</span><span class="p">,</span> <span class="n">cmodel</span><span class="p">,</span> <span class="n">rmodel</span>
+
+
+<span class="k">def</span> <span class="nf">_smooth</span><span class="p">(</span><span class="n">tsinput</span><span class="p">):</span>
+    <span class="n">smodel</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">nwtc</span><span class="o">.</span><span class="n">smooth</span><span class="p">(</span>
+        <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;UStar&#39;</span><span class="p">],</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;RICH_NO&#39;</span><span class="p">],</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;ZI&#39;</span><span class="p">])</span>
+    <span class="n">cmodel</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">nwtc</span><span class="p">(</span><span class="n">tsinput</span><span class="o">.</span><span class="n">incdec_a</span><span class="p">,</span> <span class="n">tsinput</span><span class="o">.</span><span class="n">incdec_b</span><span class="p">,</span> <span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;CohExp&#39;</span><span class="p">])</span>
+    <span class="n">rmodel</span> <span class="o">=</span> <span class="n">rm</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">upvp_</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;PC_UV&#39;</span><span class="p">],</span>
+                        <span class="n">upwp_</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;PC_UW&#39;</span><span class="p">],</span>
+                        <span class="n">vpwp_</span><span class="o">=</span><span class="n">tsinput</span><span class="p">[</span><span class="s1">&#39;PC_VW&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">smodel</span><span class="p">,</span> <span class="n">cmodel</span><span class="p">,</span> <span class="n">rmodel</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code-framework.html">Code Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

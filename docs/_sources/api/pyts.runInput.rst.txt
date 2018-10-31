@@ -1,35 +1,35 @@
-pyts\.runInput package
-======================
+pyts.runInput package
+=====================
 
 Submodules
 ----------
 
-pyts\.runInput\.base module
----------------------------
+pyts.runInput.base module
+-------------------------
 
 .. automodule:: pyts.runInput.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.runInput\.main module
----------------------------
+pyts.runInput.main module
+-------------------------
 
 .. automodule:: pyts.runInput.main
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.runInput\.profModels module
----------------------------------
+pyts.runInput.profModels module
+-------------------------------
 
 .. automodule:: pyts.runInput.profModels
     :members:
     :undoc-members:
     :show-inheritance:
 
-pyts\.runInput\.turbModels module
----------------------------------
+pyts.runInput.turbModels module
+-------------------------------
 
 .. automodule:: pyts.runInput.turbModels
     :members:

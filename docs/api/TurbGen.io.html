@@ -1,0 +1,446 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TurbGen.io package &#8212; TurbGen 0.5 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="turbgen-io-package">
+<h1>TurbGen.io package<a class="headerlink" href="#turbgen-io-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-TurbGen.io.base">
+<span id="turbgen-io-base-module"></span><h2>TurbGen.io.base module<a class="headerlink" href="#module-TurbGen.io.base" title="Permalink to this headline">¶</a></h2>
+<p>A base module for the io package.</p>
+<dl class="function">
+<dt id="TurbGen.io.base.checkname">
+<code class="descclassname">TurbGen.io.base.</code><code class="descname">checkname</code><span class="sig-paren">(</span><em>fname</em>, <em>extensions=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/base.html#checkname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.base.checkname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test whether fname exists.</p>
+<p>If it does not, change the file extension in the list of
+extensions until a file is found. If no file is found this
+function raises IOError.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.io.base.convname">
+<code class="descclassname">TurbGen.io.base.</code><code class="descname">convname</code><span class="sig-paren">(</span><em>fname</em>, <em>extension=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/base.html#convname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.base.convname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the file extension.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-TurbGen.io.formatter">
+<span id="turbgen-io-formatter-module"></span><h2>TurbGen.io.formatter module<a class="headerlink" href="#module-TurbGen.io.formatter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="TurbGen.io.formatter.SuperFormatter">
+<em class="property">class </em><code class="descclassname">TurbGen.io.formatter.</code><code class="descname">SuperFormatter</code><span class="sig-paren">(</span><em>template</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/formatter.html#SuperFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.formatter.SuperFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">string.Formatter</span></code></p>
+<p>SuperFormatter adds the following capabilities:</p>
+<ol class="arabic">
+<li><p class="first">Initialize with a template string, and the <a class="reference internal" href="#TurbGen.io.formatter.SuperFormatter.__call__" title="TurbGen.io.formatter.SuperFormatter.__call__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__call__()</span></code></a> method uses
+this string.  Thus, example usage of this formatter looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">=</span> <span class="n">SuperFormatter</span><span class="p">(</span><span class="n">template_string</span><span class="p">)</span>
+<span class="n">out_string</span> <span class="o">=</span> <span class="n">template</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">White space at the end of a format specifier is stripped. This
+allows for aligning text within the template.</p>
+</li>
+<li><p class="first">Multiple format strings separated by <code class="docutils literal notranslate"><span class="pre">|</span></code> can be specified
+within a template. This formatter will loop over the format
+strings until it finds one that doesn’t throw a ValueError.
+For example, the format string <code class="docutils literal notranslate"><span class="pre">6d|&lt;6.3f|8s</span></code> will format the
+following objects as:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">input</th>
+<th class="head">output string</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">3.74583754</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">'3.746</span> <span class="pre">'</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">384</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">'</span>&#160;&#160; <span class="pre">384'</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">None</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">'None</span>&#160;&#160;&#160; <span class="pre">'</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">Default values may be specified after a <code class="docutils literal notranslate"><span class="pre">/</span></code> at the end of the
+format string. For example if the container is
+<code class="docutils literal notranslate"><span class="pre">{show_data:s/False}</span></code>, and there is no key <code class="docutils literal notranslate"><span class="pre">show_data</span></code> in
+<code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>, then <code class="docutils literal notranslate"><span class="pre">False</span></code> will fill that location.</p>
+</li>
+<li><p class="first">The <a class="reference internal" href="#TurbGen.io.formatter.SuperFormatter.format_prfx" title="TurbGen.io.formatter.SuperFormatter.format_prfx"><code class="xref py py-attr docutils literal notranslate"><span class="pre">format_prfx</span></code></a> attribute allows the user to define a
+default container prefix.  This will be prepended to all format
+specifiers that are a single-character <cite>type</cite> specifier.  For
+example if <code class="docutils literal notranslate"><span class="pre">format_prfx</span> <span class="pre">=</span> <span class="pre">'&lt;20'</span></code>, then the format specifier
+<code class="docutils literal notranslate"><span class="pre">'f'</span></code> will be changed to <code class="docutils literal notranslate"><span class="pre">'&lt;20f'</span></code>, but <code class="docutils literal notranslate"><span class="pre">'&gt;08.3f'</span></code> will be
+unchanged.  This is applied to each specifier within a multiple
+specification, thus <code class="docutils literal notranslate"><span class="pre">'d|f|s'</span></code> would actually be
+<code class="docutils literal notranslate"><span class="pre">'&lt;20d|&lt;20f|&lt;20s'</span></code>.</p>
+</li>
+<li><p class="first">Custom format specifiers have been implemented by adding a
+hook that searches for a <cite>_format_&lt;specifier&gt;</cite> method prior to
+running the normal formatting routines.  That method takes the
+value to be formatted as input (in addition to <em>self</em>), and
+should return the fully-formatted string (no further formatting
+is applied).</p>
+<p>For example, a custom format specifier <cite>pet</cite> (specified as
+<code class="docutils literal notranslate"><span class="pre">{my_dog:pet}</span></code> in the template) could be defined as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyNewFormatter</span><span class="p">(</span><span class="n">SuperFormatter</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_format_pet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Note that this will throw an <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code> if <em>my_dog</em> is an
+object without an <code class="docutils literal notranslate"><span class="pre">upper</span></code> method (i.e. not a string), but you
+could add to the method to handle all of the different types
+that <code class="docutils literal notranslate"><span class="pre">value</span></code> might be.</p>
+</li>
+<li><p class="first">Custom format specifiers with arguments can be specified as
+<code class="docutils literal notranslate"><span class="pre">{my_dogs:pets(10s,10s)}</span></code>. In this case the string inside
+the parenthesis is supplied as the second argument to the
+<code class="docutils literal notranslate"><span class="pre">_format_pets</span></code> method.  The method that implements this
+format could be defined as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyNewFormatter</span><span class="p">(</span><span class="n">SuperFormatter</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_format_pets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">form2</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">v</span><span class="p">,</span><span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">form2</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)):</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="nb">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<dl class="method">
+<dt id="TurbGen.io.formatter.SuperFormatter.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/formatter.html#SuperFormatter.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.formatter.SuperFormatter.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the template string with <cite>*args</cite> and <cite>**kwargs</cite>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.io.formatter.SuperFormatter.allow_sloppy">
+<code class="descname">allow_sloppy</code><em class="property"> = False</em><a class="headerlink" href="#TurbGen.io.formatter.SuperFormatter.allow_sloppy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.io.formatter.SuperFormatter.default_format_prfx">
+<code class="descname">default_format_prfx</code><em class="property"> = ''</em><a class="headerlink" href="#TurbGen.io.formatter.SuperFormatter.default_format_prfx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.io.formatter.SuperFormatter.format_field">
+<code class="descname">format_field</code><span class="sig-paren">(</span><em>value</em>, <em>format_spec</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/formatter.html#SuperFormatter.format_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.formatter.SuperFormatter.format_field" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.io.formatter.SuperFormatter.format_prfx">
+<code class="descname">format_prfx</code><em class="property"> = ''</em><a class="headerlink" href="#TurbGen.io.formatter.SuperFormatter.format_prfx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.io.formatter.SuperFormatter.get_value">
+<code class="descname">get_value</code><span class="sig-paren">(</span><em>key</em>, <em>args</em>, <em>kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/formatter.html#SuperFormatter.get_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.formatter.SuperFormatter.get_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-TurbGen.io.input">
+<span id="turbgen-io-input-module"></span><h2>TurbGen.io.input module<a class="headerlink" href="#module-TurbGen.io.input" title="Permalink to this headline">¶</a></h2>
+<p>This module is for reading/writing TurbSim input (.inp) files.</p>
+<dl class="class">
+<dt id="TurbGen.io.input.InputFormatter">
+<em class="property">class </em><code class="descclassname">TurbGen.io.input.</code><code class="descname">InputFormatter</code><span class="sig-paren">(</span><em>template</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/input.html#InputFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.input.InputFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.io.formatter.SuperFormatter" title="TurbGen.io.formatter.SuperFormatter"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.io.formatter.SuperFormatter</span></code></a></p>
+<p>This formatter is defined to format/parse the templates/inp
+file.</p>
+<dl class="attribute">
+<dt id="TurbGen.io.input.InputFormatter.format_prfx">
+<code class="descname">format_prfx</code><em class="property"> = '&lt;20'</em><a class="headerlink" href="#TurbGen.io.input.InputFormatter.format_prfx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.io.input.read">
+<code class="descclassname">TurbGen.io.input.</code><code class="descname">read</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/input.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.input.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a TurbSim input (.inp) file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>fname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The filename to read from.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tsinput</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.runInput.html#TurbGen.runInput.base.tsinput" title="TurbGen.runInput.base.tsinput"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsinput</span></code></a>, dict</span></dt>
+<dd><p class="first last">An dictionary containing TurbSim input data.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.io.input.readInPSD">
+<code class="descclassname">TurbGen.io.input.</code><code class="descname">readInPSD</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/input.html#readInPSD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.input.readInPSD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the input spectrum from file <em>fname</em>, and return it as a
+dictionary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>fname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The filename to read the PSD from.</p>
+</dd>
+<dt><strong>The frequency in the input file should be in units of hz, and the</strong></dt>
+<dd></dd>
+<dt><strong>spectrum should be in units of m^2/s^2/hz.</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.io.input.write">
+<code class="descclassname">TurbGen.io.input.</code><code class="descname">write</code><span class="sig-paren">(</span><em>filename</em>, <em>in_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/input.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.input.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write an input file.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="turbgen-io-main-module">
+<h2>TurbGen.io.main module<a class="headerlink" href="#turbgen-io-main-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="turbgen-io-read-module">
+<h2>TurbGen.io.read module<a class="headerlink" href="#turbgen-io-read-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-TurbGen.io.sum">
+<span id="turbgen-io-sum-module"></span><h2>TurbGen.io.sum module<a class="headerlink" href="#module-TurbGen.io.sum" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="TurbGen.io.sum.SumFormatter">
+<em class="property">class </em><code class="descclassname">TurbGen.io.sum.</code><code class="descname">SumFormatter</code><span class="sig-paren">(</span><em>template</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/sum.html#SumFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.sum.SumFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.io.formatter.SuperFormatter" title="TurbGen.io.formatter.SuperFormatter"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.io.formatter.SuperFormatter</span></code></a></p>
+<dl class="attribute">
+<dt id="TurbGen.io.sum.SumFormatter.default_format_prfx">
+<code class="descname">default_format_prfx</code><em class="property"> = '&gt;10'</em><a class="headerlink" href="#TurbGen.io.sum.SumFormatter.default_format_prfx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.io.sum.write">
+<code class="descclassname">TurbGen.io.sum.</code><code class="descname">write</code><span class="sig-paren">(</span><em>filename</em>, <em>in_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/sum.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.sum.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a sum file.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-TurbGen.io.write">
+<span id="turbgen-io-write-module"></span><h2>TurbGen.io.write module<a class="headerlink" href="#module-TurbGen.io.write" title="Permalink to this headline">¶</a></h2>
+<p>This module is for writing data to various formats.</p>
+<p>The functions in this module were translated directly from the
+original TSsubs.f90 file.</p>
+<dl class="function">
+<dt id="TurbGen.io.write.bladed">
+<code class="descclassname">TurbGen.io.write.</code><code class="descname">bladed</code><span class="sig-paren">(</span><em>fname</em>, <em>tsdat</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/write.html#bladed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.write.bladed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write tsdat to a Bladed-format (.wnd) binary file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>fname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The filename to which the data should be written.</p>
+</dd>
+<dt><strong>tsdat</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a></span></dt>
+<dd><p class="first last">A TurbGen data object.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Bladed is a Trademark of GL Garrad-Hassan.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.io.write.formatted">
+<code class="descclassname">TurbGen.io.write.</code><code class="descname">formatted</code><span class="sig-paren">(</span><em>fname</em>, <em>tsdat</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/write.html#formatted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.write.formatted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the data to a set of TurbSim ‘formatted’ (readable) files (.u, .v, .w).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>fname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">the base-filename to which the data should be written.
+‘.u’, ‘.v’, ‘.w’ will be appended to fname for each file.</p>
+</dd>
+<dt><strong>tsdat</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a></span></dt>
+<dd><p class="first last">The ‘tsdata’ object that contains the data.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.io.write.turbsim">
+<code class="descclassname">TurbGen.io.write.</code><code class="descname">turbsim</code><span class="sig-paren">(</span><em>fname</em>, <em>tsdat</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/write.html#turbsim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.write.turbsim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the data to a TurbSim-format binary file (.bts).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>fname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">the filename to which the data should be written.</p>
+</dd>
+<dt><strong>tsdat</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a></span></dt>
+<dd><p class="first last">The ‘tsdata’ object that contains the data.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-TurbGen.io">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TurbGen.io" title="Permalink to this headline">¶</a></h2>
+<p>This is the TurbGen input/output package. It contains modules for
+reading/writing TurbGen input/data from/to disk.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TurbGen</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, National Renewable Energy Lab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/TurbGen.io.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

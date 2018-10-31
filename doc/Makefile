@@ -8,7 +8,7 @@ PAPER         =
 BUILDDIR      = ../docs
 BUILDDIR2      = ../doc-build
 SPHINXBUILDAPI  = sphinx-apidoc
-PYSOURCEDIR   = ../pyts/
+PYSOURCEDIR   = ../TurbGen/
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
@@ -47,8 +47,7 @@ help:
 
 
 api:
-	$(SPHINXBUILDAPI) -f  -T -H 'PyTurbSim API' -o source/api ../pyts/ ../pyts/gui
-#	$(SPHINXBUILDAPI) -f -o source/api -T -H 'PyTS Plot API' ../pyts_plot/
+	$(SPHINXBUILDAPI) -f -T -H 'TurbGen API' -o source/api ../TurbGen/
 
 clean:
 	-rm -rf $(BUILDDIR)/*
@@ -90,17 +89,17 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR2)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR2)/qthelp/PyTurbSim.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR2)/qthelp/TurbGen.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR2)/qthelp/PyTurbSim.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR2)/qthelp/TurbGen.qhc"
 
 devhelp:
 	$(SPHINXBUILD) -b devhelp $(ALLSPHINXOPTS) $(BUILDDIR2)/devhelp
 	@echo
 	@echo "Build finished."
 	@echo "To view the help file:"
-	@echo "# mkdir -p $$HOME/.local/share/devhelp/PyTurbSim"
-	@echo "# ln -s $(BUILDDIR2)/devhelp $$HOME/.local/share/devhelp/PyTurbSim"
+	@echo "# mkdir -p $$HOME/.local/share/devhelp/TurbGen"
+	@echo "# ln -s $(BUILDDIR2)/devhelp $$HOME/.local/share/devhelp/TurbGen"
 	@echo "# devhelp"
 
 epub:
