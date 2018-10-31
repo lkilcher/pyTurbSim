@@ -49,29 +49,29 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="genNWTC.__call__"><a class="viewcode-back" href="../../../api/TurbGen.specModels.html#TurbGen.specModels.nwtc.genNWTC.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+<div class="viewcode-block" id="genNWTC.__call__"><a class="viewcode-back" href="../../../api/TurbGen.specModels.html#TurbGen.specModels.nwtc.genNWTC.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create and calculate the spectral object for a `tsrun`</span>
+<span class="sd">        Create and calculate the spectral object for a `tgrun`</span>
 <span class="sd">        instance.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        tsrun :         :class:`.tsrun`</span>
+<span class="sd">        tgrun :         :class:`.TGrun`</span>
 <span class="sd">                        A TurbGen run object.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        out :           :class:`.specObj`</span>
-<span class="sd">                        An NWTC spectral object for the grid in `tsrun`.</span>
+<span class="sd">                        An NWTC spectral object for the grid in `tgrun`.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">specObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">specObj</span><span class="p">(</span><span class="n">tgrun</span><span class="p">)</span>
         <span class="c1"># !!!FIXTHIS: The following lines bind calculation to the</span>
         <span class="c1"># !!!MODEL. This goes against the TurbGen philosophy of</span>
         <span class="c1"># !!!keeping calculations separated from models.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">f</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_work</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zhub</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zhub</span> <span class="o">=</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span>
         <span class="c1"># Fixing this will require something like changing:</span>
         <span class="c1">#   out[comp][iz, iy] = model(z, u, comp)</span>
         <span class="c1"># to:</span>
@@ -81,12 +81,12 @@
         <span class="c1"># This would also require:</span>
         <span class="c1"># 1) deleting the self._work variable</span>
         <span class="c1"># 2) changing ``def L(self,)`` from a property to ``def</span>
-        <span class="c1">#    L(self, tsrun)`` and using tsrun.grid.zhub their.</span>
+        <span class="c1">#    L(self, tgrun)`` and using tgrun.grid.zhub their.</span>
         <span class="c1"># 3) changing all calls to ``self.L`` accordingly.</span>
         <span class="k">for</span> <span class="n">iz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_z</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">iy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">n_y</span><span class="p">):</span>
                 <span class="n">z</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">iz</span><span class="p">]</span>
-                <span class="n">u</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">iz</span><span class="p">,</span> <span class="n">iy</span><span class="p">]</span>
+                <span class="n">u</span> <span class="o">=</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">iz</span><span class="p">,</span> <span class="n">iy</span><span class="p">]</span>
                 <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">comp</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_work</span><span class="p">[:]</span> <span class="o">=</span> <span class="mf">0.0</span>
                     <span class="n">out</span><span class="p">[</span><span class="n">comp</span><span class="p">][</span><span class="n">iz</span><span class="p">,</span> <span class="n">iy</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span>
@@ -151,7 +151,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">coefs</span> <span class="o">=</span> <span class="n">coef</span>
 
-    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">):</span>
         <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        Turbulence model used                            =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
 <span class="s2">        Turbulence velocity (UStar)                      =  </span><span class="si">{dat.Ustar:0.2f}</span><span class="s2"> [m/s]</span>
@@ -226,7 +226,7 @@
         <span class="k">if</span> <span class="n">f_coefs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">f_coefs</span> <span class="o">=</span> <span class="n">f_coefs_unstable</span>
 
-    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">,</span> <span class="p">):</span>
         <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        Turbulence model used                            =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
 <span class="s2">        Turbulence velocity (UStar)                      =  </span><span class="si">{dat.Ustar:0.4g}</span><span class="s2"> [m/s]</span>
@@ -416,7 +416,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/TurbGen.html">TurbGen package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 </ul>
 

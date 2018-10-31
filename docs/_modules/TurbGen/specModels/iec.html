@@ -92,7 +92,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">IECturbc</span> <span class="o">=</span> <span class="n">IECturbc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ETMc</span> <span class="o">=</span> <span class="n">ETMc</span>
 
-    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">):</span>
         <span class="n">windtype_desc</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;NTM&#39;</span><span class="p">:</span> <span class="s1">&#39;Normal Turbulence Model&#39;</span><span class="p">,</span>
                          <span class="s1">&#39;ETM&#39;</span><span class="p">:</span> <span class="s1">&#39;Extreme Turbulence Model&#39;</span><span class="p">,</span>
                          <span class="s1">&#39;1EWM1&#39;</span><span class="p">:</span> <span class="s1">&#39;Extreme 1-Year Wind Speed Model (Class 1)&#39;</span><span class="p">,</span>
@@ -124,8 +124,8 @@
             <span class="n">IECwindtype_desc</span><span class="o">=</span><span class="n">windtype_desc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">IECwindtype</span><span class="p">],</span>
             <span class="n">IECstandard_desc</span><span class="o">=</span><span class="n">edition_desc</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">IECstandard</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">IECedition</span><span class="p">)],</span>
             <span class="n">etmc</span><span class="o">=</span><span class="s1">&#39;N/A&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ETMc</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;</span><span class="si">{0:0.4g}</span><span class="s1"> [m/s]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ETMc</span><span class="p">),</span>
-            <span class="n">Lambda</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">),</span>
-            <span class="n">Sigma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">IEC_Sigma</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">),</span>
+            <span class="n">Lambda</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">),</span>
+            <span class="n">Sigma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">IEC_Sigma</span><span class="p">(</span><span class="n">tgrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
 
@@ -312,25 +312,25 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="IECKai.__call__"><a class="viewcode-back" href="../../../api/TurbGen.specModels.html#TurbGen.specModels.iec.IECKai.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create the spectral object for a `tsrun` instance.</span>
+<div class="viewcode-block" id="IECKai.__call__"><a class="viewcode-back" href="../../../api/TurbGen.specModels.html#TurbGen.specModels.iec.IECKai.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create the spectral object for a `TGrun` instance.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        tsrun :         :class:`.tsrun`</span>
+<span class="sd">        tgrun :         :class:`.TGrun`</span>
 <span class="sd">                        A TurbGen run object.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        out :           :class:`.specObj`</span>
-<span class="sd">                        An IEC spectral object for the grid in `tsrun`.</span>
+<span class="sd">                        An IEC spectral object for the grid in `tgrun`.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_check_ewm</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">specObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
-        <span class="n">sig2</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">IEC_Sigma</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_ewm</span><span class="p">(</span><span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">specObj</span><span class="p">(</span><span class="n">tgrun</span><span class="p">)</span>
+        <span class="n">sig2</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">IEC_Sigma</span><span class="p">(</span><span class="n">tgrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">fctr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.64</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
-        <span class="n">L_u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">)</span> <span class="o">/</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span> <span class="o">*</span> \
+        <span class="n">L_u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">)</span> <span class="o">/</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span> <span class="o">*</span> \
             <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">8.10</span><span class="p">,</span> <span class="mf">2.70</span><span class="p">,</span> <span class="mf">0.66</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ts_float</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comp</span><span class="p">:</span>
             <span class="n">out</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sig2</span> <span class="o">*</span> <span class="n">fctr</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span> <span class="o">*</span> <span class="n">L_u</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span>
@@ -364,26 +364,26 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="IECVKm.__call__"><a class="viewcode-back" href="../../../api/TurbGen.specModels.html#TurbGen.specModels.iec.IECVKm.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+<div class="viewcode-block" id="IECVKm.__call__"><a class="viewcode-back" href="../../../api/TurbGen.specModels.html#TurbGen.specModels.iec.IECVKm.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create and calculate the spectral object for a `tsrun`</span>
+<span class="sd">        Create and calculate the spectral object for a `TGrun`</span>
 <span class="sd">        instance.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        tsrun :         :class:`.tsrun`</span>
+<span class="sd">        tgrun :         :class:`.TGrun`</span>
 <span class="sd">                        A TurbGen run object.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        out :           :class:`.specObj`</span>
-<span class="sd">                        An IEC spectral object for the grid in `tsrun`.</span>
+<span class="sd">                        An IEC spectral object for the grid in `tgrun`.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_check_ewm</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">specObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
-        <span class="n">sig2</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">IEC_Sigma</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-        <span class="n">L_u</span> <span class="o">=</span> <span class="mf">3.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">)</span> <span class="o">/</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_ewm</span><span class="p">(</span><span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">specObj</span><span class="p">(</span><span class="n">tgrun</span><span class="p">)</span>
+        <span class="n">sig2</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">IEC_Sigma</span><span class="p">(</span><span class="n">tgrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">L_u</span> <span class="o">=</span> <span class="mf">3.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">)</span> <span class="o">/</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">uhub</span>
         <span class="n">dnm</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">71</span> <span class="o">*</span> <span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">f</span> <span class="o">*</span> <span class="n">L_u</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sig2</span> <span class="o">*</span> <span class="n">L_u</span> <span class="o">/</span> <span class="p">(</span><span class="n">dnm</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.8333333</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
         <span class="n">out</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sig2</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">L_u</span> <span class="o">/</span> <span class="p">(</span><span class="n">dnm</span><span class="p">)</span> <span class="o">**</span> <span class="mf">1.8333333</span> <span class="o">*</span>
@@ -413,7 +413,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/TurbGen.html">TurbGen package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 </ul>
 

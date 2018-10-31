@@ -17,6 +17,8 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TurbGen.phaseModels package" href="TurbGen.phaseModels.html" />
+    <link rel="prev" title="TurbGen.cohereModels package" href="TurbGen.cohereModels.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -261,11 +263,124 @@ dictionary.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="turbgen-io-main-module">
-<h2>TurbGen.io.main module<a class="headerlink" href="#turbgen-io-main-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-TurbGen.io.main">
+<span id="turbgen-io-main-module"></span><h2>TurbGen.io.main module<a class="headerlink" href="#module-TurbGen.io.main" title="Permalink to this headline">¶</a></h2>
+<p>This is the main (top-level) io module. It defines the ‘readModel’
+function, which is useful for collecting information from available
+TurbSim input/output files.</p>
+<dl class="function">
+<dt id="TurbGen.io.main.readModel">
+<code class="descclassname">TurbGen.io.main.</code><code class="descname">readModel</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/main.html#readModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.main.readModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a TurbSim data and input file and return a
+<a class="reference internal" href="TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a> data object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>fname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first">The filename to load. If the file ends in:</p>
+<ul class="last simple">
+<li>.bl or .wnd,  the file is assumed to be a bladed-format file.</li>
+<li>.bts, the file is assumed to be a TurbSim-format file.</li>
+</ul>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tsdata</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a></span></dt>
+<dd><p class="first last">The TurbSim data contained in the binary data file.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="turbgen-io-read-module">
-<h2>TurbGen.io.read module<a class="headerlink" href="#turbgen-io-read-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-TurbGen.io.read">
+<span id="turbgen-io-read-module"></span><h2>TurbGen.io.read module<a class="headerlink" href="#module-TurbGen.io.read" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="TurbGen.io.read.bladed">
+<code class="descclassname">TurbGen.io.read.</code><code class="descname">bladed</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/read.html#bladed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.read.bladed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read Bladed format (.wnd, .bl) full-field time-series binary data files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>fname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The filename from which to read the data.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a></span></dt>
+<dd><p class="first last">The turbulence data contained in the binary data file.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.io.read.sum_scan">
+<code class="descclassname">TurbGen.io.read.</code><code class="descname">sum_scan</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/read.html#sum_scan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.read.sum_scan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scan a sum file for specific variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">The file to scan.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">A dictionary of values identified.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.io.read.turbsim">
+<code class="descclassname">TurbGen.io.read.</code><code class="descname">turbsim</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/io/read.html#turbsim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.io.read.turbsim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read TurbSim format (.bts) full-field time-series binary
+data files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>fname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The filename from which to read the data.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tsdata</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a></span></dt>
+<dd><p class="first last">The turbulence data contained in the binary data file.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="module-TurbGen.io.sum">
 <span id="turbgen-io-sum-module"></span><h2>TurbGen.io.sum module<a class="headerlink" href="#module-TurbGen.io.sum" title="Permalink to this headline">¶</a></h2>
@@ -386,13 +501,34 @@ reading/writing TurbGen input/data from/to disk.</p>
 
 
 <h3>Navigation</h3>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.html">pyts package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="TurbGen.html">TurbGen package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="TurbGen.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.cohereModels.html">TurbGen.cohereModels package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TurbGen.io package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.phaseModels.html">TurbGen.phaseModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.plot.html">TurbGen.plot package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.profModels.html">TurbGen.profModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.runInput.html">TurbGen.runInput package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.specModels.html">TurbGen.specModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.stressModels.html">TurbGen.stressModels package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.api">TurbGen.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.base">TurbGen.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.dbg">TurbGen.dbg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.main">TurbGen.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.misc">TurbGen.misc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.tg_numpy">TurbGen.tg_numpy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
@@ -400,6 +536,10 @@ reading/writing TurbGen input/data from/to disk.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="TurbGen.html">TurbGen package</a><ul>
+      <li>Previous: <a href="TurbGen.cohereModels.html" title="previous chapter">TurbGen.cohereModels package</a></li>
+      <li>Next: <a href="TurbGen.phaseModels.html" title="next chapter">TurbGen.phaseModels package</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

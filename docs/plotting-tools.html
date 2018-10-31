@@ -42,23 +42,23 @@ TurbGen output and comparing it to target (input) statistics. For
 example, the following code performs a TurbGen run and compares the
 mean profile and spectrum with the targets.</p>
 <p>Begin by importing TurbGen and its <a class="reference internal" href="api/TurbGen.plot.html#module-TurbGen.plot" title="TurbGen.plot"><code class="xref py py-mod docutils literal notranslate"><span class="pre">plot</span></code></a> package:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyts.api</span> <span class="k">as</span> <span class="nn">pyts</span>
-<span class="kn">import</span> <span class="nn">pyts.plot.api</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">TurbGen.api</span> <span class="k">as</span> <span class="nn">pyts</span>
+<span class="kn">import</span> <span class="nn">TurbGen.plot.api</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 <div class="section" id="generate-some-pyts-data">
 <h2>Generate some TurbGen data<a class="headerlink" href="#generate-some-pyts-data" title="Permalink to this headline">¶</a></h2>
 <p>Before we plot anything we need to create something to plot. To do
 this we begin by defining some parameters, and initialize the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code> object, including creating the <code class="xref py py-func docutils literal notranslate"><span class="pre">tsGrid()</span></code>:</p>
+<a class="reference internal" href="api/TurbGen.html#TurbGen.main.TGrun" title="TurbGen.main.TGrun"><code class="xref py py-class docutils literal notranslate"><span class="pre">TGrun</span></code></a> object, including creating the <a class="reference internal" href="api/TurbGen.html#TurbGen.base.RectGrid" title="TurbGen.base.RectGrid"><code class="xref py py-func docutils literal notranslate"><span class="pre">RectGrid()</span></code></a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">refht</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="n">ustar</span> <span class="o">=</span> <span class="mf">0.03</span>
 <span class="n">Uref</span> <span class="o">=</span> <span class="mf">3.</span>
 
 <span class="c1"># This creates a PyTurbSim &#39;run object&#39;:</span>
-<span class="n">tsr</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">tsrun</span><span class="p">()</span>
+<span class="n">tgr</span> <span class="o">=</span> <span class="n">TurbGen</span><span class="o">.</span><span class="n">TGrun</span><span class="p">()</span>
 
-<span class="n">tsr</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">tsGrid</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">refht</span><span class="p">,</span>
+<span class="n">tgr</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">TurbGen</span><span class="o">.</span><span class="n">RectGrid</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">refht</span><span class="p">,</span>
                        <span class="n">ny</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                        <span class="n">nz</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                        <span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
@@ -68,18 +68,18 @@ this we begin by defining some parameters, and initialize the
 </pre></div>
 </div>
 <p>Now specify the profile, spectral, stress and coherence models that
-you wish to simulate, and run PyTurbSim (by calling <code class="docutils literal notranslate"><span class="pre">tsr</span></code>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tsr</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">profModels</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">Uref</span><span class="p">,</span> <span class="n">refht</span><span class="p">,</span> <span class="n">ustar</span><span class="p">)</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">specModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">cohere</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">cohereModels</span><span class="o">.</span><span class="n">nwtc</span><span class="p">()</span>
-<span class="n">tsr</span><span class="o">.</span><span class="n">stress</span> <span class="o">=</span> <span class="n">pyts</span><span class="o">.</span><span class="n">stressModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
+you wish to simulate, and run PyTurbSim (by calling <code class="docutils literal notranslate"><span class="pre">tgr</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tgr</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">TurbGen</span><span class="o">.</span><span class="n">profModels</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">Uref</span><span class="p">,</span> <span class="n">refht</span><span class="p">,</span> <span class="n">ustar</span><span class="p">)</span>
+<span class="n">tgr</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">TurbGen</span><span class="o">.</span><span class="n">specModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
+<span class="n">tgr</span><span class="o">.</span><span class="n">cohere</span> <span class="o">=</span> <span class="n">TurbGen</span><span class="o">.</span><span class="n">cohereModels</span><span class="o">.</span><span class="n">nwtc</span><span class="p">()</span>
+<span class="n">tgr</span><span class="o">.</span><span class="n">stress</span> <span class="o">=</span> <span class="n">TurbGen</span><span class="o">.</span><span class="n">stressModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
 
 <span class="c1"># Run PyTurbSim:</span>
-<span class="n">out</span> <span class="o">=</span> <span class="n">tsr</span><span class="p">()</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">tgr</span><span class="p">()</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">out</span></code> now contains a <a class="reference internal" href="api/TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a> object which holds
-the output of the PyTurbSim run <code class="docutils literal notranslate"><span class="pre">tsr</span></code>.</p>
+the output of the PyTurbSim run <code class="docutils literal notranslate"><span class="pre">tgr</span></code>.</p>
 </div>
 <div class="section" id="basic-plotting">
 <h2>Basic plotting<a class="headerlink" href="#basic-plotting" title="Permalink to this headline">¶</a></h2>
@@ -97,7 +97,7 @@ output.  To plot our PyTurbSim output, <code class="docutils literal notranslate
 </div>
 <p>When the <code class="xref py py-func docutils literal notranslate"><span class="pre">plot</span></code> method receives a
 TurbGen ‘run’ object it plots the target values:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tsr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tgr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Note that this plot method accepts all of the normal
@@ -111,7 +111,7 @@ TurbGen ‘run’ object it plots the target values:</p>
 </div>
 <div class="section" id="advanced-usage">
 <h2>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h2>
-<p>But what if you want to plot more than just the mean velocity profile and the spectrum?  <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.plot</span></code> can do that too. You simply set-up your figure to plot whichever types of plots you want:</p>
+<p>But what if you want to plot more than just the mean velocity profile and the spectrum?  <a class="reference internal" href="api/TurbGen.plot.html#module-TurbGen.plot" title="TurbGen.plot"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.plot</span></code></a> can do that too. You simply set-up your figure to plot whichever types of plots you want:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">summfig</span><span class="p">(</span><span class="n">axforms</span><span class="o">=</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">velprof</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">]),</span>
                            <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">tkeprof</span><span class="p">(),</span>
                            <span class="n">plt</span><span class="o">.</span><span class="n">axform</span><span class="o">.</span><span class="n">stressprof</span><span class="p">(),</span>
@@ -121,11 +121,11 @@ TurbGen ‘run’ object it plots the target values:</p>
                            <span class="p">)</span>
 </pre></div>
 </div>
-<p>Here we are selecting different ‘axes forms’ types from the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.plot.axform</span></code> module.  Each of these <code class="xref py py-class docutils literal notranslate"><span class="pre">axesForm</span></code> objects can be customized to control various properties of the axes.</p>
+<p>Here we are selecting different ‘axes forms’ types from the <code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.plot.axform</span></code> module.  Each of these <code class="xref py py-class docutils literal notranslate"><span class="pre">axesForm</span></code> objects can be customized to control various properties of the axes.</p>
 <p>In this case, we are seeking to plot the mean velocity profile, the turbulent energy profiles, the stress profiles, the spectra and the coherence. That’s a lot of information! Fortunately, all of these statistics can be computed for our PyTurbSim output, and run. You may also notice that we have also specified <code class="docutils literal notranslate"><span class="pre">nfft=1024</span></code>, which tells the plotter to use that number of points when computing <code class="docutils literal notranslate"><span class="pre">spec</span></code> and <code class="docutils literal notranslate"><span class="pre">cohere</span></code>.</p>
 <p>To plot all of these statistics, we simply follow the same steps above:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tsr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tgr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;AdvancedExample.png&#39;</span><span class="p">)</span>
 </pre></div>
@@ -163,7 +163,7 @@ TurbGen ‘run’ object it plots the target values:</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/TurbGen.html">TurbGen package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
 

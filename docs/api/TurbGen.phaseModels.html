@@ -17,6 +17,8 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TurbGen.plot package" href="TurbGen.plot.html" />
+    <link rel="prev" title="TurbGen.io package" href="TurbGen.io.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -63,7 +65,7 @@ coherence models.</p>
 
 <dl class="class">
 <dt id="TurbGen.phaseModels.base.phaseObj">
-<em class="property">class </em><code class="descclassname">TurbGen.phaseModels.base.</code><code class="descname">phaseObj</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/phaseModels/base.html#phaseObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.phaseModels.base.phaseObj" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">TurbGen.phaseModels.base.</code><code class="descname">phaseObj</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/phaseModels/base.html#phaseObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.phaseModels.base.phaseObj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="TurbGen.html#TurbGen.base.gridProps" title="TurbGen.base.gridProps"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.gridProps</span></code></a>, <a class="reference internal" href="TurbGen.html#TurbGen.base.calcObj" title="TurbGen.base.calcObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.calcObj</span></code></a></p>
 <p>Profile objects contain the array (self.array) of mean-velocity
 values for a specific TurbGen run.</p>
@@ -73,7 +75,7 @@ values for a specific TurbGen run.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>tsrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code></span></dt>
+<dt><strong>tgrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">tgrun</span></code></span></dt>
 <dd><p class="first last">The TurbGen run object in which the profile will be
 used.</p>
 </dd>
@@ -125,14 +127,14 @@ function of frequency).</p>
 <p>Because it is so simple, it has no initialization parameters.</p>
 <dl class="method">
 <dt id="TurbGen.phaseModels.main.Uniform.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/phaseModels/main.html#Uniform.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.phaseModels.main.Uniform.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create and calculate the phases for the <cite>tsrun</cite> instance.</p>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/phaseModels/main.html#Uniform.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.phaseModels.main.Uniform.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and calculate the phases for the <cite>tgrun</cite> instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>tsrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code></span></dt>
+<dt><strong>tgrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.TGrun" title="TurbGen.main.TGrun"><code class="xref py py-class docutils literal notranslate"><span class="pre">TGrun</span></code></a></span></dt>
 <dd><p class="first last">A TurbGen run object.</p>
 </dd>
 </dl>
@@ -175,13 +177,34 @@ function of frequency).</p>
 
 
 <h3>Navigation</h3>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.html">pyts package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="TurbGen.html">TurbGen package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="TurbGen.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.cohereModels.html">TurbGen.cohereModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.io.html">TurbGen.io package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TurbGen.phaseModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.plot.html">TurbGen.plot package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.profModels.html">TurbGen.profModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.runInput.html">TurbGen.runInput package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.specModels.html">TurbGen.specModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.stressModels.html">TurbGen.stressModels package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.api">TurbGen.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.base">TurbGen.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.dbg">TurbGen.dbg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.main">TurbGen.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.misc">TurbGen.misc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.tg_numpy">TurbGen.tg_numpy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
@@ -189,6 +212,10 @@ function of frequency).</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="TurbGen.html">TurbGen package</a><ul>
+      <li>Previous: <a href="TurbGen.io.html" title="previous chapter">TurbGen.io package</a></li>
+      <li>Next: <a href="TurbGen.plot.html" title="next chapter">TurbGen.plot package</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

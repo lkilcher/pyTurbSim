@@ -13,18 +13,18 @@ If you have not already installed these tools, doing so may be the difficult par
 
 Once these tools have been successfully installed, |pyts| can be installed from a command line using pip::
 
-    $ pip install PyTurbSim
+    $ pip install TurbGen
 
 That should do it. For information on how to use |pyts| consult the :doc:`usage` page.
 
 Installing without pip
 ----------------------
 
-If the above-mentioned one-liner does not work (e.g. because your version of Python does not include pip), you can also simply download and install |pyts| from the source repository (http://github.com/lkilcher/pyTurbSim\ ). For example, if git is installed, you can::
+If the above-mentioned one-liner does not work (e.g. because your version of Python does not include pip), you can also simply download and install |pyts| from the source repository (http://github.com/lkilcher/TurbGen\ ). For example, if git is installed, you can::
 
-   $ git clone http://github.com/lkilcher/pyTurbSim <download_location>
+   $ git clone http://github.com/lkilcher/TurbGen <download_location>
 
-If `<download_location>` is not specified, the repository will be created in the current directory in a new `pyTurbSim` folder. Once you have downloaded |pyts|, you may either:
+If `<download_location>` is not specified, the repository will be created in the current directory in a new `TurbGen` folder. Once you have downloaded |pyts|, you may either:
 
 a) install it into your Python packages repository by executing the setup.py script::
 
@@ -47,4 +47,4 @@ The other solution, which implicitly assumes you have `MS Visual Studio <https:/
 
 I think this is a result of the compile steps being completed by ``gfortran``, and the linking step is being done by MSVS' ``link.exe``.
 
-If you encounter other issues installing this tool on Windows, feel free to `create an issue <https://github.com/lkilcher/pyTurbSim/issues>`_.
+If you encounter other issues installing this tool on Windows, feel free to `create an issue <https://github.com/lkilcher/TurbGen/issues>`_.

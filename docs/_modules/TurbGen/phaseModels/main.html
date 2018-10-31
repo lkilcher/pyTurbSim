@@ -53,13 +53,13 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Uniform.__call__"><a class="viewcode-back" href="../../../api/TurbGen.phaseModels.html#TurbGen.phaseModels.main.Uniform.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+<div class="viewcode-block" id="Uniform.__call__"><a class="viewcode-back" href="../../../api/TurbGen.phaseModels.html#TurbGen.phaseModels.main.Uniform.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create and calculate the phases for the `tsrun` instance.</span>
+<span class="sd">        Create and calculate the phases for the `tgrun` instance.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        tsrun :         :class:`tsrun &lt;TurbGen.main.tsrun&gt;`</span>
+<span class="sd">        tgrun :         :class:`TGrun &lt;TurbGen.main.TGrun&gt;`</span>
 <span class="sd">                        A TurbGen run object.</span>
 
 <span class="sd">        Returns</span>
@@ -69,14 +69,14 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span> <span class="s2">&quot;building Uniform phases&quot;</span>
-        <span class="n">phases</span> <span class="o">=</span> <span class="n">phaseObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="n">phaseObj</span><span class="p">(</span><span class="n">tgrun</span><span class="p">)</span>
         <span class="n">phases</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span>
-                           <span class="n">tsrun</span><span class="o">.</span><span class="n">randgen</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span>
-                                              <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span>
-                                              <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">))</span>
+                           <span class="n">tgrun</span><span class="o">.</span><span class="n">randgen</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span>
+                                              <span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span>
+                                              <span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">phases</span></div>
 
-    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">,</span> <span class="p">):</span>
         <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        Phase model used                                 =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span>
@@ -106,8 +106,8 @@
                       <span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">delta_phis</span></div>
 
-<div class="viewcode-block" id="Rinker.__call__"><a class="viewcode-back" href="../../../api/TurbGen.phaseModels.html#TurbGen.phaseModels.main.Rinker.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
-        <span class="n">phases</span> <span class="o">=</span> <span class="n">phaseObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+<div class="viewcode-block" id="Rinker.__call__"><a class="viewcode-back" href="../../../api/TurbGen.phaseModels.html#TurbGen.phaseModels.main.Rinker.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">):</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="n">phaseObj</span><span class="p">(</span><span class="n">tgrun</span><span class="p">)</span>
 
 <span class="c1">#        print &quot;building Rinker model phases&quot;</span>
         <span class="c1"># phases.array[:] = ...</span>
@@ -115,9 +115,9 @@
         <span class="c1"># phases[:]). Note that it is a n_comp=3, by n_p</span>
         <span class="c1"># (number of z,y points) by n_f (num frequencies) array.</span>
 
-        <span class="n">delta_phi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_delta_phis</span><span class="p">((</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span>
-                                <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span>
-                                <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">))</span>
+        <span class="n">delta_phi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_delta_phis</span><span class="p">((</span><span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span>
+                                <span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span>
+                                <span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">))</span>
 <span class="c1">#        print &quot;shape &quot;, delta_phi.shape</span>
         <span class="n">phases</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">delta_phi</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">phases</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span>  <span class="n">phases</span><span class="p">[:])</span>
@@ -125,7 +125,7 @@
         <span class="c1"># Then return it...</span>
         <span class="k">return</span> <span class="n">phases</span></div>
 
-    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">,</span> <span class="p">):</span>
         <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        Phase model used                                 =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
 <span class="s2">        rho                                              =  </span><span class="si">{dat.rho:0.4g}</span><span class="s2"></span>
@@ -156,7 +156,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/TurbGen.html">TurbGen package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 </ul>
 

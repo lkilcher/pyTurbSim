@@ -17,6 +17,8 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TurbGen.cohereModels package" href="TurbGen.cohereModels.html" />
+    <link rel="prev" title="Code Framework" href="../code-framework.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -55,8 +57,8 @@
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io.base">TurbGen.io.base module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io.formatter">TurbGen.io.formatter module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io.input">TurbGen.io.input module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#turbgen-io-main-module">TurbGen.io.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#turbgen-io-read-module">TurbGen.io.read module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io.main">TurbGen.io.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io.read">TurbGen.io.read module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io.sum">TurbGen.io.sum module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io.write">TurbGen.io.write module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.io.html#module-TurbGen.io">Module contents</a></li>
@@ -75,8 +77,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="TurbGen.plot.html">TurbGen.plot package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#turbgen-plot-api-module">TurbGen.plot.api module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#turbgen-plot-axform-module">TurbGen.plot.axform module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#module-TurbGen.plot.api">TurbGen.plot.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#module-TurbGen.plot.axform">TurbGen.plot.axform module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#module-TurbGen.plot.base">TurbGen.plot.base module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#module-TurbGen.plot.psd">TurbGen.plot.psd module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.plot.html#module-TurbGen.plot.superaxes">TurbGen.plot.superaxes module</a></li>
@@ -104,11 +106,14 @@
 <li class="toctree-l1"><a class="reference internal" href="TurbGen.runInput.html">TurbGen.runInput package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#module-TurbGen.runInput.base">TurbGen.runInput.base module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#turbgen-runinput-main-module">TurbGen.runInput.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#module-TurbGen.runInput.main">TurbGen.runInput.main module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.runInput.html#example-usage">Example usage</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#module-TurbGen.runInput.profModels">TurbGen.runInput.profModels module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#module-TurbGen.runInput.turbModels">TurbGen.runInput.turbModels module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TurbGen.runInput.html#module-TurbGen.runInput">Module contents</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="TurbGen.runInput.html#example-usage">Example usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.runInput.html#id1">Example usage</a></li>
 </ul>
 </li>
 </ul>
@@ -150,8 +155,74 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="turbgen-api-module">
-<h2>TurbGen.api module<a class="headerlink" href="#turbgen-api-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-TurbGen.api">
+<span id="turbgen-api-module"></span><h2>TurbGen.api module<a class="headerlink" href="#module-TurbGen.api" title="Permalink to this headline">¶</a></h2>
+<p>This is the TurbGen advanced programming interface
+(API). This module provides a fully-customizable high-level
+object-oriented interface to the TurbGen program.</p>
+<p>The four components of this API are:</p>
+<p>1) The <code class="xref py py-class docutils literal notranslate"><span class="pre">&lt;~main.TGrun&gt;</span></code> class, which is the
+controller/run object for TurbGen simulations.</p>
+<p>2) The <code class="xref py py-func docutils literal notranslate"><span class="pre">&lt;~.base.RectGrid&gt;()</span></code> function, which is used to
+define the TurbGen grid.</p>
+<ol class="arabic" start="3">
+<li><p class="first">The ‘model’ classes, which include:</p>
+<p>a) <a class="reference internal" href="TurbGen.profModels.html#module-TurbGen.profModels" title="TurbGen.profModels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">profModels</span></code></a> (aliased here as ‘pm’), contains the mean velocity
+profile models.</p>
+<p>b) <a class="reference internal" href="TurbGen.specModels.html#module-TurbGen.specModels" title="TurbGen.specModels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">specModels</span></code></a> (aliased here as ‘sm’), contains the TKE spectral
+models.</p>
+<p>c) <a class="reference internal" href="TurbGen.stressModels.html#module-TurbGen.stressModels" title="TurbGen.stressModels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stressModels</span></code></a> (aliased here as ‘rm’), contains the Reynold’s
+stress profile models.</p>
+<p>d) <a class="reference internal" href="TurbGen.cohereModels.html#module-TurbGen.cohereModels" title="TurbGen.cohereModels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cohereModels</span></code></a> (aliased here as ‘cm’), contains the spatial
+coherence models.</p>
+<p>e) <a class="reference internal" href="TurbGen.phaseModels.html#module-TurbGen.phaseModels" title="TurbGen.phaseModels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">phaseModels</span></code></a>, contains the phase coherence (a.k.a.,
+temporal coherence) models.</p>
+</li>
+</ol>
+<p>4) The <code class="xref py py-mod docutils literal notranslate"><span class="pre">io</span></code> module, which supports reading and writing of TurbSim
+input (.inp) and output files (e.g. .bl, .wnd, etc.)</p>
+<p>Example usage of this API can be found in the &lt;tg_root&gt;/Examples/api.py file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script provides an example usage of the TurbGen API.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Begin by importing the TurbGen API:</span>
+<span class="kn">import</span> <span class="nn">TurbGen.api</span> <span class="k">as</span> <span class="nn">tg</span>
+
+<span class="c1"># Define some variables for the TurbGen run:</span>
+<span class="n">refht</span> <span class="o">=</span> <span class="mf">10.</span>
+<span class="n">ustar</span> <span class="o">=</span> <span class="mf">0.03</span>
+<span class="n">Uref</span> <span class="o">=</span> <span class="mf">3.</span>
+
+<span class="c1"># Initialize a TurbGen run object:</span>
+<span class="n">tgr</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">tgrun</span><span class="p">()</span>
+
+<span class="c1"># And give the run object a grid:</span>
+<span class="n">tgr</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">tsGrid</span><span class="p">(</span>
+    <span class="n">center</span><span class="o">=</span><span class="n">refht</span><span class="p">,</span> <span class="n">ny</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">nz</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">time_sec</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Now we define a mean &#39;profile model&#39;,</span>
+<span class="n">prof_model</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">profModels</span><span class="o">.</span><span class="n">h2l</span><span class="p">(</span><span class="n">Uref</span><span class="p">,</span> <span class="n">refht</span><span class="p">,</span> <span class="n">ustar</span><span class="p">)</span>
+<span class="c1"># and assign it to the run object,</span>
+<span class="n">tgr</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">prof_model</span>
+<span class="c1"># These two steps can be completed in one as:</span>
+<span class="c1">#tgr.profModel=tg.profModels.h2l(U,refht,ustar)</span>
+
+<span class="c1"># Next we define and assign a &#39;spectral model&#39; to the run object,</span>
+<span class="n">tgr</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">specModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
+
+<span class="c1"># ... and define/assign a &#39;coherence model&#39;,</span>
+<span class="n">tgr</span><span class="o">.</span><span class="n">cohere</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">cohereModels</span><span class="o">.</span><span class="n">nwtc</span><span class="p">()</span>
+
+<span class="c1"># ... and define/assign a &#39;stress model&#39;,</span>
+<span class="n">tgr</span><span class="o">.</span><span class="n">stress</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">stressModels</span><span class="o">.</span><span class="n">tidal</span><span class="p">(</span><span class="n">ustar</span><span class="p">,</span> <span class="n">refht</span><span class="p">)</span>
+
+<span class="c1"># Now simply &#39;call&#39; the run object to generate the output.</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">tgr</span><span class="p">()</span>
+
+<span class="c1"># We can save the output in &#39;bladed&#39; format,</span>
+<span class="n">out</span><span class="o">.</span><span class="n">write_bladed</span><span class="p">(</span><span class="s1">&#39;ExampleOutput.bl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="module-TurbGen.base">
 <span id="turbgen-base-module"></span><h2>TurbGen.base module<a class="headerlink" href="#module-TurbGen.base" title="Permalink to this headline">¶</a></h2>
@@ -1340,13 +1411,34 @@ In some cases z/L depends on the Turbulence model.</p>
 
 
 <h3>Navigation</h3>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.html">pyts package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TurbGen package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.cohereModels.html">TurbGen.cohereModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.io.html">TurbGen.io package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.phaseModels.html">TurbGen.phaseModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.plot.html">TurbGen.plot package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.profModels.html">TurbGen.profModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.runInput.html">TurbGen.runInput package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.specModels.html">TurbGen.specModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.stressModels.html">TurbGen.stressModels package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-TurbGen.api">TurbGen.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-TurbGen.base">TurbGen.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-TurbGen.dbg">TurbGen.dbg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-TurbGen.main">TurbGen.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-TurbGen.misc">TurbGen.misc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-TurbGen.tg_numpy">TurbGen.tg_numpy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-TurbGen">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
@@ -1354,6 +1446,8 @@ In some cases z/L depends on the Turbulence model.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../code-framework.html" title="previous chapter">Code Framework</a></li>
+      <li>Next: <a href="TurbGen.cohereModels.html" title="next chapter">TurbGen.cohereModels package</a></li>
   </ul></li>
 </ul>
 </div>

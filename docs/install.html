@@ -45,17 +45,17 @@
 </ol>
 <p>If you have not already installed these tools, doing so may be the difficult part of installing TurbGen. Most Linux/Unix/posix distributions provide binary packages that make it relatively easy to installing these tools. For Microsoft windows I recommend installing a Python package that includes all three of these tools (e.g. <a class="reference external" href="http://code.google.com/p/pythonxy/">Python(X,Y)</a>) because they will <em>hopefully</em> be configured to function together seamlessly. On OSX (Mavericks) I have successfully installed these tools using <a class="reference external" href="http://brew.sh">Homebrew</a>.</p>
 <p>Once these tools have been successfully installed, TurbGen can be installed from a command line using pip:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install PyTurbSim
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install TurbGen
 </pre></div>
 </div>
 <p>That should do it. For information on how to use TurbGen consult the <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a> page.</p>
 <div class="section" id="installing-without-pip">
 <h2>Installing without pip<a class="headerlink" href="#installing-without-pip" title="Permalink to this headline">¶</a></h2>
-<p>If the above-mentioned one-liner does not work (e.g. because your version of Python does not include pip), you can also simply download and install TurbGen from the source repository (<a class="reference external" href="http://github.com/lkilcher/pyTurbSim">http://github.com/lkilcher/pyTurbSim</a>). For example, if git is installed, you can:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone http://github.com/lkilcher/pyTurbSim &lt;download_location&gt;
+<p>If the above-mentioned one-liner does not work (e.g. because your version of Python does not include pip), you can also simply download and install TurbGen from the source repository (<a class="reference external" href="http://github.com/lkilcher/TurbGen">http://github.com/lkilcher/TurbGen</a>). For example, if git is installed, you can:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone http://github.com/lkilcher/TurbGen &lt;download_location&gt;
 </pre></div>
 </div>
-<p>If <cite>&lt;download_location&gt;</cite> is not specified, the repository will be created in the current directory in a new <cite>pyTurbSim</cite> folder. Once you have downloaded TurbGen, you may either:</p>
+<p>If <cite>&lt;download_location&gt;</cite> is not specified, the repository will be created in the current directory in a new <cite>TurbGen</cite> folder. Once you have downloaded TurbGen, you may either:</p>
 <ol class="loweralpha">
 <li><p class="first">install it into your Python packages repository by executing the setup.py script:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd &lt;download_location&gt;
@@ -77,7 +77,7 @@ gfortran.lib(backtrace.o) : error LNK2019: unresolved external symbol __Unwind_B
 </pre></div>
 </div>
 <p>I think this is a result of the compile steps being completed by <code class="docutils literal notranslate"><span class="pre">gfortran</span></code>, and the linking step is being done by MSVS’ <code class="docutils literal notranslate"><span class="pre">link.exe</span></code>.</p>
-<p>If you encounter other issues installing this tool on Windows, feel free to <a class="reference external" href="https://github.com/lkilcher/pyTurbSim/issues">create an issue</a>.</p>
+<p>If you encounter other issues installing this tool on Windows, feel free to <a class="reference external" href="https://github.com/lkilcher/TurbGen/issues">create an issue</a>.</p>
 </div>
 </div>
 
@@ -108,7 +108,7 @@ gfortran.lib(backtrace.o) : error LNK2019: unresolved external symbol __Unwind_B
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/TurbGen.html">TurbGen package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
 

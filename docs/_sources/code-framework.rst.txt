@@ -5,43 +5,43 @@ Code Framework
 'sub-packages' that provide a logical and functional framework for the
 code and its use.  The primary components of this framework are:
 
-1) The modules in the :mod:`.pyts` root folder, especially:
+1) The modules in the :mod:`.TurbGen` root folder, especially:
 
-   a) :mod:`pyts.main`, which contains the high-level classes and
+   a) :mod:`TurbGen.main`, which contains the high-level classes and
       functions that control the flow of |pyts| simulations.  Most
       importantly, this module defines:
 
-      - :class:`pyts.main.tsrun`, this is the primary 'run' class of
+      - :class:`TurbGen.main.tsrun`, this is the primary 'run' class of
         PyTurbSim, which controls and directs.
-      - :class:`pyts.main.tsdata`, this is the |pyts| output-data
-        class returned by :class:`pyts.main.tsrun` after execution.
+      - :class:`TurbGen.main.tsdata`, this is the |pyts| output-data
+        class returned by :class:`TurbGen.main.tsrun` after execution.
 
-   b) :mod:`pyts.base`, which contains abstract base classes for other
+   b) :mod:`TurbGen.base`, which contains abstract base classes for other
       components of the code (this is the foundation of the code
       structure).
 
 2) The model packages, which contain predefined models of the statistics |pyts| is capable of simulating.
 
-   a) :mod:`pyts.profModels`, contains the mean velocity profile
+   a) :mod:`TurbGen.profModels`, contains the mean velocity profile
       models.
-   b) :mod:`pyts.specModels`, contains the TKE spectral
+   b) :mod:`TurbGen.specModels`, contains the TKE spectral
       models.
-   c) :mod:`pyts.stressModels`, contains the Reynold's
+   c) :mod:`TurbGen.stressModels`, contains the Reynold's
       stress profile models.
-   d) :mod:`pyts.cohereModels`, contains the spatial
+   d) :mod:`TurbGen.cohereModels`, contains the spatial
       coherence models.
 
   More details on model packages can be found in the :ref:`model-info` section.
 
-3) The :mod:`pyts.io` package supports reading and writing of TurbSim
+3) The :mod:`TurbGen.io` package supports reading and writing of TurbSim
    input (.inp) and output files (e.g. .bl, .wnd, etc.).
 
 4) Wrapper packages that implement different user interfaces of
    |pyts|:
 
-   a) :mod:`pyts.runConfig` contains all the software for running
+   a) :mod:`TurbGen.runConfig` contains all the software for running
       |pyts| using :term:`input file`\ s (to mimic |ots|).
-   b) :mod:`pyts.gui` contains the graphical user interface.
+   b) :mod:`TurbGen.gui` contains the graphical user interface.
 
    For further information on how to use these interface see
    :doc:`usage`.

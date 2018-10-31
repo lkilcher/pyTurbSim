@@ -17,6 +17,8 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TurbGen.profModels package" href="TurbGen.profModels.html" />
+    <link rel="prev" title="TurbGen.phaseModels package" href="TurbGen.phaseModels.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -38,11 +40,356 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="turbgen-plot-api-module">
-<h2>TurbGen.plot.api module<a class="headerlink" href="#turbgen-plot-api-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-TurbGen.plot.api">
+<span id="turbgen-plot-api-module"></span><h2>TurbGen.plot.api module<a class="headerlink" href="#module-TurbGen.plot.api" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="turbgen-plot-axform-module">
-<h2>TurbGen.plot.axform module<a class="headerlink" href="#turbgen-plot-axform-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-TurbGen.plot.axform">
+<span id="turbgen-plot-axform-module"></span><h2>TurbGen.plot.axform module<a class="headerlink" href="#module-TurbGen.plot.axform" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="TurbGen.plot.axform.FigAxForm">
+<em class="property">class </em><code class="descclassname">TurbGen.plot.axform.</code><code class="descname">FigAxForm</code><span class="sig-paren">(</span><em>fignum, axforms=[], comp=['u', 'v', 'w'], axsize=2, frame=[0.6, 0.3, 1, 0.3], gap=[0.2, 1], tightgap=0.2, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#FigAxForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.FigAxForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.plot.superaxes.sfig" title="TurbGen.plot.superaxes.sfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.plot.superaxes.sfig</span></code></a></p>
+<p>The ‘figure’ class that uses and handles <a class="reference internal" href="#TurbGen.plot.axform.axesForm" title="TurbGen.plot.axform.axesForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">axesForm</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>fignum</strong> <span class="classifier-delimiter">:</span> <span class="classifier">integer,string</span></dt>
+<dd><p class="first last">The figure number, or string, into which the data will be
+plotted.</p>
+</dd>
+<dt><strong>axforms</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of axForms (e.g. <a class="reference internal" href="#TurbGen.plot.axform.velprof" title="TurbGen.plot.axform.velprof"><code class="xref py py-class docutils literal notranslate"><span class="pre">velprof</span></code></a>, <a class="reference internal" href="#TurbGen.plot.axform.tkeprof" title="TurbGen.plot.axform.tkeprof"><code class="xref py py-class docutils literal notranslate"><span class="pre">tkeprof</span></code></a>)</span></dt>
+<dd><p class="first last">These are the axes formats that will be plotted.</p>
+</dd>
+<dt><strong>comp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of velocity components (0,1,2 or ‘u’,’v’,’w’)</span></dt>
+<dd></dd>
+<dt><strong>axsize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, tuple, list (2)</span></dt>
+<dd><p class="first last">The size of the axes. If 2 parameters are specified this
+sets they set the horizontal and vertical size of the
+axes.</p>
+</dd>
+<dt><strong>frame</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple(4) ,list(4)</span></dt>
+<dd><p class="first last">This specifies the border around the axes (left, right,
+bottom, top)</p>
+</dd>
+<dt><strong>gap</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple(2), list(2)</span></dt>
+<dd><p class="first last">This specifies the gap between axes in the horizontal and
+vertical directions.</p>
+</dd>
+<dt><strong>tightgap</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">This specifies the horizontal spacing between axes that
+have the same type of y-axis (specified in the formats
+‘yax’ attribute).</p>
+</dd>
+<dt><strong>Other inputs are passed directly to :meth:`superaxes.sfig.__init__`.</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This will create an NxM axes-grid, where N=len(comp), and
+M=len(axforms).</p>
+<p>The width of each axes is scaled by the ‘hrel’ attribute of each
+axform.</p>
+<dl class="method">
+<dt id="TurbGen.plot.axform.FigAxForm.finalize">
+<code class="descname">finalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#FigAxForm.finalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.FigAxForm.finalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finalize the figure according to the plotting formats.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.plot.axform.FigAxForm.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>obj</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#FigAxForm.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.FigAxForm.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the data in <cite>obj</cite> to the figure according to the plotting formats.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>obj</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tsdata, tgrun, turbdata</span></dt>
+<dd><p class="first last">A data or run object to plot.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.plot.axform.Tiprof">
+<em class="property">class </em><code class="descclassname">TurbGen.plot.axform.</code><code class="descname">Tiprof</code><span class="sig-paren">(</span><em>xlim=[None, None], ylim=[None, None], xscale='linear', yscale='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#Tiprof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.Tiprof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.plot.axform.prof" title="TurbGen.plot.axform.prof"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.plot.axform.prof</span></code></a></p>
+<p>A Turbulence intensity axesForm</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#TurbGen.plot.axform.prof" title="TurbGen.plot.axform.prof"><code class="xref py py-class docutils literal notranslate"><span class="pre">prof</span></code></a>, <a class="reference internal" href="#TurbGen.plot.axform.axesForm" title="TurbGen.plot.axform.axesForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">axesForm</span></code></a></p>
+</div>
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.Tiprof.xax">
+<code class="descname">xax</code><em class="property"> = 'Ti'</em><a class="headerlink" href="#TurbGen.plot.axform.Tiprof.xax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.plot.axform.axesForm">
+<em class="property">class </em><code class="descclassname">TurbGen.plot.axform.</code><code class="descname">axesForm</code><span class="sig-paren">(</span><em>xlim=[None, None], ylim=[None, None], xscale='linear', yscale='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#axesForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.axesForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A base ‘axesForm’ class for for quickly plotting TurbGen data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>xlim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable(2) (default: [None, None])</span></dt>
+<dd><p class="first last">Specify the xlims of the axes of these plots.  The default
+will simply select the limits automatically.</p>
+</dd>
+<dt><strong>ylim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable(2) (default: [None, None])</span></dt>
+<dd><p class="first last">Specify the ylims of the axes of these plots.  The default
+will simply select the limits automatically.</p>
+</dd>
+<dt><strong>xscale</strong> <span class="classifier-delimiter">:</span> <span class="classifier">(‘log’ or ‘linear’)</span></dt>
+<dd><p class="first last">specify whether the x-scale should be logarithmic or linear.</p>
+</dd>
+<dt><strong>yscale</strong> <span class="classifier-delimiter">:</span> <span class="classifier">(‘log’ or ‘linear’)</span></dt>
+<dd><p class="first last">specify whether the y-scale should be logarithmic or linear.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="TurbGen.plot.axform.axesForm.finalize">
+<code class="descname">finalize</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#axesForm.finalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.axesForm.finalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function ‘finishes’ the <cite>axes</cite> according to the
+specifications in this axesForm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>axes</strong> <span class="classifier-delimiter">:</span> <span class="classifier">A <code class="xref py py-class docutils literal notranslate"><span class="pre">superaxes.axgroup</span></code> instance.</span></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.axesForm.hide_ylabels">
+<code class="descname">hide_ylabels</code><em class="property"> = False</em><a class="headerlink" href="#TurbGen.plot.axform.axesForm.hide_ylabels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.axesForm.method_map">
+<code class="descname">method_map</code><em class="property"> = {&lt;class 'TurbGen.main.TGrun'&gt;: '_calc_tsrun', &lt;class 'TurbGen.main.tsdata'&gt;: '_calc_tsdata'}</em><a class="headerlink" href="#TurbGen.plot.axform.axesForm.method_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="TurbGen.plot.axform.axesForm.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>obj</em>, <em>axes</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#axesForm.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.axesForm.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the data in <cite>obj</cite> to <cite>axes</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>obj</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd><p class="first last">An object containing data to be plotted.</p>
+</dd>
+<dt><strong>axes</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">superaxes.axgroup</span></code> instance</span></dt>
+<dd><p class="first last">The axes into which that data should be plotted.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.plot.axform.cohere">
+<em class="property">class </em><code class="descclassname">TurbGen.plot.axform.</code><code class="descname">cohere</code><span class="sig-paren">(</span><em>window_time_sec=600, igrid0=None, igrid1=None, xscale='log', ylim=[0, 1], **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#cohere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.cohere" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.plot.axform.axesForm" title="TurbGen.plot.axform.axesForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.plot.axform.axesForm</span></code></a></p>
+<p>A ‘coherence’ plotting format for showing coherence between two
+points.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>window_time_sec</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">the length of the fft window (seconds).</p>
+</dd>
+<dt><strong>igrid0</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple,list (2), <em>optional</em> (default: i_hub)</span></dt>
+<dd><p class="first last">The first spatial-index from which to estimate+plot
+coherence.</p>
+</dd>
+<dt><strong>igrid1</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple,list (2), <em>optional</em> (default: (0,0))</span></dt>
+<dd><p class="first last">The second spatial-index from which to estimate+plot
+coherence.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#TurbGen.plot.axform.axesForm" title="TurbGen.plot.axform.axesForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">axesForm</span></code></a></p>
+</div>
+<p class="rubric">Notes</p>
+<p>This axesForm defaults to have a ‘log’ x-scale, and to have a
+linear y-axis with ylim=[0, 1].</p>
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.cohere.hrel">
+<code class="descname">hrel</code><em class="property"> = 1</em><a class="headerlink" href="#TurbGen.plot.axform.cohere.hrel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.cohere.xax">
+<code class="descname">xax</code><em class="property"> = 'freq'</em><a class="headerlink" href="#TurbGen.plot.axform.cohere.xax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.cohere.yax">
+<code class="descname">yax</code><em class="property"> = 'coh'</em><a class="headerlink" href="#TurbGen.plot.axform.cohere.yax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.plot.axform.prof">
+<em class="property">class </em><code class="descclassname">TurbGen.plot.axform.</code><code class="descname">prof</code><span class="sig-paren">(</span><em>xlim=[None, None], ylim=[None, None], xscale='linear', yscale='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#prof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.prof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.plot.axform.axesForm" title="TurbGen.plot.axform.axesForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.plot.axform.axesForm</span></code></a></p>
+<p>A base axesForm for plotting vertical profiles.</p>
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.prof.hrel">
+<code class="descname">hrel</code><em class="property"> = 0.6</em><a class="headerlink" href="#TurbGen.plot.axform.prof.hrel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.prof.xtick_n">
+<code class="descname">xtick_n</code><em class="property"> = 3</em><a class="headerlink" href="#TurbGen.plot.axform.prof.xtick_n" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.prof.yax">
+<code class="descname">yax</code><em class="property"> = 'z'</em><a class="headerlink" href="#TurbGen.plot.axform.prof.yax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.plot.axform.spec">
+<em class="property">class </em><code class="descclassname">TurbGen.plot.axform.</code><code class="descname">spec</code><span class="sig-paren">(</span><em>window_time_sec=600</em>, <em>igrid=None</em>, <em>xscale='log'</em>, <em>yscale='log'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#spec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.plot.axform.axesForm" title="TurbGen.plot.axform.axesForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.plot.axform.axesForm</span></code></a></p>
+<p>A ‘spectral’ axesForm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>window_time_sec</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">the length of the fft window (seconds).</p>
+</dd>
+<dt><strong>igrid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple,list (2), <em>optional</em> (default: i_hub)</span></dt>
+<dd><p class="first last">The spatial-index of the grid-point that should be
+plotted.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#TurbGen.plot.axform.axesForm" title="TurbGen.plot.axform.axesForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">axesForm</span></code></a></p>
+</div>
+<p class="rubric">Notes</p>
+<p>This axesForm defaults to have ‘log’ x- and y-scales.</p>
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.spec.hrel">
+<code class="descname">hrel</code><em class="property"> = 1</em><a class="headerlink" href="#TurbGen.plot.axform.spec.hrel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.spec.xax">
+<code class="descname">xax</code><em class="property"> = 'freq'</em><a class="headerlink" href="#TurbGen.plot.axform.spec.xax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.spec.yax">
+<code class="descname">yax</code><em class="property"> = 'spec'</em><a class="headerlink" href="#TurbGen.plot.axform.spec.yax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.plot.axform.stressprof">
+<em class="property">class </em><code class="descclassname">TurbGen.plot.axform.</code><code class="descname">stressprof</code><span class="sig-paren">(</span><em>xlim=[None, None], ylim=[None, None], xscale='linear', yscale='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#stressprof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.stressprof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.plot.axform.tkeprof" title="TurbGen.plot.axform.tkeprof"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.plot.axform.tkeprof</span></code></a></p>
+<p>A ‘Reynold’s stress profile’ axesForm.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#TurbGen.plot.axform.prof" title="TurbGen.plot.axform.prof"><code class="xref py py-class docutils literal notranslate"><span class="pre">prof</span></code></a>, <a class="reference internal" href="#TurbGen.plot.axform.axesForm" title="TurbGen.plot.axform.axesForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">axesForm</span></code></a></p>
+</div>
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.stressprof.xax">
+<code class="descname">xax</code><em class="property"> = 'tke'</em><a class="headerlink" href="#TurbGen.plot.axform.stressprof.xax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.plot.axform.summfig">
+<code class="descclassname">TurbGen.plot.axform.</code><code class="descname">summfig</code><span class="sig-paren">(</span><em>fignum=400, axforms=[&lt;TurbGen.plot.axform.velprof object&gt;, &lt;TurbGen.plot.axform.spec object&gt;], **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#summfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.summfig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.plot.axform.tkeprof">
+<em class="property">class </em><code class="descclassname">TurbGen.plot.axform.</code><code class="descname">tkeprof</code><span class="sig-paren">(</span><em>xlim=[None, None], ylim=[None, None], xscale='linear', yscale='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#tkeprof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.tkeprof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.plot.axform.prof" title="TurbGen.plot.axform.prof"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.plot.axform.prof</span></code></a></p>
+<p>A ‘tke profile’ axesForm.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#TurbGen.plot.axform.prof" title="TurbGen.plot.axform.prof"><code class="xref py py-class docutils literal notranslate"><span class="pre">prof</span></code></a>, <a class="reference internal" href="#TurbGen.plot.axform.axesForm" title="TurbGen.plot.axform.axesForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">axesForm</span></code></a></p>
+</div>
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.tkeprof.xax">
+<code class="descname">xax</code><em class="property"> = 'tke'</em><a class="headerlink" href="#TurbGen.plot.axform.tkeprof.xax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TurbGen.plot.axform.velprof">
+<em class="property">class </em><code class="descclassname">TurbGen.plot.axform.</code><code class="descname">velprof</code><span class="sig-paren">(</span><em>xlim=[None, None], ylim=[None, None], xscale='linear', yscale='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/plot/axform.html#velprof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.plot.axform.velprof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TurbGen.plot.axform.prof" title="TurbGen.plot.axform.prof"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.plot.axform.prof</span></code></a></p>
+<p>A ‘mean velocity profile’ axesForm format.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#TurbGen.plot.axform.prof" title="TurbGen.plot.axform.prof"><code class="xref py py-class docutils literal notranslate"><span class="pre">prof</span></code></a>, <a class="reference internal" href="#TurbGen.plot.axform.axesForm" title="TurbGen.plot.axform.axesForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">axesForm</span></code></a></p>
+</div>
+<dl class="attribute">
+<dt id="TurbGen.plot.axform.velprof.xax">
+<code class="descname">xax</code><em class="property"> = 'vel'</em><a class="headerlink" href="#TurbGen.plot.axform.velprof.xax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-TurbGen.plot.base">
 <span id="turbgen-plot-base-module"></span><h2>TurbGen.plot.base module<a class="headerlink" href="#module-TurbGen.plot.base" title="Permalink to this headline">¶</a></h2>
@@ -957,13 +1304,34 @@ module, e.g.</p>
 
 
 <h3>Navigation</h3>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.html">pyts package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="TurbGen.html">TurbGen package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="TurbGen.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.cohereModels.html">TurbGen.cohereModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.io.html">TurbGen.io package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.phaseModels.html">TurbGen.phaseModels package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TurbGen.plot package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.profModels.html">TurbGen.profModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.runInput.html">TurbGen.runInput package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.specModels.html">TurbGen.specModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.stressModels.html">TurbGen.stressModels package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.api">TurbGen.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.base">TurbGen.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.dbg">TurbGen.dbg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.main">TurbGen.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.misc">TurbGen.misc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.tg_numpy">TurbGen.tg_numpy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
@@ -971,6 +1339,10 @@ module, e.g.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="TurbGen.html">TurbGen package</a><ul>
+      <li>Previous: <a href="TurbGen.phaseModels.html" title="previous chapter">TurbGen.phaseModels package</a></li>
+      <li>Next: <a href="TurbGen.profModels.html" title="next chapter">TurbGen.profModels package</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

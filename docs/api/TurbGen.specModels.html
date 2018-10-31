@@ -17,6 +17,8 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TurbGen.stressModels package" href="TurbGen.stressModels.html" />
+    <link rel="prev" title="TurbGen.runInput package" href="TurbGen.runInput.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -62,7 +64,7 @@ model, subclass this class or subclass and modify an existing
 spectal model.</dd>
 <dt><a class="reference internal" href="#TurbGen.specModels.base.specObj" title="TurbGen.specModels.base.specObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">specObj</span></code></a></dt>
 <dd>This is the ‘spectral object’ class.  All spectral model <cite>__call__</cite>
-methods must take a <code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code> as input and
+methods must take a <a class="reference internal" href="TurbGen.html#TurbGen.main.TGrun" title="TurbGen.main.TGrun"><code class="xref py py-class docutils literal notranslate"><span class="pre">TGrun</span></code></a> as input and
 return this class.</dd>
 </dl>
 </div>
@@ -75,8 +77,8 @@ return this class.</dd>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_spec_model</span><span class="o">=</span><span class="n">sm</span><span class="o">.</span><span class="n">smooth</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.6</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Now set a <code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.main.tsrun</span></code> instance to use this spectral model:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tsrun</span><span class="o">.</span><span class="n">spec</span><span class="o">=</span><span class="n">my_spec_model</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+<p>Now set a <a class="reference internal" href="TurbGen.html#TurbGen.main.TGrun" title="TurbGen.main.TGrun"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.main.TGrun</span></code></a> instance to use this spectral model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tgrun</span><span class="o">.</span><span class="n">spec</span><span class="o">=</span><span class="n">my_spec_model</span><span class="p">(</span><span class="n">tgrun</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -84,7 +86,7 @@ return this class.</dd>
 <h3>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h3>
 <p>For a description of the difference between ‘spectral models’
 (e.g. ‘my_spec_model’ in example above) and the spectral array they
-output (tsrun.spec), see the <a class="reference internal" href="../code-framework.html"><span class="doc">Code Framework</span></a> section of the TurbGen
+output (tgrun.spec), see the <a class="reference internal" href="../code-framework.html"><span class="doc">Code Framework</span></a> section of the TurbGen
 documentation.</p>
 </div>
 </div>
@@ -110,7 +112,7 @@ documentation.</p>
 
 <dl class="class">
 <dt id="TurbGen.specModels.base.specObj">
-<em class="property">class </em><code class="descclassname">TurbGen.specModels.base.</code><code class="descname">specObj</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/specModels/base.html#specObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.specModels.base.specObj" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">TurbGen.specModels.base.</code><code class="descname">specObj</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/specModels/base.html#specObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.specModels.base.specObj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="TurbGen.html#TurbGen.base.gridProps" title="TurbGen.base.gridProps"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.gridProps</span></code></a>, <a class="reference internal" href="TurbGen.html#TurbGen.base.calcObj" title="TurbGen.base.calcObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.calcObj</span></code></a></p>
 <p>Spectral objects contain the array (self.array) of turbulence
 spectra values for a specific TurbGen run. This class defines
@@ -120,7 +122,7 @@ various shortcuts to the data.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>tsrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>tsrun</cite> type</span></dt>
+<dt><strong>tgrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>tgrun</cite> type</span></dt>
 <dd><p class="first last">The TurbGen run object in which the spectra will be used.</p>
 </dd>
 </dl>
@@ -235,14 +237,14 @@ fit-coefficients. The form of this model is:</p>
 </div></blockquote>
 <dl class="method">
 <dt id="TurbGen.specModels.hydro.tidal.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/specModels/hydro.html#tidal.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.specModels.hydro.tidal.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create the spectral object for <code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code>.</p>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/specModels/hydro.html#tidal.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.specModels.hydro.tidal.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the spectral object for <a class="reference internal" href="TurbGen.html#TurbGen.main.TGrun" title="TurbGen.main.TGrun"><code class="xref py py-class docutils literal notranslate"><span class="pre">TGrun</span></code></a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>tsrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code></span></dt>
+<dt><strong>tgrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.TGrun" title="TurbGen.main.TGrun"><code class="xref py py-class docutils literal notranslate"><span class="pre">TGrun</span></code></a></span></dt>
 <dd><p class="first last">A TurbGen run object.</p>
 </dd>
 </dl>
@@ -250,7 +252,7 @@ fit-coefficients. The form of this model is:</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="#TurbGen.specModels.base.specObj" title="TurbGen.specModels.base.specObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">specObj</span></code></a></span></dt>
-<dd><p class="first last">An IEC spectral object for the grid in <code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code>.</p>
+<dd><p class="first last">An IEC spectral object for the grid in <a class="reference internal" href="TurbGen.html#TurbGen.main.TGrun" title="TurbGen.main.TGrun"><code class="xref py py-class docutils literal notranslate"><span class="pre">TGrun</span></code></a>.</p>
 </dd>
 </dl>
 </td>
@@ -293,14 +295,14 @@ for more info on IEC spectral models.</p>
 </div></blockquote>
 <dl class="method">
 <dt id="TurbGen.specModels.iec.IECKai.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/specModels/iec.html#IECKai.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.specModels.iec.IECKai.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create the spectral object for a <cite>tsrun</cite> instance.</p>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/specModels/iec.html#IECKai.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.specModels.iec.IECKai.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the spectral object for a <cite>TGrun</cite> instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>tsrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code></span></dt>
+<dt><strong>tgrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.TGrun" title="TurbGen.main.TGrun"><code class="xref py py-class docutils literal notranslate"><span class="pre">TGrun</span></code></a></span></dt>
 <dd><p class="first last">A TurbGen run object.</p>
 </dd>
 </dl>
@@ -308,7 +310,7 @@ for more info on IEC spectral models.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="#TurbGen.specModels.base.specObj" title="TurbGen.specModels.base.specObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">specObj</span></code></a></span></dt>
-<dd><p class="first last">An IEC spectral object for the grid in <cite>tsrun</cite>.</p>
+<dd><p class="first last">An IEC spectral object for the grid in <cite>tgrun</cite>.</p>
 </dd>
 </dl>
 </td>
@@ -337,15 +339,15 @@ for more info on IEC spectral models.</p>
 </div></blockquote>
 <dl class="method">
 <dt id="TurbGen.specModels.iec.IECVKm.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/specModels/iec.html#IECVKm.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.specModels.iec.IECVKm.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create and calculate the spectral object for a <cite>tsrun</cite>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/specModels/iec.html#IECVKm.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.specModels.iec.IECVKm.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and calculate the spectral object for a <cite>TGrun</cite>
 instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>tsrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code></span></dt>
+<dt><strong>tgrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.TGrun" title="TurbGen.main.TGrun"><code class="xref py py-class docutils literal notranslate"><span class="pre">TGrun</span></code></a></span></dt>
 <dd><p class="first last">A TurbGen run object.</p>
 </dd>
 </dl>
@@ -353,7 +355,7 @@ instance.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="#TurbGen.specModels.base.specObj" title="TurbGen.specModels.base.specObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">specObj</span></code></a></span></dt>
-<dd><p class="first last">An IEC spectral object for the grid in <cite>tsrun</cite>.</p>
+<dd><p class="first last">An IEC spectral object for the grid in <cite>tgrun</cite>.</p>
 </dd>
 </dl>
 </td>
@@ -650,15 +652,15 @@ F_{w,2} {f'} ^{5/3} } \right )\]</div>
 <p>An abstract base class for NWTC spectral models.</p>
 <dl class="method">
 <dt id="TurbGen.specModels.nwtc.genNWTC.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/specModels/nwtc.html#genNWTC.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.specModels.nwtc.genNWTC.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create and calculate the spectral object for a <cite>tsrun</cite>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/specModels/nwtc.html#genNWTC.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.specModels.nwtc.genNWTC.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and calculate the spectral object for a <cite>tgrun</cite>
 instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>tsrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code></span></dt>
+<dt><strong>tgrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.TGrun" title="TurbGen.main.TGrun"><code class="xref py py-class docutils literal notranslate"><span class="pre">TGrun</span></code></a></span></dt>
 <dd><p class="first last">A TurbGen run object.</p>
 </dd>
 </dl>
@@ -666,7 +668,7 @@ instance.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="#TurbGen.specModels.base.specObj" title="TurbGen.specModels.base.specObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">specObj</span></code></a></span></dt>
-<dd><p class="first last">An NWTC spectral object for the grid in <cite>tsrun</cite>.</p>
+<dd><p class="first last">An NWTC spectral object for the grid in <cite>tgrun</cite>.</p>
 </dd>
 </dl>
 </td>
@@ -772,13 +774,34 @@ package, e.g.</p>
 
 
 <h3>Navigation</h3>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.html">pyts package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="TurbGen.html">TurbGen package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="TurbGen.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.cohereModels.html">TurbGen.cohereModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.io.html">TurbGen.io package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.phaseModels.html">TurbGen.phaseModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.plot.html">TurbGen.plot package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.profModels.html">TurbGen.profModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.runInput.html">TurbGen.runInput package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TurbGen.specModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.stressModels.html">TurbGen.stressModels package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.api">TurbGen.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.base">TurbGen.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.dbg">TurbGen.dbg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.main">TurbGen.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.misc">TurbGen.misc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.tg_numpy">TurbGen.tg_numpy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
@@ -786,6 +809,10 @@ package, e.g.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="TurbGen.html">TurbGen package</a><ul>
+      <li>Previous: <a href="TurbGen.runInput.html" title="previous chapter">TurbGen.runInput package</a></li>
+      <li>Next: <a href="TurbGen.stressModels.html" title="next chapter">TurbGen.stressModels package</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

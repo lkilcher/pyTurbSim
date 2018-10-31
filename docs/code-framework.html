@@ -17,7 +17,7 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pyts package" href="api/pyts.html" />
+    <link rel="next" title="TurbGen package" href="api/TurbGen.html" />
     <link rel="prev" title="Plotting Tools" href="plotting-tools.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -41,29 +41,29 @@
 ‘sub-packages’ that provide a logical and functional framework for the
 code and its use.  The primary components of this framework are:</p>
 <ol class="arabic simple">
-<li>The modules in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts</span></code> root folder, especially:<ol class="loweralpha">
-<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.main</span></code>, which contains the high-level classes and
+<li>The modules in the <a class="reference internal" href="api/TurbGen.html#module-TurbGen" title="TurbGen"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen</span></code></a> root folder, especially:<ol class="loweralpha">
+<li><a class="reference internal" href="api/TurbGen.html#module-TurbGen.main" title="TurbGen.main"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.main</span></code></a>, which contains the high-level classes and
 functions that control the flow of TurbGen simulations.  Most
 importantly, this module defines:<ul>
-<li><code class="xref py py-class docutils literal notranslate"><span class="pre">pyts.main.tsrun</span></code>, this is the primary ‘run’ class of
+<li><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.main.tsrun</span></code>, this is the primary ‘run’ class of
 PyTurbSim, which controls and directs.</li>
-<li><code class="xref py py-class docutils literal notranslate"><span class="pre">pyts.main.tsdata</span></code>, this is the TurbGen output-data
-class returned by <code class="xref py py-class docutils literal notranslate"><span class="pre">pyts.main.tsrun</span></code> after execution.</li>
+<li><a class="reference internal" href="api/TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.main.tsdata</span></code></a>, this is the TurbGen output-data
+class returned by <code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.main.tsrun</span></code> after execution.</li>
 </ul>
 </li>
-<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.base</span></code>, which contains abstract base classes for other
+<li><a class="reference internal" href="api/TurbGen.html#module-TurbGen.base" title="TurbGen.base"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.base</span></code></a>, which contains abstract base classes for other
 components of the code (this is the foundation of the code
 structure).</li>
 </ol>
 </li>
 <li>The model packages, which contain predefined models of the statistics TurbGen is capable of simulating.<ol class="loweralpha">
-<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.profModels</span></code>, contains the mean velocity profile
+<li><a class="reference internal" href="api/TurbGen.profModels.html#module-TurbGen.profModels" title="TurbGen.profModels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.profModels</span></code></a>, contains the mean velocity profile
 models.</li>
-<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.specModels</span></code>, contains the TKE spectral
+<li><a class="reference internal" href="api/TurbGen.specModels.html#module-TurbGen.specModels" title="TurbGen.specModels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.specModels</span></code></a>, contains the TKE spectral
 models.</li>
-<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.stressModels</span></code>, contains the Reynold’s
+<li><a class="reference internal" href="api/TurbGen.stressModels.html#module-TurbGen.stressModels" title="TurbGen.stressModels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.stressModels</span></code></a>, contains the Reynold’s
 stress profile models.</li>
-<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.cohereModels</span></code>, contains the spatial
+<li><a class="reference internal" href="api/TurbGen.cohereModels.html#module-TurbGen.cohereModels" title="TurbGen.cohereModels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.cohereModels</span></code></a>, contains the spatial
 coherence models.</li>
 </ol>
 </li>
@@ -71,15 +71,15 @@ coherence models.</li>
 <blockquote>
 <div>More details on model packages can be found in the <a class="reference internal" href="#model-info"><span class="std std-ref">Models vs. run-specific ‘statistics’</span></a> section.</div></blockquote>
 <ol class="arabic" start="3">
-<li><p class="first">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.io</span></code> package supports reading and writing of TurbSim
+<li><p class="first">The <a class="reference internal" href="api/TurbGen.io.html#module-TurbGen.io" title="TurbGen.io"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.io</span></code></a> package supports reading and writing of TurbSim
 input (.inp) and output files (e.g. .bl, .wnd, etc.).</p>
 </li>
 <li><p class="first">Wrapper packages that implement different user interfaces of
 TurbGen:</p>
 <ol class="loweralpha simple">
-<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.runConfig</span></code> contains all the software for running
-TurbGen using <a class="reference internal" href="glossary.html#term-input-file"><span class="xref std std-term">input file</span></a>s (to mimic <span class="xref std std-term">TurbSim</span>).</li>
-<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.gui</span></code> contains the graphical user interface.</li>
+<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.runConfig</span></code> contains all the software for running
+TurbGen using <a class="reference internal" href="glossary.html#term-input-file"><span class="xref std std-term">input file</span></a>s (to mimic <a class="reference internal" href="glossary.html#term-turbsim"><span class="xref std std-term">TurbSim</span></a>).</li>
+<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.gui</span></code> contains the graphical user interface.</li>
 </ol>
 <p>For further information on how to use these interface see
 <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a>.</p>
@@ -172,7 +172,7 @@ the values of other statistics.</p>
 <li class="toctree-l2"><a class="reference internal" href="#customizing-pyturbsim">Customizing PyTurbSim</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/TurbGen.html">TurbGen package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
 
@@ -181,7 +181,7 @@ the values of other statistics.</p>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="plotting-tools.html" title="previous chapter">Plotting Tools</a></li>
-      <li>Next: <a href="api/pyts.html" title="next chapter">pyts package</a></li>
+      <li>Next: <a href="api/TurbGen.html" title="next chapter">TurbGen package</a></li>
   </ul></li>
 </ul>
 </div>

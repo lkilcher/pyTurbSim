@@ -65,7 +65,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span> <span class="o">=</span> <span class="n">Zref</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">PLexp</span> <span class="o">=</span> <span class="n">PLexp</span>
 
-    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">,</span> <span class="p">):</span>
         <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        Profile model used                               =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
 <span class="s2">        Reference velocity (URef)                        =  </span><span class="si">{dat.Uref:0.2f}</span><span class="s2"> [m/s]</span>
@@ -82,23 +82,23 @@
         <span class="c1"># can be utilized by other modules</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uref</span> <span class="o">*</span> <span class="p">(</span><span class="n">z</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zref</span><span class="p">)</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">PLexp</span></div>
 
-<div class="viewcode-block" id="nwtc.__call__"><a class="viewcode-back" href="../../../api/TurbGen.profModels.html#TurbGen.profModels.power.nwtc.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+<div class="viewcode-block" id="nwtc.__call__"><a class="viewcode-back" href="../../../api/TurbGen.profModels.html#TurbGen.profModels.power.nwtc.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create and calculate the mean-profile object for a `tsrun`</span>
+<span class="sd">        Create and calculate the mean-profile object for a `tgrun`</span>
 <span class="sd">        instance.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        tsrun :         :class:`.tsrun`</span>
+<span class="sd">        tgrun :         :class:`.TGrun`</span>
 <span class="sd">                        A TurbGen run object.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        out :           :class:`.profObj`</span>
-<span class="sd">                        A power-law wind-speed profile for the grid in `tsrun`.</span>
+<span class="sd">                        A power-law wind-speed profile for the grid in `tgrun`.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">profObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">profObj</span><span class="p">(</span><span class="n">tgrun</span><span class="p">)</span>
         <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">z</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">out</span></div></div>
 </pre></div>
@@ -125,7 +125,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/TurbGen.html">TurbGen package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 </ul>
 

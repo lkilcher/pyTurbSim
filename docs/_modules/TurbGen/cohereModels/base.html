@@ -75,7 +75,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    tsrun : `tsrun` type</span>
+<span class="sd">    run : `TGrun` type</span>
 <span class="sd">        The TurbGen run object in which the coherence will be used.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -114,12 +114,12 @@
     <span class="k">def</span> <span class="nf">array</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_array</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">prof</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">spec</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stress</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">stress</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ncore</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">ncore</span>  <span class="c1"># This is used by tslib.</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prof</span> <span class="o">=</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">prof</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">spec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stress</span> <span class="o">=</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">stress</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ncore</span> <span class="o">=</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">ncore</span>  <span class="c1"># This is used by tslib.</span>
 
     <span class="k">def</span> <span class="nf">_iter_inds</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -192,7 +192,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        cohi : A &#39;coherence calculator&#39; instance (for the given tsrun).</span>
+<span class="sd">        cohi : A &#39;coherence calculator&#39; instance (for the given tgrun).</span>
 <span class="sd">        comp : an integer (0,1,2) indicating the velocity component</span>
 <span class="sd">                    for which to compute the coherence.</span>
 <span class="sd">        ii,jj : Two-integer elements indicating the grid-points</span>
@@ -221,7 +221,7 @@
 <span class="sd">    3) frequency.</span>
 
 <span class="sd">    The ordering of the spatial points (dims 1,2) must match the</span>
-<span class="sd">    ordering of the TurbGen grid.  See the tsGrid classes</span>
+<span class="sd">    ordering of the TurbGen grid.  See the :class:`&lt;TurbGen.base.gridObj&gt;` classes</span>
 <span class="sd">    &#39;sub2ind&#39;, &#39;ind2sub&#39;, &#39;flatten&#39; and &#39;reshape&#39; methods for more</span>
 <span class="sd">    details on this.</span>
 
@@ -266,30 +266,30 @@
 <span class="sd">    When a &#39;coherence model instance&#39; is called, it returns a</span>
 <span class="sd">    &#39;coherence object&#39; instance,</span>
 <span class="sd">    e.g.</span>
-<span class="sd">    coh=cm(tsr)</span>
+<span class="sd">    coh=cm(tgr)</span>
 
-<span class="sd">    Where tsr is a &#39;tsrun&#39; object.</span>
+<span class="sd">    Where tgr is a &#39;TGrun&#39; object.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cohereObj</span> <span class="o">=</span> <span class="n">cohereObj</span>  <span class="c1"># This needs to be set to the appropriate</span>
                            <span class="c1"># &#39;coherence object&#39; for each model.</span>
 
-<div class="viewcode-block" id="cohereModelBase.__call__"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.base.cohereModelBase.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
+<div class="viewcode-block" id="cohereModelBase.__call__"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.base.cohereModelBase.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the coherence matrix for TurbGen run `tsrun`</span>
+<span class="sd">        Calculate the coherence matrix for TurbGen run `tgrun`</span>
 <span class="sd">        according to this coherence model. The grid, profile and</span>
-<span class="sd">        spectrum (tsrun.grid, tsrun.prof, tsrun.spec) must already be</span>
-<span class="sd">        defined for the tsrun.</span>
+<span class="sd">        spectrum (tgrun.grid, tgrun.prof, tgrun.spec) must already be</span>
+<span class="sd">        defined for the tgrun.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        tsrun - A &#39;TurbGen run&#39; object that contains the grid, prof and spec</span>
+<span class="sd">        tgrun - A &#39;TurbGen run&#39; object that contains the grid, prof and spec</span>
 <span class="sd">                attributes.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        A coherence instance (array or &#39;calculator&#39;), e.g.</span>
-<span class="sd">        cohi=thisCohereModel(tsrun)</span>
+<span class="sd">        cohi=thisCohereModel(tgrun)</span>
 
 <span class="sd">        The coherence instance is either an array of the full</span>
 <span class="sd">        cross-spectral matrix (3 x n_p x n_p x n_f), or a &#39;calculator&#39;</span>
@@ -302,7 +302,7 @@
 <span class="sd">        csm_w=cohi[2]</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cohereObj</span><span class="p">(</span><span class="n">tsrun</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cohereObj</span><span class="p">(</span><span class="n">tgrun</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;set_coefs&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_coefs</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span></div></div>
@@ -330,7 +330,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/TurbGen.html">TurbGen package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 </ul>
 

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>TurbGen.phaseModels.base &#8212; TurbGen 0.5 documentation</title>
+    <title>TurbGen.io.main &#8212; TurbGen 0.5 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -33,49 +33,46 @@
 
           <div class="body" role="main">
             
-  <h1>Source code for TurbGen.phaseModels.base</h1><div class="highlight"><pre>
+  <h1>Source code for TurbGen.io.main</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This is the base module for phase models.  Phase models produce the</span>
-<span class="sd">initial phase information that is then correlated in the stress and</span>
-<span class="sd">coherence models.</span>
-
-<span class="sd">The basic phase model simply returns a &#39;random&#39; array.</span>
-
+<span class="sd">This is the main (top-level) io module. It defines the &#39;readModel&#39;</span>
+<span class="sd">function, which is useful for collecting information from available</span>
+<span class="sd">TurbSim input/output files.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">..base</span> <span class="k">import</span> <span class="n">modelBase</span><span class="p">,</span> <span class="n">calcObj</span><span class="p">,</span> <span class="n">ts_complex</span><span class="p">,</span> <span class="n">gridProps</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">read</span>
+
+<span class="n">readers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;wnd&#39;</span><span class="p">:</span> <span class="n">read</span><span class="o">.</span><span class="n">bladed</span><span class="p">,</span>
+           <span class="s1">&#39;bl&#39;</span><span class="p">:</span> <span class="n">read</span><span class="o">.</span><span class="n">bladed</span><span class="p">,</span>
+           <span class="s1">&#39;bts&#39;</span><span class="p">:</span> <span class="n">read</span><span class="o">.</span><span class="n">turbsim</span><span class="p">,</span> <span class="p">}</span>
 
 
-<div class="viewcode-block" id="phaseModelBase"><a class="viewcode-back" href="../../../api/TurbGen.phaseModels.html#TurbGen.phaseModels.base.phaseModelBase">[docs]</a><span class="k">class</span> <span class="nc">phaseModelBase</span><span class="p">(</span><span class="n">modelBase</span><span class="p">):</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="phaseObj"><a class="viewcode-back" href="../../../api/TurbGen.phaseModels.html#TurbGen.phaseModels.base.phaseObj">[docs]</a><span class="k">class</span> <span class="nc">phaseObj</span><span class="p">(</span><span class="n">gridProps</span><span class="p">,</span> <span class="n">calcObj</span><span class="p">):</span>
-
+<div class="viewcode-block" id="readModel"><a class="viewcode-back" href="../../../api/TurbGen.io.html#TurbGen.io.main.readModel">[docs]</a><span class="k">def</span> <span class="nf">readModel</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Profile objects contain the array (self.array) of mean-velocity</span>
-<span class="sd">    values for a specific TurbGen run.</span>
-
-<span class="sd">    Profile objects are created with/for a specific TurbGen run.</span>
+<span class="sd">    Read a TurbSim data and input file and return a</span>
+<span class="sd">    :class:`tsdata &lt;TurbGen.main.tsdata&gt;` data object.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    tgrun :     :class:`tgrun &lt;TurbGen.main.tgrun&gt;`</span>
-<span class="sd">                The TurbGen run object in which the profile will be</span>
-<span class="sd">                used.</span>
+<span class="sd">    fname : str</span>
+<span class="sd">            The filename to load. If the file ends in:</span>
 
-<span class="sd">    See also</span>
-<span class="sd">    --------</span>
-<span class="sd">    profModelBase : The abstract base class for classes that create this class.</span>
+<span class="sd">            - .bl or .wnd,  the file is assumed to be a bladed-format file.</span>
 
+<span class="sd">            - .bts, the file is assumed to be a TurbSim-format file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tsdata : :class:`tsdata &lt;TurbGen.main.tsdata&gt;`</span>
+<span class="sd">             The TurbSim data contained in the binary data file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_comp</span><span class="p">,</span>
-                               <span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_p</span><span class="p">,</span>
-                               <span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">n_f</span><span class="p">),</span>
-                              <span class="n">dtype</span><span class="o">=</span><span class="n">ts_complex</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span></div>
+    <span class="k">for</span> <span class="n">sfx</span><span class="p">,</span> <span class="n">rdr</span> <span class="ow">in</span> <span class="n">readers</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">sfx</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">rdr</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
+    <span class="c1"># Otherwise try reading it as a .wnd file.</span>
+    <span class="n">read</span><span class="o">.</span><span class="n">bladed</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>  <span class="c1"># This will raise an error if it doesn&#39;t work.</span></div>
 </pre></div>
 
           </div>

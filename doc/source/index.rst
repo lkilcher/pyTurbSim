@@ -1,9 +1,4 @@
-.. PyTurbSim documentation master file, created by
-   sphinx-quickstart on Tue Apr  1 12:34:10 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to PyTurbSim's home page
+Welcome to TurbGen's home page
 ==================================
 |pyts| is a program for producing simulations of turbulent velocity
 time-series for input to device simulation tools that estimate water-
@@ -33,7 +28,7 @@ Table of Contents
    usage
    plotting-tools
    code-framework
-   api/pyts
+   api/TurbGen
    glossary
    
 

@@ -6,7 +6,7 @@ Glossary
 .. glossary::
    :sorted:
 
-   O-TurbSim
+   TurbSim
       This refers to the original, Atmospheric version of TurbSim, developed at the :term:`NWTC`.
     
    NREL

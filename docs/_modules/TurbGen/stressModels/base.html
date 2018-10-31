@@ -52,12 +52,12 @@
 
 <div class="viewcode-block" id="stressObj"><a class="viewcode-back" href="../../../api/TurbGen.stressModels.html#TurbGen.stressModels.base.stressObj">[docs]</a><span class="k">class</span> <span class="nc">stressObj</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">calcObj</span><span class="p">,</span> <span class="n">base</span><span class="o">.</span><span class="n">gridProps</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">randgen</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">randgen</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">randgen</span> <span class="o">=</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">randgen</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
             <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">base</span><span class="o">.</span><span class="n">ts_float</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">tsrun</span><span class="o">.</span><span class="n">spec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">tgrun</span><span class="o">.</span><span class="n">spec</span>
         <span class="n">std_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">tke</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stress_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stress_max</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">std_u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">std_u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># u&#39;v&#39;</span>
@@ -259,7 +259,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/TurbGen.html">TurbGen package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 </ul>
 

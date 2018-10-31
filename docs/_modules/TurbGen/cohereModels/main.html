@@ -206,7 +206,7 @@
             <span class="c1">#self.timer=dbg.timer(&#39;tslib-cohNWTC&#39;)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">dbg</span><span class="o">.</span><span class="n">timer</span><span class="p">(</span><span class="s1">&#39;roll&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">,</span> <span class="p">):</span>
         <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        Coherence model used                             =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
 <span class="s2">        Coherence Exponent                               =  </span><span class="si">{dat.CohExp:0.2f}</span><span class="s2"></span>
@@ -215,7 +215,7 @@
 <span class="s2">           V (a, b)                                      =  (</span><span class="si">{coh.a[1]:0.2f}</span><span class="s2">, </span><span class="si">{coh.b[1]:0.2f}</span><span class="s2">)  # noqa</span>
 <span class="s2">           W (a, b)                                      =  (</span><span class="si">{coh.a[2]:0.2f}</span><span class="s2">, </span><span class="si">{coh.b[2]:0.2f}</span><span class="s2">)  # noqa</span>
 <span class="s2">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">coh</span><span class="o">=</span><span class="n">tsrun</span><span class="o">.</span><span class="n">cohere</span><span class="p">,</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">coh</span><span class="o">=</span><span class="n">tgrun</span><span class="o">.</span><span class="n">cohere</span><span class="p">,</span> <span class="p">)</span>
 
 <div class="viewcode-block" id="nwtc.set_coefs"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.nwtc.set_coefs">[docs]</a>    <span class="k">def</span> <span class="nf">set_coefs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cohereObj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -360,13 +360,13 @@
         <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">dbg</span><span class="o">.</span><span class="n">timer</span><span class="p">(</span><span class="s1">&#39;tslib-cohIEC&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tsrun</span><span class="p">,</span> <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_sumfile_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgrun</span><span class="p">,</span> <span class="p">):</span>
         <span class="n">sumstring_format</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        Coherence model used                             =  </span><span class="si">{dat.model_desc}</span><span class="s2"></span>
 <span class="s2">        IEC Edition                                      =  </span><span class="si">{dat.IECedition:d}</span><span class="s2"></span>
 <span class="s2">        Coherence length scale parameter                 =  </span><span class="si">{L:0.2f}</span><span class="s2"> [m]</span>
 <span class="s2">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="p">(</span><span class="n">tsrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">sumstring_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="p">(</span><span class="n">tgrun</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">zhub</span><span class="p">))</span>
 
 <div class="viewcode-block" id="iec.set_coefs"><a class="viewcode-back" href="../../../api/TurbGen.cohereModels.html#TurbGen.cohereModels.main.iec.set_coefs">[docs]</a>    <span class="k">def</span> <span class="nf">set_coefs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cohereObj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -399,7 +399,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/TurbGen.html">TurbGen package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 </ul>
 

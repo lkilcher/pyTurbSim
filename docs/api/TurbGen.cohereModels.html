@@ -17,6 +17,8 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TurbGen.io package" href="TurbGen.io.html" />
+    <link rel="prev" title="TurbGen package" href="TurbGen.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -72,7 +74,7 @@ subclass this class or subclass and modify an existing coherence
 model.</dd>
 <dt><a class="reference internal" href="#TurbGen.cohereModels.base.cohereObj" title="TurbGen.cohereModels.base.cohereObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">cohereObj</span></code></a></dt>
 <dd>This is the ‘coherence object’ class.  All coherence model <cite>__call__</cite>
-methods must take a <code class="xref py py-class docutils literal notranslate"><span class="pre">tsrun</span></code> as input and
+methods must take a <code class="xref py py-class docutils literal notranslate"><span class="pre">&lt;~.main.TGrun&gt;</span></code> as input and
 return this class.</dd>
 </dl>
 <p>Further details on creating your own coherence model, can be found in
@@ -108,21 +110,21 @@ grid, mean profile model, or spectral model).</p>
 <p>When a ‘coherence model instance’ is called, it returns a
 ‘coherence object’ instance,
 e.g.
-coh=cm(tsr)</p>
-<p>Where tsr is a ‘tsrun’ object.</p>
+coh=cm(tgr)</p>
+<p>Where tgr is a ‘TGrun’ object.</p>
 <dl class="method">
 <dt id="TurbGen.cohereModels.base.cohereModelBase.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/cohereModels/base.html#cohereModelBase.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.cohereModels.base.cohereModelBase.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the coherence matrix for TurbGen run <cite>tsrun</cite>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/cohereModels/base.html#cohereModelBase.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.cohereModels.base.cohereModelBase.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the coherence matrix for TurbGen run <cite>tgrun</cite>
 according to this coherence model. The grid, profile and
-spectrum (tsrun.grid, tsrun.prof, tsrun.spec) must already be
-defined for the tsrun.</p>
+spectrum (tgrun.grid, tgrun.prof, tgrun.spec) must already be
+defined for the tgrun.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>tsrun - A ‘TurbGen run’ object that contains the grid, prof and spec</strong></dt>
+<dt><strong>tgrun - A ‘TurbGen run’ object that contains the grid, prof and spec</strong></dt>
 <dd><p class="first last">attributes.</p>
 </dd>
 </dl>
@@ -131,7 +133,7 @@ defined for the tsrun.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>A coherence instance (array or ‘calculator’), e.g.</strong></dt>
 <dd></dd>
-<dt><strong>cohi=thisCohereModel(tsrun)</strong></dt>
+<dt><strong>cohi=thisCohereModel(tgrun)</strong></dt>
 <dd></dd>
 <dt><strong>The coherence instance is either an array of the full</strong></dt>
 <dd></dd>
@@ -158,7 +160,7 @@ defined for the tsrun.</p>
 
 <dl class="class">
 <dt id="TurbGen.cohereModels.base.cohereModelBase.cohereObj">
-<em class="property">class </em><code class="descname">cohereObj</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="headerlink" href="#TurbGen.cohereModels.base.cohereModelBase.cohereObj" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">cohereObj</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="headerlink" href="#TurbGen.cohereModels.base.cohereModelBase.cohereObj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="TurbGen.html#TurbGen.base.gridProps" title="TurbGen.base.gridProps"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.gridProps</span></code></a>, <a class="reference internal" href="TurbGen.html#TurbGen.base.calcObj" title="TurbGen.base.calcObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.calcObj</span></code></a></p>
 <p>This ‘cohereObj’ class operate somewhat differently than ‘xxxObj’s
 in other packages (profObj,specObj,stressObj). In particular,
@@ -177,7 +179,7 @@ amounts of memory.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>tsrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>tsrun</cite> type</span></dt>
+<dt><strong>run</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>TGrun</cite> type</span></dt>
 <dd><p class="first last">The TurbGen run object in which the coherence will be used.</p>
 </dd>
 </dl>
@@ -212,7 +214,7 @@ velocity component `comp</cite>.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>cohi</strong> <span class="classifier-delimiter">:</span> <span class="classifier">A ‘coherence calculator’ instance (for the given tsrun).</span></dt>
+<dt><strong>cohi</strong> <span class="classifier-delimiter">:</span> <span class="classifier">A ‘coherence calculator’ instance (for the given tgrun).</span></dt>
 <dd></dd>
 <dt><strong>comp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">an integer (0,1,2) indicating the velocity component</span></dt>
 <dd><p class="first last">for which to compute the coherence.</p>
@@ -276,7 +278,7 @@ be defined explicitly for all sub-classes of this class.</p>
 
 <dl class="class">
 <dt id="TurbGen.cohereModels.base.cohereObj">
-<em class="property">class </em><code class="descclassname">TurbGen.cohereModels.base.</code><code class="descname">cohereObj</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/cohereModels/base.html#cohereObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.cohereModels.base.cohereObj" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">TurbGen.cohereModels.base.</code><code class="descname">cohereObj</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/cohereModels/base.html#cohereObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.cohereModels.base.cohereObj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="TurbGen.html#TurbGen.base.gridProps" title="TurbGen.base.gridProps"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.gridProps</span></code></a>, <a class="reference internal" href="TurbGen.html#TurbGen.base.calcObj" title="TurbGen.base.calcObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.base.calcObj</span></code></a></p>
 <p>This ‘cohereObj’ class operate somewhat differently than ‘xxxObj’s
 in other packages (profObj,specObj,stressObj). In particular,
@@ -295,7 +297,7 @@ amounts of memory.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>tsrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>tsrun</cite> type</span></dt>
+<dt><strong>run</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>TGrun</cite> type</span></dt>
 <dd><p class="first last">The TurbGen run object in which the coherence will be used.</p>
 </dd>
 </dl>
@@ -330,7 +332,7 @@ velocity component `comp</cite>.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>cohi</strong> <span class="classifier-delimiter">:</span> <span class="classifier">A ‘coherence calculator’ instance (for the given tsrun).</span></dt>
+<dt><strong>cohi</strong> <span class="classifier-delimiter">:</span> <span class="classifier">A ‘coherence calculator’ instance (for the given tgrun).</span></dt>
 <dd></dd>
 <dt><strong>comp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">an integer (0,1,2) indicating the velocity component</span></dt>
 <dd><p class="first last">for which to compute the coherence.</p>
@@ -406,7 +408,7 @@ are,</p>
 <li>frequency.</li>
 </ol>
 <p>The ordering of the spatial points (dims 1,2) must match the
-ordering of the TurbGen grid.  See the tsGrid classes
+ordering of the TurbGen grid.  See the <code class="xref py py-class docutils literal notranslate"><span class="pre">&lt;TurbGen.base.gridObj&gt;</span></code> classes
 ‘sub2ind’, ‘ind2sub’, ‘flatten’ and ‘reshape’ methods for more
 details on this.</p>
 <dl class="method">
@@ -430,7 +432,7 @@ nwtc - The NWTC ‘non-IEC’ coherence model.
 iec  - The IEC coherence model.</p>
 <dl class="class">
 <dt id="TurbGen.cohereModels.main.cohereObjIEC">
-<em class="property">class </em><code class="descclassname">TurbGen.cohereModels.main.</code><code class="descname">cohereObjIEC</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/cohereModels/main.html#cohereObjIEC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.cohereModels.main.cohereObjIEC" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">TurbGen.cohereModels.main.</code><code class="descname">cohereObjIEC</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/cohereModels/main.html#cohereObjIEC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.cohereModels.main.cohereObjIEC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TurbGen.cohereModels.base.cohereObj" title="TurbGen.cohereModels.base.cohereObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.cohereModels.base.cohereObj</span></code></a></p>
 <dl class="method">
 <dt id="TurbGen.cohereModels.main.cohereObjIEC.calcCoh">
@@ -480,7 +482,7 @@ the IEC model.</p>
 
 <dl class="class">
 <dt id="TurbGen.cohereModels.main.cohereObjNWTC">
-<em class="property">class </em><code class="descclassname">TurbGen.cohereModels.main.</code><code class="descname">cohereObjNWTC</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/cohereModels/main.html#cohereObjNWTC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.cohereModels.main.cohereObjNWTC" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">TurbGen.cohereModels.main.</code><code class="descname">cohereObjNWTC</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/cohereModels/main.html#cohereObjNWTC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.cohereModels.main.cohereObjNWTC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TurbGen.cohereModels.base.cohereObj" title="TurbGen.cohereModels.base.cohereObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.cohereModels.base.cohereObj</span></code></a></p>
 <dl class="method">
 <dt id="TurbGen.cohereModels.main.cohereObjNWTC.calcCoh">
@@ -536,7 +538,7 @@ a cohereObj instance’s __call__ method.</p>
 
 <dl class="class">
 <dt id="TurbGen.cohereModels.main.cohereObjNone">
-<em class="property">class </em><code class="descclassname">TurbGen.cohereModels.main.</code><code class="descname">cohereObjNone</code><span class="sig-paren">(</span><em>tsrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/cohereModels/main.html#cohereObjNone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.cohereModels.main.cohereObjNone" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">TurbGen.cohereModels.main.</code><code class="descname">cohereObjNone</code><span class="sig-paren">(</span><em>tgrun</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/cohereModels/main.html#cohereObjNone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.cohereModels.main.cohereObjNone" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TurbGen.cohereModels.base.cohereObj" title="TurbGen.cohereModels.base.cohereObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">TurbGen.cohereModels.base.cohereObj</span></code></a></p>
 <p>This is a ‘dummy’ coherence object that forces the coherence to
 zero.</p>
@@ -555,7 +557,7 @@ velocity component `comp</cite>.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>cohi</strong> <span class="classifier-delimiter">:</span> <span class="classifier">A ‘coherence calculator’ instance (for the given tsrun).</span></dt>
+<dt><strong>cohi</strong> <span class="classifier-delimiter">:</span> <span class="classifier">A ‘coherence calculator’ instance (for the given tgrun).</span></dt>
 <dd></dd>
 <dt><strong>comp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">an integer (0,1,2) indicating the velocity component</span></dt>
 <dd><p class="first last">for which to compute the coherence.</p>
@@ -662,8 +664,8 @@ grid, mean profile model, or spectral model).</p>
 <p>When a ‘coherence model instance’ is called, it returns a
 ‘coherence object’ instance,
 e.g.
-coh=cm(tsr)</p>
-<p>Where tsr is a ‘tsrun’ object.</p>
+coh=cm(tgr)</p>
+<p>Where tgr is a ‘TGrun’ object.</p>
 <dl class="attribute">
 <dt id="TurbGen.cohereModels.main.iec.cohereObj">
 <code class="descname">cohereObj</code><a class="headerlink" href="#TurbGen.cohereModels.main.iec.cohereObj" title="Permalink to this definition">¶</a></dt>
@@ -743,8 +745,8 @@ grid, mean profile model, or spectral model).</p>
 <p>When a ‘coherence model instance’ is called, it returns a
 ‘coherence object’ instance,
 e.g.
-coh=cm(tsr)</p>
-<p>Where tsr is a ‘tsrun’ object.</p>
+coh=cm(tgr)</p>
+<p>Where tgr is a ‘TGrun’ object.</p>
 <dl class="attribute">
 <dt id="TurbGen.cohereModels.main.nwtc.cohereObj">
 <code class="descname">cohereObj</code><a class="headerlink" href="#TurbGen.cohereModels.main.nwtc.cohereObj" title="Permalink to this definition">¶</a></dt>
@@ -787,13 +789,34 @@ import TurbGen.cohereModels.api as cm</p>
 
 
 <h3>Navigation</h3>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.html">pyts package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="TurbGen.html">TurbGen package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="TurbGen.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TurbGen.cohereModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.io.html">TurbGen.io package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.phaseModels.html">TurbGen.phaseModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.plot.html">TurbGen.plot package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.profModels.html">TurbGen.profModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.runInput.html">TurbGen.runInput package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.specModels.html">TurbGen.specModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.stressModels.html">TurbGen.stressModels package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.api">TurbGen.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.base">TurbGen.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.dbg">TurbGen.dbg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.main">TurbGen.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.misc">TurbGen.misc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.tg_numpy">TurbGen.tg_numpy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
@@ -801,6 +824,10 @@ import TurbGen.cohereModels.api as cm</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="TurbGen.html">TurbGen package</a><ul>
+      <li>Previous: <a href="TurbGen.html" title="previous chapter">TurbGen package</a></li>
+      <li>Next: <a href="TurbGen.io.html" title="next chapter">TurbGen.io package</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

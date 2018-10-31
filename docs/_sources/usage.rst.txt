@@ -14,23 +14,23 @@ properly :doc:`installed <install>`, all of these modes should work.
 This mode is designed to mimic the |ots| interface. It is
 designed for use by device developers and other users familiar with
 the |ots| program who want output that is consistent with
-predifined models built into TurbSim. In this mode pyTurbSim reads
+predifined models built into TurbSim. In this mode TurbGen reads
 |ots| input files and writes out binary data in the same format
 as |ots|. This mode can be run from a standard (i.e. DOS, UNIX)
 command line and is well suited for interfacing with FAST and other
 device simulation tools in the same way that |ots| does.  For
 more information on this mode, see the docstring in the
-:mod:`.pyts.runInput` docstring.
+:mod:`.TurbGen.runInput` docstring.
 
 To run |pyts| in this mode on the file 'TurbSim.inp' from the
 command line do::
 
-  $ pyTurbSim.py TurbSim.inp
+  $ TurbGen.py TurbSim.inp
 
 Alternatively, this mode can be used from an interactive python shell
 by doing::
 
-  >>> from pyts.runInput.main import readInput, run, write
+  >>> from TurbGen.runInput.main import readInput, run, write
   >>> config = readInput('TurbSim.inp')
   >>> tsdat = run(config)
   >>> write(tsdat, config, 'TurbSim')
@@ -40,7 +40,7 @@ user to run |pyts| without ever entering an interactive python
 shell, the latter provides the user with an opportunity to view the
 output data, ``tsdat``, without reloading it from a file.
 
-The source code for this mode is contained in the :mod:`pyts.runInput` package.
+The source code for this mode is contained in the :mod:`TurbGen.runInput` package.
 
 2) Advanced programming interface (API)
 ---------------------------------------
@@ -49,10 +49,10 @@ This interface was designed for researchers who wish to develop new
 methods and models for simulating turbulence, and/or want to control
 the statistics of |pyts| output explicitly. This api is the core
 interface of |pyts| (the other two are wrappers).  As a starting point
-for using this interface checkout the :doc:`API documentation <api/pyts>`. Or start
+for using this interface checkout the :doc:`API documentation <api/TurbGen>`. Or start
 navigating the api interactively by importing it::
 
-   import pyts.api as pyts
+   import TurbGen.api as tg
 
 More specifically, the :file:`examples/api.py` file includes an
 overview of how to begin using |pyts|. The contents of that file is:
@@ -63,14 +63,14 @@ overview of how to begin using |pyts|. The contents of that file is:
 Reading output files
 --------------------
 
-pyTurbSim comes with the ability to read (and write) TurbSim '.wnd', '.bl' (Bladed format) and '.bts' (AeroDyn/TurbSim format) files.  To read these files:
-1) 'import pyts.tsio'
+TurbGen comes with the ability to read (and write) TurbSim '.wnd', '.bl' (Bladed format) and '.bts' (AeroDyn/TurbSim format) files.  To read these files:
+1) 'import TurbGen.tsio'
 2) You can either use:
 
-   a) :mod:`pyts.io.bladed` or :mod:`pyts.io.aerodyn` to return an
+   a) :mod:`TurbGen.io.bladed` or :mod:`TurbGen.io.aerodyn` to return an
       array of the turbulence timeseries, or
 
-   b) :func:`pyts.tsio.readModel` to read the appropriate data file, and
+   b) :func:`TurbGen.tsio.readModel` to read the appropriate data file, and
       also load information from the config (.inp) file to create a
       'tsdata' object that includes both the array and also the
       config and turbModel objects.

@@ -43,24 +43,24 @@ modes/interfaces. Those modes are described below.  Once TurbGen is
 properly <a class="reference internal" href="install.html"><span class="doc">installed</span></a>, all of these modes should work.</p>
 <div class="section" id="input-files">
 <h2>1) Input files<a class="headerlink" href="#input-files" title="Permalink to this headline">¶</a></h2>
-<p>This mode is designed to mimic the <span class="xref std std-term">TurbSim</span> interface. It is
+<p>This mode is designed to mimic the <a class="reference internal" href="glossary.html#term-turbsim"><span class="xref std std-term">TurbSim</span></a> interface. It is
 designed for use by device developers and other users familiar with
-the <span class="xref std std-term">TurbSim</span> program who want output that is consistent with
-predifined models built into TurbSim. In this mode pyTurbSim reads
-<span class="xref std std-term">TurbSim</span> input files and writes out binary data in the same format
-as <span class="xref std std-term">TurbSim</span>. This mode can be run from a standard (i.e. DOS, UNIX)
+the <a class="reference internal" href="glossary.html#term-turbsim"><span class="xref std std-term">TurbSim</span></a> program who want output that is consistent with
+predifined models built into TurbSim. In this mode TurbGen reads
+<a class="reference internal" href="glossary.html#term-turbsim"><span class="xref std std-term">TurbSim</span></a> input files and writes out binary data in the same format
+as <a class="reference internal" href="glossary.html#term-turbsim"><span class="xref std std-term">TurbSim</span></a>. This mode can be run from a standard (i.e. DOS, UNIX)
 command line and is well suited for interfacing with FAST and other
-device simulation tools in the same way that <span class="xref std std-term">TurbSim</span> does.  For
+device simulation tools in the same way that <a class="reference internal" href="glossary.html#term-turbsim"><span class="xref std std-term">TurbSim</span></a> does.  For
 more information on this mode, see the docstring in the
-<code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.runInput</span></code> docstring.</p>
+<a class="reference internal" href="api/TurbGen.runInput.html#module-TurbGen.runInput" title="TurbGen.runInput"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.runInput</span></code></a> docstring.</p>
 <p>To run TurbGen in this mode on the file ‘TurbSim.inp’ from the
 command line do:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pyTurbSim.py TurbSim.inp
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ TurbGen.py TurbSim.inp
 </pre></div>
 </div>
 <p>Alternatively, this mode can be used from an interactive python shell
 by doing:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyts.runInput.main</span> <span class="k">import</span> <span class="n">readInput</span><span class="p">,</span> <span class="n">run</span><span class="p">,</span> <span class="n">write</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">TurbGen.runInput.main</span> <span class="k">import</span> <span class="n">readInput</span><span class="p">,</span> <span class="n">run</span><span class="p">,</span> <span class="n">write</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">readInput</span><span class="p">(</span><span class="s1">&#39;TurbSim.inp&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tsdat</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">write</span><span class="p">(</span><span class="n">tsdat</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="s1">&#39;TurbSim&#39;</span><span class="p">)</span>
@@ -70,7 +70,7 @@ by doing:</p>
 user to run TurbGen without ever entering an interactive python
 shell, the latter provides the user with an opportunity to view the
 output data, <code class="docutils literal notranslate"><span class="pre">tsdat</span></code>, without reloading it from a file.</p>
-<p>The source code for this mode is contained in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.runInput</span></code> package.</p>
+<p>The source code for this mode is contained in the <a class="reference internal" href="api/TurbGen.runInput.html#module-TurbGen.runInput" title="TurbGen.runInput"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.runInput</span></code></a> package.</p>
 </div>
 <div class="section" id="advanced-programming-interface-api">
 <h2>2) Advanced programming interface (API)<a class="headerlink" href="#advanced-programming-interface-api" title="Permalink to this headline">¶</a></h2>
@@ -78,9 +78,9 @@ output data, <code class="docutils literal notranslate"><span class="pre">tsdat<
 methods and models for simulating turbulence, and/or want to control
 the statistics of TurbGen output explicitly. This api is the core
 interface of TurbGen (the other two are wrappers).  As a starting point
-for using this interface checkout the <a class="reference internal" href="api/pyts.html"><span class="doc">API documentation</span></a>. Or start
+for using this interface checkout the <a class="reference internal" href="api/TurbGen.html"><span class="doc">API documentation</span></a>. Or start
 navigating the api interactively by importing it:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyts.api</span> <span class="k">as</span> <span class="nn">pyts</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">TurbGen.api</span> <span class="k">as</span> <span class="nn">tg</span>
 </pre></div>
 </div>
 <p>More specifically, the <code class="file docutils literal notranslate"><span class="pre">examples/api.py</span></code> file includes an
@@ -129,14 +129,14 @@ overview of how to begin using TurbGen. The contents of that file is:</p>
 </div>
 <div class="section" id="reading-output-files">
 <h2>Reading output files<a class="headerlink" href="#reading-output-files" title="Permalink to this headline">¶</a></h2>
-<p>pyTurbSim comes with the ability to read (and write) TurbSim ‘.wnd’, ‘.bl’ (Bladed format) and ‘.bts’ (AeroDyn/TurbSim format) files.  To read these files:
-1) ‘import pyts.tsio’
+<p>TurbGen comes with the ability to read (and write) TurbSim ‘.wnd’, ‘.bl’ (Bladed format) and ‘.bts’ (AeroDyn/TurbSim format) files.  To read these files:
+1) ‘import TurbGen.tsio’
 2) You can either use:</p>
 <blockquote>
 <div><ol class="loweralpha simple">
-<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.io.bladed</span></code> or <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyts.io.aerodyn</span></code> to return an
+<li><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.io.bladed</span></code> or <code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.io.aerodyn</span></code> to return an
 array of the turbulence timeseries, or</li>
-<li><code class="xref py py-func docutils literal notranslate"><span class="pre">pyts.tsio.readModel()</span></code> to read the appropriate data file, and
+<li><code class="xref py py-func docutils literal notranslate"><span class="pre">TurbGen.tsio.readModel()</span></code> to read the appropriate data file, and
 also load information from the config (.inp) file to create a
 ‘tsdata’ object that includes both the array and also the
 config and turbModel objects.</li>
@@ -173,7 +173,7 @@ config and turbModel objects.</li>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/pyts.html">pyts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/TurbGen.html">TurbGen package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
 

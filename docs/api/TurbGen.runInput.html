@@ -17,6 +17,8 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TurbGen.specModels package" href="TurbGen.specModels.html" />
+    <link rel="prev" title="TurbGen.profModels package" href="TurbGen.profModels.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -114,8 +116,167 @@ False: The value is specified explicitly in the configuration.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="turbgen-runinput-main-module">
-<h2>TurbGen.runInput.main module<a class="headerlink" href="#turbgen-runinput-main-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-TurbGen.runInput.main">
+<span id="turbgen-runinput-main-module"></span><h2>TurbGen.runInput.main module<a class="headerlink" href="#module-TurbGen.runInput.main" title="Permalink to this headline">¶</a></h2>
+<p>The ‘main’ module for the TurbGen runInput package defines the
+‘run’ and ‘write’ routines for performing a TurbSim run and
+writing-out data.</p>
+<div class="section" id="example-usage">
+<h3>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h3>
+<p>First import the TurbGen api and runInput package.
+&gt;&gt;&gt; import TurbGen.api as tg
+&gt;&gt;&gt; import TurbGen.runInput as runInput</p>
+<p>First create a tsinput object from an input file using the io.input.read function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tsinput</span><span class="o">=</span><span class="n">tg</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;MyInputFile.inp&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now run TurbGen using the runInput ‘run’ function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tsdata</span><span class="o">=</span><span class="n">runInput</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tsinput</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This data can be written to the files specified in the input file
+(tsinput) using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">runInput</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tsdata</span><span class="p">,</span><span class="n">tsinput</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="function">
+<dt id="TurbGen.runInput.main.cfg2grid">
+<code class="descclassname">TurbGen.runInput.main.</code><code class="descname">cfg2grid</code><span class="sig-paren">(</span><em>tsinput</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/runInput/main.html#cfg2grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.runInput.main.cfg2grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>cfg2grid produces a TurbSim-grid object that matches the
+specificitions in the <em>tsinput</em> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>tsinput</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">tscfg</span></code></span></dt>
+<dd><p class="first last">A TurbGen input object.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>grid</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.base.gridObj" title="TurbGen.base.gridObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">gridObj</span></code></a></span></dt>
+<dd><p class="first last">A TurbGen grid object.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.runInput.main.cfg2tsrun">
+<code class="descclassname">TurbGen.runInput.main.</code><code class="descname">cfg2tsrun</code><span class="sig-paren">(</span><em>tsinput</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/runInput/main.html#cfg2tsrun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.runInput.main.cfg2tsrun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a <cite>tgrun</cite> object that matches the configuration options in
+tsinput.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>tsinput</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">A TurbSim input object.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tgrun</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">A TurbSim run object with grid, profModel, specModel,
+cohereModel and stressModel that match the input
+<cite>tsinput</cite> object.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.runInput.main.run">
+<code class="descclassname">TurbGen.runInput.main.</code><code class="descname">run</code><span class="sig-paren">(</span><em>tsinput</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/runInput/main.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.runInput.main.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a TurbGen run based on the input object <cite>tsinput</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>tsinput</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="#TurbGen.runInput.base.tsinput" title="TurbGen.runInput.base.tsinput"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsinput</span></code></a></span></dt>
+<dd><p class="first last">A TurbGen input object.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tsdata</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a></span></dt>
+<dd><p class="first last">A TurbGen data object.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.runInput.main.run_fname">
+<code class="descclassname">TurbGen.runInput.main.</code><code class="descname">run_fname</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/runInput/main.html#run_fname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.runInput.main.run_fname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a TurbGen run based on the input file <cite>fname</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>fname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">A TurbSim input file.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tsdata</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a></span></dt>
+<dd><p class="first last">A TurbGen data object.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="TurbGen.runInput.main.write">
+<code class="descclassname">TurbGen.runInput.main.</code><code class="descname">write</code><span class="sig-paren">(</span><em>tsdat</em>, <em>tsinput</em>, <em>fname=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TurbGen/runInput/main.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TurbGen.runInput.main.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write TurbSim-output to a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tsdat</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="TurbGen.html#TurbGen.main.tsdata" title="TurbGen.main.tsdata"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsdata</span></code></a></span></dt>
+<dd><p class="first last">The TurbGen data object to write out.</p>
+</dd>
+<dt><strong>tsinput</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="#TurbGen.runInput.base.tsinput" title="TurbGen.runInput.base.tsinput"><code class="xref py py-class docutils literal notranslate"><span class="pre">tsinput</span></code></a></span></dt>
+<dd><p class="first last">A TurbGen input object.</p>
+</dd>
+<dt><strong>fname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">The filename to writeout (default obtained from <cite>tsinput</cite>)</p>
+</dd>
+<dt><strong>This function determines which file-types to writeout (bladed or</strong></dt>
+<dd></dd>
+<dt><strong>TurbSim) from the `tsinput` object</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 </div>
 <div class="section" id="module-TurbGen.runInput.profModels">
 <span id="turbgen-runinput-profmodels-module"></span><h2>TurbGen.runInput.profModels module<a class="headerlink" href="#module-TurbGen.runInput.profModels" title="Permalink to this headline">¶</a></h2>
@@ -210,13 +371,13 @@ specified in <cite>tsinput</cite>.</p>
 TurbSim functionality. In particular it contains functions for
 taking a TurbSim ‘input’ file (.inp) and performing a TurbSim run that
 matches that file.</p>
-<div class="section" id="example-usage">
-<h3>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h3>Example usage<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt>See either:</dt>
 <dd><ol class="first last arabic simple">
 <li>the <cite>TurbGen.py</cite> executable script in the TurbGen root directory</li>
-<li>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.runInput.main</span></code> docstring for example usage.</li>
+<li>The <a class="reference internal" href="#module-TurbGen.runInput.main" title="TurbGen.runInput.main"><code class="xref py py-mod docutils literal notranslate"><span class="pre">TurbGen.runInput.main</span></code></a> docstring for example usage.</li>
 </ol>
 </dd>
 </dl>
@@ -241,13 +402,34 @@ matches that file.</p>
 
 
 <h3>Navigation</h3>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Download and Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotting-tools.html">Plotting Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code-framework.html">Code Framework</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyts.html">pyts package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="TurbGen.html">TurbGen package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="TurbGen.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.cohereModels.html">TurbGen.cohereModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.io.html">TurbGen.io package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.phaseModels.html">TurbGen.phaseModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.plot.html">TurbGen.plot package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.profModels.html">TurbGen.profModels package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TurbGen.runInput package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.specModels.html">TurbGen.specModels package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TurbGen.stressModels.html">TurbGen.stressModels package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.api">TurbGen.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.base">TurbGen.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.dbg">TurbGen.dbg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.main">TurbGen.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.misc">TurbGen.misc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen.tg_numpy">TurbGen.tg_numpy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TurbGen.html#module-TurbGen">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
@@ -255,6 +437,10 @@ matches that file.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="TurbGen.html">TurbGen package</a><ul>
+      <li>Previous: <a href="TurbGen.profModels.html" title="previous chapter">TurbGen.profModels package</a></li>
+      <li>Next: <a href="TurbGen.specModels.html" title="next chapter">TurbGen.specModels package</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
