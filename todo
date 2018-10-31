@@ -1,7 +1,6 @@
 Rebranding
 ==========
-- Continue replacing 'TurbSim' (where appropriate) and 'PyTurbSim' with 'TurbGen'
-- remove all instances of 'tsrun', 'tsdata', 'tsr', etc.
+- remove all instances of 'tsrun', 'tsdata', 'tsr', tsgrid, etc.
 - Change HomePage to lkilcher.github.io/TurbGen
 - Go through docs
 

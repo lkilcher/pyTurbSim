@@ -1,0 +1,13 @@
+name: TurbGen_py27
+
+channels:
+  - nodefaults
+
+dependencies:
+  - python=2.7
+  - numpy
+  - matplotlib=2.2
+  - gcc  # This includes gfortran
+# These are for building docs:
+#  - sphinx
+#  - numpydoc
