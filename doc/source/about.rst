@@ -3,16 +3,18 @@
 About
 -----
 
-TurbGen is a statistical rather than a physical or dynamic tool.  That
-is, rather than solving fluid-flow equations (e.g. large eddy
-simulations) it produces time-series that match specific statistics of
-real flows.  TurbGen is capable of matching the following statistics
-of any velocity dataset:
+TurbGen is a tool for generating time-series simulations of fluid
+turbulence. It is statistical model rather than a physical or dynamic
+model.  That is, rather than solving fluid-flow equations (e.g. large
+eddy simulations) it produces time-series that match specific
+statistics of real flows.  TurbGen is capable of matching the
+following statistics of any velocity dataset:
 
-1) the mean velocity profile,
-2) the turbulent kinetic energy spectrum (and therefore the turbulence intensity),
-3) the Reynold's stress profile, and
-4) the spatial coherence.
+1) mean velocity profile
+2) turbulent kinetic energy spectrum (and therefore the variance and turbulence intensity)
+3) Reynold's stress profile
+4) spatial coherence
+5) temporal coherence (also known as 'phase coherence')
 
 These statistics have been found to be critical predictors of
 wind-turbine fatigue loading.  Therefore, though this tool does not
@@ -28,8 +30,8 @@ reasonably with measurements of loads on real wind turbines [#]_.
 
 History
 ^^^^^^^
-TurbGen is a python-implementation of the National Wind Technology
-Center's (NWTC) 'TurbSim' program [#]_. Throughout the documentation,
+TurbGen was originally developed as python-implementation of the National Wind Technology
+Center's (NWTC) 'TurbSim' program [#]_, and was previously called 'pyTurbSim'. Throughout the documentation,
 the term 'TurbSim' is used to refer to both TurbGen and the original
 TurbSim tool (hereafter '|ots|').  |ots| is still actively
 maintained and available from the `NWTC design codes site

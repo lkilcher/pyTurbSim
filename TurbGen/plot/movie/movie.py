@@ -6,7 +6,7 @@ from tg_plot import supax
 import subprocess
 import os
 
-tsread = TurbGen.tsio
+tgread = TurbGen.tsio
 
 ###################################################
 # A script for creating movies of TurbGen/TurbSim output.
@@ -28,7 +28,7 @@ dat_file_name = 'movie'  # This should match the
 ###### Load the data ######
 if 'tsdat' not in vars():
     try:
-        tsdat = tsread.readModel('./%s.inp' % dat_file_name)
+        tsdat = tgread.readModel('./%s.inp' % dat_file_name)
     except IOError:
         print 'Warning: running TurbGen to create data.  It may save time to create the TurbGen output separately (run `TurbGen.run(%s.inp)`), and then run this movie script.' % dat_file_name
         tsdat = TurbGen.run_out('./%s.inp' % dat_file_name)

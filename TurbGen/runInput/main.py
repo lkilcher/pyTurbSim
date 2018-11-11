@@ -62,9 +62,9 @@ def run(tsinput):
     tsdata :    :class:`.tsdata`
                 A TurbGen data object.
     """
-    tsr = cfg2tsrun(tsinput)
+    tgr = cfg2tgrun(tsinput)
 
-    return tsr()
+    return tgr()
 
 
 def write(tsdat, tsinput, fname=None):
@@ -120,7 +120,7 @@ def cfg2grid(tsinput):
                     clockwise=tsinput['Clockwise'])
 
 
-def cfg2tsrun(tsinput):
+def cfg2tgrun(tsinput):
     """
     Produce a `tgrun` object that matches the configuration options in
     tsinput.

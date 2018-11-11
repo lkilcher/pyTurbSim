@@ -158,12 +158,12 @@ class velprof(prof):
         """
         return tsdat.uprof[comp, :, tsdat.ihub[1]], tsdat.z
 
-    def _calc_tgrun(self, tsr, comp, igrid=None):
+    def _calc_tgrun(self, tgr, comp, igrid=None):
         """
         The function that calculates x,y values for plotting
         :class:`.TGrun` objects.
         """
-        return tsr.prof[comp, :, tsr.grid.ihub[1]], tsr.grid.z
+        return tgr.prof[comp, :, tgr.grid.ihub[1]], tgr.grid.z
 
 
 class tkeprof(prof):
@@ -181,8 +181,8 @@ class tkeprof(prof):
     def _calc_tgdata(self, tsdat, comp, igrid=None):
         return tsdat.tke[comp, :, tsdat.ihub[1]], tsdat.z
 
-    def _calc_tgrun(self, tsr, comp, igrid=None):
-        return tsr.spec.tke[comp, :, tsr.grid.ihub[1]], tsr.grid.z
+    def _calc_tgrun(self, tgr, comp, igrid=None):
+        return tgr.spec.tke[comp, :, tgr.grid.ihub[1]], tgr.grid.z
 
 
 class Tiprof(prof):
@@ -203,10 +203,10 @@ class Tiprof(prof):
                / tsdat.uprof[0, :, tsdat.ihub[1]])
         return tmp, tsdat.z
 
-    def _calc_tgrun(self, tsr, comp, igrid=None):
-        return (100 * np.sqrt(tsr.spec.tke[comp, :, tsr.grid.ihub[1]])
-                / tsr.prof.u[:, tsr.grid.ihub[1]],
-                tsr.grid.z)
+    def _calc_tgrun(self, tgr, comp, igrid=None):
+        return (100 * np.sqrt(tgr.spec.tke[comp, :, tgr.grid.ihub[1]])
+                / tgr.prof.u[:, tgr.grid.ihub[1]],
+                tgr.grid.z)
 
 
 class stressprof(tkeprof):
@@ -229,9 +229,9 @@ class stressprof(tkeprof):
         igrid = igrid or tsdat.ihub[1]
         return tsdat.stress[comp, :, igrid], tsdat.z
 
-    def _calc_tgrun(self, tsr, comp, igrid=None):
-        igrid = igrid or tsr.grid.ihub[1]
-        return tsr.stress.array[comp, :, igrid], tsr.grid.z
+    def _calc_tgrun(self, tgr, comp, igrid=None):
+        igrid = igrid or tgr.grid.ihub[1]
+        return tgr.stress.array[comp, :, igrid], tgr.grid.z
 
 
 class spec(axesForm):
@@ -278,9 +278,9 @@ class spec(axesForm):
         # print tmp
         return tmp
 
-    def _calc_tgrun(self, tsr, comp, igrid=None):
-        igrid = igrid or self.igrid or tsr.grid.ihub
-        return tsr.grid.f, tsr.spec[comp][igrid]
+    def _calc_tgrun(self, tgr, comp, igrid=None):
+        igrid = igrid or self.igrid or tgr.grid.ihub
+        return tgr.grid.f, tgr.spec[comp][igrid]
 
 
 class cohere(axesForm):
@@ -332,10 +332,10 @@ class cohere(axesForm):
                        tsdat.uturb[comp][igrid1],
                        1. / tsdat.dt, nfft)
 
-    def _calc_tgrun(self, tsr, comp, igrid0=None, igrid1=None):
-        igrid0 = tsr.grid.sub2ind(igrid0 or self.igrid0 or tsr.grid.ihub)
-        igrid1 = tsr.grid.sub2ind(igrid1 or self.igrid1 or (0, 0))
-        return tsr.grid.f, tsr.cohere.calcCoh(tsr.grid.f,
+    def _calc_tgrun(self, tgr, comp, igrid0=None, igrid1=None):
+        igrid0 = tgr.grid.sub2ind(igrid0 or self.igrid0 or tgr.grid.ihub)
+        igrid1 = tgr.grid.sub2ind(igrid1 or self.igrid1 or (0, 0))
+        return tgr.grid.f, tgr.cohere.calcCoh(tgr.grid.f,
                                               comp, igrid0, igrid1) ** 2
 
 

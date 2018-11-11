@@ -12,19 +12,19 @@ nz = 15
 center = 10
 # ny=17;nz=17
 
-tsr = tg.TGrun()
-tsr.grid = tg.RectGrid(center=center, ny=ny, nz=nz,
+tgr = tg.TGrun()
+tgr.grid = tg.RectGrid(center=center, ny=ny, nz=nz,
                        height=10, width=10, time_sec=60, dt=0.003)
 
-tsr.profModel = tg.profModels.pl(U, center)
-tsr.specModel = tg.specModels.smooth(ustar, 0.5)
-tsr.cohereModel = tg.cohereModels.nwtc()
-tsr.stressModel = tg.stressModels.uniform(0., 0.0, 0)
-# tsr.stressModel=tg.stressModels.uniform(0,-.0001,0)
+tgr.profModel = tg.profModels.pl(U, center)
+tgr.specModel = tg.specModels.smooth(ustar, 0.5)
+tgr.cohereModel = tg.cohereModels.nwtc()
+tgr.stressModel = tg.stressModels.uniform(0., 0.0, 0)
+# tgr.stressModel=tg.stressModels.uniform(0,-.0001,0)
 
-# tsr.stress=np.zeros(tsr.grid.shape,dtype='float32')
+# tgr.stress=np.zeros(tgr.grid.shape,dtype='float32')
 
-tsdat = tsr()
+tsdat = tgr()
 
 fg = pt.summfig(axforms=[pt.axform.velprof(),
                          pt.axform.Tiprof(),
@@ -32,7 +32,7 @@ fg = pt.summfig(axforms=[pt.axform.velprof(),
                          pt.axform.stressprof(),
                          pt.axform.spec(window_time_sec=60)])
 fg.plot(tsdat)
-fg.plot(tsr, color='r', linestyle='--')
+fg.plot(tgr, color='r', linestyle='--')
 fg.finalize()
 
 # fg.savefig('pub/fig/TurbGen_SummFig.png')

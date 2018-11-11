@@ -100,10 +100,10 @@ if flag.get('plot', False):
         ## Create a TurbGen 'run' object based on the input file.
         ## First load the data from the input file into a 'tscfg' object:
         tscfg = tg.readInput('./inp_files/' + nm + '.inp')
-        # Now create a 'tsrun' object.
-        tsr = tg.cfg2tsrun(tscfg)
+        # Now create a 'tgrun' object.
+        tgr = tg.cfg2tgrun(tscfg)
         ## If you want to, you can 'run' this by uncommenting:
-        #ptsdat2 = tsr()
+        #ptsdat2 = tgr()
         ## This should be identical to `ptsdat`.
 
         ## This creates a 'figure object'
@@ -132,7 +132,7 @@ if flag.get('plot', False):
         fg.plot(ptsdat, color='b', linestyle='-', marker='.', label='TG')
         ## When calling fg.plot on a tgrun object, these axform
         ## objects plot the theoretical line:
-        fg.plot(tsr, color='g', label='Target')
+        fg.plot(tgr, color='g', label='Target')
         ## Add a legend to the upper-right axes:
         ## (Note here that indexing the 'figure object' gives axes in
         ## the grid)

@@ -82,7 +82,7 @@ For example::
 
 That's all that is required to define a new profile model!  Now,
 assuming you have already created a :class:`.TGrun`
-instance (e.g. `tsr`) you set that :class:`.TGrun` to
+instance (e.g. `tgr`) you set that :class:`.TGrun` to
 use your new model by simply doing, for example:
 
 >>> tgr.prof = my_new_model(3.,20,[.5,0])

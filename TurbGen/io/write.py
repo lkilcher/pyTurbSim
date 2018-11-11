@@ -82,7 +82,7 @@ def bladed(fname, tsdat):
     fl.close()
 
 
-def formatted(fname, tsdat):
+def formatted(fname, tsdat, verbose=False):
     """Write the data to a set of TurbSim 'formatted' (readable) files (.u, .v, .w).
 
     Parameters
@@ -125,15 +125,17 @@ def formatted(fname, tsdat):
 
     fname = fname.rstrip('.inp')
 
-    print("Writing formatted files...")
+    if verbose:
+        print("Writing formatted files...")
     for idc in range(tsdat.n_comp):
         comp = tsdat.comp_name[idc]
-        print("{}-component, timestep:".format(comp))
+        if verbose:
+            print("{}-component, timestep:".format(comp))
         fl = open(fname + '.' + comp, 'w')
         fl.write(header % (comp))
         nt = tsdat.time.shape[0]
         for idt in range(nt):
-            if idt % 1000 == 0:
+            if verbose and idt % 1000 == 0:
                 print('{}/{}'.format(idt, nt))
             fl.write(outform.format(tsdat.time[idt],
                                     tsdat.uhub[idt],

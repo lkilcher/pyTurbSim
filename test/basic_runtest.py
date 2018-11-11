@@ -37,4 +37,4 @@ fg.finalize()
 fg.ax[-1, -1].set_ylim([1e-4, 10])
 fg.ax[0, 0].set_xlim([-1, 15])
 
-fg.savefig('pub/fig/TurbGen_SummFig.png')
+fg.fig.savefig('./tmp/TurbGen_SummFig.png')

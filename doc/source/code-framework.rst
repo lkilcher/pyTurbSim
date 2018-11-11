@@ -77,7 +77,7 @@ distinct ways. They may be defined using 'models' or using
 'stat-objects' (essentially array wrappers). Models define a statistic
 in terms of input parameters to a model and other variables of other
 models.  For more information on specifying a statistic, see the four
-statistic properties (prof, spec, cohere, and stress) of a tsrun
+statistic properties (prof, spec, cohere, and stress) of a :class:`TurbGen.main.TGrun`
 object.
 
 Models

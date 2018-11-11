@@ -30,7 +30,7 @@ except ImportError:
 dbg = None
 #import dbg
 
-tsroot = path.realpath(__file__).replace("\\", "/").rsplit('/', 1)[0] + '/'
+tgroot = path.realpath(__file__).replace("\\", "/").rsplit('/', 1)[0] + '/'
 userroot = path.expanduser('~')
 
 ts_float = float32
