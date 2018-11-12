@@ -11,3 +11,5 @@ dependencies:
 # These are for building docs:
 #  - sphinx
 #  - numpydoc
+# These are for testing:
+#  - pytest

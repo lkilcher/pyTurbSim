@@ -85,7 +85,7 @@ class iecbase(specModelBase):
             TurbModel_desc=self.model_desc,
             IECturbc=(self.IECturbc if isinstance(self.IECturbc, basestring)
                       else '0.4g [%]'.format(self.IECturbc)),
-            IECwindtype_desc=windtype_desc[self.IECwindtype],
+            IECwindtype_desc=windtype_desc[self.IECwindtype.upper()],
             IECstandard_desc=edition_desc[(self.IECstandard, self.IECedition)],
             etmc='N/A' if self.ETMc is None else '{0:0.4g} [m/s]'.format(self.ETMc),
             Lambda=self.Lambda(tgrun.grid.zhub),
@@ -169,10 +169,10 @@ class iecbase(specModelBase):
                  \sigma = 0.11 V_{ref}
         """
         iecver = self.IECstandard
+        wndtp = self.IECwindtype.lower()
         if self.IECturbc.__class__ is str:
             # !!!VERSION_INCONSISTENCY: add 'khtest' functionality.
             val = self.IECturbc.lower()
-            wndtp = self.IECwindtype.lower()
             edi = self.IECedition
             if iecver is None:
                 return None
@@ -246,6 +246,7 @@ class iecbase(specModelBase):
             if wndtp != 'ntm':
                 raise InvalidConfig("If the 'IECturbc' input option is a number (specifying "
                                     "turbulence intensity), the IEC_WindType must be 'NTM'.")
+            return uhub * self.IECturbc
 
 
 class IECKai(iecbase):

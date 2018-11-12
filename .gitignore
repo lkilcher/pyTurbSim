@@ -4,6 +4,8 @@ doc-build/
 
 dist/
 
+.cache/
+
 *.egg-info/
 
 TurbGen/tslib.so
