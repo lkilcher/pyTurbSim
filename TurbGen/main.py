@@ -740,6 +740,15 @@ class tgdata(gridProps):
         out['PLExp'] = self.info['profModel']['params'].get('PLexp', None)
         return out
 
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        for ky in ['uturb', 'uprof', 'y', 'z', 'time']:
+            if not np.array_equal(getattr(self, ky),
+                                  getattr(other, ky)):
+                return False
+        return True
+
     def __getitem__(self, ind):
         if not hasattr(ind, '__len__'):
             ind = [ind]

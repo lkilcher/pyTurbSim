@@ -2,8 +2,9 @@ from struct import unpack
 from .base import e, checkname, convname
 import numpy as np
 from ..main import tgdata
-from ..base import RectGrid
+from ..base import RectGrid, gridObj, _parse_inputs
 from warnings import warn
+import h5py
 
 
 def bladed(fname,):
@@ -157,4 +158,32 @@ def sum_scan(filename,):
                     out['clockwise'] = True
                 else:
                     out['clockwise'] = False
+    return out
+
+
+def hdf5(fname):
+    """Load data from an hdf5 file.
+
+    Parameters
+    ----------
+    fname : str
+            the filename containing the data.
+
+    Returns
+    -------
+    tgdata : :class:`tgdata <TurbGen.main.tgdata>`
+             A 'tgdata' object containing the data.
+
+    """
+    grid = gridObj()
+    with h5py.File(fname, mode='r') as fl:
+        grid.y = fl['y'][:]
+        grid.z = fl['z'][:]
+        time = fl['time'][:]
+        grid.n_t, grid.time_sec, grid.dt = _parse_inputs(len(time), None,
+                                                         time[1] - time[0],
+                                                         plus_one=0)
+        out = tgdata(grid)
+        for ky in ['uturb', 'uprof']:
+            setattr(out, ky, fl[ky][:])
     return out

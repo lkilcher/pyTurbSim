@@ -202,7 +202,7 @@ def turbsim(fname, tgdata):
 
 
 def hdf5(fname, tgdata):
-    """Write the data to an hdf5 format file.
+    """Write the data to an hdf5 file.
 
     Parameters
     ----------
