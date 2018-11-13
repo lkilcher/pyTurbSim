@@ -7,15 +7,7 @@ thisdir = path.dirname(path.abspath(__file__))
 ts_file_type = '.wnd'
 
 
-figdir = './test_output_figs/'
-
-try:
-    mkdir(figdir)
-except:
-    pass
-
-
-def test_tidal(gen_fig=False):
+def test_tidal(make_data=False, figdir=None):
 
     cfg = tg.readInput(thisdir + '/inp_files/Tidal.inp')
     tgr = tg.cfg2tgrun(cfg)
@@ -23,10 +15,51 @@ def test_tidal(gen_fig=False):
 
     tsdat = tsio.readModel(thisdir + '/ts/Tidal' + ts_file_type)
 
-    if gen_fig:
-        fg = pt.show_comparison(tgr, dat, tsdat, name='Tidal', fignum=1001)
+    if make_data:
+        tsdat.write_hdf5('Tidal.h5')
+
+    if figdir is not None:
+        fg = show_comparison(tgr, dat, tsdat, name='Tidal', fignum=1001)
         fg.fig.savefig(figdir + 'Tidal.png', res=300)
 
+
+def test_smooth(figdir=None):
+
+    cfg = tg.readInput(thisdir + '/inp_files/Smooth.inp')
+    tgr = tg.cfg2tgrun(cfg)
+    dat = tgr()
+
+    tsdat = tsio.readModel(thisdir + '/ts/Smooth' + ts_file_type)
+
+    if figdir is not None:
+        fg = show_comparison(tgr, dat, tsdat, name='Smooth', fignum=1002)
+        fg.fig.savefig(figdir + 'Smooth.png', res=300)
+
+        
+def test_IecKai(figdir=None):
+
+    cfg = tg.readInput(thisdir + '/inp_files/IecKai.inp')
+    tgr = tg.cfg2tgrun(cfg)
+    dat = tgr()
+
+    tsdat = tsio.readModel(thisdir + '/ts/IecKai' + ts_file_type)
+
+    if figdir is not None:
+        fg = show_comparison(tgr, dat, tsdat, name='IEC-KAIMAL', fignum=1003)
+        fg.fig.savefig(figdir + 'IECKAI.png', res=300)
+
+
+def test_IecVkm(figdir=None):
+
+    cfg = tg.readInput(thisdir + '/inp_files/IecVkm.inp')
+    tgr = tg.cfg2tgrun(cfg)
+    dat = tgr()
+
+    tsdat = tsio.readModel(thisdir + '/ts/IecVkm' + ts_file_type)
+
+    if figdir is not None:
+        fg = show_comparison(tgr, dat, tsdat, name='IEC-VonKarman', fignum=1004)
+        fg.fig.savefig(figdir + 'IECVKM.png', res=300)
 
 
 def show_comparison(tgrun, tgdat, tsdat, name='???', fignum=None):
@@ -69,4 +102,3 @@ def show_comparison(tgrun, tgdat, tsdat, name='???', fignum=None):
     # This does some 'tidying up' of the figure:
     fg.finalize()
     return fg
-
