@@ -1,4 +1,5 @@
 from ..base import ts_float,np
+from ..misc import fix2range
 
 p_coefs_unstable=[
     # u-coefs
@@ -70,26 +71,34 @@ nwtcup_coefs['unstable']['max']={'fr_il':(1.5,2.3,1.4),
                            'Pr_ih':(1.2,0.9,1.0),
                            }
 
+def _calc_kelley_param(arr, loc_zL, ustar, minvals, maxvals):
+    out = (arr[:, 0] * (loc_zL ** arr[:, 1]) * ustar ** arr[:, 2] *
+           np.exp(arr[:, 3] * loc_zL + arr[:, 4] * ustar))
+    for idx in range(len(out)):
+        out[idx] = fix2range(out[idx], minvals[idx], maxvals[idx])
+    return out
+        
+
 def calc_nwtcup_coefs(zL):
-    p_coefs=np.empty((3,2),dtype=ts_float)
-    f_coefs=np.empty((3,2),dtype=ts_float)
+    p_coefs = np.empty((3,2),dtype=ts_float)
+    f_coefs = np.empty((3,2),dtype=ts_float)
     if zL>0:
         dat=nwtcup_coefs['stable']
         loc_zL=fix2range(zL,0.005,3.5)
         ustar_tmp=0.
     else:
         dat=nwtcup_coefs['unstable']
-        loc_zL=np.abs(fix2range(zL,-0.5,-0.025))
-        ustar_tmp=fix2range(self.UStar,0.2,1.4)
-    for i0,sfx in enumerate(['il','ih']):
+        loc_zL=np.abs(fix2range(zL, -0.5, -0.025))
+        ustar_tmp=fix2range(self.UStar, 0.2, 1.4)
+    for i0, sfx in enumerate(['il', 'ih']):
         nm='Pr_'+sfx
-        arr=dat['terms'][nm]
-        p_coefs[:,i0]=fix2range(arr[:,0]*(loc_zL**arr[:,1])*ustar_tmp**arr[:,2]*np.exp(arr[:,3]*loc_zL+arr[:,4]*ustar_tmp),dat['min'][nm],dat['max'][nm])
-        nm='fr_'+sfx
-        arr=dat['terms'][nm]
-        f_coefs[:,i0]=fix2range(arr[:,0]*(loc_zL**arr[:,1])*ustar_tmp**arr[:,2]*np.exp(arr[:,3]*loc_zL+arr[:,4]*ustar_tmp),dat['min'][nm],dat['max'][nm])
-    f_coefs**=-1 # Invert the second (fr) coefficient.
-    p_coefs*=f_coefs # All of the first coefficients are the product of the first and the second (inverse included).
+        p_coefs[:, i0] = _calc_kelley_param(dat['terms'][nm], loc_zL, ustar_tmp,
+                                            dat['min'][nm], dat['max'][nm])
+        nm = 'fr_' + sfx
+        f_coefs[:,i0] = _calc_kelley_param(dat['terms'][nm], loc_zL, ustar_tmp,
+                                           dat['min'][nm], dat['max'][nm])
+    f_coefs **= -1  # Invert the second (fr) coefficient.
+    p_coefs *= f_coefs # All of the first coefficients are the product of the first and the second (inverse included).
     # The factors in unstable_coefs are included in the fits that N. Kelley did.
-    p_coefs*=np.array(p_coefs_unstable,dtype=ts_float)
-    f_coefs*=np.array(f_coefs_unstable,dtype=ts_float)
+    p_coefs *= np.array(p_coefs_unstable, dtype=ts_float)
+    f_coefs *= np.array(f_coefs_unstable, dtype=ts_float)
