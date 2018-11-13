@@ -3,6 +3,7 @@ import os
 if '../' not in sys.path:
     sys.path = ['../'] + sys.path
 from TurbGen.runInput import main as tg
+import matplotlib.pyplot as plt
 #import TurbGen
 import TurbGen.plot.api as pt
 import TurbGen.io.main as tsio
@@ -26,11 +27,10 @@ flag = dict(
 ## compared.
 ## Comment+uncomment+add as desired.
 fnames = ['Tidal', 'Smooth', 'IecKai', 'IecVkm',
-          'GPllj', 'NWTCup', 'wfup', 'wf07d', 'wf14d', ]
-#fnames=['Smooth','IecKai','IecVkm','GPllj','NWTCup','wfup','wf07d','wf14d',]
-fnames = ['IecVkm']  # CHECKED 4/26/2013
-fnames = ['IecVkm_short']  # CHECKED 4/26/2013
-fnames = ['Kaimal']  # CHECKED 2/25/2015
+          'NWTCup', ]
+#fnames = ['IecVkm']  # CHECKED 4/26/2013
+#fnames = ['IecVkm_short']  # CHECKED 4/26/2013
+#fnames = ['Kaimal']  # CHECKED 2/25/2015
 #fnames=['IecKai'] #CHECKED 4/26/2013
 #fnames=['IecKai_short'] #CHECKED 4/26/2013
 #fnames=['Smooth'] #CHECKED 4/26/2013
@@ -143,4 +143,4 @@ if flag.get('plot', False):
         # This does some 'tidying up' of the figure:
         fg.finalize()
         # You can save the figure:
-        #fg.savefig('<path-to-somewhere>/compareTSvTG.png', dpi=300)
+        #fg.fig.savefig('fig/{}-compareTSvTG.png'.format(nm), dpi=300)
