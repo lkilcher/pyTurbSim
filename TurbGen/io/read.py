@@ -1,7 +1,7 @@
 from struct import unpack
 from .base import e, checkname, convname
 import numpy as np
-from ..main import tsdata
+from ..main import tgdata
 from ..base import RectGrid
 from warnings import warn
 
@@ -17,7 +17,7 @@ def bladed(fname,):
 
     Returns
     -------
-    data : :class:`tsdata <TurbGen.main.tsdata>`
+    data : :class:`tgdata <TurbGen.main.tgdata>`
            The turbulence data contained in the binary data file.
 
     """
@@ -63,13 +63,13 @@ def bladed(fname,):
     if clockwise:
         # flip the data back
         dat = dat[:, :, ::-1, :]
-    # Create the tsdata object.
+    # Create the tgdata object.
     grid = RectGrid(center=center,
                     ny=n_y, nz=n_z,
                     dy=dy, dz=dz,
                     dt=dt, nt=n_t,
                     clockwise=clockwise)
-    out = tsdata(grid)
+    out = tgdata(grid)
     out.uprof = dat.mean(-1)
     out.uturb = dat - out.uprof[:, :, :, None]
     return out
@@ -87,7 +87,7 @@ def turbsim(fname):
 
     Returns
     -------
-    tsdata : :class:`tsdata <TurbGen.main.tsdata>`
+    tgdata : :class:`tgdata <TurbGen.main.tgdata>`
              The turbulence data contained in the binary data file.
 
     """
@@ -121,12 +121,12 @@ def turbsim(fname):
         np.float32).reshape([3, n_y, n_z, n_t], order='F'), 2, 1)
     dat -= u_off[:, None, None, None]
     dat /= u_scl[:, None, None, None]
-    # Create the tsdata object.
+    # Create the tgdata object.
     grid = RectGrid(center=center,
                     ny=n_y, nz=n_z,
                     dy=dy, dz=dz,
                     dt=dt, nt=n_t, )
-    out = tsdata(grid)
+    out = tgdata(grid)
     out.uprof = dat.mean(-1)
     out.uturb = dat - out.uprof[:, :, :, None]
     return out

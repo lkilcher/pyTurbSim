@@ -575,7 +575,7 @@ class TGrun(object):
 
         Returns
         -------
-        tsdata : :class:`tsdata`
+        tgdata : :class:`tgdata`
 
         """
         self._starttime = time.localtime()
@@ -589,7 +589,7 @@ class TGrun(object):
         """
         Construct the output data object and return it.
         """
-        out = tsdata(self.grid)
+        out = tgdata(self.grid)
         out.uturb = self.timeseries
         out.uprof = self.prof.array
         out.info = self.info
@@ -653,7 +653,7 @@ class TGrun(object):
         return ts
 
 
-class tsdata(gridProps):
+class tgdata(gridProps):
     """
     TurbGen output data object.  In addition to the output of a
     simulation (velocity timeseries array) it also includes all
@@ -769,7 +769,7 @@ class tsdata(gridProps):
 
     def __init__(self, grid):
         """
-        Initialize a tsdata object with a grid object.
+        Initialize a tgdata object with a grid object.
         """
         self.grid = grid
 
@@ -932,7 +932,7 @@ class tsdata(gridProps):
 
     def write_formatted(self, filename):
         """
-        Save the data in this tsdata object in 'formatted' format (.u,
+        Save the data in this tgdata object in 'formatted' format (.u,
         .v, .w files).
 
         Parameters
@@ -946,7 +946,7 @@ class tsdata(gridProps):
 
     def write_bladed(self, filename):
         """
-        Save the data in this tsdata object in 'bladed' format (.wnd).
+        Save the data in this tgdata object in 'bladed' format (.wnd).
 
         Parameters
         ----------
@@ -957,7 +957,7 @@ class tsdata(gridProps):
         write.bladed(filename, self)
 
     def write_turbsim(self, filename):
-        """Save the data in this tsdata object in 'TurbSim' format.
+        """Save the data in this tgdata object in 'TurbSim' format.
 
         Parameters
         ----------
@@ -972,13 +972,12 @@ class tsdata(gridProps):
         """
         write.sum(filename, self._sumdict)
 
-    if write.h5py is not None:
-        def write_hdf5(self, filename):
-            """Save the data in this tsdata object as an hdf5 file.
+    def write_hdf5(self, filename):
+        """Save the data in this tgdata object as an hdf5 file.
 
-            Parameters
-            ----------
-            filename : str
-                       The filename to which the data should be written.
-            """
-            write.hdf5(filename, self)
+        Parameters
+        ----------
+        filename : str
+                   The filename to which the data should be written.
+        """
+        write.hdf5(filename, self)

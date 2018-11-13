@@ -16,12 +16,12 @@ First create a tsinput object from an input file using the io.input.read functio
 
 Now run TurbGen using the runInput 'run' function:
 
->>> tsdata=runInput.run(tsinput)
+>>> tgdata=runInput.run(tsinput)
 
 This data can be written to the files specified in the input file
 (tsinput) using:
 
->>> runInput.write(tsdata,tsinput)
+>>> runInput.write(tgdata,tsinput)
 
 """
 from ..base import RectGrid
@@ -42,7 +42,7 @@ def run_fname(fname):
 
     Returns
     -------
-    tsdata :    :class:`tsdata <TurbGen.main.tsdata>`
+    tgdata :    :class:`tgdata <TurbGen.main.tgdata>`
                 A TurbGen data object.
     """
     inp = readInput(fname)
@@ -59,7 +59,7 @@ def run(tsinput):
 
     Returns
     -------
-    tsdata :    :class:`.tsdata`
+    tgdata :    :class:`.tgdata`
                 A TurbGen data object.
     """
     tgr = cfg2tgrun(tsinput)
@@ -67,13 +67,13 @@ def run(tsinput):
     return tgr()
 
 
-def write(tsdat, tsinput, fname=None):
+def write(tgdata, tsinput, fname=None):
     """
     Write TurbSim-output to a file.
 
     Parameters
     ----------
-    tsdat :     :class:`.tsdata`
+    tgdata :     :class:`.tgdata`
                 The TurbGen data object to write out.
     tsinput :  :class:`.tsinput`
                 A TurbGen input object.
@@ -86,12 +86,12 @@ def write(tsdat, tsinput, fname=None):
     if fname is None:
         fname = tsinput.fname
     if tsinput['WrBLFF']:
-        tsdat.write_bladed(fname)
+        tgdata.write_bladed(fname)
     if tsinput['WrADFF']:
-        tsdat.write_turbsim(fname)
+        tgdata.write_turbsim(fname)
     if tsinput['WrFMTFF']:
-        tsdat.write_formatted(fname)
-    tsdat.write_sum(fname)
+        tgdata.write_formatted(fname)
+    tgdata.write_sum(fname)
 
 
 def cfg2grid(tsinput):

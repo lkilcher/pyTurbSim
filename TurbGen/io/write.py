@@ -11,20 +11,17 @@ from .base import e
 from .. import _version as ver
 import time
 from .sum import write as sum  # Make sum.write available here.
-try:
-    import h5py
-except ImportError:
-    h5py = None
+import h5py
 
 
-def bladed(fname, tsdat):
-    """Write tsdat to a Bladed-format (.wnd) binary file.
+def bladed(fname, tgdata):
+    """Write tgdata to a Bladed-format (.wnd) binary file.
 
     Parameters
     ----------
     fname : str
             The filename to which the data should be written.
-    tsdat : :class:`tsdata <TurbGen.main.tsdata>`
+    tgdata : :class:`tgdata <TurbGen.main.tgdata>`
             A TurbGen data object.
 
     Notes
@@ -32,13 +29,13 @@ def bladed(fname, tsdat):
 
     Bladed is a Trademark of GL Garrad-Hassan.
     """
-    prms = tsdat.parameters
+    prms = tgdata.parameters
     lat = prms.get('Latitude', 0.0)
     Z0 = prms.get('Z0', 0.0)
-    ts = tsdat.utotal
-    ti = np.sqrt(tsdat.tke[:, tsdat.ihub[0], tsdat.ihub[1]]) / tsdat.UHUB
+    ts = tgdata.utotal
+    ti = np.sqrt(tgdata.tke[:, tgdata.ihub[0], tgdata.ihub[1]]) / tgdata.UHUB
     ti[ti < 1e-5] = 1
-    scale = 1000. / (tsdat.UHUB * ti[:, None, None, None])
+    scale = 1000. / (tgdata.UHUB * ti[:, None, None, None])
     off = np.array([1000. / (ti[0]), 0, 0])[:, None, None, None]
     fl = file(convname(fname, '.wnd'), 'wb')
     # First write some setup data:
@@ -48,26 +45,26 @@ def bladed(fname, tsdat):
                   3,
                   lat,
                   Z0,
-                  tsdat.grid.z[0] + tsdat.grid.height / 2.0))
+                  tgdata.grid.z[0] + tgdata.grid.height / 2.0))
     # Now write the turbulence intensity, grid spacing, numsteps, and hub mean wind speed
     # For some reason this takes half the number of timesteps...
     fl.write(pack(e + '3f', * (100 * ti)))
     fl.write(pack(e + '3flf',
-                  tsdat.grid.dz,
-                  tsdat.grid.dy,
-                  tsdat.UHUB * tsdat.dt,
-                  tsdat.shape[-1] / 2,
-                  tsdat.UHUB))
+                  tgdata.grid.dz,
+                  tgdata.grid.dy,
+                  tgdata.UHUB * tgdata.dt,
+                  tgdata.shape[-1] / 2,
+                  tgdata.UHUB))
     fl.write(pack(e + '3f', *([0] * 3)))  # Unused bytes
     # Previously this was unused. Now I am using it to store the clockwise flag.
     # 0 is reserved for TurbSim (no specification), 1 is False, 2 is True.
-    fl.write(pack(e + 'l', (tsdat.grid.clockwise + 1)))
+    fl.write(pack(e + 'l', (tgdata.grid.clockwise + 1)))
     fl.write(pack(e + '3l',
-                  tsdat.info['RandSeed'],
-                  tsdat.grid.n_z,
-                  tsdat.grid.n_y))
+                  tgdata.info['RandSeed'],
+                  tgdata.grid.n_z,
+                  tgdata.grid.n_y))
     fl.write(pack(e + '6l', *([0] * 6)))  # Unused bytes
-    if tsdat.grid.clockwise:
+    if tgdata.grid.clockwise:
         out = (ts[:, :, ::-1, :] * scale - off).astype(np.int16)
     else:
         out = (ts[:, :, :, :] * scale - off).astype(np.int16)
@@ -82,7 +79,7 @@ def bladed(fname, tsdat):
     fl.close()
 
 
-def formatted(fname, tsdat, verbose=False):
+def formatted(fname, tgdata, verbose=False):
     """Write the data to a set of TurbSim 'formatted' (readable) files (.u, .v, .w).
 
     Parameters
@@ -90,8 +87,8 @@ def formatted(fname, tsdat, verbose=False):
     fname : str
             the base-filename to which the data should be written.
             '.u', '.v', '.w' will be appended to fname for each file.
-    tsdat : :class:`tsdata <TurbGen.main.tsdata>`
-             The 'tsdata' object that contains the data.
+    tgdata : :class:`tgdata <TurbGen.main.tgdata>`
+             The 'tgdata' object that contains the data.
 
     """
 
@@ -110,51 +107,51 @@ def formatted(fname, tsdat, verbose=False):
                " {zcoords}\n"
                "\n"
                " Y Coordinates (m):\n"
-               " {ycoords}\n".format(n_y=tsdat.grid.n_y,
-                                     n_z=tsdat.grid.n_z,
-                                     dy=tsdat.grid.dy,
-                                     dz=tsdat.grid.dz,
-                                     dt=tsdat.dt,
-                                     zhub=tsdat.grid.zhub,
-                                     uhub=tsdat.UHUB,
-                                     zcoords=(' {: 7.3f}' * tsdat.grid.n_z).format(*tsdat.z),
-                                     ycoords=(' {: 7.3f}' * tsdat.grid.n_y).format(*tsdat.y), ))
+               " {ycoords}\n".format(n_y=tgdata.grid.n_y,
+                                     n_z=tgdata.grid.n_z,
+                                     dy=tgdata.grid.dy,
+                                     dz=tgdata.grid.dz,
+                                     dt=tgdata.dt,
+                                     zhub=tgdata.grid.zhub,
+                                     uhub=tgdata.UHUB,
+                                     zcoords=(' {: 7.3f}' * tgdata.grid.n_z).format(*tgdata.z),
+                                     ycoords=(' {: 7.3f}' * tgdata.grid.n_y).format(*tgdata.y), ))
     outform = ("\n"
                "  {: 7.3f} {: 7.3f}\n")
-    outform += (' ' + (' {: 7.3f}' * tsdat.grid.n_y) + '\n') * tsdat.grid.n_z
+    outform += (' ' + (' {: 7.3f}' * tgdata.grid.n_y) + '\n') * tgdata.grid.n_z
 
     fname = fname.rstrip('.inp')
 
     if verbose:
         print("Writing formatted files...")
-    for idc in range(tsdat.n_comp):
-        comp = tsdat.comp_name[idc]
+    for idc in range(tgdata.n_comp):
+        comp = tgdata.comp_name[idc]
         if verbose:
             print("{}-component, timestep:".format(comp))
         fl = open(fname + '.' + comp, 'w')
         fl.write(header % (comp))
-        nt = tsdat.time.shape[0]
+        nt = tgdata.time.shape[0]
         for idt in range(nt):
             if verbose and idt % 1000 == 0:
                 print('{}/{}'.format(idt, nt))
-            fl.write(outform.format(tsdat.time[idt],
-                                    tsdat.uhub[idt],
-                                    *tsdat.uturb[idc, :, :, idt].flatten()))
+            fl.write(outform.format(tgdata.time[idt],
+                                    tgdata.uhub[idt],
+                                    *tgdata.uturb[idc, :, :, idt].flatten()))
         fl.close()
 
 
-def turbsim(fname, tsdat):
+def turbsim(fname, tgdata):
     """Write the data to a TurbSim-format binary file (.bts).
 
     Parameters
     ----------
     fname : str
             the filename to which the data should be written.
-    tsdat : :class:`tsdata <TurbGen.main.tsdata>`
-             The 'tsdata' object that contains the data.
+    tgdata : :class:`tgdata <TurbGen.main.tgdata>`
+             The 'tgdata' object that contains the data.
 
     """
-    ts = tsdat.utotal
+    ts = tgdata.utotal
     intmin = -32768
     intrng = 65536
     u_minmax = np.empty((3, 2), dtype=np.float32)
@@ -165,7 +162,7 @@ def turbsim(fname, tsdat):
         ver.__version__,
         time.strftime('%b %d, %Y, %H:%M (%Z)', time.localtime()))
     # Calculate the ranges:
-    out = np.empty(tsdat.shape, dtype=np.int16)
+    out = np.empty(tgdata.shape, dtype=np.int16)
     for ind in range(3):
         u_minmax[ind] = ts[ind].min(), ts[ind].max()
         if u_minmax[ind][0] == u_minmax[ind][1]:
@@ -177,16 +174,16 @@ def turbsim(fname, tsdat):
     fl = file(convname(fname, '.bts'), 'wb')
     fl.write(pack(e + 'h4l12fl',
                   7,
-                  tsdat.grid.n_z,
-                  tsdat.grid.n_y,
-                  tsdat.grid.n_tower,
-                  tsdat.shape[-1],
-                  tsdat.grid.dz,
-                  tsdat.grid.dy,
-                  tsdat.dt,
-                  tsdat.UHUB,
-                  tsdat.grid.zhub,
-                  tsdat.grid.z[0],
+                  tgdata.grid.n_z,
+                  tgdata.grid.n_y,
+                  tgdata.grid.n_tower,
+                  tgdata.shape[-1],
+                  tgdata.grid.dz,
+                  tgdata.grid.dy,
+                  tgdata.dt,
+                  tgdata.UHUB,
+                  tgdata.grid.zhub,
+                  tgdata.grid.z[0],
                   u_scl[0],
                   u_off[0],
                   u_scl[1],
@@ -204,38 +201,36 @@ def turbsim(fname, tsdat):
     fl.close()
 
 
-if h5py is not None:
+def hdf5(fname, tgdata):
+    """Write the data to an hdf5 format file.
 
-    def hdf5(fname, tsdat):
-        """Write the data to an hdf5 format file.
+    Parameters
+    ----------
+    fname : str
+            the filename to which the data should be written. `.inp`
+            will always be stripped, and `.h5` will be added if no
+            file extension exists.
+    tgdata : :class:`tgdata <TurbGen.main.tgdata>`
+             The 'tgdata' object that contains the data.
 
-        Parameters
-        ----------
-        fname : str
-                the filename to which the data should be written. `.inp`
-                will always be stripped, and `.h5` will be added if no
-                file extension exists.
-        tsdat : :class:`tsdata <TurbGen.main.tsdata>`
-                 The 'tsdata' object that contains the data.
-
-        """
-        fname = fname.rstrip('.inp')
-        if '.' not in (fname.split('/')[-1]).split('\\')[-1]:
-            fname += '.h5'
-        with h5py.File(fname, mode='w') as fl:
-            # The turbulence velocity:
-            ds_uturb = fl.create_dataset('uturb', data=tsdat.uturb)
-            ds_uturb.attrs.create('units', 'm/s')
-            ds_uturb.attrs.create('dims', ['u,v,w', 'z', 'y', 'time'])
-            # The mean velocity profile:
-            ds_uprof = fl.create_dataset('uprof', data=tsdat.uprof)
-            ds_uprof.attrs.create('units', 'm/s')
-            ds_uprof.attrs.create('dims', ['u,v,w', 'z', 'y'])
-            # The spatial grid:
-            ds_z = fl.create_dataset('z', data=tsdat.z)
-            ds_z.attrs.create('units', 'm')
-            ds_y = fl.create_dataset('y', data=tsdat.y)
-            ds_y.attrs.create('units', 'm')
-            # The time vector:
-            ds_time = fl.create_dataset('time', data=tsdat.time)
-            ds_time.attrs.create('units', 'sec')
+    """
+    fname = fname.rstrip('.inp')
+    if '.' not in (fname.split('/')[-1]).split('\\')[-1]:
+        fname += '.h5'
+    with h5py.File(fname, mode='w') as fl:
+        # The turbulence velocity:
+        ds_uturb = fl.create_dataset('uturb', data=tgdata.uturb)
+        ds_uturb.attrs.create('units', 'm/s')
+        ds_uturb.attrs.create('dims', ['u,v,w', 'z', 'y', 'time'])
+        # The mean velocity profile:
+        ds_uprof = fl.create_dataset('uprof', data=tgdata.uprof)
+        ds_uprof.attrs.create('units', 'm/s')
+        ds_uprof.attrs.create('dims', ['u,v,w', 'z', 'y'])
+        # The spatial grid:
+        ds_z = fl.create_dataset('z', data=tgdata.z)
+        ds_z.attrs.create('units', 'm')
+        ds_y = fl.create_dataset('y', data=tgdata.y)
+        ds_y.attrs.create('units', 'm')
+        # The time vector:
+        ds_time = fl.create_dataset('time', data=tgdata.time)
+        ds_time.attrs.create('units', 'sec')

@@ -8,8 +8,11 @@ dependencies:
   - numpy
   - matplotlib=2.2
   - gcc  # This includes gfortran
-# These are for building docs:
+  - h5py
+# # For building docs:
 #  - sphinx
 #  - numpydoc
-# These are for testing:
+# # Testing:
 #  - pytest
+# # Interactive
+#  - ipython=4.2

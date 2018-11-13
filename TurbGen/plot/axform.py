@@ -1,4 +1,4 @@
-from ..main import tsdata, TGrun  # used to identify object types
+from ..main import tgdata, TGrun  # used to identify object types
 import superaxes as supax
 import psd
 from base import indx, mpl
@@ -21,7 +21,7 @@ class axesForm(object):
     yscale : ('log' or 'linear')
         specify whether the y-scale should be logarithmic or linear.
     """
-    method_map = {tsdata: '_calc_tgdata', TGrun: '_calc_tgrun'}
+    method_map = {tgdata: '_calc_tgdata', TGrun: '_calc_tgrun'}
     hide_ylabels = False
     _lin_x_scale = 0
 
@@ -154,7 +154,7 @@ class velprof(prof):
     def _calc_tgdata(self, tsdat, comp, igrid=None):
         """
         The function that calculates x,y values for plotting
-        :class:`.tsdata` objects.
+        :class:`.tgdata` objects.
         """
         return tsdat.uprof[comp, :, tsdat.ihub[1]], tsdat.z
 
@@ -423,7 +423,7 @@ class FigAxForm(supax.sfig):
 
         Parameters
         ----------
-        obj : tsdata, tgrun, turbdata
+        obj : tgdata, tgrun, turbdata
               A data or run object to plot.
         """
         for idx, axt in enumerate(self.axforms):
