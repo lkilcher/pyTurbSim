@@ -11,7 +11,7 @@ datdir = thisdir + '/data/'
 
 def test_tidal(make_data=False, figdir=None):
 
-    cfg = tg.readInput(thisdir + '/compare_TS/inp_files/Tidal.inp')
+    cfg = tg.readInput(thisdir + '/inp_files/Tidal.inp')
     tgr = tg.cfg2tgrun(cfg)
     dat = tgr()
 
@@ -23,14 +23,14 @@ def test_tidal(make_data=False, figdir=None):
     assert cdat == dat
 
     if figdir is not None:
-        tsdat = tsio.readModel(thisdir + '/compare_TS/ts/Tidal' + ts_file_type)
+        tsdat = tsio.readModel(thisdir + '/data/ts/Tidal' + ts_file_type)
         fg = show_comparison(tgr, dat, tsdat, name='Tidal', fignum=1001)
         fg.fig.savefig(figdir + 'Tidal.png', res=300)
 
 
 def test_smooth(make_data=False, figdir=None):
 
-    cfg = tg.readInput(thisdir + '/compare_TS/inp_files/Smooth.inp')
+    cfg = tg.readInput(thisdir + '/inp_files/Smooth.inp')
     tgr = tg.cfg2tgrun(cfg)
     dat = tgr()
 
@@ -42,14 +42,14 @@ def test_smooth(make_data=False, figdir=None):
     assert cdat == dat
 
     if figdir is not None:
-        tsdat = tsio.readModel(thisdir + '/compare_TS/ts/Smooth' + ts_file_type)
+        tsdat = tsio.readModel(thisdir + '/data/ts/Smooth' + ts_file_type)
         fg = show_comparison(tgr, dat, tsdat, name='Smooth', fignum=1002)
         fg.fig.savefig(figdir + 'Smooth.png', res=300)
 
 
 def test_IecKai(make_data=False, figdir=None):
 
-    cfg = tg.readInput(thisdir + '/compare_TS/inp_files/IecKai.inp')
+    cfg = tg.readInput(thisdir + '/inp_files/IecKai.inp')
     tgr = tg.cfg2tgrun(cfg)
     dat = tgr()
 
@@ -61,14 +61,14 @@ def test_IecKai(make_data=False, figdir=None):
     assert cdat == dat
 
     if figdir is not None:
-        tsdat = tsio.readModel(thisdir + '/compare_TS/ts/IecKai' + ts_file_type)
+        tsdat = tsio.readModel(thisdir + '/data/ts/IecKai' + ts_file_type)
         fg = show_comparison(tgr, dat, tsdat, name='IEC-KAIMAL', fignum=1003)
         fg.fig.savefig(figdir + 'IECKAI.png', res=300)
 
 
 def test_IecVkm(make_data=False, figdir=None):
 
-    cfg = tg.readInput(thisdir + '/compare_TS/inp_files/IecVkm.inp')
+    cfg = tg.readInput(thisdir + '/inp_files/IecVkm.inp')
     tgr = tg.cfg2tgrun(cfg)
     dat = tgr()
 
@@ -80,7 +80,7 @@ def test_IecVkm(make_data=False, figdir=None):
     assert cdat == dat
 
     if figdir is not None:
-        tsdat = tsio.readModel(thisdir + '/compare_TS/ts/IecVkm' + ts_file_type)
+        tsdat = tsio.readModel(thisdir + '/data/ts/IecVkm' + ts_file_type)
         fg = show_comparison(tgr, dat, tsdat, name='IEC-VonKarman', fignum=1004)
         fg.fig.savefig(figdir + 'IECVKM.png', res=300)
 
