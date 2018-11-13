@@ -6,58 +6,81 @@ import TurbGen.plot.api as pt
 thisdir = path.dirname(path.abspath(__file__))
 ts_file_type = '.wnd'
 
+datdir = thisdir + '/data/'
+
 
 def test_tidal(make_data=False, figdir=None):
 
-    cfg = tg.readInput(thisdir + '/inp_files/Tidal.inp')
+    cfg = tg.readInput(thisdir + '/compare_TS/inp_files/Tidal.inp')
     tgr = tg.cfg2tgrun(cfg)
     dat = tgr()
 
-    tsdat = tsio.readModel(thisdir + '/ts/Tidal' + ts_file_type)
-
     if make_data:
-        tsdat.write_hdf5('Tidal.h5')
+        dat.write_hdf5(thisdir + '/data/Tidal.h5')
+
+    cdat = tsio.read.hdf5(thisdir + '/data/Tidal.h5')
+
+    assert cdat == dat
 
     if figdir is not None:
+        tsdat = tsio.readModel(thisdir + '/compare_TS/ts/Tidal' + ts_file_type)
         fg = show_comparison(tgr, dat, tsdat, name='Tidal', fignum=1001)
         fg.fig.savefig(figdir + 'Tidal.png', res=300)
 
 
-def test_smooth(figdir=None):
+def test_smooth(make_data=False, figdir=None):
 
-    cfg = tg.readInput(thisdir + '/inp_files/Smooth.inp')
+    cfg = tg.readInput(thisdir + '/compare_TS/inp_files/Smooth.inp')
     tgr = tg.cfg2tgrun(cfg)
     dat = tgr()
 
-    tsdat = tsio.readModel(thisdir + '/ts/Smooth' + ts_file_type)
+    if make_data:
+        dat.write_hdf5(thisdir + '/data/Smooth.h5')
+
+    cdat = tsio.read.hdf5(thisdir + '/data/Smooth.h5')
+
+    assert cdat == dat
 
     if figdir is not None:
+        tsdat = tsio.readModel(thisdir + '/compare_TS/ts/Smooth' + ts_file_type)
         fg = show_comparison(tgr, dat, tsdat, name='Smooth', fignum=1002)
         fg.fig.savefig(figdir + 'Smooth.png', res=300)
 
-        
-def test_IecKai(figdir=None):
 
-    cfg = tg.readInput(thisdir + '/inp_files/IecKai.inp')
+def test_IecKai(make_data=False, figdir=None):
+
+    cfg = tg.readInput(thisdir + '/compare_TS/inp_files/IecKai.inp')
     tgr = tg.cfg2tgrun(cfg)
     dat = tgr()
 
-    tsdat = tsio.readModel(thisdir + '/ts/IecKai' + ts_file_type)
+    if make_data:
+        dat.write_hdf5(thisdir + '/data/IecKai.h5')
+
+    cdat = tsio.read.hdf5(thisdir + '/data/IecKai.h5')
+
+    assert cdat == dat
 
     if figdir is not None:
+        tsdat = tsio.readModel(thisdir + '/compare_TS/ts/IecKai' + ts_file_type)
         fg = show_comparison(tgr, dat, tsdat, name='IEC-KAIMAL', fignum=1003)
         fg.fig.savefig(figdir + 'IECKAI.png', res=300)
 
 
-def test_IecVkm(figdir=None):
+def test_IecVkm(make_data=False, figdir=None):
 
-    cfg = tg.readInput(thisdir + '/inp_files/IecVkm.inp')
+    cfg = tg.readInput(thisdir + '/compare_TS/inp_files/IecVkm.inp')
     tgr = tg.cfg2tgrun(cfg)
     dat = tgr()
 
-    tsdat = tsio.readModel(thisdir + '/ts/IecVkm' + ts_file_type)
+    if make_data:
+        dat.write_hdf5(thisdir + '/data/IecVkm.h5')
+
+    cdat = tsio.read.hdf5(thisdir + '/data/IecVkm.h5')
+
+    assert cdat == dat
 
     if figdir is not None:
+        tsdat = tsio.readModel(thisdir + '/compare_TS/ts/IecVkm' + ts_file_type)
         fg = show_comparison(tgr, dat, tsdat, name='IEC-VonKarman', fignum=1004)
         fg.fig.savefig(figdir + 'IECVKM.png', res=300)
 

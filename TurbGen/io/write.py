@@ -201,7 +201,7 @@ def turbsim(fname, tgdata):
     fl.close()
 
 
-def hdf5(fname, tgdata):
+def hdf5(fname, tgdata, compression='gzip'):
     """Write the data to an hdf5 file.
 
     Parameters
@@ -219,7 +219,8 @@ def hdf5(fname, tgdata):
         fname += '.h5'
     with h5py.File(fname, mode='w') as fl:
         # The turbulence velocity:
-        ds_uturb = fl.create_dataset('uturb', data=tgdata.uturb)
+        ds_uturb = fl.create_dataset('uturb', data=tgdata.uturb,
+                                     chunks=True, compression=compression)
         ds_uturb.attrs.create('units', 'm/s')
         ds_uturb.attrs.create('dims', ['u,v,w', 'z', 'y', 'time'])
         # The mean velocity profile:
@@ -232,5 +233,6 @@ def hdf5(fname, tgdata):
         ds_y = fl.create_dataset('y', data=tgdata.y)
         ds_y.attrs.create('units', 'm')
         # The time vector:
-        ds_time = fl.create_dataset('time', data=tgdata.time)
+        ds_time = fl.create_dataset('time', data=tgdata.time,
+                                    chunks=True, compression=compression)
         ds_time.attrs.create('units', 'sec')
