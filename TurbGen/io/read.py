@@ -34,7 +34,7 @@ def bladed(fname,):
         clockwise, randseed, n_z, n_y = unpack(e + '4l', fl.read(16))
         fl.seek(24, 1)  # Unused bytes
         nbt = ncomp * n_y * n_z * n_t
-        dat = np.rollaxis(np.fromstring(fl.read(2 * nbt), dtype=np.int16)
+        dat = np.rollaxis(np.frombuffer(fl.read(2 * nbt), dtype=np.int16)
                           .astype(np.float32).reshape([ncomp,
                                                        n_y,
                                                        n_z,
