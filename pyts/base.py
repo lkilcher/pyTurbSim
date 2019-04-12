@@ -13,6 +13,7 @@ This module:
  d) Defines several abstract base classes.
 
 """
+from __future__ import division, print_function
 from . import pyts_numpy as np
 from numpy import float32, complex64
 from .misc import lowPrimeFact_near
@@ -20,11 +21,11 @@ from os import path
 try:
     from .tslib import tslib  # The file tslib.so contains the module 'tslib'.
 except ImportError:
-    print """
+    print("""
     ***Warning***: 'tslib' did not load correctly.  pyTurbSim
     will produce accurate results, but MUCH less efficiently.
     Consider compiling the tslib to improve performance.
-    """
+    """)
     tslib = None
 
 dbg = None
@@ -357,7 +358,7 @@ class gridObj(tsBaseObj):
 
     @property
     def n_f(self,):
-        return self.n_t / 2
+        return self.n_t // 2
 
     @property
     def df(self,):
@@ -369,7 +370,7 @@ class gridObj(tsBaseObj):
 
     @property
     def ihub(self,):
-        return (self.n_z / 2, self.n_y / 2)
+        return (self.n_z // 2, self.n_y // 2)
 
     @property
     def shape(self,):
