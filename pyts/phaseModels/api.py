@@ -7,4 +7,4 @@ randPhase
   A uniform-distribution random-phase model.
 
 """
-from main import randPhase
+from .main import randPhase

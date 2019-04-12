@@ -14,7 +14,7 @@ from .specModels.base import specModelBase, specObj
 from .cohereModels.base import cohereModelBase, cohereObj, cohereUser
 from .stressModels.base import stressModelBase, stressObj
 from .phaseModels.api import randPhase
-import _version as ver
+from ._version import *
 from .io import write
 from numpy import random
 from numpy import ulonglong
@@ -423,7 +423,7 @@ class tsrun(object):
         Model names and initialization parameters.
         """
         out = dict()
-        out['version'] = (ver.__prog_name__, ver.__version__, ver.__version_date__)
+        out['version'] = (__prog_name__, __version__, __version_date__)
         out['RandSeed'] = self.RandSeed
         out['StartTime'] = self._starttime
         if hasattr(self, '_config'):

@@ -94,31 +94,31 @@ def turbsim(fname):
     fname = checkname(fname, ['.bts'])
     u_scl = np.zeros(3, np.float32)
     u_off = np.zeros(3, np.float32)
-    fl = file(fname, 'rb')
-    (junk,
-     n_z,
-     n_y,
-     n_tower,
-     n_t,
-     dz,
-     dy,
-     dt,
-     uhub,
-     zhub,
-     z0,
-     u_scl[0],
-     u_off[0],
-     u_scl[1],
-     u_off[1],
-     u_scl[2],
-     u_off[2],
-     strlen) = unpack(e + 'h4l12fl', fl.read(70))
-    center = z0 + (n_z - 1) * dz / 2.0
-    #print fname, u_scl, u_off
-    desc_str = fl.read(strlen)  # skip these bytes.
-    nbt = 3 * n_y * n_z * n_t
-    dat = np.rollaxis(np.fromstring(fl.read(2 * nbt), dtype=np.int16).astype(
-        np.float32).reshape([3, n_y, n_z, n_t], order='F'), 2, 1)
+    with open(fname, 'rb') as fl:
+        (junk,
+         n_z,
+         n_y,
+         n_tower,
+         n_t,
+         dz,
+         dy,
+         dt,
+         uhub,
+         zhub,
+         z0,
+         u_scl[0],
+         u_off[0],
+         u_scl[1],
+         u_off[1],
+         u_scl[2],
+         u_off[2],
+         strlen) = unpack(e + 'h4l12fl', fl.read(70))
+        center = z0 + (n_z - 1) * dz / 2.0
+        #print fname, u_scl, u_off
+        desc_str = fl.read(strlen)  # skip these bytes.
+        nbt = 3 * n_y * n_z * n_t
+        dat = np.rollaxis(np.fromstring(fl.read(2 * nbt), dtype=np.int16).astype(
+            np.float32).reshape([3, n_y, n_z, n_t], order='F'), 2, 1)
     dat -= u_off[:, None, None, None]
     dat /= u_scl[:, None, None, None]
     # Create the tsdata object.
