@@ -154,7 +154,7 @@ def turbsim(fname, tsdat):
     """
     ts = tsdat.utotal
     intmin = -32768
-    intrng = 65536
+    intrng = 65535
     u_minmax = np.empty((3, 2), dtype=np.float32)
     u_off = np.empty((3), dtype=np.float32)
     u_scl = np.empty((3), dtype=np.float32)
